@@ -284,7 +284,7 @@ function fixquotes($text)
  		array("'", "'", '"', '"', '-', '--', '...'),
 		$text);
 		
-	return $text;
+	return htmlentities($text, ENT_QUOTES, 'UTF-8', false);
 
 }
 
