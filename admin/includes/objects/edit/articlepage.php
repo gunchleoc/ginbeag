@@ -127,7 +127,7 @@ class ArticleSectionForm extends Template {
       
     $this->stringvars['sectiontitle']=input2html($contents['sectiontitle']);
 
-    $this->vars['sectioneditor'] = new Editor($this->stringvars['page'],$articlesection,"articlesection","Edit Text");
+    $this->vars['sectioneditor'] = new Editor($this->stringvars['page'],$articlesection,"articlesection","Section Text");
 
     $this->vars['imageform'] = new ImagePropertiesForm($this->stringvars['page'],$contents['sectionimage'],$contents['imagealign'],"Section","editsectionimage",'&articlesection='.$articlesection.'&articlepage='.$articlepage,'section'.$articlesection);
   }

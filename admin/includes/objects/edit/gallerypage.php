@@ -134,7 +134,7 @@ class EditGallery extends Template {
   		
   	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 
-    $this->vars['intro']= new Editor($page,0,"gallery","Edit Page Intro");  	
+    $this->vars['intro']= new Editor($page,0,"gallery","Page Intro");  	
   	
   	$imageids=getgalleryimages($page);
 

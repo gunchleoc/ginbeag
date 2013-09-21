@@ -79,7 +79,7 @@ class EditLinklist extends Template {
   	$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
     $this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
 
-    $this->vars['intro']= new Editor($page,0,"linklist","Edit Page Intro");
+    $this->vars['intro']= new Editor($page,0,"linklist","Page Intro");
     
     $image=getpageintroimage($page);
     

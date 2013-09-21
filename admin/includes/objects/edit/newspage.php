@@ -114,7 +114,7 @@ class NewsitemSectionForm extends Template {
 
 			$this->stringvars['sectiontitle']=input2html($contents['sectiontitle']);
 			
-			$this->vars['sectioneditor'] = new Editor($this->stringvars["page"],$newsitemsection,"newsitemsection","Edit Text");
+			$this->vars['sectioneditor'] = new Editor($this->stringvars["page"],$newsitemsection,"newsitemsection","Section Text");
 			$this->vars['imageform'] = new ImagePropertiesForm($this->stringvars["page"],$contents['sectionimage'],$contents['imagealign'],"Section","changeimage",'&newsitemsection='.$newsitemsection);
 		}
 		$this->vars['insertnewsitemsectionform']=new InsertNewsItemSectionForm($newsitem,$newsitemsection);
