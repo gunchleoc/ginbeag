@@ -4,99 +4,92 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
 
 include_once($projectroot."includes/objects/page.php");
 ?>
-   
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?xml version="1.1" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+	<meta name="keywords" content="Gaelic, Scottish-Gaelic, Scots Gaelic, Schottisch-Gälisch, Gàidhlig, Fòram, bòrd-brath, forum">
 	<title>Fòram na Gàidhlig - Tetris</title>
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
-		<link href="tetris.css"	rel="stylesheet" type="text/css">
+	<link href="tetris.css"	rel="stylesheet" type="text/css">
 	<script	type="text/javascript" src="jquery.js"></script>
 	<script	type="text/javascript" src="tetris.js"></script>
 	<style type="text/css">
 	html, body { height: 100%; }
 	#tetris	{ margin: 0	auto; }
 	</style>
-	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/templates/fng/main.css" type="text/css">
+	<link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
+
+	<script language="JavaScript">
+
+// special treatment for IE	
+if(navigator.appName =="Microsoft Internet Explorer")
+{
+	document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
+}
+
+$(document).ready(function() {
+	// height for pages where content is shorter than navigator
+	var navheight = $("#navigator").outerHeight(true);
+	var bannerheight = $("#banners").outerHeight(true);
+	var highestheader = $("#headerleft");
+
+	if ($("#headerright").outerHeight(true) > highestheader.outerHeight(true))
+	{
+		highestheader = $("#headerright");
+	}
+	if ($("#headercenter").outerHeight(true) > highestheader.outerHeight(true))
+	{
+		highestheader = $("#headercenter");
+	}
+	var headerheight = highestheader.outerHeight(true);
+	var titleheight = $("#headerpagetitle").outerHeight(true);
+	var wrapperheight = Math.ceil(navheight+bannerheight+headerheight+titleheight);
+	if ($("#wrapper").height() < wrapperheight)
+	{
+		$("#wrapper").height(wrapperheight);
+		var difference = $("#wrapper").outerHeight() - $("#wrapper").height();
+		//var difference = $("#wrapper").css("margin-top")+ $("#wrapper").css("margin-bottom")+ $("#wrapper").css("padding-top")+$("#wrapper").css("padding-bottom");
+		var margin = $("#contentarea").css("margin-bottom").replace("px","") + $("#contentarea").css("margin-top").replace("px","");
+		$("#contentarea").height(Math.ceil(navheight+bannerheight-difference-margin));
+	}
+
+});
+	</script>
+
 </head>
 <body>
- 
-<table align="center" border="0" cellpadding="10" cellspacing="0" width="100%">
-  <tr>
-    <td class="bodyline">
-    <table border="0" width="100%" cellpadding="0">
-      <tr>
-        <td colspan="3">
-          <table width="100%" cellspacing="0" cellpadding="0" border="0">
-            <tr>
-              <td>
-                <a href="http://www.foramnagaidhlig.net/index.php">
-                  <img src="http://www.foramnagaidhlig.net/img/fnglogo_cearn.gif" border="0" alt="F&ograve;ram na G&agrave;idhlig" vspace="1" />
-                </a>
-              </td>
-              <td align="center" width="100%" valign="middle">
-                <span class="maintitle">F&ograve;ram na G&agrave;idhlig</span>
-                <br />
-                <span class="gen"><i>Coimhearsneachd airson ionnsachadh is leasachadh na G&agrave;idhlig</i><br />&nbsp;</span>
-                <table cellspacing="0" cellpadding="2" border="0">
-                  <tr>
-                    <td align="center" valign="top" nowrap="nowrap">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td height="25" align="center" valign="top" nowrap="nowrap">&nbsp;</td>
-                  </tr>
-                </table>
-              </td>
-              <td>
-              </td>
-            </tr>
-          </table>
-          <br />
-        </td>
-      </tr>
-      <tr>
-        <td colspan="3">
-          <table width="100%" cellpadding="10" cellspacing="0" border="0">
-            <tr>
-              <th class="thTop">
-                <font size="+0">
-                  Tetris
-                </font>
-                <br />
-              </th>
-            </tr>
-          </table>
-        </td>
-      </tr>
-      <tr><td>&nbsp;</td></tr>
-<tr><td valign="top" width="20%">
+	<div id="wrapper">
+		<div id="headerleft">
+	        <a href="http://www.foramnagaidhlig.net/">
+		        <img src="../../../img/fnglogo_cearn.gif" border="0" alt="Fòram na Gàidhlig" vspace="1" />
+	        </a>
+		</div>
+		<div id="headercenter">
+		    <h1 class="maintitle">Fòram na Gàidhlig</h1>
+		    
+		    <div id="sitedescription">Coimhearsneachd airson ionnsachadh is leasachadh na Gàidhlig</div>
+		    
+		</div>
+		<div id="headerright">
+			
+	      	
+		</div>
+		<h1 id="headerpagetitle" class="headerpagetitle newline">Tetris</h1>
 
+		<div class="invisible"><a href="#contentarea" accesskey="n" class="invisible">Skip navigation</a></div>
+
+		<div id="navigator" title="Clàr-taice">
 <?php
 $navigator = new Navigator(38,false,1,false,false);
 print($navigator->toHTML());
-/*if(getproperty('Display Banners'))
-{
-  $banners=new BannerList();
-  print($banners->toHTML());
-}
-*/
 $db->closedb();
 ?>
-<td>&nbsp;</td>
-
-<td valign="top" align="center" width="*" class="table">
-<table border="0" cellpadding="20" cellspacing="1" width="100%">
-  <tr>
-    <td align="left">
-
-
+		</div>
+		<div id="contentarea" style="height: 500px;" title="Susbaint">
+			<div style="height:40px"></div>
 <!--  Game HTML starts here  -->  
-
-<p>&nbsp;</p>
-<table style="width: 100%; height: 100%;" cellspacing="0" cellpadding="0"><tr><td style="vertical-align: middle;">
-
 	<div id="tetris">
 		<div class="left">
 			<h1><a href="http://code.google.com/p/js-tetris/">Js	Tetris 1.19</a></h1>
@@ -109,7 +102,7 @@ $db->closedb();
 					<a href="javascript:void(0)" id="tetris-menu-resume">Lean air</a>
 				</div>
 				<div><a href="javascript:void(0)" id="tetris-menu-highscores">Sgòran àrda</a></div>
-				<div><a href="javascript:void(0)" id="tetris-menu-help">Mu dheidhinn</a></div>
+				<div><a href="javascript:void(0)" id="tetris-menu-help">Mu dhèidhinn</a></div>
 			</div>
 			<div id="tetris-nextpuzzle"></div>
 			<div id="tetris-gameover">Crìoch a’ gheama</div>
@@ -137,7 +130,7 @@ $db->closedb();
 				</table>
 			</div>
 			<div class="stats">
-				<div class="h5">Staitistig:</div>
+				<div class="h5">Stadastaig:</div>
 				<table cellspacing="0" cellpadding="0">
 				<tr>
 					<td	class="level">Rang:</td>
@@ -174,7 +167,7 @@ $db->closedb();
 		</div>
 		<div id="tetris-help" class="window">
 			<div class="top">
-				Mu dheidhinn an geama <span id="tetris-help-close" class="close">x</span>
+				Mu dhèidhinn a' gheama <span id="tetris-help-close" class="close">x</span>
 			</div>
 			<div class="content" style="margin-top:	1em;">
 				<div style="margin-top:	1em;">
@@ -183,7 +176,7 @@ $db->closedb();
 				</div>
 				<br>
 				<div>Ùghdar: Cezary Tomczak</div>
-				<div>Làrach-lìn: <a href="http://www.gosu.pl/tetris/">www.gosu.pl/tetris/</a></div>
+				<div>Làrach-lìn: B' àbhaist dha a bhith air <em>www.gosu.pl/tetris/</em> ach gheibh thu a' phròiseact JSTetris air <a href="http://code.google.com/p/js-tetris/">Google Code</a> a-nis.</div>
 				<br>
 				<div>Ceadachas: BSD revised (saor do gach cleachdadh)</div>
 				</div>
@@ -194,39 +187,17 @@ $db->closedb();
 				Na sgòran as àirde <span id="tetris-highscores-close" class="close">x</span>
 			</div>
 			<div class="content">
-				<div id="tetris-highscores-content"></div>
+				<div id="tetris-highscores-content" style="font-size: 11px; color: #002373;"></div>
 				<br>
 			</div>
 		</div>
 	</div>
 
-</td></tr></table>
 <p class="gen">Cleachdaidh an geama seo JavaScript agus briosgaidean.</p>
 <p class="gen">Ma tha sgrìn beag agad, <a href="index.html">falaich na bannan-cinn is clàran-taice</a>.</p>
 <!-- End game HTML -->
-    </td>
-  </tr>
-</table>
-    </td>
-  </tr>
-</table>
-  </td>
-</tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-  <table width="100%">
-    <tr>
-      <td align="left">
-        <div align="left" class="footer">
-        </div>
-      </td>
-      <td align="right">
-        <div align="right" class="footer">
-        </div>
-      </td>
-    </tr>
-  </table>
+		</div>
+	<div class="footer newline"></div>
+	</div>
 </body>
 </html>

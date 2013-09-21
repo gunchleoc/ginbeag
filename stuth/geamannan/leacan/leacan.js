@@ -21,9 +21,9 @@ $(document).ready(function() {
 	var emptyimage ="";
 	var gamerunning = false;
 
-	var explanation="<p class='gen'>Cuir na leacan san òrdugh cheart.</p><p class='gen'>Bruth air leac ri taobh an fhir fhalaimh gus an leac a ghluasad.</p>"
+	var explanation="<p>Cuir na leacan san òrdugh mar bu chòir.</p><p>Brùth air leac ri taobh an fhir fhalaimh gus an leac a ghluasad.</p>"
 	var loading= "<p>A' luchdadh geama ùr ...</p>";
-	var won= "<p class='highlight' style='font-size:95%;'>Rinn thu a' chùis air!</p><p class='gen'>Bruth air dealbh gu h-ìosal gus geama ùr a thaghadh.</p>";
+	var won= "<p class='highlight' style='font-size:110%;'>Rinn thu a' chùis air!</p><p>Bruth air dealbh gu h-ìosal gus geama ùr a thaghadh.</p>";
 	
 	// init tilesets
 	var tilesets = new Array();

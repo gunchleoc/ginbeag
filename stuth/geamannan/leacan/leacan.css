@@ -26,3 +26,18 @@ img.thumb {
 	margin:5px;
 	border: 1px #000000 solid;
 }
+
+#messages {
+	width:150px;
+	font-size:80%;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+#gametitle {
+	width:150px;
+	font-size:100%;
+	text-align:left;
+	padding-left: 2px;
+	padding-right: 2px;
+}

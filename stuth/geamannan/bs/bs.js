@@ -1,3 +1,70 @@
+/**
+ * User feedback message from server
+ */
+function showmessage(message)
+{
+	$('#messagebox').stop();
+	$("#messagebox").html(message);
+	placeOnCenter($('#messagebox'));
+
+	$('#messagebox').animate({opacity: 1},0, function() {
+
+		$('#messagebox').delay(600).animate({
+			opacity: 0
+			}, 3000, function() {
+			$('#messagebox').css("width","0px");
+			$('#messagebox').css("height","0px");
+			// Animation complete.
+		}); // animate 2
+	}); // animate 1
+} // showmessage
+
+
+
+// http://www.howtocreate.co.uk/tutorials/javascript/browserwindow
+function placeOnCenter(element)
+{
+	element.css("position","fixed");
+	element.css("width","33%");
+	element.css("height","auto");
+
+	var heightunit = "px";
+	var height = element.css("height");
+	if(!height) height="33%";
+	var temp = height.indexOf("px");
+	if(temp<0) temp = height.indexOf("%");
+	else if(temp<0) temp = height.length;
+	else widthunit = "%";
+	height = height.substring(0, temp);
+	
+	var windowheight = document.body.clientHeight;
+	var top = (windowheight-height)/2;
+	
+	// Internet Exploder
+	if(element.css("position")=="static")
+	{
+		element.css("position","absolute");
+		top = top+document.body.scrollTop;
+	}
+		
+	top = top+"px";
+	element.css("top",top);
+	
+	var widthunit = "px";
+	var width = element.css("width");
+	if(!width) width="33%";
+	var temp = width.indexOf("px");
+	if(width<0)	temp = width.indexOf("%");
+	else if(width<0) temp = width.length;	
+	else widthunit = "%";
+	width = width.substring(0, temp);
+	
+	var windowwidth = document.body.clientWidth;
+	var left = (windowwidth-width)/2;
+	left = left+"px";	
+	
+	element.css("left",left);
+}
 
 //  ******************** actions start here
 
@@ -430,20 +497,20 @@ $(document).ready(function() {
 			
 			if(row1==5 && row2==5 && row3==5 && row4==5 && row5==5 && col1==5 && col2==5 && col3==5 && col4==5 && col5==5 && diag1== 5 && diag2==5)
 			{
-				alert("Seo am bullshit as miosa a chuala mi riamh!");
+				showmessage("Seo am bullshit as miosa a chuala mi riamh!")
 			}
 			
 			else if(bullshitcounter == 1)
 			{
-				alert("Abair bullshit!");
+				showmessage("Abair bullshit!")
 			}
 			else if(bullshitcounter == 2)
 			{
-				alert("Abair fìor bhullshit!");
+				showmessage("Abair fìor bhullshit!")
 			}
 			else if(bullshitcounter == 3)
 			{
-				alert("Seo am bullshit as miosa a chuala mi riamh!");
+				showmessage("Seo am bullshit as miosa a chuala mi riamh!")
 			}
 		}
 		

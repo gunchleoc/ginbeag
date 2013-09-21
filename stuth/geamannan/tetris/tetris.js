@@ -1304,7 +1304,7 @@ function Tetris()
 				 
 		$.post("highscore.php?print=true", {list: $(this).html()}, function(xml) {
 		
-			var scores='<table cellspacing="0" cellpadding="2"><tr><th></th><th style="font-size: 100%; font-weight : bold;" align="left">Ainm</th><th style="font-size: 100%; font-weight : bold;" align="left">Sgòr</th></tr>';
+			var scores='<table cellspacing="0" cellpadding="2"><tr><th></th><th style="font-size: 11px; color: #002373; font-weight : bold;" align="left">Ainm</th><th style="font-size: 11px; color: #002373; font-weight : bold;" align="left">Sgòr</th></tr>';
      	
        		$(xml).find('entry').each(function(){
        			scores+='<tr><td align="right" valign="top">'+$(this).find('id').text()+'.</td><td>'+$(this).find('name').text()+'</td><td align="right" valign="top">'+$(this).find('score').text()+'</td></tr>';

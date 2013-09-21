@@ -37,6 +37,7 @@ div.log {
 	overflow:-moz-scrollbars-vertical;
 	overflow-y:auto;
 	text-align:left;
+	font-size: 75%;
 }
 
 div.status {
@@ -46,4 +47,6 @@ div.status {
 	overflow:-moz-scrollbars-vertical;
 	overflow-y:auto;
 	text-align:left;
+	font-size: 80%;
+	line-height: 1.5em;
 }
