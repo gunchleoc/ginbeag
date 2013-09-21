@@ -2,8 +2,6 @@
 redesign todos
 _____________________________________________________________
 
-Spiele testen nicht vergessen wegen css!!!! -> new pagetype = script
-
 v-w admin login style
 
 working on mobile style
@@ -41,8 +39,6 @@ fng: a bit more contrast for links in text
 
 admin: check what happens to the assigned elements when category is deleted. Should go to the parent category.
 
-forms: accept-charset="UTF-8"
-
 css for each style: check printview pages. V-W done.
 
 #############################################################
@@ -55,29 +51,6 @@ AJAX for image forms
 mobile style: image generation needed!
 
 #############################################################
-
-Public Bugs:
-============
-
-- WON'T FIX picture left align + list bullet overlap
-- V-W sitemap when logged in turns up white
-- Versteckte Seiten treten noch im Navigator auf
-- restricted pages: Wenn Oberseite nicht erlaubt, auch verbieten!
-
-
-Admin Bugs:
-===========
-
-- Imagelist sorting bug!!
-- editcontents button freezes on V-W in Firefox
-- sitepolicy: proper editor, button is dead
-- edit gallery, hinzufügen, bei 12 bildern auf der 3, leeren seite gelandet. Moveup letztes Bild auf letzer Seite mit 2 Bildern landet auf Seite davor.
-- editor does not like keyword "insert" in the text
-- messageboxes.js, showmessageXML(xml): error alert doesn't find the error code to show the alert
-- dbutils gzcompress file error
-- copyrightpermissions permission granted da, aber nicht im Filterergebnis
-- WON'T REPRODUCE: edit gallery intro in Chrome does not work.
-- FIXED except for mobile: Header menu does not work with small screens. 
 
 
 Technical:
@@ -99,7 +72,7 @@ Technical:
 - checkboxform/radiobuttonform benutzen. Caution: JSID!
 - admin: submitrow nicht vergessen
 - turn all navigator/menu links into (nested) lists
-
+- Page intros vereinheitlichen mit Text, Bild + Position. article gallery news linklist menu
 
 
 Desired new public features:
@@ -113,7 +86,7 @@ Desired new public features:
 - events calendar
 - showimage: public user login, with image feature "Visibility": All, logged in, admin only
 - display foreign rss feeds in splash page
-- Page intros vereinheitlichen mit Text, Bild + Position. article gallery news linklist menu
+- give linklist items IDs so linklistmenus can link to the correct item (steal code from article TOC)
 
 
 
