@@ -74,7 +74,7 @@ elseif($action==="rename")
   renamepage($page, fixquotes($_POST['navtitle']), fixquotes($_POST['title']));
   updateeditdata($page, $sid);
   unlockpage($page);
-  $message="Renamed page to:<br /> <em>".edittitle2html($_POST['title'])."</br />".edittitle2html($_POST['title'])."</em>";
+  $message="Renamed page to:<br /> <em>".edittitle2html($_POST['navtitle'])."</br />".edittitle2html($_POST['title'])."</em>";
   $editpage = new DoneRedirect($page,"Renamed page","&action=edit","","Edit this page");
 }
 elseif($action==="move")
