@@ -1,3 +1,39 @@
+// call this unicode-function when sending text with Ajax. Handles non-ASCII characters.
+// http://www.codeproject.com/Articles/34481/Posting-Unicode-Characters-via-AJAX
+function uni2ent(srcTxt) {
+  var entTxt = '';
+  var c, hi, lo;
+  var len = 0;
+  for (var i=0, code; code=srcTxt.charCodeAt(i); i++) {
+    var rawChar = srcTxt.charAt(i);
+    // needs to be an HTML entity
+    if (code > 255) {
+      // normally we encounter the High surrogate first
+      if (0xD800 <= code && code <= 0xDBFF) {
+        hi  = code;
+        lo = srcTxt.charCodeAt(i+1);
+        // the next line will bend your mind a bit
+        code = ((hi - 0xD800) * 0x400) + (lo - 0xDC00) + 0x10000;
+        i++; // we already got low surrogate, so don't grab it again
+      }
+      // what happens if we get the low surrogate first?
+      else if (0xDC00 <= code && code <= 0xDFFF) {
+        hi  = srcTxt.charCodeAt(i-1);
+        lo = code;
+        code = ((hi - 0xD800) * 0x400) + (lo - 0xDC00) + 0x10000;
+      }
+      // wrap it up as Hex entity
+      c = "&#x"+ code.toString(16).toUpperCase() + ";";
+    }
+    else {
+      c = rawChar;
+    }
+    entTxt += c;
+    len++;
+  }
+  return entTxt;
+}
+
 
 // only used in admin, so can use admin to split string for getting the link path	
 function makeprojectroot()

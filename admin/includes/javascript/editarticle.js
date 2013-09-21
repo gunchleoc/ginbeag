@@ -35,12 +35,12 @@ $(document).ready(function() {
 	       			{
 						sid: $("#{JSID}sid").val(),
 	       				page: $("#{JSID}page").val(),
-	       				author: $("#{JSID}author").val(),
-	       				location: $("#{JSID}location").val(),
+	       				author: uni2ent($("#{JSID}author").val()),
+	       				location: uni2ent($("#{JSID}location").val()),
 	       				day: $("#{JSID}day").val(),
 	       				month: $("#{JSID}month").val(),
 	       				year: $("#{JSID}year").val(),
-	       				source: $("#{JSID}source").val(),
+	       				source: uni2ent($("#{JSID}source").val()),
 	       				sourcelink: $("#{JSID}sourcelink").val(),
 	       				toc: $("#{JSID}toc_yes").is(':checked')
 		       		},

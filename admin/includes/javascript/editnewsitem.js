@@ -17,7 +17,7 @@ $(document).ready(function() {
 				newsitem: $("#{JSID}newsitem").val(),
 				sid: $("#{JSID}sid").val(),
 				page: $("#{JSID}page").val(),
-				title: $("#{JSID}title").val()
+				title: uni2ent($("#{JSID}title").val())
 	   		},
 	   		function(xml)
 			{
@@ -118,8 +118,8 @@ $(document).ready(function() {
 				newsitem: $("#{JSID}newsitem").val(),
 				sid: $("#{JSID}sid").val(),
 				page: $("#{JSID}page").val(),
-       			copyright: $("#{JSID}copyright").val(),
-	   			imagecopyright: $("#{JSID}imagecopyright").val(),
+       			copyright: uni2ent($("#{JSID}copyright").val()),
+	   			imagecopyright: uni2ent($("#{JSID}imagecopyright").val()),
 				permission: $('input[name={JSID}permission]:checked').val()
        		},
        		function(xml)
@@ -152,10 +152,10 @@ $(document).ready(function() {
 				newsitem: $("#{JSID}newsitem").val(),
 				sid: $("#{JSID}sid").val(),
 				page: $("#{JSID}page").val(),
-				source: $("#{JSID}source").val(),
+				source: uni2ent($("#{JSID}source").val()),
 				sourcelink: $("#{JSID}sourcelink").val(),
-				location: $("#{JSID}location").val(),
-				contributor: $("#{JSID}contributor").val()
+				location: uni2ent($("#{JSID}location").val()),
+				contributor: uni2ent($("#{JSID}contributor").val())
        		},
        		function(xml)
 			{

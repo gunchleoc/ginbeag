@@ -450,7 +450,7 @@ function doGetCaretPosition (ctrl) {
 		       		postRequest(
 	   					projectroot+"admin/includes/ajax/editor/savetext.php",
 		       			{
-	    					savetext: sourcetext,
+	    					savetext: uni2ent(sourcetext),
 			       			page: $("#{JSID}page").val(),
 			       			sid: $("#{JSID}sid").val(),
 			       			item: $("#{JSID}item").val(),
@@ -602,7 +602,7 @@ function doGetCaretPosition (ctrl) {
        		postRequest(
 				projectroot+"admin/includes/ajax/editor/savetext.php",
        			{
-					savetext: sourcetext,
+					savetext: uni2ent(sourcetext),
 	       			page: $("#{JSID}page").val(),
 	       			sid: $("#{JSID}sid").val(),
 	       			item: $("#{JSID}item").val(),

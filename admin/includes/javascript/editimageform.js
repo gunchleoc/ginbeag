@@ -15,10 +15,10 @@ $(document).ready(function() {
    			{
 				filename: $("#{JSID}filename").val(),
    				sid: $("#{JSID}sid").val(),
-   				caption: $("#{JSID}caption").val(),
-   				source: $("#{JSID}source").val(),
+   				caption: uni2ent($("#{JSID}caption").val()),
+   				source: uni2ent($("#{JSID}source").val()),
    				sourcelink: $("#{JSID}sourcelink").val(),
-   				copyright: $("#{JSID}copyright").val(),
+   				copyright: uni2ent($("#{JSID}copyright").val()),
    				permission: $('input[name={JSID}permission]:checked').val()
        		},
        		function(xml)

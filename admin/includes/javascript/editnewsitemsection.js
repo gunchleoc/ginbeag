@@ -17,7 +17,7 @@ $(document).ready(function() {
 				newsitemsection: $("#{JSID}newsitemsection").val(),
        			sid: $("#{JSID}sid").val(),
        			page: $("#{JSID}page").val(),
-       			sectiontitle: $("#{JSID}sectiontitle").val()
+       			sectiontitle: uni2ent($("#{JSID}sectiontitle").val())
 	   		},
 	   		function(xml)
 			{

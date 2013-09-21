@@ -24,7 +24,7 @@ if($("#{JSID}imagefilename").val()=="")
 			{
 				sid: $("#{JSID}sid").val(),
        			page: $("#{JSID}page").val(),
-       			title: $("#{JSID}title").val(),
+       			title: uni2ent($("#{JSID}title").val()),
        			link: $("#{JSID}link").val(),
        			linkid: $("#{JSID}linkid").val()
 	   		},

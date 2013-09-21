@@ -18,7 +18,7 @@ $(document).ready(function() {
 				articlesection: $("#{JSID}articlesection").val(),
 	   			sid: $("#{JSID}sid").val(),
 	   			page: $("#{JSID}page").val(),
-	   			sectiontitle: $("#{JSID}sectiontitle").val()
+	   			sectiontitle: uni2ent($("#{JSID}sectiontitle").val())
 	   		},
 	   		function(xml)
 			{
