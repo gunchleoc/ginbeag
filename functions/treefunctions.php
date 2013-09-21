@@ -120,7 +120,9 @@ function ispublishedarray($page_id)
 function isrootpagearray($page_id)
 {
   global $allpages;
-  return $allpages[$page_id]['parent_id']==0;
+  if($page_id>0)
+  	return $allpages[$page_id]['parent_id']==0;
+  else return false;
 }
 
 
@@ -129,11 +131,11 @@ function isrootpagearray($page_id)
 //
 //
 //
-function displaylinksforpagearray($page_id)
+function displaylinksforpagearray($sid,$page_id)
 {
   global $user_id;
 
-  return (ispublishedarray($page_id) && (!ispagerestrictedarray($page_id) || hasaccessarray($page_id)));
+  return (ispublishedarray($page_id) && (!ispagerestrictedarray($page_id) || hasaccesssession($sid, $page_id)));
 }
 
 //
@@ -151,10 +153,18 @@ function ispagerestrictedarray($page_id)
 //
 function hasaccessarray($page_id)
 {
-  global $allrestrictedpages, $directrestrictedpagesaccess;
+	global $allrestrictedpages, $directrestrictedpagesaccess;
   
-  $masterpage = $allrestrictedpages[$page_id]["masterpage"];
-//  return $masterpage == $directrestrictedpagesaccess[$masterpage]["page_id"];
-  return array_key_exists($masterpage,$directrestrictedpagesaccess);
+	$result=true;
+  
+	if(array_key_exists($page_id,$allrestrictedpages))
+	{
+	  	$masterpage = $allrestrictedpages[$page_id]["masterpage"];
+		if(array_key_exists($masterpage,$directrestrictedpagesaccess))
+		{
+			$result=false;
+		}
+	}
+  	return $result;
 }
 ?>

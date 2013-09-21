@@ -7,6 +7,7 @@ include_once($projectroot."admin/functions/pagesmod.php");
 include_once($projectroot."functions/users.php");
 include_once($projectroot."includes/includes.php");
 include_once($projectroot."includes/functions.php");
+include_once($projectroot."includes/objects/elements.php");
 
 ################################################################################
 ##                                                                            ##
@@ -19,7 +20,8 @@ include_once($projectroot."includes/functions.php");
 //
 function login($username,$password)
 {
-  $username=setstring($username);
+	global $db;
+  $username=$db->setstring($username);
   $password=md5($password);
 
   $user_id=getuserid($username);
@@ -70,8 +72,9 @@ function login($username,$password)
 //
 function checkpassword($username,$md5password)
 {
-  $username=setstring($username);
-  $md5password=setstring($md5password);
+	global $db;
+  $username=$db->setstring($username);
+  $md5password=$db->setstring($md5password);
   
   $result=false;
   
@@ -89,15 +92,37 @@ function checkpassword($username,$md5password)
 //
 function logout($sid)
 {
-  unlockuserpages($sid);
-  optimizetable(LOCKS_TABLE);
-  optimizetable(NEWSITEMSECTIONS_TABLE);
-  optimizetable(NEWSITEMS_TABLE);
-  optimizetable(MONTHLYPAGESTATS_TABLE);
-  deleteentry(SESSIONS_TABLE,"session_id='".setstring($sid)."'");
-  optimizetable(SESSIONS_TABLE);
-  
-  clearoldpagecacheentries();
+	global $db;
+	
+	$cookieprefix = getproperty("Cookie Prefix");
+	$cookiedomain = getproperty("Domain Name");
+	$localpath =makecookiepath();
+
+		
+	setcookie($cookieprefix."sid", "",1, $localpath, $cookiedomain, 0, 1);
+	setcookie($cookieprefix."userid", "", 1, $localpath, $cookiedomain, 0, 1);
+	setcookie($cookieprefix."clientip", "", 1, $localpath, $cookiedomain, 0, 1);
+	
+	unlockuserpages($sid);
+  	optimizetable(LOCKS_TABLE);
+  	optimizetable(NEWSITEMSECTIONS_TABLE);
+  	optimizetable(NEWSITEMS_TABLE);
+  	optimizetable(MONTHLYPAGESTATS_TABLE);
+  	deleteentry(SESSIONS_TABLE,"session_id='".$db->setstring($sid)."'");
+  	optimizetable(SESSIONS_TABLE);
+  	clearoldpagecacheentries();
+}
+
+
+//
+//
+//
+function makecookiepath()
+{
+	$localpath =getproperty("Local Path");
+	$localpath=$localpath."/admin/";
+	if(!str_startswith($localpath,"/")) $localpath="/".$localpath;
+	return $localpath;
 }
 
 
@@ -106,10 +131,11 @@ function logout($sid)
 //
 function clearoldpagecacheentries()
 {
+	global $db;
   // create date
   $adayago=date(DATETIMEFORMAT, strtotime('-1 day'));
   $query="DELETE FROM ".PAGECACHE_TABLE." where lastmodified < '".$adayago."';";
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
 }
 
 //
@@ -117,7 +143,8 @@ function clearoldpagecacheentries()
 //
 function updatelogindate($username,$increasecount=false)
 {
-  $username=setstring($username);
+	global $db;
+  $username=$db->setstring($username);
 
   $now=strtotime('now');
 
@@ -143,33 +170,46 @@ function updatelogindate($username,$increasecount=false)
 //
 function createsession($user_id)
 {
-  $user_id=setinteger($user_id);
+	global $db;
+	
+	
+  	$user_id=$db->setinteger($user_id);
 
-  $result="";
+  	$result="";
 
-  $ip=getclientip();
-  $now=strtotime('now');
+  	$ip=getclientip();
+  	$now=strtotime('now');
 
-  mt_srand(make_seed());
-  $sid = md5("".mt_rand());
+  	mt_srand(make_seed());
+  	$sid = md5("".mt_rand());
 
-  clearsessions();
+  	clearsessions();
   
-  $lastsession=getdbelement("session_id",SESSIONS_TABLE, "session_user_id", $user_id);
-  if($lastsession)
-  {
-    $sql=deleteentry(SESSIONS_TABLE,"session_id='".$lastsession."'");
-  }
+  	$lastsession=getdbelement("session_id",SESSIONS_TABLE, "session_user_id", $user_id);
+  	if($lastsession)
+  	{
+    	$sql=deleteentry(SESSIONS_TABLE,"session_id='".$lastsession."'");
+  	}
 
-  $values=array();
-  $values[]=$sid;
-  $values[]=$user_id;
-  $values[]=date(DATETIMEFORMAT, $now);
-  $values[]=$ip;
+  	$values=array();
+  	$values[]=$sid;
+  	$values[]=$user_id;
+  	$values[]=date(DATETIMEFORMAT, $now);
+  	$values[]=$ip;
 
-  $sql=insertentry(SESSIONS_TABLE,$values);
+  	$sql=insertentry(SESSIONS_TABLE,$values);
+  	
+  	$cookieprefix = getproperty("Cookie Prefix");
+  	$cookiedomain = getproperty("Domain Name");
+	$localpath =makecookiepath();
+  	
+	setcookie($cookieprefix."userid", $user_id,0, $localpath, $cookiedomain, 0, 1);
+	setcookie($cookieprefix."sid", $sid,0, $localpath, $cookiedomain, 0, 1);
+	setcookie($cookieprefix."clientip", $ip,0, $localpath, $cookiedomain, 0, 1);
 
-  return $sid;
+	//print("testing Domain=".$cookiedomain);
+	//print("<br>testing path=".$localpath);
+  	return $sid;
 }
 
 
@@ -191,7 +231,8 @@ function clearsessions()
 //
 function timeout($sid)
 {
-  $sid=setstring($sid);
+	global $db;
+  $sid=$db->setstring($sid);
 
   $result=false;
 
@@ -225,17 +266,46 @@ function timeout($sid)
 //
 function checksession($sid)
 {
-  global $_GET;
-  if(timeout($sid) || !checkip($sid))
+  global $_GET, $db, $projectroot;
+  if(!isloggedin($sid))
   {
-    $header = new HTMLHeader("Access restricted","Webpage Building","",getprojectrootlinkpath().'admin/login.php'.makelinkparameters($_GET),'please log in',false);
+    $header = new HTMLHeader("Access restricted","Webpage Building","",getprojectrootlinkpath().'admin/login.php'.makelinkparameters($_GET),'Click or tap here to log in',false);
     print($header->toHTML());
 
     $footer = new HTMLFooter();
     print($footer->toHTML());
+    
+    $db->closedb();
 
     exit;
   }
+}
+
+//
+//
+//
+function isloggedin($sid)
+{
+	global $sid, $_COOKIE;
+	
+	$result=true;
+	
+	//print_r($_COOKIE);
+	
+	$cookieprefix = getproperty("Cookie Prefix");
+	
+	$userid=getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $sid);
+	$clientip=getclientip();
+	
+	if(!isset($_COOKIE[$cookieprefix."sid"]) || $_COOKIE[$cookieprefix."sid"]!=$sid) $result=false;
+	if(!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) $result=false;
+	if(!isset($_COOKIE[$cookieprefix."clientip"]) || substr($_COOKIE[$cookieprefix."clientip"],0,6)!=substr($clientip,0,6)) $result=false;
+
+	if(timeout($sid)) $result=false;
+	
+	if(!checkip($sid, $userid, $clientip)) $result=false;
+
+	return $result;
 }
 
 //
@@ -247,23 +317,26 @@ function isadmin($sid)
   return $userlevel==USERLEVEL_ADMIN;
 }
 
-//
-//
-//
-function checkip($sid)
-{
-  $sid=setstring($sid);
-  
-  $clientip=getclientip();
-  if($clientip)
-  {
-    $sessionip=getdbelement("session_ip",SESSIONS_TABLE, "session_id", $sid);
-    $clientprefix=(substr($clientip,0,6));
-    $sessionprefix=(substr($sessionip,0,6));
-    return($clientprefix===$sessionprefix);
-  }
-  else return false;
 
+//
+//
+//
+function checkip($sid,$userid,$clientip)
+{
+	global $db;
+  	$sid=$db->setstring($sid);
+  
+  	// quick fix for Sue + pplaskka who can't get in
+  	if($userid==7 || $userid==13 || $userid==19) return true;
+  
+  	if($clientip)
+  	{
+    	$sessionip=getdbelement("session_ip",SESSIONS_TABLE, "session_id", $sid);
+    	$clientprefix=(substr($clientip,0,6));
+    	$sessionprefix=(substr($sessionip,0,6));
+    	return($clientprefix===$sessionprefix);
+  	}
+  	else return false;
 }
 
 //
@@ -271,14 +344,27 @@ function checkip($sid)
 //
 function getsiduser($sid)
 {
-  return getdbelement("session_user_id",SESSIONS_TABLE, "session_id", setstring($sid));
+	global $db;
+  return getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $db->setstring($sid));
 }
+
+
+//
+//
+//
+function getusersid($user)
+{
+	global $db;
+  return getdbelement("session_id",SESSIONS_TABLE, "session_user_id", $db->setstring($user));
+}
+
 
 //
 //
 //
 function getloggedinusers()
 {
+	global $db;
   $result=array();
   
   $query="select username from ";
@@ -287,7 +373,7 @@ function getloggedinusers()
   $query.=" where users.user_id = sessions.session_user_id";
   $query.=" order by users.username ASC";
     
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   if($sql)
   {
     // get column
@@ -304,7 +390,8 @@ function getloggedinusers()
 //
 function isactive($user_id)
 {
-  return getdbelement("user_active",USERS_TABLE, "user_id", setinteger($user_id));
+	global $db;
+  return getdbelement("user_active",USERS_TABLE, "user_id", $db->setinteger($user_id));
 }
 
 //
@@ -312,7 +399,8 @@ function isactive($user_id)
 //
 function getretries($user_id)
 {
-  return getdbelement("retries",USERS_TABLE, "user_id", setinteger($user_id));
+	global $db;
+  return getdbelement("retries",USERS_TABLE, "user_id", $db->setinteger($user_id));
 }
 
 //
@@ -320,6 +408,7 @@ function getretries($user_id)
 //
 function getlastlogin($user_id)
 {
-  return getdbelement("last_login",USERS_TABLE, "user_id", setinteger($user_id));
+	global $db;
+  return getdbelement("last_login",USERS_TABLE, "user_id", $db->setinteger($user_id));
 }
 ?>

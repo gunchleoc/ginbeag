@@ -12,7 +12,7 @@ body, table, input {
 
 #tetris	{
 	position: relative;
-	width: 300px;
+	width: 310px;
 	height:	309px;
 	background:	#fff;
 	border:	#BE9E7C	1px	solid;
@@ -23,12 +23,12 @@ body, table, input {
 #tetris	.left {
 	background:	#F5EDE3;
 	position: absolute;
-	width: 131px;
+	width: 141px;
 	height:	100%;
 	left: 0px;
 	top: 0px;
 }
-.left-border { background: #E4BE95;	position: absolute;	z-index: 100; top: 0px;	left: 130px; width:	1px; height: 100%; }
+.left-border { background: #E4BE95;	position: absolute;	z-index: 100; top: 0px;	left: 140px; width:	1px; height: 100%; }
 
 #tetris-area {
 	/* 168,308 +2px	borders	*/
@@ -36,7 +36,7 @@ body, table, input {
 	position: absolute;
 	width: 167px;
 	height:	307px;
-	left: 132px;
+	left: 142px;
 	top: 1px;
 	overflow: hidden;
 }
@@ -232,7 +232,7 @@ body, table, input {
 	position: absolute;
 	width: 167px;
 	height:	307px;
-	left: 132px;
+	left: 142px;
 	top: 1px;
 	z-index: 50000;
 	display: none;

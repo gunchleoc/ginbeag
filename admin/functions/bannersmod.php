@@ -18,10 +18,11 @@ include_once($projectroot."functions/banners.php");
 //
 function addbanner($header, $imagefilename,$description,$link)
 {
-  $header=setstring($header);
-  $imagefilename=setstring(basename($imagefilename));
-  $description=setstring($description);
-  $link=setstring($link);
+	global $db;
+  $header=$db->setstring($header);
+  $imagefilename=$db->setstring(basename($imagefilename));
+  $description=$db->setstring($description);
+  $link=$db->setstring($link);
 
   $lastposition=getmax("position", BANNERS_TABLE,1);
 
@@ -45,8 +46,9 @@ function addbanner($header, $imagefilename,$description,$link)
 //
 function addbannercode($header, $code)
 {
-  $header=setstring($header);
-  $code=setstring($code);
+	global $db;
+  $header=$db->setstring($header);
+  $code=$db->setstring($code);
 
   $lastposition=getmax("position", BANNERS_TABLE,1);
 
@@ -67,12 +69,13 @@ function addbannercode($header, $code)
 //
 function updatebanner($banner_id, $header, $imagefilename,$description,$link)
 {
-  $banner_id=setinteger($banner_id);
+	global $db;
+  $banner_id=$db->setinteger($banner_id);
   
-  updatefield(BANNERS_TABLE,"header",setstring($header),"banner_id='".$banner_id."'");
-  updatefield(BANNERS_TABLE,"image",setstring(basename($imagefilename)),"banner_id='".$banner_id."'");
-  updatefield(BANNERS_TABLE,"description",setstring($description),"banner_id='".$banner_id."'");
-  updatefield(BANNERS_TABLE,"link",setstring($link),"banner_id='".$banner_id."'");
+  updatefield(BANNERS_TABLE,"header",$db->setstring($header),"banner_id='".$banner_id."'");
+  updatefield(BANNERS_TABLE,"image",$db->setstring(basename($imagefilename)),"banner_id='".$banner_id."'");
+  updatefield(BANNERS_TABLE,"description",$db->setstring($description),"banner_id='".$banner_id."'");
+  updatefield(BANNERS_TABLE,"link",$db->setstring($link),"banner_id='".$banner_id."'");
   updatefield(BANNERS_TABLE,"code","","banner_id='".$banner_id."'");
 }
 
@@ -83,14 +86,15 @@ function updatebanner($banner_id, $header, $imagefilename,$description,$link)
 //
 function updatebannercode($banner_id, $header, $code)
 {
-  $banner_id=setinteger($banner_id);
+	global $db;
+  $banner_id=$db->setinteger($banner_id);
   if(strlen($code)>0)
   {
-    updatefield(BANNERS_TABLE,"header",setstring($header),"banner_id='".$banner_id."'");
+    updatefield(BANNERS_TABLE,"header",$db->setstring($header),"banner_id='".$banner_id."'");
     updatefield(BANNERS_TABLE,"image","","banner_id='".$banner_id."'");
     updatefield(BANNERS_TABLE,"description","","banner_id='".$banner_id."'");
     updatefield(BANNERS_TABLE,"link","","banner_id='".$banner_id."'");
-    updatefield(BANNERS_TABLE,"code",setstring($code),"banner_id='".$banner_id."'");
+    updatefield(BANNERS_TABLE,"code",$db->setstring($code),"banner_id='".$banner_id."'");
   }
 }
 
@@ -101,7 +105,8 @@ function updatebannercode($banner_id, $header, $code)
 //
 function deletebanner($banner_id)
 {
-  deleteentry(BANNERS_TABLE,"banner_id ='".setinteger($banner_id)."'");
+	global $db;
+  deleteentry(BANNERS_TABLE,"banner_id ='".$db->setinteger($banner_id)."'");
 }
 
 

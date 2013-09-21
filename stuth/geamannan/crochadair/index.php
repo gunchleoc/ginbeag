@@ -2,7 +2,7 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
 
-include_once($projectroot."includes/templates/page.php");
+include_once($projectroot."includes/objects/page.php");
 ?>
    
 
@@ -12,7 +12,7 @@ include_once($projectroot."includes/templates/page.php");
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
 	<title>Fòram na Gàidhlig - An Crochadair</title>
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
-	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/page.css" type="text/css">
+	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/templates/fng/main.css" type="text/css">
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="crochadair.js"></script>
 
@@ -77,6 +77,7 @@ if(getproperty('Display Banners'))
   $banners=new BannerList();
   print($banners->toHTML());
 }
+$db->closedb();
 
 ?>
 <td>&nbsp;</td>
@@ -95,65 +96,66 @@ if(getproperty('Display Banners'))
 			<td colspan="2"><H1>An Crochadair</H1></td>
 		</tr>
 		<tr>
-			<td><img NAME="status" id="status" src="gungheama.gif" style="padding:2px; border:1px solid #021a40; background-color:sienna;"/></td>
-			<td>
+			<td valign="top">
+				<img NAME="status" id="status" src="gungheama.gif" style="padding:2px; border:1px solid #021a40; background-color:sienna;"/>
+
+				<P><INPUT TYPE="BUTTON" id="restart" NAME="restart" style="font-size:80%" VALUE="Tòisich air geama ùr"></p>
+  				<P>Tagh stòr-dàta:
+					<span style="font-size:80%">
+	  					<br />
+	  					<input type="radio" id="beag" name="stordata" value="beag" checked="checked" /> Na faclan beaga<br>
+	    				<input type="radio" id="iomlan" name="stordata" value="iomlan" /> Liosta mòr de dh'fhaclan<br>
+	    				<input type="radio" id="àiteachan" name="stordata" value="àiteachan" /> Ainmean-àite<br>
+    				</span>
+  				</p>
+			</td>
+			<td>&nbsp;</td>
+			<td valign="top">
 				<P>Am facal ri lorg:</p>
-				<P><INPUT TYPE="TEXT" size="45" NAME="toGuess"  /></p>
+				<P style="border:4px double sienna;background-color:#F7F7F7;" >
+					<INPUT TYPE="TEXT" size="45" NAME="toGuess"  style="background-color:#F7F7F7;font-size:120%; font-weight=bold; border:0px; padding:0.3em; " />
+				</p>
 				
 				<P>Tagh litir.</P>
 				<p>
-					<INPUT id="a" TYPE="BUTTON" VALUE=" A ">
-					<INPUT id="à" TYPE="BUTTON" VALUE=" À ">
-					<INPUT id="e" TYPE="BUTTON" VALUE=" E ">
-					<INPUT id="è" TYPE="BUTTON" VALUE=" È ">
-					<INPUT id="i" TYPE="BUTTON" VALUE=" I ">
-					<INPUT id="ì" TYPE="BUTTON" VALUE=" Ì ">
-					<INPUT id="o" TYPE="BUTTON" VALUE=" O ">
-					<INPUT id="ò" TYPE="BUTTON" VALUE=" Ò ">
-					<INPUT id="u" TYPE="BUTTON" VALUE=" U ">
-					<INPUT id="ù" TYPE="BUTTON" VALUE=" Ù ">
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<INPUT id="-" TYPE="BUTTON" VALUE=" - ">
-					<INPUT id="asgair" TYPE="BUTTON" VALUE=" ' ">
+					<INPUT id="a" TYPE="BUTTON" VALUE="A">
+					<INPUT id="à" TYPE="BUTTON" VALUE="À">
+					<INPUT id="e" TYPE="BUTTON" VALUE="E">
+					<INPUT id="è" TYPE="BUTTON" VALUE="È">
+					<INPUT id="i" TYPE="BUTTON" VALUE="I">
+					<INPUT id="ì" TYPE="BUTTON" VALUE="Ì">
+					<INPUT id="o" TYPE="BUTTON" VALUE="O">
+					<INPUT id="ò" TYPE="BUTTON" VALUE="Ò">
+					<INPUT id="u" TYPE="BUTTON" VALUE="U">
+					<INPUT id="ù" TYPE="BUTTON" VALUE="Ù">
+					<INPUT TYPE="BUTTON" VALUE="" style="font-size:100%; color:white; background-color:white; width:2em; border:4px transparent;" disabled="true">
+					<INPUT id="-" TYPE="BUTTON" VALUE="-">
+					<INPUT id="asgair" TYPE="BUTTON" VALUE="'">
 				</p>
 				<p>
-					<INPUT id="b" TYPE="BUTTON" VALUE=" B ">
-					<INPUT id="c" TYPE="BUTTON" VALUE=" C ">
-					<INPUT id="d" TYPE="BUTTON" VALUE=" D ">
-					<INPUT id="f" TYPE="BUTTON" VALUE=" F ">
-					<INPUT id="g" TYPE="BUTTON" VALUE=" G ">
-					<INPUT id="h" TYPE="BUTTON" VALUE=" H ">
-					<INPUT id="l" TYPE="BUTTON" VALUE=" L ">
-					<INPUT id="m" TYPE="BUTTON" VALUE=" M ">
-					<INPUT id="n" TYPE="BUTTON" VALUE=" N ">
-					<INPUT id="p" TYPE="BUTTON" VALUE=" P ">
-					<INPUT id="r" TYPE="BUTTON" VALUE=" R ">
-					<INPUT id="s" TYPE="BUTTON" VALUE=" S ">
-					<INPUT id="t" TYPE="BUTTON" VALUE=" T ">
+					<INPUT id="b" TYPE="BUTTON" VALUE="B">
+					<INPUT id="c" TYPE="BUTTON" VALUE="C">
+					<INPUT id="d" TYPE="BUTTON" VALUE="D">
+					<INPUT id="f" TYPE="BUTTON" VALUE="F">
+					<INPUT id="g" TYPE="BUTTON" VALUE="G">
+					<INPUT id="h" TYPE="BUTTON" VALUE="H">
+					<INPUT id="l" TYPE="BUTTON" VALUE="L">
+					<INPUT id="m" TYPE="BUTTON" VALUE="M">
+					<INPUT id="n" TYPE="BUTTON" VALUE="N">
+					<INPUT id="p" TYPE="BUTTON" VALUE="P">
+					<INPUT id="r" TYPE="BUTTON" VALUE="R">
+					<INPUT id="s" TYPE="BUTTON" VALUE="S">
+					<INPUT id="t" TYPE="BUTTON" VALUE="T">
 				</p>
 				
 				<p>
 					Na litrichean a chleachd thu gu ruige seo:
-					<br />&nbsp;<br /><span id="guessed" NAME="guessed" style="font-size:80%" /> </span>
+					<br />&nbsp;<br /><span id="guessed" NAME="guessed" style="font-size:110%; font-weight=bold; border:4px groove sienna; background-color:#F7F7F7; padding:0.3em; font-family:monospace;"/>&nbsp;</span><span style="font-size:80%">&nbsp;</span>
 				</p>
-				<p>&nbsp;</p>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<p id="messages" name="messages"><span style="color: red; font-weight:bold;">An tòisich thu air geama ùr?</span></p>
+				<p id="messages" name="messages" style="border:2px groove sienna; padding:0.3em; background-color:#F7F7F7;"><span style="font-weight:bold;">An tòisich thu air geama ùr?</span></p>
 			</td>
 		</tr>
 	</table>
-	<P><INPUT TYPE="BUTTON" id="restart" NAME="restart" style="font-size:80%" VALUE="Tòisich air geama ùr"></p>
-  <P>Tagh stòr-dàta:
-<span style="font-size:80%">
-  <br />
-
-    <input type="radio" id="iomlan" name="stordata" value="iomlan" checked="checked" /> Liosta mòr de dh'fhaclan<br>
-    <input type="radio" id="àiteachan" name="stordata" value="àiteachan" /> Ainmean-àite<br>
-    </span>
-  </p>
  
 </FORM>
 

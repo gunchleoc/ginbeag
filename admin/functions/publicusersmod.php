@@ -17,10 +17,11 @@ include_once($projectroot."functions/publicusers.php");
 //
 function addpublicuser($user,$pass)
 {
+	global $db;
   $values=array();
   $values[]=0;
   $values[]=1;
-  $values[]=setstring($user);
+  $values[]=$db->setstring($user);
   $values[]=md5($pass);
 
   return insertentry(PUBLICUSERS_TABLE,$values);
@@ -32,14 +33,16 @@ function addpublicuser($user,$pass)
 //
 function changepublicuserpasswordadmin($userid,$newpass,$confirmpass,$sid)
 {
+	global $db;
   $result="Failed to change password";
+
   if(isadmin($sid))
   {
    if(strlen($newpass)>7)
    {
       if($newpass===$confirmpass)
       {
-        $sql=updatefield(PUBLICUSERS_TABLE,"password",md5($newpass),"user_id = '".setinteger($userid)."'");
+        $sql=updatefield(PUBLICUSERS_TABLE,"password",$db->setstring(md5($newpass)),"user_id = '".$db->setinteger($userid)."'");
         if($sql)
         {
           $result="Password changed successfully";
@@ -68,7 +71,8 @@ function changepublicuserpasswordadmin($userid,$newpass,$confirmpass,$sid)
 //
 function activatepublicuser($userid)
 {
-  updatefield(PUBLICUSERS_TABLE,"user_active",1,"user_id = '".setinteger($userid)."'");
+	global $db;
+  updatefield(PUBLICUSERS_TABLE,"user_active",1,"user_id = '".$db->setinteger($userid)."'");
 }
 
 //
@@ -76,7 +80,8 @@ function activatepublicuser($userid)
 //
 function deactivatepublicuser($userid)
 {
-  updatefield(PUBLICUSERS_TABLE,"user_active",0,"user_id = '".setinteger($userid)."'");
+	global $db;
+  updatefield(PUBLICUSERS_TABLE,"user_active",0,"user_id = '".$db->setinteger($userid)."'");
 }
 
 
@@ -85,7 +90,8 @@ function deactivatepublicuser($userid)
 //
 function publicuserexists($username)
 {
-  return getdbelement("username", PUBLICUSERS_TABLE, "username", setstring($username));
+	global $db;
+  return getdbelement("username", PUBLICUSERS_TABLE, "username", $db->setstring($username));
 }
 
 
@@ -104,12 +110,13 @@ function getallpublicusers()
 //
 function addpageaccess($userids,$pageid)
 {
+	global $db;
   for($i=0;$i<count($userids);$i++)
   {
     $values=array();
     $values[]=0;
-    $values[]=setinteger($pageid);
-    $values[]=setinteger($userids[$i]);
+    $values[]=$db->setinteger($pageid);
+    $values[]=$db->setinteger($userids[$i]);
     insertentry(RESTRICTEDPAGESACCESS_TABLE,$values);
   }
 }
@@ -119,9 +126,10 @@ function addpageaccess($userids,$pageid)
 //
 function removepageaccess($userids,$pageid)
 {
+	global $db;
   for($i=0;$i<count($userids);$i++)
   {
-    deleteentry(RESTRICTEDPAGESACCESS_TABLE,"page_id ='".setinteger($pageid)."' AND publicuser_id ='".setinteger($userids[$i])."'");
+    deleteentry(RESTRICTEDPAGESACCESS_TABLE,"page_id ='".$db->setinteger($pageid)."' AND publicuser_id ='".$db->setinteger($userids[$i])."'");
   }
 }
 
@@ -130,7 +138,8 @@ function removepageaccess($userids,$pageid)
 //
 function getallpublicuserswithaccessforpage($pageid)
 {
-  return getcolumn("publicuser_id",RESTRICTEDPAGESACCESS_TABLE,"page_id = '".setinteger($pageid)."'");
+	global $db;
+  return getcolumn("publicuser_id",RESTRICTEDPAGESACCESS_TABLE,"page_id = '".$db->setinteger($pageid)."'");
 }
 
 

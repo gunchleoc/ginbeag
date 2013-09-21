@@ -1,9 +1,11 @@
 <?php
 $dbhost = 'localhost';
-$dbname = 'viggo-works';
+$dbname = 'gaidhlig';
 $dbuser = 'bratzbert';
 $dbpasswd = 'bratzbert';
 
-$table_prefix = 'vwwebpage_';
+$table_prefix = 'gaidhlig_';
+
+$defaultlanguage ='chartest';
 
 ?>

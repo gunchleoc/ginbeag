@@ -18,7 +18,8 @@ include_once($projectroot."functions/db.php");
 //
 function getbannercontents($banner_id)
 {
-  return getrowbykey(BANNERS_TABLE, "banner_id", setinteger($banner_id));
+	global $db;
+  return getrowbykey(BANNERS_TABLE, "banner_id", $db->setinteger($banner_id));
 }
 
 //

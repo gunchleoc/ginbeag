@@ -27,10 +27,11 @@ function getblockedreferrers()
 //
 function addblockedreferrer($referrer)
 {
+	global $db;
   if(!isreferrerblocked($referrer) && strlen($referrer)>1)
   {
     $values=array();
-    $values[]=setstring($referrer);
+    $values[]=$db->setstring($referrer);
     return insertentry(BLOCKEDREFERRERS_TABLE,$values);
   }
   else
@@ -47,7 +48,8 @@ function addblockedreferrer($referrer)
 //
 function deleteblockedreferrer($referrer)
 {
-  deleteentry(BLOCKEDREFERRERS_TABLE,"referrerurl = '".setstring($referrer)."'");
+	global $db;
+  deleteentry(BLOCKEDREFERRERS_TABLE,"referrerurl = '".$db->setstring($referrer)."'");
 }
 
 ?>

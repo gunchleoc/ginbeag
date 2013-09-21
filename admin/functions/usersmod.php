@@ -17,6 +17,7 @@ include_once($projectroot."functions/users.php");
 //
 function register($user,$pass,$email)
 {
+	global $db;
   list($usec, $sec) = explode(' ', microtime());
   $activationkey= (float) $sec + ((float) $usec * 100000);
   $activationkey=md5($activationkey);
@@ -24,9 +25,9 @@ function register($user,$pass,$email)
   $values=array();
   $values[]=0;
   $values[]=0;
-  $values[]=setstring($user);
+  $values[]=$db->setstring($user);
   $values[]=md5($pass);
-  $values[]=setstring($email);
+  $values[]=$db->setstring($email);
   $values[]=USERLEVEL_USER;
   $values[]=0;
   $values[]="";
@@ -44,6 +45,7 @@ function register($user,$pass,$email)
 //
 function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
 {
+	global $db;
   $result="Failed to change password";
   if(checkpassword(getusername($userid),md5($oldpass)))
   {
@@ -51,7 +53,7 @@ function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
    {
       if($newpass===$confirmpass)
       {
-        $sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".setinteger($userid)."'");
+        $sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".$db->setinteger($userid)."'");
         if($sql)
         {
           $result="Password changed successfully";
@@ -80,6 +82,7 @@ function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
 //
 function changeuserpasswordadmin($userid,$newpass,$confirmpass,$sid)
 {
+	global $db;
   $result="Failed to change password";
   if(isadmin($sid))
   {
@@ -87,7 +90,7 @@ function changeuserpasswordadmin($userid,$newpass,$confirmpass,$sid)
    {
       if($newpass===$confirmpass)
       {
-        $sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".setinteger($userid)."'");
+        $sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".$db->setinteger($userid)."'");
         if($sql)
         {
           $result="Password changed successfully";
@@ -117,6 +120,7 @@ function changeuserpasswordadmin($userid,$newpass,$confirmpass,$sid)
 //
 function makepassword($userid)
 {
+	global $db;
   $letters=array(0=>0,1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,
   10=>"a",11=>"b",12=>"c",13=>"d",14=>"e",15=>"f",16=>"g",17=>"h",
   18=>"i",19=>"j",20=>"k",21=>"l",22=>"m",22=>"n",23=>"o",24=>"p",
@@ -138,7 +142,7 @@ function makepassword($userid)
     $newpass.=$letters[rand(0,60)];
   }
 
-  $sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".setinteger($userid)."'");
+  $sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".$db->setinteger($userid)."'");
   return $newpass;
 }
 
@@ -148,7 +152,8 @@ function makepassword($userid)
 //
 function changeuseremail($userid,$email)
 {
-  updatefield(USERS_TABLE,"email",setstring($email),"user_id = '".setinteger($userid)."'");
+	global $db;
+  updatefield(USERS_TABLE,"email",$db->setstring($email),"user_id = '".$db->setinteger($userid)."'");
 }
 
 //
@@ -156,7 +161,8 @@ function changeuseremail($userid,$email)
 //
 function setuserlevel($userid,$userlevel)
 {
-  updatefield(USERS_TABLE,"userlevel",setinteger($userlevel),"user_id = '".setinteger($userid)."'");
+	global $db;
+  updatefield(USERS_TABLE,"userlevel",$db->setinteger($userlevel),"user_id = '".$db->setinteger($userid)."'");
 }
 
 //
@@ -164,7 +170,8 @@ function setuserlevel($userid,$userlevel)
 //
 function getuserlevel($userid)
 {
-  return getdbelement("userlevel", USERS_TABLE, "user_id",setinteger($userid));
+	global $db;
+  return getdbelement("userlevel", USERS_TABLE, "user_id",$db->setinteger($userid));
 }
 
 //
@@ -172,7 +179,8 @@ function getuserlevel($userid)
 //
 function changeiscontact($userid,$iscontact)
 {
-  updatefield(USERS_TABLE,"iscontact",setinteger($iscontact),"user_id = '".setinteger($userid)."'");
+	global $db;
+  updatefield(USERS_TABLE,"iscontact",$db->setinteger($iscontact),"user_id = '".$db->setinteger($userid)."'");
 }
 
 
@@ -181,7 +189,8 @@ function changeiscontact($userid,$iscontact)
 //
 function changecontactfunction($userid,$contactfunction)
 {
-  updatefield(USERS_TABLE,"contactfunction",setstring($contactfunction),"user_id = '".setinteger($userid)."'");
+	global $db;
+  updatefield(USERS_TABLE,"contactfunction",$db->setstring($contactfunction),"user_id = '".$db->setinteger($userid)."'");
 }
 
 //
@@ -189,8 +198,9 @@ function changecontactfunction($userid,$contactfunction)
 //
 function activateuser($username)
 {
-  updatefield(USERS_TABLE,"user_active",1,"username = '".setstring($username)."'");
-  updatefield(USERS_TABLE,"activationkey",'',"username = '".setstring($username)."'");
+	global $db;
+  updatefield(USERS_TABLE,"user_active",1,"username = '".$db->setstring($username)."'");
+  updatefield(USERS_TABLE,"activationkey",'',"username = '".$db->setstring($username)."'");
 }
 
 //
@@ -198,7 +208,8 @@ function activateuser($username)
 //
 function deactivateuser($username)
 {
-  updatefield(USERS_TABLE,"user_active",0,"username = '".setstring($username)."'");
+	global $db;
+  updatefield(USERS_TABLE,"user_active",0,"username = '".$db->setstring($username)."'");
 }
 
 //
@@ -206,7 +217,8 @@ function deactivateuser($username)
 //
 function hasactivationkey($username,$activationkey)
 {
-  return $activationkey === getdbelement("activationkey", USERS_TABLE, "username",setstring($username));
+	global $db;
+  return $activationkey === getdbelement("activationkey", USERS_TABLE, "username",$db->setstring($username));
 }
 
 //
@@ -214,7 +226,8 @@ function hasactivationkey($username,$activationkey)
 //
 function userexists($username)
 {
-  return getdbelement("username", USERS_TABLE, "username", setstring($username));
+	global $db;
+  return getdbelement("username", USERS_TABLE, "username", $db->setstring($username));
 }
 
 //
@@ -222,7 +235,8 @@ function userexists($username)
 //
 function emailexists($email,$user_id=false)
 {
-  $emailuser= getdbelement("user_id", USERS_TABLE, "email", setstring($email));
+	global $db;
+  $emailuser= getdbelement("user_id", USERS_TABLE, "email", $db->setstring($email));
   if($user_id)
   {
     return ($emailuser && ($user_id !== $emailuser));

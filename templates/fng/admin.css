@@ -1,0 +1,376 @@
+/* Admin stylesheet for Fòram na Gàidhlig */
+
+/************ main layout containers ************/
+html body {
+	height:100%;
+}
+
+
+#header {
+	/*border-style: solid;
+	border-width: 0px 0px 1px 0px;*/
+	padding-bottom:0.5em;
+	height:8em;
+}
+
+#navigatorscroll {
+	height:97%;
+	overflow:scroll;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	padding-left:0.5em;
+}
+
+
+#navigator {
+	height:68%;
+}
+
+#navigatorfixed {
+	font-size:80%;
+}
+
+#contentarea {
+	width: 77%;
+	border: 1px solid #002373;
+	height:59% !important;
+	max-height: 65% !important;
+	overflow:auto;
+	margin-top:1em;
+}
+
+#wrapper {
+	height:93%;
+	max-height:93%;
+}
+
+#centerheaderlinks {
+	position:absolute;
+	margin-left:46%;
+}
+
+
+/************ header ************/
+
+.admintoplinks {
+	color:#CC3399;
+	font-weight: bold;
+	border: 1px solid #566FAB;
+	padding: 0.5em;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+	background-color: #A9E2FF;
+	height:1.2em;
+	box-shadow:3px 3px 3px #7585AB;
+}
+.admintoplinks a {color: #002373; }
+
+.admintoppageinfo {
+	font-size:120%;
+	margin:0.25em;
+}
+
+
+/* Site name */
+.maintitle	{
+	font-size: 250%;
+	margin:0.25em;
+}
+
+/************ navigator ************/
+
+
+/* Navigator category for site functions */
+.sitenavcategory {
+	width: 100%;
+	text-align: left;
+	border: #65CCFF;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	padding-top: 0.35em;
+	padding-bottom: 0.35em;
+	margin-top: 1em;
+	font-size: 100%;
+	color : #CC3399;
+}
+
+/* Navigator link for site functions */
+.sitenavlink {
+	font-weight: bold;
+	font-size: 80%;
+	margin-left:1em;
+	margin-bottom:0.25em;
+}
+.sitenavlink a {
+	color: #002373;
+}
+
+/************ content ************/
+
+.inlinemessage {
+	width: 100%;
+	text-align: center;
+	border: #65CCFF;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	padding-top: 0.35em;
+	padding-bottom: 0.35em;
+	margin-top: 1em;
+	font-size: 100%;
+	box-shadow:4px 4px 3px #aaaaaa;
+}
+
+/* For admin messages when saving etc */
+.messagebox {
+	position: absolute;
+	overflow: auto;
+	z-index: 10;
+	background:#ffffff;
+	padding:10px;
+	border:2px solid #65CCFF;
+	text-align:center;
+	opacity: 0;
+}
+
+
+/* Title for content area */
+/* todo kann weg? */
+.contenttitle {
+	font-size: 250%;
+}
+
+.headerpagetitle {
+	margin-top: 1em;
+}
+
+
+/* Subtitle for dividing content area */
+.contentheader {
+	width: 98%;
+	padding:10px;
+	text-align: center;
+	border: #65CCFF;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	margin-top: 1em;
+	font-size: 120%;
+	background-color: #A9E2FF;
+	background-image:url(img/bgfng.gif);
+	background-repeat:no-repeat;
+	color : #CC3399;
+	font-weight: bold;
+}
+
+
+/* Framing for sections of the page when editing contents */
+.contentsection
+{
+	width: 98%;
+	padding:10px;
+	border: #65CCFF;
+	border-style: solid;
+	border-width: 0px 1px 1px 1px;
+	margin-bottom: 2em;
+	margin-top:0px;
+	background-color: #FFFFFF;
+}
+
+.contentoutline {
+	margin-top:2em;
+	box-shadow:4px 4px 3px #aaaaaa;
+}
+
+.contentheadersmall {
+	font-weight:bold;
+	padding-top:1em;
+	font-size:110%;
+}
+
+
+/************ tables ************/
+
+
+table {
+	font-size:100%;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	box-shadow:4px 4px 3px #aaaaaa;
+	border-collapse:collapse;
+	border-spacing:0;
+   	width:70%;
+    margin-left:15%;
+    margin-right:15%;
+    border: #398EB9;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+    
+}
+
+caption {
+	text-align: center;
+	border: #398EB9;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	font-size: 120%;
+	background-color: #69C3F1;
+	color : #002373;
+	font-weight: bold;
+	padding:0.5em;
+}
+th {
+	text-align: center;
+	border: #398EB9;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	font-size: 110%;
+	background-color: #A9E2FF;
+	color : #CC3399;
+	font-weight: bold;
+	padding:0.5em;
+}
+
+td {
+	border: #398EB9;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	padding:0.5em;
+	background-color: #FFFFFF;
+}
+
+
+/************ menuedit ************/
+
+.menueditpage {
+	font-size:140%;
+	padding-bottom:0.5em;
+	padding-top:1em;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	
+}
+
+/************ editor ************/
+
+.editorbuttonrow {
+	margin-top:1em;
+	padding-top:1em;
+	padding-bottom:0.5em;
+	text-align:center;
+	border: #398EB9;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+}
+
+.editorlineleft {
+	border-left: 1px solid #65CCFF;
+	margin:0.5em;
+	padding-left:1em;
+}
+
+.editorcodebuttonrow {
+	margin-left:2em;
+	padding-top:1em;
+	padding-bottom:1em;
+}
+
+.editorcodebutton {
+	padding:0px;
+	margin:0.5em;
+}
+
+
+.editorpreviewarea {
+	padding:1em;
+	margin-bottom:1em;
+}
+
+/************ forms ************/
+
+.submitrow {
+	padding-top:1em;
+	text-align:left;
+}
+
+/* Explanation at bottom of fieldset */
+/* todo this gets ignored. Why? */
+.formexplain {
+	padding-top:0.5em;
+}
+
+.labelleft {
+	width:15em;
+}
+
+label {
+	font-weight:bold;
+}
+
+
+
+/************ old stuff ************/
+
+
+/*
+input.button {
+	font-size: 70%; font-family: Arial, Helvetica, sans-serif;
+}
+*/
+
+td.table {background-color: white;}
+
+
+
+/*
+  Setting additional nice inner borders for the main table cells.
+  The names indicate which sides the border will be on.
+  Don't worry if you don't understand this, just ignore it :-)
+*/
+
+th.thTop {
+	font-weight: bold; border: #65CCFF; border-style: solid; height: 28px;
+}
+
+th.thTop	 { border-width: 1px 0px 0px 0px; }
+
+td.spacer {
+			background-color:white; border: 1px white solid; height: 5px;
+}
+
+th.thTop,thHead	 { border-width: 1px 0px 1px 0px; }
+
+
+
+/* admin */
+
+/************ Login & Profile form ************/
+
+#contentarealogin {
+	border: 1px solid #002373;
+	margin-top:1em;
+	background-color:white;
+	padding:5em;
+}
+
+/************ Image Database ************/
+
+
+.imagecontentarea {
+	border: 1px solid #002373;
+	margin-top:1em;
+	width: 96%;
+	background-color:white;
+	padding-left:2em;
+	padding-right:2em;
+	margin-top:1em;
+	margin-bottom:1em;
+}
+
+#imagelistwrapper {
+	background-color: #A9E2FF;
+	background-image:url(img/bgfng.gif);
+	background-repeat:no-repeat;
+	border: 1px #65CCFF solid;
+	padding: 1em;
+}

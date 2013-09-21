@@ -1,4 +1,1 @@
-<td valign="middle" align="center">
-  {IMAGE}
-  {CAPTION}
-</td>
+<li class="galleryimage" valign="bottom">{IMAGE}</li>

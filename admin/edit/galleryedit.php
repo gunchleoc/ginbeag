@@ -2,29 +2,28 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
+include_once($projectroot."admin/functions/pagecontent/gallerypagesmod.php");
+include_once($projectroot."functions/pagecontent/gallerypages.php");
 include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/functions/pagesmod.php");
-include_once($projectroot."admin/edit/edittext.php");
-include_once($projectroot."includes/includes.php");
-include_once($projectroot."includes/functions.php");
-include_once($projectroot."admin/includes/adminelements.php");
-include_once($projectroot."admin/includes/templates/adminforms.php");
-include_once($projectroot."admin/includes/templates/adminelements.php");
-include_once($projectroot."admin/includes/templates/admingallerypage.php");
+include_once($projectroot."admin/includes/objects/edit/gallerypage.php");
+include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."admin/includes/objects/adminmain.php");
 
-
-$sid=$_GET['sid'];
+if(isset($_GET['sid'])) $sid=$_GET['sid'];
+else $sid="";
 checksession($sid);
 
-$page=$_GET['page'];
+if(isset($_GET['page'])) $page=$_GET['page'];
+else $page=0;
 
-$offset=0;
 if(isset($_GET['offset'])) $offset=$_GET['offset'];
+else $offset=0;
+
+if(isset($_GET['showall']) || isset($_POST['showall'])) $showall=true;
+else $showall=false;
 
 $imagesperpage=6;
-if(isset($_GET['showall']) || isset($_POST['showall']))
-  $showall=true;
-else $showall=false;
 
 $message="";
 
@@ -35,8 +34,8 @@ $message="";
 
 // page content actions
 
-$pagelockmessage = getpagelock($page);
-if(!$pagelockmessage)
+$message = getpagelock($page);
+if(!$message)
 {
   // update gallery
   if(isset($_POST['addgalleryimage']))
@@ -56,32 +55,22 @@ if(!$pagelockmessage)
     {
       $message = 'Image <i>'.$filename.'</i> does not exist.';
     }
-  }
-  elseif(isset($_POST['changegalleryimage']))
-  {
-    $filename=trim($_POST['imagefilename']);
-    if(imageexists($filename))
-    {
-      $message = 'Changed image';
-      changegalleryimage($_POST['galleryitemid'], $filename);
-      updateeditdata($page, $sid);
-      if(!getthumbnail($filename))
-      {
-        $message .= '. Please create a thumbnail for this image!';
-      }
-    }
-    else
-    {
-      $message = 'Image <i>'.$filename.'</i> does not exist.';
-    }
+    $noofimages=countgalleryimages($page);
+    $offset = $noofimages-$noofimages%$imagesperpage;
+    
   }
   elseif(isset($_POST['removegalleryimage']))
   {
     $message = 'Removed image <i>'.getgalleryimage($_POST['galleryitemid']).'</i>';
     if(isset($_POST['removeconfirm']))
     {
-      removegalleryimage($_POST['galleryitemid']);
-      updateeditdata($page, $sid);
+      	removegalleryimage($_POST['galleryitemid']);
+      	updateeditdata($page, $sid);
+     	$noofimages=countgalleryimages($page);
+     	if($offset>=$noofimages)
+     	{
+     		$offset=(floor(($noofimages-1)/$imagesperpage))*$imagesperpage;
+     	}
     }
     else
     {
@@ -90,15 +79,15 @@ if(!$pagelockmessage)
   }
   elseif(isset($_POST['moveimageup']))
   {
-    $message = 'Moving image <i>'.$filename.'</i> up';
+    $message = 'Moved image <i>'.$_POST['imagefilename'].'</i> up';
     movegalleryimage($_POST['galleryitemid'],"up", $_POST['positions']);
-    $offset=(floor(($_GET['pageposition']-$_POST['positions'])/$imagesperpage))*$imagesperpage;
+    $offset=(floor(($_GET['pageposition']-$_POST['positions'])/$imagesperpage))*$imagesperpage-$imagesperpage;
     if($offset<0) $offset=0;
     updateeditdata($page, $sid);
   }
   elseif(isset($_POST['moveimagedown']))
   {
-    $message = 'Moving image <i>'.$filename.'</i> down';
+    $message = 'Moved image <i>'.$_POST['imagefilename'].'</i> down';
     movegalleryimage($_POST['galleryitemid'],"down", $_POST['positions']);
 
     $offset=(floor(($_GET['pageposition']+$_POST['positions'])/$imagesperpage))*$imagesperpage;
@@ -116,12 +105,14 @@ if(!$pagelockmessage)
     updateeditdata($page, $sid);
   }
 
-  $editpage = new EditGallery($page,$message,$offset,$imagesperpage,$showall);
+  $editpage = new EditGallery($page,$offset,$imagesperpage,$showall);
 }
 else
 {
-  $editpage = new DonePage($page,"This page is already being edited",$pagelockmessage,"&action=editcontents&override=on","galleryedit.php","Override lock and edit");
+  $editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
 }
 
-print($editpage->toHTML());
+$content = new AdminMain($page,"editcontents",$message,$editpage);
+print($content->toHTML());
+$db->closedb();
 ?>

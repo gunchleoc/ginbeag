@@ -1,4 +1,7 @@
 <?php
+$projectroot=dirname(__FILE__);
+$projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
+include_once($projectroot."functions/db.php");
 
 // *************************************************************************
 // Conversion functions
@@ -9,10 +12,9 @@
 //
 function striptitletags($title)
 {
+  	//$title=stripslashes($title);
   	$title=stripslashes(utf8_encode($title));
   
-    $title=str_replace('<','&lt;', $title);
-  	$title=str_replace('>','&gt;', $title);
   //$title=preg_replace("/&amp;#(.*);/U","&#\\1;",$title); // restore unicode characters
   //$title=str_replace("&amp;nbsp;","&nbsp;",$title); // restore &nbsp;
   //$title=str_replace('"',"&quot;",$title); // quotes
@@ -28,10 +30,13 @@ function striptitletags($title)
            "\\1",
            "\\1",
            "\\1",
-           " - \\2",
-           " - \\2"
+           "\\2",
+           "\\2"
        );
   $title = preg_replace($patterns,$replacements, $title);
+    $title=str_replace('<','&lt;', $title);
+  	$title=str_replace('>','&gt;', $title);
+
 
   // copyright
   $title = str_replace('((C))','&copy;', $title);
@@ -129,7 +134,11 @@ function input2html($text)
 //
 function text2html($text)
 {
-  $text=stripslashes(utf8_encode($text));
+
+ 
+  $text=utf8_encode($text);
+  $text=stripslashes(stripslashes($text));
+  //print("<br>***testing:".$text);
   // lt and gt
   $text=str_replace('<','&lt;', $text);
   $text=str_replace('>','&gt;', $text);
@@ -182,6 +191,7 @@ function text2html($text)
            "<ol type=\"\\1\">\\2</ol>",
            "<li>\\1"
        );
+       
     $text = preg_replace($patterns,$replacements, $text);
   }
   
@@ -258,6 +268,27 @@ $text = preg_replace("/(http:\/\/(.*)\/)[\s]/", "<a href=\\1>\\1</a> ", $text);
 }
 
 
+// get rid of qurly quotes
+function fixquotes($text)
+{
+
+    // get rid of smart quotes etc. http://www.toao.net/48-replacing-smart-quotes-and-em-dashes-in-mysql
+    // First, replace UTF-8 characters.
+    $text = str_replace(
+ 		array("\xe2\x80\x98", "\xe2\x80\x99", "\xe2\x80\x9c", "\xe2\x80\x9d", "\xe2\x80\x93", "\xe2\x80\x94", "\xe2\x80\xa6"),
+ 		array("'", "'", '"', '"', '-', '--', '...'),
+ 		$text);
+	// Next, replace their Windows-1252 equivalents.
+ 	$text = str_replace(
+ 		array(chr(145), chr(146), chr(147), chr(148), chr(150), chr(151), chr(133)),
+ 		array("'", "'", '"', '"', '-', '--', '...'),
+		$text);
+		
+	return $text;
+
+}
+
+
 //
 // remove backslashes and whitespaces etc.
 //
@@ -300,31 +331,6 @@ function str_containsstr($haystack, $needle)
 // *************************************************************************
 
 
-
-//
-//
-//
-function makecategorylist($categories,$printheader=true)
-{
-  $result="";
-  $categorynames=getcategorynamessorted($categories);
-
-  $catlistoutput=implode(", ",$categorynames);
-  if($printheader) $result.='<p><span class="highlight">Categories: </span>';
-  $result.='<span class="gen">';
-
-  if($catlistoutput)
-  {
-    $result.=title2html($catlistoutput);
-  }
-  elseif($printheader) $result.="None";
-
-  if($printheader) $result.='</p>';
-  $result.='</span>';
-  return $result;
-}
-
-
 //
 //
 //
@@ -364,12 +370,12 @@ function calculateimagedimensions($filename,$factor=1)
 
     if($factor>0)
     {
-      $maxdimension=MAXIMAGEDIMENSION/$factor+1;
+      $maxdimension=MAXIMAGEDIMENSION/$factor;
 
       if($width>$maxdimension)
       {
         $resized=true;
-        $test=ceil($width / $maxdimension);
+        $test=ceil($width / $maxdimension); // add a little more because captioned images are framed
         $width=floor($width/$test);
         $height=floor($height/$test);
       }
@@ -389,14 +395,16 @@ function calculateimagedimensions($filename,$factor=1)
 //
 //
 //
-function getimagelinkpath($filename)
+function getimagelinkpath($filename,$subpath)
 {
   $localpath=getproperty("Local Path");
   $domain=getproperty("Domain Name");
   $imagepath=getproperty("Image Upload Path");
   $result='http://'.$domain.'/';
   if($localpath) $result.=$localpath.'/';
-  return $result.$imagepath.'/'.rawurlencode(basename($filename));
+  $result.=$imagepath.$subpath.'/'.rawurlencode(basename($filename));
+  //print("#".$filename." - ".$subpath."*".$result);
+  return $result;
 }
 
 
@@ -433,17 +441,14 @@ function makelinkparameters($assoc_array, $showSID=false)
 {
   $params="";
   $counter=0;
-//  print_r($assoc_array);
   if(count($assoc_array>0))
   {
     $keys=array_keys($assoc_array);
-//  print_r($keys);
     $values=array_values($assoc_array);
     if(!$showSID && array_key_exists(0, $keys) && ($keys[0]==="sid"))
     {
       $counter++;
     }
-//    print("test".$keys[$counter]."test");
     if(array_key_exists($counter, $keys))
     {
       $params.="?".$keys[$counter]."=".$values[$counter];

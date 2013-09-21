@@ -1,11 +1,29 @@
 <?php
+
 $projectroot=dirname(__FILE__)."/";
+
+include_once($projectroot."functions/db.php");
+
+// anti bot nonsense links
+// ********************************* achtung - bot secure ist server-spezifisch!
+$testpath = "/".getproperty("Local Path");
+if(getproperty("Local Path") == "") $testpath = "";
+
+if(!((isset($_SERVER["ORIG_PATH_TRANSLATED"]) && $_SERVER["ORIG_PATH_TRANSLATED"] == $projectroot."rss.php") ||
+	$_SERVER["PHP_SELF"] == $testpath."/rss.php"))
+{
+//	print("test: ".$_SERVER["PHP_SELF"]);
+	header("HTTP/1.0 404 Not Found");
+	print("HTTP 404: Sorry, but this page does not exist.");
+	exit;
+}
 
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."includes/includes.php");
 include_once($projectroot."functions/pages.php");
+include_once($projectroot."functions/pagecontent/newspages.php");
 
-$page=$HTTP_GET_VARS['page'];
+$page=$_GET['page'];
 $rootlink=getprojectrootlinkpath();
 $sitename=getproperty("Site Name");
 
@@ -31,7 +49,7 @@ if(hasrssfeed($page))
   $newsitemsperpage=getproperty("News Items Per Page");
   if(!($newsitemsperpage>0)) $newsitemsperpage = 5;
   $newsitems=getpublishednewsitems($page,$newsitemsperpage,0);
-
+  
   $contents=getnewsitemcontents($newsitems[0]);
   $pubDate=@date("r", strtotime($contents['date']));
   $lastBuildDate=@date("r", strtotime(geteditdate($page)));
@@ -125,10 +143,15 @@ if(hasrssfeed($page))
 }
 else
 {
-  printheader('No RSS-Feed available for this page!');
-  print('<p class="highlight"><a href="'.$link.'">Return to '.$title.'</a></p>');
-  printfooter();
+//	print("test: ".$_SERVER["PHP_SELF"]);
+	header("HTTP/1.0 404 Not Found");
+	print('HTTP 404: Sorry, but there is no RSS-Feed available for this page.<p class="highlight"><a href="'.$link.'">Return to '.$title.'</a></p>');
+	exit;
 }
+
+
+
+$db->closedb();
 
 ?>
  </channel>

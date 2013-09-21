@@ -1,8 +1,8 @@
 // preload images
-var imgStates= new Array();
+var imgTransition= new Array();
 for(var i=0;i<8;i++) {
-	imgStates[i]= new Image();
-	imgStates[i].src = i+".gif";
+	imgTransition[i]= new Image();
+	imgTransition[i].src = i+"anim.gif";
 }
 
 var imgWon =  new Image();
@@ -15,111 +15,151 @@ $(document).ready(function() {
 
 	/* ******************** init ************************************** */
 
+	//hideButtons();
+	
 	var	guesses = 0;
  	var	max = 7;
- 	var	guessed = " ";
+ 	var	guessed = "&nbsp;";
  	var word="";
  	var toGuess="";
  	var gamestarted=false;
 
 	var winmessage = "";
-
+	
+	hideButtons();
 
 	function startGame() {
 		gamestarted=true;
  		guesses = 0;
- 		guessed = " ";
+ 		guessed = "&nbsp;";
  		resetButtons();
- 		displayHangman();
+ 		displayHangmanTransition();
  		displayToGuess();
  		displayGuessed();
- 		document.getElementById("messages").innerHTML="<span style='font-size:80%'>Geama air tòiseachadh. Feuch am faigh tu a-mach dè am facal a th' ann.</span>";
+ 		
+ 		if(document.getElementById("beag").checked)
+		{
+			hideButton(document.getElementById("-"));
+			hideButton(document.getElementById("asgair"));
+			guess(toGuess.charAt(Math.floor((Math.random()*(toGuess.length-1))+0)));
+		}
+ 		
+ 		document.getElementById("messages").innerHTML="<span style='font-size:80%'><span style='color:green; font-weight:bold;'>Geama air tòiseachadh.</span> Feuch am faigh tu a-mach dè am facal a th' ann.</span>";
 	}
 
-	
-	function displayHangman() {
- 		document.getElementById("status").src=imgStates[guesses].src;
-	}
+	function displayHangmanTransition() {
+ 		document.getElementById("status").src=imgTransition[guesses].src;
+	}	
 	
 	function resetButtons() {
- 		document.getElementById("a").style.borderColor="lightgrey";
- 		document.getElementById("b").style.borderColor="lightgrey";
- 		document.getElementById("c").style.borderColor="lightgrey";
- 		document.getElementById("d").style.borderColor="lightgrey";
- 		document.getElementById("e").style.borderColor="lightgrey";
- 		document.getElementById("f").style.borderColor="lightgrey";
- 		document.getElementById("g").style.borderColor="lightgrey";
- 		document.getElementById("h").style.borderColor="lightgrey";
- 		document.getElementById("i").style.borderColor="lightgrey";
- 		document.getElementById("l").style.borderColor="lightgrey";
- 		document.getElementById("m").style.borderColor="lightgrey";
- 		document.getElementById("n").style.borderColor="lightgrey";
- 		document.getElementById("o").style.borderColor="lightgrey";
- 		document.getElementById("p").style.borderColor="lightgrey";
- 		document.getElementById("r").style.borderColor="lightgrey";
- 		document.getElementById("s").style.borderColor="lightgrey";
- 		document.getElementById("t").style.borderColor="lightgrey";
- 		document.getElementById("u").style.borderColor="lightgrey";
- 		document.getElementById("à").style.borderColor="lightgrey";
- 		document.getElementById("è").style.borderColor="lightgrey";
- 		document.getElementById("ì").style.borderColor="lightgrey";
- 		document.getElementById("ò").style.borderColor="lightgrey";
- 		document.getElementById("ù").style.borderColor="lightgrey";
- 		document.getElementById("-").style.borderColor="lightgrey";
- 		document.getElementById("asgair").style.borderColor="lightgrey";
- 		
- 		document.getElementById("a").style.color="black";
- 		document.getElementById("b").style.color="black";
- 		document.getElementById("c").style.color="black";
- 		document.getElementById("d").style.color="black";
- 		document.getElementById("e").style.color="black";
- 		document.getElementById("f").style.color="black";
- 		document.getElementById("g").style.color="black";
- 		document.getElementById("h").style.color="black";
- 		document.getElementById("i").style.color="black";
- 		document.getElementById("l").style.color="black";
- 		document.getElementById("m").style.color="black";
- 		document.getElementById("n").style.color="black";
- 		document.getElementById("o").style.color="black";
- 		document.getElementById("p").style.color="black";
- 		document.getElementById("r").style.color="black";
- 		document.getElementById("s").style.color="black";
- 		document.getElementById("t").style.color="black";
- 		document.getElementById("u").style.color="black";
- 		document.getElementById("à").style.color="black";
- 		document.getElementById("è").style.color="black";
- 		document.getElementById("ì").style.color="black";
- 		document.getElementById("ò").style.color="black";
- 		document.getElementById("ù").style.color="black";
- 		document.getElementById("asgair").style.color="black";
- 		
- 		document.getElementById("a").style.fontWeight="normal";
- 		document.getElementById("b").style.fontWeight="normal";
- 		document.getElementById("c").style.fontWeight="normal";
- 		document.getElementById("d").style.fontWeight="normal";
- 		document.getElementById("e").style.fontWeight="normal";
- 		document.getElementById("f").style.fontWeight="normal";
- 		document.getElementById("g").style.fontWeight="normal";
- 		document.getElementById("h").style.fontWeight="normal";
- 		document.getElementById("i").style.fontWeight="normal";
- 		document.getElementById("l").style.fontWeight="normal";
- 		document.getElementById("m").style.fontWeight="normal";
- 		document.getElementById("n").style.fontWeight="normal";
- 		document.getElementById("o").style.fontWeight="normal";
- 		document.getElementById("p").style.fontWeight="normal";
- 		document.getElementById("r").style.fontWeight="normal";
- 		document.getElementById("s").style.fontWeight="normal";
- 		document.getElementById("t").style.fontWeight="normal";
- 		document.getElementById("u").style.fontWeight="normal";
- 		document.getElementById("à").style.fontWeight="normal";
- 		document.getElementById("è").style.fontWeight="normal";
- 		document.getElementById("ì").style.fontWeight="normal";
- 		document.getElementById("ò").style.fontWeight="normal";
- 		document.getElementById("ù").style.fontWeight="normal";
- 		document.getElementById("asgair").style.fontWeight="normal";
+
+		var buttons = new Array();
+		
+		buttons[0]=document.getElementById("a");
+		buttons[1]=document.getElementById("b");
+		buttons[2]=document.getElementById("c");
+		buttons[3]=document.getElementById("d");
+		buttons[4]=document.getElementById("e");
+		buttons[5]=document.getElementById("f");
+		buttons[6]=document.getElementById("g");
+		buttons[7]=document.getElementById("h");
+		buttons[8]=document.getElementById("i");
+		buttons[9]=document.getElementById("l");
+		buttons[10]=document.getElementById("m");
+		buttons[11]=document.getElementById("n");
+		buttons[12]=document.getElementById("o");
+		buttons[13]=document.getElementById("p");
+		buttons[14]=document.getElementById("r");
+		buttons[15]=document.getElementById("s");
+		buttons[16]=document.getElementById("t");
+		buttons[17]=document.getElementById("u");
+		buttons[18]=document.getElementById("à");
+		buttons[19]=document.getElementById("è");
+		buttons[20]=document.getElementById("ì");
+		buttons[21]=document.getElementById("ò");
+		buttons[22]=document.getElementById("ù");
+		buttons[23]=document.getElementById("-");
+		buttons[24]=document.getElementById("asgair");
+		
+		for(var i=0;i<=24;i++)
+		{
+			enableButton(buttons[i]);
+			
+		}
+	}
+	
+	function enableButton(button)
+	{
+		button.style.borderStyle="outset";
+		button.style.borderWidth="4px";
+		button.style.borderColor="#003BD6";
+		button.style.fontSize="100%";
+		button.style.width="2em";
+		button.style.height="2em";
+		button.style.color="black";
+		button.style.backgroundColor="#FCFF9C";
+		button.style.fontWeight="normal";
+		button.disabled = false;
 	}
 
+	function disableButton(button)
+	{
+		button.style.borderStyle="groove";
+		button.style.borderColor="Silver";
+		button.disabled = true;
+	}
+
+
+	function hideButtons()
+	{
+		var buttons = new Array();
+		
+		buttons[0]=document.getElementById("a");
+		buttons[1]=document.getElementById("b");
+		buttons[2]=document.getElementById("c");
+		buttons[3]=document.getElementById("d");
+		buttons[4]=document.getElementById("e");
+		buttons[5]=document.getElementById("f");
+		buttons[6]=document.getElementById("g");
+		buttons[7]=document.getElementById("h");
+		buttons[8]=document.getElementById("i");
+		buttons[9]=document.getElementById("l");
+		buttons[10]=document.getElementById("m");
+		buttons[11]=document.getElementById("n");
+		buttons[12]=document.getElementById("o");
+		buttons[13]=document.getElementById("p");
+		buttons[14]=document.getElementById("r");
+		buttons[15]=document.getElementById("s");
+		buttons[16]=document.getElementById("t");
+		buttons[17]=document.getElementById("u");
+		buttons[18]=document.getElementById("à");
+		buttons[19]=document.getElementById("è");
+		buttons[20]=document.getElementById("ì");
+		buttons[21]=document.getElementById("ò");
+		buttons[22]=document.getElementById("ù");
+		buttons[23]=document.getElementById("-");
+		buttons[24]=document.getElementById("asgair");
+			
+		for(var i=0;i<=24;i++)
+		{
+			hideButton(buttons[i]);
+		}
+	}
 	
+	function hideButton(button)
+	{
+		button.style.borderStyle="groove";
+		button.style.borderWidth="4px";
+		button.style.borderColor="white";
+		button.style.fontSize="100%";
+		button.style.width="2em";
+		button.style.height="2em";
+		button.style.color="lightgrey";
+		button.style.backgroundColor="white";
+		button.disabled = true;
+	}
+
+
 
 	function displayToGuess() {
  		var pattern="";
@@ -162,56 +202,55 @@ $(document).ready(function() {
 			//alert(s);
 			if(guessed.indexOf(s) == -1)
  			{
- 				guessed = guessed + " " + s;
+ 				guessed = guessed + s + ' ';
  			}
-
- 			if(badGuess(s))
- 			{
- 				++guesses;
+ 			var messagetemp ="</br>"+document.getElementById("messages").innerHTML;
  			
- 				if(s=="'") 
- 				{
- 					document.getElementById("asgair").style.borderColor="red";
- 					document.getElementById("asgair").style.color="grey";
- 				}
- 				else
- 				{
- 					document.getElementById(s.toLowerCase()).style.borderColor="red";
- 					document.getElementById(s.toLowerCase()).style.color="grey";
- 				}
- 				document.getElementById("status").style.backgroundColor="red";
- 				document.getElementById("messages").innerHTML="<span style='font-size:80%'><span style='color:red; font-weight:bold;'>Iochd!</span> Feuch nach bàsaich thu!</span>";
- 		
+ 			if(s=="'") 
+ 			{
+ 				var buttonElement =document.getElementById("asgair");
  			}
  			else
  			{
-				if(s=="'") 
- 				{
- 					document.getElementById("asgair").style.borderColor="green";
- 					document.getElementById("asgair").style.fontWeight="bold";
- 				}
- 				else
- 				{
- 					document.getElementById(s.toLowerCase()).style.borderColor="green";
- 					document.getElementById(s.toLowerCase()).style.fontWeight="bold";
- 				}
+ 				var buttonElement =document.getElementById(s.toLowerCase());
+ 			}
+ 			
+ 			if(badGuess(s))
+ 			{
+ 				++guesses;
+ 				
+ 				disableButton(buttonElement);
+ 				
+ 				buttonElement.style.backgroundColor="#F7E3E3";
+ 				buttonElement.style.color="grey";
+
+ 				document.getElementById("status").style.backgroundColor="red";
+ 				document.getElementById("messages").innerHTML="<span style='font-size:80%'><span style='color:red; font-weight:bold;'>Iochd!</span> Feuch nach bàsaich thu!</span>"+messagetemp;
+ 				displayHangmanTransition();
+ 			}
+ 			else
+ 			{
+ 				disableButton(buttonElement);
+
+ 				buttonElement.style.backgroundColor="#E3F7EB";
+ 				buttonElement.style.fontWeight="bold";
+
  				document.getElementById("status").style.backgroundColor="green";
- 				document.getElementById("messages").innerHTML="<span style='font-size:80%'><span style='color:green; font-weight:bold;'>Glè mhath!</span> Tha an litir seo san fhacal!</span>";
+ 				document.getElementById("messages").innerHTML="<span style='font-size:80%'><span style='color:green; font-weight:bold;'>Glè mhath!</span> Tha an litir seo san fhacal!</span>"+messagetemp;
  			}
 
- 			displayHangman();
  			displayToGuess();
  			displayGuessed();
  		}
 
  		if(guesses >= max){
  			gamestarted=false;
- 			document.getElementById("messages").innerHTML="<span style='color: red; font-weight:bold;'>Bhàsaich thu. 'S e '"+word+"' a bha a dhìth.</span>"+ winmessage;
+ 			document.getElementById("messages").innerHTML="<span style='color: red; font-weight:bold;'>Bhàsaich thu. 'S e '"+word+"' a bha a dhìth.</span><br />"+ winmessage;
  		}
  		if(winner()) {
  			gamestarted=false;
  			document.getElementById("status").src=imgWon.src;
- 			document.getElementById("messages").innerHTML="<span style='color: red; font-weight:bold;'>Bhuannaich thu!</span><br />&nbsp;"+ winmessage;
+ 			document.getElementById("messages").innerHTML="<span style='color: red; font-weight:bold;'>Bhuannaich thu!</span><br />"+ winmessage;
 
  		}
 	}	
@@ -219,7 +258,7 @@ $(document).ready(function() {
 
 	/* *************** listeners ******************************* */
    
-   	// Get word form database
+   	// Get word from database
    	$("#restart").click(function(e){
     	
     	document.getElementById("status").style.backgroundColor="sienna";
@@ -252,12 +291,27 @@ $(document).ready(function() {
 				startGame();      
        		
     	   	});
-       	}
-       	else
+       	} // àiteachan
+       	else if($("#iomlan").checked)
        	{
        		$.post("getword.php?mode=words", {list: $(this).html()}, function(xml) {
      	
        			word=$(xml).find('facal').text();
+       			
+ 				toGuess = word.toUpperCase();
+       			 			
+ 				winmessage = "<span style='font-size:80%'><br /><b>Facal:</b> "+ word+ "<br />&nbsp;<br /><a href='http://www.faclair.com/?txtSearch="+ encodeURI(word)+"'>Lorg '"+word+"' san Fhaclair Bheag</a></span>";
+ 				
+ 				
+				startGame();      
+       		
+    	   	});
+       	} // iomlan
+      	else
+       	{
+       		$.post("getword.php?mode=wordssmall", {list: $(this).html()}, function(xml) {
+     	
+       			word=$(xml).find('faclanbeag').text();
        			
  				toGuess = word.toUpperCase();
  			
@@ -267,7 +321,7 @@ $(document).ready(function() {
 				startGame();      
        		
     	   	});
-       	}
+       	} // liosta beag
        	
 	});       	
     

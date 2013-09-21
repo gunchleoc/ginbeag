@@ -2,7 +2,7 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
 
-include_once($projectroot."includes/templates/page.php");
+include_once($projectroot."includes/objects/page.php");
 ?>
    
 
@@ -14,9 +14,7 @@ include_once($projectroot."includes/templates/page.php");
 	<title>Fòram na Gàidhlig - Longan-cogaidh</title>
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
 	<link href="longan.css"	rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/page.css" type="text/css">
-
-
+	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/templates/fng/main.css" type="text/css">
 </head>
 <body>
  
@@ -78,6 +76,8 @@ if(getproperty('Display Banners'))
   $banners=new BannerList();
   print($banners->toHTML());
 }
+$db->closedb();
+flush();
 
 ?>
 <td>&nbsp;</td>
@@ -172,6 +172,7 @@ var preloaded = [];
 function imagePreload() {
 	var i,ids = [1,2,3,4,5,6,7,8,9,10,100,101,102,103,201,202,203,204,205,206];
 	window.status = "A' luchdadh dhealbhan...fuirich diog";
+	var imgCuan = new Image, name="cuan.png";
 	for (i=0;i<ids.length;++i) {
 		var img = new Image, name = "batt"+ids[i]+".gif";
 		img.src = name;
@@ -453,9 +454,10 @@ function getDateTimeString() {
 /* Start the game!
 */
 imagePreload();
+
 player = setupPlayer(false);
 computer = setupPlayer(true);
-
+document.getElementById("cuan").style.backgroundimage=imgCuan.src;
 //  End -->
 </script>
 
@@ -468,7 +470,7 @@ computer = setupPlayer(true);
 <div id="longan" class="gen status"></div>
 <input type="button" id="resolve" name="resolve" value="Fuasgail an geama" onclick="javascript:endGame()" style="font-size: 70%;">
 			</td>
-			<td align="center" class="cuan" width="638" height="479">
+			<td id="cuan" align="center" class="cuan" width="638" height="479">
 				<table cellpadding='5' border='0'>
 					<tr>
 						<td align=center>

@@ -8,15 +8,21 @@ include($projectroot."admin/includes/legaladminvars.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/functions/usersmod.php");
 include_once($projectroot."functions/email.php");
-include_once($projectroot."admin/includes/templates/adminprofile.php");
+include_once($projectroot."admin/includes/objects/profile.php");
 
 
 // all HTTP-vars used in this file
-$user=trim($_POST['user']);
-if(!$user) $user="";
-$pass=trim($_POST['pass']);
-$passconf=trim($_POST['passconfirm']);
-$email=trim($_POST['email']);
+$user="";
+if(isset($_POST['user'])) $user=trim($_POST['user']);
+
+$pass="";
+if(isset($_POST['pass'])) $pass=trim($_POST['pass']);
+
+$passconf="";
+if(isset($_POST['passconfirm'])) $passconf=trim($_POST['passconfirm']);
+
+$email="";
+if(isset($_POST['email'])) $email=trim($_POST['email']);
 
 $message="";
 $showform=true;
@@ -50,7 +56,7 @@ if($user && $pass===$passconf)
     {
       $message='Registering successful.';
       $message='<br />You will be able to log in as soon as the admin activates your account.';
-      sendactivationemail($user,$register,"en");
+      sendactivationemail($user,$register);
       $showform=false;
     }
      else
@@ -66,18 +72,19 @@ elseif($user && $pass!=$passconf)
 
 $content = new RegisterPage($user, $email,$message,$showform);
 print($content->toHTML());
+$db->closedb();
 
 //
 //
 //
-function sendactivationemail($username,$activationkey,$language)
+function sendactivationemail($username,$activationkey)
 {
   $recipient=getproperty("Admin Email Address");
   $message="A new user has registered: ".$username;
   $message.="\r\n\r\n".getprojectrootlinkpath().'admin/activate.php?user='.urlencode($username)."&key=".$activationkey;
 
   $subject="New web page user account";
-  sendplainemail($subject,$message,$recipient,$language);
+  sendplainemail($subject,$message,$recipient);
 
 }
 ?>

@@ -9,11 +9,12 @@ include_once($projectroot."language/languages.php");
 $emailvariables=getmultiplefields(ANTISPAM_TABLE, "property_name", "1",
    array(0 => 'property_name', 1 => 'property_value'));
 
+
 // check data
 // returns error message
 // returns "" on success
 //
-function emailerror($addy,$subject,$messagetext,$sendcopy,$language)
+function emailerror($addy,$subject,$messagetext,$sendcopy)
 {
   global $_POST, $emailvariables;
   $result="";
@@ -89,12 +90,12 @@ function emailerror($addy,$subject,$messagetext,$sendcopy,$language)
 //
 //
 //
-function printemailinfo($addy,$subject,$messagetext,$sendcopy,$language)
+function printemailinfo($addy,$subject,$messagetext,$sendcopy)
 {
-  print('<p class="pagetitle">'.getlang("email_enteredmessage").':</p><p><hr><p><div class="gen">');
+  print('<p class="pagetitle">'.getlang("email_enteredmessage").':</p><p><hr><p><div>');
 
   // display e-mail
-  print("<p><b>".getlang>("email_email")."</b> ".$addy."<br>");
+  print("<p><b>".getlang("email_email")."</b> ".$addy."<br>");
   // display subject
   $subject=stripslashes($subject);
   print("<p><b>".getlang("email_subject").":</b> ".$subject."<p>");
@@ -119,8 +120,11 @@ function printemailinfo($addy,$subject,$messagetext,$sendcopy,$language)
 //
 //
 //
-function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$language,$isguestbookentry=false)
+function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbookentry=false)
 {
+	$subject= utf8_decode($subject);
+	$messagetext= utf8_decode($messagetext);
+	
   if($isguestbookentry)
   {
     $message_intro=getlang("email_yourguestbookentry").' @ '.getproperty("Site Name")."\n";
@@ -146,14 +150,14 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$language,$i
   }
   else
   {
-    @mail($recipient,sprintf(getlang("email_contactsubject"),getproperty("Site Name")).$subject,$message_intro.$messagetext,"From: ".$addy)
+    @mail($recipient,sprintf(utf8_decode(getlang("email_contactsubject")),getproperty("Site Name")).$subject,$message_intro.$messagetext,"From: ".$addy)
       or die('<p class="highlight"><b>'.getlang("email_errorsending").'</b></p>');
     if($sendcopy)
     {
        @mail($addy,getlang("email_yourmessage").getproperty("Site Name")." - ".$subject,getlang("email_thisemailwassent").":\n\n".$message_intro.$messagetext,"From: ".$addy)
         or die('<p class="highlight"><b>'.getlang("email_errorsending").'</b></p>');
     }
-    print('<p class="gen">'.getlang("email_youremailsent").".<p>");
+    print('<p>'.getlang("email_youremailsent").".<p>");
   }
   unset($_POST['addy']);
 }
@@ -161,15 +165,18 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$language,$i
 //
 //
 //
-function sendplainemail($subject,$message,$recipient,$language)
+function sendplainemail($subject,$message,$recipient)
 {
-  $adminemail=getproperty("Admin Email Address");
+	$subject= utf8_decode($subject);
+	$message= utf8_decode($message);
+  
+  	$adminemail=getproperty("Admin Email Address");
 
-  $error='<p class="highlight">'.getlang("email_errorsending").sprintf(getlang("email_contactwebmaster"),'<a href="../contact.php?user=webmaster">','</a>').'</p>';
+  	$error='<p class="highlight">'.getlang("email_errorsending").sprintf(getlang("email_contactwebmaster"),'<a href="../contact.php?user=webmaster">','</a>').'</p>';
 
-  @mail($recipient,$subject,$message,"From: ".$adminemail)
-      or die($error);
-  print('<p class="gen">'.getlang("email_emailsent").'</p>');
+  	@mail($recipient,$subject,$message,"From: ".$adminemail)
+      	or die($error);
+  	print('<p>'.getlang("email_emailsent").'</p>');
 }
 
 //
@@ -180,5 +187,21 @@ function errormessage($key)
   return'<p class="highlight">'.getlang($key)."</p>";
 }
 
+//
+//
+//
+function makemathcaptcha()
+{
+    $result=array();
+
+    list($usec, $sec) = explode(' ', microtime());
+    $number1= ((float) $sec + ((float) $usec * 100000)) % 20;
+    list($usec, $sec) = explode(' ', microtime());
+    $number2= ((float) $sec + ((float) $usec * 100000)) % 10;
+
+    $result["question"] = ($number1+1)."&nbsp;+ ".($number2+1)." = ";
+    $result["answer"] = $number1+$number2+2;
+    return $result;
+}
 
 ?>

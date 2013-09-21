@@ -1,9 +1,9 @@
-<project name="minicms" default="copy" basedir=".">
+<project name="ginbeag" default="copy" basedir=".">
     <description>
-        Copy files
+        Copy files with ant
     </description>
   <!-- set global properties for this build -->
-  <property name="build"  location="..\minicmsexport"/>
+  <property name="build"  location="..\ginbeag_export"/>
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -17,15 +17,17 @@
       <fileset dir="." casesensitive="no">
         <include name="**/*.php"/>
         <include name="**/*.tpl"/>
-        <include name="templates/printview*"/>
         <include name="**/*.html"/>
-        <exclude name="includes/constants.php"/>
+        <include name="**/*.js"/>
+        <include name="**/*.css"/>
+        <include name="templates/**/*.png"/>
+        <include name="templates/**/*.gif"/>
         <exclude name="**/*config*"/>
-        <exclude name="convertnews.php"/>
-        <exclude name="update.php"/>
-        <exclude name="testdb.php"/>
-        <exclude name="functions/fileread.php"/>
         <exclude name="images/*"/>
+        <exclude name="webpageimages/*"/>
+        <exclude name="Halde/*"/>
+        <exclude name="formmailer/*"/>
+        <exclude name="stuth/*"/>
       </fileset>
     </copy>
   </target>

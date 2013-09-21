@@ -1,0 +1,197 @@
+/* Stylesheet for Middle-earth Journeys */
+
+/* For admin messages when saving etc */
+.messagebox {
+	position: absolute;
+	top: 160px; left: 0;
+	overflow: auto;
+	z-index: 10;
+	font-size : 75%;
+	background:#0D2A43;
+	padding:10px;
+	border:2px solid #89CAC8;
+	text-align:center;
+	width:100%;
+	opacity: 0;
+}
+
+
+/* General page style. The scroll bar colours only visible in IE5.5+ */
+body {
+	background-color: #01172E; text=#FFFFFF;
+}
+
+/* General font families for common tags */
+font,th,td,p,div,span { font-family: Verdana, Arial, Helvetica, sans-serif; }
+
+td.table {background-color: #01172E; color: white;}
+
+a:link,a:active,a:visited { color : #DECB97;  text-decoration: none;}
+a:hover		{ text-decoration: underline; color : #DEA479; }
+hr	{ height: 1px; color: #89CAC8 border: solid #89CAC8 0px; border-top-width: 1px;}
+
+li {color: white ;}
+
+/* This is the border line & background colour round the entire page */
+.bodyline	{ background-color: #0D2A43; border: 1px #89CAC8 solid; }
+
+td.lineleft {border-left: 1px solid #89CAC8;}
+
+/* Header cells - the blue and silver gradient backgrounds */
+th	{
+	color: #DEA479; font-size: 70%; font-weight : bold;
+	background-color: #0D2A43; height: 25px;
+	background-image: url(img/navigator.gif);
+}
+
+/*
+  Setting additional nice inner borders for the main table cells.
+  The names indicate which sides the border will be on.
+  Don't worry if you don't understand this, just ignore it :-)
+*/
+
+th.thHead,th.thTop {
+	font-weight: bold; border: #C2C2C2; border-style: solid; height: 28px;
+}
+
+th.thHead { font-size: 75%; border-width: 1px 1px 1px 1px; }
+th.thTop	 { border-width: 1px 0px 0px 0px; }
+
+td.spacer {
+			background-color:#001429 border: 1px #89CAC8 solid; height: 5px;
+}
+
+th.thTop,thHead	 { border-width: 0px 0px 0px 0px; }
+a.thTop 	{text-decoration: none;}
+a.thTop:hover{text-decoration: underline; color : #DEA479; }
+a.thTop:active {text-decoration:none; font-weight:bold; color: #DEA479;}
+
+
+
+
+/* The largest text used in the index page title and toptic title etc. */
+.maintitle	{
+	font-weight: bold; font-size: 250%; font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none; line-height : 160%; color : #DECB97;
+}
+
+/* The text used for indiidual page's titles */
+.pagetitle	{
+	font-weight: bold; font-size: 150%; font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none; line-height : 160%; color : #DECB97;
+}
+
+/* Articles */
+.articlesource	{font-size : 75%; color : #DECB97; }
+.articleauthor	{font-size : 75%; font-weight: bold;	font-style: italic;  color : #DECB97;}
+.articlelocation	{font-size : 75%;  color : #DECB97;}
+.articledate	{font-size : 75%; font-style: italic; color : #DECB97;}
+.articlesynopsis	{font-size : 75%; font-weight: bold; color: white;}
+
+/* The text used for individual page's titles */
+.sectiontitle	{
+	font-size: 120%;  font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none; line-height : 160%; color : #DECB97;
+}
+
+/* The text used for individual page's titles */
+.sectionsubtitle	{
+	font-size: 110%;  font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none; line-height : 160%; color : #DECB97;
+}
+
+/* Highlighted text */
+.highlight	{font-size : 75%; font-weight: bold; color : #DEA479; }
+a.highlight 	{ text-decoration: none; color : #DEA479; }
+a.highlight:hover{ text-decoration: underline; color : #DEA479; }
+a.highlight:active { text-decoration:none; font-weight:bold; color:#DEA479; }
+
+/* Image caption text */
+.caption	{ font-weight: bold; font-size: 65%; color : #DECB97;}
+a.caption 	{ text-decoration: none; color : #DEA479; }
+a.caption:hover{ text-decoration: underline; color : #DEA479; }
+a.caption:active { text-decoration:none; font-weight:bold; color:#DEA479; }
+
+
+/* The text used for individual page's titles */
+.navtitle	{ font-weight: bold; font-size: 110%; color : #DECB97;}
+a.navtitle 	{ text-decoration: none; color : #DECB97; }
+a.navtitle:hover{ text-decoration: underline; color : #DEA479; }
+a.navtitle:active { text-decoration:none; font-weight:bold; color:#DEA479; }
+
+.navhighlight	{ font-size: 110%; color : #DEA479;}
+
+
+/* Linklist link */
+.linktitle	{ font-size: 110%; color : #DECB97;}
+a.linktitle 	{ text-decoration: none; color : #DECB97; }
+a.linktitle:hover{ text-decoration: underline; color : #DEA479; }
+a.linktitle:active { text-decoration:none; font-weight:bold; color:#DEA479; }
+
+/* General text */
+.gen, div.gen, span.gen  { font-size : 75%; }
+.medtext, div.medtext, span.medtext { font-size : 70%; }
+.smalltext, div.smalltext, span.smalltext { font-size : 65%; }
+.gen,.medtext,.smalltext { color : #FFFFFF; }
+td.gen, td.medtext, td.smalltext {background-color: #01172E; }
+a.gen,a.medtext,a.smalltext { color: #DECB97; text-decoration: none; }
+a.gen:hover,a.medtext:hover,a.smalltext:hover	{ color: #DEA479; text-decoration: underline; }
+
+/* Quoted text */
+.quote, p.quote { font-size : 75%; font-style: italic; color : #FFFFFF; }
+td.quote {background-color: #002443; }
+a.quote { color: #89CAC8; text-decoration: none; }
+a.quote:hover	{ color: yellow; text-decoration: underline; }
+
+
+/* The register, login, search etc links at the top of the page */
+.mainmenu		{ font-size : 70%; color : #FFFFFF }
+a.mainmenu		{ text-decoration: none; color : #DECB97;  }
+a.mainmenu:hover{ text-decoration: underline; color : #DEA479; }
+
+/* Navigator link for the lower levels */
+.navlink		{ font-weight: bold; font-size: 75%; color : #DECB97; }
+a.navlink 	{ text-decoration: none; color : #DECB97; }
+a.navlink:hover{ text-decoration: underline; color : #DEA479; }
+a.navlink:active { text-decoration:none; font-weight:bold; color:#DEA479; }
+
+/* Used for the navigation text, (Page 1,2,3 etc) and the navigation bar when in a forum */
+.nav			{ font-weight: bold; font-size: 70%; color : #FFFFFF;}
+a.nav			{ text-decoration: none; color : #DECB97; }
+a.nav:hover		{ text-decoration: underline; }
+
+/* Copyright and bottom info */
+.footer		{ font-size: 65%; font-family: Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; letter-spacing: -1px;}
+a.footer		{ color: #FFFFFF; text-decoration: none;}
+a.footer:hover { color: #FFFFFF; text-decoration: underline;}
+
+/* Form elements */
+input,textarea, select {
+	color : #FFFFFF;
+	font: normal 70% Verdana, Arial, Helvetica, sans-serif;
+	border-color : #FFFFFF;
+	background-color : #002443;
+}
+
+input { text-indent : 2px; }
+
+
+/* None-bold submit button */
+input[type=button] {
+	background-color : #002443;
+	font-weight : normal;
+}
+
+/* The buttons used for bbCode styling in message post */
+input.button {
+	background-color : #002443;
+	color : #FFFFFF;
+	font-size: 70%; font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* The main submit button option */
+input.mainoption {
+	background-color : #002443;
+	font-weight : bold;
+}
+

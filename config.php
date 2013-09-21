@@ -6,4 +6,6 @@ $dbpasswd = 'bratzbert';
 
 $table_prefix = 'gaidhlig_';
 
+$defaultlanguage ='chartest';
+
 ?>

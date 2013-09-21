@@ -1,0 +1,161 @@
+/* Stylesheet for YABF */
+
+/* For admin messages when saving etc */
+.messagebox {
+	position: absolute;
+	top: 160px; left: 0;
+	overflow: auto;
+	z-index: 10;
+	font-size : 75%;
+	background:#F8F2D9;
+	padding:10px;
+	border:2px solid #A7BCF3;
+	text-align:center;
+	width:100%;
+	opacity: 0;
+}
+
+
+/* General page style. The scroll bar colours only visible in IE5.5+ */
+body {
+	background-color: #CCCCCC; text=#000000;
+}
+
+/* General font families for common tags */
+font,th,td,p,div,span { font-family: Verdana, Arial, Helvetica, sans-serif; }
+td.table {background-color: #F8F2D9;}
+
+/* This is the border line & background colour round the entire page */
+.bodyline	{ background-color:#CCCCCC; border: 1px #A7BCF3 solid; }
+
+td.lineleft {border-left: 1px solid #A7BCF3;}
+
+a {color : #3067F2;  text-decoration: none;}
+a:hover		{ text-decoration: underline; color : #AA8CA6; }
+
+/* Header cells - the blue and silver gradient backgrounds */
+th	{
+	font-size: 70%; font-weight : bold;
+	height: 25px;
+}
+
+/*
+  Setting additional nice inner borders for the main table cells.
+  The names indicate which sides the border will be on.
+  Don't worry if you don't understand this, just ignore it :-)
+*/
+
+th.thHead,th.thTop {
+	font-weight: bold; border: #A7BCF3; border-style: solid; height: 28px;
+}
+
+th.thHead { font-size: 75%; border-width: 1px 1px 1px 1px;
+    background-color: #F8F2D9; }
+th.thTop	 { border-width: 1px 0px 0px 0px; }
+
+td.spacer {
+			background-color:#F8F2D9; border: 1px #F8F2D9 solid; height: 5px;
+}
+
+th.thTop,thHead	 { border-width: 1px 0px 1px 0px; }
+
+
+/* The largest text used in the index page title and toptic title etc. */
+.maintitle	{
+	font-weight: bold; font-size: 250%; font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none; line-height : 160%; color : #000000;
+}
+
+/* The text used for indiidual page's titles */
+.pagetitle	{
+	font-weight: bold; font-size: 150%; font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none; line-height : 160%; color : #D75876;
+}
+
+/* Articles */
+.articlesource	{font-size : 75%; color : #AA8CA6; }
+.articleauthor	{font-size : 75%; font-weight: bold;	font-style: italic;  color : #AA8CA6;}
+.articlelocation	{font-size : 75%; color : #AA8CA6; }
+.articledate	{font-size : 75%; font-style: italic; color : #AA8CA6;}
+.articlesynopsis	{ font-size : 75%; font-weight: bold;}
+
+/* The text used for individual page's titles */
+.sectiontitle	{
+	font-size: 120%;  font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none; line-height : 160%; color : #D75876;
+}
+
+/* The text used for individual page's titles */
+.sectionsubtitle	{
+	font-size: 110%;  font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none; line-height : 160%; color : #D75876;
+}
+
+/* Highlighted text */
+.highlight	{font-size : 75%; font-weight: bold; color : #D75876; }
+a.highlight 	{  text-decoration: none; color : #AA8CA6; }
+a.highlight:hover{ text-decoration: underline; color : #AA8CA6; }
+a.highlight:active { text-decoration:none; font-weight:bold; color:#E9ACB5; }
+
+
+/* Image caption text */
+.caption	{ font-weight: bold; font-size: 65%; color: #AA8CA6;}
+
+
+/* The text used for individual page's titles */
+.navtitle	{ font-weight: bold; font-size: 110%;}
+.navhighlight	{ font-size: 110%; color : #D75876;}
+
+
+/* Linklist link */
+.linktitle	{ font-size: 110%;}
+
+/* General text */
+.gen, div.gen, span.gen { font-size : 75%; }
+.medtext, div.medtext, span.medtext { font-size : 70%; }
+.smalltext, div.smalltext, span.smalltext { font-size : 65%; }
+td.gen, td.medtext, td.smalltext {background-color: #F8F2D9; }
+
+a.gen, a.medtext, a.smalltext {color: #3067F2;}
+
+
+/* Quoted text */
+.quote, p.quote { font-size : 75%; font-style: italic;}
+td.quote {background-color: #F2F1ED; }
+
+
+/* The register, login, search etc links at the top of the page */
+.mainmenu		{ font-size : 70%;}
+
+/* Navigator link for the lower levels */
+.navlink		{ font-weight: bold; font-size: 75%;}
+
+/* Used for the navigation text, (Page 1,2,3 etc) and the navigation bar when in a forum */
+.nav			{ font-weight: bold; font-size: 70%;}
+
+/* Copyright and bottom info */
+.footer		{ font-size: 65%; font-family: Verdana, Arial, Helvetica, sans-serif; letter-spacing: -1px;}
+
+/* Form elements */
+input,textarea, select {
+	font: normal 70% Verdana, Arial, Helvetica, sans-serif;
+}
+
+input { text-indent : 2px; }
+
+
+/* None-bold submit button */
+input[type=button] {
+	font-weight : normal;
+}
+
+/* The buttons used for bbCode styling in message post */
+input.button {
+	font-size: 70%; font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* The main submit button option */
+input.mainoption {
+	font-weight : bold;
+}
+

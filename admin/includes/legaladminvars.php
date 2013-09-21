@@ -1,9 +1,5 @@
 <?php
 
-// makelinkparameters($_GET,true);
-// todo site
-// todo separate list for admin?
-
 $LEGALVARS = array();
 $LEGALVARS["action"]=1;
 $LEGALVARS["articlepage"]=1;
@@ -21,15 +17,19 @@ $LEGALVARS["jumppage"]=1;
 $LEGALVARS["key"]=1;
 $LEGALVARS["link"]=1;
 $LEGALVARS["logout"]=1;
+$LEGALVARS["movetop"]=1;
+$LEGALVARS["moveup"]=1;
+$LEGALVARS["movedown"]=1;
+$LEGALVARS["movebottom"]=1;
 $LEGALVARS["newsitem"]=1;
 $LEGALVARS["newsitemsection"]=1;
 $LEGALVARS["noofimages"]=1;
 $LEGALVARS["offset"]=1;
-$LEGALVARS["override"]=1;
 $LEGALVARS["page"]=1;
 $LEGALVARS["pageposition"]=1;
 $LEGALVARS["params"]=1;
 $LEGALVARS["permission"]=1;
+$LEGALVARS["positions"]=1;
 $LEGALVARS["referrer"]=1;
 $LEGALVARS["search"]=1;
 $LEGALVARS["selectedcat"]=1;

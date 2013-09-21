@@ -2,7 +2,7 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
 
-include_once($projectroot."includes/templates/page.php");
+include_once($projectroot."includes/objects/page.php");
 ?>
    
 
@@ -12,15 +12,14 @@ include_once($projectroot."includes/templates/page.php");
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
 	<title>Fòram na Gàidhlig - Tetris</title>
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
-	<link href="page.css"	rel="stylesheet" type="text/css">
-	<link href="tetris.css"	rel="stylesheet" type="text/css">
+		<link href="tetris.css"	rel="stylesheet" type="text/css">
 	<script	type="text/javascript" src="jquery.js"></script>
 	<script	type="text/javascript" src="tetris.js"></script>
 	<style type="text/css">
 	html, body { height: 100%; }
 	#tetris	{ margin: 0	auto; }
 	</style>
-	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/page.css" type="text/css">
+	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/templates/fng/main.css" type="text/css">
 </head>
 <body>
  
@@ -83,6 +82,7 @@ print($navigator->toHTML());
   print($banners->toHTML());
 }
 */
+$db->closedb();
 ?>
 <td>&nbsp;</td>
 
@@ -99,7 +99,7 @@ print($navigator->toHTML());
 
 	<div id="tetris">
 		<div class="left">
-			<h1><a href="http://www.gosu.pl/tetris/">Js	Tetris 1.19</a></h1>
+			<h1><a href="http://code.google.com/p/js-tetris/">Js	Tetris 1.19</a></h1>
 			<div class="menu">
 				<div><a href="javascript:void(0)" id="tetris-menu-start">Geama ùr</a></div>
 				<div id="tetris-pause">
@@ -202,6 +202,7 @@ print($navigator->toHTML());
 
 </td></tr></table>
 <p class="gen">Cleachdaidh an geama seo JavaScript agus briosgaidean.</p>
+<p class="gen">Ma tha sgrìn beag agad, <a href="index.html">falaich na bannan-cinn is clàran-taice</a>.</p>
 <!-- End game HTML -->
     </td>
   </tr>

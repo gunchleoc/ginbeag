@@ -2,7 +2,7 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
 
-include_once($projectroot."includes/templates/page.php");
+include_once($projectroot."includes/objects/page.php");
 ?>
    
 
@@ -12,16 +12,11 @@ include_once($projectroot."includes/templates/page.php");
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
 	<title>Fòram na Gàidhlig - Geama matamataigs</title>
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
-	<link href="page.css"	rel="stylesheet" type="text/css">
-	<link href="tetris.css"	rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/page.css" type="text/css">
-
+	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/templates/fng/main.css" type="text/css">
 	<script type="text/javascript" src="jquery.js"></script>     
 
 
 <SCRIPT LANGUAGE="JavaScript">
-
-
  
 function disableEnterKey(e)
  {
@@ -235,7 +230,7 @@ function answerit()
 			{
 				if (theiranswer==rightanswer)
 				{
-					alert('Ceart');
+					alert("S math a rinn thu!");
 					theirpoints++;
 					document.getElementById("points").innerHTML=theirpoints;
 				}
@@ -384,6 +379,7 @@ if(getproperty('Display Banners'))
   $banners=new BannerList();
   print($banners->toHTML());
 }
+$db->closedb();
 
 ?>
 <td>&nbsp;</td>

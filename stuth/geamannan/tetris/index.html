@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+	<title>Fòram na Gàidhlig - Tetris</title>
+	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
+	<link href="tetris.css"	rel="stylesheet" type="text/css">
+	<script	type="text/javascript" src="jquery.js"></script>
+	<script	type="text/javascript" src="tetris.js"></script>
+	<style type="text/css">
+	html, body { height: 100%; }
+	#tetris	{ margin: 0	auto; }
+	</style>
+	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/templates/fng/main.css" type="text/css">
+</head>
+<body>
+ 
+<table align="center" border="0" cellpadding="10" cellspacing="0" width="100%">
+  <tr>
+    <td class="bodyline">
+    <table border="0" width="100%" cellpadding="0">
+<tr>
+
+<td valign="top" align="center" width="*" class="table">
+<table border="0" cellpadding="20" cellspacing="1" width="100%">
+  <tr>
+    <td align="left">
+
+
+<!--  Game HTML starts here  -->  
+
+<table style="width: 100%; height: 100%;" cellspacing="0" cellpadding="0"><tr><td style="vertical-align: middle;">
+
+	<div id="tetris">
+		<div class="left">
+			<h1><a href="http://code.google.com/p/js-tetris/">Js	Tetris 1.19</a></h1>
+			<div class="menu">
+				<div><a href="javascript:void(0)" id="tetris-menu-start">Geama ùr</a></div>
+				<div id="tetris-pause">
+					<a href="javascript:void(0)" id="tetris-menu-pause">Gabh anail</a>
+				</div>
+				<div style="display: none;" id="tetris-resume">
+					<a href="javascript:void(0)" id="tetris-menu-resume">Lean air</a>
+				</div>
+				<div><a href="javascript:void(0)" id="tetris-menu-highscores">Sgòran àrda</a></div>
+				<div><a href="javascript:void(0)" id="tetris-menu-help">Mu dheidhinn</a></div>
+			</div>
+			<div id="tetris-nextpuzzle"></div>
+			<div id="tetris-gameover">Crìoch a’ gheama</div>
+			<div id="tetris-keys">
+				<div class="h5">Meur-chlàr:</div>
+				<table cellspacing="0" cellpadding="0">
+				<tr>
+					<td>Cuairtich:</td>
+					<td></td>
+					<td><img src="key-up.gif" width="14" height="14" alt=""></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Gluais:</td>
+					<td><img src="key-left.gif" width="14" height="14" alt=""></td>
+					<td><img src="key-down.gif" width="14" height="14" alt=""></td>
+					<td><img src="key-right.gif" width="14" height="14" alt=""></td>
+				</tr>
+				<tr>
+					<td>Tuit:</td>
+					<td colspan="3">
+						<img src="key-space.gif" width="44" height="13" alt="">
+					</td>
+				</tr>
+				</table>
+			</div>
+			<div class="stats">
+				<div class="h5">Staitistig:</div>
+				<table cellspacing="0" cellpadding="0">
+				<tr>
+					<td	class="level">Rang:</td>
+					<td><span id="tetris-stats-level">1</span></td>
+				</tr>
+				<tr>
+					<td	class="score">Sgòr:</td>
+					<td><span id="tetris-stats-score">0</span></td>
+				</tr>
+				<tr>
+					<td	class="lines">Loidhnichean:</td>
+					<td><span id="tetris-stats-lines">0</span></td>
+				</tr>
+				<tr>
+					<td	class="apm">Gnìomh/mion:</td>
+					<td><span id="tetris-stats-apm">0</span></td>
+				</tr>
+				<tr>
+					<td	class="time">Ùine:</td>
+					<td><span id="tetris-stats-time">0</span></td>
+				</tr>
+
+				</table>
+			</div>
+		</div>
+		<div class="left-border"></div>
+		<div id="tetris-area">
+			<div class="grid1"></div>
+			<div class="grid2"></div>
+			<div class="grid3"></div>
+			<div class="grid4"></div>
+			<div class="grid5"></div>
+			<div class="grid6"></div>
+		</div>
+		<div id="tetris-help" class="window">
+			<div class="top">
+				Mu dheidhinn an geama <span id="tetris-help-close" class="close">x</span>
+			</div>
+			<div class="content" style="margin-top:	1em;">
+				<p>’S e geama tetris a th’ anns an JsTetris a ghabhas gnàthachadh sgìobhte le javascript.
+				Tha bun-tùs a’ chòd ri fhaighinn, agus faodaidh tu atharrachadh.
+				</p>
+				<p>
+				Ùghdar: Cezary Tomczak
+				<br />Làrach-lìn: <a href="http://www.gosu.pl/tetris/">www.gosu.pl/tetris/</a>
+				</p>
+				<p>
+				Ceadachas: BSD revised (saor do gach cleachdadh)
+				</p>
+				<p>
+				<a href="http://www.foramnagaidhlig.net/index.php?page=38">Barrachd gheamannan</a> air làrach-lìn <a href="http://www.foramnagaidhlig.net/">Fòram na Gàidhlig</a>
+				</p>
+				<p>
+				Cleachdaidh an geama seo JavaScript agus briosgaidean.
+				</p>
+			</div>
+		</div>
+		<div id="tetris-highscores"	class="window">
+			<div class="top">
+				Na sgòran as àirde <span id="tetris-highscores-close" class="close">x</span>
+			</div>
+			<div class="content">
+				<div id="tetris-highscores-content"></div>
+				<br>
+			</div>
+		</div>
+	</div>
+</td></tr></table>
+<!-- End game HTML -->
+    </td>
+  </tr>
+</table>
+    </td>
+  </tr>
+</table>
+  </td>
+</tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <table width="100%">
+    <tr>
+      <td align="left">
+        <div align="left" class="gen">
+        <a href="index.php">Seall na bannan-cinn is clàran-taice</a>
+        </div>
+      </td>
+      <td align="right">
+        <div align="right" class="footer">
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

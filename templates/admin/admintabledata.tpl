@@ -1,3 +1,0 @@
-<td{ATTRIBUTES}>
- {TABLEDATA}
-</td>

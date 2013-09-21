@@ -1,0 +1,166 @@
+/* Stylesheet for Rockstarmagic */
+
+/* For admin messages when saving etc */
+.messagebox {
+	position: absolute;
+	top: 160px; left: 0;
+	overflow: auto;
+	z-index: 10;
+	font-size : 75%;
+	background:#0F384D;
+	padding:10px;
+	border:2px solid #CCCCFF;
+	text-align:center;
+	width:100%;
+	opacity: 0;
+}
+
+
+/* General page style. The scroll bar colours only visible in IE5.5+ */
+body {
+	background-color: #0F384D; text=#ffffcc;
+}
+
+/* General font families for common tags */
+font,th,td,p,div,span { color:#ffffcc; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif; }
+td.table {color:#FFFFCC; background-color: #0F384D; }
+
+/* This is the border line & background colour round the entire page */
+.bodyline	{ background-color:#0F384D;  background-image:url(img/bg.gif); background-repeat:no-repeat; border: 1px #CCCCFF solid; }
+
+td.lineleft {border-left: 1px solid #CCCCFF;}
+
+
+a {color : #CCCCFF;  text-decoration: none;}
+a:hover		{ text-decoration: underline; color : #FFFFCC; }
+
+/* Header cells - the blue and silver gradient backgrounds */
+th	{
+	color: #FFCCCC; font-size: 70%; font-weight : bold;
+	background-color: #0F384D; height: 25px;
+}
+
+/*
+  Setting additional nice inner borders for the main table cells.
+  The names indicate which sides the border will be on.
+  Don't worry if you don't understand this, just ignore it :-)
+*/
+
+th.thHead,th.thTop {
+	 background-image:url(img/title.gif); color: #FFCCCC; font-weight: bold; border: #CCCCFF; border-style: solid; height: 28px;
+}
+
+th.thHead { font-size: 75%; border-width: 1px 1px 1px 1px; }
+th.thTop	 { border-width: 1px 0px 0px 0px; }
+
+td.spacer {
+			background-color:#0F384D; border: 1px #CCCCFF solid; height: 5px;
+}
+
+th.thTop,thHead	 { border-width: 1px 0px 1px 0px; }
+
+
+/* The largest text used in the index page title and toptic title etc. */
+.maintitle	{
+	font-weight: bold; font-size: 250%; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	text-decoration: none; line-height : 160%; color : #FFCCCC;
+}
+
+/* The text used for indiidual page's titles */
+.pagetitle	{
+	font-weight: bold; font-size: 150%; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	text-decoration: none; line-height : 160%; color : #FFCCCC;
+}
+
+/* Articles */
+.articlesource	{font-size : 75%; color : #FFCCCC; }
+.articleauthor	{font-size : 75%; font-weight: bold;	font-style: italic;  color : #FFCCCC;}
+.articlelocation	{font-size : 75%; color : #FFCCCC;}
+.articledate	{font-size : 75%; font-style: italic; color : #FFCCCC;}
+.articlesynopsis	{font-size : 75%; font-weight: bold; color: #FFFFCC;}
+
+/* The text used for individual page's titles */
+.sectiontitle	{
+	font-size: 120%;  font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	text-decoration: none; line-height : 160%; color : #FFCCCC;
+}
+
+/* The text used for individual page's titles */
+.sectionsubtitle	{
+	font-size: 110%;  font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	text-decoration: none; line-height : 160%; color : #FFCCCC;
+}
+
+/* Highlighted text */
+.highlight	{ font-size : 75%; font-weight: bold; color : #FFCCCC; }
+a.highlight 	{text-decoration: none; color : #CCCCFF; }
+a.highlight:hover{text-decoration: underline; color : #FFFFCC; }
+a.highlight:active {text-decoration:none; font-weight:bold; color:#CCCCFF; }
+
+
+/* Image caption text */
+.caption	{ font-weight: bold; font-size: 65%; color: #FFCCCC;}
+
+
+/* The text used for individual page's titles */
+.navtitle	{ color:#CCCCFF; font-weight: bold; font-size: 110%;}
+.navhighlight	{ color:#FFCCCC; font-size: 110%;}
+
+
+/* Linklist link */
+.linktitle	{ color:#CCCCFF; font-weight: bold; font-size: 110%;}
+
+/* General text */
+.gen, div.gen, span.gen { font-size : 75%; }
+.medtext, div.medtext, span.medtext { font-size : 70%; }
+.smalltext, div.smalltext, span.smalltext { font-size : 65%; }
+td.gen, td.medtext, td.smalltext {color:#FFFFCC; background-color: #0F384D; }
+a.gen, a.medtext, a.smalltext { color:#CCCCFF; }
+
+/* Quoted text */
+.quote, p.quote{ font-size : 75%; font-style: italic; color:#FFFFCC;}
+td.quote {color:#FFFFCC; background-color: #0F384D; }
+
+
+/* The register, login, search etc links at the top of the page */
+.mainmenu		{color:#CCCCFF; font-size : 70%;}
+
+/* Navigator link for the lower levels */
+.navlink		{color:#CCCCFF; font-weight: bold; font-size: 75%;}
+
+/* Used for the navigation text, (Page 1,2,3 etc) and the navigation bar when in a forum */
+.nav			{color:#CCCCFF; font-weight: bold; font-size: 70%;}
+
+/* Copyright and bottom info */
+.footer		{color:#CCCCFF; font-size: 65%; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif; letter-spacing: -1px;}
+
+/* Form elements */
+input,textarea, select {
+	color : #FFFFFF;
+	font: normal 70% Verdana, Arial, Helvetica, sans-serif;
+	border-color : #FFFFFF;
+	background-color : #0F384D;
+}
+
+input {text-indent : 2px; }
+
+
+/* The buttons used for bbCode styling in message post */
+input.button {
+	background-color : #0F384D;
+	color:#ffffff; font-size: 70%; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+}
+
+
+/* None-bold submit button */
+input[type=button] {
+	background-color : #0F384D;
+	color:#ffffff; font-weight : normal;
+}
+
+/* The main submit button option */
+input.mainoption {
+	background-color : #0F384D;
+	color:#ffffff; font-weight : bold;
+}
+

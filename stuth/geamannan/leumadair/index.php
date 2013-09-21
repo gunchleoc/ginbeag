@@ -2,7 +2,7 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
 
-include_once($projectroot."includes/templates/page.php");
+include_once($projectroot."includes/objects/page.php");
 ?>
    
 
@@ -13,7 +13,7 @@ include_once($projectroot."includes/templates/page.php");
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
 	<title>Fòram na Gàidhlig - Leumadairean</title>
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
-	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/page.css" type="text/css">
+	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/templates/fng/main.css" type="text/css">
 	<link href="leumadair.css"	rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="leumadair.js"></script>
@@ -78,6 +78,8 @@ if(getproperty('Display Banners'))
   $banners=new BannerList();
   print($banners->toHTML());
 }
+$db->closedb();
+flush();
 
 ?>
 <td>&nbsp;</td>
@@ -94,7 +96,7 @@ if(getproperty('Display Banners'))
 
 <table cellspacing="20"  align="center">
 	<tr>
-		<td valign="top" class="sea">
+		<td id="sea" valign="top" class="sea">
 			<table id="square" cellspacing="0" cellpadding="0" class="frame">
 				<!-- game square goes here per JavaScript //-->
 			</table>

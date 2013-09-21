@@ -1,72 +1,149 @@
-Editing redesign todo
+#############################################################
+redesign todos
+_____________________________________________________________
 
-- edit: menu
-- editcategories
-- editimagelist cleanup + testing
-- site: Site Layout, antispam, banners done.
-- root: showimage, guestbook done
+Spiele testen nicht vergessen wegen css!!!! -> new pagetype = script
 
-test if excludes for vars generation works properly, e.g. banners admin
+v-w admin login style
+
+working on mobile style
+
+while I'm at it, menu page / navigator levels overhaul
 
 
-Bugs:
-=====
-- image filter
-- image filter: input2html without utf8
-- image filter keep selected cat
-- image filter unsetting $_GET
-- Linklist link http://books.google.com/books?vid=ISBN0415297605&id=9LvrxOFoukgC
-- / in Linknamen ermöglichen
-- Categories delete funzt ohne Bestätigung
-- Menus level 0
-- newsitem archive below wrong page
-- splash page selected links
-- site policy title doesn't save, edit text doesn't work
-- database utilities - double header because of legalvars check
+obsolete in admin.css:
+#centerheaderlinks {
+	position:absolute;
+	margin-left:46%;
+}
+
+
+=============================================================
+
+<link rel="icon" 
+      type="image/png" 
+      href="http://example.com/myicon.png">
+
+The format of the image must be one of PNG (a W3C standard), GIF, or ICO.
+
+#############################################################
+MANUAL STUFF
+
+Delete all files + reupload
+security: create index.php/.html in imagedirs for existing dirs
+#############################################################
+
+
+#############################################################
+HTML overhaul:
+
+fng: a bit more contrast for links in text
+
+admin: check what happens to the assigned elements when category is deleted. Should go to the parent category.
+
+forms: accept-charset="UTF-8"
+
+css for each style: check printview pages. V-W done.
+
+#############################################################
+
+AJAX for page edit
+AJAX for image forms
+
+#############################################################
+
+mobile style: image generation needed!
+
+#############################################################
+
+Public Bugs:
+============
+
+- WON'T FIX picture left align + list bullet overlap
+- V-W sitemap when logged in turns up white
+- Versteckte Seiten treten noch im Navigator auf
+- restricted pages: Wenn Oberseite nicht erlaubt, auch verbieten!
+
+
+Admin Bugs:
+===========
+
+- Imagelist sorting bug!!
+- editcontents button freezes on V-W in Firefox
+- sitepolicy: proper editor, button is dead
+- edit gallery, hinzufügen, bei 12 bildern auf der 3, leeren seite gelandet. Moveup letztes Bild auf letzer Seite mit 2 Bildern landet auf Seite davor.
+- editor does not like keyword "insert" in the text
+- messageboxes.js, showmessageXML(xml): error alert doesn't find the error code to show the alert
+- dbutils gzcompress file error
+- copyrightpermissions permission granted da, aber nicht im Filterergebnis
+- WON'T REPRODUCE: edit gallery intro in Chrome does not work.
+- FIXED except for mobile: Header menu does not work with small screens. 
 
 
 Technical:
 ==========
-- finish templating
+- finish templating: diverse e-mails - contact finished
 - clean up includes
-- get and post vars für Templates kapseln {ACTIONVARS}, {HIDDENVARS} statt {SID}= etc.
 -- go over PageMenu in all files to switch to $_GET
--- restrict var generation to possible vars. Action variables need to be killed from $_GET, $_POST after reading! Check which vars are action vars. Introduce "actioncontents" + "actionpage"?
 - Namen in Links?
 - include WIDTH and HEIGHT attributes on all images and table columns
 - database efficiency
-- replace tables with css indent
 - handle Object not found! exception for empty vars in .tpl {VAR} in $GET_VARS
 - kill foreign referers in non-primary scripts $_SERVER["HTTP_REFERER"] => http://localhost/minicms/index.php?page=44
+- editimagelist: prefix search variables with "search" or "s"
+- define hidden vars in opbjecty rather than the templates
+- class articleinfo - move from page to menupage? -> navigators! Maybe separate menu page navigators completely
+- admin - can php check where script was called from?
+- call parent constructur in all Templates - does not work with: navigator stuff
+- control flow - finally route everything to admin, also read variables there?
+- checkboxform/radiobuttonform benutzen. Caution: JSID!
+- admin: submitrow nicht vergessen
+- turn all navigator/menu links into (nested) lists
 
 
 
 Desired new public features:
 =====================
-- banners tooltip text
 - guestbook: keep input window with pagination
-- newsitems per id ansurfen
-- Option: Contact name, contact & Sitemap on main page
 - configure language
 - Header title - Oberseite und Domain in Klammern dahinter - konfigurierbar machen? Site description für splash page hinzufügen
 - Add Search to article + news filter form
-- Optional new window for links
 - Formatting home link
 - add optional intro text to guestbook and contact form?
+- events calendar
+- showimage: public user login, with image feature "Visibility": All, logged in, admin only
+- display foreign rss feeds in splash page
+- Page intros vereinheitlichen mit Text, Bild + Position. article gallery news linklist menu
+
 
 
 Desired new admin features:
 =====================
-- page preview: add edit page link
-- create new page default as public
-- imagelist: edit caption, source + copyright together
-- Links von einer Seite auf die andere
+- error messages not prominent enough (e.g. publicuser, new password not long enough)
+- AJAX editor: get styles + colors from database, then make color button
+- present internal links in preview with the correct link target? AJAX editor + Preview
 - Links/Bilder von Seite zu Seite verschieben/kopieren.
 - Site statistics - all pages
-- multilingual admin interface
 - imagelist: unknownimageform group images with thumbnails.
 - bannerlist: if something's in the code, grey out other fields
+- editimagelist: missing/unused etc. neu programmieren. in imagefilterform.tpl auskommentiert. unused, unknown, missing, nothumb, missingthumb
+- editimagelist: cat search option to exclude subcats
+- checkexternal/internal links
+- images in pages: decide if displayed full size (autoshrink when there's no thumbnail on/off)
+- usermanagement: pre-fill username search when returning from manage forms
+- AJAX Imagepropertiesform (e.g. newsitem, article section)
+- admin - register link not accessible - keep it hidden. Make new site function to send register link.
+- pagelist (sitemap) for admin nav is missing
+- news, articles: tag system instead of categories.
 
+
+templating for:
+- D:\webserver\localhost\minicms\admin\functions\pagesmod.php rebuildaccessrestrictionindex()
+- D:\webserver\localhost\minicms\admin\site\dbutils.php showtables()
+- D:\webserver\localhost\minicms\admin\includes\templates\adminnavigator.php class PageTree($page_id)
+
+
+Check on Sue's login problem sometime
 
 
 Notes
@@ -74,4 +151,40 @@ Notes
 -- css: don't forget visited link color!
 http://www.useit.com/alertbox/20040503.html
 
--A practical tip: links to a directory should include the final slash in the URL when embedded in webpages. The slash should be left out when writing the URL for human consumption. Adding trailing slashes to HREFs when appropriate reduces latency by a small but noticable amount, so you may as well do it.
+Mobile
+=====
+Thumbnails/links:
+the average width of the index finger is 1.6 to 2 cm (16 – 20 mm) for most adults. This converts to 45 – 57 pixels
+The average width of an adult thumb is 1 inch (2.5 cm), which converts to 72 pixels.
+http://uxdesign.smashingmagazine.com/2012/02/21/finger-friendly-design-ideal-mobile-touchscreen-target-sizes/
+
+Assign news page as primary page to replace splash page
+
+Prominent search
+
+a top-level menu button can simply link people to a navigation list on the bottom of a mobile webpage (after the content). Add top link.
+News and article filter, google search as top menu. No back button
+
+Menus
+=====
+Sticky menus: http://uxdesign.smashingmagazine.com/2012/09/11/sticky-menus-are-quicker-to-navigate/#more-113006
+
+design: limit page width for large widescreen monitors when viewing text
+
+      // flush(); // partial browser rendering todo does not make sense, since nothing is printed here
+
+#############################################################
+
+Image moving project:
+
+Image paths to be edited in:
+vwwebpage_articlesections.text
+vwwebpage_newsitems.synopsis
+vwwebpage_newsitemsections.text
+vwwebpage_pages.introtext
+
+%[img% + [url - look for path instead!
+
+vb_post.pagetext. hat posthash, kann nicht manipuliert werden. muß also manuell korrigiet werden mit vb Suchfunktion.
+
+write script for site admin: move file, on success change database.

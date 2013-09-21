@@ -2,46 +2,47 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-// check legal vars
-include($projectroot."admin/includes/legalsitevars.php");
-
 include_once($projectroot."admin/functions/sessions.php");
-include_once($projectroot."admin/includes/adminelements.php");
-include_once($projectroot."includes/templates/elements.php");
-include_once($projectroot."admin/includes/templates/site.php");
+include_once($projectroot."admin/includes/objects/site/antispam.php");
+include_once($projectroot."admin/includes/objects/adminmain.php");
 
-$sid = $_GET['sid'];
+if(isset($_GET['sid'])) $sid=$_GET['sid'];
+else $sid="";
 checksession($sid);
 
-$action="";
-if(isset($_GET['action'])) $action=$_GET['action'];
-elseif(isset($_POST['action'])) $action=$_POST['action'];
-
-unset($_GET['action']);
-unset($_POST['action']);
-
-//  print_r($_GET);
-
-
-if($action=='site')
+if(!isadmin($sid))
 {
-	$siteantispam = new SiteAntispam("");
+  die('<p class="highlight">You have no permission for this area</p>');
 }
 
-if($action=='savesite')
+if(isset($_GET['page'])) $page=$_GET['page'];
+else $page=0;
+
+$postaction="";
+if(isset($_GET['postaction'])) $postaction=$_GET['postaction'];
+unset($_GET['postaction']);
+
+//  print_r($_POST);
+
+$message="";
+
+if($postaction=='savesite')
 {
   	$message = savesitefeatures();
-  	
-   	$siteantispam = new SiteAntispam($message);
 }
 
-print($siteantispam->toHTML());
+
+$content = new AdminMain($page,"sitespam",$message,new SiteAntispam());
+print($content->toHTML());
+$db->closedb();
 
 
 function savesitefeatures()
 {
-  global $sid, $_POST;
+  global $sid, $_POST, $db;
 
+  $result = "";
+  
   if(isset($_POST['renamevariables']))
   {
     $properties['Math CAPTCHA Reply Variable']=makerandomvariablename();
@@ -52,13 +53,11 @@ function savesitefeatures()
   }
   else
   {
-    $properties['Use Math CAPTCHA']=setinteger($_POST['usemathcaptcha']);
+    $properties['Use Math CAPTCHA']=$db->setinteger($_POST['usemathcaptcha']);
   }
 
   $success=updateentries(ANTISPAM_TABLE,$properties,"property_name","property_value");
   
-  $result = "";
-
   if($success="1")
   {
     if(isset($_POST['renamevariables']))

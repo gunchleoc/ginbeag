@@ -5,39 +5,41 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/functions/pagesmod.php");
 include_once($projectroot."admin/functions/categoriesmod.php");
-include_once($projectroot."admin/edit/edittext.php");
-include_once($projectroot."includes/includes.php");
+include_once($projectroot."admin/includes/objects/edit/newspage.php");
+include_once($projectroot."includes/objects/elements.php");
 include_once($projectroot."includes/functions.php");
-include_once($projectroot."admin/includes/adminelements.php");
-include_once($projectroot."admin/includes/templates/adminforms.php");
-include_once($projectroot."includes/templates/newspage.php");
-include_once($projectroot."admin/includes/templates/adminelements.php");
-include_once($projectroot."admin/includes/templates/adminnewspage.php");
+include_once($projectroot."admin/includes/objects/adminmain.php");
 
-$sid=$_GET['sid'];
+if(isset($_GET['sid'])) $sid=$_GET['sid'];
+else $sid="";
 checksession($sid);
 
-$page=$_GET['page'];
+if(isset($_GET['page'])) $page=$_GET['page'];
+else $page=0;
 
-if(isset($_POST['item']))
-{
-	$offset=getnewsitemoffset($page,1,$_POST['item'],true);
-}
-elseif(isset($_GET['offset']))
-{
-	$offset=$_GET['offset'];
-}
+if(isset($_POST['item'])) $offset=getnewsitemoffset($page,1,$_POST['item'],true);
+elseif(isset($_GET['offset'])) $offset=$_GET['offset'];
 else $offset=0;
 
+if(isset($_GET['articlepage'])) $articlepage=$_GET['articlepage'];
+else $articlepage=0;
+
+if(isset($_GET['articlesection'])) $articlesection=$_GET['articlesection'];
+else $articlesection=0;
+
+$message="";
+
+//print("Post: ");
 //print_r($_POST);
+//print("<br/Get: ");
 //print_r($_GET);
 
 // *************************** actions ************************************** //
 
 // page content actions
 
-$pagelockmessage = getpagelock($page);
-if(!$pagelockmessage)
+$message = getpagelock($page);
+if(!$message)
 {
 	// update news
 	// add a newsitem
@@ -46,21 +48,8 @@ if(!$pagelockmessage)
 		addnewsitem($page,$sid);
 		updateeditdata($page, $sid);
 		$offset=0;
-		editnewsitempageforms($page, "Added news item");
-	}
-	// permissions
-	elseif(isset($_POST['setpermissions']))
-	{
-		updatenewsitemcopyright($_GET['newsitem'],$_POST['copyright'],$_POST['imagecopyright'],$_POST['permission']);
-		updateeditdata($page, $sid);
-		editnewsitempageforms($page, "Permissions updated");
-	}
-	// title
-	elseif(isset($_POST['edittitle']))
-	{
-		updatenewsitemtitle($_GET['newsitem'],$_POST['title']);
-		updateeditdata($page, $sid);
-		editnewsitempageforms($page, "Changed title");
+		$editpage = new EditNewsItemForms($page,$offset);
+		$message="Added news item";
 	}
 	// synopsis
 	elseif(isset($_POST['addnewsitemsynopsisimage']))
@@ -77,7 +66,7 @@ if(!$pagelockmessage)
 		{
 			$message='Failed to add synopsis image. The image <i>'.$_POST['filename'].'</i> does not exist!';
 		}
-		editnewsitempageforms($page,$message);
+		$editpage = new EditNewsItemForms($page,$offset);
 	}
 	elseif(isset($_POST['editnewsitemsynopsisimage']))
 	{
@@ -92,7 +81,7 @@ if(!$pagelockmessage)
 		{
 			$message="Failed to edit synopsis image. The image <i>".text2html($_POST['imagefilename'])."</i> does not exist!";
 		}
-		editnewsitempageforms($page, $message);
+		$editpage = new EditNewsItemForms($page,$offset);
 	}
 	elseif(isset($_POST['removenewsitemsynopsisimage']))
 	{
@@ -107,62 +96,22 @@ if(!$pagelockmessage)
 			$message="Failed to remove image. Please confirm when removing an image.";
 		}
 		updateeditdata($page, $sid);
-		editnewsitempageforms($page,$message);
-	}
-	// source
-	elseif(isset($_POST['newsitemsource']))
-	{
-		updatenewsitemsource($_GET['newsitem'],$_POST['source'],$_POST['sourcelink'],$_POST['location'],$_POST['contributor']);
-		updateeditdata($page, $sid);
-		editnewsitempageforms($page, "Changed source info");
-	}
-	// date
-	elseif(isset($_POST['fakethedate']))
-	{
-		$message="";
-		if(strlen($_POST['year'])!=4)
-		{
-			$message="Please enter a 4-digit year!</p>";
-		}
-		else
-		{
-			$message="Date for Newsitem set";
-			fakethedate($_GET['newsitem'],$_POST['day'],$_POST['month'],$_POST['year'],$_POST['hours'],$_POST['minutes'],$_POST['seconds']);
-			updateeditdata($page, $sid);
-		}
-		editnewsitempageforms($page, $message);
-	}
-	// categories
-	elseif(isset($_POST['removecat']))
-	{
-		$selectedcats=$_POST['selectedcat'];
-		removenewsitemcategories($_GET['newsitem'],$selectedcats);
-		editnewsitempageforms($page, "Removed categories from newsitem");
-	}
-	elseif(isset($_POST['addcat']))
-	{
-		$selectedcats=$_POST['selectedcat'];
-		addnewsitemcategories($_GET['newsitem'],$selectedcats);
-		editnewsitempageforms($page, "Added new categories for newsitem");
+		$editpage = new EditNewsItemForms($page,$offset);
 	}
 	// sections
 	elseif(isset($_POST['addsection']))
 	{
 		addnewsitemsection($_GET['newsitem'],$_GET['newsitemsection']);
 		updateeditdata($page, $sid);
-		editnewsitempageforms($page, "Added section to newsitem");
+		$editpage = new EditNewsItemForms($page,$offset);
+		$message="Added section to newsitem";
 	}
 	elseif(isset($_POST['addquotedsection']))
 	{
 		addnewsitemsection($_GET['newsitem'],$_GET['newsitemsection'],true);
 		updateeditdata($page, $sid);
-		editnewsitempageforms($page, "Added quoted section to newsitem on page");
-	}
-	elseif(isset($_POST['editsectiontitle']))
-	{
-		updatenewsitemsectionttitle($_GET['newsitemsection'],$_POST['sectiontitle']);
-		updateeditdata($page, $sid);
-		editnewsitempageforms($page, "Changed a section title");
+		$editpage = new EditNewsItemForms($page,$offset);
+		$message="Added quoted section to newsitem on page";
 	}
 	elseif(isset($_POST['changeimage']))
 	{
@@ -176,39 +125,41 @@ if(!$pagelockmessage)
 		}
 
 		$imagealign=$_POST['imagealign'];
-		$imagevalign=$_POST['imagevalign'];
-		updatenewsitemsectionimage($_GET['newsitemsection'],$imagefilename,$imagealign,$imagevalign);
+		updatenewsitemsectionimage($_GET['newsitemsection'],$imagefilename,$imagealign);
 		updateeditdata($page, $sid);
 		$message.="<br />Updated Section Image";
-		editnewsitempageforms($page, $message);
+		$editpage = new EditNewsItemForms($page,$offset);
 	}
 	// section
 	elseif(isset($_POST['deletesection']))
 	{
-		deletenewsitemsectionconfirm($page,$_GET['newsitem'],$_GET['newsitemsection']);
+		$editpage = new DeleteNewsItemSectionConfirm($_GET['newsitem'],$_GET['newsitemsection']);
 	}
 	elseif(isset($_POST['confirmdeletesection']))
 	{
 		deletenewsitemsection($_GET['newsitem'],$_GET['newsitemsection']);
 		updateeditdata($page, $sid);
-		editnewsitempageforms($page, "Section deleted");
+		$editpage = new EditNewsItemForms($page,$offset);
+		$message="Section deleted";
 	}
 	elseif(isset($_POST['nodeletesection']))
 	{
-		editnewsitempageforms($page, "Deleting of section aborted");
+		$editpage = new EditNewsItemForms($page,$offset);
+		$message="Deleting of section aborted";
 	}
 	// searching
 	elseif(isset($_POST['search']) && isset($_POST['title']) && strlen($_POST['title'])>0)
 	{
-		newsitemsearchresults($page,$_POST['title']);
+		$editpage = new NewsItemSearchResults(fixquotes($_POST['title']));
 	}
 	//archiving
 	elseif(isset($_POST['archivenewsitems']))
 	{
-		archivenewsitemsform($page);
+		$editpage = new ArchiveNewsItemsForm();
 	}
 	elseif(isset($_POST['doarchivenewsitems']))
 	{
+		include_once($projectroot."admin/functions/pagescreate.php");
 		$message="";
 		$dateok=true;
 		if($_POST['year']==$_POST['oldestyear'])
@@ -246,32 +197,20 @@ if(!$pagelockmessage)
 				$message="No newsitems to move.";
 			}
 		}
-		archivenewsitemsform($page, $message);
+		$editpage = new ArchiveNewsItemsForm();
 		updateeditdata($page, $sid);
-	}
+	} // doarchivenewsitems
 	// deleting
 	elseif(isset($_POST['deleteitem']))
 	{
-		deletenewsitemconfirm($page,$_GET['newsitem']);
+		$editpage = new DeleteNewsItemConfirm($_GET['newsitem']);
 	}
 	elseif(isset($_POST['confirmdeleteitem']))
 	{
 		deletenewsitem($_GET['newsitem']);
 		updateeditdata($page, $sid);
-		editnewsitempageforms($page, "Newsitem deleted");
-	}
-	// publishing
-	elseif(isset($_POST['publish']))
-	{
-		publishnewsitem($_GET['newsitem']);
-		updateeditdata($page, $sid);
-		editnewsitempageforms($page, "Newsitem published");
-	}
-	elseif(isset($_POST['unpublish']))
-	{
-		unpublishnewsitem($_GET['newsitem']);
-		updateeditdata($page, $sid);
-		editnewsitempageforms($page, "Newsitem hidden");
+		$editpage = new EditNewsItemForms($page,$offset);
+		$message="Newsitem deleted";
 	}
 	// rss
 	elseif(isset($_POST['rssfeed']))
@@ -288,74 +227,28 @@ if(!$pagelockmessage)
 			$message = "RSS disabled for this newspage";
 		}
 		updateeditdata($page, $sid);
-		editnewsitempageforms($page, $message);
+		$editpage = new EditNewsItemForms($page,$offset);
 	}
 	// display order
 	elseif(isset($_POST['setdisplayorder']))
 	{
 		setdisplaynewestnewsitemfirst($page, $_POST['displayorder']);
 		updateeditdata($page, $sid);
-		editnewsitempageforms($page);
+		$editpage = new EditNewsItemForms($page,$offset);
 	}
 	else
 	{
-		editnewsitempageforms($page);
+		$editpage = new EditNewsItemForms($page,$offset);
 	}
+
+	$content = new AdminMain($page,"editcontents",$message,$editpage);
+	print($content->toHTML());
 }
 // locked page
 else
 {
-	$editpage = new DonePage($page,"This page is already being edited",$pagelockmessage,"&action=editcontents&override=on","newsedit.php","Override lock and edit");
+	$editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
 	print($editpage->toHTML());
 }
-
-// *************************** newsitem ************************************* //
-
-//
-//
-//
-function editnewsitempageforms($page, $message="")
-{
-	global $sid,$offset;
-	$editnewsitemforms = new EditNewsItemForms($page, $offset, $message);
-	print($editnewsitemforms->toHTML());
-}
-
-//
-//
-//
-function newsitemsearchresults($page,$searchtitle)
-{
-	$searchresults = new NewsItemSearchResults($page,$searchtitle);
-	print($searchresults->toHTML());
-}
-
-//
-//
-//
-function archivenewsitemsform($page, $message="")
-{
-	$form = new ArchiveNewsItemsForm($page, $message);
-	print($form->toHTML());
-}
-
-
-//
-//
-//
-function deletenewsitemconfirm($page,$newsitem_id)
-{
-	$confirm = new DeleteNewsItemConfirm($page,$newsitem_id);
-	print($confirm->toHTML());
-}
-
-//
-//
-//
-function deletenewsitemsectionconfirm($page,$newsitem_id,$newsitemsection_id)
-{
-	$confirm = new DeleteNewsItemSectionConfirm($page,$newsitem_id,$newsitemsection_id);
-	print($confirm->toHTML());
-}
-
+$db->closedb();
 ?>

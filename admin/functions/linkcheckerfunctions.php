@@ -25,8 +25,9 @@ function getallarticlepagesandsourcelinks()
 //
 function getalltextfieldsforarticle($page)
 {
+	global $db;
   $result=getarticlesynopsis($page);
-  $sections= getorderedcolumn("text", ARTICLESECTIONS_TABLE,"article_id = '".setinteger($page)."'","sectionnumber","ASC");
+  $sections= getorderedcolumn("text", ARTICLESECTIONS_TABLE,"article_id = '".$db->setinteger($page)."'","sectionnumber","ASC");
   $noofsecs=count($sections);
   for($i=0;$i<$noofsecs;$i++)
   {
@@ -80,7 +81,8 @@ function getallnewspages()
 //
 function getnewsitemandsourcelinks($page)
 {
-  return getmultiplefields(NEWSITEMS_TABLE, "newsitem_id","page_id = '".setinteger($page)."'",array(0 => 'newsitem_id', 1 => 'sourcelink', 2 => 'source'));
+	global $db;
+  return getmultiplefields(NEWSITEMS_TABLE, "newsitem_id","page_id = '".$db->setinteger($page)."'",array(0 => 'newsitem_id', 1 => 'sourcelink', 2 => 'source'));
 }
 
 //
@@ -88,8 +90,9 @@ function getnewsitemandsourcelinks($page)
 //
 function getnewsitemsectiontexts($newsitem)
 {
+	global $db;
   $result="";
-  $sections= getorderedcolumn("text", NEWSITEMSECTIONS_TABLE,"newsitem_id = '".setinteger($newsitem)."'","sectionnumber","ASC");
+  $sections= getorderedcolumn("text", NEWSITEMSECTIONS_TABLE,"newsitem_id = '".$db->setinteger($newsitem)."'","sectionnumber","ASC");
   $noofsecs=count($sections);
   for($i=0;$i<$noofsecs;$i++)
   {

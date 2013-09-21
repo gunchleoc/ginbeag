@@ -3,19 +3,27 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 // check legal vars
-include($projectroot."admin/includes/legaladminvars.php");
+//include($projectroot."admin/includes/legaladminvars.php");
 
-include_once($projectroot."includes/includes.php");
+//include_once($projectroot."includes/includes.php");
+
+
 include_once($projectroot."admin/functions/sessions.php");
-include_once($projectroot."admin/functions/usersmod.php");
-include_once($projectroot."functions/email.php");
-include_once($projectroot."admin/includes/templates/adminforms.php");
 
+// some includes moved down because of silly cookie thing om nct server
+include_once($projectroot."admin/includes/objects/loginforms.php");
+include_once($projectroot."functions/email.php");
+include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."admin/functions/usersmod.php");
+
+$message="";
 
 //print_r($_GET);
 //print_r($_POST);
 
-$header = new HTMLHeader("Webpage building login","Webpage building login");
+$username="";
+if (isset($_POST['user'])) $username=$_POST['user'];
+
 
 if(!isset($_GET["referrer"]) && isset($_SERVER["HTTP_REFERER"]))
 {
@@ -31,7 +39,7 @@ if(!isset($_GET["referrer"]) && isset($_SERVER["HTTP_REFERER"]))
     $action=substr($action,0,strpos($action,"&"));
     $_GET["action"]=$action;
   }
-  elseif(!isset($_GET["action"]) && strpos($referrer,"ite/")>0)
+  elseif(!isset($_GET["action"]) && strpos($referrer,"site/")>0)
   {
     $_GET["action"]="site";
   }
@@ -50,37 +58,44 @@ if(!isset($_GET["referrer"]) && isset($_SERVER["HTTP_REFERER"]))
 
 if(isset($_POST['requestemail']))
 {
-  $header = new HTMLHeader("Request a new password","Webpage building password","A request has been sent to the admin.");
-  $username=trim($_POST['user']);
-  $message=$username." requests a new password";
-  $subject="Webpage editing password request";
-  $recipient=getproperty("Admin Email Address");
-  sendplainemail($subject,$message,$recipient,"en");
+  $userid=getuserid($username);
+  if(!$userid)
+  {
+  	$header = new AdminLoginHeader("This username does not exist!");
+  	$form = new ForgotEmailForm($username);
+  }
+  else
+  {
+	  $header = new AdminLoginHeader("A request for a new password has been sent to the admin.");
+	  $message=$username." requests a new password";
+	  $subject="Webpage editing password request";
+	  $recipient=getproperty("Admin Email Address");
+	  sendplainemail($subject,$message,$recipient);
+  }
 }
 elseif(isset($_GET['superforgetful']))
 {
-  $header = new HTMLHeader("Request a new password","Webpage building password","Please specify your username. A request will be sent to the admin.");
-  $form = new ForgotEmailForm(trim($_GET['user']));
+  $header = new AdminLoginHeader("Please specify your username. A request will be sent to the admin.");
+  $form = new ForgotEmailForm($username);
 }
 elseif(isset($_GET['forgetful']))
 {
-  $header = new HTMLHeader("Request a new password","Webpage building password","Please fill out this form to receive a new password. The new password will be sent to you by e-mail. You have to use the e-mail address stated in your profile.");
-  $form = new ForgotPasswordForm(trim($_GET['user']));
+  $header = new AdminLoginHeader("Please fill out this form to receive a new password. The new password will be sent to you by e-mail. You have to use the e-mail address stated in your profile.");
+  $form = new ForgotPasswordForm($username);
 }
 elseif(isset($_POST['requestpassword']))
 {
-  $username=trim($_POST['user']);
   $email=trim($_POST['email']);
   $userid=getuserid($username);
   $useremail=getuseremail($userid);
   if($useremail!==$email)
   {
-    $header = new HTMLHeader("Request a new password","Webpage building password","Wrong username or e-mail!<br />Please fill out this form to receive a new password. The new password will be sent to you by e-mail. You have to use the e-mail address stated in your profile.");
-    $form = new ForgotPasswordForm(trim($_GET['user']));
+  	$header = new AdminLoginHeader("Wrong username or e-mail!<br />Please fill out this form to receive a new password. The new password will be sent to you by e-mail. You have to use the e-mail address stated in your profile.");
+    $form = new ForgotPasswordForm($username);
   }
   else
   {
-    $header = new HTMLHeader("Request a new password","Webpage building password","You have been sent an e-mail with the new password.");
+    $header = new AdminLoginHeader("You have been sent an e-mail with the new password.");
 
     $newpassword=makepassword($userid);
     $message="Your new password is";
@@ -88,23 +103,22 @@ elseif(isset($_POST['requestpassword']))
     $message.="\r\n\r\nYou can logon at ".getprojectrootlinkpath().'admin/login.php';
     $message.="\r\n\r\nPlease go to your profile to change your password after logging in.";
     $subject="Your webpage editing account";
-    sendplainemail($subject,$message,$useremail,"en");
+    sendplainemail($subject,$message,$useremail);
     
   }
 }
-elseif(isset($_POST['user']))
+elseif(isset($_POST['user']) &&isset($_POST['pass']))
 {
-  $user= trim($_POST['user']);
-  $userid= getuserid($user);
+  $userid= getuserid($username);
 
   if(!$userid)
   {
-    $header = new HTMLHeader("Webpage building login","Webpage building login","Wrong username or password");
-    $form = new AdminLoginForm($user);
+    $header = new AdminLoginHeader("Wrong username or password");
+    $form = new AdminLoginForm($username);
   }
   elseif(isactive($userid))
   {
-    $login=login($user,trim($_POST['pass']));
+    $login=login($username,trim($_POST['pass']));
     if(array_key_exists('sid',$login))
     {
       if($_GET["referrer"]==="editimagelist" ||
@@ -113,7 +127,8 @@ elseif(isset($_POST['user']))
       {
         $contenturl=$_GET["referrer"].'.php';
         unset($_GET["referrer"]);
-        $contenturl.=makelinkparameters($_GET).'&sid='.$login['sid'];
+        $_GET['sid']= $login['sid'];
+        $contenturl=$contenturl.makelinkparameters($_GET, true);
       }
       else
       {
@@ -121,24 +136,29 @@ elseif(isset($_POST['user']))
         $_GET['sid']= $login['sid'];
         $contenturl='admin.php'.makelinkparameters($_GET, true);
       }
-      $header = new HTMLHeader("Webpage building login","Webpage building login","Login Successful",$contenturl,"Enter",true);
+      $header = new AdminLoginHeader("Login successful",true,$contenturl,"Enter");
     }
     else
     {
-      $header = new HTMLHeader("Webpage building login","Webpage building login",$login['message']);
-      $form = new AdminLoginForm($user);
+      $header = new AdminLoginHeader($login['message']);
+      $form = new AdminLoginForm($username);
     }
   }
   else
   {
-    $header = new HTMLHeader("Webpage building login","Webpage building login","Your account has been deactivated");
+    $header = new AdminLoginHeader("Your account has been deactivated");
     $form = new AdminLoginForm("");
   }
 }
 else
 {
-  $header = new HTMLHeader("Webpage building login","Webpage building login");
+  $header = new AdminLoginHeader($message);
   $form = new AdminLoginForm("");
+}
+
+if(!isset($header))
+{
+	$header = new AdminLoginHeader("");
 }
 
 print($header->toHTML());
@@ -148,4 +168,5 @@ if(isset($form))
 
 $footer = new HTMLFooter();
 print($footer->toHTML());
+$db->closedb();
 ?>

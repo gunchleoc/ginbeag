@@ -14,6 +14,11 @@ if(isset($_GET['mode']))
 	{
 		makeXML("faclan", WORDS_TABLE, 'id');
 	}
+
+	elseif($_GET['mode']=="wordssmall")
+	{
+		makeXML("faclanbeag", WORDS_SMALL_TABLE, 'id');
+	}
 }
 
 
@@ -49,23 +54,29 @@ function makeXML($wrapper,$dbtable,$key)
   		}
   	}
   	
-	$keys=array_keys($row);
-	
 	$xml = "<".$wrapper.">";
-	
-	$noofkeys = count($keys);
-	
-	$xml .= "<noofentries>1</noofentries>";
 	$xml .= "<entry>";
 	
-	for ($j=0; $j<$noofkeys; $j++)
+	if($wrapper =="aiteachan")
 	{
-		$key=strtolower($keys[$j]);
-
-		$element=$row[$keys[$j]];
-	//	$xml .= "<$key>".$element."</$key>";
+		$keys=array_keys($row);
+		$noofkeys = count($keys);
+	
+		for ($j=0; $j<$noofkeys; $j++)
+		{
+			$key=strtolower($keys[$j]);
+	
+			$element=$row[$keys[$j]];
+			$xml .= "<$key>".utf8_encode($element)."</$key>";
+		}
+	}
+	else
+	{
+		$key="facal";
+		$element=$row[$key];
 		$xml .= "<$key>".utf8_encode($element)."</$key>";
 	}
+	
 	$xml .= "</entry>";
 	
 	header('Content-type: text/xml;	charset=utf-8');

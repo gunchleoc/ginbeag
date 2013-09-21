@@ -16,9 +16,10 @@ include_once($projectroot."functions/db.php");
 //
 function isreferrerblocked($referrer)
 {
+	global $db;
 
   $query="select referrerurl from ".BLOCKEDREFERRERS_TABLE;
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   $result=false;
   while(!$result && $row=mysql_fetch_row($sql))
   {

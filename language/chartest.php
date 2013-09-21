@@ -1,17 +1,22 @@
-﻿<?php
-
+<?php
 $lang=array();
 
+/**************************************************************/
+/* screen reader titles ***************************************/
+/**************************************************************/
+
+$lang["title_navigator"] = "Clàr-taice";
+$lang["title_content"] = "Sùsbaint";
 
 /**************************************************************/
 /* page footer ************************************************/
 /**************************************************************/
 
 //s1 = date
-$lang["footer_lastedited"]="An dèasachadh mu dheireadh: %s1"; 
+$lang["footer_lastedited"]="An dèasachadh mu dheireadh: %s"; 
 
 //s1 = date, s2 = author
-$lang["footer_lasteditedauthor"]="An dèasachadh mu dheireadh: %s1 le %s2"; 
+$lang["footer_lasteditedauthor"]="An dèasachadh mu dheireadh: %1s le %2s"; 
 
 // s1 = page_textcopyright, s2 = page_imagecopyright, s3 = page_bypermission
 $lang["footer_copyright"]="%s %s %s";
@@ -25,8 +30,8 @@ $lang["footer_imagecopyright"]="Na dèalbhan &copy; %s.";
 // copyright permission
 $lang["footer_bypermission"]=" Gan clèachdadh le cead.";
 
-$lang["footer_imageuploaded"]="Dèalbh air a luchdadh suas: %s1";
-$lang["footer_imageuploadedauthor"]="Dèalbh air a luchdadh suas: %s1 le %s2";
+$lang["footer_imageuploaded"]="Dèalbh air a luchdadh suas: %s";
+$lang["footer_imageuploadedauthor"]="Dèalbh air a luchdadh suas: %1s le %2s";
 
 
 
@@ -37,12 +42,14 @@ $lang["footer_imageuploadedauthor"]="Dèalbh air a luchdadh suas: %s1 le %s2";
 
 $lang["menu_filter_displayoptions"]="Ròghainnean an t-seallaidh:";
 $lang["menu_filter_categories"]="Roinnean-seòrsa: ";
+$lang["menu_filter_timespan"]="Àm: ";
 $lang["menu_filter_from"]="Bhò: ";
 $lang["menu_filter_to"]="Gù: ";
 $lang["menu_filter_go"]="Siùthad";
 $lang["menu_filter_orderby"]="Òrdugh a rèir: ";
+$lang["menu_filter_property"]="Bùadh: ";
 $lang["menu_filter_subpages"]="Gàbh a-steach na fo-dhuilleagan";
-$lang["menu_filter_nomatch"]="Cha do dh'fhrèagair gin de na h-uilt";
+$lang["menu_filter_nomatch"]="Cha do dh'fhrèagair gin de na h-aistean";
 $lang["menu_filter_clearsearch"]="Fàg an lorg";
 $lang["menu_filter_badyearselection"]="Cha dèan an dà bhliadhna a thagh thu ciall còmhla.";
 $lang["menu_filter_result"]="Tòraidhean an luirg";
@@ -61,8 +68,7 @@ $lang["article_filter_changes"]="Dèasachadh mu dheireadh";
 $lang["article_filter_allyears"]="A h-uile blìadhna";
 $lang["article_filter_from"]="Bhò: ";
 $lang["article_filter_to"]="Gù: ";
-
-
+$lang["article_filter_showall"]="Seall na h-uile àiste";
 
 
 /**************************************************************/
@@ -75,11 +81,12 @@ $lang["news_filter_from"]="Bhò: ";
 $lang["news_filter_to"]="Gù: ";
 $lang["news_filter_go"]="Siùthad";
 $lang["news_filter_orderby"]="Òrdugh a rèir: ";
-$lang["news_filter_nomatch"]="Cha do dh'fhrèagair gin de na h-uilt naidheachd";
+$lang["news_filter_property"]="Bùadh: ";
+$lang["news_filter_nomatch"]="Cha do dh'fhrèagair gin de na naidheachdan";
 $lang["news_filter_clearsearch"]="Fàg an lorg";
 $lang["news_filter_badyearselection"]="Cha dèan an dà bhliadhna a thagh thu ciall còmhla.";
 $lang["news_filter_result"]="Tòraidhean an luirg";
-$lang["news_filter_showall"]="Seall a h-uile alt nàidheachd air: %s";
+$lang["news_filter_showall"]="Seall na h-uile nàidheachd air: %s";
 
 $lang["news_filter_title"]="Tìotal";
 $lang["news_filter_date"]="Cèann-latha";
@@ -92,12 +99,31 @@ $lang["news_filter_today"]="Gus an là";
 $lang["news_filter_tomonth"]="Gus a' mhìos";
 $lang["news_filter_toyear"]="Gus a' bhlìadhna";
 
+$lang["news_single_showing"]="A' sealltainn naidheachd a-mhàin";
+$lang["news_single_link"]="Dèan ceangal dhan naidheachd seo";
+
+
+$lang["news_source_source"]="Tùs:";
+$lang["news_source_foundby"]="Air a lòrg le:";
+
+$lang["news_rss_feed"]="Ìnbhir RSS airson na duilleige seo";
+
+$lang["newsitem_returnbutton"]="Seall na h-uile nàidheachd";
+
+/**************************************************************/
+/* categories *************************************************/
+/**************************************************************/
+
+$lang["categorylist_categories"]="Roinnean-seòrsa: ";
+$lang["categorylist_none"]="gìn";
 
 /**************************************************************/
 /* article pages **********************************************/
 /**************************************************************/
 
 $lang["article_page_source"]="Tùs: ";
+$lang["article_page_author"]="Lè";
+$lang["article_page_toc"]="Clàr-innse";
 
 
 
@@ -105,8 +131,9 @@ $lang["article_page_source"]="Tùs: ";
 /* forms ******************************************************/
 /**************************************************************/
 
-$lang["form_ascdesc_ascending"]="A-nìos";
-$lang["form_ascdesc_descending"]="A-nùas";
+$lang["form_ascdesc_ascending"]="A' dìreadh";
+$lang["form_ascdesc_descending"]="A' teàrnadh";
+$lang["form_ascdesc_label"]="Còmhair: ";
 
 $lang["form_cat_allcats"]="A h-uile roinn-seòrsa";
 
@@ -126,6 +153,9 @@ $lang["navigator_contact"]="Fìos thugainn";
 $lang["navigator_sitemap"]="Mapa an làraich";
 $lang["navigator_home"]="Dhàchaigh";
 $lang["navigator_guestbook"]="Leàbhar nan aoighean";
+$lang["navigator_aotd"]="Alt an làtha";
+$lang["navigator_potd"]="Air&nbsp;thuaiream:&nbsp;Dealbh&nbsp;an&nbsp;làtha";
+$lang["navigator_notfound"]="Cha deach an cèangal a lorg";
 
 $lang["pagetitle_contact"]="Fìos thugainn";
 $lang["pagetitle_sitemap"]="Mapa an làraich";
@@ -154,6 +184,8 @@ $lang["guestbook_yourentry"]="Do thèachdaireachd gu leabhar nan aoighean:";
 $lang["guestbook_nomessages"]="Gun tèachdaireachd";
 $lang["guestbook_latestentries"]="Na teachdaireachdan as ùire:";
 
+$lang["guestbook_legend_yourmessage"]="An tèachdaireachd agad";
+$lang["guestbook_legend_yourmessagetous"]="An tèachdaireachd agad thugainn";
 $lang["guestbook_yourname"]="D' àinm: ";
 $lang["guestbook_youremail"]="An seòladh puist-d agad: ";
 $lang["guestbook_yoursubject"]="Cùspair na teachdaireachd: ";
@@ -176,16 +208,19 @@ $lang["guestbook_leavemessage"]="Fàg teachdaireachd";
 /**************************************************************/
 
 // labels
-$lang["email_address"]="An seòladh puist-d agad";
-$lang["email_subject"]="Cùspair";
-$lang["email_message"]="Tèachdaireachd";
+$lang["email_address"]="An seòladh puist-d agad: ";
+$lang["email_subject"]="Cùspair: ";
+$lang["email_message"]="Tèachdaireachd: ";
 $lang["email_sendcopy"]="Cùir lethbhreac thugam";
-$lang["email_copyrequested"]="Air lèthbhreac iarraidh";
-$lang["email_nocopyrequested"]="Gun lèthbhreac iarraidh";
+$lang["email_copyrequested"]="Dh'iarr thu lethbhrèac";
+$lang["email_nocopyrequested"]="Cha do dh'iarr thu lethbhrèac";
 $lang["email_sendemail"]="Cuir pòst-d";
 $lang["email_from"]="Bhò";
-$lang["email_to"]="Gù";
-
+$lang["email_to"]="Gù: ";
+$lang["email_webmaster"]="Maighstir-lìn";
+$lang["email_legend_youremail"]="Am pòst-d";
+$lang["email_legend_options"]="Ròghainnean";
+$lang["email_legend_youremailtous"]="Am post-d agad thùgainn";
 
 // email text
 $lang["email_email"]="Pòst-d:";
@@ -218,22 +253,70 @@ $lang["email_emailsent"]="Tha am pòst-d air a chur";
 
 
 /**************************************************************/
+/* Anti-spam **************************************************/
+/**************************************************************/
+
+$lang["antispam_legend_captcha"]="An dèarbhaich thu nach e inneal-rannsachaidh a th' annad?";
+
+
+/**************************************************************/
+/* show image *************************************************/
+/**************************************************************/
+
+$lang["image_viewing"]="A' sealltainn air dèalbh";
+$lang["image_viewthumbnails"]="Till dhan duilleag shlàn";
+
+
+/**************************************************************/
+/* Login and restricted pages *********************************/
+/**************************************************************/
+
+$lang["login_pagetitle"]="Lògadh a-steach";
+$lang["login_legend_login"]="Lòg a-steach dha dhuilleagan cuingichte";
+$lang["login_legend_logindata"]="An cuir thu a-steach an dàta clàraidh agad?";
+$lang["login_username"]="Ainm a' chlèachdaiche: ";
+$lang["login_password"]="Fàcal-faire: ";
+$lang["login_submit"]="Lòg a-steach mi";
+$lang["login_cancel"]="Sgùir dheth";
+
+$lang["login_success"]="Chàidh do logadh a-steach gu soirbheachail";
+$lang["login_enter"]="Ràch a-steach";
+
+$lang["login_error"]="Mèarachd";
+$lang["login_error_tryagain"]="Am fèuch thu ris a-rithist?";
+$lang["login_error_username"]="Chan eil d' ainm is facal-faire mar bu chòir.";
+$lang["login_error_inactive"]="Chaidh an cunntas seo a chur à gnìomh.";
+$lang["login_passwordcount"]="Tha thu air facal-faire ceàrr a chur a-steach ro thric, mar sin feumaidh sinn do ghlasadh a-mach an-dràsta. Am feuch thu ris a-rithist an ceann greis?";
+$lang["login_error_sessionfail"]="Cha dèach leinn seisean a chruthachadh.";
+$lang["login_error_ipban"]="Chaidh an seòladh IP agad a bhacadh.";
+
+$lang["restricted_nopermission"]="Chan eil cead agad gus sèalltainn air an duilleag seo.";
+$lang["restricted_expired"]="Dh'fhalbh an ùine air an seisean agad.";
+$lang["restricted_pagetitle"]="Ìnntrigeadh cuingichte";
+$lang["restricted_pleaselogin"]="An lòg thu a-steach?";
+
+
+/**************************************************************/
 /* general ****************************************************/
 /**************************************************************/
 
 
 // top link text
-$lang["page_topofthispage"]="Cèann na duilleige";
+$lang["pagemenu_topofthispage"]="Cèann na duilleige";
 
 $lang["pagemenu_goto"]="Ràch gu duilleag: ";
 $lang["pagemenu_previous"]="Air àis";
 $lang["pagemenu_next"]="Air àdhart";
+$lang["pagemenu_printview"]="Sealladh clò-bhualaidh";
+$lang["pagemenu_jumptopage"]="Leum gu dùilleag:";
+$lang["pagemenu_go"]="Siùthad";
 
 
 $lang["image_image"]="Dèalbh ";
 $lang["image_bypermission"]=" Ga clèachdadh le cead.";
 
-
+$lang["error_pagenotfound"]="Cha deach an dùilleag a lorg";
+$lang["error_pagenonotfound"]="Cha deach dùilleag %d a lorg.";
 
 $lang["date_month"][1]="dhen Fhàoilleach";
 $lang["date_month"][2]="dhen Ghèarran";
@@ -247,5 +330,4 @@ $lang["date_month"][9]="dhen t-Sùltain";
 $lang["date_month"][10]="dhen Dàmhair";
 $lang["date_month"][11]="dhen t-Sàmhainn";
 $lang["date_month"][12]="dhen Dùbhlachd";
-
 ?>

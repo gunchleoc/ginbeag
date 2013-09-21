@@ -3,19 +3,20 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/functions/sessions.php");
-include_once($projectroot."admin/functions/pagesmod.php");
-include_once($projectroot."admin/edit/edittext.php");
-include_once($projectroot."includes/includes.php");
+include_once($projectroot."admin/functions/pagecontent/linklistpagesmod.php");
+include_once($projectroot."admin/includes/objects/edit/linklistpage.php");
+include_once($projectroot."includes/objects/elements.php");
 include_once($projectroot."includes/functions.php");
-include_once($projectroot."admin/includes/adminelements.php");
-include_once($projectroot."admin/includes/templates/adminforms.php");
-include_once($projectroot."admin/includes/templates/adminelements.php");
-include_once($projectroot."admin/includes/templates/adminlinklistpage.php");
+include_once($projectroot."admin/includes/objects/adminmain.php");
 
-$sid=$_GET['sid'];
+if(isset($_GET['sid'])) $sid=$_GET['sid'];
+else $sid="";
 checksession($sid);
 
-$page=$_GET['page'];
+if(isset($_GET['page'])) $page=$_GET['page'];
+else $page=0;
+
+$message="";
 
 //print_r($_POST);
 //print_r($_GET);
@@ -25,8 +26,8 @@ $page=$_GET['page'];
 // page content actions
 
 $message="";
-$pagelockmessage = getpagelock($page);
-if(!$pagelockmessage)
+$message = getpagelock($page);
+if(!$message)
 {
   // update linklist
   if(isset($_POST['changelinklistimage']))
@@ -35,7 +36,7 @@ if(!$pagelockmessage)
     $filename=trim($_POST['imagefilename']);
     if(imageexists($filename))
     {
-      updatelinklistimage($page,$filename);
+      updatepageintroimage($page,$filename,"left");
       updateeditdata($page, $sid);
     }
     else
@@ -45,10 +46,10 @@ if(!$pagelockmessage)
   }
   elseif(isset($_POST['removelinklistimage']))
   {
-    $message='Removing image <i>'.$filename.'</i> from linklist';
+    $message='Removed intro image from linklist';
     if($_POST['removeconfirm'])
     {
-      updatelinklistimage($page,"");
+      updatepageintroimage($page,"","left");
       updateeditdata($page, $sid);
     }
     else
@@ -59,7 +60,7 @@ if(!$pagelockmessage)
   elseif(isset($_POST['addlink']))
   {
     $message='Added new link';
-    addlink($page,$_POST['title'],$_POST['link'],$_POST['imagefilename'],$_POST['description']);
+    addlink($page,fixquotes($_POST['title']),$_POST['link'],$_POST['imagefilename'],fixquotes($_POST['description']));
   }
   elseif(isset($_POST['deletelink']))
   {
@@ -74,57 +75,26 @@ if(!$pagelockmessage)
       $message='In order to delete a link, you have to check "Confirm delete".';
     }
   }
-  elseif(isset($_POST['linkproperties']))
-  {
-    $message='Editing link properties';
-    updatelinkproperties($_GET['link'],$_POST['title'],$_POST['link']);
-    updateeditdata($page, $sid);
-  }
-  elseif(isset($_POST['changelinkimage']))
-  {
-    $message='Changed link image';
-    $filename=trim($_POST['imagefilename']);
-    if(imageexists($filename) || strlen($filename)==0)
-    {
-      updatelinkimage($_GET['link'],$filename);
-      updateeditdata($page, $sid);
-    }
-    else
-    {
-      $message='Image <i>'.$filename.'</i> does not exist.';
-    }
-  }
-  elseif(isset($_POST['removelinkimage']))
-  {
-    $message='Removing link image <i>'.$filename.'</i>';
-    if(isset($_POST['removeconfirm']))
-    {
-      updatelinkimage($_GET['link'],"");
-      updateeditdata($page, $sid);
-    }
-    else
-    {
-      $message='In order to remove an image, you have to check "Confirm remove".';
-    }
-  }
   elseif(isset($_POST['movelinkup']))
   {
-    $message='Moving link up';
+    $message='Moved link up';
     movelink($_GET['link'], "up", $_POST['positions']);
     updateeditdata($page, $sid);
   }
   elseif(isset($_POST['movelinkdown']))
   {
-    $message='Moving link down';
+    $message='Moved link down';
     movelink($_GET['link'], "down", $_POST['positions']);
     updateeditdata($page, $sid);
   }
-  $editpage = new EditLinklist($page,$message);
+  $editpage = new EditLinklist($page);
 }
 else
 {
-  $editpage = new DonePage($page,"This page is already being edited",$pagelockmessage,"&action=editcontents&override=on","linklistedit.php","Override lock and edit");
+  $editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
 }
 
-print($editpage->toHTML());
+$content = new AdminMain($page,"editcontents",$message,$editpage);
+print($content->toHTML());
+$db->closedb();
 ?>

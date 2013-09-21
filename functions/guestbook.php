@@ -16,11 +16,12 @@ include_once($projectroot."functions/db.php");
 //
 function addguestbookentry($postername,$addy,$subject,$messagetext)
 {
+	global $db;
   $values[0]=0;
-  $values[1]=setstring($postername);
-  $values[2]=setstring($addy);
-  $values[3]=setstring($subject);
-  $values[4]=setstring($messagetext);
+  $values[1]=$db->setstring($postername);
+  $values[2]=$db->setstring($addy);
+  $values[3]=$db->setstring($subject);
+  $values[4]=$db->setstring($messagetext);
   $values[5]=date(DATETIMEFORMAT, strtotime('now'));
   
   $query="insert into ";
@@ -32,7 +33,7 @@ function addguestbookentry($postername,$addy,$subject,$messagetext)
   $query.="'".$values[count($values)-1]."');";
 //  print('<p>'.$query);
 
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   return $sql;
 }
 
@@ -41,9 +42,10 @@ function addguestbookentry($postername,$addy,$subject,$messagetext)
 //
 function getguestbookentries($number,$offset)
 {
+	global $db;
   if(!$offset) $offset=0;
   if(!$number>0) $number=1;
-  return getorderedcolumnlimit("message_id",GUESTBOOK_TABLE,"1", "date", setinteger($offset), setinteger($number),"DESC");
+  return getorderedcolumnlimit("message_id",GUESTBOOK_TABLE,"1", "date", $db->setinteger($offset), $db->setinteger($number),"DESC");
 }
 
 //
@@ -59,8 +61,9 @@ function countguestbookentries()
 //
 function getguestbookentrycontents($message_id)
 {
+	global $db;
   $result=array();
-  $message_id=setinteger($message_id);
+  $message_id=$db->setinteger($message_id);
   $result['name']= getdbelement("name",GUESTBOOK_TABLE, "message_id", $message_id);
   $result['email']= getdbelement("email",GUESTBOOK_TABLE, "message_id", $message_id);
   $result['subject']= getdbelement("subject",GUESTBOOK_TABLE, "message_id", $message_id);

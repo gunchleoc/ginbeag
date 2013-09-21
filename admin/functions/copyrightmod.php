@@ -18,7 +18,8 @@ include_once($projectroot."functions/users.php");
 //
 function getcopyrightinfo($copyright_id)
 {
-  $copyright_id=setinteger($copyright_id);
+	global $db;
+  $copyright_id=$db->setinteger($copyright_id);
 
   $result=array();
   $result['holder']= getdbelement("holder", COPYRIGHT_TABLE, "copyright_id", $copyright_id);
@@ -37,7 +38,8 @@ function getcopyrightinfo($copyright_id)
 //
 function getcopyrightholder($copyright_id)
 {
-  return getdbelement("holder", COPYRIGHT_TABLE, "copyright_id", setinteger($copyright_id));
+	global $db;
+  return getdbelement("holder", COPYRIGHT_TABLE, "copyright_id", $db->setinteger($copyright_id));
 }
 
 //
@@ -45,7 +47,8 @@ function getcopyrightholder($copyright_id)
 //
 function holderexists($holder)
 {
-  return getdbelement("holder", COPYRIGHT_TABLE, "holder", setstring($holder));
+	global $db;
+  return getdbelement("holder", COPYRIGHT_TABLE, "holder", $db->setstring($holder));
 }
 
 //
@@ -53,15 +56,16 @@ function holderexists($holder)
 //
 function getcopyrightids($order="copyright_id",$ascdesc="ASC",$filterpermission=100000)
 {
+	global $db;
   if($filterpermission>50)
   {
     $condition="1";
   }
   else
   {
-    $condition="permission ='".setinteger($filterpermission)."'";
+    $condition="permission ='".$db->setinteger($filterpermission)."'";
   }
-  return getorderedcolumn("copyright_id",COPYRIGHT_TABLE,$condition, setstring($order), setstring($ascdesc));
+  return getorderedcolumn("copyright_id",COPYRIGHT_TABLE,$condition, $db->setstring($order), $db->setstring($ascdesc));
 }
 
 //
@@ -69,13 +73,14 @@ function getcopyrightids($order="copyright_id",$ascdesc="ASC",$filterpermission=
 //
 function searchholder($holder,$order="copyright_id",$ascdesc="ASC",$filterpermission=100000)
 {
-  $condition="holder like '%".setstring($holder)."%'";
+	global $db;
+  $condition="holder like '%".$db->setstring($holder)."%'";
 
   if($filterpermission<50)
   {
-    $condition.=" AND permission ='".setinteger($filterpermission)."'";
+    $condition.=" AND permission ='".$db->setinteger($filterpermission)."'";
   }
-  return getorderedcolumn("copyright_id",COPYRIGHT_TABLE,$condition, setstring($order), setstring($ascdesc));
+  return getorderedcolumn("copyright_id",COPYRIGHT_TABLE,$condition, $db->setstring($order), $db->setstring($ascdesc));
 }
 
 
@@ -84,13 +89,14 @@ function searchholder($holder,$order="copyright_id",$ascdesc="ASC",$filterpermis
 //
 function updatecopyrightholder($copyright_id,$holder,$contact,$comments,$permission,$credit,$sid)
 {
+	global $db;
   $values=array();
-  $values[]=setinteger($copyright_id);
-  $values[]=setstring($holder);
-  $values[]=setstring($contact);
-  $values[]=setstring($comments);
-  $values[]=setinteger($permission);
-  $values[]=setstring($credit);
+  $values[]=$db->setinteger($copyright_id);
+  $values[]=$db->setstring($holder);
+  $values[]=$db->setstring($contact);
+  $values[]=$db->setstring($comments);
+  $values[]=$db->setinteger($permission);
+  $values[]=$db->setstring($credit);
   $values[]=date(DATETIMEFORMAT, strtotime('now'));
   $values[]=getsiduser($sid);
   
@@ -104,7 +110,7 @@ function updatecopyrightholder($copyright_id,$holder,$contact,$comments,$permiss
   $keys[]="editdate";
   $keys[]="editor_id";
   
-  updatefields(COPYRIGHT_TABLE,$keys,$values,"copyright_id",setinteger($copyright_id));
+  updatefields(COPYRIGHT_TABLE,$keys,$values,"copyright_id",$db->setinteger($copyright_id));
 }
 
 
@@ -113,15 +119,16 @@ function updatecopyrightholder($copyright_id,$holder,$contact,$comments,$permiss
 //
 function addcopyrightholder($holder,$contact,$comments,$permission,$credit,$sid)
 {
+	global $db;
   if(!holderexists($holder))
   {
     $values=array();
     $values[]=0;
-    $values[]=setstring($holder);
-    $values[]=setstring($contact);
-    $values[]=setstring($comments);
-    $values[]=setinteger($permission);
-    $values[]=setstring($credit);
+    $values[]=$db->setstring($holder);
+    $values[]=$db->setstring($contact);
+    $values[]=$db->setstring($comments);
+    $values[]=$db->setinteger($permission);
+    $values[]=$db->setstring($credit);
     $values[]=date(DATETIMEFORMAT, strtotime('now'));
     $values[]=date(DATETIMEFORMAT, strtotime('now'));
     $values[]=getsiduser($sid);
@@ -136,7 +143,8 @@ function addcopyrightholder($holder,$contact,$comments,$permission,$credit,$sid)
 //
 function deletecopyrightholder($copyright_id)
 {
-  deleteentry(COPYRIGHT_TABLE,"copyright_id ='".setinteger($copyright_id)."'");
+	global $db;
+  deleteentry(COPYRIGHT_TABLE,"copyright_id ='".$db->setinteger($copyright_id)."'");
 }
 
 ?>

@@ -17,7 +17,6 @@ $LEGALVARS["filter"]=1;
 $LEGALVARS["image"]=1;
 $LEGALVARS["missing"]=1;
 $LEGALVARS["missingthumb"]=1;
-$LEGALVARS["mode"]=1;
 $LEGALVARS["noofimages"]=1;
 $LEGALVARS["nothumb"]=1;
 $LEGALVARS["number"]=1;
@@ -33,6 +32,7 @@ $LEGALVARS["sourcelink"]=1;
 $LEGALVARS["unknown"]=1;
 $LEGALVARS["unused"]=1;
 $LEGALVARS["uploader"]=1;
+$LEGALVARS["doorder"]=1;
 
 
 $getkeys=array_keys($_GET);

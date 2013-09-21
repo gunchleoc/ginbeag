@@ -7,7 +7,6 @@ include_($projectroot."admin/includes/legaladminvars.php");
 
 include_once($projectroot."admin/functions/usersmod.php");
 include_once($projectroot."admin/functions/sessions.php");
-include_once($projectroot."admin/includes/adminelements.php");
 include_once($projectroot."functions/email.php");
 
 
@@ -17,7 +16,7 @@ if(isset($_GET['user'])&&isset($_GET['key']))
   {
     $message='Activated user account for '.title2html($_GET["user"]);
     activateuser($_GET['user'],$_GET['key']);
-    sendactivationnotification($_GET['user'],getuseremail(getuserid($_GET['user'])),"en");
+    sendactivationnotification($_GET['user'],getuseremail(getuserid($_GET['user'])));
   }
   else
   {
@@ -33,16 +32,17 @@ $header = new HTMLHeader("Activated user","Webpage Building",$message);
 print($header->toHTML());
 $footer = new HTMLFooter();
 print($footer->toHTML());
+$db->closedb();
 
 //
 //
 //
-function sendactivationnotification($username,$recipient,$language)
+function sendactivationnotification($username,$recipient)
 {
   $message="Welcome ".$username."!";
   $message.="\r\n\r\nYour webpage editing account has been activated";
   $message.="\r\n\r\nYou can logon at ".getprojectrootlinkpath().'admin/login.php';
   $subject="Your account has been activated";
-  sendplainemail($subject,$message,$recipient,$language);
+  sendplainemail($subject,$message,$recipient);
 }
 ?>

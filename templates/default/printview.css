@@ -1,0 +1,183 @@
+/* Stylesheet for Print View */
+
+
+/* Image + caption text */
+.captionedimage	{
+	padding: 1em;
+	margin: 1em;
+	border: #000000;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	text-align: center;
+
+}
+.imagecaption {
+	font-weight: bold;
+	font-size: 90%;
+	text-align: center;
+}
+
+
+/* General text */
+.medtext, div.medtext, span.medtext { font-size : 90%; }
+.smalltext, div.smalltext, span.smalltext { font-size : 80%; letter-spacing: -0.25px;}
+
+/* Copyright and bottom info */
+.footer { font-size: 80%; font-family: Arial, Helvetica, sans-serif; letter-spacing: -0.5px;}
+
+/* Style hack for FNG */
+.en {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 90%;
+}
+
+
+/* to prevent floating for new sections after image */
+.newline {
+	clear:both;
+}
+
+
+/* newsitemsectionquote */
+.newsquotetitle {
+	font-weight: bold;
+	margin-left: 4em;
+}
+
+
+/* Quoted text */
+div.newsquote {
+	margin-left: 4em;
+	margin-right: 4em;
+	width: *;
+	padding: 1em;
+	border: #000000;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;	
+}
+
+/* Source info for articles and newsitems */
+.articlesource	{}
+.articleauthor	{font-weight: bold;	font-style: italic;}
+.articlelocation	{}
+.articledate	{font-style: italic;}
+
+/* Synopsis for articles and newsitems */
+.introtext	{
+	font-weight: bold;
+	text-align: justify;
+}
+
+/* Titles for newsitemsections, articlesections */
+.pagetitle	{
+	font-size: 220%;
+	border: #000000;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	padding-top: 1em;
+}
+
+.pagetitle span.en {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 90%;
+}
+
+
+/* Titles for newsitemsections, articlesections */
+.sectiontitle	{
+	margin-top: 0.5em;
+	font-size: 220%;
+
+}
+
+.sectiontitle span.en {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 90%;
+}
+
+/* Fos newsitemsections */
+.sectionsubtitle	{
+	font-size: 175%;
+	margin-top: 1em;
+}
+.sectiontitle span.en {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 90%;
+}
+
+
+.newsitem {
+	margin-top:1.5em;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+}
+
+.editdata {
+	margin-top:1.5em;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;	
+	padding-top: 0.5em;
+}
+
+
+
+
+#navigator {
+	width: 20%;
+	position: absolute;
+	padding: 0.20em;
+	margin-top: 1em;
+	font-size: 150%;
+}
+
+
+
+
+/* content links - linklistmenu, vormerly "nav"*/
+.contentnavlink {
+	font-weight: bold;
+}
+
+/* content - linklistmenu pagetitles */
+.contentnavtitle, a.contentnavtitle	{
+	font-size: 200%;
+}
+
+
+/* Navigator - selected item */
+.navhighlight	{ }
+
+
+/* Navigator - links */
+.navtitle, a.navtitle	{ }
+
+
+/* Navigator link for the lower levels */
+.navlink, a.navlink		{ font-weight: bold; font-size: 70%; }
+
+
+/* "Home" link on navigator*/
+#navhomelink {
+	margin-top:0.5ex;
+	font-weight: bold;
+}
+
+.navrootlinkwrapper {
+	margin-top:2ex;
+}
+
+.contentnavrootlinkwrapper {
+	margin-top:5ex;
+	margin-bottom:1ex;
+}
+
+
+.navlinkwrapper {
+	margin-top:1.5ex;
+}
+
+.contentnavlinkwrapper {
+	margin-top:1.75ex;
+	line-height: 1.5em; 
+}
+

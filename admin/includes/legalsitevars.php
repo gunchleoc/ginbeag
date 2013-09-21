@@ -14,6 +14,8 @@ $LEGALVARS["generate"]=1;
 $LEGALVARS["holder"]=1;
 $LEGALVARS["offset"]=1;
 $LEGALVARS["order"]=1;
+$LEGALVARS["page"]=1;
+$LEGALVARS["postaction"]=1;
 $LEGALVARS["profile"]=1;
 $LEGALVARS["ref"]=1;
 $LEGALVARS["search"]=1;
@@ -21,6 +23,7 @@ $LEGALVARS["sid"]=1;
 $LEGALVARS["structure"]=1;
 $LEGALVARS["type"]=1;
 $LEGALVARS["userid"]=1;
+$LEGALVARS["sitestats"]=1;
 
 
 $getkeys=array_keys($_GET);

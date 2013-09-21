@@ -12,119 +12,130 @@ include_once($projectroot ."includes/constants.php");
 
 // *************************** basic db functions *************************** //
 
+
+$db = new Database();
+
+
 $properties = getproperties();
 
-//
-// executes a single query
-// $query a string with a mysql command
-// returns the query result
-// 1 = success, "" = failure
-//
-function singlequery($query)
-{
-  global $dbname,$dbhost,$dbuser,$dbpasswd;
 
-  $result=$query;
-  if(DEBUG)
-  {
-//    print('\n<div class="gen">'.$query.'</div>');
-    $db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
-      or die(mysql_errno().": ".mysql_error());
+/*
+ * Use Database object to limit number of connections
+ */
+class Database {
+	var $db;
+	/*
+	 * open DB at beginning of script
+	 */
+	function Database()
+  	{
+    	global $dbname,$dbhost,$dbuser,$dbpasswd;
+    	
+		if(DEBUG)
+  		{
+			$this->db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
+				or die(mysql_errno().": ".mysql_error());
 
-    @mysql_select_db($dbname)
-      or die("Can't find database. Please try again later.");
+			@mysql_select_db($dbname)
+				or die("Can't find database. Please try again later.");
+		}
+		else
+		{
+			$this->db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
+				or die("Can't connect to database. Please try again later.");
 
-    $result=@mysql_query($query)
-      or die(mysql_errno().": ".mysql_error().' <i>in query:</i> '.$query);
+			@mysql_select_db($dbname)
+				or die("Can't find database. Please try again later.");
+		}
+	}
+	
 
-  }
-  else
-  {
-    $db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
-      or die("Can't connect to database. Please try again later.");
+	// executes a single query
+	// $query a string with a mysql command
+	// returns the query result
+	// 1 = success, "" = failure
+	//
+	function singlequery($query) {
 
-    @mysql_select_db($dbname)
-      or die("Can't find database. Please try again later.");
+		if(DEBUG)
+  		{
+	    	$result=@mysql_query($query)
+				or die(mysql_errno().": ".mysql_error().' <i>in query:</i> '.$query);
+		}
+		else
+		{
+			$result=@mysql_query($query)
+				or die("Can't get data from database. Please notify the admin.");
+		}
 
-    $result=@mysql_query($query)
-      or die("Can't get data from database. Please notify the admin.");
-  }
+		if(preg_match ("/insert/i",$query))
+		{
+			$result= mysql_insert_id($this->db);
+		}
+		
+		return $result;
+	}
 
-  if(preg_match ("/insert/i",$query))
-  {
-    $result= mysql_insert_id($db);
-  }
-  @mysql_close($db);
-  return $result;
-}
-
-//
-// executes a list of queries
-// $queries an array of strings with a mysql commands
-// returns an array of query results
-// 1 = success, "" = failure
-//
-function query($queries)
-{
-  global $dbname,$dbhost,$dbuser,$dbpasswd;
+	// executes a list of queries
+	// $queries an array of strings with a mysql commands
+	// returns an array of query results
+	// 1 = success, "" = failure
+	function multiquery($queries) {
+	
+	
+		$result[0]="";
   
-  $result[0]="";
+		if(DEBUG)
+		{
+
+			for($i=0;$i<count($queries);$i++)
+			{
+				$result[$i]=@mysql_query($queries[$i])
+					or die(mysql_errno().": ".mysql_error().' <i>in query:</i> '.$queries[$i]);
+			}
+		}
+		else
+		{
+
+			for($i=0;$i<count($queries);$i++)
+			{
+				$result[$i]=@mysql_query($queries[$i])
+					or die("Can't get data from database. Please notify the admin.");
+			}
+		}
   
-  if(DEBUG)
-  {
-    $db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
-      or die(mysql_errno().": ".mysql_error());
+		return $result;	
+	}
+	
+	
+	//
+	// security, use with all user input
+	//
+	function setinteger($var)
+	{
+  		if(!(@is_numeric($var) || @ctype_digit($var))) return @settype($var,"int");
+  		else return $var;
+	}
 
-    @mysql_select_db($dbname)
-      or die("Can't find database. Please try again later.");
-
-    for($i=0;$i<count($queries);$i++)
-    {
-      $result[$i]=@mysql_query($queries[$i])
-        or die(mysql_errno().": ".mysql_error().' <i>in query:</i> '.$queries[$i]);
-    }
-  }
-  else
-  {
-    $db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
-      or die("Can't connect to database. Please try again later.");
-      
-    @mysql_select_db($dbname)
-      or die("Can't find database. Please try again later.");
-
-    for($i=0;$i<count($queries);$i++)
-    {
-      $result[$i]=@mysql_query($queries[$i])
-        or die("Can't get data from database. Please notify the admin.");
-    }
-  }
-  
-  @mysql_close($db);
-  return $result;
+	//
+	// security, use with all user input
+	// also handles UTF-8 encoding!
+	//
+	function setstring($var)
+	{
+  		$result= @mysql_real_escape_string($var);
+		return utf8_decode($result);
+	}
+	
+	
+	/*
+	 * close DB at end of script
+	 */
+	function closedb() {
+		@mysql_close($db);
+	}
 }
 
-//
-// security, use with all user input
-//
-function setinteger($var)
-{
-  if(!(@is_numeric($var) || @ctype_digit($var))) return @settype($var,"int");
-  else return $var;
-}
-
-//
-// security, use with all user input
-// also handles UTF-8 encoding!
-//
-function setstring($var)
-{
-  global $dbhost,$dbuser,$dbpasswd;
-  $db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
-      or die("Can't connect to database. Please try again later.");
-  $result= @mysql_real_escape_string($var);
-  @mysql_close($db);
-  return utf8_decode($result);
-}
 
 // *************************** db convenience functions ********************* //
 
@@ -133,6 +144,7 @@ function setstring($var)
 //
 function getcolumn($fieldname, $table, $condition)
 {
+	global $db;
 
 //  print('cond: '.$condition.'<p>');
 
@@ -140,7 +152,7 @@ function getcolumn($fieldname, $table, $condition)
   
   $query="select ".$fieldname." from ".$table." where ".$condition;
 //  print($query);
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   if($sql)
   {
     // get column
@@ -158,6 +170,7 @@ function getcolumn($fieldname, $table, $condition)
 //
 function getrowbykey($table, $keyname, $value, $fieldnames = array(0 => '*'))
 {
+	global $db;
   $result=array();
 
   $query="select ";
@@ -170,7 +183,7 @@ function getrowbykey($table, $keyname, $value, $fieldnames = array(0 => '*'))
   $query.=" from ".$table." where ".$keyname." = '".$value."'";
 
 //  print($query);
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   if($sql)
   {
     $fields=mysql_num_fields($sql);
@@ -196,6 +209,7 @@ function getrowbykey($table, $keyname, $value, $fieldnames = array(0 => '*'))
 //
 function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 => '*'), $orderby="", $ascdesc="ASC")
 {
+	global $db;
   $result=array();
 
   $query="select ";
@@ -211,7 +225,7 @@ function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 =
     $query.=" order by ".$orderby." ".$ascdesc;
   }
 //  print($query);
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   if($sql)
   {
     $fields=mysql_num_fields($sql);
@@ -248,6 +262,7 @@ function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 =
 //
 function getorderedcolumn($fieldname, $table, $condition, $orderby, $ascdesc="DESC")
 {
+	global $db;
 
 //  print('cond: '.$condition.'<p>');
 
@@ -255,7 +270,7 @@ function getorderedcolumn($fieldname, $table, $condition, $orderby, $ascdesc="DE
 
   $query="select ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
 //  print($query.'<br>');
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   if($sql)
   {
     // get column
@@ -273,6 +288,7 @@ function getorderedcolumn($fieldname, $table, $condition, $orderby, $ascdesc="DE
 //
 function getorderedcolumnlimit($fieldname, $table, $condition, $orderby, $offset, $number, $ascdesc="DESC")
 {
+	global $db;
 
 //  print('cond: '.$condition.'<p>');
 
@@ -281,7 +297,7 @@ function getorderedcolumnlimit($fieldname, $table, $condition, $orderby, $offset
   $query="select ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
   $query.=" limit ".$offset.", ".$number;
 //  print($query.'<br>');
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   if($sql)
   {
     // get column
@@ -300,6 +316,7 @@ function getorderedcolumnlimit($fieldname, $table, $condition, $orderby, $offset
 //
 function getdistinctorderedcolumn($fieldname, $table, $condition, $orderby, $ascdesc="DESC")
 {
+	global $db;
 
 //  print('cond: '.$condition.'<p>');
 
@@ -307,7 +324,7 @@ function getdistinctorderedcolumn($fieldname, $table, $condition, $orderby, $asc
 
   $query="select distinct ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
 //  print($query.'<br>');
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   if($sql)
   {
     // get column
@@ -324,12 +341,12 @@ function getdistinctorderedcolumn($fieldname, $table, $condition, $orderby, $asc
 //
 function getdbelement($fieldname, $table, $conditionkey, $conditionvalue)
 {
-
+	global $db;
   $result="";
 
   $query="select ".$fieldname." from ".$table." where ".$conditionkey." = '".$conditionvalue."';";
 //  print($query.'<br>');
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
 
   if($sql)
   {
@@ -346,6 +363,7 @@ function getdbelement($fieldname, $table, $conditionkey, $conditionvalue)
 //
 function getmax($fieldname, $table, $condition)
 {
+	global $db;
 
   $result="";
 
@@ -353,7 +371,7 @@ function getmax($fieldname, $table, $condition)
   $query.=" where ".$condition.";";
   
 //  print($query.'<br>');
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
 
   if($sql)
   {
@@ -368,13 +386,14 @@ function getmax($fieldname, $table, $condition)
 //
 function getmin($fieldname, $table, $condition)
 {
+	global $db;
   $result="";
 
   $query="select min(".$fieldname.") from ".$table;
   $query.=" where ".$condition.";";
 
 //  print($query.'<br>');
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
 
   if($sql)
   {
@@ -389,11 +408,12 @@ function getmin($fieldname, $table, $condition)
 //
 function countelements($keyname, $table)
 {
+	global $db;
   $result="";
 
   $query="select count(".$keyname.") from ".$table.";";
 //  print($query.'<br>');
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
 
   if($sql)
   {
@@ -410,11 +430,12 @@ function countelements($keyname, $table)
 //
 function countelementscondition($keyname, $table,$condition)
 {
+	global $db;
   $result="";
 
   $query="select count(".$keyname.") from ".$table." WHERE ".$condition.";";
 //  print($query.'<br>');
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
 
   if($sql)
   {
@@ -448,7 +469,9 @@ function getproperties()
 function getproperty($propertyname)
 {
   global $properties;
+  //debug_print_backtrace();
   return $properties[$propertyname];
+  
 }
 
 ?>

@@ -5,23 +5,29 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 // check legal vars
 include($projectroot."admin/includes/legaladminvars.php");
 
-include_once($projectroot."admin/functions/pagesmod.php");
+include_once($projectroot."admin/functions/pagescreate.php");
 include_once($projectroot."admin/functions/sessions.php");
-include_once($projectroot."admin/includes/templates/adminpage.php");
-include_once($projectroot."admin/includes/templates/adminelements.php");
+include_once($projectroot."admin/includes/objects/pagenew.php");
+include_once($projectroot."admin/includes/objects/elements.php");
+include_once($projectroot."includes/functions.php");
+include_once($projectroot."admin/includes/objects/adminmain.php");
 
-$sid=$_GET['sid'];
+if(isset($_GET['sid'])) $sid=$_GET['sid'];
+else $sid="";
 checksession($sid);
 
-$page=$_GET['page'];
+if(isset($_GET['page'])) $page=$_GET['page'];
+else $page=0;
+
+$message="";
 
 //print_r($_POST);
 //print_r($_GET);
 
 if(isset($_POST['create']))
 {
-  $title=$_POST['title'];
-  $navtitle=$_POST['navtitle'];
+  $title=fixquotes($_POST['title']);
+  $navtitle=fixquotes($_POST['navtitle']);
   $type=$_POST['type'];
   $root=isset($_POST['root']);
   $ispublishable=$_POST['ispublishable'];
@@ -45,77 +51,54 @@ if(isset($_POST['create']))
     {
       $userid=getsiduser($sid);
       $page=createpage($parent, $title, $navtitle, $type,$userid,$ispublishable);
-      $message="";
+      $allpages=getmultiplefields(PAGES_TABLE, "page_id","1", $fields, $orderby="parent_id, position_navigator");
       if($parent)
       {
         $title=getpagetitle($parent);
-        $message=getpagetype($parent).': '.title2html($title);
+        $message="Created a new page under page: <em>".title2html($title)."</em> (".getpagetype($parent).")";
       }
-      else $message ="Site Root";
+      else $message="Created a new page as a main page";
       
-      $header = new HTMLHeader("Created new page under page:","Webpage Building",$message);
-      print($header->toHTML());
-      $donebutton = new DoneButton($page,"&action=show","admin.php");
-      print($donebutton->toHTML());
-      $footer = new HTMLFooter();
-      print($footer->toHTML());
+      $redirect = new DoneRedirect($page,"Created a new page","&action=show","admin.php","Edit this page");
+      $content = new AdminMain($parent,"show",$message,$redirect);
+      print($content->toHTML());
     }
     else
     {
-      $warning='<i>'.ucfirst($type).'</i> pages can only be created inside the following types of pages:';
+      $message.='<i>'.ucfirst($type).'</i> pages can only be created inside the following types of pages:';
       $keys=array_keys(getlegalparentpagetypes($type));
       for($i=0;$i<count($keys);$i++)
       {
-        if($keys[$i]==="root")
+        if($keys[$i]!="root")
         {
-          $warning.=", or as a main page";
+          $message.=" <i>".$keys[$i]."</i>";
         }
-        else
-        {
-          $warning.=" <i>".$keys[$i]."</i>";
-        }
+      }
+      if (array_search ("root",$keys) || $keys[0] === "root")
+      {
+      		$message.=", or as a main page";
       }
       if($parentpagetype)
       {
-        $warning.='.<br />You tried to add a <i>'.$type.'</i> page to a <i>'.$parentpagetype.'</i> page.';
+        $message.='.<br />You tried to add a <i>'.$type.'</i> page to a <i>'.$parentpagetype.'</i> page.';
       }
       else
       {
-        $warning.='</i>.<br />You tried to add a <i>'.$type.'</i> page as a main page.';
+        $message.='</i>.<br />You tried to add a <i>'.$type.'</i> page as a main page.';
       }
-
-      newpage($page,$warning,$title,$navtitle,$ispublishable,isset($_POST['root']));
     }
-  }
+  } // title && navtitle
   else
   {
-    newpage($page,"Please specify the new page's title (long and short)",$title,$navtitle,$ispublishable,isset($_POST['root']));
+  	$message.="Please specify the new page's title (long and short)";
   }
+  $content = new AdminMain($page,"pagenew",$message,new NewPageForm($page,$title,$navtitle,$ispublishable,isset($_POST['root'])));
+	  print($content->toHTML());  
 }
 else
 {
-  newpage($page);
+    $content = new AdminMain($page,"pagenew",$message,new NewPageForm($page,"","",true,false));
+	print($content->toHTML());  
 }
-
-//
-//
-//
-function newpage($parentpage,$warning="",$newtitle="",$newnavtitle="",$ispublishable=false,$isrootchecked=false)
-{
-  if($parentpage)
-  {
-    $message=getpagetype($parentpage).': '.title2html(getpagetitle($parentpage)).'<br />';
-  }
-  if($warning)
-  {
-    $message.='<br />'.$warning;
-  }
-  
-  $header = new HTMLHeader("Creating new page under page:","Webpage Building",$message);
-  print($header->toHTML());
-  $form = new NewPageForm($parentpage,$newtitle,$newnavtitle,$ispublishable,$isrootchecked);
-  print($form->toHTML());
-  $footer = new HTMLFooter();
-  print($footer->toHTML());
-}
+$db->closedb();
 ?>

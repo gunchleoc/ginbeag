@@ -14,54 +14,17 @@ include_once($projectroot."includes/functions.php");
 
 // *************************** modification ********************************* //
 
-//
-// remove sid from links
-// todo: Wo benutzt? Noch Notwendig?
-//
-function stripsid($text)
-{
-/*
-  $patterns = array(
-           "/http:(.*?)".getproperty("Domain Name")."(.*?)(sid=)(\w*?)(&)/",
-           "/http:(.*?)".getproperty("Domain Name")."(.*?)(\?sid=|&sid=)(\w*?)(\W|\s|$)/",
-           "/(".str_replace("/","\/",getprojectrootlinkpath()).")(index|.*admin.*|.*includes.*|.*functions.*)(.php)(.*)/"
-       );
-  $replacements = array(
-           "http:\\2",
-           "http:\\2\\5",
-           "\\4"
-       );*/
-  return setstring($text);
-}
-
-
-
-/*function stripsid($text)
-{
-
-  $patterns = array(
-           "/http://(.*?)".getproperty("Domain Name")."(.*?)(sid=)(\w*?)(&)/",
-           "/http://(.*?)".getproperty("Domain Name")."(.*?)(\?sid=|&sid=)(\w*?)(\W|\s|$)/",
-           "/(".str_replace("/","\/",getprojectrootlinkpath()).")(index|.*admin.*|.*includes.*|.*functions.*)(.php)(.*)/"
-       );
-  $replacements = array(
-           "http:\\2",
-           "http:\\2\\4",
-           "\\4"
-       );
-  $text = preg_replace($patterns,$replacements, $text);
-  return setstring($text);
-}*/
 
 //
 //
 //
 function deleteentry($table,$condition)
 {
+	global $db;
   $query="DELETE FROM ".$table;
   $query.=(" where ".$condition.";");
 //  print($query.'<p>');
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   return $sql;
 }
 
@@ -70,13 +33,14 @@ function deleteentry($table,$condition)
 //
 function updatefield($table,$field,$value,$condition)
 {
-  $query=("update ");
-  $query.=($table." set ");
-  $query.=$field."=";
-  $query.="'".$value."'";
-  $query.=(" where ".$condition.";");
+	global $db;
+  	$query=("update ");
+  	$query.=($table." set ");
+  	$query.=$field."=";
+  	$query.="'".$value."'";
+  	$query.=(" where ".$condition.";");
 //  print($query.'<p>');
-  $sql=singlequery($query);
+  	$sql=$db->singlequery($query);
   return $sql;
 }
 
@@ -85,6 +49,7 @@ function updatefield($table,$field,$value,$condition)
 //
 function updatefields($table,$fieldnames,$values,$primarykeyname,$primarykeyvalue)
 {
+	global $db;
   $queries=array();
 
   for($i=0;$i<count($fieldnames);$i++)
@@ -97,7 +62,7 @@ function updatefields($table,$fieldnames,$values,$primarykeyname,$primarykeyvalu
     array_push($queries,$query);
   }
 //  print_r($queries);
-  $sql=query($queries);
+  $sql=$db->multiquery($queries);
   return $sql;
 }
 
@@ -106,6 +71,7 @@ function updatefields($table,$fieldnames,$values,$primarykeyname,$primarykeyvalu
 //
 function updateentries($table,$values,$primarykeyname,$fieldname)
 {
+	global $db;
   $queries=array();
   $keys=array_keys($values);
 
@@ -118,7 +84,7 @@ function updateentries($table,$values,$primarykeyname,$fieldname)
     $query.=(" where ".$primarykeyname." = '".$keys[$i]."';");
     array_push($queries,$query);
   }
-  $sql=query($queries);
+  $sql=$db->multiquery($queries);
   return $sql;
 }
 
@@ -128,6 +94,7 @@ function updateentries($table,$values,$primarykeyname,$fieldname)
 //
 function insertentry($table,$values)
 {
+	global $db;
   $query="insert into ";
   $query.=$table." values(";
   for($i=0;$i<count($values)-1;$i++)
@@ -137,7 +104,7 @@ function insertentry($table,$values)
   $query.="'".$values[count($values)-1]."');";
 //  print('<p>'.$query);
 
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   return $sql;
 }
 
@@ -147,9 +114,10 @@ function insertentry($table,$values)
 //
 function optimizetable($table)
 {
+	global $db;
   $query="OPTIMIZE TABLE ".$table.";";
 //  print($query.'<p>');
-  $sql=singlequery($query);
+  $sql=$db->singlequery($query);
   return $sql;
 }
 ?>

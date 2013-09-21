@@ -9,6 +9,7 @@ function uploadfile($_FILES,$subdir,$paramname,$newname="")
 {
   global $projectroot;
   $result=false;
+  //print_r($_FILES);
 
   if (isset($_FILES[$paramname]) and ! $_FILES[$paramname]['error']
       and $_FILES[$paramname]['size']) {
@@ -21,7 +22,7 @@ function uploadfile($_FILES,$subdir,$paramname,$newname="")
       $filename=$projectroot.$subdir.'/'.$_FILES[$paramname]['name'];
     }
     $result=move_uploaded_file($_FILES[$paramname]['tmp_name'], $filename);
-    chmod($filename,0644);
+    if($result) chmod($filename,0644);
 /*    printf("Die Datei %s steht jetzt zur Verfgung.<br />\n",
       $_FILES[$paramname]['name']);
     printf("Sie ist %u Bytes gro und vom Typ %s.<br />\n",

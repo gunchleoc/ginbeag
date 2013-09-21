@@ -1,0 +1,565 @@
+/* Stylesheet for Fòram na Gàidhlig */
+
+/*
+:link = für Verweise zu noch nicht besuchten Seiten
+:visited = für Verweise zu bereits besuchten Seiten
+:focus = für Elemente, die den Fokus erhalten, z.B. durch "Durchsteppen" mit der Tabulator-Taste (CSS 2.0)
+:hover = für Elemente, whrend der Anwender mit der Maus darber fhrt (CSS 2.0)
+:active = für gerade angeklickte Elemente
+*/
+
+
+/**********************/
+/**********************/
+/* Styles for Gaidhlig */
+/* color: #003366 */
+/* title color: #0066CC */
+/*
+link     { color : #0066CC}
+visited  { color : #005BB5;}
+focus	 { color : #623D87;}
+hover	 { color : #3333CC;}
+active	 { color : blue;}
+*/
+/* Styles for English */
+/* color: #660033 */
+/* title color: #FF1751 */
+/*
+link	 { color : #4E009E;}
+visited	 { color : #623D87;}
+focus	 { color : red;}
+hover	 { color : #CC3399;}
+active	 { color : #FF1751;}
+*/
+/**********************/
+/**********************/
+
+
+/************ General element styles ************/
+html body {
+	font-size : 75%;
+	background-color: #44B4EC;
+	color:#002373;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.en { color: #4B0026;}
+
+li { margin-left: 1em; }
+
+
+a:link	 { text-decoration: none; color : #0066CC;}
+a:link span.en { color : #4E009E;}
+a:visited	 {text-decoration: none; color : #005BB5;}
+a:visited	 span.en {color : #623D87;}
+a:focus	 {text-decoration: underline; color : #623D87;}
+a:focus	 span.en { color : red; }
+a:hover	 { text-decoration: underline; color : #3333CC;}
+a:hover	 span.en {color : #CC3399; }
+a:active	 {text-decoration: underline; color : blue;}
+a:active	 span.en { color : #FF1751;}
+
+
+/* General text sizes */
+.medtext, div.medtext, span.medtext { font-size : 90%; }
+.smalltext, div.smalltext, span.smalltext { font-size : 80%; letter-spacing: -0.25px;}
+
+
+/* Highlighted text */
+.highlight	{font-weight: bold; color : #CC3399; }
+a.highlight 	{  text-decoration: none; color : #AA8CA6; }
+a.highlight:hover{ text-decoration: underline; color : #AA8CA6; }
+a.highlight:active { text-decoration:none; font-weight:bold; color:#E9ACB5; }
+
+
+/* Form elements */
+
+fieldset {
+	border: 1px solid #002373;
+	padding:1em;
+	margin-bottom:1em;
+	margin-top:1em;
+}
+
+legend {
+	font-weight: bold;
+}
+
+/*
+input, button, textarea, select {
+	font: normal 90%
+	Arial, Helvetica, sans-serif;
+}
+*/
+
+input, button { text-indent : 2px; }
+
+/* Separate properties for buttons; not supported by IE */
+input[type=button], input[type=submit], input[type=reset], .button  {
+	font-size:95%;
+}
+
+/* The main submit button option */
+input.mainoption {
+	font-weight : bold;
+	font-family: "Helvetica Narrow","Arial Narrow",Tahoma,Arial,Helvetica,sans-serif;
+}
+
+
+/************ Layout control ************/
+
+.rightalign {
+	text-align: right;
+	float: right;
+}
+
+.leftalign {
+	text-align: left;
+	float: left;
+}
+
+.centeralign {
+	text-align: center;
+}
+/* to prevent floating for new sections after image */
+.newline {
+	clear:both;
+}
+
+
+/************ main layout containers ************/
+
+#headerleft {
+	width: 20%;
+	float:left;
+}
+
+
+#headercenter {
+	margin-left: 20%;
+	margin-right: 20%;
+	width: 56.5%;
+	position:absolute;
+	text-align: center;
+}
+
+#headerright {
+	width: 20%;
+	text-align: right;
+	float:right;
+}
+
+#navigator {
+	width: 19.5%;
+	position: absolute;
+	background-color: #A9E2FF;
+	padding: 0.20em;
+	margin-top: 0.5em;
+	font-size: 150%;
+}
+
+#banners {
+	width: 95%;
+	position: absolute;
+	background-color: #A9E2FF;
+	margin-top: 2em;
+	font-size: 75%;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	padding-top: 0.35em;
+	padding-bottom: 0.35em;
+}
+
+#contentarea {
+	background-color: white;
+	z-index: 100;
+	min-width: 1px;
+	width: 77%;
+	border: 1px solid #65CCFF;
+	padding: 1em;
+	padding-top: 0em;
+	margin-left: 21%;
+	margin-top: 1.5em;
+	padding-bottom:120px;
+
+}
+
+/* formerly bodyline */
+#wrapper {
+	background-color: #A9E2FF;
+	background-image:url(img/bgfng.gif);
+	background-repeat:no-repeat;
+	border: 1px #65CCFF solid;
+	padding: 1em;
+}
+
+/************ Navigator elements ************/
+
+/* For accessibility */
+.invisible {
+	width: 0px;
+	height: 0px;
+	margin:0px;
+	padding:0px;
+	border:0px;
+	overflow: hidden;
+	font-size: 0px;
+	float:left;
+}
+
+/* "Home" link on navigator*/
+#navhomelink {
+	margin-top:0.5em;
+	font-weight: bold;
+}
+
+.potdcaption {
+	width: 98%;
+	padding-top: 0.5em;
+	font-weight: bold;
+	font-size: 65%;
+	color: #000000;
+	text-align: left;
+	margin-bottom: 2em;
+}
+
+.aotd {
+	width: 98%;
+	margin-bottom: 2em;
+	font-weight: bold;
+	font-size: 75%;
+	text-align: left;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	padding-bottom: 0.35em;
+	padding-top: 0.35em;
+}
+
+/* Navigator - selected item */
+.navhighlight	{ font-size: 100%; color : blue;}
+.navhighlight span.en	{ color : #FF1751;}
+
+/* Navigator - links */
+.navtitle, a.navtitle	{  color: #002373;}
+.navtitle span.en	{ color: #FF1751;}
+
+/* Navigator link for the lower levels */
+.navlink, a.navlink		{ font-weight: bold; font-size: 70%; color: #002373;}
+.navlink span.en	{ color: #660066; }
+
+.navrootlinkwrapper {
+	margin-top:1em;
+}
+
+.navlinkwrapper {
+	margin-top:0.4em;
+	margin-bottom:0.4em;
+}
+
+/************ header elements ************/
+
+#sitedescription {
+	font-style: italic;
+	padding-top: 0.75em;
+	padding-bottom: 0.75em;
+}
+
+.logoutlink {
+	text-align: right;
+	text-decoration: underline;
+	margin-top: 100px;
+}
+
+/* formerly thTop - page title in header and navigator elements on splashpage */
+.headerpagetitle {
+	width: 100%;
+	text-align: center;
+	border: #65CCFF;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	padding-top: 0.35em;
+	padding-bottom: 0.35em;
+	margin-top: 8em;
+	font-size: 160%;
+	font-family: Arial, Helvetica, sans-serif; 
+	color: #002373;
+}
+
+/* Site name */
+.maintitle	{
+	font-weight: bold;
+	font-size: 350%;
+	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
+	margin:0.25em;
+	color : #000000;
+}
+
+/************ Footer elements ************/
+
+.footer {
+	font-size: 80%;
+	font-family: Arial, Helvetica, sans-serif;
+	letter-spacing: -0.5px;
+}
+
+/************ Content titles ************/
+
+/* The text used for individual page's titles */
+.pagetitle	{
+	font-weight: bold;
+	font-size: 250%;
+	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
+	line-height : 160%;
+	color : #0066CC;
+}
+.pagetitle span.en {
+	color : #FF1751;
+}
+
+/* Titles for newsitemsections, articlesections */
+.sectiontitle	{
+	font-size: 220%;
+	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
+	margin-bottom: 0.5em;
+	color : #0066CC;
+}
+.sectiontitle span.en	{
+	color : #FF1751;
+}
+
+/* Fos newsitemsections */
+.sectionsubtitle	{
+	font-size: 175%; 
+	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	color : #0066CC;
+	margin-top: 1em;
+}
+
+.sectionsubtitle span.en	{
+	color : #FF1751;
+}
+
+
+/************ Content elements ************/
+
+/* section text all over the place */
+.sectiontext {
+	text-align: justify;
+}
+
+/* Synopsis for page intros formerly articlesynopsis */
+.introtext	{
+	font-weight: bold;
+	text-align: justify;
+}
+
+/* Pagemenu */
+.pagemenu {
+	text-align: right;
+	float: right:
+}
+
+/* Copyright info */
+.copyright {
+	font-size: 80%;
+	font-family: Arial, Helvetica, sans-serif;
+	letter-spacing: -0.5px;
+}
+
+.editdata {
+	margin-top:1.5em;
+	width: 100%;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;	
+	padding-top: 0.5em;
+}
+
+
+/************ Menu pages ************/
+
+/* content links - linklistmenu, vormerly "nav"*/
+.contentnavlink {
+	font-weight: bold;
+}
+
+/* content - linklistmenu pagetitles */
+.contentnavtitle, a.contentnavtitle	{
+	color: #002373;
+	font-size: 200%;
+}
+
+.contentnavtitle span.en {
+	color: #FF1751;
+}
+
+.contentnavrootlinkwrapper {
+	margin-top:5ex;
+	margin-bottom:1ex;
+}
+
+.contentnavlinkwrapper {
+	margin-top:1.75ex;
+	line-height: 1.5em; 
+	text-align: justify;
+}
+
+/* for articlemenu */
+.articleinfo {}
+
+/* for menu pages */
+.subpages {
+	margin-left:3em;
+}
+
+/************ Newsitems and articles ************/
+
+/* News: RSS button */
+.rss {
+	text-align: left;
+	float: left:
+}
+
+/* News: filter form wrapper */
+.newsfilterform {
+	margin-top:1.5em;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;	
+}
+
+/* Newsitem: wrapper */
+.newsitem {
+	margin-top:1.5em;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	padding-top: 0.5em;
+}
+
+/* Newsitem: Label for section with quoted text */
+.newsquotetitle {
+	font-weight: bold;
+	margin-left: 2em;
+	padding-top: 2em;
+	margin-bottom: 1em;
+}
+
+/* Newsitem: Section with quoted text */
+div.newsquote {
+	margin-left: 2em;
+	margin-right: 2em;
+	width: *;
+	padding: 1em;
+	font-style: italic;
+	text-align: justify;
+	background-color: #F2F1ED; 
+}
+
+/* Newsitem and article: Source info */
+.articlesource	{}
+.articleauthor	{font-weight: bold;	font-style: italic;}
+.articlelocation	{}
+.articledate	{font-style: italic;}
+
+/* Article: Table of Contents */
+.articletoc {
+	margin-top:1.5em;
+	padding-bottom:0.5em;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	padding-top: 0.5em;
+}
+
+/************ Gallery ************/
+
+.galleryimage {
+	float:left;
+	text-decoration:none;
+	padding:1em;
+	margin:1em;
+    height: 350px;
+    overflow:hidden;
+    display:table-cell;
+	font-size:90%;    
+}
+
+.gallerycontents {
+	float:left;
+	width:100%;
+	padding:1em;
+	margin:1em;
+	display:inline;
+    overflow:hidden;
+    display:table-cell;
+}
+
+/************ Linklist ************/
+
+/* Linklist link */
+.linktitle	{ font-size: 135%;}
+
+.linklistlink {
+	margin-top:1em;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;	
+}
+
+.linkedimage {
+	border: 10px solid transparent;
+	float:left;
+}
+
+/************ Images and image captions ************/
+
+/* Image + caption text */
+.captionedimage	{
+	padding: 0.75em;
+	margin: 1em;
+	text-align: center;
+	border-style: solid;
+	border-width: 1px;
+}
+.imagecaption {
+	padding-left: 0.75em;
+	padding-right: 0.75em;
+	padding-top: 0.5em;
+	font-weight: bold;
+	font-size: 100%;
+	color: #000000;
+	text-align: center;
+	font-style:normal;
+}
+
+/************ Splashpage ************/
+
+.splashpageheaderspacer {
+	padding-top:3.5em;
+	padding-bottom:3em;
+}
+
+#splashpagecontentarea {
+	z-index: 100;
+	min-width: 1px;
+	padding: 1em;
+	padding-top: 0em;
+	margin-top: 3em;
+	text-align: center;
+}
+
+.splashpagelink {
+	padding-left: 0.75em;
+	padding-right: 0.75em;
+}
+
+
+/************ Guestbook ************/
+
+.guestbookentry {
+	margin-top:1.5em;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	padding-top: 0.5em;
+}
+
+
+

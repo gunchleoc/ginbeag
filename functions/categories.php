@@ -34,7 +34,8 @@ function getcategorynamessorted($categories)
 //
 function getcategoryname($catid)
 {
-  return getdbelement("name",CATEGORIES_TABLE, "category_id", setinteger($catid));
+	global $db;
+  return getdbelement("name",CATEGORIES_TABLE, "category_id", $db->setinteger($catid));
 }
 
 //
@@ -42,7 +43,8 @@ function getcategoryname($catid)
 //
 function getcategorychildren($catid)
 {
-  return getorderedcolumn("category_id",CATEGORIES_TABLE,"parent_id = '".setinteger($catid)."'","name","ASC");
+	global $db;
+  return getorderedcolumn("category_id",CATEGORIES_TABLE,"parent_id = '".$db->setinteger($catid)."'","name","ASC");
 }
 
 
@@ -51,7 +53,8 @@ function getcategorychildren($catid)
 //
 function getcategoryparent($catid)
 {
-  return getdbelement("parent_id",CATEGORIES_TABLE, "category_id",setinteger($catid));
+	global $db;
+  return getdbelement("parent_id",CATEGORIES_TABLE, "category_id",$db->setinteger($catid));
 }
 
 //
@@ -69,7 +72,8 @@ function isroot($catid)
 //
 function getcategoryimages($catid)
 {
-  return getorderedcolumn("image_filename",IMAGECATS_TABLE,"category = '".setinteger($catid)."'","image_filename","ASC");
+	global $db;
+  return getorderedcolumn("image_filename",IMAGECATS_TABLE,"category = '".$db->setinteger($catid)."'","image_filename","ASC");
 }
 
 //
@@ -77,7 +81,8 @@ function getcategoryimages($catid)
 //
 function getcategorypages($catid)
 {
-  return getorderedcolumn("page_id",PAGECATS_TABLE,"category = '".setinteger($catid)."'", "page_id","ASC");
+	global $db;
+  return getorderedcolumn("page_id",PAGECATS_TABLE,"category = '".$db->setinteger($catid)."'", "page_id","ASC");
 }
 
 //
@@ -85,7 +90,8 @@ function getcategorypages($catid)
 //
 function getcategorynewsitems($catid)
 {
-  return getorderedcolumn("newsitem_id",NEWSITEMCATS_TABLE,"category = '".setinteger($catid)."'", "newsitem_id","ASC");
+	global $db;
+  return getorderedcolumn("newsitem_id",NEWSITEMCATS_TABLE,"category = '".$db->setinteger($catid)."'", "newsitem_id","ASC");
 }
 
 
@@ -94,7 +100,8 @@ function getcategorynewsitems($catid)
 //
 function getcategoriesforimage($filename)
 {
-  return getcolumn("category",IMAGECATS_TABLE, "image_filename = '".setstring($filename)."'");
+	global $db;
+  return getcolumn("category",IMAGECATS_TABLE, "image_filename = '".$db->setstring($filename)."'");
 }
 
 //
@@ -102,7 +109,8 @@ function getcategoriesforimage($filename)
 //
 function getcategoriesforpage($page_id)
 {
-  return getcolumn("category",PAGECATS_TABLE, "page_id = '".setinteger($page_id)."'");
+	global $db;
+  return getcolumn("category",PAGECATS_TABLE, "page_id = '".$db->setinteger($page_id)."'");
 }
 
 //
@@ -110,7 +118,8 @@ function getcategoriesforpage($page_id)
 //
 function getcategoriesfornewsitem($newsitem_id)
 {
-  return getcolumn("category",NEWSITEMCATS_TABLE, "newsitem_id = '".setinteger($newsitem_id)."'");
+	global $db;
+  return getcolumn("category",NEWSITEMCATS_TABLE, "newsitem_id = '".$db->setinteger($newsitem_id)."'");
 }
 
 ?>

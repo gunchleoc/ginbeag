@@ -16,7 +16,8 @@ include_once($projectroot."functions/db.php");
 //
 function getusername($user_id)
 {
-  return getdbelement("username",USERS_TABLE, "user_id", setinteger($user_id));
+	global $db;
+  return getdbelement("username",USERS_TABLE, "user_id", $db->setinteger($user_id));
 }
 
 //
@@ -24,7 +25,8 @@ function getusername($user_id)
 //
 function getuseremail($user_id)
 {
-  return getdbelement("email",USERS_TABLE, "user_id", setinteger($user_id));
+	global $db;
+  return getdbelement("email",USERS_TABLE, "user_id", $db->setinteger($user_id));
 }
 
 //
@@ -32,7 +34,8 @@ function getuseremail($user_id)
 //
 function getuserid($username)
 {
-  return getdbelement("user_id",USERS_TABLE, "username",setstring($username));
+	global $db;
+  return getdbelement("user_id",USERS_TABLE, "username",$db->setstring($username));
 }
 
 
@@ -49,7 +52,8 @@ function getallcontacts()
 //
 function getiscontact($user_id)
 {
-  return getdbelement("iscontact",USERS_TABLE, "user_id",setinteger($user_id));
+	global $db;
+  return getdbelement("iscontact",USERS_TABLE, "user_id",$db->setinteger($user_id));
 }
 
 //
@@ -57,7 +61,8 @@ function getiscontact($user_id)
 //
 function getcontactfunction($user_id)
 {
-  return getdbelement("contactfunction",USERS_TABLE, "user_id",setinteger($user_id));
+	global $db;
+  return getdbelement("contactfunction",USERS_TABLE, "user_id",$db->setinteger($user_id));
 }
 
 

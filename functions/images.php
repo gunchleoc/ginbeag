@@ -15,7 +15,8 @@ include_once($projectroot."functions/db.php");
 //
 function imageexists($filename)
 {
-  $fileindb=getdbelement("image_filename",IMAGES_TABLE, "image_filename", setstring($filename));
+	global $db;
+  $fileindb=getdbelement("image_filename",IMAGES_TABLE, "image_filename", $db->setstring($filename));
   return strlen($filename)>0 && strcasecmp($fileindb,$filename)==0;
 }
 
@@ -24,7 +25,8 @@ function imageexists($filename)
 //
 function thumbnailexists($thumbnailfilename)
 {
-  $fileindb=getdbelement("thumbnail_filename",THUMBNAILS_TABLE, "thumbnail_filename", setstring($thumbnailfilename));
+	global $db;
+  $fileindb=getdbelement("thumbnail_filename",THUMBNAILS_TABLE, "thumbnail_filename", $db->setstring($thumbnailfilename));
   return $fileindb==$thumbnailfilename;
 }
 
@@ -33,7 +35,8 @@ function thumbnailexists($thumbnailfilename)
 //
 function hasthumbnail($imagefilename)
 {
-  $fileindb=getdbelement("thumbnail_filename",THUMBNAILS_TABLE, "image_filename", setstring($imagefilename));
+	global $db;
+  $fileindb=getdbelement("thumbnail_filename",THUMBNAILS_TABLE, "image_filename", $db->setstring($imagefilename));
   return strlen($fileindb)>0;
 }
 
@@ -42,7 +45,8 @@ function hasthumbnail($imagefilename)
 //
 function getthumbnail($imagefilename)
 {
-  return getdbelement("thumbnail_filename",THUMBNAILS_TABLE, "image_filename", setstring($imagefilename));
+	global $db;
+  return getdbelement("thumbnail_filename",THUMBNAILS_TABLE, "image_filename", $db->setstring($imagefilename));
 }
 
 //
@@ -50,12 +54,13 @@ function getthumbnail($imagefilename)
 //
 function getallfilenames($order="",$ascdesc="")
 {
+	global $db;
   if($order)
   {
-    $order=setstring($order);
+    $order=$db->setstring($order);
     if($order=="uploader") $order="editor_id";
     elseif($order=="filename") $order="image_filename";
-    return getorderedcolumn("image_filename", IMAGES_TABLE, "1", $order,setstring($ascdesc));
+    return getorderedcolumn("image_filename", IMAGES_TABLE, "1", $order,$db->setstring($ascdesc));
   }
   else
   {
@@ -75,9 +80,20 @@ function getallcaptions()
 //
 //
 //
-function getsomefilenames($offset,$number)
+function getsomefilenames($offset,$number, $order="filename", $ascdesc="ASC")
 {
-  return getorderedcolumnlimit("image_filename", IMAGES_TABLE, "1", "image_filename", setinteger($offset), setinteger($number),"ASC");
+	global $db;
+	if(strtolower($ascdesc)=="desc") $ascdesc="DESC";
+	else $ascdesc="ASC";
+	
+	if($order=="uploader") $order="editor_id";
+	elseif($order=="caption") $order="caption";
+	elseif($order=="source") $order="source";
+	elseif($order=="uploaddate") $order="uploaddate";
+	elseif($order=="copyright") $order="copyright";
+	else $order="image_filename";
+	
+  	return getorderedcolumnlimit("image_filename", IMAGES_TABLE, "1", $order, $db->setinteger($offset), $db->setinteger($number),$ascdesc);
 }
 
 //
@@ -94,7 +110,18 @@ function countimages()
 //
 function getimage($filename)
 {
-  return getrowbykey(IMAGES_TABLE, "image_filename", setstring($filename));
+	global $db;
+  return getrowbykey(IMAGES_TABLE, "image_filename", $db->setstring($filename));
+}
+
+
+//
+//
+//
+function getimagesubpath($filename)
+{
+	global $db;
+  	return getdbelement("path",IMAGES_TABLE, "image_filename",$db->setstring($filename));
 }
 
 //
@@ -102,7 +129,8 @@ function getimage($filename)
 //
 function getcaption($filename)
 {
-  return getdbelement("caption",IMAGES_TABLE, "image_filename",setstring($filename));
+	global $db;
+  return getdbelement("caption",IMAGES_TABLE, "image_filename",$db->setstring($filename));
 }
 
 
@@ -111,7 +139,8 @@ function getcaption($filename)
 //
 function getsource($filename)
 {
-  return getdbelement("source",IMAGES_TABLE, "image_filename",setstring($filename));
+	global $db;
+  return getdbelement("source",IMAGES_TABLE, "image_filename",$db->setstring($filename));
 }
 
 //
@@ -119,7 +148,8 @@ function getsource($filename)
 //
 function getsourcelink($filename)
 {
-  return getdbelement("sourcelink",IMAGES_TABLE, "image_filename",setstring($filename));
+	global $db;
+  return getdbelement("sourcelink",IMAGES_TABLE, "image_filename",$db->setstring($filename));
 }
 
 
@@ -128,7 +158,8 @@ function getsourcelink($filename)
 //
 function getuploaddate($filename)
 {
-  return getdbelement("uploaddate",IMAGES_TABLE, "image_filename",setstring($filename));
+	global $db;
+  return getdbelement("uploaddate",IMAGES_TABLE, "image_filename",$db->setstring($filename));
 }
 
 
@@ -137,7 +168,8 @@ function getuploaddate($filename)
 //
 function getuploader($filename)
 {
-  return getdbelement("editor_id",IMAGES_TABLE, "image_filename",setstring($filename));
+	global $db;
+  return getdbelement("editor_id",IMAGES_TABLE, "image_filename",$db->setstring($filename));
 }
 
 //
@@ -145,7 +177,8 @@ function getuploader($filename)
 //
 function getimagecopyright($filename)
 {
-  return getdbelement("copyright",IMAGES_TABLE, "image_filename",setstring($filename));
+	global $db;
+  return getdbelement("copyright",IMAGES_TABLE, "image_filename",$db->setstring($filename));
 }
 
 //
@@ -153,7 +186,8 @@ function getimagecopyright($filename)
 //
 function getimagepermission($filename)
 {
-  return getdbelement("permission",IMAGES_TABLE, "image_filename",setstring($filename));
+	global $db;
+  return getdbelement("permission",IMAGES_TABLE, "image_filename",$db->setstring($filename));
 }
 
 //
@@ -187,14 +221,14 @@ function imageisused($filename)
 //
 function pagesforimage($filename)
 {
-  $filename=setstring($filename);
-
-  $articlesynopses=getorderedcolumn("page_id",ARTICLES_TABLE, "synopsisimage = '".$filename."'", "page_id");
+	global $db;
+  $filename=$db->setstring($filename);
+  
+  $pageintros=getorderedcolumn("page_id",PAGES_TABLE, "introimage = '".$filename."'", "page_id");
   $articlesections=getorderedcolumn("article_id",ARTICLESECTIONS_TABLE, "sectionimage = '".$filename."'", "article_id");
   $galleryitems=getorderedcolumn("page_id",GALLERYITEMS_TABLE, "image_filename = '".$filename."'", "page_id");
-  $linklistimages=getorderedcolumn("page_id",LINKLISTS_TABLE, "image = '".$filename."'", "page_id");
   $linkimages=getorderedcolumn("page_id",LINKS_TABLE, "image = '".$filename."'", "page_id");
-  return array_merge($articlesynopses,$articlesections,$galleryitems,$linklistimages,$linkimages);
+  return array_merge($pageintros,$articlesections,$galleryitems,$linkimages);
 }
 
 //
@@ -202,7 +236,8 @@ function pagesforimage($filename)
 //
 function newsitemsforimage($filename)
 {
-  $filename=setstring($filename);
+	global $db;
+  $filename=$db->setstring($filename);
   $synopsisimages=getorderedcolumn("newsitem_id",NEWSITEMSYNIMG_TABLE, "image_filename = '".$filename."'", "newsitem_id");
   $sectionimages=getorderedcolumn("newsitem_id",NEWSITEMSECTIONS_TABLE, "sectionimage = '".$filename."'", "newsitem_id");
   return array_merge($synopsisimages,$sectionimages);
@@ -214,6 +249,7 @@ function newsitemsforimage($filename)
 //
 function getpictureoftheday()
 {
+	global $db;
   $date=date("Y-m-d",strtotime('now'));
 //  print($date);
   
@@ -221,7 +257,7 @@ function getpictureoftheday()
   if(!hasthumbnail($potd) || !imageisused($potd) || imagepermissionrefused($potd))
   {
     $query="DELETE FROM ".PICTUREOFTHEDAY_TABLE." where potd_date= '".$date."';";
-    $sql=singlequery($query);
+    $sql=$db->singlequery($query);
     $potd=0;
   }
   if(!$potd)
@@ -254,7 +290,7 @@ function getpictureoftheday()
     $query.=" AND cats.category in(".$cats.")";
 
 //    print($query);
-    $sql=singlequery($query);
+    $sql=$db->singlequery($query);
     $images=array();
     if($sql)
     {
@@ -277,7 +313,7 @@ function getpictureoftheday()
       $query.="'".$potd."'";
       $query.=");";
 //    print($query);
-      $sql=singlequery($query);
+      $sql=$db->singlequery($query);
     }
   }
   return $potd;

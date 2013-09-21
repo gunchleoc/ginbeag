@@ -7,11 +7,15 @@ include($projectroot."admin/includes/legaladminvars.php");
 
 include_once($projectroot."admin/functions/usersmod.php");
 include_once($projectroot."admin/functions/sessions.php");
-include_once($projectroot."admin/includes/templates/adminprofile.php");
+include_once($projectroot."admin/includes/objects/profile.php");
+include_once($projectroot."includes/functions.php");
+include_once($projectroot."admin/includes/objects/adminmain.php");
 
 $sid=$_GET['sid'];
 checksession($sid);
 
+if(isset($_GET['page'])) $page=$_GET['page'];
+else $page=0;
 
 // HTTP-vars
 if(isset($_POST['oldpass'])) $oldpass=trim($_POST['oldpass']);
@@ -42,28 +46,31 @@ if(isset($_POST['contact']))
   {
     changeiscontact($userid,0);
   }
-  changecontactfunction($userid,$_POST['contactfunction']);
+  changecontactfunction($userid,fixquotes($_POST['contactfunction']));
 }
 else
 {
   if($pass)
   {
     $message=changeuserpassword($userid,$oldpass,$pass,$passconf).' ';
+    $message='Changed password.';
   }
   if($email)
   {
     if(emailexists($email,$userid))
     {
-      $message.='E-mail <i>'.$email.'</i> already exists!';
+      $message.=' E-mail <i>'.$email.'</i> already exists!';
     }
     else
     {
       changeuseremail($userid,$email);
+      $message.= 'Changed e-mail address.';
     }
   }
 }
 
-$content = new ProfilePage($userid);
-print($content->toHTML());
+$content = new AdminMain($page,"profile",$message,new ProfilePage($userid));
 
+print($content->toHTML());
+$db->closedb();
 ?>

@@ -1,82 +1,9 @@
 <?php
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
-include_once($projectroot."functions/categories.php");
-include_once($projectroot."functions/images.php");
-include_once($projectroot."functions/users.php");
-include_once($projectroot."functions/publicsessions.php");
+
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."language/languages.php");
-
-
-
-//
-// todo: create search engine
-//
-function searchform($page,$all=true,$search="")
-{
-  $result="";
-  $pages=array();
-  if(getpagetype($page)==="articlemenu")
-  {
-    $parent=$page;
-    array_push($pages,$parent);
-    while(!isrootpage($parent))
-    {
-      $parent=getparent($parent);
-      array_push($pages,$parent);
-    }
-  }
-  elseif(getpagetype($page)==="news")
-  {
-    $pages=getsubpagesforpagetype($page,"news");
-  }
-
-  $result.='<form name="searchform" method="get">';
-  $result.='<input type="hidden" name="page" value="'.$page.'" />';
-  $result.='<tr>';
-  $result.='<td>';
-  $result.='<p class="highlight">Search:</p>';
-
-  $result.='<table border="0" cellspacing="0" cellpadding="10">';
-  $result.='  <tr>';
-  $result.='    <td  valign="top" align="left">';
-  $result.='    Search';
-  $result.='<select name="searchpage" size="1">';
-
-  for($i=count($pages)-1;$i>=0;$i--)
-  {
-    $result.='<option value="'.$pages[$i].'"';
-    if($pages[$i]==$page) $result.=' selected';
-    $result.='>';
-    $result.=input2html(getnavtitle($pages[$i]));
-    $result.='</option>';
-  }
-  $result.='</select>';
-
-  $result.='    for:';
-  $result.='  	</td>';
-  $result.='   <td  valign="top" align="left">';
-  $result.='    <input type="text" name="search" value="'.input2html($search).'" size="30" />';
-  $result.='    <br><input type="checkbox" name="all" value="1"';
-  if($all) $result.=' checked';
-  $result.='/>Match all words';
-  $result.='  	</td>';
-  $result.='    <td valign="top">';
-  $result.='      <input type="submit" name="submit" value="Search" class="mainoption" />';
-  $result.='    </td>';
-  $result.='  </tr>';
-
-  $result.='</table>';
-  $result.='<hr>';
-  $result.='</td>';
-  $result.='</tr>';
-  $result.='</form>';
-
- return $result;
-}
-
-
 
 
 //

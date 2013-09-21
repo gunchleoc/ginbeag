@@ -2,7 +2,7 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
 
-include_once($projectroot."includes/templates/page.php");
+include_once($projectroot."includes/objects/page.php");
 ?>
    
 
@@ -14,7 +14,7 @@ include_once($projectroot."includes/templates/page.php");
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
 	<script	type="text/javascript" src="jquery.js"></script>
 	<script	type="text/javascript" src="bs.js"></script>
-	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/page.css" type="text/css">
+	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/templates/fng/main.css" type="text/css">
 	<link rel="stylesheet" href="bs.css" type="text/css">
 </head>
 <body>
@@ -77,6 +77,7 @@ if(getproperty('Display Banners'))
   $banners=new BannerList();
   print($banners->toHTML());
 }
+$db->closedb();
 
 ?>
 <td>&nbsp;</td>

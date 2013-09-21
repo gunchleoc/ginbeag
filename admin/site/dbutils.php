@@ -2,138 +2,62 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-// check legal vars
-include($projectroot."admin/includes/legalsitevars.php");
-
 include_once($projectroot."admin/functions/dbmod.php");
 include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/functions/pagesmod.php");
-include_once($projectroot."admin/includes/adminelements.php");
+include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."admin/includes/objects/site/dbutils.php");
+include_once($projectroot."admin/includes/objects/adminmain.php");
 
-$sid=$_GET['sid'];
+if(isset($_GET['sid'])) $sid=$_GET['sid'];
+else $sid="";
 checksession($sid);
 
-//showtables();
-if(isset($_GET['backup']))
+if(!isadmin($sid))
 {
-  if($_GET['structure']==="structure")
+  die('<p class="highlight">You have no permission for this area</p>');
+}
+
+if(isset($_GET['page'])) $page=$_GET['page'];
+else $page=0;
+
+$message="";
+
+
+//showtables();
+if(isset($_POST['backup']))
+{
+  if($_POST['structure']==="structure")
   {
-    backupdatabase($_GET['display']);
+    backupdatabase($_POST['display']);
   }
   else
   {
-    backupdatabase($_GET['display'],false);
+    backupdatabase($_POST['display'],false);
   }
 }
-elseif(isset($_GET['clearpagecache']))
+elseif(isset($_POST['clearpagecache']))
 {
-  clearpagecache();
-  print('<p class="highlight">Cleared page cache.</p>');
-  printforms();
-}
-else
-{
-  printforms();
+	clearpagecache();
+	$message="Cleared page cache";
 }
 
-//
-//
-//
-function printforms()
+if(!(isset($_POST['display']) && $_POST['display']==="screen"))
 {
-   printbackupform();
-   printclearcacheform();
+	$content = new AdminMain($page,"sitedb",$message,new SiteDBUtilsBackupForm());
+	print($content->toHTML());
 }
+$db->closedb();
 
-//
-//
-//
-function printbackupform()
-{
-  global $sid;
-$header = new HTMLHeader("Database Utilities","Webpage Building");
-print($header->toHTML());
-?>
-<table><tr><td class="bodyline">
-<table cellpadding="5"><tr>
-<th class="thHead" colspan="2">Backup Database</th>
-</tr>
-<form name="backupform" method="get">
-<tr>
-  <td class="gen"><b>Backup</b>
-  </td>
-  <td class="gen">
-  <input type="radio" name="structure" value="structure">
-  Structure only
-  <div>
-  <input type="radio" name="structure" value="full" checked>
-  Full backup
-  </div>
-  </td>
-</tr>
-<tr>
-  <td class="gen"><b>Display method</b>
-  </td>
-  <td class="gen">
-  <input type="radio" name="display" value="screen">Display on screen
-  <div>
-  <input type="radio" name="display" value="download">Download uncompressed
-  </div><div>
-  <input type="radio" name="display" value="gzip" checked>Download gzip
-  </div>
-  </td>
-</tr>
-<tr>
-<td colspan="2" class="table" align="center">
-<input type="hidden" name="sid" value="<?php print($sid);?>">
-<input type="submit" name="backup" value="Start Backup" class="mainoption">
-</td>
-</tr>
-</form>
-</table>
-</td></tr>
-</table>
-
-<?php
-$footer = new HTMLFooter();
-print($footer->toHTML());
-}
-
-
-//
-//
-//
-function printclearcacheform()
-{
-  global $sid;
-?>
-<table><tr><td class="bodyline">
-<table cellpadding="5"><tr>
-<th class="thHead">Clear Page Cache</th>
-</tr>
-<form name="clearcacheform" method="get">
-<tr>
-<td class="table" align="center">
-<input type="hidden" name="sid" value="<?php print($sid);?>">
-<input type="submit" name="clearpagecache" value="Clear Page Cache" class="mainoption">
-</td>
-</tr>
-</form>
-</table>
-</td></tr>
-</table>
-
-<?php
-}
 
 //
 //
 //
 function backupdatabase($display,$structureonly=true)
 {
-  global $dbname,$table_prefix;
+  global $dbname,$table_prefix, $db,$page,$message;
   
-  $sitename=getproperty("Site Name");
+  $sitename=title2html(getproperty("Site Name"));
   
   if($display==="screen")
   {
@@ -161,7 +85,7 @@ function backupdatabase($display,$structureonly=true)
 
 //  print($query.'<p>');
 
-  $tables=singlequery($query);
+  $tables=$db->singlequery($query);
   while($tablerow = mysql_fetch_row($tables))
   {
     $tablename=$tablerow[0];
@@ -174,7 +98,7 @@ function backupdatabase($display,$structureonly=true)
 
     // get fields
     $query="SHOW COLUMNS FROM ".$tablename;
-    $columns=singlequery($query);
+    $columns=$db->singlequery($query);
     
     $numfields=mysql_num_fields($columns);
 
@@ -192,7 +116,7 @@ function backupdatabase($display,$structureonly=true)
     
     // get keys
     $query="SHOW INDEX FROM ".$tablename;
-    $keys=singlequery($query);
+    $keys=$db->singlequery($query);
     if(mysql_num_rows($keys))
     {
       $result=substr($result,0,strlen($result)-strlen($cr));
@@ -240,7 +164,7 @@ function backupdatabase($display,$structureonly=true)
     {
       $query="SELECT * from ".$tablename.";";
 
-      $data=singlequery($query);
+      $data=$db->singlequery($query);
       
       if(mysql_num_rows($data))
       {
@@ -249,7 +173,14 @@ function backupdatabase($display,$structureonly=true)
           $result.=$cr."INSERT INTO `".$tablename."` VALUES (";
           for($i=0;$i<count($element);$i++)
           {
-            $result.="'".addslashes($element[$i])."',";
+          	$entry = utf8_encode(addslashes($element[$i]));
+          	if($display==="screen")
+			  {
+			  	$entry=str_replace ("<", "&lt;", $entry);
+			  	$entry=str_replace (">", "&gt;", $entry);
+			  }
+			  $entry=stripslashes($entry);
+            $result.="'".$entry."',";
           }
           $result=substr($result,0,strlen($result)-1);
           $result.=");";
@@ -260,11 +191,9 @@ function backupdatabase($display,$structureonly=true)
   }
   if($display==="screen")
   {
-    $header = new HTMLHeader("Database Dump","Webpage Building");
-    print($header->toHTML());
-    print('<div class="gen">'.$result.'</div>');
-    $footer = new HTMLFooter();
-    print($footer->toHTML());
+  	$content = new AdminMain($page,"sitedb",$message,new SiteDBUtilsDBDump($result));
+  	//$content = new SiteDBUtilsDBDump($result);
+    print($content->toHTML());
   }
   elseif($display==="download")
   {
@@ -272,7 +201,7 @@ function backupdatabase($display,$structureonly=true)
     $name=str_replace(" ","_",$sitename)."_webpage_".$dbname;
     if($structureonly) $name.="_structure";
     $name.=".sql";
-		header("Content-Type: text/x-delimtext; name=\"".$name."\"");
+		header("Content-Type: text/x-delimtext; name=\"".$name."\"".'; charset=utf-8');
 		header("Content-disposition: attachment; filename=".$name."");
     print($result);
   }
@@ -295,18 +224,14 @@ function backupdatabase($display,$structureonly=true)
 //
 function showtables()
 {
-  global $table_prefix;
-  
-  $header = new HTMLHeader("Database Utilities","Webpage Building");
-  print($header->toHTML());
-
+  global $table_prefix, $db;
 
   //get table names
   $query="SHOW TABLES LIKE '".$table_prefix."%';";
 
 //  print($query.'<p>');
 
-  $tables=singlequery($query);
+  $tables=$db->singlequery($query);
   while($tablerow = mysql_fetch_row($tables))
   {
     $tablename=$tablerow[0];
@@ -314,13 +239,13 @@ function showtables()
 
     // get fields
     $query="SHOW COLUMNS FROM ".$tablename;
-    $columns=singlequery($query);
+    $columns=$db->singlequery($query);
 
     $numfields=mysql_num_fields($columns);
     print('<table class="bodyline"><tr>');
     for($i=0;$i<$numfields;$i++)
     {
-      print('<th class="gen">'.$i.": ".mysql_field_name ($columns,$i).'</th>');
+      print('<th>'.$i.": ".mysql_field_name ($columns,$i).'</th>');
     }
     print('</tr>');
 
@@ -329,7 +254,7 @@ function showtables()
       print('<tr>');
       for($i=0;$i<count($column);$i++)
       {
-        print('<td class="gen">');
+        print('<td>');
         print_r($column[$i]);
         print('</td>');
       }
@@ -340,13 +265,13 @@ function showtables()
     
     // show keys
     $query="SHOW INDEX FROM ".$tablename;
-    $keys=singlequery($query);
+    $keys=$db->singlequery($query);
     
     $numfields=mysql_num_fields($keys);
     print('<p>Keys:<br><table class="bodyline"><tr>');
     for($i=0;$i<$numfields;$i++)
     {
-      print('<th class="gen">'.$i.": ".mysql_field_name ($keys,$i).'</th>');
+      print('<th>'.$i.": ".mysql_field_name ($keys,$i).'</th>');
     }
 
     while($key = mysql_fetch_row($keys))
@@ -354,7 +279,7 @@ function showtables()
       print('<tr>');
       for($i=0;$i<count($key);$i++)
       {
-        print('<td class="gen">');
+        print('<td>');
         print_r($key[$i]);
         print('</td>');
       }
@@ -363,8 +288,15 @@ function showtables()
     }
     print('</tr></table>');
   }
-  $footer = new HTMLFooter();
-  print($footer->toHTML());
 }
 
+//
+//
+//
+function clearpagecache()
+{
+	global $db;
+  $query="TRUNCATE TABLE ".PAGECACHE_TABLE.";";
+  $sql=$db->singlequery($query);
+}
 ?>
