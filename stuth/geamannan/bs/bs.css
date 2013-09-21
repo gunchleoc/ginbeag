@@ -1,0 +1,70 @@
+table.grid {
+	border:	black	1px	solid;
+	margin:0;
+}
+
+
+.solved {
+	color:red;
+}
+
+.bingo {
+	color:black;
+}
+
+.mouseover {
+	color:red;
+}
+
+td.word {
+	border:	black	1px	solid;
+	text-align:center;
+	vertical-align:middle;
+	width:7em;
+	height:7em;
+	font-size: 110%;
+}
+
+
+td.highlight {
+	border:	black	1px	solid;
+	text-align:center;
+	vertical-align:middle;
+	width:7em;
+	height:7em;
+	font-size: 110%;
+	color:green;
+}
+
+
+td.solved {
+	border:	black	1px	solid;
+	text-align:center;
+	vertical-align:middle;
+	width:7em;
+	height:7em;
+	font-size: 110%;
+	background:lightgrey;
+}
+
+td.bingo {
+	border:	black	1px	solid;
+	text-align:center;
+	vertical-align:middle;
+	width:7em;
+	height:7em;
+	font-size: 110%;
+	background:lightpink;
+}
+
+
+td.print {
+	border:	black	1px	solid;
+	text-align:center;
+	vertical-align:middle;
+	width:120px;
+	height:120px;
+	font-size: 16px;
+}
+
+

@@ -1,0 +1,30 @@
+table.frame	{
+	border: 10px #051A28 inset;
+}
+
+
+img.frame	{
+	border: 0px transparent;
+	background-repeat:no-repeat;
+	width: 75px;
+	height: 75px;
+	margin:0px;
+}
+
+td.frame	{
+	border: 0px transparent;
+	background-repeat:no-repeat;
+	width: 75px;
+	height: 75px;
+	margin:0px;
+}
+
+td.sea	{
+	border: 5px #093D4E outset;
+	background-image:url(water.png);
+}
+
+img.thumb {
+	margin:5px;
+	border: 1px #000000 solid;
+}

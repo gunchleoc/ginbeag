@@ -1,0 +1,1 @@
+<a href="?printview=on&page={PAGE}<!-- BEGIN switch NEWSITEM -->&newsitem={NEWSITEM}<!-- END switch NEWSITEM -->" target="_blank"><img src="templates/printviewbutton.gif" border="0" alt="Print View"></a>

@@ -1,0 +1,77 @@
+Editing redesign todo
+
+- edit: menu
+- editcategories
+- editimagelist cleanup + testing
+- site: Site Layout, antispam, banners done.
+- root: showimage, guestbook done
+
+test if excludes for vars generation works properly, e.g. banners admin
+
+
+Bugs:
+=====
+- image filter
+- image filter: input2html without utf8
+- image filter keep selected cat
+- image filter unsetting $_GET
+- Linklist link http://books.google.com/books?vid=ISBN0415297605&id=9LvrxOFoukgC
+- / in Linknamen ermöglichen
+- Categories delete funzt ohne Bestätigung
+- Menus level 0
+- newsitem archive below wrong page
+- splash page selected links
+- site policy title doesn't save, edit text doesn't work
+- database utilities - double header because of legalvars check
+
+
+Technical:
+==========
+- finish templating
+- clean up includes
+- get and post vars für Templates kapseln {ACTIONVARS}, {HIDDENVARS} statt {SID}= etc.
+-- go over PageMenu in all files to switch to $_GET
+-- restrict var generation to possible vars. Action variables need to be killed from $_GET, $_POST after reading! Check which vars are action vars. Introduce "actioncontents" + "actionpage"?
+- Namen in Links?
+- include WIDTH and HEIGHT attributes on all images and table columns
+- database efficiency
+- replace tables with css indent
+- handle Object not found! exception for empty vars in .tpl {VAR} in $GET_VARS
+- kill foreign referers in non-primary scripts $_SERVER["HTTP_REFERER"] => http://localhost/minicms/index.php?page=44
+
+
+
+Desired new public features:
+=====================
+- banners tooltip text
+- guestbook: keep input window with pagination
+- newsitems per id ansurfen
+- Option: Contact name, contact & Sitemap on main page
+- configure language
+- Header title - Oberseite und Domain in Klammern dahinter - konfigurierbar machen? Site description für splash page hinzufügen
+- Add Search to article + news filter form
+- Optional new window for links
+- Formatting home link
+- add optional intro text to guestbook and contact form?
+
+
+Desired new admin features:
+=====================
+- page preview: add edit page link
+- create new page default as public
+- imagelist: edit caption, source + copyright together
+- Links von einer Seite auf die andere
+- Links/Bilder von Seite zu Seite verschieben/kopieren.
+- Site statistics - all pages
+- multilingual admin interface
+- imagelist: unknownimageform group images with thumbnails.
+- bannerlist: if something's in the code, grey out other fields
+
+
+
+Notes
+=====
+-- css: don't forget visited link color!
+http://www.useit.com/alertbox/20040503.html
+
+-A practical tip: links to a directory should include the final slash in the URL when embedded in webpages. The slash should be left out when writing the URL for human consumption. Adding trailing slashes to HREFs when appropriate reduces latency by a small but noticable amount, so you may as well do it.

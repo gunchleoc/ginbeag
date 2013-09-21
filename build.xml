@@ -1,0 +1,32 @@
+<project name="minicms" default="copy" basedir=".">
+    <description>
+        Copy files
+    </description>
+  <!-- set global properties for this build -->
+  <property name="build"  location="..\minicmsexport"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="copy" depends="init" description="copying files " >
+    <copy todir="${build}">
+      <fileset dir="." casesensitive="no">
+        <include name="**/*.php"/>
+        <include name="**/*.tpl"/>
+        <include name="templates/printview*"/>
+        <include name="**/*.html"/>
+        <exclude name="includes/constants.php"/>
+        <exclude name="**/*config*"/>
+        <exclude name="convertnews.php"/>
+        <exclude name="update.php"/>
+        <exclude name="testdb.php"/>
+        <exclude name="functions/fileread.php"/>
+        <exclude name="images/*"/>
+      </fileset>
+    </copy>
+  </target>
+</project>

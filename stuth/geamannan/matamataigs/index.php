@@ -1,0 +1,483 @@
+<?php
+$projectroot=dirname(__FILE__);
+$projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
+
+include_once($projectroot."includes/templates/page.php");
+?>
+   
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+	<title>Fòram na Gàidhlig - Geama matamataigs</title>
+	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
+	<link href="page.css"	rel="stylesheet" type="text/css">
+	<link href="tetris.css"	rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="http://www.foramnagaidhlig.net/page.css" type="text/css">
+
+	<script type="text/javascript" src="jquery.js"></script>     
+
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+ 
+function disableEnterKey(e)
+ {
+      var key;      
+     if(window.event)
+           key = window.event.keyCode; //IE
+      else
+           key = e.which; //firefox      
+
+     return (key != 13);
+ }
+ 
+
+
+<!--START OF TIMER SCRIPT-->
+
+
+//how much time they get
+var time=120;
+var timesup=0;
+var started=0;
+
+//document.math.answer.value="";
+//document.math.points.value="0";
+
+
+
+/*
+ *
+ */
+function CountDown() {
+	if(time>0)
+	{
+		document.getElementById("timer").innerHTML = time;
+		time=time-1;
+		var gameTimer=setTimeout("CountDown()", 1000);
+	}
+	else if (time==0)
+	{
+		document.getElementById("timer").innerHTML = "0";
+		timesup=1;
+		alert('Dh\'fhalbh an ùine ort!');
+		document.math.answer.value="";
+	}
+}
+<!--END OF TIMER SCRIPT-->
+
+
+function trim(str, chars) {
+	return ltrim(rtrim(str, chars), chars);
+}
+ 
+function ltrim(str, chars) {
+	chars = chars || "\\s";
+	return str.replace(new RegExp("^[" + chars + "]+", "g"), "");
+}
+ 
+function rtrim(str, chars) {
+	chars = chars || "\\s";
+	return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
+}
+
+
+
+$(document).ready(function() {
+
+var mapnumbersold = new Array("a neoni", "a h-aon", "a dhà", "a trì", "a ceithir", "a còig", "a sia", "a seachd", "a h-ochd", "a naoi",
+"deich", "a h-aon deug", "a dhà dheug", "a trì deug", "a ceithir deug", "a còig deug", "a sia deug", "a seachd deug", "a h-ochd deug","a naoi deug",
+"fichead", "a h-aon air fhichead", "a dhà air fhichead", "a trì air fhichead", "a ceithir air fhichead", "a còig air fhichead", "a sia air fhichead", "a seachd air fhichead", "a h-ochd air fhichead", "a naoi air fhichead",
+"deich air fhichead", "a h-aon deug air fhichead", "a dhà dheug air fhichead", "a trì deug air fhichead", "a ceithir deug air fhichead", "a còig deug air fhichead", "a sia deug air fhichead", "a seachd deug air fhichead", "a h-ochd deug air fhichead", "a naoi deug air fhichead",
+"dà fhichead", "dà fhichead is a h-aon", "dà fhichead is a dhà","dà fhichead is a trì", "dà fhichead is a ceithir","dà fhichead is a còig","dà fhichead is a sia","dà fhichead is a seachd","dà fhichead is a h-ochd","dà fhichead is a naoi",
+"dà fhichead is a deich","dà fhichead is a h-aon deug", "dà fhichead is a dhà dheug", "dà fhichead is a trì deug", "dà fhichead is a ceithir deug", "dà fhichead is a còig deug", "dà fhichead is a sia deug", "dà fhichead is a seachd deug", "dà fhichead is a h-ochd deug","dà fhichead is a naoi deug",
+"trì fichead", "trì fichead is a h-aon", "trì fichead is a dhà","trì fichead is a trì", "trì fichead is a ceithir","trì fichead is a còig","trì fichead is a sia","trì fichead is a seachd","trì fichead is a h-ochd","trì fichead is a naoi",
+"trì fichead is a deich","trì fichead is a h-aon deug", "trì fichead is a dhà dheug", "trì fichead is a trì deug", "trì fichead is a ceithir deug", "trì fichead is a còig deug", "trì fichead is a sia deug", "trì fichead is a seachd deug","trì fichead is a h-ochd deug", "trì fichead is a naoi deug",
+"ceithir fichead", "ceithir fichead is a h-aon", "ceithir fichead is a dhà","ceithir fichead is a trì", "ceithir fichead is a ceithir","ceithir fichead is a còig","ceithir fichead is a sia","ceithir fichead is a seachd","ceithir fichead is a h-ochd","ceithir fichead is a naoi",
+"ceithir fichead is a deich", "ceithir fichead is a h-aon deug", "ceithir fichead is a dhà dheug", "ceithir fichead is a trì deug", "ceithir fichead is a ceithir deug", "ceithir fichead is a còig deug", "ceithir fichead is a sia deug", "ceithir fichead is a seachd deug", "ceithir fichead is a h-ochd deug", "ceithir fichead is a naoi deug",
+"ceud");
+
+
+
+var mapnumbersnew = new Array("a neoni", "a h-aon", "a dhà", "a trì", "a ceithir", "a còig", "a sia", "a seachd", "a h-ochd", "a naoi",
+"deich", "a h-aon deug", "a dhà dheug", "a trì deug", "a ceithir deug", "a còig deug", "a sia deug", "a seachd deug", "a h-ochd deug","a naoi deug",
+"fichead", "fichead is a h-aon", "fichead is a dhà","fichead is a trì", "fichead is a ceithir","fichead is a còig","fichead is a sia","fichead is a seachd","fichead is a h-ochd","fichead is a naoi",
+"trithead", "trithead is a h-aon", "trithead is a dhà","trithead is a trì", "trithead is a ceithir","trithead is a còig","trithead is a sia","trithead is a seachd","trithead is a h-ochd","trithead is a naoi",
+"ceathrad", "ceathrad is a h-aon", "ceathrad is a dhà","ceathrad is a trì", "ceathrad is a ceithir","ceathrad is a còig","ceathrad is a sia","ceathrad is a seachd","ceathrad is a h-ochd","ceathrad is a naoi",
+"caogad", "caogad is a h-aon", "caogad is a dhà","caogad is a trì", "caogad is a ceithir","caogad is a còig","caogad is a sia","caogad is a seachd","caogad is a h-ochd","caogad is a naoi",
+"seasgad", "seasgad is a h-aon", "seasgad is a dhà","seasgad is a trì", "seasgad is a ceithir","seasgad is a còig","seasgad is a sia","seasgad is a seachd","seasgad is a h-ochd","seasgad is a naoi",
+"seachdad", "seachdad is a h-aon", "seachdad is a dhà","seachdad is a trì", "seachdad is a ceithir","seachdad is a còig","seachdad is a sia","seachdad is a seachd","seachdad is a h-ochd","seachdad is a naoi",
+"ochdad", "ochdad is a h-aon", "ochdad is a dhà","ochdad is a trì", "ochdad is a ceithir","ochdad is a còig","ochdad is a sia","ochdad is a seachd","ochdad is a h-ochd","ochdad is a naoi",
+"naochad", "naochad is a h-aon", "naochad is a dhà","naochad is a trì", "naochad is a ceithir","naochad is a còig","naochad is a sia","naochad is a seachd","naochad is a h-ochd","naochad is a naoi",
+"ceud");
+
+
+var mapnumbers = mapnumbersold;
+
+
+document.getElementById("togglesystem").value = "Cleachd na h-àireamhan ùra";
+document.getElementById("numsystem").firstChild.nodeValue = "Àireamhan: seann nòs";
+
+
+
+/*
+// mapping test
+for (var i=0; i<=100; i++)
+{
+	alert(""+i+": "+mapnumbers[i]);
+}
+*/
+
+
+
+
+/*
+ *
+ */
+function startgame()
+{
+	document.math.answer.value="";
+	document.getElementById("points").innerHTML="0";
+	started=0;
+	time=120;
+	timesup=0;
+	CountDown();
+	started=1;
+	getProb();
+}
+
+<!--START OF RANDOM NUMBER SCRIPT-->
+/*
+ *
+ */
+function randnum(min,max)
+{
+	var num=Math.round(Math.random()*(max-min))+min;
+	return num;
+}
+<!--END OF RANDOM NUMBER SCRIPT-->
+
+var choose, rightanswer
+
+/*
+ *
+ */
+function getProb()
+{
+	var choose1=0;
+	var choose2=0;
+	
+	choose=randnum(1,4);
+	if (choose=="1")
+	{
+		document.getElementById("operator").innerHTML = " cuir ris ";
+		
+		choose1=randnum(0,50);
+		choose2=randnum(0,50);
+		
+		rightanswer=choose1 + choose2;
+	}
+	if (choose=="2")
+	{
+		document.getElementById("operator").innerHTML = " thoirt air falbh ";
+		choose2=randnum(0,50);
+		choose1=randnum(choose2,50);
+		
+		rightanswer=choose1 -  choose2;
+	}
+	if (choose=="3")
+	{
+		document.getElementById("operator").innerHTML = " iomadaich le ";
+		choose1=randnum(0,10);
+		choose2=randnum(0,10);
+		rightanswer=choose1 * choose2;
+	}
+	if (choose=="4")
+	{
+		document.getElementById("operator").innerHTML = " roinn le ";
+		choose2=randnum(1,10);
+		choose1=choose2 * randnum(0,10);
+		
+		rightanswer=choose1 /  choose2;
+	}
+	document.getElementById("firstnum").innerHTML = mapnumbers[choose1]+" ";
+	document.getElementById("secondnum").innerHTML = " "+mapnumbers[choose2];
+}
+
+/*
+ *
+ */
+function answerit()
+{
+	if (started==0)
+	{
+		alert('Feumaidh tu briogadh air a\'phùtan \'Tòisich air geama ùr\'!');
+	}
+	else
+	{
+		if (timesup!=0)
+		{
+			alert('Tha an ùine seachad!');
+		}
+		else
+		{
+			var theiranswer=trim(document.math.answer.value);
+			var theirpoints=eval(trim(document.getElementById("points").innerHTML));
+			if (theiranswer==null || theiranswer=="")
+			{
+				alert('Cuir an fhreagairt agad sa bhogsa ri taobh clì a\' phutain \'Cuir an fhreagairt ann\'!');
+				document.math.answer.select();
+			}
+			else
+			{
+				if (theiranswer==rightanswer)
+				{
+					alert('Ceart');
+					theirpoints++;
+					document.getElementById("points").innerHTML=theirpoints;
+				}
+				else if (theiranswer==mapnumbers[rightanswer])
+				{
+					alert('Ceart');
+					theirpoints=theirpoints+2;
+					document.getElementById("points").innerHTML=theirpoints;
+				}
+
+				else
+				{
+					alert("Tha "+ theiranswer + " cearr!\n\n\Is \'"+rightanswer + "\' no \'"+mapnumbers[rightanswer]+"\' an fhreagairt ceart!")
+				}
+				document.math.answer.select();
+				getProb();
+			}
+		}
+	}
+	document.math.answer.value="";
+	
+	document.math.answer.focus();
+}
+
+
+
+/*
+ *
+ */
+function togglesystem()
+{
+	if(mapnumbers == mapnumbersnew)
+	{
+		mapnumbers = mapnumbersold;
+		document.getElementById("togglesystem").value = "Cleachd na h-àireamhan ùra";
+		document.getElementById("numsystem").firstChild.nodeValue = "Àireamhan: seann nòs";
+	}
+	else
+	{
+		mapnumbers = mapnumbersnew;
+		document.getElementById("togglesystem").value = "Cleachd na seann àireamhan";
+		document.getElementById("numsystem").firstChild.nodeValue = "Àireamhan: nòs ùr";
+	}
+}
+
+
+$("#start").click(function(e){
+	startgame();
+	document.math.answer.focus();
+
+});       	
+    
+		
+$("#answerit").click(function(e){
+	answerit();
+});
+
+
+$("#answer").keyup(function(e) {
+	if(e.keyCode == 13) {
+		var test=trim(document.math.answer.value);
+		if(test.length>0)
+		{	
+			jQuery(this).blur();
+			jQuery('#submit').focus().click();
+			answerit();
+		}
+	}
+});
+     
+
+$("#togglesystem").click(function(e){
+	togglesystem();
+});     
+
+
+
+
+
+
+
+});
+
+
+</script>
+
+
+</head>
+<body>
+ 
+<table align="center" border="0" cellpadding="10" cellspacing="0" width="100%">
+  <tr>
+    <td class="bodyline">
+    <table border="0" width="100%" cellpadding="0">
+      <tr>
+        <td colspan="3">
+          <table width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td>
+                <a href="http://www.foramnagaidhlig.net/index.php">
+                  <img src="http://www.foramnagaidhlig.net/img/fnglogo_cearn.gif" border="0" alt="F&ograve;ram na G&agrave;idhlig" vspace="1" />
+                </a>
+              </td>
+              <td align="center" width="100%" valign="middle">
+                <span class="maintitle">F&ograve;ram na G&agrave;idhlig</span>
+                <br />
+                <span class="gen"><i>Coimhearsneachd airson ionnsachadh is leasachadh na G&agrave;idhlig</i><br />&nbsp;</span>
+                <table cellspacing="0" cellpadding="2" border="0">
+                  <tr>
+                    <td align="center" valign="top" nowrap="nowrap">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td height="25" align="center" valign="top" nowrap="nowrap">&nbsp;</td>
+                  </tr>
+                </table>
+              </td>
+              <td>
+              </td>
+            </tr>
+          </table>
+          <br />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <table width="100%" cellpadding="10" cellspacing="0" border="0">
+            <tr>
+              <th class="thTop">
+                <font size="+0">
+                  Geama Matamataigs
+                </font>
+                <br />
+              </th>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr><td>&nbsp;</td></tr>
+<tr><td valign="top" width="20%">
+
+<?php
+$navigator = new Navigator(38,false,1,false,false);
+print($navigator->toHTML());
+if(getproperty('Display Banners'))
+{
+  $banners=new BannerList();
+  print($banners->toHTML());
+}
+
+?>
+<td>&nbsp;</td>
+
+<td valign="top" align="center" width="*" class="table">
+<table border="0" cellpadding="20" cellspacing="1" width="100%">
+  <tr>
+    <td align="left">
+
+
+<!--  Game HTML starts here  -->  
+
+<p>&nbsp;</p><p>&nbsp;</p>
+
+
+  </td>
+  <td>&nbsp;</td>
+  <td valign="top" class="gen" width="*">
+    <table border="0" cellpadding="10" cellspacing="0" width="100%">
+  <tr>
+    <td style="font-family: Arial, Helvetica, Sans Serif; font-size: 120%;">
+
+
+
+<table align="center" cellpadding="5">
+  <tr>
+    <td align="left" colspan="2"><input type="button" id="start" name="start" value="Tòisich air geama ùr" style="font-size: 90%;"></td>
+  </tr>
+  
+  <tr>
+    <form name="math" >
+      
+    </tr>
+    <tr>
+      <td align="left" colspan="2"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">Fuasgail: </span>
+      <font face="Arial, Helvetica, Sans Serif">
+      	<span name="firstnum" id="firstnum" style="font-weight:bold;"> </span>
+      	<span name="operator" id="operator"> </span>
+      	<span name="secondnum" id="secondnum" style="font-weight:bold;"> </span>
+      </font>
+    </tr>
+    <tr>
+      <td align="left" colspan="2"><hr><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">A' dèanamh:</span> <input type="text" ID="answer" name="answer" size="40" style="font-size: 100%;" onKeyPress="return disableEnterKey(event)"> <input type="button" id="answerit" name="answerit" value="Cuir an fhreagairt ann" style="font-size: 90%;"><hr></td>
+    </tr>
+    <tr>
+      	<td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:green;">Puingean:</span> <span name="points" id="points" style="font-weight:bold; color:green;"> </span></td>
+    	<td align="right"><font face="Arial, Helvetica, Sans Serif">Ùine air fhàgail: </font><span name="timer" id="timer" style="font-weight:bold;"> </span></td>    
+    </tr>
+    <tr>
+    <td colspan="2">
+    <p style="font-family: Arial, Helvetica, Sans Serif; font-size: 75%;">Gheibh thu puing do gach freagairt ceart ma chleachdas tu àireamhan.
+	<br />Gheibh thu dà phuing do gach freagairt ceart ma sgrìobhas tu ainmean nan àireamhan.</p>
+
+    </td>
+  </tr>
+    
+    <tr>
+    </form>
+    
+  </tr>
+  <tr>
+    <td align="left" colspan="2"><font face="Arial, Helvetica, Sans Serif"><span name="numsystem" id="numsystem" style="font-weight:bold;">Àireamhan: seann nòs</span></font>
+      <input type="button" id="togglesystem" name="togglesystem" value="Cleachd na h-àireamhan ùra" style="font-size: 80%;"></td>
+  </tr>
+</table>
+
+<br /><hr>
+<p class="gen">Tha an geama seo stèidhichte air JavaScript le <a href="http://javascriptsource.com">The JavaScript Source</a>.</p>
+<p style="font-family: Arial, Helvetica, Sans Serif; font-size: 65%;">Cleachdaidh an geama seo JavaScript.</p>
+
+<!-- End game HTML -->
+    </td>
+  </tr>
+</table>
+    </td>
+  </tr>
+</table>
+  </td>
+</tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <table width="100%">
+    <tr>
+      <td align="left">
+        <div align="left" class="footer">
+        </div>
+      </td>
+      <td align="right">
+        <div align="right" class="footer">
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
