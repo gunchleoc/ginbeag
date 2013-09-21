@@ -974,7 +974,7 @@ class PageFooter extends Template {
   	parent::__construct();
     if(getproperty("Display Site Policy"))
     {
-      $this->stringvars['site_policy_link']=getprojectrootlinkpath().'index.php?page=0&sitepolicy=on"';
+      $this->stringvars['site_policy_link']=getprojectrootlinkpath().'index.php?page=0&sitepolicy=on';
       $title=getproperty("Site Policy Title");
       if(strlen($title)>0)
         $this->stringvars['site_policy_title']=title2html($title);
