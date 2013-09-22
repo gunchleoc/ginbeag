@@ -3,7 +3,7 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 // check legal vars
-include_($projectroot."admin/includes/legaladminvars.php");
+include_once($projectroot."admin/includes/legaladminvars.php");
 
 include_once($projectroot."admin/functions/usersmod.php");
 include_once($projectroot."admin/functions/sessions.php");
