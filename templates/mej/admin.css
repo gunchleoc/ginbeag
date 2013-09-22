@@ -68,7 +68,7 @@ html body {
 	margin-bottom: 0.5em;
 	background-color: #0D2A43;
 	height:1.2em;
-	box-shadow:3px 3px 3px #305360;
+	box-shadow:-1px -1px 3px 1px #305360 inset;
 	background-image: url(img/navigator.gif);
 	background-repeat:repeat-x;
 }
