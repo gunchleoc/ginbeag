@@ -6,14 +6,6 @@ working on mobile style
 
 while I'm at it, menu page / navigator levels overhaul
 
-
-obsolete in admin.css:
-#centerheaderlinks {
-	position:absolute;
-	margin-left:46%;
-}
-
-
 =============================================================
 
 <link rel="icon" 
@@ -35,7 +27,7 @@ HTML overhaul:
 
 fng: a bit more contrast for links in text
 
-css for each style: V-W, FnG, MeJ done.
+css: separate visited link color.
 
 #############################################################
 
@@ -51,34 +43,15 @@ mobile style: image generation needed!
 
 Technical:
 ==========
-- clean up includes
-- Namen in Links?
-- include WIDTH and HEIGHT attributes on all images and table columns
-- database efficiency
-- editimagelist: prefix search variables with "search" or "s"
-- define hidden vars in objects rather than the templates
 - class articleinfo - move from page to menupage? -> navigators! Maybe separate menu page navigators completely
-- admin - can php check where script was called from?
-- call parent constructur in all Templates - does not work with: navigator stuff
-- control flow - finally route everything to admin, also read variables there?
-- checkboxform/radiobuttonform benutzen. Caution: JSID!
-- admin: submitrow nicht vergessen
-- turn all navigator/menu links into (nested) lists
-- Page intros vereinheitlichen mit Text, Bild + Position. article gallery news linklist menu
 
 
 Desired new public features:
 =====================
 - guestbook: keep input window with pagination
-- configure language
 - Header title - Oberseite und Domain in Klammern dahinter - konfigurierbar machen? Site description für splash page hinzufügen
-- Add Search to article + news filter form
 - Formatting home link
-- add optional intro text to guestbook and contact form?
 - events calendar
-- showimage: public user login, with image feature "Visibility": All, logged in, admin only
-- display foreign rss feeds in splash page
-- give linklist items IDs so linklistmenus can link to the correct item (steal code from article TOC)
 
 
 
@@ -88,17 +61,16 @@ Desired new admin features:
 - AJAX editor: get styles + colors from database, then make color button
 - present internal links in preview with the correct link target? AJAX editor + Preview
 - Links/Bilder von Seite zu Seite verschieben/kopieren.
-- Site statistics - all pages
 - imagelist: unknownimageform group images with thumbnails.
 - bannerlist: if something's in the code, grey out other fields
 - editimagelist: missing/unused etc. neu programmieren. in imagefilterform.tpl auskommentiert. unused, unknown, missing, nothumb, missingthumb
 - editimagelist: cat search option to exclude subcats
 - checkexternal/internal links
-- images in pages: decide if displayed full size (autoshrink when there's no thumbnail on/off)
+- images in pages: user decides if displayed full size (autoshrink when there's no thumbnail on/off)
 - usermanagement: pre-fill username search when returning from manage forms
 - AJAX Imagepropertiesform (e.g. newsitem, article section)
 - admin - register link not accessible - keep it hidden. Make new site function to send register link.
-- pagelist (sitemap) for admin nav is missing
+- pagelist (sitemap) for admin nav is missing/add title search function?
 - news, articles: tag system instead of categories.
 
 
