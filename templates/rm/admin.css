@@ -1,0 +1,359 @@
+/* Admin stylesheet for Fòram na Gàidhlig */
+
+/************ overwrite background colors for form elements ************/
+
+textarea, select, input {
+	background-color : #01172E!important;
+}
+
+/* Separate properties for buttons; not supported by IE */
+input[type=button], input[type=submit], input[type=reset], .button  {
+	font-size:95%;
+	background-color : #0B2A3A!important;
+}
+
+/************ main layout containers ************/
+html body {
+	height:100%;
+}
+
+
+#header {
+	/*border-style: solid;
+	border-width: 0px 0px 1px 0px;*/
+	padding-bottom:0.5em;
+	height:8em;
+}
+
+#navigatorscroll {
+	height:97%;
+	overflow:scroll;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	padding-left:0.5em;
+}
+
+
+#navigator {
+	height:68%;
+}
+
+#navigatorfixed {
+	font-size:80%;
+}
+
+#contentarea {
+	width: 77%;
+	border: 1px solid #ccccff;
+	height:59% !important;
+	max-height: 65% !important;
+	overflow:auto;
+	margin-top:1em;
+}
+
+#wrapper {
+	height:93%;
+	max-height:93%;
+}
+
+
+/************ header ************/
+
+.admintoplinks {
+	color:#FFCCCC;
+	font-weight: bold;
+	border: 1px solid #ccccff;
+	padding: 0.5em;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+	background-color: #0B2A3A;
+	height:1.2em;
+	box-shadow:3px 3px 3px #305360;
+	background-image: url(img/navigator.gif);
+	background-repeat:repeat-x;
+}
+.admintoplinks a {color: white; }
+
+.admintoppageinfo {
+	font-size:120%;
+	margin:0.25em;
+}
+
+
+/* Site name */
+.maintitle	{
+	font-size: 250%;
+	margin:0.25em;
+}
+
+/************ navigator ************/
+
+
+/* Navigator category for site functions */
+.sitenavcategory {
+	width: 100%;
+	text-align: left;
+	border: #ccccff;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	padding-top: 0.35em;
+	padding-bottom: 0.35em;
+	margin-top: 1em;
+	font-size: 100%;
+	color : #FFCCCC;
+}
+
+/* Navigator link for site functions */
+.sitenavlink {
+	font-weight: bold;
+	font-size: 70%;
+	margin-left:1em;
+	margin-bottom:0.25em;
+}
+.sitenavlink a {
+	color: white;
+	text-decoration: none;
+}
+
+a.admintopframelink {
+	text-decoration: none;
+}
+
+/************ content ************/
+
+.inlinemessage {
+	width: 100%;
+	text-align: center;
+	border: #ccccff;
+	background-color: #0B2A3A;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	padding-top: 0.35em;
+	padding-bottom: 0.35em;
+	margin-top: 1em;
+	font-size: 100%;
+	box-shadow:4px 4px 3px #305360;
+}
+
+/* For admin messages when saving etc */
+.messagebox {
+	position: absolute;
+	overflow: auto;
+	z-index: 10;
+	background:#0B2A3A;
+	padding:10px;
+	border:2px solid #ccccff;
+	text-align:center;
+	opacity: 0;
+}
+
+
+/* Title for content area */
+/* todo kann weg? */
+.contenttitle {
+	font-size: 250%;
+}
+
+.headerpagetitle {
+	margin-top: 1em;
+}
+
+
+/* Subtitle for dividing content area */
+.contentheader {
+	text-align: center;
+	border-color: #CCCCFF;
+	border-style: solid;
+	border-width: 1px;
+	padding-top: 0.4em;
+	padding-bottom: 0.35em;
+
+	padding-left:0.5em;
+	padding-right:0.5em;
+
+	font-size: 140%;
+	color: #FFFFCC;
+	background-color: #0F384D;
+	background-image:url(img/title.gif);
+	height: 20px;
+}
+
+
+/* Framing for sections of the page when editing contents */
+.contentsection
+{
+	padding:10px;
+	background-color: #0B2A3A;
+	border: 1px #ccccff solid;
+	border-style: solid;
+	border-width: 0px 1px 1px 1px;
+	margin-bottom: 2em;
+	margin-top:0px;
+}
+
+.contentoutline {
+	margin-top:2em;
+	box-shadow:4px 4px 3px #305360;
+}
+
+.contentheadersmall {
+	font-weight:bold;
+	padding-top:1em;
+	font-size:110%;
+}
+
+
+/************ tables ************/
+
+
+table {
+	font-size:100%;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	box-shadow:4px 4px 3px #305360;
+	border-collapse:collapse;
+	border-spacing:0;
+   	width:70%;
+    margin-left:15%;
+    margin-right:15%;
+    border: #ccccff;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+    
+}
+
+caption {
+	text-align: center;
+	border-color: #CCCCFF;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	padding-top: 0.4em;
+	padding-bottom: 0.35em;
+
+	padding-left:0.5em;
+	padding-right:0.5em;
+
+	font-size: 140%;
+	color: #FFFFCC;
+	background-color: #0F384D;
+	background-image:url(img/title.gif);
+	height: 20px;
+}
+th {
+	text-align: center;
+	border: #ccccff;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	font-size: 110%;
+	background-color: #305360;
+	color : #FFCCCC;
+	font-weight: bold;
+	padding:0.5em;
+}
+
+td {
+	border: #ccccff;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	padding:0.5em;
+	background-color: #01172E;
+	color: white;
+}
+
+
+/************ menuedit ************/
+
+.menueditpage {
+	font-size:140%;
+	padding-bottom:0.5em;
+	padding-top:1em;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	
+}
+
+/************ editor ************/
+
+.editorbuttonrow {
+	margin-top:1em;
+	padding-top:1em;
+	padding-bottom:0.5em;
+	text-align:center;
+	border: #ccccff;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+}
+
+.editorlineleft {
+	border-left: 1px solid #ccccff;
+	margin:0.5em;
+	padding-left:1em;
+}
+
+.editorcodebuttonrow {
+	margin-left:2em;
+	padding-top:1em;
+	padding-bottom:1em;
+}
+
+.editorcodebutton {
+	padding:0px;
+	margin:0.5em;
+}
+
+.editorpreviewarea {
+	background-color: #01172E;
+	padding:1em;
+	margin-bottom:1em;
+}
+
+/************ forms ************/
+
+.submitrow {
+	padding-top:1em;
+	text-align:left;
+}
+
+/* Explanation at bottom of fieldset */
+/* todo this gets ignored. Why? */
+.formexplain {
+	padding-top:0.5em;
+}
+
+.labelleft {
+	width:15em;
+}
+
+label {
+	font-weight:bold;
+}
+
+
+/************ Login & Profile form ************/
+
+#contentarealogin {
+	border: 1px solid #ccccff;
+	margin-top:1em;
+	background-color: #01172E;
+	padding:5em;
+}
+
+/************ Image Database ************/
+
+
+.imagecontentarea {
+	border: 1px solid #ccccff;
+	background-color: #01172E;
+	margin-top:1em;
+	width: 96%;
+	padding-left:2em;
+	padding-right:2em;
+	margin-top:1em;
+	margin-bottom:1em;
+}
+
+#imagelistwrapper {
+	background-color: #0B2A3A;
+	border: 1px #ccccff solid;
+	padding: 1em;
+}

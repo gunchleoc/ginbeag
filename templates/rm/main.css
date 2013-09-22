@@ -1,166 +1,584 @@
-/* Stylesheet for Rockstarmagic */
 
-/* For admin messages when saving etc */
-.messagebox {
-	position: absolute;
-	top: 160px; left: 0;
-	overflow: auto;
-	z-index: 10;
+/************ General element styles ************/
+html body {
 	font-size : 75%;
-	background:#0F384D;
-	padding:10px;
-	border:2px solid #CCCCFF;
-	text-align:center;
-	width:100%;
-	opacity: 0;
+	background-color: #0B2A3A;
+	color:#ffffcc;
+	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
 }
 
+li { margin-left: 1em;}
 
-/* General page style. The scroll bar colours only visible in IE5.5+ */
-body {
-	background-color: #0F384D; text=#ffffcc;
-}
+a:link	 { text-decoration: underline; color : #CCCCFF;}
+a:visited	 {text-decoration: underline; color : #CCCCFF;}
+a:focus	 {text-decoration: underline; color : #CCCCFF;}
+a:hover	 { text-decoration: underline; color : #FFCCCC;}
+a:active	 {text-decoration: underline; color : #FFFFCC;}
 
-/* General font families for common tags */
-font,th,td,p,div,span { color:#ffffcc; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif; }
-td.table {color:#FFFFCC; background-color: #0F384D; }
+/* General text sizes */
+.medtext, div.medtext, span.medtext { font-size : 90%; }
+.smalltext, div.smalltext, span.smalltext { font-size : 80%; letter-spacing: -0.25px;}
 
-/* This is the border line & background colour round the entire page */
-.bodyline	{ background-color:#0F384D;  background-image:url(img/bg.gif); background-repeat:no-repeat; border: 1px #CCCCFF solid; }
-
-td.lineleft {border-left: 1px solid #CCCCFF;}
-
-
-a {color : #CCCCFF;  text-decoration: none;}
-a:hover		{ text-decoration: underline; color : #FFFFCC; }
-
-/* Header cells - the blue and silver gradient backgrounds */
-th	{
-	color: #FFCCCC; font-size: 70%; font-weight : bold;
-	background-color: #0F384D; height: 25px;
-}
-
-/*
-  Setting additional nice inner borders for the main table cells.
-  The names indicate which sides the border will be on.
-  Don't worry if you don't understand this, just ignore it :-)
-*/
-
-th.thHead,th.thTop {
-	 background-image:url(img/title.gif); color: #FFCCCC; font-weight: bold; border: #CCCCFF; border-style: solid; height: 28px;
-}
-
-th.thHead { font-size: 75%; border-width: 1px 1px 1px 1px; }
-th.thTop	 { border-width: 1px 0px 0px 0px; }
-
-td.spacer {
-			background-color:#0F384D; border: 1px #CCCCFF solid; height: 5px;
-}
-
-th.thTop,thHead	 { border-width: 1px 0px 1px 0px; }
-
-
-/* The largest text used in the index page title and toptic title etc. */
-.maintitle	{
-	font-weight: bold; font-size: 250%; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
-	text-decoration: none; line-height : 160%; color : #FFCCCC;
-}
-
-/* The text used for indiidual page's titles */
-.pagetitle	{
-	font-weight: bold; font-size: 150%; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
-	text-decoration: none; line-height : 160%; color : #FFCCCC;
-}
-
-/* Articles */
-.articlesource	{font-size : 75%; color : #FFCCCC; }
-.articleauthor	{font-size : 75%; font-weight: bold;	font-style: italic;  color : #FFCCCC;}
-.articlelocation	{font-size : 75%; color : #FFCCCC;}
-.articledate	{font-size : 75%; font-style: italic; color : #FFCCCC;}
-.articlesynopsis	{font-size : 75%; font-weight: bold; color: #FFFFCC;}
-
-/* The text used for individual page's titles */
-.sectiontitle	{
-	font-size: 120%;  font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
-	text-decoration: none; line-height : 160%; color : #FFCCCC;
-}
-
-/* The text used for individual page's titles */
-.sectionsubtitle	{
-	font-size: 110%;  font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
-	text-decoration: none; line-height : 160%; color : #FFCCCC;
-}
 
 /* Highlighted text */
-.highlight	{ font-size : 75%; font-weight: bold; color : #FFCCCC; }
-a.highlight 	{text-decoration: none; color : #CCCCFF; }
-a.highlight:hover{text-decoration: underline; color : #FFFFCC; }
-a.highlight:active {text-decoration:none; font-weight:bold; color:#CCCCFF; }
+.highlight	{font-weight: bold; color : #FFCCCC; }
+a.highlight 	{  text-decoration: underline; color : #CCCCFF; }
+a.highlight:hover{ text-decoration: underline; color : #FFFFCC; }
+a.highlight:active { text-decoration:none; font-weight:bold; color:#CCCCFF; }
 
 
-/* Image caption text */
-.caption	{ font-weight: bold; font-size: 65%; color: #FFCCCC;}
-
-
-/* The text used for individual page's titles */
-.navtitle	{ color:#CCCCFF; font-weight: bold; font-size: 110%;}
-.navhighlight	{ color:#FFCCCC; font-size: 110%;}
-
-
-/* Linklist link */
-.linktitle	{ color:#CCCCFF; font-weight: bold; font-size: 110%;}
-
-/* General text */
-.gen, div.gen, span.gen { font-size : 75%; }
-.medtext, div.medtext, span.medtext { font-size : 70%; }
-.smalltext, div.smalltext, span.smalltext { font-size : 65%; }
-td.gen, td.medtext, td.smalltext {color:#FFFFCC; background-color: #0F384D; }
-a.gen, a.medtext, a.smalltext { color:#CCCCFF; }
-
-/* Quoted text */
-.quote, p.quote{ font-size : 75%; font-style: italic; color:#FFFFCC;}
-td.quote {color:#FFFFCC; background-color: #0F384D; }
-
-
-/* The register, login, search etc links at the top of the page */
-.mainmenu		{color:#CCCCFF; font-size : 70%;}
-
-/* Navigator link for the lower levels */
-.navlink		{color:#CCCCFF; font-weight: bold; font-size: 75%;}
-
-/* Used for the navigation text, (Page 1,2,3 etc) and the navigation bar when in a forum */
-.nav			{color:#CCCCFF; font-weight: bold; font-size: 70%;}
-
-/* Copyright and bottom info */
-.footer		{color:#CCCCFF; font-size: 65%; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif; letter-spacing: -1px;}
 
 /* Form elements */
-input,textarea, select {
+
+fieldset {
+	border: 1px solid #89CAC8;
+	padding:1em;
+	margin-bottom:1em;
+	margin-top:1em;
+}
+
+legend {
+	font-weight: bold;
+	color: #DECB97;
+}
+
+
+textarea, select {
 	color : #FFFFFF;
-	font: normal 70% Verdana, Arial, Helvetica, sans-serif;
-	border-color : #FFFFFF;
-	background-color : #0F384D;
-}
-
-input {text-indent : 2px; }
-
-
-/* The buttons used for bbCode styling in message post */
-input.button {
-	background-color : #0F384D;
-	color:#ffffff; font-size: 70%; font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	border-color : #89CAC8;
+	background-color : #0B2A3A;
 }
 
 
-/* None-bold submit button */
-input[type=button] {
-	background-color : #0F384D;
-	color:#ffffff; font-weight : normal;
+input {
+	text-indent : 2px;
+	color : #FFFFFF;
+	border-color : #89CAC8;
+ 	background-color:#0B2A3A;
+ }
+
+/* Separate properties for buttons; not supported by IE */
+input[type=button], input[type=submit], input[type=reset], .button  {
+	font-size:95%;
 }
 
 /* The main submit button option */
 input.mainoption {
-	background-color : #0F384D;
-	color:#ffffff; font-weight : bold;
+	font-weight : bold;
+	font-family: "Helvetica Narrow","Arial Narrow",Tahoma,Arial,Helvetica,sans-serif;
 }
+
+
+/************ Layout control ************/
+
+.rightalign {
+	text-align: right;
+	float: right;
+}
+
+.leftalign {
+	text-align: left;
+	float: left;
+}
+
+.centeralign {
+	text-align: center;
+}
+/* to prevent floating for new sections after image */
+.newline {
+	clear:both;
+}
+
+
+/************ main layout containers ************/
+
+#headerleft {
+	width: 20%;
+	float:left;
+}
+
+
+#headercenter {
+	margin-left: 20%;
+	margin-right: 20%;
+	width: 56.5%;
+	position:absolute;
+	text-align: center;
+}
+
+#headerright {
+	width: 20%;
+	text-align: right;
+	float:right;
+}
+
+#navigator {
+	width: 19.5%;
+	position: absolute;
+	padding: 0.20em;
+	margin-top: 0.5em;
+	font-size: 150%;
+}
+
+#mobilenavigator {
+	background-color: #0F384D;
+	padding: 0.5em;
+	margin-top: 1em;
+	font-size: 150%;
+	border: 1px solid #89CAC8;
+	width: 98.5%;
+}
+
+#banners {
+	width: 95%;
+	position: absolute;
+	background-color: #0F384D;
+	margin-top: 2em;
+	font-size: 75%;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+	padding-top: 0.35em;
+	padding-bottom: 0.35em;
+}
+
+#contentarea {
+	background-color: #0F384D;
+	z-index: 100;
+	min-width: 1px;
+	width: 77%;
+	padding: 1em;
+	padding-top: 0em;
+	margin-left: 21%;
+	margin-top: 1.5em;
+	padding-bottom:120px;
+
+}
+
+
+#mobilecontentarea {
+	background-color: #0F384D;
+	z-index: 100;
+	min-width: 1px;
+	padding: 0.5em;
+	margin-top: 1.5em;
+	padding-bottom:1.5em;
+
+}
+
+/* Border around everything else */
+#wrapper {
+	background-color: #0F384D;
+	padding: 1em;
+	background-image:url(img/bg.gif);
+	background-repeat:no-repeat;
+	border: 1px #CCCCFF solid;
+}
+
+
+/************ Navigator elements ************/
+
+/* For accessibility */
+.invisible {
+	width: 0px;
+	height: 0px;
+	margin:0px;
+	padding:0px;
+	border:0px;
+	overflow: hidden;
+	font-size: 0px;
+	float:left;
+}
+
+/* "Home" link on navigator*/
+#navhomelink {
+	margin-top:0.5em;
+	font-weight: bold;
+}
+
+.potdcaption {
+	width: 98%;
+	padding-top: 0.5em;
+	font-weight: bold;
+	font-size: 65%;
+	color: #FFCCCC;
+	text-align: left;
+	margin-bottom: 2em;
+}
+
+.aotd {
+	width: 98%;
+	margin-bottom: 2em;
+	font-weight: bold;
+	font-size: 75%;
+	text-align: left;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	border-color: #89CAC8;
+	padding-bottom: 0.35em;
+	padding-top: 0.35em;
+}
+
+/* Navigator - selected item */
+.navhighlight	{ font-size: 100%; color : #FFCCCC;}
+
+/* Navigator - links */
+.navtitle	{ color : #CCCCFF;}
+a.navtitle 	{ text-decoration: none; color : #CCCCFF; }
+a.navtitle:hover{ text-decoration: underline; color : #FFCCCC; }
+a.navtitle:active { text-decoration:none; font-weight:bold; color:#CCCCFF; }
+
+
+/* Navigator link for the lower levels */
+.navlink		{ font-weight: bold; font-size: 70%; color : #CCCCFF; }
+a.navlink 	{ text-decoration: none; color : #CCCCFF; }
+a.navlink:hover{ text-decoration: underline; color : #FFCCCC; }
+a.navlink:active { text-decoration:none; font-weight:bold; color: #CCCCFF; }
+
+
+.navrootlinkwrapper {
+	margin-top:1em;
+}
+
+.navlinkwrapper {
+	margin-top:0.4em;
+	margin-bottom:0.4em;
+}
+
+/************ header elements ************/
+
+#sitedescription {
+	font-style: italic;
+	padding-top: 0.75em;
+	padding-bottom: 0.75em;
+}
+
+.logoutlink {
+	text-align: right;
+	text-decoration: underline;
+	margin-top: 100px;
+}
+
+/* formerly thTop - page title in header and navigator elements on splashpage */
+.headerpagetitle {
+	width: 98.5%;
+	text-align: center;
+	border-color: #CCCCFF;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	padding-top: 0.4em;
+	padding-bottom: 0.35em;
+
+	padding-left:0.5em;
+	padding-right:0.5em;
+
+	margin-top: 8em;
+	font-size: 160%;
+	font-weight: bold;
+	color: #FFFFCC;
+	background-color: #0F384D;
+	background-image:url(img/title.gif);
+	height: 24px;
+
+}
+
+/* Site name */
+.maintitle	{
+	font-weight: bold;
+	font-size: 350%;
+	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	margin:0.25em;
+	color : #FFCCCC;
+}
+
+
+/************ Footer elements ************/
+
+.footer {
+	font-size: 80%;
+	font-family: Arial, Helvetica, sans-serif;
+	letter-spacing: -0.5px;
+	color: #CCCCFF;
+}
+a.footer		{ color: #00AEED; text-decoration: none;}
+a.footer:hover { color: #DEA479; text-decoration: underline;}
+
+
+/************ Content titles ************/
+
+/* The text used for individual page's titles */
+.pagetitle	{
+	font-weight: bold;
+	font-size: 250%;
+	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	line-height : 160%;
+	color : #FFCCCC;
+}
+
+
+/* Titles for newsitemsections, articlesections */
+.sectiontitle	{
+	font-size: 220%;
+	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	margin-bottom: 0.5em;
+	color : #FFCCCC;
+}
+
+/* Fos newsitemsections */
+.sectionsubtitle	{
+	font-size: 175%; 
+	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	color : #FFCCCC;
+	margin-top: 1em;
+}
+
+
+/************ Content elements ************/
+
+/* section text all over the place */
+.sectiontext {
+	text-align: justify;
+}
+
+/* Synopsis for page intros formerly articlesynopsis */
+.introtext	{
+	font-weight: bold;
+	text-align: justify;
+	color: #FFFFCC;
+}
+
+/* Pagemenu */
+.pagemenu {
+	text-align: right;
+	float: right:
+}
+
+/* Copyright info */
+.copyright {
+	font-size: 80%;
+	font-family: Arial, Helvetica, sans-serif;
+	letter-spacing: -0.5px;
+}
+
+.editdata {
+	margin-top:1.5em;
+	width: 100%;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+	padding-top: 0.5em;
+}
+
+
+/************ Menu pages ************/
+
+/* content links - linklistmenu, vormerly "nav"*/
+.contentnavlink {
+	font-weight: bold;
+}
+
+/* content - linklistmenu pagetitles */
+.contentnavtitle, a.contentnavtitle	{
+	color: #CCCCFF;
+	font-size: 180%;
+}
+
+a.contentnavtitle:hover{ text-decoration: underline; color : #FFCCCC; }
+
+.contentnavrootlinkwrapper {
+	margin-top:5ex;
+	margin-bottom:1ex;
+}
+
+.contentnavlinkwrapper {
+	margin-top:1.75ex;
+	line-height: 1.5em; 
+	text-align: justify;
+}
+
+/* for articlemenu */
+.articleinfo {}
+
+/* for menu pages */
+.subpages {
+	margin-left:3em;
+}
+
+/************ Newsitems and articles ************/
+
+/* News: RSS button */
+.rss {
+	text-align: left;
+	float: left:
+}
+
+/* News: filter form wrapper */
+.newsfilterform {
+	margin-top:1.5em;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;	
+}
+
+/* Newsitem: wrapper */
+.newsitem {
+	margin-top:1.5em;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	padding-top: 0.5em;
+	border-color: #89CAC8;
+}
+
+/* Newsitem: Label for section with quoted text */
+.newsquotetitle {
+	font-weight: bold;
+	margin-left: 2em;
+	padding-top: 2em;
+	margin-bottom: 1em;
+}
+
+/* Newsitem: Section with quoted text */
+div.newsquote {
+	margin-left: 2em;
+	margin-right: 2em;
+	width: *;
+	padding: 1em;
+	font-style: italic;
+	text-align: justify;
+	color:#FFFFCC;
+	background-color: #0F384D;
+}
+
+
+/* Newsitem and article: Source info */
+.articlesource	{color : #FFCCCC; }
+.articleauthor	{font-weight: bold;	font-style: italic;color : #FFCCCC; }
+.articlelocation	{color : #FFCCCC; }
+.articledate	{font-style: italic;color : #FFCCCC; }
+
+/* Article: Table of Contents */
+.articletoc {
+	margin-top:1.5em;
+	padding-bottom:0.5em;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	padding-top: 0.5em;
+	border-color: #89CAC8;
+}
+
+.articletoc li {
+	color:#CCCCFF;
+}
+
+/************ Gallery ************/
+
+.galleryimage {
+	float:left;
+	text-decoration:none;
+	padding:1em;
+	margin:1em;
+    height: 350px;
+    overflow:hidden;
+    display:table-cell;
+	font-size:90%;    
+}
+
+.gallerycontents {
+	float:left;
+	width:100%;
+	padding:1em;
+	margin:1em;
+	display:inline;
+    overflow:hidden;
+    display:table-cell;
+}
+
+/************ Linklist ************/
+
+/* Linklist link */
+.linktitle	{ text-decoration: none; font-size: 135%; color : #CCCCFF;}
+a.linktitle 	{ text-decoration: none; color : #CCCCFF; }
+a.linktitle:visited 	{ text-decoration: none; color : #CCCCFF; }
+a.linktitle:hover{ text-decoration: underline; color : #FFCCCC; }
+a.linktitle:active { text-decoration:underline; font-weight:bold; color:#CCCCFF; }
+
+
+.linklistlink {
+	margin-top:1em;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color:#89CAC8;
+}
+
+.linkedimage {
+	border: 10px solid transparent;
+	float:left;
+}
+
+/************ Images and image captions ************/
+
+/* Image + caption text */
+.captionedimage	{
+	padding: 0.75em;
+	margin: 1em;
+	text-align: center;
+	border-style: solid;
+	border-width: 1px;
+	border-color: 89CAC8;
+}
+.imagecaption {
+	padding-left: 0.75em;
+	padding-right: 0.75em;
+	padding-top: 0.5em;
+	font-weight: bold;
+	font-size: 100%;
+	color: #FFCCCC;
+	text-align: center;
+	font-style:normal;
+}
+
+.imagecaption a {
+	text-decoration: underline;
+	color: #CCCCFF;
+}
+
+.imagecaption a:hover {
+	text-decoration: underline;
+	color: #FFFFCC;
+}
+
+/************ Splashpage ************/
+
+.splashpageheaderspacer {
+	padding-top:3.5em;
+	padding-bottom:3em;
+}
+
+#splashpagecontentarea {
+	z-index: 100;
+	min-width: 1px;
+	padding: 1em;
+	padding-top: 0em;
+	margin-top: 3em;
+	text-align: center;
+}
+
+.splashpagelink {
+	padding-left: 0.75em;
+	padding-right: 0.75em;
+}
+
+
+/************ Guestbook ************/
+
+.guestbookentry {
+	margin-top:1.5em;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	padding-top: 0.5em;
+	border-color: #89CAC8;
+}
+
+
 
