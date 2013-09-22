@@ -2,8 +2,6 @@
 redesign todos
 _____________________________________________________________
 
-v-w admin login style
-
 working on mobile style
 
 while I'm at it, menu page / navigator levels overhaul
