@@ -456,21 +456,22 @@ function doGetCaretPosition (ctrl) {
 			       			item: $("#{JSID}item").val(),
 			       			elementtype: $("#{JSID}elementtype").val()
 			       		},
-			       		function(html)
+						function(xml)
 	    				{
-			       	
-	
-				       		if(html=="error")
-				       		{
+	    					showmessageXML(xml);
+	    					var element=$(xml).find('message');
+							var error = element.attr("error");
+							if(error =="1")
+							{
+								alert(element.text());
 				       			savestatus=savestatusfailedmessage();
 				       			$("#{JSID}status").html(savestatus);
 				       			alert(savestatus);
-				       			showmessage(savestatus);
 				       			enableElements(elements);
 				       		}
 				       		else
 				       		{
-				       			savestatus=html;
+				       			savestatus=element.text();
 					       		settextisnotedited();
 					       		
 					       		postRequest(
@@ -487,7 +488,6 @@ function doGetCaretPosition (ctrl) {
 				    					$("#{JSID}editorcontents").html(html); 
 						       			addlistenersCollapsed();
 						       			$("#{JSID}status").html(savestatus);
-						       			showmessage(savestatus);
 				    				},
 				    				elements
 						    	); // post collapseeditor

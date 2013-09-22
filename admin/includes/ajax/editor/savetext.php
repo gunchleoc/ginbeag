@@ -12,59 +12,73 @@ include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
 
 //print_r($_POST);
 
+
 $sid=$_POST['sid'];
 checksession($sid);
 
-$page=$_POST['page'];
-$item=$_POST['item'];
-$elementtype=$_POST['elementtype'];
-$text=$_POST['savetext'];
 
-$success=false;
+header('Content-type: text/xml;	charset=utf-8');
+echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 $message = getpagelock($_POST['page']);
-print($message);
-if(!$message)
+if($message)
 {
+	print('<message error="1">');
+	print($message);
+}
+else {
+
+	$page=$_POST['page'];
+	$item=$_POST['item'];
+	$elementtype=$_POST['elementtype'];
+	$text=$_POST['savetext'];
+
+	$success=false;
+
 	if($elementtype=="articlesynopsis" || $elementtype=="gallery" || $elementtype=="linklist" || $elementtype=="menu")
 	{
 		$success=updatepageintro($page, $text);
-		if($success) print "Saved page intro / synopsis";
+		if($success) $message= "Saved page intro / synopsis";
 	}
 	elseif($elementtype=="articlesection")
 	{
 		$success=updatearticlesectiontext($item, $text);
-		if($success) print "Saved article section";
+		if($success) $message= "Saved article section";
 	}
 	elseif($elementtype=="link")
 	{
 		$success=updatelinkdescription($item, $text);
-		if($success) print "Saved link description";
+		if($success) $message= "Saved link description";
 	}
 	elseif($elementtype=="newsitemsynopsis")
 	{
 		$success=updatenewsitemsynopsistext($item, $text);
-		if($success) print "Saved newsitem synopsis";
+		if($success) $message= "Saved newsitem synopsis";
 	}
 	elseif($elementtype=="newsitemsection")
 	{
 		$success=updatenewsitemsectiontext($item, $text);
-		if($success) print "Saved newsitem section text";
+		if($success) $message= "Saved newsitem section text";
 	}
 	elseif($elementtype=="sitepolicy")
 	{
 		$success=updatefield(SITEPOLICY_TABLE,"sitepolicytext",addslashes(utf8_decode($text)),"policy_id = '0'");
-		if($success) print "Saved sitepolicy text";
+		if($success) $message= "Saved sitepolicy text";
+	}
+
+	if($success >=0)
+	{
+		print('<message error="0">');
+		updateeditdata($page, $sid);
+		print($message);
+	}
+	else
+	{
+		print('<message error="1">');
+		print("Error saving ".$elementtype." text: ".$message);
 	}
 }
-if($success)
-{
-	updateeditdata($page, $sid);
+print("</message>");
 
-	//print "Saved text".$text;
-}
-else
-{
-	print "error";
-}
+
 ?>
