@@ -41,7 +41,7 @@ class SitePolicy extends Template {
         
         $this->stringvars['policytitle']=$properties["Site Policy Title"];
         
-        $this->vars['policytext']= new Editor(0,0,"sitepolicy","Site Policy");
+        $this->vars['policytext']= new Editor($this->stringvars['page'],0,"sitepolicy","Site Policy");
         
         $this->vars['submitrow']= new SubmitRow("submit","Submit",true);
   	}

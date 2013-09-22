@@ -53,7 +53,7 @@ if(!$message)
 	}
 	elseif($elementtype=="sitepolicy")
 	{
-		$success=updatefield(SITEPOLICY_TABLE,"sitepolicytext",utf8_decode($text),"policy_id = '0'");
+		$success=updatefield(SITEPOLICY_TABLE,"sitepolicytext",addslashes(utf8_decode($text)),"policy_id = '0'");
 		if($success) print "Saved sitepolicy text";
 	}
 }
