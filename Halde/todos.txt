@@ -35,9 +35,7 @@ HTML overhaul:
 
 fng: a bit more contrast for links in text
 
-admin: check what happens to the assigned elements when category is deleted. Should go to the parent category.
-
-css for each style: check printview pages. V-W done.
+css for each style: V-W, FnG, MeJ done.
 
 #############################################################
 
@@ -53,16 +51,12 @@ mobile style: image generation needed!
 
 Technical:
 ==========
-- finish templating: diverse e-mails - contact finished
 - clean up includes
--- go over PageMenu in all files to switch to $_GET
 - Namen in Links?
 - include WIDTH and HEIGHT attributes on all images and table columns
 - database efficiency
-- handle Object not found! exception for empty vars in .tpl {VAR} in $GET_VARS
-- kill foreign referers in non-primary scripts $_SERVER["HTTP_REFERER"] => http://localhost/minicms/index.php?page=44
 - editimagelist: prefix search variables with "search" or "s"
-- define hidden vars in opbjecty rather than the templates
+- define hidden vars in objects rather than the templates
 - class articleinfo - move from page to menupage? -> navigators! Maybe separate menu page navigators completely
 - admin - can php check where script was called from?
 - call parent constructur in all Templates - does not work with: navigator stuff
