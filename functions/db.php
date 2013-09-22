@@ -4,6 +4,26 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"functions"));
 include_once($projectroot ."config.php");
 include_once($projectroot ."includes/constants.php");
 
+// security check: restrict which calling scripts get access to the database
+if(!($_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/admin.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/activate.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/login.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/editcategories.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/editimagelist.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/pagedelete.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/pagedisplay.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/pageedit.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/pagenew.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/profile.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/register.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."index.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."login.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."contact.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."guestbook.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."rss.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."showimage.php")))
+	die;
+
 ################################################################################
 ##                                                                            ##
 ##        Functions                                                           ##
