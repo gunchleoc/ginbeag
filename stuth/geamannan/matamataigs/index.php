@@ -4,7 +4,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
 
 include_once($projectroot."includes/objects/page.php");
 ?>
-<?xml version="1.1" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -14,7 +13,22 @@ include_once($projectroot."includes/objects/page.php");
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
 	<link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
 	<script type="text/javascript" src="jquery.js"></script>     
-
+	<style type="text/css">
+#messagebox {
+	position: absolute;
+	overflow: auto;
+	z-index: 10;
+	color:green;
+	background-color:white;
+	border:5px ridge blue;
+	padding:10px;
+	text-align:center;
+	font-size:150%;
+	padding-top:1em;
+	padding-bottom:1em;
+	opacity: 0;
+}
+</style>
 
 <SCRIPT LANGUAGE="JavaScript">
  
@@ -38,6 +52,7 @@ function disableEnterKey(e)
 var time=120;
 var timesup=0;
 var started=0;
+var theirpoints=0;
 
 //document.math.answer.value="";
 //document.math.points.value="0";
@@ -58,8 +73,18 @@ function CountDown() {
 	{
 		document.getElementById("timer").innerHTML = "0";
 		timesup=1;
-		alert('Dh\'fhalbh an ùine ort!');
+		var pointsmessage="<br />Fhuair thu "+theirpoints;
+		if(theirpoints == 1 || theirpoints == 11 || theirpoints == 2 || theirpoints == 12) pointsmessage=pointsmessage + " phuing";
+		else {
+			if((3 <= theirpoints && theirpoints <= 19 ) || (13 <= theirpoints && theirpoints <=19)) pointsmessage=pointsmessage + " puingean";
+			else pointsmessage=pointsmessage + " puing";
+		}
+		showmessage('Dh\'fhalbh an ùine ort!'+pointsmessage);
 		document.math.answer.value="";
+		document.getElementById("operator").innerHTML = "Deireadh a' gheama";
+		document.getElementById("firstnum").innerHTML = "";
+		document.getElementById("secondnum").innerHTML = "";
+		
 	}
 }
 <!--END OF TIMER SCRIPT-->
@@ -114,7 +139,7 @@ var mapnumbers = mapnumbersold;
 
 
 document.getElementById("togglesystem").value = "Cleachd na h-àireamhan ùra";
-document.getElementById("numsystem").firstChild.nodeValue = "Àireamhan: seann nòs";
+document.getElementById("numsystem").firstChild.nodeValue = "seann nòs";
 
 
 
@@ -122,7 +147,7 @@ document.getElementById("numsystem").firstChild.nodeValue = "Àireamhan: seann n
 // mapping test
 for (var i=0; i<=100; i++)
 {
-	alert(""+i+": "+mapnumbers[i]);
+	showmessage(""+i+": "+mapnumbers[i]);
 }
 */
 
@@ -136,12 +161,14 @@ function startgame()
 {
 	document.math.answer.value="";
 	document.getElementById("points").innerHTML="0";
+	theirpoints=0;
 	started=0;
 	time=120;
 	timesup=0;
 	CountDown();
 	started=1;
 	getProb();
+	showmessage("Siuthad! Dè nì e?");
 }
 
 <!--START OF RANDOM NUMBER SCRIPT-->
@@ -209,41 +236,41 @@ function answerit()
 {
 	if (started==0)
 	{
-		alert('Feumaidh tu briogadh air a\'phùtan \'Tòisich air geama ùr\'!');
+		showmessage('Feumaidh tu briogadh air a\' phùtan "Tòisich air geama ùr"!');
 	}
 	else
 	{
 		if (timesup!=0)
 		{
-			alert('Tha an ùine seachad!');
+			showmessage('Tha an ùine seachad!');
 		}
 		else
 		{
 			var theiranswer=trim(document.math.answer.value);
-			var theirpoints=eval(trim(document.getElementById("points").innerHTML));
+			theirpoints=eval(trim(document.getElementById("points").innerHTML));
 			if (theiranswer==null || theiranswer=="")
 			{
-				alert('Cuir an fhreagairt agad sa bhogsa ri taobh clì a\' phutain \'Cuir an fhreagairt ann\'!');
+				showmessage('Cuir an fhreagairt agad sa bhogsa ri taobh clì a\' phutain "Cuir an fhreagairt ann"!');
 				document.math.answer.select();
 			}
 			else
 			{
 				if (theiranswer==rightanswer)
 				{
-					alert('Tha sin ceart!');
+					showmessage('Tha sin ceart!');
 					theirpoints++;
 					document.getElementById("points").innerHTML=theirpoints;
 				}
 				else if (theiranswer==mapnumbers[rightanswer])
 				{
-					alert("'S math a rinn thu!");
+					showmessage("'S math a rinn thu!");
 					theirpoints=theirpoints+2;
 					document.getElementById("points").innerHTML=theirpoints;
 				}
 
 				else
 				{
-					alert("Tha "+ theiranswer + " cearr!\n\n\Is \'"+rightanswer + "\' no \'"+mapnumbers[rightanswer]+"\' an fhreagairt ceart!")
+					showmessage("Tha \""+ theiranswer + "\" cearr!\n\n\Is \""+rightanswer + "\" no \""+mapnumbers[rightanswer]+"\" an fhreagairt ceart!")
 				}
 				document.math.answer.select();
 				getProb();
@@ -266,13 +293,15 @@ function togglesystem()
 	{
 		mapnumbers = mapnumbersold;
 		document.getElementById("togglesystem").value = "Cleachd na h-àireamhan ùra";
-		document.getElementById("numsystem").firstChild.nodeValue = "Àireamhan: seann nòs";
+		document.getElementById("numsystem").firstChild.nodeValue = "seann nòs";
+		showmessage("Bidh an ath àireamh san t-seann nòs.");
 	}
 	else
 	{
 		mapnumbers = mapnumbersnew;
 		document.getElementById("togglesystem").value = "Cleachd na seann àireamhan";
-		document.getElementById("numsystem").firstChild.nodeValue = "Àireamhan: nòs ùr";
+		document.getElementById("numsystem").firstChild.nodeValue = "nòs ùr";
+		showmessage("Bidh an ath àireamh san nòs ùr.");
 	}
 }
 
@@ -321,6 +350,60 @@ if(navigator.appName =="Microsoft Internet Explorer")
 {
 	document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
 }
+
+/**
+ * User feedback message from server
+ */
+function showmessage(message)
+{
+	$('#messagebox').stop();
+	$("#messagebox").html(message);
+	placeOnBottom($('#messagebox'));
+
+	$('#messagebox').animate({opacity: 1},0, function() {
+
+		$('#messagebox').delay(600).animate({
+			opacity: 0
+			}, 4000, function() {
+			$('#messagebox').css("width","0px");
+			$('#messagebox').css("height","0px");
+			// Animation complete.
+		}); // animate 2
+	}); // animate 1
+} // showmessage
+
+
+// http://www.howtocreate.co.uk/tutorials/javascript/browserwindow
+function placeOnBottom(element)
+{
+	element.css("position","fixed");
+	element.css("width","70%");
+	element.css("height","auto");
+	element.css("right","0px");
+	element.css("margin-right","25px");
+	var height = element.css("height");
+	if(height)
+	{
+		var temp = height.indexOf("px");
+		height = height.substring(0, temp);
+	}
+	else height=0;
+	
+	var windowheight = document.body.clientHeight;
+	var top = windowheight-height*2-10;
+	
+	// Internet Exploder
+	if(element.css("position")=="static")
+	{
+		element.css("position","absolute");
+		top = top+document.body.scrollTop;
+	}
+	top = top-25;
+		
+	top = top+"px";
+	element.css("top",top);
+}
+
 
 $(document).ready(function() {
 	// height for pages where content is shorter than navigator
@@ -390,47 +473,56 @@ $db->closedb();
 				<h2 class="pagetitle">Geama Matamataigs</h2>
 
 <table align="center" cellpadding="5">
-  <tr>
-    <td align="left" colspan="2"><input type="button" id="start" name="start" value="Tòisich air geama ùr" style="font-size: 90%;"></td>
-  </tr>
-  
-  <tr>
-    <form name="math" >
+<form name="math" >
+	<tr>
+  		<td align="left" rowspan="6"><img src="matamataigslogo.png" /></td>
       
     </tr>
     <tr>
-      <td align="left" colspan="2"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">Fuasgail: </span>
-      <font face="Arial, Helvetica, Sans Serif">
-      	<span name="firstnum" id="firstnum" style="font-weight:bold;"> </span>
-      	<span name="operator" id="operator"> </span>
-      	<span name="secondnum" id="secondnum" style="font-weight:bold;"> </span>
-      </font>
+      	<td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">Fuasgail: </span></td>
+      	<td colspan="2">
+      		<font face="Arial, Helvetica, Sans Serif">
+      			<span name="firstnum" id="firstnum" style="font-weight:bold;"> </span>
+      			<span name="operator" id="operator"> </span>
+      			<span name="secondnum" id="secondnum" style="font-weight:bold;"> </span>
+      		</font>
+      	</td>
     </tr>
     <tr>
-      <td align="left" colspan="2"><hr><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">A' dèanamh:</span> <input type="text" ID="answer" name="answer" size="40" style="font-size: 100%;" onKeyPress="return disableEnterKey(event)"> <input type="button" id="answerit" name="answerit" value="Cuir an fhreagairt ann" style="font-size: 90%;"><hr></td>
+      	<td align="left" valign="top"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">A' dèanamh:</span></td>
+      	<td colspan="2" valign="top"><input type="text" ID="answer" name="answer" size="40" style="font-size: 100%;" onKeyPress="return disableEnterKey(event)"> <input type="button" id="answerit" name="answerit" value="Cuir an fhreagairt ann" style="font-size: 90%;"></td>
     </tr>
     <tr>
-      	<td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:green;">Puingean:</span> <span name="points" id="points" style="font-weight:bold; color:green;"> </span></td>
-    	<td align="right"><font face="Arial, Helvetica, Sans Serif">Ùine air fhàgail: </font><span name="timer" id="timer" style="font-weight:bold;"> </span></td>    
+		<td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:green;">Puingean:</span></td>
+		<td><span name="points" id="points" style="font-weight:bold; color:green;"> </span></td>
+		<td align="right"><font face="Arial, Helvetica, Sans Serif">Ùine air fhàgail: </font><span name="timer" id="timer" style="font-weight:bold;"> </span></td>    
     </tr>
-    <tr>
-    <td colspan="2">
-    <p style="font-family: Arial, Helvetica, Sans Serif; font-size: 75%;">Gheibh thu puing do gach freagairt ceart ma chleachdas tu àireamhan.
-	<br />Gheibh thu dà phuing do gach freagairt ceart ma sgrìobhas tu ainmean nan àireamhan.</p>
-
-    </td>
-  </tr>
-    
-    <tr>
-    </form>
-    
-  </tr>
-  <tr>
-    <td align="left" colspan="2"><font face="Arial, Helvetica, Sans Serif"><span name="numsystem" id="numsystem" style="font-weight:bold;">Àireamhan: seann nòs</span></font>
-      <input type="button" id="togglesystem" name="togglesystem" value="Cleachd na h-àireamhan ùra" style="font-size: 80%;"></td>
-  </tr>
+</form>
+	<tr>
+    	<td align="left" colspan="3">
+    		<p style="font-family: Arial, Helvetica, Sans Serif; font-size: 75%;">Gheibh thu puing do gach freagairt cheart ma chleachdas tu àireamh.
+			<br />Gheibh thu dà phuing do gach freagairt cheart ma sgrìobhas tu ainm na h-àireimh.</p>
+      	</td>
+	</tr>
+	<tr>
+		<td>
+			<font face="Arial, Helvetica, Sans Serif"><span style="font-weight:bold;">Àireamhan:</span></font>
+      	</td>
+      	<td>
+			<font face="Arial, Helvetica, Sans Serif"><span name="numsystem" id="numsystem" style="font-weight:bold;">seann nòs</span></font>
+      	</td>
+      	<td align="right">
+    		<input type="button" id="togglesystem" name="togglesystem" value="Cleachd na h-àireamhan ùra" style="font-size: 80%;">
+    	</td>
+	</tr>
+	<tr>
+    	<td align="center">
+    		<input type="button" id="start" name="start" value="Tòisich air geama ùr" style="font-size: 90%;">
+		</td>
+		<td colspan="3">&nbsp;</td>
+  	</tr>
 </table>
-
+<div id="messagebox"></div>
 <br /><hr>
 <p>Tha an geama seo stèidhichte air JavaScript le <a href="http://javascriptsource.com">The JavaScript Source</a>.</p>
 <p>Cleachdaidh an geama seo JavaScript.</p>
