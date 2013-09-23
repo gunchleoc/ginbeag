@@ -67,12 +67,6 @@
 	<div class="contentheader">Items Per Page Setup</div>
 	<div class="contentsection">
 		<fieldset>
-			<legend class="highlight">Links per Page</legend>	
-			<label for="linksperpage">Links per page:</label>
-			<input id="linksperpage" type="text" name="linksperpage" size="3" maxlength="5" value="{LINKSPERPAGE}" />
-			<div class="formexplain">The number of links that will be displayed on linklist pages. Please enter a whole, positive number</div>
-		</fieldset>
-		<fieldset>
 			<legend class="highlight">Newsitems per Page</legend>	
 			<label for="newsperpage">Newsitems per page:</label>
 			<input id="newsperpage" type="text" name="newsperpage" size="3" maxlength="5" value="{NEWSPERPAGE}" />

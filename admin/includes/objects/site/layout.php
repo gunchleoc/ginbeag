@@ -80,7 +80,6 @@ class SiteLayout extends Template {
     $this->stringvars['footermessage']=input2html($properties["Footer Message"]);
     $this->stringvars['footermessagedisplay']=text2html($properties["Footer Message"]);
     
-    $this->stringvars['linksperpage']=$properties["Links Per Page"];
     $this->stringvars['newsperpage']=$properties["News Items Per Page"];
     $this->stringvars['galleryimagesperpage']=$properties["Gallery Images Per Page"];
 

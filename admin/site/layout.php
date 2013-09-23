@@ -52,8 +52,7 @@ function savesitelayout()
   
   $properties['Footer Message']=$db->setstring(fixquotes(trim($_POST['footermessage'])));
 
-  $properties['Links Per Page']=$db->setinteger(trim($_POST['linksperpage']));
-  $properties['News Items Per Page']=$db->setinteger(trim($_POST['newsperpage']));
+    $properties['News Items Per Page']=$db->setinteger(trim($_POST['newsperpage']));
   $properties['Gallery Images Per Page']=$db->setinteger(trim($_POST['galleryimagesperpage']));
 
 	if(isset($_POST['linksonsplashpage']))

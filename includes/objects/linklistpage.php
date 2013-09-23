@@ -11,13 +11,14 @@ include_once($projectroot."includes/includes.php");
 // a link in a linklist
 //
 class LinklistLink extends Template {
-  function LinklistLink($title,$image,$description,$link)
+  function LinklistLink($linkid,$title,$image,$description,$link)
   {
   	parent::__construct();
     // image permissions checked in LinkList
     $hasimage=strlen($image)>0;
     $this->stringvars['title'] = title2html($title);
     $this->stringvars['link'] = $link;
+    $this->stringvars['linkid'] = $linkid;
 
     if($hasimage)
     {
@@ -102,7 +103,6 @@ class LinklistPage extends Template {
   function LinklistPage($offset=0,$showrefused,$showhidden)
   {
   	parent::__construct();
-    $linksperpage=getproperty("Links Per Page");
     $linkids=getlinklistitems($this->stringvars['page']);
     $noofids=count($linkids);
     if(!$offset) $offset=0;
@@ -120,19 +120,13 @@ class LinklistPage extends Template {
     if(strlen($image)>0 && mayshowimage($image,$this->stringvars['page'],$showhidden))
       $this->vars['image'] = new CaptionedImage($image,2,"",$showrefused,$showhidden);
 
-    // pagemenu
-    if($noofids/$linksperpage>1)
-    {
-      $this->vars['pagemenu'] = new Pagemenu($offset,$linksperpage,$noofids,'',$this->stringvars['page']);
-    }
-
     // links
-    for($i=$offset;$i<($offset+$linksperpage)&&$i<$noofids;$i++)
+    for($i=$offset;$i<($noofids)&&$i<$noofids;$i++)
     {
       	$contents=getlinkcontents($linkids[$i]);
     	if(!mayshowimage($contents['image'],$this->stringvars['page'],$showhidden))
      		$contents['image']="";
-      	$this->listvars['link'][]= new LinkListLink($contents['title'],$contents['image'],$contents['description'],$contents['link']);
+      	$this->listvars['link'][]= new LinkListLink($linkids[$i],$contents['title'],$contents['image'],$contents['description'],$contents['link']);
     }
 
     $this->vars['editdata']= new Editdata($showhidden);
@@ -172,7 +166,7 @@ class LinklistPagePrintview extends Template {
       $contents=getlinkcontents($linkids[$i]);
       if(!mayshowimage($contents['image'],$this->stringvars['page'],$showhidden))
      		$contents['image']="";
-      $this->listvars['link'][]= new LinkListLink($contents['title'],$contents['image'],$contents['description'],$contents['link'],false,false);
+      $this->listvars['link'][]= new LinkListLink($linkids[$i],$contents['title'],$contents['image'],$contents['description'],$contents['link'],false,false);
     }
 
     $this->vars['editdata']= new Editdata($showhidden);

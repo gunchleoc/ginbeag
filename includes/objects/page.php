@@ -195,7 +195,7 @@ class ShortLink extends Template {
       $paragraphs=explode ('<br />', $text);
       $text=$paragraphs[0];
 
-      if (array_key_exists(1, $paragraphs)) $text.=' <a href="?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'">[...]</a>';
+      if (array_key_exists(1, $paragraphs)) $text.=' <a href="index.php?sid='.$this->stringvars['sid'].'&page='.$contents['page_id'].'#link'.$link.'">[...]</a>';
 
       // todo: can this be stripped while keeping tags intact?
 /*      if(strlen($text)>0)
