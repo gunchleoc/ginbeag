@@ -218,6 +218,8 @@ input.mainoption {
 	padding-top: 0.35em;
 }
 
+.aotd a {text-decoration: none;}
+
 /* Navigator - selected item */
 .navhighlight	{ font-size: 100%; color : yellow;}
 
@@ -551,8 +553,8 @@ a.linktitle:active { text-decoration:underline; font-weight:bold; color:yellow; 
 }
 
 .splashpagelink {
-	padding-left: 0.75em;
-	padding-right: 0.75em;
+	padding-left: 0.3em;
+	padding-right: 0.3em;
 }
 
 
