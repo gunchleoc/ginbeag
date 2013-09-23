@@ -274,3 +274,7 @@ body, table, input {
 }
 #tetris	.window	.content table {
 }
+
+#tetris-highscores-content td {
+padding-bottom:	1px; line-height: 1.25em; font-size: 11px; color: #002373;
+}
