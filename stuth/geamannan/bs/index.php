@@ -4,7 +4,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
 
 include_once($projectroot."includes/objects/page.php");
 ?>
-<?xml version="1.1" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
