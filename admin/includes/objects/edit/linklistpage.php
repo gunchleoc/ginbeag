@@ -55,7 +55,7 @@ class EditLinkListLinkForm extends Template {
     $this->stringvars['imagefilename'] = $image;
     $this->vars['image'] = new CaptionedImageAdmin($image,$this->stringvars['page'],2);
 
-    $this->vars['editdescription']= new Editor($this->stringvars['page'],$linkid,"link","Edit Link Description");
+    $this->vars['editdescription']= new Editor($this->stringvars['page'],$linkid,"link","Link Description");
   }
 
   // assigns templates
