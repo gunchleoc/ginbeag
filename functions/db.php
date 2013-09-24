@@ -5,38 +5,87 @@ include_once($projectroot ."config.php");
 include_once($projectroot ."includes/constants.php");
 
 // security check: restrict which calling scripts get access to the database
-if(!($_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/admin.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/activate.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/login.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/editcategories.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/editimagelist.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/pagedelete.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/pagedisplay.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/pageedit.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/pagenew.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/profile.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/register.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/edit/articleedit.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/edit/galleryedit.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/edit/linklistedit.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/edit/menuedit.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/edit/newsedit.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/includes/preview.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/bs/index.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/crochadair/index.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/leacan/index.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/leumadair/index.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/longan/index.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/matamataigs/index.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/tetris/index.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/tt/index.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."index.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."login.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."contact.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."guestbook.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."rss.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."showimage.php")))
-	die;
+$root4array=str_replace("\\","/",$projectroot);
+
+$allowedscripts[]=$root4array."admin/activate.php";
+$allowedscripts[]=$root4array."admin/admin.php";
+$allowedscripts[]=$root4array."admin/edit/articleedit.php";
+$allowedscripts[]=$root4array."admin/edit/galleryedit.php";
+$allowedscripts[]=$root4array."admin/edit/linklistedit.php";
+$allowedscripts[]=$root4array."admin/edit/menuedit.php";
+$allowedscripts[]=$root4array."admin/edit/newsedit.php";
+$allowedscripts[]=$root4array."admin/editcategories.php";
+$allowedscripts[]=$root4array."admin/editimagelist.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/articles/addcategories.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/articles/removecategories.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/articles/savesectiontitle.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/articles/savesource.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/articles/updatecategories.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/articles/updatesectiontitle.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/editor/collapseeditor.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/editor/editorcontentssavedialog.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/editor/expandeditor.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/editor/formatpreviewtext.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/editor/gettextfromdatabase.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/editor/savetext.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/galleries/saveimage.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/galleries/updateimage.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/addcategories.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/getimageusage.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/removecategories.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/savedescription.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/updatecategories.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/updateimage.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/linklists/";
+$allowedscripts[]=$root4array."admin/includes/ajax/linklists/";
+$allowedscripts[]=$root4array."admin/includes/ajax/linklists/removeimage.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/linklists/saveimage.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/linklists/savelinkproperties.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/linklists/updateimage.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/linklists/updatelinktitle.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/menus/movepage.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/menus/saveoptions.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/menus/updatesubpages.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/addcategories.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/publish.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/removecategories.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/savedate.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/savepermissions.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/savesectiontitle.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/savesource.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/savetitle.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/unpublish.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/updatecategories.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/updatedate.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/updatesectiontitle.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/news/updatetitle.php";
+$allowedscripts[]=$root4array."admin/includes/preview.php";
+$allowedscripts[]=$root4array."admin/login.php";
+$allowedscripts[]=$root4array."admin/pagedelete.php";
+$allowedscripts[]=$root4array."admin/pagedisplay.php";
+$allowedscripts[]=$root4array."admin/pageedit.php";
+$allowedscripts[]=$root4array."admin/pagenew.php";
+$allowedscripts[]=$root4array."admin/profile.php";
+$allowedscripts[]=$root4array."admin/register.php";
+$allowedscripts[]=$root4array."contact.php";
+$allowedscripts[]=$root4array."guestbook.php";
+$allowedscripts[]=$root4array."index.php";
+$allowedscripts[]=$root4array."login.php";
+$allowedscripts[]=$root4array."rss.php";
+$allowedscripts[]=$root4array."showimage.php";
+$allowedscripts[]=$root4array."stuth/geamannan/bs/index.php";
+$allowedscripts[]=$root4array."stuth/geamannan/crochadair/getword.php";
+$allowedscripts[]=$root4array."stuth/geamannan/crochadair/index.php";
+$allowedscripts[]=$root4array."stuth/geamannan/leacan/index.php";
+$allowedscripts[]=$root4array."stuth/geamannan/leumadair/index.php";
+$allowedscripts[]=$root4array."stuth/geamannan/longan/index.php";
+$allowedscripts[]=$root4array."stuth/geamannan/matamataigs/index.php";
+$allowedscripts[]=$root4array."stuth/geamannan/tetris/highscore.php";
+$allowedscripts[]=$root4array."stuth/geamannan/tetris/index.php";
+$allowedscripts[]=$root4array."stuth/geamannan/tt/getpuzzle.php";
+
+if(!in_array($_SERVER["SCRIPT_FILENAME"],$allowedscripts)) die;
+
 
 ################################################################################
 ##                                                                            ##
