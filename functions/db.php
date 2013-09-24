@@ -21,6 +21,7 @@ if(!($_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/ad
 	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/edit/linklistedit.php")
 	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/edit/menuedit.php")
 	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/edit/newsedit.php")
+	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/includes/preview.php")
 	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/bs/index.php")
 	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/crochadair/index.php")
 	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."stuth/geamannan/leacan/index.php")
