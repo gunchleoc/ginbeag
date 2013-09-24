@@ -142,7 +142,7 @@ class CaptionedImage extends Template {
     	parent::__construct();
       
       	$this->stringvars['caption']="";
-      	$this->stringvars['width']=MAXIMAGEDIMENSION;
+      	$this->stringvars['width']=MAXIMAGEDIMENSION+100;
       	$this->stringvars['halign']=$halign;
       	
       	if ($halign == "right")
@@ -209,7 +209,7 @@ class CaptionedImage extends Template {
       
       // todo this is only a workaround
       if($this->stringvars['width'] == "0px")
-      	$this->stringvars['width'] = "150px";
+      	$this->stringvars['width'] = "200px";
     }
 
     // assigns templates
