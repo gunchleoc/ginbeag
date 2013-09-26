@@ -1,1 +1,1 @@
-<div class="galleryimage">{IMAGE}</div>
+<div class="galleryimage" style="height: {HEIGHT}">{IMAGE}</div>
