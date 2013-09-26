@@ -394,6 +394,24 @@ a.contentnavtitle:hover{ text-decoration: underline; color : #D75876; }
 
 /************ Newsitems and articles ************/
 
+/* Clickable categories */
+.articleinfocategories {
+	margin-top: 0.2em;
+	font-size:80%;
+}
+
+.newsitemcategories {
+	margin-top: 0.2em;
+	color : #766173;
+	font-size:100%;
+}
+
+.categorylistlink {
+	margin-right:0.5em;
+	margin-left: 0.5em;
+}
+
+
 /* News: RSS button */
 .rss {
 	text-align: left;
@@ -437,10 +455,10 @@ div.newsquote {
 
 
 /* Newsitem and article: Source info */
-.articlesource	{color : #AA8CA6; }
-.articleauthor	{font-weight: bold;	font-style: italic;color : #AA8CA6; }
-.articlelocation	{color : #AA8CA6; }
-.articledate	{font-style: italic;color : #AA8CA6; }
+.articlesource	{color : #766173; }
+.articleauthor	{font-weight: bold;	font-style: italic;color : #766173; }
+.articlelocation	{color : #766173; }
+.articledate	{font-style: italic;color : #766173; }
 
 /* Article: Table of Contents */
 .articletoc {
@@ -518,7 +536,7 @@ a.linktitle:active { text-decoration:underline; color:#3067F2; }
 	padding-top: 0.5em;
 	font-weight: bold;
 	font-size: 100%;
-	color: #AA8CA6;
+	color: #766173;
 	text-align: center;
 	font-style:normal;
 }

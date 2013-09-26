@@ -378,6 +378,22 @@ input.mainoption {
 
 /************ Newsitems and articles ************/
 
+/* Clickable categories */
+.articleinfocategories {
+	margin-top: 0.2em;
+	font-size:80%;
+}
+
+.newsitemcategories {
+	margin-top: 0.2em;
+	font-size:100%;
+}
+
+.categorylistlink {
+	margin-right:0.5em;
+	margin-left: 0.5em;
+}
+
 /* News: RSS button */
 .rss {
 	text-align: left;

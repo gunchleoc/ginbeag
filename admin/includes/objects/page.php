@@ -77,7 +77,7 @@ class DeletePageConfirmForm extends Template {
       $this->stringvars['deletemessage']="Are you sure you want to delete these pages?";
       for($i=0;$i<count($children);$i++)
       {
-        $this->listvars['subpages'][]= new NavigatorBranch($children[$i],"bullet","bullet","contents",50000000000,false,0,"",true);
+        $this->listvars['subpages'][]= new NavigatorBranch($children[$i],"simple",5000,0,"",true);
       }
     }
     else

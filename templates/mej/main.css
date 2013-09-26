@@ -1,6 +1,3 @@
-/* Stylesheet for Viggo-Works */
-
-
 /************ General element styles ************/
 html body {
 	font-size : 75%;
@@ -408,6 +405,23 @@ a.contentnavtitle:hover{ text-decoration: underline; color : #DEA479; }
 }
 
 /************ Newsitems and articles ************/
+
+/* Clickable categories */
+.articleinfocategories {
+	margin-top: 0.2em;
+	font-size:80%;
+}
+
+.newsitemcategories {
+	margin-top: 0.2em;
+	font-size:100%;
+	color : #DECB97;
+}
+
+.categorylistlink {
+	margin-right:0.5em;
+	margin-left: 0.5em;
+}
 
 /* News: RSS button */
 .rss {

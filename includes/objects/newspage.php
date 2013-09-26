@@ -108,6 +108,8 @@ class Newsitem extends Template {
         $this->stringvars['l_contributor'] =getlang('news_source_foundby');
       }
 
+      $this->vars['categorylist']=new CategorylistLinks(getcategoriesfornewsitem($newsitem),$this->stringvars["page"]);
+
       if(strlen($contents['synopsis'])>0)
         $this->stringvars['synopsis_image']="synopsis_image";
 
@@ -161,7 +163,6 @@ class Newsitem extends Template {
           $isquote == $newsitemsection->isquotestart();
         }
       }
-      
       $this->stringvars["l_topofthispage"] = getlang("pagemenu_topofthispage");
       
     }

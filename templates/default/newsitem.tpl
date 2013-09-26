@@ -22,9 +22,11 @@
     	<!-- END switch SOURCE -->
 
     	<!-- BEGIN switch CONTRIBUTOR -->
-    	<span class="articlesource"> {L_CONTRIBUTOR} {CONTRIBUTOR}</span>
+    	<div class="articlesource"> {L_CONTRIBUTOR} {CONTRIBUTOR}</div>
     	<!-- END switch CONTRIBUTOR -->
-
+    	
+    	<div class="newsitemcategories">{CATEGORYLIST}</div>
+    	
     	<!-- BEGIN switch SYNOPSIS_IMAGE -->
     	<div class="introtext">
 	      	<br>&nbsp;<br>

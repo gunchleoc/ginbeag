@@ -40,7 +40,7 @@ class MenuPage extends Template {
 			{
 				if(displaylinksforpagearray($this->stringvars['sid'],$children[$i]) || $showhidden)
 				{
-					$this->listvars['subpages'][]= new ContentNavigatorBranch($children[$i],"simple","simple","contents",$pagecontents['displaydepth']-1,true,0,"",$showhidden);
+					$this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i],$pagecontents['displaydepth']-1,0,$showhidden);
 				}
 			}
 	
@@ -52,7 +52,7 @@ class MenuPage extends Template {
 			{
 				if(displaylinksforpagearray($this->stringvars['sid'],$children[$i]) || $showhidden)
 				{
-					$this->listvars['subpages'][]= new ContentNavigatorBranch($children[$i],"simple","bullet","contents",$pagecontents['displaydepth']-1,true,0,"",$showhidden);
+					$this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i],$pagecontents['displaydepth']-1,0,$showhidden);
 				}
 			}
 	    }
@@ -69,6 +69,45 @@ class MenuPage extends Template {
 
 
 
+
+//
+// Templating for Navigator
+//
+class ArticleInfo extends Template {
+
+    function ArticleInfo($page,$article) {
+
+    	parent::__construct();
+
+		$contents= getarticlepageoverview($article);
+		
+		$articleinfo="";
+		if($contents['article_author'])
+		{
+			$articleinfo.= 'By '.title2html($contents['article_author']);
+		}
+		if($contents['source'])
+		{
+			if($articleinfo) $articleinfo.=', ';
+			$articleinfo.=title2html($contents['source']);
+		}
+		$date=makearticledate($contents['day'],$contents['month'],$contents['year']);
+		if($date)
+		{
+			if($articleinfo) $articleinfo.=', ';
+			$articleinfo.=$date;
+		}
+		
+		$this->stringvars['articleinfo']=$articleinfo;
+		$this->vars['categorylist']=new CategorylistLinks(getcategoriesforpage($article),$page);
+	}
+
+    // assigns templates
+    function createTemplates()
+    {
+		$this->addTemplate("articleinfo.tpl");
+    }
+}
 
 
 
@@ -127,7 +166,7 @@ class ArticleMenuPage extends Template {
 		{
 			if(displaylinksforpagearray($this->stringvars['sid'],$children[$i]) || $showhidden)
 			{
-				$this->listvars['subpages'][]= new ContentNavigatorBranch($children[$i],"simple","bullet","contents",$pagecontents['displaydepth']-1,true,0,"",$showhidden);
+				$this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i],$pagecontents['displaydepth']-1,0,$showhidden);
 			}
 		}
 	
@@ -247,4 +286,208 @@ class ArticlemenuOrderSelectionForm  extends Template {
 }
 
 
+
+//
+// Templating for Linklist in Linklistmenu Navigator
+//
+class MenuLinkListLink extends Template {
+
+    function MenuLinkListLink($link) {
+		parent::__construct();
+
+		$contents=getlinkcontents($link);
+		
+		if(strlen($contents['link'])<=1)
+		{
+			$this->stringvars['link']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		}
+		else
+		{
+			$this->stringvars['link']=$contents['link'];   	
+		}
+		$this->stringvars['title']=title2html($contents['title']);
+		
+		$text=text2html($contents['description']);
+		$paragraphs=explode ('<br />', $text);
+		$text=$paragraphs[0];
+		
+		if (array_key_exists(1, $paragraphs)) $text.=' <a href="index.php?sid='.$this->stringvars['sid'].'&page='.$contents['page_id'].'#link'.$link.'">[...]</a>';
+
+      // todo: can this be stripped while keeping tags intact?
+/*      if(strlen($text)>0)
+      {
+        if(strlen($text)>200)
+        {
+          $text=substr($text,0,200);
+          $position=strrpos($text," ");
+          if($position) $text=substr($text,0,$position);
+        }
+        //$text="- ".$text;
+        if(strlen($text)<strlen($paragraphs[0])) $text.=" ...";
+      }
+*/
+		$this->stringvars['description']=$text;
+    }
+
+    // assigns templates
+    function createTemplates()
+    {
+		$this->addTemplate("menulinklistlink.tpl");
+    }
+}
+
+//
+// Templating for Linklist in Linklistmenu Navigator
+//
+class MenuLinkListBranch extends Template {
+
+    function MenuLinkListBranch($linkids) {
+    
+		parent::__construct();
+
+		for($i=0;$i<count($linkids);$i++)
+		{
+			$this->listvars['link'][]=new MenuLinkListLink($linkids[$i]);
+		}
+	}
+
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("menulinklistbranch.tpl");
+	}
+}
+
+
+
+//
+// Templating for Navigator
+//
+class MenuNavigatorLink extends Template {
+
+	function MenuNavigatorLink($page, $level=0, $showhidden=false) {
+
+		global $_GET;
+		
+		parent::__construct();
+		
+		if(isset($_GET['sid'])) $sid=$_GET['sid'];
+		else $sid="";
+      
+		$linkparams="?sid=".$sid;
+		if(isset($_GET['m'])) $linkparams.="&m=on";
+		
+		// layout parameters		
+        if($level==0) $this->stringvars['link_class']="contentnavtitle";
+        else $this->stringvars['link_class']="contentnavlink";
+	
+		$this->stringvars['title']=title2html(getpagetitlearray($page));
+        $this->stringvars['linktooltip']=striptitletags(getpagetitlearray($page));
+        
+        if($showhidden)
+        {
+			if(isthisexactpagerestricted($page)) $this->stringvars['title']=$this->stringvars['title'].' (R)';
+			if(!ispublished($page)) $this->stringvars['title']='<i>'.$this->stringvars['title'].'</i>';
+        }
+
+		$pagetype=getpagetypearray($page);
+
+        if($pagetype==="external")
+        {
+			$this->stringvars['link']=getexternallink($page);
+			if(str_startswith($this->stringvars['link'], getprojectrootlinkpath())
+				|| str_startswith($this->stringvars['link'], "?")
+				|| str_startswith($this->stringvars['link'], "index.php"))
+			{
+				$this->stringvars['link_attributes']='';
+			}
+			else
+			{
+          		$this->stringvars['link_attributes']=' target="_blank"';
+			}
+			$this->stringvars['description']="";
+        }
+        else
+        {
+			if($pagetype==="article")
+			{
+				$this->vars['description']=new ArticleInfo($this->stringvars["page"],$page);
+			}
+			elseif($pagetype==="linklist")
+			{
+				$linkids=getlinklistitems($page);
+				if(count($linkids)>0)
+				{
+					$this->vars['description']=new MenuLinkListBranch($linkids);
+				}
+				else
+				{
+					$this->stringvars['description']="";
+				}
+			}
+
+			else
+			{
+				$this->stringvars['description']="";
+			}
+			if($showhidden) $path=getprojectrootlinkpath()."admin/pagedisplay.php";
+			else $path=getprojectrootlinkpath()."index.php";
+			$this->stringvars['link']=$path.$linkparams.'&page='.$page;
+			$this->stringvars['link_attributes']="";
+		} 
+	}
+
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("menunavigatorlink.tpl");
+	}
+}
+
+
+
+//
+// Templating for Navigator
+// iterate over branch and create links
+//
+class MenuNavigatorBranch extends Template {
+
+    function MenuNavigatorBranch($page,$depth,$level=0,$showhidden=false)
+    {
+		global $_GET;
+    	
+    	parent::__construct();
+    	
+    	if(isset($_GET['sid'])) $sid=$_GET['sid'];
+    	else $sid="";
+    	
+        if($level==0) $this->stringvars['wrapper_class'] = "contentnavrootlinkwrapper";
+        else $this->stringvars['wrapper_class'] = "contentnavlinkwrapper";
+         
+        if(hasaccesssession($sid, $page) || $showhidden)
+        {
+			$this->listvars['link'][]= new MenuNavigatorLink($page, $level,$showhidden);
+        }
+
+        $this->stringvars['margin_left']=$level;
+
+        if($depth>0)
+        {
+			$pages=getchildrenarray($page);
+			for($i=0;$i<count($pages);$i++)
+			{
+				if(displaylinksforpagearray($sid,$pages[$i]) || $showhidden)
+				{
+					$this->listvars['link'][]= new MenuNavigatorBranch($pages[$i], $depth-1, $level+1,$showhidden);
+				}
+			}
+        }
+    }
+
+    // assigns templates
+    function createTemplates()
+    {
+        $this->addTemplate("menunavigatorbranch.tpl");
+    }
+}
 ?>

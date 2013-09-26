@@ -1,4 +1,2 @@
-<div class="articleinfo">{ARTICLEINFO}
-<br>
-<i>{CATEGORYLIST}</i>
-</div>
+<div class="articleinfo">{ARTICLEINFO}</div>
+<div class="articleinfocategories">{CATEGORYLIST}</div>

@@ -2,7 +2,7 @@
 <p>
   	<span class="highlight">{HEADER}</span>
 <!-- END switch HEADER -->
-	{CATLISTOUTPUT}
+	{CATLIST}
 <!-- BEGIN switch HEADER -->
 </p>
 <!-- END switch HEADER -->

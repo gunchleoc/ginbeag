@@ -358,6 +358,27 @@ a.navlink:hover, a.navtitle:hover {color : #FFABCB;}
 
 /************ Newsitems and articles ************/
 
+/* Clickable categories */
+.articleinfocategories {
+	margin-top: 0.2em;
+	font-size:80%;
+}
+
+.newsitemcategories {
+	margin-top: 0.2em;
+	color: #ABCFFF;
+	font-size:100%;
+}
+.newsitemcategories a {
+	color : #FFABCB;
+	text-decoration: underline;
+}
+
+.categorylistlink {
+	margin-right:0.5em;
+	margin-left: 0.5em;
+}
+
 /* News: RSS button */
 .rss {
 	text-align: left;
@@ -404,6 +425,10 @@ div.newsquote {
 .articleauthor	{color: #ABCFFF;font-weight: bold;	font-style: italic;}
 .articlelocation	{color: #ABCFFF;}
 .articledate	{color: #ABCFFF; font-style: italic;}
+.articlesource a {
+	color : #FFABCB;
+	text-decoration: underline;
+}
 
 /* Article: Table of Contents */
 .articletoc {
