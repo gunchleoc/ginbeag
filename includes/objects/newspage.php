@@ -6,6 +6,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 include_once($projectroot."functions/pagecontent/newspages.php");
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/objects/forms.php");
 include_once($projectroot."includes/includes.php");
 

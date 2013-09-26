@@ -17,7 +17,6 @@ The format of the image must be one of PNG (a W3C standard), GIF, or ICO.
 #############################################################
 MANUAL STUFF
 
-Delete all files + reupload
 security: create index.php/.html in imagedirs for existing dirs
 #############################################################
 
@@ -39,11 +38,6 @@ AJAX for image forms
 mobile style: image generation needed!
 
 #############################################################
-
-
-Technical:
-==========
-- class articleinfo - move from page to menupage? -> navigators! Maybe separate menu page navigators completely
 
 
 Desired new public features:
