@@ -26,7 +26,7 @@ a:active	 {text-decoration: underline; color : #D4ECFB;}
 .highlight	{font-weight: bold; color : yellow; }
 a.highlight 	{  text-decoration: none; color : #FF9900; }
 a.highlight:hover{ text-decoration: underline; color : #FF9900; }
-a.highlight:active { text-decoration:none; font-weight:bold; color:#FF9900; }
+a.highlight:active { text-decoration:none; color:#FF9900; }
 
 
 /* Form elements */
@@ -40,6 +40,7 @@ fieldset {
 
 legend {
 	font-weight: bold;
+	color:white;
 }
 
 
@@ -227,14 +228,14 @@ input.mainoption {
 .navtitle	{ color : #D4ECFB;}
 a.navtitle 	{ text-decoration: none; color : #D4ECFB; }
 a.navtitle:hover{ text-decoration: underline; color : yellow; }
-a.navtitle:active { text-decoration:none; font-weight:bold; color:yellow; }
+a.navtitle:active { text-decoration:none; color:yellow; }
 
 
 /* Navigator link for the lower levels */
 .navlink		{ font-weight: bold; font-size: 70%; color : #D4ECFB; }
 a.navlink 	{ text-decoration: none; color : #D4ECFB; }
 a.navlink:hover{ text-decoration: underline; color : yellow; }
-a.navlink:active { text-decoration:none; font-weight:bold; color:yellow; }
+a.navlink:active { text-decoration:none; color:yellow; }
 
 
 .navrootlinkwrapper {
@@ -369,6 +370,7 @@ a.footer:hover { color: yellow; text-decoration: underline;}
 	border-style: solid;
 	border-width: 1px 0px 0px 0px;	
 	padding-top: 0.5em;
+	border-color: #00AEED;
 }
 
 
@@ -418,7 +420,8 @@ a.contentnavtitle:hover{ text-decoration: underline; color : yellow; }
 .newsfilterform {
 	margin-top:1.5em;
 	border-style: solid;
-	border-width: 1px 0px 1px 0px;	
+	border-width: 1px 0px 1px 0px;
+	border-color: #00AEED;
 }
 
 /* Newsitem: wrapper */
@@ -427,6 +430,7 @@ a.contentnavtitle:hover{ text-decoration: underline; color : yellow; }
 	border-style: solid;
 	border-width: 1px 0px 0px 0px;
 	padding-top: 0.5em;
+	border-color: #00AEED;
 }
 
 /* Newsitem: Label for section with quoted text */
@@ -443,7 +447,6 @@ div.newsquote {
 	margin-right: 2em;
 	width: *;
 	padding: 1em;
-	font-style: italic;
 	text-align: justify;
 	background-color: #003B39;
 	color : #FFFFFF; 
@@ -463,6 +466,7 @@ div.newsquote {
 	border-style: solid;
 	border-width: 1px 0px 1px 0px;
 	padding-top: 0.5em;
+	border-color: #00AEED;
 }
 
 /************ Gallery ************/
@@ -495,7 +499,7 @@ div.newsquote {
 a.linktitle 	{ text-decoration: none; color : #D4ECFB; }
 a.linktitle:visited 	{ text-decoration: none; color : #D4ECFB; }
 a.linktitle:hover{ text-decoration: underline; color : yellow; }
-a.linktitle:active { text-decoration:underline; font-weight:bold; color:yellow; }
+a.linktitle:active { text-decoration:underline; color:yellow; }
 
 
 .linklistlink {
@@ -518,6 +522,7 @@ a.linktitle:active { text-decoration:underline; font-weight:bold; color:yellow; 
 	text-align: center;
 	border-style: solid;
 	border-width: 1px;
+	border-color: #00AEED;
 }
 .imagecaption {
 	padding-left: 0.75em;

@@ -24,7 +24,7 @@ a:active	 {text-decoration: underline; color : #FFFFCC;}
 .highlight	{font-weight: bold; color : #FFCCCC; }
 a.highlight 	{  text-decoration: underline; color : #CCCCFF; }
 a.highlight:hover{ text-decoration: underline; color : #FFFFCC; }
-a.highlight:active { text-decoration:none; font-weight:bold; color:#CCCCFF; }
+a.highlight:active { text-decoration:none; color:#CCCCFF; }
 
 
 
@@ -226,14 +226,14 @@ input.mainoption {
 .navtitle	{ color : #CCCCFF;}
 a.navtitle 	{ text-decoration: none; color : #CCCCFF; }
 a.navtitle:hover{ text-decoration: underline; color : #FFCCCC; }
-a.navtitle:active { text-decoration:none; font-weight:bold; color:#CCCCFF; }
+a.navtitle:active { text-decoration:none; color:#CCCCFF; }
 
 
 /* Navigator link for the lower levels */
 .navlink		{ font-weight: bold; font-size: 70%; color : #CCCCFF; }
 a.navlink 	{ text-decoration: none; color : #CCCCFF; }
 a.navlink:hover{ text-decoration: underline; color : #FFCCCC; }
-a.navlink:active { text-decoration:none; font-weight:bold; color: #CCCCFF; }
+a.navlink:active { text-decoration:none; color: #CCCCFF; }
 
 
 .navrootlinkwrapper {
@@ -501,7 +501,7 @@ div.newsquote {
 a.linktitle 	{ text-decoration: none; color : #CCCCFF; }
 a.linktitle:visited 	{ text-decoration: none; color : #CCCCFF; }
 a.linktitle:hover{ text-decoration: underline; color : #FFCCCC; }
-a.linktitle:active { text-decoration:underline; font-weight:bold; color:#CCCCFF; }
+a.linktitle:active { text-decoration:underline; color:#CCCCFF; }
 
 
 .linklistlink {

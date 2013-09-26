@@ -26,7 +26,7 @@ a:active	 {text-decoration: underline; color : #9DA2CF;}
 .highlight	{font-weight: bold; color : #FFABCB; }
 a.highlight 	{  text-decoration: none; color : #FFABCB; }
 a.highlight:hover{ text-decoration: underline; color : #9DA2CF; }
-a.highlight:active { text-decoration:none; font-weight:bold; color:#9DA2CF; }
+a.highlight:active { text-decoration:none; color:#9DA2CF; }
 
 
 /* Form elements */

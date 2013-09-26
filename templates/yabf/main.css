@@ -24,7 +24,7 @@ a:active	 {text-decoration: underline; color : #E9ACB5;}
 .highlight	{font-weight: bold; color : #D75876; }
 a.highlight 	{  text-decoration: underline; color : #AA8CA6; }
 a.highlight:hover{ text-decoration: underline; color : #AA8CA6; }
-a.highlight:active { text-decoration:none; font-weight:bold; color:#E9ACB5; }
+a.highlight:active { text-decoration:none; color:#E9ACB5; }
 
 
 
@@ -220,14 +220,14 @@ input.mainoption {
 .navtitle	{ }
 a.navtitle 	{ text-decoration: none;}
 a.navtitle:hover{ text-decoration: underline; color : #D75876; }
-a.navtitle:active { text-decoration:none; font-weight:bold;}
+a.navtitle:active { text-decoration:none; }
 
 
 /* Navigator link for the lower levels */
 .navlink		{ font-weight: bold; font-size: 70%; }
 a.navlink 	{ text-decoration: none; }
 a.navlink:hover{ text-decoration: underline; color : #D75876; }
-a.navlink:active { text-decoration:none; font-weight:bold; color: #3067F2; }
+a.navlink:active { text-decoration:none; color: #3067F2; }
 
 
 .navrootlinkwrapper {
@@ -486,7 +486,7 @@ div.newsquote {
 a.linktitle 	{ text-decoration: none; color : #3067F2; }
 a.linktitle:visited 	{ text-decoration: none; color : #3067F2; }
 a.linktitle:hover{ text-decoration: underline; color : #AA8CA6; }
-a.linktitle:active { text-decoration:underline; font-weight:bold; color:#3067F2; }
+a.linktitle:active { text-decoration:underline; color:#3067F2; }
 
 
 .linklistlink {
