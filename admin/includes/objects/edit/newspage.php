@@ -9,6 +9,7 @@ include_once($projectroot."functions/pagecontent/newspages.php");
 include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."admin/includes/objects/elements.php");
+include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."includes/objects/newspage.php");
 include_once($projectroot."includes/objects/categories.php");

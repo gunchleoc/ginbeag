@@ -13,6 +13,7 @@ include_once($projectroot."functions/pagecontent/articlepages.php");
 include_once($projectroot."functions/pagecontent/linklistpages.php");
 include_once($projectroot."functions/pagecontent/newspages.php");
 include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."includes/objects/images.php");
 
 
 //

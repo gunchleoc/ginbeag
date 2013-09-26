@@ -11,6 +11,7 @@ include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/includes.php");
 include_once($projectroot."includes/objects/forms.php");
 include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/objects/categories.php");
 
 //

@@ -8,6 +8,7 @@ include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/functions/pagesmod.php");
 include_once($projectroot."admin/includes/objects/edit/gallerypage.php");
 include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
 if(isset($_GET['sid'])) $sid=$_GET['sid'];

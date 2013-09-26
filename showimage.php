@@ -1,6 +1,7 @@
 <?php
 $projectroot=dirname(__FILE__)."/";
 include_once($projectroot."functions/db.php");
+include_once($projectroot."includes/objects/images.php");
 
 
 // anti bot nonsense links

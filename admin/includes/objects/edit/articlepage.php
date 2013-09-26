@@ -12,6 +12,7 @@ include_once($projectroot."admin/includes/objects/elements.php");
 include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."includes/objects/categories.php");
 include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."admin/includes/objects/editor.php");
 
 

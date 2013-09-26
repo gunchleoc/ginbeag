@@ -7,6 +7,7 @@ include_once($projectroot."admin/functions/pagesmod.php");
 include_once($projectroot."admin/functions/categoriesmod.php");
 include_once($projectroot."admin/includes/objects/edit/newspage.php");
 include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
