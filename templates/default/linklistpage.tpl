@@ -11,7 +11,7 @@
 <!-- END switch PAGEMENU -->
 
 <!-- BEGIN switch PRINTVIEWBUTTON -->
-<p class="smalltext">{PRINTVIEWBUTTON}</p>
+<div class="smalltext newline">{PRINTVIEWBUTTON}</div>
 <!-- END switch PRINTVIEWBUTTON -->
 &nbsp;
 

@@ -152,12 +152,17 @@ class ImageCaption extends Template {
       $captionfontsize=10;
 
       $image=getimage($filename);
-
-      $caption=$image['caption'];
-      $source=$image['source'];
-      $sourcelink=$image['sourcelink'];
-      $copyright=$image['copyright'];
-      $permission=$image['permission'];
+      
+      if(array_key_exists("caption",$image)) $caption=$image['caption'];
+      else $caption="";
+      if(array_key_exists("source",$image)) $source=$image['source'];
+      else $source="";
+      if(array_key_exists("sourcelink",$image)) $sourcelink=$image['sourcelink'];
+      else $sourcelink="";
+      if(array_key_exists("copyright",$image)) $copyright=$image['copyright'];
+      else $copyright="";
+      if(array_key_exists("permission",$image)) $permission=$image['permission'];
+      else $permission=NO_PERMISSION;
 
       $caption=title2html($caption);
       $source=title2html($source);

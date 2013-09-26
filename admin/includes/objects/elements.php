@@ -4,11 +4,11 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-include_once($projectroot."functions/pages.php");
+//include_once($projectroot."functions/pages.php");
 include_once($projectroot."includes/objects/template.php");
-include_once($projectroot."includes/includes.php");
-include_once($projectroot."includes/objects/elements.php");
-include_once($projectroot."includes/objects/forms.php");
+include_once($projectroot."includes/functions.php");
+//include_once($projectroot."includes/objects/elements.php");
+//include_once($projectroot."includes/objects/forms.php");
 
 //
 //
@@ -117,28 +117,6 @@ class GeneralSettingsButtons extends Template {
   	function createTemplates()
   	{
     	$this->addTemplate("admin/edit/generalsettingsbuttons.tpl");
-  	}
-}
-
-
-//
-//
-//
-class CaptionedImageAdmin extends Template {
-
-	function CaptionedImageAdmin($filename,$page,$factor=1)
-  	{
-    	parent::__construct();
-    	
-    	$this->vars['image']= new CaptionedImage($filename,$factor,"left", true,true);
-    	$this->stringvars['imagelinkpath']=getimagelinkpath($filename, getimagesubpath(basename($filename)));
-    	$this->stringvars['editimagelink']='<a href="'.getprojectrootlinkpath().'admin/editimagelist.php?sid='.$this->stringvars['sid'].'&page='.$page.'&filename='.$filename.'&caption=&source=&copyright=&uploader=0&filter=Display+Selection" target="_blank">Edit this image</a>';
-  	}
-
-  	// assigns templates
-  	function createTemplates()
-  	{
-    	$this->addTemplate("admin/captionedimageadmin.tpl");
   	}
 }
 

@@ -66,7 +66,7 @@ if(!$message)
     $editpage = new EditArticlePage($articlepage);
     $message="Added section";
   }
-  elseif(isset($_POST['editsectionimage']))
+  elseif(isset($_POST['changeimage']) && isset($_GET['articlesection']))
   {
     $imagefilename=trim($_POST['imagefilename']);
     $imagealign=$_POST['imagealign'];

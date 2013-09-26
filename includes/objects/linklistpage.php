@@ -119,7 +119,7 @@ class LinklistPage extends Template {
     else $this->stringvars['text']="";
     
     if(strlen($image)>0 && mayshowimage($image,$this->stringvars['page'],$showhidden))
-      $this->vars['image'] = new CaptionedImage($image,2,"",$showrefused,$showhidden);
+      $this->vars['image'] = new CaptionedImage($image,2,"left",$showrefused,$showhidden);
 
     // links
     for($i=$offset;$i<($noofids)&&$i<$noofids;$i++)

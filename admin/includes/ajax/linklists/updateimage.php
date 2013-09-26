@@ -5,8 +5,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"ajax"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-include_once($projectroot."admin/includes/objects/elements.php");
-include_once($projectroot."includes/objects/images.php");
+include_once($projectroot."admin/includes/objects/images.php");
 include_once($projectroot."functions/pagecontent/linklistpages.php");
 include_once($projectroot."admin/functions/sessions.php");
 

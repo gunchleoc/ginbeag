@@ -8,11 +8,8 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."functions/pagecontent/articlepages.php");
 include_once($projectroot."includes/objects/articlepage.php");
 include_once($projectroot."includes/objects/template.php");
-include_once($projectroot."admin/includes/objects/elements.php");
-include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."includes/objects/categories.php");
-include_once($projectroot."includes/objects/elements.php");
-include_once($projectroot."includes/objects/images.php");
+include_once($projectroot."admin/includes/objects/images.php");
 include_once($projectroot."admin/includes/objects/editor.php");
 
 

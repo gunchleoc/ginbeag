@@ -4,11 +4,9 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-//include_once($projectroot."functions/pages.php");
 include_once($projectroot."functions/pagecontent/gallerypages.php");
 include_once($projectroot."includes/objects/template.php");
-include_once($projectroot."admin/includes/objects/elements.php");
-include_once($projectroot."includes/objects/images.php");
+include_once($projectroot."admin/includes/objects/images.php");
 include_once($projectroot."admin/includes/objects/editor.php");
 
 
