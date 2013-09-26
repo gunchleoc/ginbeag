@@ -413,7 +413,7 @@ class Navigator extends Template {
 				$potd=getpictureoftheday();
 				if($potd)
 				{
-					$this->vars['potd_image']=new Image($potd);
+					$this->vars['potd_image']=new Image($potd,1,"",$showhidden);
 					$this->stringvars['l_potd']=getlang("navigator_potd");
 					$homelink=false;
 				}

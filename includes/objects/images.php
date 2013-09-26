@@ -14,7 +14,7 @@ class Image extends Template {
     var $stringvars=array();
 
 
-    function Image($filename,$factor=1,$params="")
+    function Image($filename,$factor=1,$params="",$showhidden=false)
     {
       global $projectroot;
       
@@ -35,11 +35,17 @@ class Image extends Template {
           if($thumbnail && file_exists($imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail))
           {
             //$thumbnail=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
-            $image='<a href="'.getprojectrootlinkpath().'showimage.php?image='.basename($filename).'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath(basename($filename))).'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
+            if($showhidden)
+            	$image='<a href="'.getprojectrootlinkpath().'admin/showimage.php?image='.basename($filename).'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath(basename($filename))).'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
+            else
+            	$image='<a href="'.getprojectrootlinkpath().'showimage.php?image='.basename($filename).'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath(basename($filename))).'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
           }
           else
           {
-            $image='<a href="'.getprojectrootlinkpath().'showimage.php?image='.basename($filename).'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($filename,getimagesubpath(basename($filename))).'" width="'.$width.'" height="'.$height.'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
+          	if($showhidden)
+          		$image='<a href="'.getprojectrootlinkpath().'admin/showimage.php?image='.basename($filename).'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($filename,getimagesubpath(basename($filename))).'" width="'.$width.'" height="'.$height.'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
+          	else
+            	$image='<a href="'.getprojectrootlinkpath().'showimage.php?image='.basename($filename).'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($filename,getimagesubpath(basename($filename))).'" width="'.$width.'" height="'.$height.'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
           }
       }
       else
@@ -103,7 +109,7 @@ class CaptionedImage extends Template {
       	{
         	if($showhidden)
         	{
-          		$this->vars['image'] = new Image($filename,$factor,"&page=".$this->stringvars['page']);
+          		$this->vars['image'] = new Image($filename,$factor,"&page=".$this->stringvars['page'],$showhidden);
           		
 
           		if(imagepermissionrefused($filename))
@@ -121,7 +127,7 @@ class CaptionedImage extends Template {
         	}
         	elseif(!imagepermissionrefused($filename) || $showrefused)
         	{
-          		$this->vars['image'] = new Image($filename,$factor,"&page=".$this->stringvars['page']);
+          		$this->vars['image'] = new Image($filename,$factor,"&page=".$this->stringvars['page'],$showhidden);
         	}
       }
       else $this->stringvars['image']='<i>'.$filename.'</i>';

@@ -41,7 +41,6 @@ class ImagePropertiesForm extends Template {
   {
     global $articlepage, $offset;
     parent::__construct();
-    print("<br />".$header." ".$submitname);
     
     $this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&offset=".$offset."&articlepage=".$articlepage.$params."&action=editcontents";
     
@@ -64,8 +63,6 @@ class ImagePropertiesForm extends Template {
     {
       $this->stringvars['image']="";
     }
-    
-    print("<br />".$this->stringvars['header']." ".$this->stringvars['submitname']);
     
     if(!$imagealign) $imagealign="left";
     $this->vars['left_align_button']= new RadioButtonForm("imagealign","left","Left",$imagealign==="left","right");

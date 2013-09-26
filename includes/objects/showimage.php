@@ -53,7 +53,10 @@ class Showimage extends Template {
       	// link to gallery page
       	if($this->stringvars['page']!=0)
       	{
-      		$this->stringvars['returnpage']='index.php?page='.$this->stringvars['page'].'&sid='.$this->stringvars['sid'];
+      		if($showhidden)
+      			$this->stringvars['returnpage']='pagedisplay.php?page='.$this->stringvars['page'].'&sid='.$this->stringvars['sid'];
+      		else
+      			$this->stringvars['returnpage']='index.php?page='.$this->stringvars['page'].'&sid='.$this->stringvars['sid'];
       		$this->stringvars['returnpagetitle']=getlang("image_viewthumbnails");
       	}
       	

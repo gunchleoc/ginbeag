@@ -67,6 +67,7 @@ $allowedscripts[]=$root4array."admin/pageedit.php";
 $allowedscripts[]=$root4array."admin/pagenew.php";
 $allowedscripts[]=$root4array."admin/profile.php";
 $allowedscripts[]=$root4array."admin/register.php";
+$allowedscripts[]=$root4array."admin/showimage.php";
 $allowedscripts[]=$root4array."contact.php";
 $allowedscripts[]=$root4array."guestbook.php";
 $allowedscripts[]=$root4array."index.php";

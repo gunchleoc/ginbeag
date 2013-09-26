@@ -141,7 +141,7 @@ class Newsitem extends Template {
 	        {
 	          if(mayshowimage($images[$i],$this->stringvars['page'],$showhidden))
 	          {
-	            $image = new Image($images[$i],$noofimages);
+	            $image = new Image($images[$i],$noofimages,$showhidden);
 	            $this->listvars['image'][] = $image;
 	          }
 	        }

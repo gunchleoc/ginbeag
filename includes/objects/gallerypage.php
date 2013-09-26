@@ -27,7 +27,7 @@ class GalleryCaptionedImage extends Template {
       	{
         	if($showhidden)
         	{
-          		$this->vars['image'] = new Image($filename,1,"&page=".$this->stringvars['page']);
+          		$this->vars['image'] = new Image($filename,1,"&page=".$this->stringvars['page'],$showhidden);
           		
 
           		if(imagepermissionrefused($filename))
@@ -45,7 +45,7 @@ class GalleryCaptionedImage extends Template {
         	}
         	elseif(!imagepermissionrefused($filename) || $showrefused)
         	{
-          		$this->vars['image'] = new Image($filename,1,"&page=".$this->stringvars['page']);
+          		$this->vars['image'] = new Image($filename,1,"&page=".$this->stringvars['page'],$showhidden);
         	}
 		}
 		else $this->stringvars['image']='<i>'.$filename.'</i>';
