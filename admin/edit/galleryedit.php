@@ -57,7 +57,7 @@ if(!$message)
       $message = 'Image <i>'.$filename.'</i> does not exist.';
     }
     $noofimages=countgalleryimages($page);
-    $offset = $noofimages-$noofimages%$imagesperpage;
+    $offset=(floor(($noofimages-1)/$imagesperpage))*$imagesperpage;
     
   }
   elseif(isset($_POST['removegalleryimage']))
