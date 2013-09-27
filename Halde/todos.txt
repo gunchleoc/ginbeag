@@ -61,7 +61,6 @@ Desired new admin features:
 - editimagelist: cat search option to exclude subcats
 - checkexternal/internal links
 - images in pages: user decides if displayed full size (autoshrink when there's no thumbnail on/off)
-- usermanagement: pre-fill username search when returning from manage forms
 - AJAX Imagepropertiesform (e.g. newsitem, article section)
 - admin - register link not accessible - keep it hidden. Make new site function to send register link.
 - pagelist (sitemap) for admin nav is missing/add title search function?

@@ -211,6 +211,12 @@ table {
     
 }
 
+table.userlist {
+	width:96%!important;
+	margin-left:2%!important;
+	margin-right:0em!important;
+}
+
 caption {
 	text-align: center;
 	border: #89CAC8;

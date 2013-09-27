@@ -218,6 +218,12 @@ table {
 	border-width: 1px 1px 0px 1px;
 }
 
+table.userlist {
+	width:96%!important;
+	margin-left:2%!important;
+	margin-right:0em!important;
+}
+
 caption {
 	text-align: center;
 	border: #398EB9;

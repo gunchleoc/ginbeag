@@ -196,9 +196,11 @@ class SiteUserlistPublicUser extends Template {
 //
 class SiteSelectUserForm extends Template {
 
-	function SiteSelectUserForm()
+	function SiteSelectUserForm($username="")
   	{
 		parent::__construct();
+		
+		$this->stringvars['username']=$username;
 		$this->stringvars['userlistlink']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&action=siteuserlist&ref=usermanagement";
 		$this->stringvars['selectactionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&action=siteuserman";
 		$this->stringvars['createactionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&action=siteusercreate";
@@ -234,6 +236,10 @@ class SiteAdminUserProfileForm extends Template {
   		else $this->stringvars['notactive']="true";
   		
   		if(getiscontact($userid)) $this->stringvars['iscontact']="true";
+  		
+  		$this->stringvars["returnlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&username='.$this->stringvars['username'].'&action=siteuserman';
+  		$this->stringvars["permissionslink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&userid='.$userid.'&action=siteuserperm';
+  		$this->stringvars["userlistlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteuserlist';
 	}
 
   	// assigns templates
@@ -260,9 +266,13 @@ class SitePublicUserProfileForm extends Template {
   		if(ispublicuseractive($userid)) $this->stringvars['isactive']="true";
   		else $this->stringvars['notactive']="true";
   		
-  		$linktarget='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteuserman';
+  		$linktarget='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&username='.$this->stringvars['username'].'&action=siteuserman';
   		
   		$this->vars['submitrow']= new SubmitRow("profile","Change Password",false,true,$linktarget);
+  		
+  		$this->stringvars["returnlink"]=$linktarget;
+  		$this->stringvars["permissionslink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&userid='.$userid.'&type=public&action=siteuserperm';
+  		$this->stringvars["userlistlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteuserlist#public';
 	}
 
   	// assigns templates

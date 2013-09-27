@@ -23,6 +23,7 @@ $LEGALVARS["sid"]=1;
 $LEGALVARS["structure"]=1;
 $LEGALVARS["type"]=1;
 $LEGALVARS["userid"]=1;
+$LEGALVARS["username"]=1;
 $LEGALVARS["sitestats"]=1;
 
 

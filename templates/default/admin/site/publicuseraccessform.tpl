@@ -22,3 +22,10 @@
 			</table>
 			<!-- END switch PAGESNOACCESS -->
 </div>
+<div class="submitrow">
+	<fieldset>
+		<input type="submit" name="done" value="Manage This User" onClick="self.location.href='{MANAGELINK}'" />
+		<input type="submit" name="done" value="User Permissions" onClick="self.location.href='{RETURNLINK}'" />
+		<input type="submit" name="done" value="List Users" onClick="self.location.href='{USERLISTLINK}'" />
+	</fieldset>
+</div>

@@ -1,7 +1,5 @@
 <h1 class="headerpagetitle">Userlist</h1>
-<div class="contentheader">Internal Users</div>
-<div class="contentsection">
-	<table>
+	<table class="userlist">
 		<caption>Webpage Editors</caption>
 		<tr>
 			<th>Username</th>
@@ -15,11 +13,9 @@
 		</tr>
 		{ADMINUSERS}
 	</table>
-</div>
 
-<div class="contentheader">Public Users</div>
-<div class="contentsection">
-	<table>
+<a name="public" />
+	<table class="userlist">
 		<caption>Users for Restricted Areas</caption>
 		<tr>
 			<th>Username</th>
@@ -27,5 +23,4 @@
 			<th>Pages</th>
 		</tr>
 		{PUBLICUSERS}
-	</table>
 </div>

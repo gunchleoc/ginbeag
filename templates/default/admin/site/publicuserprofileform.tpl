@@ -29,3 +29,10 @@
 		<!-- END switch NOTACTIVE -->
 	</form>
 </div>
+<div class="submitrow">
+	<fieldset>
+		<input type="submit" name="done" value="Edit This User's Permissions" onClick="self.location.href='{PERMISSIONSLINK}'" />
+		<input type="submit" name="done" value="User Management" onClick="self.location.href='{RETURNLINK}'" />
+		<input type="submit" name="done" value="List Users" onClick="self.location.href='{USERLISTLINK}'" />
+	</fieldset>
+</div>

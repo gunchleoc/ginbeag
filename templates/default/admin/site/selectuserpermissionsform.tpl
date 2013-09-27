@@ -5,7 +5,7 @@
 		<fieldset>
 			<legend class="highlight">Search for Webpage Editor or Public User</legend>	
 			<label for="username">Username:</label>
-			<input id="username" type="text" name="username" size="20" maxlength="25" value="" />
+			<input id="username" type="text" name="username" size="20" maxlength="25" value="{USERNAME}" />
 			<div class="formexplain">Please enter the full username.</div>
 			<p><input type="submit" name="searchuser" value="Webpage Editor" class="mainoption">
 			&nbsp;&nbsp;&nbsp;<input type="submit" name="searchpublicuser" value="User for Restriced Areas" class="mainoption">

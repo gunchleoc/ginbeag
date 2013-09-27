@@ -17,9 +17,10 @@ include_once($projectroot."admin/includes/objects/elements.php");
 
 class SiteSelectUserPermissionsForm extends Template {
 
-	function SiteSelectUserPermissionsForm()
+	function SiteSelectUserPermissionsForm($username="")
   	{
 		parent::__construct();
+		$this->stringvars['username']=$username;
 		$this->stringvars['userlistlink']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&action=siteuserlist&ref=userpermissions";
 		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&action=siteuserperm";
 	}
@@ -53,6 +54,10 @@ class SiteUserLevelForm extends Template {
   		elseif(getuserlevel($userid)==USERLEVEL_ADMIN)$this->stringvars['levelisadmin']="true";
   		
   		$this->vars['submitrow']= new SubmitRow("changelevel","Change Userlevel",true);
+  		
+  		$this->stringvars["returnlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&username='.$this->stringvars['username'].'&action=siteuserperm';
+  		$this->stringvars["managelink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&userid='.$userid.'&action=siteuserman';
+  		$this->stringvars["userlistlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteuserlist';
 	}
 
   	// assigns templates
@@ -94,6 +99,11 @@ class SitePublicUserAccessForm extends Template {
     	{
     		$this->listvars['pagesnoaccess'][]= new SitePublicUserAccessPageForm($userid,$restrictedpagesnoaccess[$i],false);
 		}
+		
+  		$this->stringvars["returnlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&username='.$this->stringvars['username'].'&action=siteuserperm';
+  		$this->stringvars["managelink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&userid='.$userid.'&type=public&action=siteuserman';
+  		$this->stringvars["userlistlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteuserlist#public';
+
 	}
 
   	// assigns templates

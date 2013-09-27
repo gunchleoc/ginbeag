@@ -29,6 +29,10 @@ if(isset($_GET['userid'])) $userid=$_GET['userid'];
 elseif(isset($_POST['userid'])) $userid=$_POST['userid'];
 else $userid=-1;
 
+if(isset($_GET['username'])) $username=$_GET['username'];
+else $username="";
+
+
 // print_r($_POST);
  //print_r($_GET);
 
@@ -143,7 +147,7 @@ if($userid>0)
 }
 else
 {
-	$contents = new SiteSelectUserForm();
+	$contents = new SiteSelectUserForm($username);
 }
 
 $content = new AdminMain($page,"siteuserman",$message,$contents);
