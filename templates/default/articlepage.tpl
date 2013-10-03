@@ -11,7 +11,7 @@
 	<!-- BEGIN switch SOURCE_LINK --><a href="{SOURCE_LINK}" target="_blank"><!-- END switch SOURCE_LINK -->{SOURCE}<!-- BEGIN switch SOURCE_LINK --></a><!-- END switch SOURCE_LINK -->
 </span>
 <!-- END switch SOURCE -->
-<div class="introtext">{IMAGE}{TEXT}</div>
+<div class="introtext">{PAGEINTRO}</div>
 <div class="newline">
 <!-- BEGIN switch PRINTVIEWBUTTON -->
 <p class="smalltext">{PRINTVIEWBUTTON}</p>

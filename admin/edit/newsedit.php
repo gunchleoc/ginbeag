@@ -114,24 +114,6 @@ if(!$message)
 		$editpage = new EditNewsItemForms($page,$offset);
 		$message="Added quoted section to newsitem on page";
 	}
-	elseif(isset($_POST['changeimage']))
-	{
-		$message="";
-		$imagefilename=trim($_POST['imagefilename']);
-
-		if(!(imageexists($imagefilename) || strlen($imagefilename)==0))
-		{
-			$message="The image <i>".text2html($imagefilename)."</i> does not exist! Reverting to old image.";
-			$imagefilename=getnewsitemsectionimage($_GET['newsitemsection']);
-		}
-
-		$imagealign=$_POST['imagealign'];
-		updatenewsitemsectionimage($_GET['newsitemsection'],$imagefilename,$imagealign);
-		updateeditdata($page, $sid);
-		$message.="<br />Updated Section Image";
-		$editpage = new EditNewsItemForms($page,$offset);
-	}
-	// section
 	elseif(isset($_POST['deletesection']))
 	{
 		$editpage = new DeleteNewsItemSectionConfirm($_GET['newsitem'],$_GET['newsitemsection']);
@@ -153,54 +135,6 @@ if(!$message)
 	{
 		$editpage = new NewsItemSearchResults(fixquotes($_POST['title']));
 	}
-	//archiving
-	elseif(isset($_POST['archivenewsitems']))
-	{
-		$editpage = new ArchiveNewsItemsForm();
-	}
-	elseif(isset($_POST['doarchivenewsitems']))
-	{
-		include_once($projectroot."admin/functions/pagescreate.php");
-		$message="";
-		$dateok=true;
-		if($_POST['year']==$_POST['oldestyear'])
-		{
-			if($_POST['month']<$_POST['oldestmonth'])
-			{
-				$dateok=false;
-			}
-			elseif($_POST['month']==$_POST['oldestmonth'])
-			{
-				if($_POST['day']<$_POST['oldestday'])
-				{
-					$dateok=false;
-				}
-			}
-		}
-		if(!$dateok)
-		{
-			$message="The selected date must not be older than the start date!";
-		}
-		elseif(!checkdate ($_POST['month'],$_POST['day'],$_POST['year']))
-		{
-			$message="The selected date does not exist!";
-		}
-		else
-		{
-			// do the archiving
-			$moveditems=archivenewsitems($page,$_POST['day'],$_POST['month'],$_POST['year'],$sid);
-			if($moveditems>0)
-			{
-				$message="Moved ".$moveditems." newsitem(s) to new page.";
-			}
-			else
-			{
-				$message="No newsitems to move.";
-			}
-		}
-		$editpage = new ArchiveNewsItemsForm();
-		updateeditdata($page, $sid);
-	} // doarchivenewsitems
 	// deleting
 	elseif(isset($_POST['deleteitem']))
 	{
@@ -212,30 +146,6 @@ if(!$message)
 		updateeditdata($page, $sid);
 		$editpage = new EditNewsItemForms($page,$offset);
 		$message="Newsitem deleted";
-	}
-	// rss
-	elseif(isset($_POST['rssfeed']))
-	{
-		$message="";
-		if(isset($_POST['enablerss']))
-		{
-			addrssfeed($page);
-			$message = "RSS enabled for this newspage";
-		}
-		elseif(isset($_POST['disablerss']))
-		{
-			removerssfeed($page);
-			$message = "RSS disabled for this newspage";
-		}
-		updateeditdata($page, $sid);
-		$editpage = new EditNewsItemForms($page,$offset);
-	}
-	// display order
-	elseif(isset($_POST['setdisplayorder']))
-	{
-		setdisplaynewestnewsitemfirst($page, $_POST['displayorder']);
-		updateeditdata($page, $sid);
-		$editpage = new EditNewsItemForms($page,$offset);
 	}
 	else
 	{

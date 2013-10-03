@@ -14,50 +14,6 @@ include_once($projectroot."admin/includes/objects/editor.php"); // todo only imp
 
 
 
-//
-// $page: caller
-// $moveid: Page to be moved
-//
-class EditPageContentsForm extends Template {
-
-  function EditPageContentsForm()
-  {
-    parent::__construct();
-
-    $pagetype = getpagetype($this->stringvars['page']);
-    if($pagetype==="article")
-    {
-        $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/articleedit.php';
-    }
-    elseif($pagetype==="gallery")
-    {
-        $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/galleryedit.php';
-    }
-    elseif($pagetype==="linklist")
-    {
-        $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/linklistedit.php';
-    }
-    elseif($pagetype==="menu" || $pagetype==="articlemenu" || $pagetype==="linklistmenu")
-    {
-        $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/menuedit.php';
-    }
-    elseif($pagetype==="news")
-    {
-        $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/newsedit.php';
-    }
-    else
-    {
-        $this->stringvars['action']="pageedit.php";
-    }
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/editpagecontentsform.tpl");
-  }
-}
-
 
 //
 //
@@ -171,8 +127,8 @@ class RestrictAccessForm extends Template {
 
     $accessrestricted=isthisexactpagerestricted($this->stringvars['page']);
 
-    $this->vars['restrict_yes']= new RadioButtonForm("restrict","1","Yes",$accessrestricted);
-    $this->vars['restrict_no']= new RadioButtonForm("restrict","0","No",!$accessrestricted);
+    $this->vars['restrict_yes']= new RadioButtonForm("","restrict","1","Yes",$accessrestricted);
+    $this->vars['restrict_no']= new RadioButtonForm("","restrict","0","No",!$accessrestricted);
     
     $this->vars['submitrow']= new SubmitRow("restrictaccess","Change Access Restriction",true);
     
@@ -231,17 +187,17 @@ class PermissionsForm extends Template {
     $this->stringvars['copyright']=input2html($permissions['copyright']);
     $this->stringvars['image_copyright']=input2html($permissions['image_copyright']);
 
-    $this->vars['permission_granted']= new RadioButtonForm("permission",PERMISSION_GRANTED,"Permission granted",$permissions['permission']==PERMISSION_GRANTED,"right");
-    $this->vars['no_permission']= new RadioButtonForm("permission",NO_PERMISSION,"No permission",$permissions['permission']==NO_PERMISSION,"right");
-    $this->vars['permission_refused']= new RadioButtonForm("permission",PERMISSION_REFUSED,"Permission refused",$permissions['permission']==PERMISSION_REFUSED,"right");
+    $this->vars['permission_granted']= new RadioButtonForm("","permission",PERMISSION_GRANTED,"Permission granted",$permissions['permission']==PERMISSION_GRANTED,"right");
+    $this->vars['no_permission']= new RadioButtonForm("","permission",NO_PERMISSION,"No permission",$permissions['permission']==NO_PERMISSION,"right");
+    $this->vars['permission_refused']= new RadioButtonForm("","permission",PERMISSION_REFUSED,"Permission refused",$permissions['permission']==PERMISSION_REFUSED,"right");
 
 
     if($accessrestricted)
     {
       $showrefused=showpermissionrefusedimages($this->stringvars['page']);
       $this->stringvars['accessrestricted']="Access restricted";
-      $this->vars['showrefused_yes']= new RadioButtonForm("show","1","Yes",$showrefused);
-      $this->vars['showrefused_no']= new RadioButtonForm("show","0","No",!$showrefused);
+      $this->vars['showrefused_yes']= new RadioButtonForm("","show","1","Yes",$showrefused);
+      $this->vars['showrefused_no']= new RadioButtonForm("","show","0","No",!$showrefused);
     }
     $this->vars['submitrow']= new SubmitRow("setpermissions","Change Copyright and Permissions",true);
   }
@@ -294,8 +250,8 @@ class SetPublishableForm extends Template {
     {
       $ispublishable=ispublishable($this->stringvars['page']);
       $this->stringvars['not_permissionrefused']="Permission not refused";
-      $this->vars['publishable_yes']= new RadioButtonForm("ispublishable","public","Public page",$ispublishable);
-      $this->vars['publishable_no']= new RadioButtonForm("ispublishable","internal","Internal page",!$ispublishable);
+      $this->vars['publishable_yes']= new RadioButtonForm("","ispublishable","public","Public page",$ispublishable);
+      $this->vars['publishable_no']= new RadioButtonForm("","ispublishable","internal","Internal page",!$ispublishable);
     }
     else
       $this->stringvars['permissionrefused']="Permission refused";
@@ -353,10 +309,15 @@ class EditPage extends Template {
 		if($pagetype==="external")
 		{
 			$this->vars['contentsform']= new ExternalForm();
+			$this->vars['navigationbuttons']= new PageEditNavigationButtons("","");
+		}
+		elseif($pagetype==="menu" || $pagetype==="articlemenu")
+		{
+			$this->vars['navigationbuttons']= new PageEditNavigationButtons(new EditPageIntroSettingsButton(),"");
 		}
 		else
 		{
-			$this->vars['contentsform']= new EditPageContentsForm();
+			$this->vars['navigationbuttons']= new PageEditNavigationButtons(new EditPageIntroSettingsButton(),new EditPageContentsButton());
 		}
 
 		$this->vars['renamepageform']= new RenamePageForm();
@@ -372,8 +333,6 @@ class EditPage extends Template {
 		$this->vars['movepageform']= new MovePageForm($page,$page);
 
 		$this->vars['findnewparentform']= new FindNewParentForm();
-
-		$this->vars['donebutton'] = new DoneButton("&action=show","admin.php");
 	}
 
 	// assigns templates

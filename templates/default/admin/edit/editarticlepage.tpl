@@ -1,5 +1,5 @@
 <h1 class="headerpagetitle">Edit Page {ARTICLEPAGE} of Article</h1>
-{BACKBUTTONS}
+{NAVIGATIONBUTTONS}
 <div align="right">{PAGEMENU}</div>
 <div class="contentheader">Global Functions for this Page of the Article</div>
 <div class="contentsection">
@@ -34,4 +34,4 @@
       </form>
 </div>
 <div align="right">{PAGEMENU}</div>
-{BACKBUTTONS}
+{NAVIGATIONBUTTONS}

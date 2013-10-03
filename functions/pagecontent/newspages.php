@@ -179,6 +179,17 @@ function getnewsitemsectionimage($section_id)
   return getdbelement("sectionimage",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($section_id));
 }
 
+
+//
+//
+//
+function getnewsitemsectionimagealign($section_id)
+{
+	global $db;
+  return getdbelement("imagealign",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($section_id));
+}
+
+
 //
 //
 //

@@ -18,31 +18,7 @@
 	</form>
 
 	{EDITDESCRIPTION}
-	
-	<div class="contentheader">Image</div>
-	<div class="contentsection">
-		<form>
-			<div class="leftalign">
-				<fieldset>
-					<legend class="highlight">Image File</legend>
-					<label for="{JSID}imagefilename">Filename:</label>
-					<input id="{JSID}imagefilename" type="text" name="imagefilename" size="50" maxlength="255" value="{IMAGEFILENAME}" />
-					<div class="formexplain">Change to a different image by putting in a filename without the path. (<a href="{IMAGELISTPATH}" target="_blank">View files</a>)</div>
-					<br /><input type="button" id="{JSID}saveimagebutton" name="saveimagebutton" value="Add/Change Image" class="mainoption" />
-					&nbsp;&nbsp;
-					<input type="reset" id="{JSID}saveimagereset" name="saveimagereset" value="Reset" />
-				</fieldset>
-				
-				<!-- BEGIN switch IMAGE -->
-					<input type="button" id="{JSID}removeimagebutton" name="removeimagebutton" value="Remove Image" />
-					<input id="{JSID}removeconfirm" type="checkbox" name="removeconfirm" value="Confirm remove" />
-					Confirm remove
-				<!-- END switch IMAGE -->
-			</div>
-			<div class="rightalign"><span id="{JSID}image">{IMAGE}</span></div>
-			<div class="newline"></div>
-		</form>
-	</div>
+	{IMAGEEDITOR}
 	
 	<form name="movelink" action="{ACTIONVARS}" method="post">
 		<p>

@@ -90,13 +90,24 @@ function addarticlesection($article_id,$pagenumber)
 //
 //
 //
-function updatearticlesectionimage($section_id,$imagefilename,$imagealign)
+function updatearticlesectionimagealign($section_id,$imagealign)
 {
 	global $db;
   $section_id=$db->setinteger($section_id);
-  
-  updatefield(ARTICLESECTIONS_TABLE,"sectionimage",$db->setstring(basename($imagefilename)),"articlesection_id='".$section_id."'");
-  updatefield(ARTICLESECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"articlesection_id='".$section_id."'");
+
+  return updatefield(ARTICLESECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"articlesection_id='".$section_id."'");
+}
+
+
+//
+//
+//
+function updatearticlesectionimagefilename($section_id,$imagefilename)
+{
+	global $db;
+  $section_id=$db->setinteger($section_id);
+ 
+  return updatefield(ARTICLESECTIONS_TABLE,"sectionimage",$db->setstring(basename($imagefilename)),"articlesection_id='".$section_id."'");
 }
 
 //

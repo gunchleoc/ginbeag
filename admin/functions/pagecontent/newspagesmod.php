@@ -408,15 +408,21 @@ function addnewsitemsection($newsitem_id, $section_id,$isquote=false)
 //
 //
 //
-function updatenewsitemsectionimage($section_id,$imagefilename,$imagealign)
+function updatenewsitemsectionimagealign($section_id,$imagealign)
 {
 	global $db;
-  $section_id=$db->setinteger($section_id);
-
-  updatefield(NEWSITEMSECTIONS_TABLE,"sectionimage",$db->setstring(basename($imagefilename)),"newsitemsection_id='".$section_id."'");
-  updatefield(NEWSITEMSECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"newsitemsection_id='".$section_id."'");
+	return updatefield(NEWSITEMSECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"newsitemsection_id='".$db->setinteger($section_id)."'");
 }
 
+
+//
+//
+//
+function updatenewsitemsectionimagefilename($section_id,$imagefilename)
+{
+	global $db;
+	return updatefield(NEWSITEMSECTIONS_TABLE,"sectionimage",$db->setstring(basename($imagefilename)),"newsitemsection_id='".$db->setinteger($section_id)."'");
+}
 
 //
 //

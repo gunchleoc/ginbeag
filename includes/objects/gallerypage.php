@@ -114,15 +114,9 @@ class GalleryPage extends Template {
 		$noofimages=count($images);
 		if(!$offset) $offset=0;
 		
-		$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
-		$this->stringvars['text']=text2html(getpageintro($this->stringvars['page']));
+		$pageintro = getpageintro($this->stringvars['page']);
+   		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
 		
-		
-		// todo: room for image, need to add admin functions and database entry for that
-		
-		/*    if(strlen($pagecontents['image'])>0 && ($showhidden || !imagepermissionrefused($pagecontents['image'])))
-		  $this->stringvars['image'] =new Image($pagecontents['image'],2,$showrefused,$showhidden);
-		*/
 		
 		//pagemenu
 		$this->vars['pagemenu']= new PageMenu($offset, $imagesperpage, $noofimages);

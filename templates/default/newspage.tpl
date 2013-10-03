@@ -1,4 +1,4 @@
-<h2 class="pagetitle">{PAGETITLE}</h2>
+{PAGEINTRO}
 
 <!-- BEGIN switch JUMPFORM -->
 {JUMPFORM}

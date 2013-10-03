@@ -32,9 +32,9 @@ class AddImageForm extends Template {
     $this->stringvars['permission']=$permission;
     
 	// set permissions radio buttons
-    $this->vars['permission_granted'] = new RadioButtonForm("permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
-    $this->vars['no_permission'] = new RadioButtonForm("permission",NO_PERMISSION,"No permission",$this->stringvars['permission'] == NO_PERMISSION,"right");
-    $this->vars['permission_refused'] = new RadioButtonForm("permission",PERMISSION_REFUSED,"Permission refused",$this->stringvars['permission'] == PERMISSION_REFUSED,"right");
+    $this->vars['permission_granted'] = new RadioButtonForm("","permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
+    $this->vars['no_permission'] = new RadioButtonForm("","permission",NO_PERMISSION,"No permission",$this->stringvars['permission'] == NO_PERMISSION,"right");
+    $this->vars['permission_refused'] = new RadioButtonForm("","permission",PERMISSION_REFUSED,"Permission refused",$this->stringvars['permission'] == PERMISSION_REFUSED,"right");
 
 	// make category selection
     $selectedcats=getcategoriesforimage($filename);
@@ -151,9 +151,9 @@ class EditImageForm extends Template {
     $this->stringvars['permission']=$image['permission'];
     $this->stringvars['filepath']=getimagelinkpath($filename,getimagesubpath(basename($filename)));
     
-    $this->vars['permission_granted'] = new RadioButtonForm($this->stringvars['jsid']."permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
-    $this->vars['no_permission'] = new RadioButtonForm($this->stringvars['jsid']."permission",NO_PERMISSION,"No permission",$this->stringvars['permission'] == NO_PERMISSION,"right");
-    $this->vars['permission_refused'] = new RadioButtonForm($this->stringvars['jsid']."permission",PERMISSION_REFUSED,"Permission refused",$this->stringvars['permission'] == PERMISSION_REFUSED,"right");
+    $this->vars['permission_granted'] = new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
+    $this->vars['no_permission'] = new RadioButtonForm($this->stringvars['jsid'],"permission",NO_PERMISSION,"No permission",$this->stringvars['permission'] == NO_PERMISSION,"right");
+    $this->vars['permission_refused'] = new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_REFUSED,"Permission refused",$this->stringvars['permission'] == PERMISSION_REFUSED,"right");
 
     $thumbnail = getthumbnail($filename);
     $this->vars['image']= new AdminImage($filename, $image['uploaddate'], $image['editor_id'], $thumbnail,true);

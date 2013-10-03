@@ -1,10 +1,4 @@
-<h2 class="pagetitle">{PAGETITLE}</h2>
-
-<!-- BEGIN switch IMAGE -->
-<div align="left"><p>{IMAGE}</p></div>
-<!-- END switch IMAGE -->
-
-<div class="sectiontext">{TEXT}</div>
+{PAGEINTRO}
 <!-- BEGIN switch PAGEMENU -->
 <div class="newsitem">
 	<div class="pagemenu">{PAGEMENU}</div>

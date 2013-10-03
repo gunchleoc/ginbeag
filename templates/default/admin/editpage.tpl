@@ -1,8 +1,8 @@
 <h1 class="headerpagetitle">Edit general page settings</h1>
-<div class="leftalign">{CONTENTSFORM}</div>
-<div class="rightalign">{DONEBUTTON}</div>
-<div class="newline"></div>
-
+{NAVIGATIONBUTTONS}
+<!-- BEGIN switch CONTENTSFORM -->
+{CONTENTSFORM}
+<!-- END switch CONTENTSFORM -->
 {RENAMEPAGEFORM}
 {SETPUBLISHABLEFORM}
 <!-- BEGIN switch PERMISSIONSFORM -->
@@ -18,9 +18,9 @@
 	<div class="newline"></div>
 </div>
 
-<div class="leftalign">{CONTENTSFORM}</div>
-<div class="rightalign">{DONEBUTTON}</div>
-<div class="newline"></div>
+<div><a href="#top" class="smalltext">Top of this page</a></div>
+<br />
+{NAVIGATIONBUTTONS}
 
 <div id="{JSID}messagebox" class="messagebox highlight" style="height:0px; width=0px; position:absolute;"></div>
 <div id="{JSID}progressbox" class="messagebox" style="height:0px; width=0px; position:absolute;"></div>

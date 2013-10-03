@@ -4,21 +4,10 @@
 <input type="hidden" id="{JSID}newsitem" name="newsitem" value="{NEWSITEM}">
 <input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 
-{BACKBUTTONS}
-
-<div class="contentheader">Global Functions for this News Page</div>
-<div class="contentsection">
-	<div class="leftalign">{NEWSITEMADDFORM}<br />{NEWSITEMDISPLAYORDERFORM}</div>
-	<div class="rightalign">
-		<form name="rssform" action="{ACTIONVARS}" method="post">
-	  		<!-- BEGIN switch RSSBUTTON -->{RSSBUTTON} &nbsp;&nbsp;&nbsp; <!-- END switch RSSBUTTON -->
-	  		<input type="submit" name="rssfeed" value="{BUTTONTEXT}" class="mainoption">
-	  		<input type="hidden" name="{FIELDNAME}">
-		</form>
-		<br />{NEWSITEMARCHIVEFORM}
-	</div>
-	<div class="newline"></div>
-</div>
+{NAVIGATIONBUTTONS}
+<hr>
+{NEWSITEMADDFORM}
+<hr>
 
 <!-- BEGIN switch HASNEWSITEMS -->
 <div class="leftalign">{NEWSITEMSEARCHFORM}</div>
@@ -57,6 +46,8 @@
 <div align="right">{PAGEMENU}</div>
 <div align="right">{JUMPTOPAGEFORM}</div>
 <!-- END switch HASNEWSITEMS -->
-{BACKBUTTONS}
+<div><a href="#top" class="smalltext">Top of this page</a></div>
+<br />
+{NAVIGATIONBUTTONS}
 <div id="{JSID}messagebox" class="messagebox highlight" style="height:0px; width=0px; position:absolute;"></div>
 <div id="{JSID}progressbox" class="messagebox" style="height:0px; width=0px; position:absolute;"></div>

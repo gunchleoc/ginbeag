@@ -6,7 +6,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."functions/pagecontent/gallerypages.php");
 include_once($projectroot."includes/objects/template.php");
-include_once($projectroot."admin/includes/objects/images.php");
+include_once($projectroot."admin/includes/objects/imageeditor.php");
 include_once($projectroot."admin/includes/objects/editor.php");
 
 
@@ -133,8 +133,6 @@ class EditGallery extends Template {
   		
   	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 
-    $this->vars['intro']= new Editor($page,0,"gallery","Page Intro");  	
-  	
   	$imageids=getgalleryimages($page);
 
   	$noofimages=count($imageids);
@@ -170,7 +168,7 @@ class EditGallery extends Template {
 
   	$this->vars['reindexform'] = new ReindexGalleryForm($showall);
   
-    $this->vars['backbuttons']=new GeneralSettingsButtons();
+    $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
   }
 
   // assigns templates

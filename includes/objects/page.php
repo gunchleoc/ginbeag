@@ -15,6 +15,7 @@ include_once($projectroot."includes/includes.php");
 include_once($projectroot."includes/objects/forms.php");
 include_once($projectroot."includes/objects/elements.php");
 include_once($projectroot."includes/objects/categories.php");
+include_once($projectroot."includes/objects/images.php");
 
 
 //
@@ -630,15 +631,17 @@ class Navigator extends Template {
 // same intro for all pages
 //
 class PageIntro extends Template {
-  function PageIntro($title,$text,$image)
+  function PageIntro($title,$text,$image,$imagealign="left",$showrefused=false,$showhidden=false)
   {
   	parent::__construct();
-    $this->stringvars['pagetitle']=$title;
+    $this->stringvars['pagetitle']=title2html($title);
 
     $this->stringvars['text']=text2html($text);
+    
+    if(strlen($image)>0 && mayshowimage($image,$this->stringvars['page'],$showhidden))
+    	$this->vars['image'] = new CaptionedImage($image,2,$imagealign,$showrefused,$showhidden);
 
-    if(strlen($image)>0)
-      $this->stringvars['image']=$image;
+	$this->stringvars['image']=$image;
   }
 
   // assigns templates

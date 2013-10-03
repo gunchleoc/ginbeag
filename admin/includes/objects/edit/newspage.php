@@ -11,6 +11,7 @@ include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."admin/includes/objects/images.php");
 include_once($projectroot."includes/objects/categories.php");
 include_once($projectroot."admin/includes/objects/editor.php");
+include_once($projectroot."admin/includes/objects/imageeditor.php");
 
 /// TODO: Offset fr alle Eintrge kontrollieren!!!
 
@@ -113,7 +114,7 @@ class NewsitemSectionForm extends Template {
 			$this->stringvars['sectiontitle']=input2html($contents['sectiontitle']);
 			
 			$this->vars['sectioneditor'] = new Editor($this->stringvars["page"],$newsitemsection,"newsitemsection","Section Text");
-			$this->vars['imageform'] = new ImagePropertiesForm($this->stringvars["page"],$contents['sectionimage'],$contents['imagealign'],"Section","changeimage",'&newsitemsection='.$newsitemsection);
+			$this->vars['imageeditor'] = new ImageEditor($this->stringvars["page"], $newsitemsection, "newsitemsection",$contents);
 		}
 		$this->vars['insertnewsitemsectionform']=new InsertNewsItemSectionForm($newsitem,$newsitemsection);
 	}
@@ -286,7 +287,7 @@ class NewsItemSearchResults extends Template {
 		
 		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&offset=0&action=editcontents";
 		
-		$this->vars['backbuttons']=new GeneralSettingsButtons();
+		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
 
 		$this->vars['searchform']= new NewsItemSearchForm();
 
@@ -372,7 +373,7 @@ class ArchiveNewsItemsForm extends Template {
 		$this->vars['monthform']= new MonthOptionForm($oldestdate['mon']);
 		$this->vars['yearform']= new YearOptionForm($date['year'],$oldestdate['year'],$date['year']);
 
-		$this->vars['backbuttons']=new EditContentsButtons("Back to editing newsitems");
+		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
 	}
 
 	// assigns templates
@@ -436,9 +437,9 @@ class NewsItemPermissionsForm extends Template {
 
 		$this->stringvars['copyright']=input2html($permissions['copyright']);
 		$this->stringvars['image_copyright']=input2html($permissions['image_copyright']);
-		$this->vars['permission_granted']= new RadioButtonForm($this->stringvars['jsid']."permission",PERMISSION_GRANTED,"Permission granted",$permissions['permission']==PERMISSION_GRANTED,"right");
-		$this->vars['no_permission']= new RadioButtonForm($this->stringvars['jsid']."permission",NO_PERMISSION,"No permission",$permissions['permission']==NO_PERMISSION,"right");
-		$this->vars['permission_refused']= new RadioButtonForm($this->stringvars['jsid']."permission",PERMISSION_REFUSED,"Permission refused",$permissions['permission']==PERMISSION_REFUSED,"right");
+		$this->vars['permission_granted']= new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_GRANTED,"Permission granted",$permissions['permission']==PERMISSION_GRANTED,"right");
+		$this->vars['no_permission']= new RadioButtonForm($this->stringvars['jsid'],"permission",NO_PERMISSION,"No permission",$permissions['permission']==NO_PERMISSION,"right");
+		$this->vars['permission_refused']= new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_REFUSED,"Permission refused",$permissions['permission']==PERMISSION_REFUSED,"right");
 	}
 
 	// assigns templates
@@ -506,12 +507,9 @@ class EditNewsItemForms extends Template {
 		
 		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&offset=".$offset."&action=editcontents";
   		
-		$this->vars['backbuttons']=new GeneralSettingsButtons();
+		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
 
 		$this->vars['newsitemaddform'] = new NewsItemAddForm();
-		$this->vars['newsitemarchiveform'] = new NewsItemArchiveForm();
-
-		$this->vars['newsitemdisplayorderform'] = new NewsItemDisplayOrderForm();
 		
 		$noofnewsitems=countnewsitems($page);
 		$offset=getoffsetforjumppage($noofnewsitems,1,$offset);
@@ -525,18 +523,6 @@ class EditNewsItemForms extends Template {
 
 		$this->vars['pagemenu']= new PageMenu($offset,1,$noofnewsitems,'action=editcontents');
 
-		if(hasrssfeed($page))
-		{
-			$this->stringvars['rssbutton']='<a href="'.getprojectrootlinkpath().'rss.php?page='.$page.'" target="_blank"><img src="'.getprojectrootlinkpath().'img/rss.gif"></a>';
-			$this->stringvars['buttontext']='Disable RSS-Feed';
-			$this->stringvars['fieldname']='disablerss';
-		}
-		else
-		{
-			$this->stringvars['buttontext']='Enable RSS-Feed';
-			$this->stringvars['fieldname']='enablerss';
-		}
-		
 		if($noofnewsitems>0)
 		{
 			$newsitem=$newsitems[0];
@@ -606,5 +592,47 @@ class EditNewsItemForms extends Template {
 	}
 }
 
+
+class EditNews extends Template {
+
+	function EditNews($page)
+	{
+		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		
+	  	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+  	
+    	$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
+    	$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",array("image"=>getpageintroimage($page), "halign" =>getpageintrohalign($page)));
+		
+		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&action=editcontents";
+  		
+		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
+
+		$this->vars['newsitemarchiveform'] = new NewsItemArchiveForm();
+
+		$this->vars['newsitemdisplayorderform'] = new NewsItemDisplayOrderForm();
+		
+		if(hasrssfeed($page))
+		{
+			$this->stringvars['rssbutton']='<a href="'.getprojectrootlinkpath().'rss.php?page='.$page.'" target="_blank"><img src="'.getprojectrootlinkpath().'img/rss.gif"></a>';
+			$this->stringvars['buttontext']='Disable RSS-Feed';
+			$this->stringvars['fieldname']='disablerss';
+		}
+		else
+		{
+			$this->stringvars['buttontext']='Enable RSS-Feed';
+			$this->stringvars['fieldname']='enablerss';
+		}
+		
+		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+    	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editnewsitem.js");
+	}
+
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/editnews.tpl");
+	}
+}
 
 ?>

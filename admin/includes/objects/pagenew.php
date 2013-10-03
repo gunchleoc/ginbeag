@@ -32,8 +32,8 @@ class NewPageForm extends Template {
     else
       $this->stringvars['rootchecked']="";
 
-    $this->vars['is_publishable_yes']= new RadioButtonForm("ispublishable","public","Public page",$ispublishable);
-    $this->vars['is_publishable_no']= new RadioButtonForm("ispublishable","internal","Internal page",!$ispublishable);
+    $this->vars['is_publishable_yes']= new RadioButtonForm("","ispublishable","public","Public page",$ispublishable);
+    $this->vars['is_publishable_no']= new RadioButtonForm("","ispublishable","internal","Internal page",!$ispublishable);
     
 
     $pagetypes=getpagetypes();

@@ -8,7 +8,7 @@ include($projectroot."admin/includes/legaladminvars.php");
 
 include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/functions/pagesdelete.php");
-include_once($projectroot."admin/includes/objects/elements.php");
+include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."admin/includes/objects/page.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 

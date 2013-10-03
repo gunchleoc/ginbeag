@@ -9,8 +9,8 @@ include_once($projectroot."functions/pagecontent/articlepages.php");
 include_once($projectroot."includes/objects/articlepage.php");
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/categories.php");
-include_once($projectroot."admin/includes/objects/images.php");
 include_once($projectroot."admin/includes/objects/editor.php");
+include_once($projectroot."admin/includes/objects/imageeditor.php");
 
 
 
@@ -45,16 +45,10 @@ class EditArticle extends Template {
   	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
    	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editarticle.js");
 
-    $this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
-
     $contents=getarticlepagecontents($page);
     
-    //$synopsis=getpageintro($page);
-    $synopsisimage=getpageintroimage($page);
-    $synopsisimagehalign=getpageintrohalign($page);
-
-    $this->vars['synopsiseditor'] = new Editor($page,0,"articlesynopsis","Synopsis Text");
-    $this->vars['imageform'] = new ImagePropertiesForm($page,$synopsisimage,$synopsisimagehalign,"Synopsis","articlesynopsisimage");
+    $this->vars['synopsiseditor'] = new Editor($page,0,"pageintro","Synopsis Text");
+    $this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",array("image"=>getpageintroimage($page), "halign" =>getpageintrohalign($page)));
 
     $this->stringvars['author']= input2html($contents['article_author']);
     $this->stringvars['location']= input2html($contents['location']);
@@ -75,16 +69,9 @@ class EditArticle extends Template {
     	$this->stringvars['toc_no_checked']= "checked";
     }
 
-    $numberofpages=numberofarticlepages($page);
-
-    for($i=1;$i<=$numberofpages;$i++)
-    {
-     $this->listvars['articlepagebutton'][]= new ArticlePageButton($i);
-    }
-    
     $this->vars['categorylist']=new Categorylist(getcategoriesforpage($page));
     $this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid']);
-    $this->vars['backbuttons']=new GeneralSettingsButtons();
+    $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
     
   }
 
@@ -127,7 +114,8 @@ class ArticleSectionForm extends Template {
 
     $this->vars['sectioneditor'] = new Editor($this->stringvars['page'],$articlesection,"articlesection","Section Text");
 
-    $this->vars['imageform'] = new ImagePropertiesForm($this->stringvars['page'],$contents['sectionimage'],$contents['imagealign'],"Section","editsectionimage",'&articlesection='.$articlesection.'&articlepage='.$articlepage,'section'.$articlesection);
+    $this->vars['imageeditor'] = new ImageEditor($this->stringvars['page'],$articlesection,"articlesection",$contents);
+
   }
 
   // assigns templates
@@ -178,7 +166,7 @@ class EditArticlePage extends Template {
       $this->listvars['articlesectionform'][] = new ArticleSectionForm($articlepage,$articlesections[$i],$moveup,$movedown);
     }
     
-    $this->vars['backbuttons']=new EditContentsButtons("Back to editing synopsis, author etc.");
+    $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
   }
 
   // assigns templates

@@ -332,6 +332,7 @@ a.navlink:active { text-decoration:none; color: #3067F2; }
 
 /* Synopsis for page intros formerly articlesynopsis */
 .introtext	{
+	padding-top: 1em;
 	font-weight: bold;
 	text-align: justify;
 }

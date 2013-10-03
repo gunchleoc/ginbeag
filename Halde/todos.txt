@@ -31,7 +31,7 @@ css: separate visited link color.
 #############################################################
 
 AJAX for page edit
-AJAX for image forms
+AJAX for image forms - all done except for newsitem synopsis ilamges
 
 #############################################################
 
@@ -61,7 +61,6 @@ Desired new admin features:
 - editimagelist: cat search option to exclude subcats
 - checkexternal/internal links
 - images in pages: user decides if displayed full size (autoshrink when there's no thumbnail on/off)
-- AJAX Imagepropertiesform (e.g. newsitem, article section)
 - admin - register link not accessible - keep it hidden. Make new site function to send register link.
 - pagelist (sitemap) for admin nav is missing/add title search function?
 - news, articles: tag system instead of categories.

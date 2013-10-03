@@ -52,10 +52,7 @@ class ArticlePage extends Template {
 
     	$pagecontents=getarticlepagecontents($this->stringvars['page']);
     	$articlesections=getarticlesections($this->stringvars['page'],$articlepage);
-    
-    	$synopsis=getpageintro($this->stringvars['page']);
-    	$synopsisimage=getpageintroimage($this->stringvars['page']);
-    
+    	
     	$this->vars['printviewbutton']= new LinkButton('?sid='.$this->stringvars['sid'].'&printview=on&page='.$this->stringvars['page'],getlang("pagemenu_printview"),"img/printview.png");
 
     	$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
@@ -78,15 +75,12 @@ class ArticlePage extends Template {
       		$this->stringvars['l_source']=getlang("article_page_source");
      	}
 
+
+    	$pageintro = getpageintro($this->stringvars['page']);
+    	
     	if($articlepage==1)
-      		$this->stringvars['text']=text2html($synopsis);
-    	else $this->stringvars['text']="";
-
-    	if($articlepage==1 && strlen($synopsisimage)>0 && mayshowimage($synopsisimage,$this->stringvars['page'],$showhidden))
-      		$this->vars['image'] = new CaptionedImage($synopsisimage,2,getpageintrohalign($this->stringvars['page']),$showrefused,$showhidden);
-
-    	else $this->stringvars['image']="";
-
+    		$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
+    	
     	$noofarticlepages=numberofarticlepages($this->stringvars['page']);
     
     	// pagemenu
@@ -235,7 +229,7 @@ class ArticlePagePrintview extends Template {
      	}
 
 
-    	$this->stringvars['text']=text2html(getpageintro($this->stringvars['page']));
+    	$this->stringvars['text']=text2html(getpageintrotext($this->stringvars['page']));
     	
    	
     	$synopsisimage=getpageintroimage($this->stringvars['page']);

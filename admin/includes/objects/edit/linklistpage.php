@@ -6,8 +6,9 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."functions/pagecontent/linklistpages.php");
 include_once($projectroot."includes/objects/template.php");
-include_once($projectroot."admin/includes/objects/images.php");
+//include_once($projectroot."admin/includes/objects/images.php");
 include_once($projectroot."admin/includes/objects/editor.php");
+include_once($projectroot."admin/includes/objects/imageeditor.php");
 
 //
 //
@@ -53,8 +54,7 @@ class EditLinkListLinkForm extends Template {
     $this->stringvars['link']=$link;
     $this->stringvars['description']=text2html($description);
     
-    $this->stringvars['imagefilename'] = $image;
-    $this->vars['image'] = new CaptionedImageAdmin($image,$this->stringvars['page'],2);
+    $this->vars['imageeditor'] = new ImageEditor($this->stringvars['page'],$linkid,"link",array("image"=>$image));
 
     $this->vars['editdescription']= new Editor($this->stringvars['page'],$linkid,"link","Link Description");
   }
@@ -80,18 +80,6 @@ class EditLinklist extends Template {
   	$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
     $this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
 
-    $this->vars['intro']= new Editor($page,0,"linklist","Page Intro");
-    
-    $image=getpageintroimage($page);
-    
-    
-    $this->stringvars['imagefilename']=$image;
-    
-	if(strlen($image)>0)
-    {
-    	$this->vars['image'] = new CaptionedImageAdmin($image,$page,2);
-    }
-
     $linkids=getlinklistitems($page);
     if(count($linkids<1)) $this->stringvars['linkform']="";
 
@@ -111,7 +99,7 @@ class EditLinklist extends Template {
 
     $this->vars['addform'] = new AddLinklistLinkForm();
     
-    $this->vars['backbuttons']=new GeneralSettingsButtons();
+    $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
   }
 
   // assigns templates

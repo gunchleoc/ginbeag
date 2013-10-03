@@ -135,9 +135,9 @@ function geteditortext($page,$item, $elementtype) {
 
 	$text="Text could not be loaded for ".$elementtype.", page ".$page.", item ".$item.".";
 	
-	if($elementtype=="articlesynopsis" || $elementtype=="gallery" || $elementtype=="linklist" || $elementtype=="menu")
+	if($elementtype=="pageintro")
   	{
-    	$text=getpageintro($page);
+    	$text=getpageintrotext($page);
   	}
   	elseif($elementtype=="articlesection")
   	{

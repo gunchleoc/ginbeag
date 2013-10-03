@@ -314,6 +314,7 @@ input.mainoption {
 
 /* Synopsis for page intros formerly articlesynopsis */
 .introtext	{
+	padding-top: 1em;
 	font-weight: bold;
 	text-align: justify;
 }

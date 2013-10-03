@@ -107,19 +107,11 @@ class LinklistPage extends Template {
     $linkids=getlinklistitems($this->stringvars['page']);
     $noofids=count($linkids);
     if(!$offset) $offset=0;
-    $image=getpageintroimage($this->stringvars['page']);
-    $intro=getpageintro($this->stringvars['page']);
     
     $this->vars['printviewbutton']= new LinkButton('?sid='.$this->stringvars['sid'].'&printview=on&page='.$this->stringvars['page'],getlang("pagemenu_printview"),"img/printview.png");
 
-    $this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
-
-    if(strlen($intro)>0)
-      $this->stringvars['text']=text2html($intro);
-    else $this->stringvars['text']="";
-    
-    if(strlen($image)>0 && mayshowimage($image,$this->stringvars['page'],$showhidden))
-      $this->vars['image'] = new CaptionedImage($image,2,"left",$showrefused,$showhidden);
+    $pageintro = getpageintro($this->stringvars['page']);
+   		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
 
     // links
     for($i=$offset;$i<($noofids)&&$i<$noofids;$i++)
@@ -153,14 +145,10 @@ class LinklistPagePrintview extends Template {
     $linkids=getlinklistitems($this->stringvars['page']);
     $noofids=count($linkids);
 
-    $intro=getpageintro($this->stringvars['page']);
+    $pageintro = getpageintro($this->stringvars['page']);
+	$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
     
     $this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
-
-    if(strlen($intro)>0)
-      $this->stringvars['text']=text2html($intro);
-    else $this->stringvars['text']="";
-
 
     for($i=0;$i<$noofids;$i++)
     {

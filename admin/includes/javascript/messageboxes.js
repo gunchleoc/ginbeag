@@ -142,7 +142,7 @@ function placeOnBottom(element)
 	else height=0;
 	
 	var windowheight = document.body.clientHeight;
-	var top = windowheight-height*2-10;
+	var top = windowheight-height*2-15;
 	
 	// Internet Exploder
 	if(element.css("position")=="static")
@@ -212,7 +212,7 @@ function enableElements(elements)
 	var number = elements.length;
 	for(var i=0; i<number;i++)
 	{
-		elements[i].removeAttr('disabled');;
+		elements[i].removeAttr('disabled');
 	}
 }
 

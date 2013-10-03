@@ -14,7 +14,7 @@
 		<input id="{JSID}savesectiontitlereset" type="reset" value="Reset" />
 	</form>
 	{SECTIONEDITOR}
-	{IMAGEFORM}
+	{IMAGEEDITOR}
 </div>
 
 <p>

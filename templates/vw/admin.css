@@ -12,9 +12,22 @@ input[type=button], input[type=submit], input[type=reset], .button  {
 	background-color : #003B39!important;
 }
 
+
+/************ button enable/disable colors ************/
+
+.enabledbutton {
+	color:white;
+}
+
+
+.disabledbutton {
+	color:grey;
+}
+
 /************ main layout containers ************/
 html body {
 	height:100%;
+
 }
 
 
@@ -325,6 +338,12 @@ td {
 
 label {
 	font-weight:bold;
+}
+
+.pageeditnavigationbuttons {
+	padding-top:1em;
+	margin-top:1em;
+	margin-bottom:1em;
 }
 
 

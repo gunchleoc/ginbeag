@@ -14,4 +14,4 @@
 	  <input type="submit" name="doarchivenewsitems" value="Do it!" class="mainoption">
 	</form>
 </div>
-{BACKBUTTONS}
+{NAVIGATIONBUTTONS}

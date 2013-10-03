@@ -221,6 +221,9 @@ class NewsPage extends Template {
     global $_GET;
     
     parent::__construct();
+
+    $pageintro = getpageintro($this->stringvars['page']);
+	$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
     
     $this->stringvars['actionvars']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
     
@@ -267,8 +270,6 @@ class NewsPage extends Template {
     }
     // end searching and filtering
     
-    // page title
-    $this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
     
     // rss
     if(hasrssfeed($this->stringvars['page']))

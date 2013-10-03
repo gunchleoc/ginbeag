@@ -35,7 +35,7 @@ else {
 
 	$success=false;
 
-	if($elementtype=="articlesynopsis" || $elementtype=="gallery" || $elementtype=="linklist" || $elementtype=="menu")
+	if($elementtype=="pageintro")
 	{
 		$success=updatepageintro($page, $text);
 		if($success) $message= "Saved page intro / synopsis";

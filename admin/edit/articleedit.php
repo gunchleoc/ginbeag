@@ -4,11 +4,8 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/functions/pagecontent/articlepagesmod.php");
-include_once($projectroot."admin/functions/categoriesmod.php");
 include_once($projectroot."admin/includes/objects/edit/articlepage.php");
 include_once($projectroot."includes/objects/elements.php");
-include_once($projectroot."includes/objects/images.php");
-include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
 if(isset($_GET['sid'])) $sid=$_GET['sid'];
@@ -20,7 +17,7 @@ else $page=0;
 
 if(isset($_GET['offset'])) $articlepage=$_GET['offset']+1;
 else if(isset($_GET['articlepage'])) $articlepage=$_GET['articlepage'];
-else $articlepage=0;
+else $articlepage=1;
 
 if(isset($_GET['articlesection'])) $articlesection=$_GET['articlesection'];
 else $articlesection=0;
@@ -37,16 +34,7 @@ $message="";
 $message = getpagelock($page);
 if(!$message)
 {
-  if(isset($_POST['articlesynopsisimage']))
-  {
-    $imagefilename=trim($_POST['imagefilename']);
-    $imagealign=$_POST['imagealign'];
-    updatepageintroimage($page,$imagefilename,$imagealign);
-    updateeditdata($page, $sid);
-    $editpage = new EditArticle($page);
-    $message="Updated Synopsis Image";
-  }
-  elseif(isset($_POST['addarticlepage']))
+  if(isset($_POST['addarticlepage']))
   {
     $lastpage=numberofarticlepages($page);
     if(getlastarticlesection($page,$lastpage))
@@ -56,7 +44,7 @@ if(!$message)
     }
     else
     {
-      $editpage = new EditArticle($page);
+      $editpage = new EditArticlePage($lastpage);
       $message="You cannot add a page after an empty page";
     }
   }
@@ -65,15 +53,6 @@ if(!$message)
     addarticlesection($page,$articlepage);
     $editpage = new EditArticlePage($articlepage);
     $message="Added section";
-  }
-  elseif(isset($_POST['changeimage']) && isset($_GET['articlesection']))
-  {
-    $imagefilename=trim($_POST['imagefilename']);
-    $imagealign=$_POST['imagealign'];
-    updatearticlesectionimage($articlesection,$imagefilename,$imagealign);
-    updateeditdata($page, $sid);
-    $editpage = new EditArticlePage($articlepage);
-    $message="Updated Section Image";
   }
   elseif(isset($_POST['deletesection']))
   {
@@ -93,27 +72,27 @@ if(!$message)
   }
   elseif(isset($_POST['deletelastarticlepage']))
   {
-    $noofpages=numberofarticlepages($page);
-    if(!getlastarticlesection($page,$noofpages))
-    {
-      deletelastarticlepage($page);
-      updateeditdata($page, $sid);
-      if($noofpages>1)
-      {
-        $editpage = new EditArticlePage($articlepage-1);
-        $message = 'Deleted page #'.$articlepage.' of this article';
-      }
-      else
-      {
-        $editpage = new EditArticle($page);
-        $message='Deleted page #'.$articlepage.' of this article';
-      }
-    }
-    else
-    {
-      $editpage = new EditArticlePage($articlepage);
-      $message="Could not delete page because there are still some sections in it";
-    }
+		$noofpages=numberofarticlepages($page);
+		if($noofpages>1 )
+		{
+			if(!getlastarticlesection($page,$noofpages))
+			{
+				deletelastarticlepage($page);
+				updateeditdata($page, $sid);
+				$editpage = new EditArticlePage($articlepage-1);
+				$message = 'Deleted page #'.$articlepage.' of this article';
+			}
+			else
+			{
+				$editpage = new EditArticlePage($articlepage);
+				$message="Could not delete page because there are still some sections in it";
+			}
+		}
+		else
+		{
+			$editpage = new EditArticlePage(1);
+			$message="Could not delete page because there is only 1 page left";
+		}
   }
   elseif(isset($_POST['movesectionup']))
   {
@@ -129,22 +108,13 @@ if(!$message)
     $editpage = new EditArticlePage($articlepage);
     $message="Moved section down";
   }
-  // default for section view
-  elseif($articlepage || $articlesection)
-  {
-    $editpage = new EditArticlePage($articlepage);
-  }
-  else
-  {
-    $editpage = new EditArticle($page);
-  }
+  $editpage = new EditArticlePage($articlepage);
 }
 else
 {
-  $editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
-  print($editpage->toHTML());
+	$editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
+	print($editpage->toHTML());
 }
-if(!isset($editpage)) $editpage = new EditArticle($page);
 $content = new AdminMain($page,"editcontents",$message,$editpage);
 print($content->toHTML());
 ?>

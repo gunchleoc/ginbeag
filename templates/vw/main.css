@@ -9,6 +9,7 @@ html body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
+
 li { margin-left: 1em;}
 
 a:link	 { text-decoration: underline; color : #D4ECFB;}
@@ -347,6 +348,7 @@ a.footer:hover { color: yellow; text-decoration: underline;}
 
 /* Synopsis for page intros formerly articlesynopsis */
 .introtext	{
+	padding-top: 1em;
 	font-weight: bold;
 	text-align: justify;
 }

@@ -12,7 +12,7 @@
 		<div class="formexplain">Section titles and images are optional.</div>
 	</form>
 	{SECTIONEDITOR}
-	{IMAGEFORM}
+	{IMAGEEDITOR}
 
 	<form name="movearticlesection" action="{ACTIONVARS}" method="post">
 		<p><input type="submit" name="movesectionup" value="{MOVEUP}" />

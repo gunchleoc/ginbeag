@@ -2,4 +2,5 @@
 <!-- BEGIN switch IMAGE -->
 <p align="left">{IMAGE}</p>
 <!-- END switch IMAGE -->
-<p class="sectiontext">{TEXT}</p>
+<p class="introtext">{TEXT}</p>
+<div class="newline"></div>

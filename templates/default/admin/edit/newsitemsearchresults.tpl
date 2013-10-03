@@ -11,4 +11,4 @@
 	<input type="submit" name="clearsearch" value="Return to Newsitems" class="mainoption">
 </form>
 <hr>
-{BACKBUTTONS}
+{NAVIGATIONBUTTONS}

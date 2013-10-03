@@ -23,17 +23,14 @@ class MenuPage extends Template {
 	    parent::__construct();
 	    
 	    $pagecontents=getmenucontents($page);
-	    $introtext = getpageintro($page);
+
+		$pageintro = getpageintro($this->stringvars['page']);
+   		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
 	
 	    $this->pagetype=getpagetypearray($page);
     
-    // todo: room for image, need to add admin functions and database entry for that
-//        if(mayshowimage($contents['image'],$page,$showhidden))
-
 		$this->stringvars['actionvars']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
 	
-	    $this->vars['pageintro'] = new PageIntro(title2html(getpagetitle($page)),$introtext,"");
-	      
 	    if($this->pagetype==="linklistmenu")
 	    {
 			$children=getchildren($page,"ASC");
@@ -125,7 +122,6 @@ class ArticleMenuPage extends Template {
 		parent::__construct();
 		
 		$pagecontents=getmenucontents($page);
-		$introtext = getpageintro($page);
 		
 		$this->pagetype=getpagetypearray($page);
 	    
@@ -134,7 +130,8 @@ class ArticleMenuPage extends Template {
 	
 		$this->stringvars['actionvars']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
 		
-		$this->vars['pageintro'] = new PageIntro(title2html(getpagetitle($page)),$introtext,"");
+	   	$pageintro = getpageintro($this->stringvars['page']);
+   		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
 		
 		$this->stringvars['l_displayoptions']=getlang("menu_filter_displayoptions");
 		$this->stringvars['l_categories']=getlang("menu_filter_categories");

@@ -3,22 +3,10 @@
 <input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 <input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 
-{BACKBUTTONS}
-<div class="contentheader">Edit pages</div>
-<div class="contentsection">
-	<div class="leftalign">
-	<form name="articlepages" method="post">{ARTICLEPAGEBUTTON}</form>
-	</div>
-	<div class="rightalign">
-		<form name="addarticlepageform" action="{ACTIONVARS}" method="post">
-			<input type="submit" name="addarticlepage" value="Add Page" class="mainoption" />
-	    </form>
-	</div>
-	<div class="newline"></div>
-</div>
+{NAVIGATIONBUTTONS}
 
 <div class="contentheader">Synopsis</div>
-<div class="contentsection">{SYNOPSISEDITOR}{IMAGEFORM}</div>
+<div class="contentsection">{SYNOPSISEDITOR}{IMAGEEDITOR}</div>
 
 <div class="contentheader">Source, Date & Categorization</div>
 <div class="contentsection">
@@ -61,6 +49,6 @@
 		<input type="button" id="{JSID}removecatbutton" name="removecatbutton" value="Remove Categories" />
 	</p>
 </div>
-{BACKBUTTONS}
+{NAVIGATIONBUTTONS}
 <div id="{JSID}messagebox" class="messagebox highlight" style="height:0px; width=0px; position:absolute;"></div>
 <div id="{JSID}progressbox" class="messagebox" style="height:0px; width=0px; position:absolute;"></div>

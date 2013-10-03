@@ -31,34 +31,7 @@ $message = getpagelock($page);
 if(!$message)
 {
   // update linklist
-  if(isset($_POST['changelinklistimage']))
-  {
-    $message='Changed image';
-    $filename=trim($_POST['imagefilename']);
-    if(imageexists($filename))
-    {
-      updatepageintroimage($page,$filename,"left");
-      updateeditdata($page, $sid);
-    }
-    else
-    {
-      $message='Image <i>'.$filename.'</i> does not exist.';
-    }
-  }
-  elseif(isset($_POST['removelinklistimage']))
-  {
-    $message='Removed intro image from linklist';
-    if($_POST['removeconfirm'])
-    {
-      updatepageintroimage($page,"","left");
-      updateeditdata($page, $sid);
-    }
-    else
-    {
-      $message='In order to remove an image, you have to check "Confirm remove".';
-    }
-  }
-  elseif(isset($_POST['addlink']))
+  if(isset($_POST['addlink']))
   {
     $message='Added new link';
     addlink($page,fixquotes($_POST['title']),$_POST['link'],$_POST['imagefilename'],fixquotes($_POST['description']));

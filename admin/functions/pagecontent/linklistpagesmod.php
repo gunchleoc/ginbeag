@@ -59,7 +59,7 @@ function updatelinkproperties($link_id,$title,$link)
 //
 //
 //
-function updatelinkimage($link_id,$image)
+function updatelinkimagefilename($link_id,$image)
 {
 	global $db;
   	return updatefield(LINKS_TABLE,"image",$db->setstring($image),"link_id='".$db->setinteger($link_id)."'");

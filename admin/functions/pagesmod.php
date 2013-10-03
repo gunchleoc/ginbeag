@@ -40,13 +40,19 @@ function updatepageintro($page_id, $introtext)
 //
 //
 //
-function updatepageintroimage($page_id,$imagefilename,$imagehalign)
+function updatepageintroimagealign($page_id,$imagealign)
 {
 	global $db;
-  	$page_id=$db->setinteger($page_id);
-  
-  	updatefield(PAGES_TABLE,"introimage",$db->setstring(basename($imagefilename)),"page_id='".$page_id."'");
-  	updatefield(PAGES_TABLE,"imagehalign",$db->setstring($imagehalign),"page_id='".$page_id."'");
+  	return updatefield(PAGES_TABLE,"imagehalign",$db->setstring($imagealign),"page_id='".$db->setinteger($page_id)."'");
+}
+
+//
+//
+//
+function updatepageintroimagefilename($page_id,$imagefilename)
+{
+	global $db;
+  	return updatefield(PAGES_TABLE,"introimage",$db->setstring(basename($imagefilename)),"page_id='".$db->setinteger($page_id)."'");
 }
 
 

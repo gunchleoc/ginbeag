@@ -6,10 +6,10 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."functions/pagecontent/menupages.php");
 include_once($projectroot."includes/objects/template.php");
-include_once($projectroot."admin/includes/objects/elements.php");
 include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."admin/includes/objects/editor.php");
+include_once($projectroot."admin/includes/objects/imageeditor.php");
 
 
 //
@@ -96,34 +96,30 @@ class EditMenu extends Template {
   		
   		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 
-    $this->vars['intro']= new Editor($page,0,"menu","Page Intro");
-    
-    $contents=getmenucontents($page);
-
-/*    $image=getpageintro($page);
-    $this->stringvars['imagefilename']=$image;
-    $this->stringvars['image']=new CaptionedImage($this->stringvars['imagefilename'],2,"left",true,true);
-    $this->stringvars['imagelinkpath']=getimagelinkpath($this->stringvars['imagefilename'],getimagesubpath(basename($this->stringvars['imagefilename'])));*/
-
-    $this->vars['menulevelsform'] = new EditMenuLevelsForm($page,$contents['sistersinnavigator'],$contents['displaydepth'],$contents['navigatordepth']);
-
-    $subpageids=getallsubpageids($page);
-
-    if(count($subpageids)>0)
-    {
-    	$this->stringvars['hassubpages']="true";
-    	$this->vars['movepageform'] = new MenuMovePageFormContainer ($page,$subpageids);
-    }
-
-
-    $this->vars['backbuttons']=new GeneralSettingsButtons();
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/editmenu.tpl");
-  }
+		$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
+		$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",array("image"=>getpageintroimage($page), "halign" =>getpageintrohalign($page)));
+		
+		$contents=getmenucontents($page);
+		
+		$this->vars['menulevelsform'] = new EditMenuLevelsForm($page,$contents['sistersinnavigator'],$contents['displaydepth'],$contents['navigatordepth']);
+		
+		$subpageids=getallsubpageids($page);
+		
+		if(count($subpageids)>0)
+		{
+			$this->stringvars['hassubpages']="true";
+			$this->vars['movepageform'] = new MenuMovePageFormContainer ($page,$subpageids);
+		}
+		
+		
+		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),"");
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/editmenu.tpl");
+	}
 }
 
 ?>

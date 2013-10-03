@@ -509,27 +509,27 @@ class CheckboxForm extends Template {
 //
 class RadioButtonForm extends Template {
 
-    function RadioButtonForm($name,$value,$title,$ischecked,$labelpos="left") {
+    function RadioButtonForm($jsid,$name,$value,$title,$ischecked,$labelpos="left") {
     
-    	parent::__construct();
-      $this->stringvars['name']=$name;
-      $this->stringvars['value']=$value;
-      $this->stringvars['title']=title2html($title);
-      if($ischecked)
-        $this->stringvars['checked']='checked="checked"';
-      else
-        $this->stringvars['checked']="";
-      if($labelpos=="left")
-      	$this->stringvars['label_left']="left";
-      else
-      	$this->stringvars['label_right']="right";
-    }
-
-    // assigns templates and list objects
-    function createTemplates()
-    {
-      $this->addTemplate("radiobuttonform.tpl");
-    }
+    	parent::__construct($jsid);
+		$this->stringvars['name']=$name;
+		$this->stringvars['value']=$value;
+		$this->stringvars['title']=title2html($title);
+		if($ischecked)
+			$this->stringvars['checked']='checked="checked"';
+		else
+			$this->stringvars['checked']="";
+		if($labelpos=="left")
+			$this->stringvars['label_left']="left";
+		else
+			$this->stringvars['label_right']="right";
+	}
+	
+	// assigns templates and list objects
+	function createTemplates()
+	{
+		$this->addTemplate("radiobuttonform.tpl");
+	}
 }
 
 
