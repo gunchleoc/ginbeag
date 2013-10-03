@@ -683,8 +683,10 @@ class PageHeader extends Template {
     $this->stringvars['browsertitle']=striptitletags($title);
     $this->stringvars['title']=title2html($title);
     
-    if(!$displaytype=="splashpage" || getproperty("Display Site Description on Splash Page"))
+    if($displaytype!="splashpage")
       $this->stringvars['site_description']=title2html(getproperty("Site Description"));
+    elseif(getproperty("Display Site Description on Splash Page"))
+    	$this->stringvars['site_description']=title2html(getproperty("Site Description"));
 
     $image=getproperty("Left Header Image");
     if(strlen($image)>0)
