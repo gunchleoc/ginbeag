@@ -45,7 +45,6 @@ class EditCategoryForm extends Template {
 		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcat";
 		$this->vars['categoryselection']=new CategorySelectionForm(false,"",15,array(),"assignSelectValue(this, editcattext)","selectedcat","Select a category for editing:");
 		$this->vars['deleteconfirm']= new CheckboxForm("delcatconfirm","Delete selected","Confirm delete",false,"right");
-		$this->stringvars['jsid']="";
 	}
 	
 	// assigns templates

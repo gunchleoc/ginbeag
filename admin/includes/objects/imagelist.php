@@ -691,7 +691,6 @@ class ImageUsersSelectionForm  extends Template {
 		$this->stringvars['optionform_name'] = "uploader";
 		$this->stringvars['optionform_id'] ="uploader";
 		$this->stringvars['optionform_label'] ="Uploader: ";
-		$this->stringvars['jsid'] ="";
 		$this->listvars['option'][]= new OptionFormOption(0,$selecteduser==0,"Anybody");
 		
 		$users=getallusers();
