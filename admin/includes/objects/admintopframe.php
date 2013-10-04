@@ -17,8 +17,8 @@ include_once($projectroot."admin/includes/actions.php");
 //
 class AdminTopFrameLink extends Template {
 
-    function AdminTopFrameLink($link,$linktitle,$params="",$target="") {
-
+    function AdminTopFrameLink($link,$linktitle,$params="",$target="")
+    {
       parent::__construct();
       
       $this->stringvars['link']=getprojectrootlinkpath()."admin/".$link."?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'].$params;
@@ -39,15 +39,14 @@ class AdminTopFrameLink extends Template {
 //
 class AdminTopFrame extends Template {
 
-	function AdminTopFrame($page,$action) {
-
+	function AdminTopFrame($page,$action)
+	{
     	parent::__construct();
 
     	$this->stringvars['sitename']=title2html(getproperty("Site Name"));
 
     	if(isloggedin($this->stringvars['sid']))
     	{
-
 	    	if($page)
     		{
       			$this->stringvars['pagetitle']=title2html(getnavtitle($page));
@@ -139,7 +138,6 @@ class AdminTopFrame extends Template {
   	{
     	$this->addTemplate("admin/admintopframe.tpl");
   	}
-
 }
 
 ?>

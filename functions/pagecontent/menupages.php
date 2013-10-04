@@ -12,7 +12,7 @@ include_once($projectroot."functions/db.php");
 function getmenucontents($page_id)
 {
 	global $db;
-  return getrowbykey(MENUS_TABLE, "page_id", $db->setinteger($page_id));
+	return getrowbykey(MENUS_TABLE, "page_id", $db->setinteger($page_id));
 }
 
 
@@ -22,7 +22,7 @@ function getmenucontents($page_id)
 function getmenunavigatordepth($page_id)
 {
 	global $db;
-  return getdbelement("navigatordepth",MENUS_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("navigatordepth",MENUS_TABLE, "page_id", $db->setinteger($page_id));
 }
 
 
@@ -32,8 +32,8 @@ function getmenunavigatordepth($page_id)
 function getarticlepageoverview($page_id)
 {
 	global $db;
-  $fieldnames = array(0 => 'article_author', 1=> 'source', 2=>'day', 3=>'month', 4=>'year');
-  return getrowbykey(ARTICLES_TABLE, "page_id", $db->setinteger($page_id), $fieldnames);
+	$fieldnames = array(0 => 'article_author', 1=> 'source', 2=>'day', 3=>'month', 4=>'year');
+	return getrowbykey(ARTICLES_TABLE, "page_id", $db->setinteger($page_id), $fieldnames);
 }
 
 

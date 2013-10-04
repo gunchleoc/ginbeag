@@ -11,7 +11,7 @@ print_r($_POST);
 
 if(isset($_GET['action']))
 {
-  $action=$_GET['action'];
+	$action=$_GET['action'];
 }
 else $action="";
 unset($_GET['action']);
@@ -21,12 +21,10 @@ include_once($projectroot."admin/includes/objects/adminmain.php");
 
 if(issiteaction($action))
 {
-	
 	include($projectroot."admin/includes/legalsitevars.php");
 }
 else
 {
-	// check legal vars
 	include($projectroot."admin/includes/legaladminvars.php");
 }
 
@@ -35,7 +33,6 @@ include_once($projectroot."admin/functions/sessions.php");
 
 if(isset($_GET['sid'])) $sid=$_GET['sid'];
 else $sid="";
-
 
 if(isset($_GET['logout']))
 {
@@ -51,8 +48,8 @@ include_once($projectroot."admin/includes/actions.php");
 
 if(isset($_GET['jumppage']))
 {
-  $_GET['page']=$_GET['jumppage'];
-  unset($_GET['jumppage']);
+	$_GET['page']=$_GET['jumppage'];
+	unset($_GET['jumppage']);
 }
 
 if(isset($_GET['page'])) $page=$_GET['page'];

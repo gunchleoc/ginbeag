@@ -14,29 +14,29 @@ include_once($projectroot."admin/includes/objects/editor.php");
 //
 //
 class ShowAllImagesButton extends Template {
-  function ShowAllImagesButton($isshowall=true,$noofimages,$imagesperpage)
-  {
-    parent::__construct();
-    
-    $this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&noofimages=".($noofimages)."&action=editcontents";
-
-    if($isshowall)
-    {
-      $this->stringvars['name']="showall";
-      $this->stringvars['value']="Show all images (".$noofimages.")";
-    }
-    else
-    {
-      $this->stringvars['name']="dontshowall";
-      $this->stringvars['value']="Show ".$imagesperpage." images per page";
-    }
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/showallimagesbutton.tpl");
-  }
+	function ShowAllImagesButton($isshowall=true,$noofimages,$imagesperpage)
+	{
+		parent::__construct();
+		
+		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&noofimages=".($noofimages)."&action=editcontents";
+		
+		if($isshowall)
+		{
+			$this->stringvars['name']="showall";
+			$this->stringvars['value']="Show all images (".$noofimages.")";
+		}
+		else
+		{
+			$this->stringvars['name']="dontshowall";
+			$this->stringvars['value']="Show ".$imagesperpage." images per page";
+		}
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/showallimagesbutton.tpl");
+	}
 }
 
 
@@ -44,35 +44,35 @@ class ShowAllImagesButton extends Template {
 //
 //
 class GalleryImageForm extends Template {
-  function GalleryImageForm($imageid,$offset,$pageposition,$noofimages,$showall)
-  {
-    parent::__construct($imageid);
-    
-	$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".$pageposition."&noofimages=".$noofimages."&action=editcontents";
-    $this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
-    
-    $this->stringvars['imageid']=$imageid;
-
-    $this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-   	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editgallery.js");
-    
-    
-    
-    if($showall)
-      $this->stringvars['showall']="showall";
-
-    $this->stringvars['imagefilename']=getgalleryimage($imageid);
-    $this->vars['image'] = new CaptionedImageAdmin($this->stringvars['imagefilename'],$this->stringvars['page'],2);
-    
-    if(!getthumbnail($this->stringvars['imagefilename']))
-      $this->stringvars['no_thumbnail']="This image has no thumbnail";
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/galleryimageform.tpl");
-  }
+	function GalleryImageForm($imageid,$offset,$pageposition,$noofimages,$showall)
+	{
+		parent::__construct($imageid);
+		
+		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".$pageposition."&noofimages=".$noofimages."&action=editcontents";
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		
+		$this->stringvars['imageid']=$imageid;
+		
+		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editgallery.js");
+		
+		
+		
+		if($showall)
+			$this->stringvars['showall']="showall";
+		
+		$this->stringvars['imagefilename']=getgalleryimage($imageid);
+		$this->vars['image'] = new CaptionedImageAdmin($this->stringvars['imagefilename'],$this->stringvars['page'],2);
+		
+		if(!getthumbnail($this->stringvars['imagefilename']))
+			$this->stringvars['no_thumbnail']="This image has no thumbnail";
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/galleryimageform.tpl");
+	}
 }
 
 
@@ -80,22 +80,22 @@ class GalleryImageForm extends Template {
 //
 //
 class AddGalleryImageForm extends Template {
-  function AddGalleryImageForm($offset,$pageposition,$noofimages,$showall)
-  {
-    parent::__construct();
-    
-    $this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".($pageposition+1)."&noofimages=".($noofimages+1)."&action=editcontents";
-    $this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
-
-    if($showall)
-      $this->stringvars['showall']="showall";
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/addgalleryimageform.tpl");
-  }
+	function AddGalleryImageForm($offset,$pageposition,$noofimages,$showall)
+	{
+		parent::__construct();
+		
+		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".($pageposition+1)."&noofimages=".($noofimages+1)."&action=editcontents";
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		
+		if($showall)
+			$this->stringvars['showall']="showall";
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/addgalleryimageform.tpl");
+	}
 }
 
 
@@ -103,21 +103,21 @@ class AddGalleryImageForm extends Template {
 //
 //
 class ReindexGalleryForm extends Template {
-  function ReindexGalleryForm($showall)
-  {
-    parent::__construct();
-    
-    $this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
-
-    if($showall)
-      $this->stringvars['showall']="showall";
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/reindexgalleryform.tpl");
-  }
+	function ReindexGalleryForm($showall)
+	{
+		parent::__construct();
+		
+		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
+		
+		if($showall)
+			$this->stringvars['showall']="showall";
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/reindexgalleryform.tpl");
+	}
 }
 
 
@@ -127,55 +127,48 @@ class ReindexGalleryForm extends Template {
 //
 class EditGallery extends Template {
 
-  function EditGallery($page,$offset,$imagesperpage,$showall)
-  {
-    parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-  		
-  	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+	function EditGallery($page,$offset,$imagesperpage,$showall)
+	{
+		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		
+		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		
+		$imageids=getgalleryimages($page);
+		
+		$noofimages=count($imageids);
+		if(!$offset) $offset=0;
+			$noofdisplayedimages=$imagesperpage;
+		
+		if ($showall)
+			$noofdisplayedimages=$noofimages;
 
-  	$imageids=getgalleryimages($page);
-
-  	$noofimages=count($imageids);
-  	if(!$offset) $offset=0;
-  	$noofdisplayedimages=$imagesperpage;
-
-  	if ($showall)
-  	{
-    	$noofdisplayedimages=$noofimages;
-  	}
-  	$this->vars['showallbutton'] = new ShowAllImagesButton(!$showall,$noofimages,$imagesperpage);
-
-  	$this->vars['pagemenu'] = new PageMenu($offset,$noofdisplayedimages,$noofimages);
-  
-  	if($noofimages > 0)
-  	{
-
-  		for($i=$offset;$i<($offset+$noofdisplayedimages)&&$i<$noofimages;$i++)
-  		{
-  			$pageposition = getgalleryimageposition($imageids[$i]);
-    		$this->listvars['imageform'][] = new GalleryImageForm($imageids[$i],$offset,$pageposition,$noofimages,$showall);
-  		}
-
-  	}
-  	
-  	else
-  	{
-  		$this->stringvars['imageform']="";
-  		$message .='There are no images in this gallery';
-  	}
-
-  	$this->vars['addform'] = new AddGalleryImageForm($offset,$noofimages,$noofimages,$showall);
-
-  	$this->vars['reindexform'] = new ReindexGalleryForm($showall);
-  
-    $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/editgallery.tpl");
-  }
+		$this->vars['showallbutton'] = new ShowAllImagesButton(!$showall,$noofimages,$imagesperpage);
+		$this->vars['pagemenu'] = new PageMenu($offset,$noofdisplayedimages,$noofimages);
+		
+		if($noofimages > 0)
+		{
+			for($i=$offset;$i<($offset+$noofdisplayedimages)&&$i<$noofimages;$i++)
+			{
+				$pageposition = getgalleryimageposition($imageids[$i]);
+				$this->listvars['imageform'][] = new GalleryImageForm($imageids[$i],$offset,$pageposition,$noofimages,$showall);
+			}
+		}
+		else
+		{
+			$this->stringvars['imageform']="";
+			$message .='There are no images in this gallery';
+		}
+		
+		$this->vars['addform'] = new AddGalleryImageForm($offset,$noofimages,$noofimages,$showall);
+		$this->vars['reindexform'] = new ReindexGalleryForm($showall);
+		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/editgallery.tpl");
+	}
 }
 
 ?>

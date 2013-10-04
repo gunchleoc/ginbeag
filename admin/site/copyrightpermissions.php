@@ -45,7 +45,7 @@ unset($_GET['postaction']);
 
 if(isset($_POST['cancel']))
 {
-  $forms = new SiteCopyrightForms($offset);
+	$forms = new SiteCopyrightForms($offset);
 }
 elseif(isset($_POST['editcopyright']))
 {
@@ -53,54 +53,52 @@ elseif(isset($_POST['editcopyright']))
 }
 elseif(isset($_POST['changecopyright']))
 {
-  $holder=fixquotes(trim($_POST['holder']));
-  $oldholder=getcopyrightholder($_POST['copyrightid']);
-  if(!$holder)
-  {
-    print('<p class="highlight">Please specify a copyright holder!</p>');
-                     
-	$forms = new SiteCopyrightEditForm($_POST['copyrightid'],$oldholder,$_POST['contact'],$_POST['comments'],$_POST['credit'],$_POST['permission']);
-  }
-  elseif(holderexists($holder) && $holder !== $oldholder)
-  {
-    print('<p class="highlight">Copyright Holder <i>'.$holder.'</i> already exists!</p>');
-                     
-	$forms = new SiteCopyrightEditForm($_POST['copyrightid'],$oldholder,$_POST['contact'],$_POST['comments'],$_POST['credit'],$_POST['permission']);
-  }
-  else
-  {
-    updatecopyrightholder($_POST['copyrightid'],$holder,
-                          fixquotes(trim($_POST['contact'])),fixquotes(trim($_POST['comments'])),
-                          $_POST['permission'],fixquotes($_POST['credit']),$sid);
-    print('<p class="highlight">Updated copyright<p>');
-    $forms = new SiteCopyrightForms($offset);
-  }
+	$holder=fixquotes(trim($_POST['holder']));
+	$oldholder=getcopyrightholder($_POST['copyrightid']);
+	if(!$holder)
+	{
+		print('<p class="highlight">Please specify a copyright holder!</p>');
+		$forms = new SiteCopyrightEditForm($_POST['copyrightid'],$oldholder,$_POST['contact'],$_POST['comments'],$_POST['credit'],$_POST['permission']);
+	}
+	elseif(holderexists($holder) && $holder !== $oldholder)
+	{
+		print('<p class="highlight">Copyright Holder <i>'.$holder.'</i> already exists!</p>');
+		$forms = new SiteCopyrightEditForm($_POST['copyrightid'],$oldholder,$_POST['contact'],$_POST['comments'],$_POST['credit'],$_POST['permission']);
+	}
+	else
+	{
+		updatecopyrightholder($_POST['copyrightid'],$holder,
+		                      fixquotes(trim($_POST['contact'])),fixquotes(trim($_POST['comments'])),
+		                      $_POST['permission'],fixquotes($_POST['credit']),$sid);
+		print('<p class="highlight">Updated copyright<p>');
+		$forms = new SiteCopyrightForms($offset);
+	}
 }
 elseif(isset($_POST['addcopyrightform']))
 {
-  $forms = new SiteCopyrightAddForm();
+	$forms = new SiteCopyrightAddForm();
 }
 elseif(isset($_POST['addcopyright']))
 {
-  $holder=fixquotes(trim($_POST['holder']));
-  if(!$holder)
-  {
-    print('<p class="highlight">Please specify a copyright holder!</p>');
-    $forms = new SiteCopyrightAddForm('',$_POST['contact'],$_POST['comments'],$_POST['credit'],$_POST['permission']);
-  }
-  elseif(holderexists($holder))
-  {
-    print('<p class="highlight">Copyright Holder <i>'.$holder.'</i> already exists!</p>');
-    $forms = new SiteCopyrightAddForm($holder,$_POST['contact'], $_POST['comments'],$_POST['credit'],$_POST['permission']);
-  }
-  else
-  {
-    addcopyrightholder($holder,fixquotes(trim($_POST['contact'])),
-                       fixquotes(trim($_POST['comments'])),
-                       $_POST['permission'],fixquotes($_POST['credit']),$sid);
-    print('<p class="highlight">Added copyright holder<p>');
-    $forms = new SiteCopyrightForms($offset);
-  }
+	$holder=fixquotes(trim($_POST['holder']));
+	if(!$holder)
+	{
+		print('<p class="highlight">Please specify a copyright holder!</p>');
+		$forms = new SiteCopyrightAddForm('',$_POST['contact'],$_POST['comments'],$_POST['credit'],$_POST['permission']);
+	}
+	elseif(holderexists($holder))
+	{
+		print('<p class="highlight">Copyright Holder <i>'.$holder.'</i> already exists!</p>');
+		$forms = new SiteCopyrightAddForm($holder,$_POST['contact'], $_POST['comments'],$_POST['credit'],$_POST['permission']);
+	}
+	else
+	{
+		addcopyrightholder($holder,fixquotes(trim($_POST['contact'])),
+		                   fixquotes(trim($_POST['comments'])),
+		                   $_POST['permission'],fixquotes($_POST['credit']),$sid);
+		print('<p class="highlight">Added copyright holder<p>');
+		$forms = new SiteCopyrightForms($offset);
+	}
 }
 elseif(isset($_POST['deletecopyrightform']))
 {
@@ -108,22 +106,22 @@ elseif(isset($_POST['deletecopyrightform']))
 }
 elseif(isset($_POST['confirmdelete']))
 {
-  print('<p class="highlight">Deleted Copyright Holder <i>'.$_POST['copyrightid'].': '.getcopyrightholder($_POST['copyrightid']).'</i></p>');
-  deletecopyrightholder($_POST['copyrightid']);
-  $forms = new SiteCopyrightForms($offset);
+	  print('<p class="highlight">Deleted Copyright Holder <i>'.$_POST['copyrightid'].': '.getcopyrightholder($_POST['copyrightid']).'</i></p>');
+	  deletecopyrightholder($_POST['copyrightid']);
+	  $forms = new SiteCopyrightForms($offset);
 }
 elseif(($postaction=="search") || isset($_GET['search']))
 {
-  if(isset($_POST['holder']))
-  {
-    $holder=$_POST['holder'];
-  }
-  else
-  {
-    $holder=$_GET['holder'];
-  }
-  print('<p class="highlight">Search results for <i>'.$holder.'</i></p>');
-  $forms = new SiteCopyrightForms($offset,fixquotes($holder['holder']));
+	if(isset($_POST['holder']))
+	{
+		$holder=$_POST['holder'];
+	}
+	else
+	{
+		$holder=$_GET['holder'];
+	}
+	print('<p class="highlight">Search results for <i>'.$holder.'</i></p>');
+	$forms = new SiteCopyrightForms($offset,fixquotes($holder['holder']));
 }
 else
 {
@@ -140,40 +138,24 @@ $db->closedb();
 //
 function permission2html($permission)
 {
-  $result="Unknown";
-
-  if($permission==PERMISSION_GRANTED)
-  {
-    $result="&radic;";
-  }
-  elseif($permission==NO_PERMISSION)
-  {
-    $result="&mdash;";
-  }
-  elseif($permission==PERMISSION_REFUSED)
-  {
-    $result="&dagger;";
-  }
-  elseif($permission==PERMISSION_IMAGESONLY)
-  {
-    $result="&diams;";
-  }
-  elseif($permission==PERMISSION_LINKIMAGESONLY)
-  {
-    $result="&diams;&nbsp;&rarr;";
-  }
-  elseif($permission==PERMISSION_LINKONLY)
-  {
-    $result="&rarr;";
-  }
-  elseif($permission==PERMISSION_PENDING)
-  {
-    $result="&infin;";
-  }
-  elseif($permission==PERMISSION_NOREPLY)
-  {
-    $result="X";
-  }
-  return $result;
+	$result="Unknown";
+	
+	if($permission==PERMISSION_GRANTED)
+		$result="&radic;";
+	elseif($permission==NO_PERMISSION)
+		$result="&mdash;";
+	elseif($permission==PERMISSION_REFUSED)
+		$result="&dagger;";
+	elseif($permission==PERMISSION_IMAGESONLY)
+		$result="&diams;";
+	elseif($permission==PERMISSION_LINKIMAGESONLY)
+		$result="&diams;&nbsp;&rarr;";
+	elseif($permission==PERMISSION_LINKONLY)
+		$result="&rarr;";
+	elseif($permission==PERMISSION_PENDING)
+		$result="&infin;";
+	elseif($permission==PERMISSION_NOREPLY)
+		$result="X";
+	return $result;
 }
 ?>

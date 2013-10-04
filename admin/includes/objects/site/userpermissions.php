@@ -84,7 +84,6 @@ class SitePublicUserAccessForm extends Template {
   		$restrictedpagesnoaccess=array();
   		for($i=0;$i<count($restrictedpages);$i++)
   		{
-
     		if(!hasaccess($userid, $restrictedpages[$i]))
     		{
       			array_push($restrictedpagesnoaccess, $restrictedpages[$i]);

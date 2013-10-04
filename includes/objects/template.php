@@ -29,7 +29,8 @@ class Template {
     // overwrite this constructor
     // fill attributes, then call createTemplates
     //
-    function Template($jsid="",$jspaths=array(),$jscripts=array()) {
+    function Template($jsid="",$jspaths=array(),$jscripts=array())
+    {
     	global $sid, $page;
     	
     	$this->stringvars['sid']=$sid;
@@ -50,7 +51,8 @@ class Template {
     
 	// get array of links to javascript files
 	// already prepared as string for includion in HTML header
-	function getjspaths() {
+	function getjspaths()
+	{
 		$result="";
 	  
 	  	for($i=0;$i<count($this->jspaths);$i++)
@@ -63,8 +65,8 @@ class Template {
 
 	// get inline javascript as string to be placed in header
 	// jsids have been replaced
-	function getscripts() {
-	  
+	function getscripts()
+	{
 		$result="";
 	
 		for($i=0;$i<count($this->jscripts);$i++)
@@ -333,7 +335,8 @@ function prepareJavaScript($jsid, $scriptpath)
 //
 function print_vars($obj)
 {
-    foreach (get_object_vars($obj) as $prop => $val) {
+    foreach (get_object_vars($obj) as $prop => $val)
+    {
         echo "<h1>$prop</h1>";
         print_r($val);
     }

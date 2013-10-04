@@ -29,45 +29,44 @@ $showform=true;
 
 if($user && $pass===$passconf)
 {
-  if(userexists($user))
-  {
-    $message='Username already exists!';
-  }
-  elseif(!$pass)
-  {
-    $message='Please specify a password!';
-  }
-  elseif(emailexists($email))
-  {
-    $message='E-mail <i>'.$email.'</i> already exists!';
-    $email="";
-  }
-  elseif(!$email)
-  {
-    $message='Please specify an e-mail address!';
-    $email="";
-  }
-  else
-  {
-
-    $register=register($user,$pass,$email);
-
-    if($register)
-    {
-      $message='Registering successful.';
-      $message='<br />You will be able to log in as soon as the admin activates your account.';
-      sendactivationemail($user,$register);
-      $showform=false;
-    }
-     else
-    {
-      $message='error';
-    }
-  }
+	if(userexists($user))
+	{
+		$message='Username already exists!';
+	}
+	elseif(!$pass)
+	{
+		$message='Please specify a password!';
+	}
+	elseif(emailexists($email))
+	{
+		$message='E-mail <i>'.$email.'</i> already exists!';
+		$email="";
+	}
+	elseif(!$email)
+	{
+		$message='Please specify an e-mail address!';
+		$email="";
+	}
+	else
+	{
+		$register=register($user,$pass,$email);
+		
+		if($register)
+		{
+			$message='Registering successful.';
+			$message='<br />You will be able to log in as soon as the admin activates your account.';
+			sendactivationemail($user,$register);
+			$showform=false;
+		}
+		else
+		{
+			$message='error';
+		}
+	}
 }
 elseif($user && $pass!=$passconf)
 {
-  $message='Passwords did not match!';
+	$message='Passwords did not match!';
 }
 
 $content = new RegisterPage($user, $email,$message,$showform);

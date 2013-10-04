@@ -11,7 +11,7 @@ include_once($projectroot."functions/db.php");
 function getexternallink($page_id)
 {
 	global $db;
-  return getdbelement("link",EXTERNALS_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("link",EXTERNALS_TABLE, "page_id", $db->setinteger($page_id));
 }
 
 ?>

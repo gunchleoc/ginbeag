@@ -12,7 +12,7 @@ checksession($sid);
 
 if(!isadmin($sid))
 {
-  die('<p class="highlight">You have no permission for this area</p>');
+	die('<p class="highlight">You have no permission for this area</p>');
 }
 
 if(isset($_GET['page'])) $page=$_GET['page'];
@@ -39,66 +39,58 @@ $db->closedb();
 
 function savesitefeatures()
 {
-  global $sid, $_POST, $db;
-
-  $result = "";
-  
-  if(isset($_POST['renamevariables']))
-  {
-    $properties['Math CAPTCHA Reply Variable']=makerandomvariablename();
-    $properties['Math CAPTCHA Answer Variable']=makerandomvariablename();
-    $properties['Message Text Variable']=makerandomvariablename();
-    $properties['Subject Line Variable']=makerandomvariablename();
-    $properties['E-Mail Address Variable']=makerandomvariablename();
-  }
-  else
-  {
-    $properties['Use Math CAPTCHA']=$db->setinteger($_POST['usemathcaptcha']);
-  }
-
-  $success=updateentries(ANTISPAM_TABLE,$properties,"property_name","property_value");
-  
-  if($success="1")
-  {
-    if(isset($_POST['renamevariables']))
-    {
-      $result = "Renamed Variables";
-    }
-    else
-    {
-      $result = "Anti-Spam settings saved";
-    }
-  }
-  else
-  {
-    if(isset($_POST['renamevariables']))
-    {
-      $result = "Failed to rename variables ".$sql;
-    }
-    else
-    {
-      $result = "Failed to save Anti-Spam settings ".$sql;
-    }
-  }
-  return $result;
+	global $sid, $_POST, $db;
+	
+	$result = "";
+	
+	if(isset($_POST['renamevariables']))
+	{
+		$properties['Math CAPTCHA Reply Variable']=makerandomvariablename();
+		$properties['Math CAPTCHA Answer Variable']=makerandomvariablename();
+		$properties['Message Text Variable']=makerandomvariablename();
+		$properties['Subject Line Variable']=makerandomvariablename();
+		$properties['E-Mail Address Variable']=makerandomvariablename();
+	}
+	else
+	{
+		$properties['Use Math CAPTCHA']=$db->setinteger($_POST['usemathcaptcha']);
+	}
+	
+	$success=updateentries(ANTISPAM_TABLE,$properties,"property_name","property_value");
+	
+	if($success="1")
+	{
+		if(isset($_POST['renamevariables']))
+			$result = "Renamed Variables";
+		else
+			$result = "Anti-Spam settings saved";
+	}
+	else
+	{
+		if(isset($_POST['renamevariables']))
+			$result = "Failed to rename variables ".$sql;
+		else
+			$result = "Failed to save Anti-Spam settings ".$sql;
+	}
+	return $result;
 }
 
 
 function makerandomvariablename()
 {
-  $result="";
-  $letters="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ";
-  
-  list($usec, $sec) = explode(' ', microtime());
-  $randomlength= (((float) $sec + ((float) $usec * 100000)) % 25)+6;
-
-  for($i=0;$i<$randomlength;$i++)
-  {
-    list($usec, $sec) = explode(' ', microtime());
-    $position= ((float) $sec + ((float) $usec * 100000)) % strlen($letters);
-    $result.= substr($letters,$position,1);
-  }
-  return $result;
+	$result="";
+	$letters="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ";
+	
+	list($usec, $sec) = explode(' ', microtime());
+	$randomlength= (((float) $sec + ((float) $usec * 100000)) % 25)+6;
+	
+	for($i=0;$i<$randomlength;$i++)
+	{
+		list($usec, $sec) = explode(' ', microtime());
+		$position= ((float) $sec + ((float) $usec * 100000)) % strlen($letters);
+		$result.= substr($letters,$position,1);
+	}
+	return $result;
 }
 
 ?>

@@ -12,7 +12,7 @@ checksession($sid);
 
 if(!isadmin($sid))
 {
-  die('<p class="highlight">You have no permission for this area</p>');
+	die('<p class="highlight">You have no permission for this area</p>');
 }
 
 if(isset($_GET['page'])) $page=$_GET['page'];

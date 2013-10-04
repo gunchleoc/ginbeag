@@ -16,11 +16,11 @@ include_once($projectroot."includes/functions.php");
 //
 class AdminLoginForm extends Template {
 
-
     function AdminLoginForm($username)
     {
 		global $_GET;
 		parent::__construct();
+		
 		$this->stringvars['params']=makelinkparameters($_GET);
 		$this->stringvars['username']=title2html($username);
     }
@@ -37,10 +37,10 @@ class AdminLoginForm extends Template {
 //
 class AdminLoginHeader extends Template {
 
-
     function AdminLoginHeader($message,$isredirect=false,$redirecturl="",$urltext="")
     {
 		parent::__construct();
+
 		$this->stringvars['stylesheet']=getCSSPath("main.css");
 		$this->stringvars['adminstylesheet']=getCSSPath("admin.css");
 		$this->stringvars['headertitle']= title2html(getproperty("Site Name")).' - Webpage building';
@@ -61,7 +61,7 @@ class AdminLoginHeader extends Template {
     // assigns templates
     function createTemplates()
     {
-       $this->addTemplate("admin/adminloginheader.tpl");
+		$this->addTemplate("admin/adminloginheader.tpl");
     }
 }
 
@@ -70,11 +70,10 @@ class AdminLoginHeader extends Template {
 //
 class ForgotEmailForm extends Template {
 
-
     function ForgotEmailForm($username)
     {
     	parent::__construct();
-      $this->stringvars['username']=title2html($username);
+		$this->stringvars['username']=title2html($username);
     }
 
     // assigns templates
@@ -91,11 +90,10 @@ class ForgotEmailForm extends Template {
 //
 class ForgotPasswordForm extends Template {
 
-
     function ForgotPasswordForm($username)
     {
     	parent::__construct();
-      $this->stringvars['username']=title2html($username);
+		$this->stringvars['username']=title2html($username);
     }
 
     // assigns templates

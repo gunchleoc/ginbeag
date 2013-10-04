@@ -33,20 +33,16 @@ else $page=0;
 
 if(isset($_GET['image']))
 {
-  $image=$_GET['image'];
+	$image=$_GET['image'];
 }
 if(isset($_GET['item']))
 {
 	$item=$_GET['item'];
-  // get image from item array
-  $image=$_POST[$_GET['item']];
+	// get image from item array
+	$image=$_POST[$_GET['item']];
 }
 
-
 $showimage = new Showimage($image,$item,true);
-
 print($showimage->toHTML());
-
 $db->closedb();
-
 ?>

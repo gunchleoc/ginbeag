@@ -8,14 +8,8 @@ include_once($projectroot."functions/publicsessions.php");
 include_once($projectroot ."config.php");
 
 
-if(isset($_GET["sid"]))
-{
-  $user_id=getpublicsiduser($_GET["sid"]);
-}
-else
-{
-  $user_id=0;
-}
+if(isset($_GET["sid"])) $user_id=getpublicsiduser($_GET["sid"]);
+else $user_id=0;
 
 
 ################################################################################
@@ -45,8 +39,8 @@ $directrestrictedpagesaccess=getmultiplefields(RESTRICTEDPAGESACCESS_TABLE, "pag
 //
 function getpagetypearray($page_id)
 {
-  global $allpages;
-  return $allpages[$page_id]['pagetype'];
+	global $allpages;
+	return $allpages[$page_id]['pagetype'];
 }
 
 //
@@ -54,8 +48,8 @@ function getpagetypearray($page_id)
 //
 function getpagetitlearray($page_id)
 {
-  global $allpages;
-  return $allpages[$page_id]['title_page'];
+	global $allpages;
+	return $allpages[$page_id]['title_page'];
 }
 
 //
@@ -63,8 +57,8 @@ function getpagetitlearray($page_id)
 //
 function getnavtitlearray($page_id)
 {
-  global $allpages;
-  return $allpages[$page_id]['title_navigator'];
+	global $allpages;
+	return $allpages[$page_id]['title_navigator'];
 }
 
 //
@@ -72,8 +66,8 @@ function getnavtitlearray($page_id)
 //
 function getnavpositionarray($page_id)
 {
-  global $allpages;
-  return $allpages[$page_id]['position_navigator'];
+	global $allpages;
+	return $allpages[$page_id]['position_navigator'];
 }
 
 //
@@ -81,8 +75,8 @@ function getnavpositionarray($page_id)
 //
 function getparentarray($page_id)
 {
-  global $allpages;
-  return $allpages[$page_id]['parent_id'];
+	global $allpages;
+	return $allpages[$page_id]['parent_id'];
 }
 
 //
@@ -90,18 +84,18 @@ function getparentarray($page_id)
 //
 function getchildrenarray($page_id,$ascdesc="ASC")
 {
-  global $allpages;
-  $result=array();
-  reset($allpages);
-  while($checkpage=current($allpages))
-  {
-    if($checkpage['parent_id']==$page_id)
-    {
-      array_push($result,$checkpage['page_id']);
-    }
-    next($allpages);
-  }
-  return $result;
+	global $allpages;
+	$result=array();
+	reset($allpages);
+	while($checkpage=current($allpages))
+	{
+		if($checkpage['parent_id']==$page_id)
+		{
+			array_push($result,$checkpage['page_id']);
+		}
+		next($allpages);
+	}
+	return $result;
 }
 
 //
@@ -109,8 +103,8 @@ function getchildrenarray($page_id,$ascdesc="ASC")
 //
 function ispublishedarray($page_id)
 {
-  global $allpages;
-  return $allpages[$page_id]['ispublished'];
+	global $allpages;
+	return $allpages[$page_id]['ispublished'];
 }
 
 
@@ -119,10 +113,9 @@ function ispublishedarray($page_id)
 //
 function isrootpagearray($page_id)
 {
-  global $allpages;
-  if($page_id>0)
-  	return $allpages[$page_id]['parent_id']==0;
-  else return false;
+	global $allpages;
+	if($page_id>0) return $allpages[$page_id]['parent_id']==0;
+	else return false;
 }
 
 
@@ -133,9 +126,8 @@ function isrootpagearray($page_id)
 //
 function displaylinksforpagearray($sid,$page_id)
 {
-  global $user_id;
-
-  return (ispublishedarray($page_id) && (!ispagerestrictedarray($page_id) || hasaccesssession($sid, $page_id)));
+	global $user_id;
+	return (ispublishedarray($page_id) && (!ispagerestrictedarray($page_id) || hasaccesssession($sid, $page_id)));
 }
 
 //
@@ -143,9 +135,8 @@ function displaylinksforpagearray($sid,$page_id)
 //
 function ispagerestrictedarray($page_id)
 {
-  global $allrestrictedpages;
-
-  return array_key_exists($page_id,$allrestrictedpages);
+	global $allrestrictedpages;
+	return array_key_exists($page_id,$allrestrictedpages);
 }
 
 //
@@ -154,17 +145,12 @@ function ispagerestrictedarray($page_id)
 function hasaccessarray($page_id)
 {
 	global $allrestrictedpages, $directrestrictedpagesaccess;
-  
 	$result=true;
-  
 	if(array_key_exists($page_id,$allrestrictedpages))
 	{
-	  	$masterpage = $allrestrictedpages[$page_id]["masterpage"];
-		if(array_key_exists($masterpage,$directrestrictedpagesaccess))
-		{
-			$result=false;
-		}
+		$masterpage = $allrestrictedpages[$page_id]["masterpage"];
+		if(array_key_exists($masterpage,$directrestrictedpagesaccess)) $result=false;
 	}
-  	return $result;
+	return $result;
 }
 ?>

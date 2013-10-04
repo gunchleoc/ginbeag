@@ -18,13 +18,13 @@ function isreferrerblocked($referrer)
 {
 	global $db;
 
-  $query="select referrerurl from ".BLOCKEDREFERRERS_TABLE;
-  $sql=$db->singlequery($query);
-  $result=false;
-  while(!$result && $row=mysql_fetch_row($sql))
-  {
-    $result=strpos($referrer,$row[0]);
-  }
-  return $result;
+	$query="select referrerurl from ".BLOCKEDREFERRERS_TABLE;
+	$sql=$db->singlequery($query);
+	$result=false;
+	while(!$result && $row=mysql_fetch_row($sql))
+	{
+		$result=strpos($referrer,$row[0]);
+	}
+	return $result;
 }
 ?>

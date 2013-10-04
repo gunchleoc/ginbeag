@@ -7,7 +7,7 @@ include_once($projectroot."language/languages.php");
 
 //initialize anti-spam variable names
 $emailvariables=getmultiplefields(ANTISPAM_TABLE, "property_name", "1",
-   array(0 => 'property_name', 1 => 'property_value'));
+	array(0 => 'property_name', 1 => 'property_value'));
 
 
 // check data
@@ -16,75 +16,74 @@ $emailvariables=getmultiplefields(ANTISPAM_TABLE, "property_name", "1",
 //
 function emailerror($addy,$subject,$messagetext,$sendcopy)
 {
-  global $_POST, $emailvariables;
-  $result="";
-  
-
-  // check e-mail addy
-  if($addy=="")
-  {
-    $result.=errormessage("email_enteremail");
-  }
-  else
-  {
-    $mail_chars="0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ-_.@";
-    $addy_length=strlen($addy);
-    $illegals="";
-    $at_detected=false;
-    $dot_detected=false;
-    // check e-mail for illegal chars and for @-sign
-    for($i=0;$i<$addy_length;$i++)
-    {
-      $current_char=substr($addy,$i,1);
-      if(strstr($mail_chars,$current_char)==false)
-      {
-        $illegals = $illegals.$current_char." ";
-      }
-      if($current_char=="@")
-      {
-        $at_detected=true;
-      }
-      if($at_detected)
-      {
-        if($current_char==".")
-        {
-          $dot_detected=true;
-        }
-      }
-    }
-    if($illegals)
-    {
-      $result.=errormessage("email_illegalchar");
-      $result.=$illegals;
-      $result.=errormessage("email_reenteremail");
-    }
-    elseif(!$dot_detected)
-    {
-      $result.=errormessage("email_notvalidemail");
-      $result.=errormessage("email_reenteremail");
-    }
-  }
-  // check subject
-  if($subject=="")
-  {
-    $result.=errormessage("email_specifysubject");
-  }
-  // check message text
-  if($messagetext=="")
-  {
-    $result.=errormessage("email_emptymessage");
-  }
-  
-  // test captcha
-  if($emailvariables['Use Math CAPTCHA']['property_value'])
-  {
-    if($_POST[$emailvariables['Math CAPTCHA Reply Variable']['property_value']] != $_POST[$emailvariables['Math CAPTCHA Answer Variable']['property_value']])
-    {
-      $result.=errormessage("email_wrongmathcaptcha");
-    }
-  }
-  
-  return $result;
+	global $_POST, $emailvariables;
+	$result="";
+	
+	
+	// check e-mail addy
+	if($addy=="")
+	{
+		$result.=errormessage("email_enteremail");
+	}
+	else
+	{
+		$mail_chars="0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ-_.@";
+		$addy_length=strlen($addy);
+		$illegals="";
+		$at_detected=false;
+		$dot_detected=false;
+		// check e-mail for illegal chars and for @-sign
+		for($i=0;$i<$addy_length;$i++)
+		{
+			$current_char=substr($addy,$i,1);
+			if(strstr($mail_chars,$current_char)==false)
+			{
+				$illegals = $illegals.$current_char." ";
+			}
+			if($current_char=="@")
+			{
+				$at_detected=true;
+			}
+			if($at_detected)
+			{
+				if($current_char==".")
+				{
+					$dot_detected=true;
+				}
+			}
+		}
+		if($illegals)
+		{
+			$result.=errormessage("email_illegalchar");
+			$result.=$illegals;
+			$result.=errormessage("email_reenteremail");
+		}
+		elseif(!$dot_detected)
+		{
+			$result.=errormessage("email_notvalidemail");
+			$result.=errormessage("email_reenteremail");
+		}
+	}
+	// check subject
+	if($subject=="")
+	{
+		$result.=errormessage("email_specifysubject");
+	}
+	// check message text
+	if($messagetext=="")
+	{
+		$result.=errormessage("email_emptymessage");
+	}
+	
+	// test captcha
+	if($emailvariables['Use Math CAPTCHA']['property_value'])
+	{
+		if($_POST[$emailvariables['Math CAPTCHA Reply Variable']['property_value']] != $_POST[$emailvariables['Math CAPTCHA Answer Variable']['property_value']])
+		{
+			$result.=errormessage("email_wrongmathcaptcha");
+		}
+	}
+	return $result;
 }
 
 //
@@ -92,29 +91,29 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 //
 function printemailinfo($addy,$subject,$messagetext,$sendcopy)
 {
-  print('<p class="pagetitle">'.getlang("email_enteredmessage").':</p><p><hr><p><div>');
-
-  // display e-mail
-  print("<p><b>".getlang("email_email")."</b> ".$addy."<br>");
-  // display subject
-  $subject=stripslashes($subject);
-  print("<p><b>".getlang("email_subject").":</b> ".$subject."<p>");
-
-  // display message
-  $message_display=$messagetext;
-  $message_display=stripslashes(nl2br($message_display));
-  print("<p><b>".getlang("email_message").":</b><br>".$message_display);
-
-  // display copy info
-  if($sendcopy)
-  {
-      print("<p><b>".getlang("email_copyrequested")."</b>");
-  }
-  else
-  {
-      print("<p><b>".getlang("email_nocopyrequested")."</b>");
-  }
-  print('</div>');
+	print('<p class="pagetitle">'.getlang("email_enteredmessage").':</p><p><hr><p><div>');
+	
+	// display e-mail
+	print("<p><b>".getlang("email_email")."</b> ".$addy."<br>");
+	// display subject
+	$subject=stripslashes($subject);
+	print("<p><b>".getlang("email_subject").":</b> ".$subject."<p>");
+	
+	// display message
+	$message_display=$messagetext;
+	$message_display=stripslashes(nl2br($message_display));
+	print("<p><b>".getlang("email_message").":</b><br>".$message_display);
+	
+	// display copy info
+	if($sendcopy)
+	{
+		print("<p><b>".getlang("email_copyrequested")."</b>");
+	}
+	else
+	{
+		print("<p><b>".getlang("email_nocopyrequested")."</b>");
+	}
+	print('</div>');
 }
 
 //
@@ -125,41 +124,41 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
 	$subject= utf8_decode($subject);
 	$messagetext= utf8_decode($messagetext);
 	
-  if($isguestbookentry)
-  {
-    $message_intro=getlang("email_yourguestbookentry").' @ '.getproperty("Site Name")."\n";
-  }
-  else
-  {
-    $message_intro=getlang("email_from").": ".$addy."\n".getlang("email_to").": ".$recipient."\n";
-  }
-  $message_intro.="________________________________________________________________\n\n";
-
-  $messagetext=stripslashes($messagetext);
-  $messagetext=str_replace("\n","\r\n",$messagetext);
-    
-  $messagetext.="\n\n________________________________________________________________\n\n";
-  $messagetext.=getproperty("Email Signature");
-  
-  $subject=stripslashes($subject);
-
-  if($isguestbookentry)
-  {
-    @mail($recipient,getlang("email_guestbooksubject").getproperty("Site Name")." - ".$subject,getlang("email_guestbooksubject").getproperty("Site Name")."\n\n".$messagetext,"From: ".$recipient);
-    @mail($addy,getlang("email_yourguestbookentry").' @ '.getproperty("Site Name")." - ".$subject,$message_intro.$messagetext,"From: ".$recipient);
-  }
-  else
-  {
-    @mail($recipient,sprintf(utf8_decode(getlang("email_contactsubject")),getproperty("Site Name")).$subject,$message_intro.$messagetext,"From: ".$addy)
-      or die('<p class="highlight"><b>'.getlang("email_errorsending").'</b></p>');
-    if($sendcopy)
-    {
-       @mail($addy,getlang("email_yourmessage").getproperty("Site Name")." - ".$subject,getlang("email_thisemailwassent").":\n\n".$message_intro.$messagetext,"From: ".$addy)
-        or die('<p class="highlight"><b>'.getlang("email_errorsending").'</b></p>');
-    }
-    print('<p>'.getlang("email_youremailsent").".<p>");
-  }
-  unset($_POST['addy']);
+	if($isguestbookentry)
+	{
+		$message_intro=getlang("email_yourguestbookentry").' @ '.getproperty("Site Name")."\n";
+	}
+	else
+	{
+		$message_intro=getlang("email_from").": ".$addy."\n".getlang("email_to").": ".$recipient."\n";
+	}
+	$message_intro.="________________________________________________________________\n\n";
+	
+	$messagetext=stripslashes($messagetext);
+	$messagetext=str_replace("\n","\r\n",$messagetext);
+	
+	$messagetext.="\n\n________________________________________________________________\n\n";
+	$messagetext.=getproperty("Email Signature");
+	
+	$subject=stripslashes($subject);
+	
+	if($isguestbookentry)
+	{
+		@mail($recipient,getlang("email_guestbooksubject").getproperty("Site Name")." - ".$subject,getlang("email_guestbooksubject").getproperty("Site Name")."\n\n".$messagetext,"From: ".$recipient);
+		@mail($addy,getlang("email_yourguestbookentry").' @ '.getproperty("Site Name")." - ".$subject,$message_intro.$messagetext,"From: ".$recipient);
+	}
+	else
+	{
+		@mail($recipient,sprintf(utf8_decode(getlang("email_contactsubject")),getproperty("Site Name")).$subject,$message_intro.$messagetext,"From: ".$addy)
+		or die('<p class="highlight"><b>'.getlang("email_errorsending").'</b></p>');
+		if($sendcopy)
+		{
+			@mail($addy,getlang("email_yourmessage").getproperty("Site Name")." - ".$subject,getlang("email_thisemailwassent").":\n\n".$message_intro.$messagetext,"From: ".$addy)
+			or die('<p class="highlight"><b>'.getlang("email_errorsending").'</b></p>');
+		}
+		print('<p>'.getlang("email_youremailsent").".<p>");
+	}
+	unset($_POST['addy']);
 }
 
 //
@@ -184,7 +183,7 @@ function sendplainemail($subject,$message,$recipient)
 //
 function errormessage($key)
 {
-  return'<p class="highlight">'.getlang($key)."</p>";
+	return'<p class="highlight">'.getlang($key)."</p>";
 }
 
 //

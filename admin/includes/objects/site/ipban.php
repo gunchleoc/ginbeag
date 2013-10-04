@@ -13,19 +13,19 @@ include_once($projectroot."includes/objects/elements.php");
 //
 class SiteIPBanIP extends Template {
 
-  function SiteIPBanIP($ip)
-  {
-  	parent::__construct();
-
-	$this->stringvars['ip']=$ip;
-	$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteipban';
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/site/ipbanip.tpl");
-  }
+	function SiteIPBanIP($ip)
+	{
+		parent::__construct();
+		
+		$this->stringvars['ip']=$ip;
+		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteipban';
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/site/ipbanip.tpl");
+	}
 }
 
 
@@ -36,32 +36,32 @@ class SiteIPBanIP extends Template {
 //
 class SiteIPBan extends Template {
 
-  function SiteIPBan()
-  {
-  	parent::__construct();
-  	
-  	$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteipban';
-  	
-	$ips=getalladdbannedipforrestrictedpages();
-	$noofips=count($ips);
-  	if($noofips>0)
+	function SiteIPBan()
 	{
-		for($i=0;$i<$noofips;$i++)
-    	{
-  			$this->listvars['ips'][] = new SiteIPBanIP($ips[$i]);
-  		}
-  	}
-  	else
-  	{
-  		$this->stringvars['noips'] ='No IPs have been banned.';
-  	}
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/site/ipban.tpl");
-  }
+		parent::__construct();
+		
+		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteipban';
+		
+		$ips=getalladdbannedipforrestrictedpages();
+		$noofips=count($ips);
+		if($noofips>0)
+		{
+			for($i=0;$i<$noofips;$i++)
+			{
+				$this->listvars['ips'][] = new SiteIPBanIP($ips[$i]);
+			}
+		}
+		else
+		{
+			$this->stringvars['noips'] ='No IPs have been banned.';
+		}
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/site/ipban.tpl");
+	}
 }
 
 ?>

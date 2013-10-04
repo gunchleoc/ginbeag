@@ -30,42 +30,42 @@ $message="";
 $message = getpagelock($page);
 if(!$message)
 {
-  // update linklist
-  if(isset($_POST['addlink']))
-  {
-    $message='Added new link';
-    addlink($page,fixquotes($_POST['title']),$_POST['link'],$_POST['imagefilename'],fixquotes($_POST['description']));
-  }
-  elseif(isset($_POST['deletelink']))
-  {
-    $message='Deleting link <i>'.title2html(getlinktitle($_GET['link'])).'</i>';
-    if($_POST['deletelinkconfirm'])
-    {
-      deletelink($_GET['link']);
-      updateeditdata($page, $sid);
-    }
-    else
-    {
-      $message='In order to delete a link, you have to check "Confirm delete".';
-    }
-  }
-  elseif(isset($_POST['movelinkup']))
-  {
-    $message='Moved link up';
-    movelink($_GET['link'], "up", $_POST['positions']);
-    updateeditdata($page, $sid);
-  }
-  elseif(isset($_POST['movelinkdown']))
-  {
-    $message='Moved link down';
-    movelink($_GET['link'], "down", $_POST['positions']);
-    updateeditdata($page, $sid);
-  }
-  $editpage = new EditLinklist($page);
+	// update linklist
+	if(isset($_POST['addlink']))
+	{
+		$message='Added new link';
+		addlink($page,fixquotes($_POST['title']),$_POST['link'],$_POST['imagefilename'],fixquotes($_POST['description']));
+	}
+	elseif(isset($_POST['deletelink']))
+	{
+		$message='Deleting link <i>'.title2html(getlinktitle($_GET['link'])).'</i>';
+		if($_POST['deletelinkconfirm'])
+		{
+			deletelink($_GET['link']);
+			updateeditdata($page, $sid);
+		}
+		else
+		{
+			$message='In order to delete a link, you have to check "Confirm delete".';
+		}
+	}
+	elseif(isset($_POST['movelinkup']))
+	{
+		$message='Moved link up';
+		movelink($_GET['link'], "up", $_POST['positions']);
+		updateeditdata($page, $sid);
+	}
+	elseif(isset($_POST['movelinkdown']))
+	{
+		$message='Moved link down';
+		movelink($_GET['link'], "down", $_POST['positions']);
+		updateeditdata($page, $sid);
+	}
+	$editpage = new EditLinklist($page);
 }
 else
 {
-  $editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
+	$editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
 }
 
 $content = new AdminMain($page,"editcontents",$message,$editpage);

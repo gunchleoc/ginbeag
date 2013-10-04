@@ -12,35 +12,35 @@ include_once($projectroot."functions/db.php");
 //
 function striptitletags($title)
 {
-  	//$title=stripslashes($title);
-  	$title=stripslashes(utf8_encode($title));
-  
-  //$title=preg_replace("/&amp;#(.*);/U","&#\\1;",$title); // restore unicode characters
-  //$title=str_replace("&amp;nbsp;","&nbsp;",$title); // restore &nbsp;
-  //$title=str_replace('"',"&quot;",$title); // quotes
-// strip 'em
-  $patterns = array(
-           "/\[b\](.*?)\[\/b\]/si",
-           "/\[u\](.*?)\[\/u\]/si",
-           "/\[i\](.*?)\[\/i\]/si",
-           "/\[style=(.*?)\](.*?)\[\/style\]/si",
-           "/\[color=(.*?)\](.*?)\[\/color\]/si"
-       );
-  $replacements = array(
-           "\\1",
-           "\\1",
-           "\\1",
-           "\\2",
-           "\\2"
-       );
-  $title = preg_replace($patterns,$replacements, $title);
+	//$title=stripslashes($title);
+	$title=stripslashes(utf8_encode($title));
+	
+	//$title=preg_replace("/&amp;#(.*);/U","&#\\1;",$title); // restore unicode characters
+	//$title=str_replace("&amp;nbsp;","&nbsp;",$title); // restore &nbsp;
+	//$title=str_replace('"',"&quot;",$title); // quotes
+	// strip 'em
+	$patterns = array(
+		"/\[b\](.*?)\[\/b\]/si",
+		"/\[u\](.*?)\[\/u\]/si",
+		"/\[i\](.*?)\[\/i\]/si",
+		"/\[style=(.*?)\](.*?)\[\/style\]/si",
+		"/\[color=(.*?)\](.*?)\[\/color\]/si"
+	);
+	$replacements = array(
+		"\\1",
+		"\\1",
+		"\\1",
+		"\\2",
+		"\\2"
+	);
+	$title = preg_replace($patterns,$replacements, $title);
     $title=str_replace('<','&lt;', $title);
   	$title=str_replace('>','&gt;', $title);
 
 
-  // copyright
-  $title = str_replace('((C))','&copy;', $title);
-  return $title;
+	// copyright
+	$title = str_replace('((C))','&copy;', $title);
+	return $title;
 }
 
 //
@@ -57,25 +57,23 @@ function title2html($title)
   //$title=str_replace("&amp;nbsp;","&nbsp;",$title); // restore &nbsp;
   //$title=str_replace('"',"&quot;",$title); // quotes
 // bbcode to html
-  $patterns = array(
-           "/\[b\](.*?)\[\/b\]/si",
-           "/\[u\](.*?)\[\/u\]/si",
-           "/\[i\](.*?)\[\/i\]/si",
-           
-           "/\[style=(.*?)\](.*?)\[\/style\]/si"
-       );
-  $replacements = array(
-           "<b>\\1</b>",
-           "<u>\\1</u>",
-           "<i>\\1</i>",
-
-           "<span class=\"\\1\">\\2</span>"
-       );
-  $title = preg_replace($patterns,$replacements, $title);
+	$patterns = array(
+		"/\[b\](.*?)\[\/b\]/si",
+		"/\[u\](.*?)\[\/u\]/si",
+		"/\[i\](.*?)\[\/i\]/si",
+		"/\[style=(.*?)\](.*?)\[\/style\]/si"
+	);
+	$replacements = array(
+		"<b>\\1</b>",
+		"<u>\\1</u>",
+		"<i>\\1</i>",
+		"<span class=\"\\1\">\\2</span>"
+	);
+	$title = preg_replace($patterns,$replacements, $title);
   
-  // copyright
-  $title = str_replace('((C))','&copy;', $title);
-  return $title;
+	// copyright
+	$title = str_replace('((C))','&copy;', $title);
+	return $title;
 }
 
 
@@ -89,29 +87,24 @@ function edittitle2html($title)
   
     $title=str_replace('<','&lt;', $title);
   	$title=str_replace('>','&gt;', $title);
-  //$title=preg_replace("/&amp;#(.*);/U","&#\\1;",$title); // restore unicode characters
-  //$title=str_replace("&amp;nbsp;","&nbsp;",$title); // restore &nbsp;
-  //$title=str_replace('"',"&quot;",$title); // quotes
-// bbcode to html
-  $patterns = array(
-           "/\[b\](.*?)\[\/b\]/si",
-           "/\[u\](.*?)\[\/u\]/si",
-           "/\[i\](.*?)\[\/i\]/si",
-           
-           "/\[style=(.*?)\](.*?)\[\/style\]/si"
-       );
-  $replacements = array(
-           "<b>\\1</b>",
-           "<u>\\1</u>",
-           "<i>\\1</i>",
-
-           "<span class=\"\\1\">\\2</span>"
-       );
-  $title = preg_replace($patterns,$replacements, $title);
+	// bbcode to html
+	$patterns = array(
+		"/\[b\](.*?)\[\/b\]/si",
+		"/\[u\](.*?)\[\/u\]/si",
+		"/\[i\](.*?)\[\/i\]/si",
+		"/\[style=(.*?)\](.*?)\[\/style\]/si"
+	);
+	$replacements = array(
+		"<b>\\1</b>",
+		"<u>\\1</u>",
+		"<i>\\1</i>",
+		"<span class=\"\\1\">\\2</span>"
+	);
+	$title = preg_replace($patterns,$replacements, $title);
   
-  // copyright
-  $title = str_replace('((C))','&copy;', $title);
-  return $title;
+	// copyright
+	$title = str_replace('((C))','&copy;', $title);
+	return $title;
 }
 
 
@@ -125,7 +118,7 @@ function input2html($text)
   	$text=str_replace('<','&lt;', $text);
   	$text=str_replace('>','&gt;', $text);
   
-  return $text;
+	return $text;
 }
 
 
@@ -134,137 +127,128 @@ function input2html($text)
 //
 function text2html($text)
 {
+	$text=utf8_encode($text);
+	$text=stripslashes(stripslashes($text));
+	// lt and gt
+	$text=str_replace('<','&lt;', $text);
+	$text=str_replace('>','&gt;', $text);
 
- 
-  $text=utf8_encode($text);
-  $text=stripslashes(stripslashes($text));
-  //print("<br>***testing:".$text);
-  // lt and gt
-  $text=str_replace('<','&lt;', $text);
-  $text=str_replace('>','&gt;', $text);
+	//info at atjeff dot co dot nz
+	// http://de.php.net/manual/en/function.preg-replace.php
+	
+	// bbcode to html
+	$patterns = array(
+		"/\[link\](.*?)\[\/link\]/i",
+		"/\[url\](.*?)\[\/url\]/i",
+		"/\[url=(.*?)\](.*?)\[\/url\]/i",
+		
+		"/\[style=(.*?)\](.*?)\[\/style\]/si",
+		"/\[color=(.*?)\](.*?)\[\/color\]/si",
+		"/\[img\](.*?)\[\/img\]/i",
+		"/\[b\](.*?)\[\/b\]/si",
+		"/\[u\](.*?)\[\/u\]/si",
+		"/\[i\](.*?)\[\/i\]/si"
+	);
+	$replacements = array(
+		"<a href=\"\\1\" target=\"_blank\">\\1</a>",
+		"<a href=\"\\1\" target=\"_blank\">\\1</a>",
+		"<a href=\"\\1\" target=\"_blank\">\\2</a>",
+		
+		"<span class=\"\\1\">\\2</span>",
+		"<font color=\"\\1\">\\2</font>",
+		"<img src=\"\\1\">",
+		"<b>\\1</b>",
+		"<u>\\1</u>",
+		"<i>\\1</i>"
+	);
+	$text = preg_replace($patterns,$replacements, $text);
   
   
-  //$text = str_replace('&amp;','&', $text);
-//info at atjeff dot co dot nz
-// http://de.php.net/manual/en/function.preg-replace.php
-
-// bbcode to html
-  $patterns = array(
-           "/\[link\](.*?)\[\/link\]/i",
-           "/\[url\](.*?)\[\/url\]/i",
-           "/\[url=(.*?)\](.*?)\[\/url\]/i",
-
-           "/\[style=(.*?)\](.*?)\[\/style\]/si",
-           "/\[color=(.*?)\](.*?)\[\/color\]/si",
-           "/\[img\](.*?)\[\/img\]/i",
-           "/\[b\](.*?)\[\/b\]/si",
-           "/\[u\](.*?)\[\/u\]/si",
-           "/\[i\](.*?)\[\/i\]/si"
-       );
-  $replacements = array(
-           "<a href=\"\\1\" target=\"_blank\">\\1</a>",
-           "<a href=\"\\1\" target=\"_blank\">\\1</a>",
-           "<a href=\"\\1\" target=\"_blank\">\\2</a>",
-
-           "<span class=\"\\1\">\\2</span>",
-           "<font color=\"\\1\">\\2</font>",
-           "<img src=\"\\1\">",
-           "<b>\\1</b>",
-           "<u>\\1</u>",
-           "<i>\\1</i>"
-       );
-  $text = preg_replace($patterns,$replacements, $text);
+	// parsing nested lists
   
-  
-  // parsing nested lists
-  
-  while(preg_match("/\[list\](.*?)\[\/list\]/si",$text)
-     || preg_match("/\[list=(.*?)\](.*?)\[\/list\]/si",$text))
-  {
-    $patterns = array(
-           "/\[list\](.*?)\[\/list\]/si",
-           "/\[list=(.*?)\](.*?)\[\/list\]/si",
-           "/\[\*\](.*?)/s"
-       );
-    $replacements = array(
-           "<ul>\\1</ul>",
-           "<ol type=\"\\1\">\\2</ol>",
-           "<li>\\1"
-       );
-       
-    $text = preg_replace($patterns,$replacements, $text);
-  }
+	while(preg_match("/\[list\](.*?)\[\/list\]/si",$text) || preg_match("/\[list=(.*?)\](.*?)\[\/list\]/si",$text))
+	{
+    	$patterns = array(
+			"/\[list\](.*?)\[\/list\]/si",
+			"/\[list=(.*?)\](.*?)\[\/list\]/si",
+			"/\[\*\](.*?)/s"
+		);
+		$replacements = array(
+			"<ul>\\1</ul>",
+			"<ol type=\"\\1\">\\2</ol>",
+			"<li>\\1"
+		);
+		$text = preg_replace($patterns,$replacements, $text);
+	}
   
 
 
-// adam at releod dot com
-// auto URL
-$text = preg_replace("/(http:\/\/(.*)\/)[\s]/", "<a href=\\1>\\1</a> ", $text);
-//$text = preg_replace("/(http:\/\/([w|\/|\.]*)[\W])/", "dummy", $text);
-
-//remove sid from local links
-  $patterns = array(
-           "/http:(.*?)".getproperty("Domain Name")."(.*?)(sid=)(\w*?)(&)/",
-           "/http:(.*?)".getproperty("Domain Name")."(.*?)(\?sid=|&sid=)(\w*?)(\W|\s|$)/",
-           "/(".str_replace("/","\/",getprojectrootlinkpath()).")(index|.*admin.*|.*includes.*|.*functions.*)(.php)(.*)/"
-       );
-  $replacements = array(
-           "http:\\2",
-           "http:\\2\\5",
-           "\\4"
-       );
-  $text = preg_replace($patterns,$replacements, $text);
+	// adam at releod dot com
+	// auto URL
+	$text = preg_replace("/(http:\/\/(.*)\/)[\s]/", "<a href=\\1>\\1</a> ", $text);
+	//$text = preg_replace("/(http:\/\/([w|\/|\.]*)[\W])/", "dummy", $text);
+	
+	//remove sid from local links
+	$patterns = array(
+		"/http:(.*?)".getproperty("Domain Name")."(.*?)(sid=)(\w*?)(&)/",
+		"/http:(.*?)".getproperty("Domain Name")."(.*?)(\?sid=|&sid=)(\w*?)(\W|\s|$)/",
+		"/(".str_replace("/","\/",getprojectrootlinkpath()).")(index|.*admin.*|.*includes.*|.*functions.*)(.php)(.*)/"
+	);
+	$replacements = array(
+		"http:\\2",
+		"http:\\2\\5",
+		"\\4"
+	);
+	$text = preg_replace($patterns,$replacements, $text);
   
-// remove target="_blank" from internal links
-  $patterns = array(
-           "/(\")(\?)(.*)(target=\"_blank\")/"
-       );
-  $replacements = array(
-           "\\1\\2\\3"
-       );
-  $text = preg_replace($patterns,$replacements, $text);
+	// remove target="_blank" from internal links
+	$patterns = array(
+		"/(\")(\?)(.*)(target=\"_blank\")/"
+	);
+	$replacements = array(
+		"\\1\\2\\3"
+	);
+	$text = preg_replace($patterns,$replacements, $text);
 
-// restore HTML tags
-// todo: allowtags in site properties
-  $preserve=array();
-  array_push($preserve,'b');
-  array_push($preserve,'i');
-  array_push($preserve,'a');
-  array_push($preserve,'img');
-  array_push($preserve,'span');
-  array_push($preserve,'p');
-  array_push($preserve,'br');
-  array_push($preserve,'div');
-  array_push($preserve,'center');
-  array_push($preserve,'em');
-  array_push($preserve,'strong');
-  array_push($preserve,'pre');
-  array_push($preserve,'ul');
-  array_push($preserve,'ol');
-  array_push($preserve,'li');
-  array_push($preserve,'dl');
-  array_push($preserve,'dt');
-  array_push($preserve,'dd');
-  array_push($preserve,'hr');
-  array_push($preserve,'embed');
-  array_push($preserve,'object');
+	// restore HTML tags
+	// todo: allowtags in site properties
+	$preserve=array();
+	array_push($preserve,'b');
+	array_push($preserve,'i');
+	array_push($preserve,'a');
+	array_push($preserve,'img');
+	array_push($preserve,'span');
+	array_push($preserve,'p');
+	array_push($preserve,'br');
+	array_push($preserve,'div');
+	array_push($preserve,'center');
+	array_push($preserve,'em');
+	array_push($preserve,'strong');
+	array_push($preserve,'pre');
+	array_push($preserve,'ul');
+	array_push($preserve,'ol');
+	array_push($preserve,'li');
+	array_push($preserve,'dl');
+	array_push($preserve,'dt');
+	array_push($preserve,'dd');
+	array_push($preserve,'hr');
+	array_push($preserve,'embed');
+	array_push($preserve,'object');
 
-  for($i=0;$i<count($preserve);$i++)
-  {
-    $pattern='/\&lt;'.$preserve[$i].'(.*?)\&gt;/';
-    $text=preg_replace($pattern,"<".$preserve[$i]."\\1>", $text);
-    $pattern='/\&lt;(\/)'.$preserve[$i].'(.*?)\&gt;/';
-    $text=preg_replace($pattern,"<\\1".$preserve[$i]."\\2>", $text);
-  }
-  //unicode characters
-//  $text=preg_replace("/&amp;#(.*);/U","&#\\1;",$text);
+	for($i=0;$i<count($preserve);$i++)
+	{
+		$pattern='/\&lt;'.$preserve[$i].'(.*?)\&gt;/';
+		$text=preg_replace($pattern,"<".$preserve[$i]."\\1>", $text);
+		$pattern='/\&lt;(\/)'.$preserve[$i].'(.*?)\&gt;/';
+		$text=preg_replace($pattern,"<\\1".$preserve[$i]."\\2>", $text);
+	}
 
-  // line break
-  $text=nl2br($text);
+	// line break
+	$text=nl2br($text);
   
-  // copyright
-  $text = str_replace('((C))','&copy;', $text);
-  return $text;
+	// copyright
+	$text = str_replace('((C))','&copy;', $text);
+	return $text;
 }
 
 
@@ -283,9 +267,7 @@ function fixquotes($text)
  		array(chr(145), chr(146), chr(147), chr(148), chr(150), chr(151), chr(133)),
  		array("'", "'", '"', '"', '-', '--', '...'),
 		$text);
-		
 	return htmlentities($text, ENT_QUOTES, 'UTF-8', false);
-
 }
 
 
@@ -294,7 +276,7 @@ function fixquotes($text)
 //
 function cleanupfilename($filename)
 {
-  return preg_replace("/[^\.A-Z0-9_-]/i","_",stripslashes($filename));
+	return preg_replace("/[^\.A-Z0-9_-]/i","_",stripslashes($filename));
 }
 
 
@@ -307,7 +289,7 @@ function cleanupfilename($filename)
 //
 function str_endswith($string, $suffix)
 {
-  return strlen($suffix)>0 && substr($string,strlen($string)-strlen($suffix))==$suffix;
+	return strlen($suffix)>0 && substr($string,strlen($string)-strlen($suffix))==$suffix;
 }
 
 //
@@ -315,7 +297,7 @@ function str_endswith($string, $suffix)
 //
 function str_startswith($string, $prefix)
 {
-  return strlen($prefix)>0 && substr($string,0,strlen($prefix))==$prefix;
+	return strlen($prefix)>0 && substr($string,0,strlen($prefix))==$prefix;
 }
 
 //
@@ -323,7 +305,7 @@ function str_startswith($string, $prefix)
 //
 function str_containsstr($haystack, $needle)
 {
-  return strlen($needle)>0 && strpos($haystack,$needle) >=0;
+	return strlen($needle)>0 && strpos($haystack,$needle) >=0;
 }
 
 // *************************************************************************
@@ -336,23 +318,22 @@ function str_containsstr($haystack, $needle)
 //
 function makearticledate($day,$month,$year)
 {
-  $result="";
-  if($year!="0000")
-  {
-    $result=$year;
-
-    if($month)
-    {
-      $month=getlangarray("date_month",$month);
-      $result=$month.' '.$result;
-      if($day)
-      {
-        $result=$day.' '.$result;
-      }
-    }
-  }
-
-  return $result;
+	$result="";
+	if($year!="0000")
+	{
+		$result=$year;
+		
+		if($month)
+		{
+			$month=getlangarray("date_month",$month);
+			$result=$month.' '.$result;
+			if($day)
+			{
+				$result=$day.' '.$result;
+			}
+		}
+	}
+	return $result;
 }
 
 //
@@ -360,36 +341,36 @@ function makearticledate($day,$month,$year)
 //
 function calculateimagedimensions($filename,$factor=1)
 {
-  if(!($factor>=0)) $factor=1;
-  $resized=false;
-  if(file_exists($filename)&& filetype($filename)=="file")
-  {
-    $imageproperties=@getimagesize($filename);
-    $width=$imageproperties[0];
-    $height=$imageproperties[1];
-
-    if($factor>0)
-    {
-      $maxdimension=MAXIMAGEDIMENSION/$factor;
-
-      if($width>$maxdimension)
-      {
-        $resized=true;
-        $test=ceil($width / $maxdimension); // add a little more because captioned images are framed
-        $width=floor($width/$test);
-        $height=floor($height/$test);
-      }
-      if($height>$maxdimension)
-      {
-        $resized=true;
-        $test=ceil($height / $maxdimension);
-        $width=floor($width/$test);
-        $height=floor($height/$test);
-      }
-    }
-    return array("width" => $width, "height" => $height, "resized" => $resized);
-  }
-  else return array("width" => 0, "height" => 0, "resized" => false);
+	if(!($factor>=0)) $factor=1;
+	$resized=false;
+	if(file_exists($filename)&& filetype($filename)=="file")
+	{
+		$imageproperties=@getimagesize($filename);
+		$width=$imageproperties[0];
+		$height=$imageproperties[1];
+		
+		if($factor>0)
+		{
+			$maxdimension=MAXIMAGEDIMENSION/$factor;
+			
+			if($width>$maxdimension)
+			{
+				$resized=true;
+				$test=ceil($width / $maxdimension); // add a little more because captioned images are framed
+				$width=floor($width/$test);
+				$height=floor($height/$test);
+			}
+			if($height>$maxdimension)
+			{
+				$resized=true;
+				$test=ceil($height / $maxdimension);
+				$width=floor($width/$test);
+				$height=floor($height/$test);
+			}
+		}
+		return array("width" => $width, "height" => $height, "resized" => $resized);
+	}
+	else return array("width" => 0, "height" => 0, "resized" => false);
 }
 
 //
@@ -397,14 +378,13 @@ function calculateimagedimensions($filename,$factor=1)
 //
 function getimagelinkpath($filename,$subpath)
 {
-  $localpath=getproperty("Local Path");
-  $domain=getproperty("Domain Name");
-  $imagepath=getproperty("Image Upload Path");
-  $result='http://'.$domain.'/';
-  if($localpath) $result.=$localpath.'/';
-  $result.=$imagepath.$subpath.'/'.rawurlencode(basename($filename));
-  //print("#".$filename." - ".$subpath."*".$result);
-  return $result;
+	$localpath=getproperty("Local Path");
+	$domain=getproperty("Domain Name");
+	$imagepath=getproperty("Image Upload Path");
+	$result='http://'.$domain.'/';
+	if($localpath) $result.=$localpath.'/';
+	$result.=$imagepath.$subpath.'/'.rawurlencode(basename($filename));
+	return $result;
 }
 
 
@@ -414,11 +394,11 @@ function getimagelinkpath($filename,$subpath)
 //
 function getbannerlinkpath($filename)
 {
-  $localpath=getproperty("Local Path");
-  $domain=getproperty("Domain Name");
-  $result='http://'.$domain.'/';
-  if($localpath) $result.=$localpath.'/';
-  return $result.'img/banners/'.rawurlencode(basename($filename));
+	$localpath=getproperty("Local Path");
+	$domain=getproperty("Domain Name");
+	$result='http://'.$domain.'/';
+	if($localpath) $result.=$localpath.'/';
+	return $result.'img/banners/'.rawurlencode(basename($filename));
 }
 
 
@@ -427,11 +407,11 @@ function getbannerlinkpath($filename)
 //
 function getprojectrootlinkpath()
 {
-  $localpath=getproperty("Local Path");
-  $domain=getproperty("Domain Name");
-  $result='http://'.$domain.'/';
-  if($localpath) $result.=$localpath.'/';
-  return $result;
+	$localpath=getproperty("Local Path");
+	$domain=getproperty("Domain Name");
+	$result='http://'.$domain.'/';
+	if($localpath) $result.=$localpath.'/';
+	return $result;
 }
 
 //
@@ -439,31 +419,31 @@ function getprojectrootlinkpath()
 //
 function makelinkparameters($assoc_array, $showSID=false)
 {
-  $params="";
-  $counter=0;
-  if(count($assoc_array>0))
-  {
-    $keys=array_keys($assoc_array);
-    $values=array_values($assoc_array);
-    if(!$showSID && array_key_exists(0, $keys) && ($keys[0]==="sid"))
-    {
-      $counter++;
-    }
-    if(array_key_exists($counter, $keys))
-    {
-      $params.="?".$keys[$counter]."=".$values[$counter];
-    }
-    $counter++;
-    for($i=$counter;$i<count($keys);$i++)
-    {
-      if($showSID || !($keys[$i]==="sid"))
-      {
-        if(strlen($values[$i])>0)
-          $params.="&".$keys[$i]."=".$values[$i];
-      }
-    }
-  }
-  return $params;
+	$params="";
+	$counter=0;
+	if(count($assoc_array>0))
+	{
+		$keys=array_keys($assoc_array);
+		$values=array_values($assoc_array);
+		if(!$showSID && array_key_exists(0, $keys) && ($keys[0]==="sid"))
+		{
+			$counter++;
+		}
+		if(array_key_exists($counter, $keys))
+		{
+			$params.="?".$keys[$counter]."=".$values[$counter];
+		}
+		$counter++;
+		for($i=$counter;$i<count($keys);$i++)
+		{
+			if($showSID || !($keys[$i]==="sid"))
+			{
+				if(strlen($values[$i])>0)
+					$params.="&".$keys[$i]."=".$values[$i];
+			}
+		}
+	}
+	return $params;
 }
 
 
@@ -471,20 +451,18 @@ function makelinkparameters($assoc_array, $showSID=false)
 //
 function getclientip()
 {
-  $clientip=$_SERVER['REMOTE_ADDR'];
-  $result=($clientip === long2ip(ip2long($clientip)));
-  if($result)
-  {
-    $result=ip2long($clientip);
-  }
-  return $result;
+	$clientip=$_SERVER['REMOTE_ADDR'];
+	$result=($clientip === long2ip(ip2long($clientip)));
+	if($result) $result=ip2long($clientip);
+	return $result;
 }
+
 
 // seed with microseconds
 function make_seed()
 {
-   list($usec, $sec) = explode(' ', microtime());
-   return (float) $sec + ((float) $usec * 100000);
+	list($usec, $sec) = explode(' ', microtime());
+	return (float) $sec + ((float) $usec * 100000);
 }
 
 

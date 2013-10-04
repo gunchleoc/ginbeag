@@ -13,18 +13,18 @@ include_once($projectroot."includes/objects/elements.php");
 //
 class SiteDBUtilsBackupForm extends Template {
 
-  function SiteDBUtilsBackupForm()
-  {
-    parent::__construct();
-    $this->stringvars['backupactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=backup&action=sitedb';
-    $this->stringvars['cacheactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=cache&action=sitedb';
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/site/dbutilsbackupform.tpl");
-  }
+	function SiteDBUtilsBackupForm()
+	{
+		parent::__construct();
+		$this->stringvars['backupactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=backup&action=sitedb';
+		$this->stringvars['cacheactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=cache&action=sitedb';
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/site/dbutilsbackupform.tpl");
+	}
 }
 
 
@@ -33,17 +33,17 @@ class SiteDBUtilsBackupForm extends Template {
 //
 class SiteDBUtilsDBDump extends Template {
 
-  function SiteDBUtilsDBDump($dump)
-  {
-	parent::__construct();
-    $this->stringvars['dump']=$dump;
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/site/dbutilsdbdump.tpl");
-  }
+	function SiteDBUtilsDBDump($dump)
+	{
+		parent::__construct();
+		$this->stringvars['dump']=$dump;
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/site/dbutilsdbdump.tpl");
+	}
 }
 
 
@@ -52,16 +52,16 @@ class SiteDBUtilsDBDump extends Template {
 //
 class SiteDBUtilsTableHeader extends Template {
 
-  function SiteDBUtilsTableHeader($header)
-  {
-  	parent::__construct();
-    $this->stringvars['header']=$header;
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/site/dbutilsshowtableheader.tpl");
-  }
+	function SiteDBUtilsTableHeader($header)
+	{
+		parent::__construct();
+		$this->stringvars['header']=$header;
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/site/dbutilsshowtableheader.tpl");
+	}
 }
 ?>

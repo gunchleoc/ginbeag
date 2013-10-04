@@ -34,34 +34,34 @@ include_once($projectroot."includes/objects/page.php");
 
 if(isset($_POST['user']))
 {
-  $user=trim($_POST['user']);
-  $userid=getpublicuserid($user);
-
-  if(!$userid)
-  {
-  	$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
-    $loginform = new LoginForm($user,getlang("login_error_username"));
-  }
-  elseif(ispublicuseractive($userid))
-  {
-    $login=publiclogin($user,trim($_POST['pass']));
-    if(array_key_exists('sid',$login))
-    {
-      $_GET['sid']= $login['sid'];
-      $contenturl='index.php'.makelinkparameters($_GET,true);
-      $header = new HTMLHeader("Login","Login",$login['message'],$contenturl,getlang("login_enter"),true);
-    }
-    else
-    {
-    	$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
-      	$loginform = new LoginForm($user,$login['message']);
-    }
-  }
-  else
-  {
-  	$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
-    $loginform = new LoginForm("",getlang("login_error_inactive"));
-  }
+	$user=trim($_POST['user']);
+	$userid=getpublicuserid($user);
+	
+	if(!$userid)
+	{
+		$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
+		$loginform = new LoginForm($user,getlang("login_error_username"));
+	}
+	elseif(ispublicuseractive($userid))
+	{
+		$login=publiclogin($user,trim($_POST['pass']));
+		if(array_key_exists('sid',$login))
+		{
+			$_GET['sid']= $login['sid'];
+			$contenturl='index.php'.makelinkparameters($_GET,true);
+			$header = new HTMLHeader("Login","Login",$login['message'],$contenturl,getlang("login_enter"),true);
+		}
+		else
+		{
+			$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
+			$loginform = new LoginForm($user,$login['message']);
+		}
+	}
+	else
+	{
+		$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
+		$loginform = new LoginForm("",getlang("login_error_inactive"));
+	}
 }
 else
 {

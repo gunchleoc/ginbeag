@@ -21,15 +21,15 @@ include_once($projectroot."includes/objects/images.php");
 //
 class Editor extends Template {
 
-    function Editor($page,$item, $elementtype, $title="Text", $iscollapsed=true) {
+    function Editor($page,$item, $elementtype, $title="Text", $iscollapsed=true)
+    {
     	parent::__construct($page.'-'.$item);
+		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['javascript']=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editor.js");
     
 		$this->stringvars['item']=$item;
 		$this->stringvars['elementtype']=$elementtype;
 		$this->stringvars['title']=$title;
-				
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		$this->stringvars['javascript']=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editor.js");
 		
 		if($iscollapsed)
 			$this->vars['editorcontents']= new EditorContentsCollapsed($page,$item, $elementtype,"Edit ".$title);
@@ -42,7 +42,7 @@ class Editor extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/editor.tpl");
+		$this->addTemplate("admin/editor.tpl");
     }
 }
 
@@ -51,7 +51,8 @@ class Editor extends Template {
 //
 class EditorContentsExpanded extends Template {
 
-    function EditorContentsExpanded($page,$item, $elementtype,$title="Edit text", $edittext=false) {
+    function EditorContentsExpanded($page,$item, $elementtype,$title="Edit text", $edittext=false)
+    {
     	parent::__construct($page.'-'.$item);
     
 		$this->stringvars['item']=$item;
@@ -66,20 +67,17 @@ class EditorContentsExpanded extends Template {
 		}
 		else
 		{
-			//$this->stringvars['text']="Text  ".$elementtype.", page ".$page.", item ".$item.".";
-			
 			$text = geteditortext($page,$item, $elementtype);
 			$this->stringvars['text']=input2html($text);
 	      	$this->stringvars['previewtext']=text2html($text);
 		}
-      	
       	$this->vars['styleform']=new OptionForm("0",array(0=>"0", 1=>"en"),array(0=>"-- Style --", 1=>"English"),$this->stringvars['jsid']."styleform","",1);
     }
 
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/editorcontentsexpanded.tpl");
+		$this->addTemplate("admin/editorcontentsexpanded.tpl");
     }
 }
 
@@ -89,7 +87,8 @@ class EditorContentsExpanded extends Template {
 //
 class EditorContentsCollapsed extends Template {
 
-    function EditorContentsCollapsed($page,$item, $elementtype, $title="Edit text") {
+    function EditorContentsCollapsed($page,$item, $elementtype, $title="Edit text")
+    {
     	parent::__construct($page.'-'.$item);
     
 		$this->stringvars['item']=$item;
@@ -100,7 +99,7 @@ class EditorContentsCollapsed extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/editorcontentscollapsed.tpl");
+		$this->addTemplate("admin/editorcontentscollapsed.tpl");
     }
 }
 
@@ -109,7 +108,8 @@ class EditorContentsCollapsed extends Template {
 //
 class EditorContentsSaveDialog extends Template {
 
-    function EditorContentsSaveDialog($page,$item, $elementtype, $edittext,$title="Edit text") {
+    function EditorContentsSaveDialog($page,$item, $elementtype, $edittext,$title="Edit text")
+    {
     	parent::__construct($page.'-'.$item);
     
 		$this->stringvars['item']=$item;
@@ -121,7 +121,7 @@ class EditorContentsSaveDialog extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/editorcontentssavedialog.tpl");
+		$this->addTemplate("admin/editorcontentssavedialog.tpl");
     }
 }
 
@@ -131,8 +131,8 @@ class EditorContentsSaveDialog extends Template {
 //
 // helper function to get text for editor from database
 //
-function geteditortext($page,$item, $elementtype) {
-
+function geteditortext($page,$item, $elementtype)
+{
 	$text="Text could not be loaded for ".$elementtype.", page ".$page.", item ".$item.".";
 	
 	if($elementtype=="pageintro")

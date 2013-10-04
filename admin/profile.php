@@ -36,37 +36,37 @@ $message="";
 
 if(isset($_POST['contact']))
 {
-  $message='Changed contact page options';
-
-  if(isset($_POST['iscontact']))
-  {
-    changeiscontact($userid,1);
-  }
-  else
-  {
-    changeiscontact($userid,0);
-  }
-  changecontactfunction($userid,fixquotes($_POST['contactfunction']));
+	$message='Changed contact page options';
+	
+	if(isset($_POST['iscontact']))
+	{
+		changeiscontact($userid,1);
+	}
+	else
+	{
+		changeiscontact($userid,0);
+	}
+	changecontactfunction($userid,fixquotes($_POST['contactfunction']));
 }
 else
 {
-  if($pass)
-  {
-    $message=changeuserpassword($userid,$oldpass,$pass,$passconf).' ';
-    $message='Changed password.';
-  }
-  if($email)
-  {
-    if(emailexists($email,$userid))
-    {
-      $message.=' E-mail <i>'.$email.'</i> already exists!';
-    }
-    else
-    {
-      changeuseremail($userid,$email);
-      $message.= 'Changed e-mail address.';
-    }
-  }
+	if($pass)
+	{
+		$message=changeuserpassword($userid,$oldpass,$pass,$passconf).' ';
+		$message='Changed password.';
+	}
+	if($email)
+	{
+		if(emailexists($email,$userid))
+		{
+			$message.=' E-mail <i>'.$email.'</i> already exists!';
+		}
+		else
+		{
+			changeuseremail($userid,$email);
+			$message.= 'Changed e-mail address.';
+		}
+	}
 }
 
 $content = new AdminMain($page,"profile",$message,new ProfilePage($userid));

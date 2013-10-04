@@ -10,35 +10,27 @@ include_once($projectroot."includes/objects/template.php");
 //
 class HTMLHeader extends Template {
 
-
-    function __construct($title,$headertitle,$message="", $redirecturl="",$urltext="If the page does not load, use this link", $isredirect=false,$stylesheet="main.css",$scriptpaths=array())
+    function HTMLHeader($title,$headertitle,$message="", $redirecturl="",$urltext="If the page does not load, use this link", $isredirect=false,$stylesheet="main.css",$scriptpaths=array())
     {
     	parent::__construct();
-      $this->stringvars['stylesheet']=getCSSPath($stylesheet);
-      $this->stringvars['site_name']=title2html(getproperty("Site Name"));
-      $this->stringvars['header_title']=$headertitle;
-      if(strlen($title)>0)
-        $this->stringvars['title']=$title;
-      if(strlen($message)>0)
-        $this->stringvars['message']=$message;
-      if(strlen($isredirect)>0)
-        $this->stringvars['is_redirect']="redirect";
-
-      if(strlen($redirecturl)>0)
-        $this->stringvars['url']=$redirecturl;
-
-      $this->stringvars['url_text']=$urltext;
-      	
-      if (count($scriptpaths))
-      {
-      	$this->stringvars['script']="";
-      	for($i=0;$i<count($scriptpaths);$i++)
-      	{
-      		$this->stringvars['script'].='<script type="text/javascript" src="'.getprojectrootlinkpath().$scriptpaths[$i].'"></script>';
-      	}
-      }
-      //flush(); // partial browser rendering
-    }
+		$this->stringvars['stylesheet']=getCSSPath($stylesheet);
+		$this->stringvars['site_name']=title2html(getproperty("Site Name"));
+		$this->stringvars['header_title']=$headertitle;
+		if(strlen($title)>0) $this->stringvars['title']=$title;
+		if(strlen($message)>0) $this->stringvars['message']=$message;
+		if(strlen($isredirect)>0) $this->stringvars['is_redirect']="redirect";
+		if(strlen($redirecturl)>0) $this->stringvars['url']=$redirecturl;
+		$this->stringvars['url_text']=$urltext;
+		
+		if (count($scriptpaths))
+		{
+			$this->stringvars['script']="";
+			for($i=0;$i<count($scriptpaths);$i++)
+			{
+				$this->stringvars['script'].='<script type="text/javascript" src="'.getprojectrootlinkpath().$scriptpaths[$i].'"></script>';
+			}
+		}
+	}
 
     // assigns templates
     function createTemplates()
@@ -51,7 +43,6 @@ class HTMLHeader extends Template {
 // a general footer
 //
 class HTMLFooter extends Template {
-
 
     function HTMLFooter()
     {
@@ -70,20 +61,17 @@ class HTMLFooter extends Template {
 // container for a highlighted message
 //
 class Message extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-
 
     function Message($message)
     {
-    	parent::__construct();
-       $this->stringvars['message']=$message;
+		parent::__construct();
+		$this->stringvars['message']=$message;
     }
 
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("message.tpl");
+		$this->addTemplate("message.tpl");
     }
 }
 

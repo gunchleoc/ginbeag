@@ -30,14 +30,16 @@ class ContactPage extends Template {
 		
 
 		// switches
-		if($errormessage!="") {
+		if($errormessage!="")
+		{
 			$this->stringvars['error']="true";
 			$this->stringvars['errormessage']=$errormessage;
 			$this->vars['emailinfo']= new EmailInfo($email,$subject,$messagetext,$sendcopy);
 			$this->stringvars['l_tryagain']=getlang("email_tryagain");
 			$this->vars['contactform']=new ContactForm($email,$subject,$messagetext,$sendcopy,$userid);
 		}
-		elseif($sendmail) {
+		elseif($sendmail)
+		{
 			$this->stringvars['sendmail']="true";
 			$this->vars['emailinfo']= new EmailInfo($email,$subject,$messagetext,$sendcopy);
 			$this->stringvars['l_success']=getlang("email_thisemailwassent");
@@ -53,9 +55,8 @@ class ContactPage extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("contactpage.tpl");
+		$this->addTemplate("contactpage.tpl");
     }
-
 }
 
 
@@ -72,11 +73,8 @@ class ContactForm extends Template {
     {
     	global $emailvariables;
     	parent::__construct();
-    	
-   	
+
     	$contacts=getallcontacts();
-    	
-  
   		$descriptions = array();
   		for($i=0;$i<count($contacts);$i++)
   		{
@@ -122,7 +120,7 @@ class ContactForm extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("contactform.tpl");
+		$this->addTemplate("contactform.tpl");
     }
 
 }

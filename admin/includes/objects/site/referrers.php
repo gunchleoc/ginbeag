@@ -13,31 +13,30 @@ include_once($projectroot."includes/objects/elements.php");
 //
 class SiteReferrers extends Template {
 
-  function SiteReferrers()
-  {
-  	parent::__construct();
-  	
-  	$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitereferrers';
-  	
-  	$blockedrefs=getblockedreferrers();
-  	
-  	$noofrefs =count($blockedrefs);
-  	
-  	if($noofrefs>0)
-  	{
-  	
-  		for($i=0;$i<$noofrefs;$i++)
-  		{
-			$this->listvars['blockedreferrer'][] = new SiteReferrer($blockedrefs[$i]);
+	function SiteReferrers()
+	{
+		parent::__construct();
+		
+		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitereferrers';
+		
+		$blockedrefs=getblockedreferrers();
+		
+		$noofrefs =count($blockedrefs);
+		
+		if($noofrefs>0)
+		{
+			for($i=0;$i<$noofrefs;$i++)
+			{
+				$this->listvars['blockedreferrer'][] = new SiteReferrer($blockedrefs[$i]);
+			}
 		}
 	}
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/site/referrers.tpl");
-  }
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/site/referrers.tpl");
+	}
 }
 
 

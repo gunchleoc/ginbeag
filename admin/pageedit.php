@@ -44,90 +44,90 @@ $pagetype=getpagetype($page);
 
 if(!$page)
 {
-  $editpage = new DonePage("No Page Selected","&action=show","admin.php","Admin home");
-  $message="Please select a page first";
+	$editpage = new DonePage("No Page Selected","&action=show","admin.php","Admin home");
+	$message="Please select a page first";
 }
 
 // general actions
 elseif($action==="edit")
 {
-  $message = getpagelock($page);
-  if(!$message)
-  {
-    // update external
-    if($pagetype==="external")
-    {
-      if(isset($_POST['changelink']))
-      {
-        updateexternallink($page,$_POST['link']);
-      }
-    }
-  }
-  else
-  {
-    $editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
-  }
+	$message = getpagelock($page);
+	if(!$message)
+	{
+		// update external
+		if($pagetype==="external")
+		{
+			if(isset($_POST['changelink']))
+			{
+				updateexternallink($page,$_POST['link']);
+			}
+		}
+	}
+	else
+	{
+		$editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
+	}
 }
 elseif($action==="rename")
 {
-  renamepage($page, fixquotes($_POST['navtitle']), fixquotes($_POST['title']));
-  updateeditdata($page, $sid);
-  unlockpage($page);
-  $message="Renamed page to:<br /> <em>".edittitle2html($_POST['navtitle'])."</br />".edittitle2html($_POST['title'])."</em>";
-  $editpage = new DoneRedirect($page,"Renamed page","&action=edit","","Edit this page");
+	renamepage($page, fixquotes($_POST['navtitle']), fixquotes($_POST['title']));
+	updateeditdata($page, $sid);
+	unlockpage($page);
+	$message="Renamed page to:<br /> <em>".edittitle2html($_POST['navtitle'])."</br />".edittitle2html($_POST['title'])."</em>";
+	$editpage = new DoneRedirect($page,"Renamed page","&action=edit","","Edit this page");
 }
 elseif($action==="move")
 {
-  if(isset($_GET['moveup']))
-  {
-    $title="Moved page up";
-    movepage($page, "up", $_GET['positions']);
-    $message="Moved the page <em>".title2html(getpagetitle($page))."</em> up ".$_GET['positions']." place(s)";
-  }
-  elseif(isset($_GET['movedown']))
-  {
-    $title="Moved page down";
-    movepage($page, "down", $_GET['positions']);
-    $message="Moved the page <em>".title2html(getpagetitle($page))."</em> down".$_GET['positions']." place(s)";
-  }
-  elseif(isset($_GET['movetop']))
-  {
-    $title="Moved page to the top";
-    movepage($page, "top");
-    $message="Moved the page <em>".title2html(getpagetitle($page))."</em> to the top";
-  }
-  else
-  {
-    $title="Moved page to the bottom";
-    movepage($page, "bottom");
-    $message="Moved the page <em>".title2html(getpagetitle($page))."</em> to the bottom";
-  }
-  updateeditdata(getparent($page), $sid);
-  unlockpage($page);
-  
-  $editpage = new DoneRedirect($page,$title,"&action=edit","","Edit this page");
+	if(isset($_GET['moveup']))
+	{
+		$title="Moved page up";
+		movepage($page, "up", $_GET['positions']);
+		$message="Moved the page <em>".title2html(getpagetitle($page))."</em> up ".$_GET['positions']." place(s)";
+	}
+	elseif(isset($_GET['movedown']))
+	{
+		$title="Moved page down";
+		movepage($page, "down", $_GET['positions']);
+		$message="Moved the page <em>".title2html(getpagetitle($page))."</em> down".$_GET['positions']." place(s)";
+	}
+	elseif(isset($_GET['movetop']))
+	{
+		$title="Moved page to the top";
+		movepage($page, "top");
+		$message="Moved the page <em>".title2html(getpagetitle($page))."</em> to the top";
+	}
+	else
+	{
+		$title="Moved page to the bottom";
+		movepage($page, "bottom");
+		$message="Moved the page <em>".title2html(getpagetitle($page))."</em> to the bottom";
+	}
+	updateeditdata(getparent($page), $sid);
+	unlockpage($page);
+	
+	$editpage = new DoneRedirect($page,$title,"&action=edit","","Edit this page");
 }
 elseif($action==="findnewparent")
 {
-  $editpage = new SelectNewParentForm();
+	$editpage = new SelectNewParentForm();
 }
 elseif($action==="newparent")
 {
-  $newparent=$_POST['parentnode'];
-  $message='Moved page <i>'.title2html(getpagetitle($page)).'</i> to <i>';
-  if($newparent)
-  {
-    $message.=title2html(getpagetitle($newparent));
-  }
-  else
-  {
-    $message.='Site Root';
-  }
-  $message.="</i>";
-  $message.="<br />".movetonewparentpage($page,$newparent);
-  updateeditdata($newparent, $sid);
-  unlockpage($page);
-  $editpage = new DoneRedirect($page,"Moved page to a new parent page","&action=edit","","Edit this page");
+	$newparent=$_POST['parentnode'];
+	$message='Moved page <i>'.title2html(getpagetitle($page)).'</i> to <i>';
+	if($newparent)
+	{
+		$message.=title2html(getpagetitle($newparent));
+	}
+	else
+	{
+		$message.='Site Root';
+	}
+	$message.="</i>";
+	$message.="<br />".movetonewparentpage($page,$newparent);
+	updateeditdata($newparent, $sid);
+	unlockpage($page);
+	$editpage = new DoneRedirect($page,"Moved page to a new parent page","&action=edit","","Edit this page");
 }
 elseif($action==="publish")
 {
@@ -158,8 +158,8 @@ elseif($action==="setpublishable")
 	    $title="Marked a page as internal";
 		if(ispublished($page))
 		{
-		  $message.='<br />The page had already been published and has now been removed from public view.';
-		  unpublish($page);
+			$message.='<br />The page had already been published and has now been removed from public view.';
+			unpublish($page);
 		}
 		hide($page);
 	}
@@ -168,37 +168,37 @@ elseif($action==="setpublishable")
 }
 elseif($action==="setpermissions")
 {
-  updatecopyright($page,fixquotes($_POST['copyright']),fixquotes($_POST['imagecopyright']),$_POST['permission']);
-  // todo if access restricted
-  if (ispagerestricted($page)) setshowpermissionrefusedimages($page, $_POST["show"]);
-  updateeditdata($page, $sid);
-  $message="Edited copyright permissions";
+	updatecopyright($page,fixquotes($_POST['copyright']),fixquotes($_POST['imagecopyright']),$_POST['permission']);
+	// todo if access restricted
+	if (ispagerestricted($page)) setshowpermissionrefusedimages($page, $_POST["show"]);
+	updateeditdata($page, $sid);
+	$message="Edited copyright permissions";
 }
 // access restriction
 elseif($action==="restrictaccess")
 {
-  if($_POST["restrict"])
-  {
-    restrictaccess($page);
-  }
-  else
-  {
-    removeaccessrestriction($page);
-    setshowpermissionrefusedimages($page, 0);
-  }
-  $message="Edited page restrictions";
+	if($_POST["restrict"])
+	{
+		restrictaccess($page);
+	}
+	else
+	{
+		removeaccessrestriction($page);
+		setshowpermissionrefusedimages($page, 0);
+	}
+	$message="Edited page restrictions";
 }
 elseif($action==="restrictaccessusers")
 {
-  if(isset($_POST["addpublicusers"]))
-  {
-    addpageaccess($_POST["selectusers"],$page);
-  }
-  else
-  {
-    removepageaccess($_POST["selectusers"],$page);
-  }
-  $message="Edited user access";
+	if(isset($_POST["addpublicusers"]))
+	{
+		addpageaccess($_POST["selectusers"],$page);
+	}
+	else
+	{
+		removepageaccess($_POST["selectusers"],$page);
+	}
+	$message="Edited user access";
 }
 
 if(!isset($editpage)) $editpage = new EditPage($page);

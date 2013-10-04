@@ -32,34 +32,34 @@ $link=$rootlink.'index.php?page='.$page;
 
 if(hasrssfeed($page))
 {
-  $description=title2html(getpagetitle($page));
-  $language="en-us";
-
-  $permissions=getcopyright($page);
-  $copyright=title2html($permissions['copyright']);
-
-  $imageurl=getproperty("Left Header Image");
-  if(!$imageurl) $imageurl=getproperty("Right Header Image");
-  $imageurl=$rootlink.'img/'.$imageurl;
-  $imagetitle=title2html($sitename);
-  $imagelink=$rootlink;
-
-
-  // get newsitems, needed here for pubdate
-  $newsitemsperpage=getproperty("News Items Per Page");
-  if(!($newsitemsperpage>0)) $newsitemsperpage = 5;
-  $newsitems=getpublishednewsitems($page,$newsitemsperpage,0);
-  
-  $contents=getnewsitemcontents($newsitems[0]);
-  $pubDate=@date("r", strtotime($contents['date']));
-  $lastBuildDate=@date("r", strtotime(geteditdate($page)));
-  //$category=title2html(getproperty("Google Keywords"));
-
-  //header( "Content-type: text/xml" );
-
-  print('<');
-  print('?xml version="1.0" encoding="utf-8"?');
-  print('>');
+	$description=title2html(getpagetitle($page));
+	$language="en-us";
+	
+	$permissions=getcopyright($page);
+	$copyright=title2html($permissions['copyright']);
+	
+	$imageurl=getproperty("Left Header Image");
+	if(!$imageurl) $imageurl=getproperty("Right Header Image");
+	$imageurl=$rootlink.'img/'.$imageurl;
+	$imagetitle=title2html($sitename);
+	$imagelink=$rootlink;
+	
+	
+	// get newsitems, needed here for pubdate
+	$newsitemsperpage=getproperty("News Items Per Page");
+	if(!($newsitemsperpage>0)) $newsitemsperpage = 5;
+	$newsitems=getpublishednewsitems($page,$newsitemsperpage,0);
+	
+	$contents=getnewsitemcontents($newsitems[0]);
+	$pubDate=@date("r", strtotime($contents['date']));
+	$lastBuildDate=@date("r", strtotime(geteditdate($page)));
+	//$category=title2html(getproperty("Google Keywords"));
+	
+	//header( "Content-type: text/xml" );
+	
+	print('<');
+	print('?xml version="1.0" encoding="utf-8"?');
+	print('>');
   //<<!DOCTYPE rss SYSTEM "http://my.netscape.com/publish/formats/rss-0.91.dtd">
 ?>
 
@@ -72,7 +72,7 @@ if(hasrssfeed($page))
 <description><![CDATA[<?php print(html2xml($description));?>]]></description>
 <language><?php print($language);?></language>
 <?php
-  if($copyright) print('<copyright><![CDATA['.html2xml($copyright).']]></copyright>');
+	if($copyright) print('<copyright><![CDATA['.html2xml($copyright).']]></copyright>');
 ?>
 <image>
 <url><![CDATA[<?php print($imageurl);?>]]></url>
@@ -85,24 +85,24 @@ if(hasrssfeed($page))
 
 <?php
 
-  for($i=0;$i<count($newsitems);$i++)
-  {
-    $contents=getnewsitemcontents($newsitems[$i]);
-//  print_r($contents);
-//  print('<br />');
-    $title=title2html($contents['title']);
-    $description=text2html($contents['synopsis']);
-    if($contents['source'])
-    {
-      $source.=title2html($contents['source']);
-      $description.='<p>Source: '.title2html($contents['source']).'</p>';
-    }
-    $sourcelink=$contents['sourcelink'];
-    if(str_startswith($sourcelink,'?page='))
-    {
-      $sourcelink=$rootlink.'index.php'.$sourcelink;
-    }
-    $pubDate=@date("r", strtotime($contents['date']));
+	for($i=0;$i<count($newsitems);$i++)
+	{
+		$contents=getnewsitemcontents($newsitems[$i]);
+		//  print_r($contents);
+		//  print('<br />');
+		$title=title2html($contents['title']);
+		$description=text2html($contents['synopsis']);
+		if($contents['source'])
+		{
+			$source.=title2html($contents['source']);
+			$description.='<p>Source: '.title2html($contents['source']).'</p>';
+		}
+		$sourcelink=$contents['sourcelink'];
+		if(str_startswith($sourcelink,'?page='))
+		{
+			$sourcelink=$rootlink.'index.php'.$sourcelink;
+		}
+		$pubDate=@date("r", strtotime($contents['date']));
   
 /*  $categories=getcategoriesfornewsitem($newsitems[$i]);
   $categorynames=array();
@@ -118,20 +118,20 @@ if(hasrssfeed($page))
   <title><![CDATA[<?php print(html2xml($title));?>]]></title>
   <description><![CDATA[<?php print(html2xml($description));?>]]></description>
 <?php
-    if($sourcelink)
-    {
-      print('<link><![CDATA['.$sourcelink.']]></link>');
-    }
-    else
-    {
-      print('<link><![CDATA['.$link.']]></link>');
-    }
-    if($source && $sourcelink)
-    {
-      print('<source url="'.link2xml($sourcelink).'"><![CDATA[');
-      print(html2xml($source));
-      print(']]></source>');
-    }
+	    if($sourcelink)
+	    {
+			print('<link><![CDATA['.$sourcelink.']]></link>');
+	    }
+	    else
+	    {
+			print('<link><![CDATA['.$link.']]></link>');
+	    }
+	    if($source && $sourcelink)
+	    {
+			print('<source url="'.link2xml($sourcelink).'"><![CDATA[');
+			print(html2xml($source));
+			print(']]></source>');
+	    }
 ?>
   <pubDate><?php print($pubDate);?></pubDate>
   
@@ -139,7 +139,7 @@ if(hasrssfeed($page))
 </item>
 
 <?php
-  }
+	}
 }
 else
 {
@@ -161,7 +161,7 @@ $db->closedb();
 
 function html2xml($text)
 {
-  return strip_tags($text,'<p> </p> <br> <br />');
+	return strip_tags($text,'<p> </p> <br> <br />');
 }
 
 function link2xml($link)

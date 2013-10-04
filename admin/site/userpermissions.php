@@ -14,7 +14,7 @@ checksession($sid);
 
 if(!isadmin($sid))
 {
-  die('<p class="highlight">You have no permission for this area</p>');
+	die('<p class="highlight">You have no permission for this area</p>');
 }
 
 if(isset($_GET['page'])) $page=$_GET['page'];
@@ -34,50 +34,50 @@ else $username="";
 
 if(isset($_POST['searchuser']))
 {
-  $userid=getuserid($_POST['username']);
+	$userid=getuserid($_POST['username']);
 }
 elseif(isset($_POST['searchpublicuser']))
 {
-  $userid=getpublicuserid($_POST['username']);
+	$userid=getpublicuserid($_POST['username']);
 }
 if((isset($_POST['searchuser']) || isset($_POST['searchpublicuser'])) && !$userid)
 {
-  $message='User <i>'.$_POST['username'].'</i> not found.';
+	$message='User <i>'.$_POST['username'].'</i> not found.';
 }
 // public users for restricted areas
 elseif(isset($_GET['changeaccess']) && $_GET['changeaccess']==="removepage")
 {
-  removepageaccess(array(0 => $userid),$_POST["pageid"]);
-  $message='Removed Page';
+	removepageaccess(array(0 => $userid),$_POST["pageid"]);
+	$message='Removed Page';
 }
 elseif(isset($_GET['changeaccess']) && $_GET['changeaccess']==="addpage")
 {
-  addpageaccess(array(0 => $userid),$_POST["pageid"]);
-  $message='Added Page';
+	addpageaccess(array(0 => $userid),$_POST["pageid"]);
+	$message='Added Page';
 }
 // webpage editors
 elseif(isset($_POST['changelevel']) || isset($_GET['changelevel']))
 {
-  setuserlevel($userid,$_POST['userlevel']);
-  if($_POST['userlevel']==USERLEVEL_USER)
-  {
-    $message='Userlevel for <i>'.getusername($userid).'</i> set to <i>User</i>';
-  }
-  elseif($_POST['userlevel']==USERLEVEL_ADMIN)
-  {
-    $message='Userlevel for <i>'.getusername($userid).'</i> set to <i>Administrator</i>';
-  }
+	setuserlevel($userid,$_POST['userlevel']);
+	if($_POST['userlevel']==USERLEVEL_USER)
+	{
+		$message='Userlevel for <i>'.getusername($userid).'</i> set to <i>User</i>';
+	}
+	elseif($_POST['userlevel']==USERLEVEL_ADMIN)
+	{
+		$message='Userlevel for <i>'.getusername($userid).'</i> set to <i>Administrator</i>';
+	}
 }
 if($userid>0)
 {
-  if(isset($_GET['type']) && $_GET['type']==="public" || isset($_POST['searchpublicuser']))
-  {
-  	$contents= new SitePublicUserAccessForm($userid);
-  }
-  else
-  {
-  	$contents= new SiteUserLevelForm($userid);
-  }
+	if(isset($_GET['type']) && $_GET['type']==="public" || isset($_POST['searchpublicuser']))
+	{
+		$contents= new SitePublicUserAccessForm($userid);
+	}
+	else
+	{
+		$contents= new SiteUserLevelForm($userid);
+	}
 }
 else
 {

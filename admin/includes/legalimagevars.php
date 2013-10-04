@@ -1,9 +1,4 @@
 <?php
-
-// makelinkparameters($_GET,true);
-// todo site
-// todo separate list for admin?
-
 $LEGALVARS = array();
 $LEGALVARS["action"]=1;
 $LEGALVARS["ascdesc"]=1;
@@ -34,7 +29,6 @@ $LEGALVARS["unused"]=1;
 $LEGALVARS["uploader"]=1;
 $LEGALVARS["doorder"]=1;
 
-
 $getkeys=array_keys($_GET);
 
 while($key=current($getkeys))
@@ -47,6 +41,5 @@ while($key=current($getkeys))
 	}
 	next($getkeys);
 }
-
 
 ?>

@@ -54,7 +54,6 @@ class MenuPage extends Template {
 				}
 			}
 	    }
-	
 	    $this->vars['editdata']= new Editdata($showhidden);
 	}
   
@@ -73,8 +72,8 @@ class MenuPage extends Template {
 //
 class ArticleInfo extends Template {
 
-    function ArticleInfo($page,$article) {
-
+    function ArticleInfo($page,$article)
+    {
     	parent::__construct();
 
 		$contents= getarticlepageoverview($article);
@@ -256,13 +255,9 @@ class ArticleMenuPage extends Template {
 // but left intact for display
 //
 class ArticlemenuOrderSelectionForm  extends Template {
-    var $stringvars=array("optionform_name" => "",
-                          "optionform_attributes" => "",
-                          "optionform_size" => "1");
-    var $listvars=array("option" => array());
 
-    function ArticlemenuOrderSelectionForm($order="") {
-    
+    function ArticlemenuOrderSelectionForm($order="")
+    {
     	parent::__construct();
     	
         $this->stringvars['optionform_name'] = "order";
@@ -290,7 +285,8 @@ class ArticlemenuOrderSelectionForm  extends Template {
 //
 class MenuLinkListLink extends Template {
 
-    function MenuLinkListLink($link) {
+    function MenuLinkListLink($link)
+    {
 		parent::__construct();
 
 		$contents=getlinkcontents($link);
@@ -339,8 +335,8 @@ class MenuLinkListLink extends Template {
 //
 class MenuLinkListBranch extends Template {
 
-    function MenuLinkListBranch($linkids) {
-    
+    function MenuLinkListBranch($linkids)
+    {
 		parent::__construct();
 
 		for($i=0;$i<count($linkids);$i++)
@@ -363,8 +359,8 @@ class MenuLinkListBranch extends Template {
 //
 class MenuNavigatorLink extends Template {
 
-	function MenuNavigatorLink($page, $level=0, $showhidden=false) {
-
+	function MenuNavigatorLink($page, $level=0, $showhidden=false)
+	{
 		global $_GET;
 		
 		parent::__construct();

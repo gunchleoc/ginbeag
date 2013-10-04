@@ -141,8 +141,8 @@ class Database {
 	// returns the query result
 	// 1 = success, "" = failure
 	//
-	function singlequery($query) {
-
+	function singlequery($query)
+	{
 		if(DEBUG)
   		{
 	    	$result=@mysql_query($query)
@@ -166,9 +166,8 @@ class Database {
 	// $queries an array of strings with a mysql commands
 	// returns an array of query results
 	// 1 = success, "" = failure
-	function multiquery($queries) {
-	
-	
+	function multiquery($queries)
+	{
 		$result[0]="";
   
 		if(DEBUG)
@@ -217,7 +216,8 @@ class Database {
 	/*
 	 * close DB at end of script
 	 */
-	function closedb() {
+	function closedb()
+	{
 		@mysql_close($db);
 	}
 }
@@ -234,21 +234,20 @@ function getcolumn($fieldname, $table, $condition)
 
 //  print('cond: '.$condition.'<p>');
 
-  $result=array();
-  
-  $query="select ".$fieldname." from ".$table." where ".$condition;
-//  print($query);
-  $sql=$db->singlequery($query);
-  if($sql)
-  {
-    // get column
-    while($row=mysql_fetch_row($sql))
-    {
-      array_push($result,$row[0]);
-
-    }
-  }
-  return $result;
+	$result=array();
+	
+	$query="select ".$fieldname." from ".$table." where ".$condition;
+	//  print($query);
+	$sql=$db->singlequery($query);
+	if($sql)
+	{
+		// get column
+		while($row=mysql_fetch_row($sql))
+		{
+			array_push($result,$row[0]);
+		}
+	}
+	return $result;
 }
 
 //
@@ -257,35 +256,35 @@ function getcolumn($fieldname, $table, $condition)
 function getrowbykey($table, $keyname, $value, $fieldnames = array(0 => '*'))
 {
 	global $db;
-  $result=array();
-
-  $query="select ";
-  $nooffields=count($fieldnames);
-  for($i=0; $i<$nooffields-1;$i++)
-  {
-    $query.=$fieldnames[$i].", ";
-  }
-  $query.=$fieldnames[$nooffields-1];
-  $query.=" from ".$table." where ".$keyname." = '".$value."'";
-
-//  print($query);
-  $sql=$db->singlequery($query);
-  if($sql)
-  {
-    $fields=mysql_num_fields($sql);
-
-    // get row
-    if($row=mysql_fetch_row($sql))
-    {
-      // make associative array
-      for($field=0;$field<$fields;$field++)
-      {
-        $result[mysql_field_name($sql,$field)]=$row[$field];
-      }
-    }
-  }
-//  print_r($result);
-  return $result;
+	$result=array();
+	
+	$query="select ";
+	$nooffields=count($fieldnames);
+	for($i=0; $i<$nooffields-1;$i++)
+	{
+		$query.=$fieldnames[$i].", ";
+	}
+	$query.=$fieldnames[$nooffields-1];
+	$query.=" from ".$table." where ".$keyname." = '".$value."'";
+	
+	//  print($query);
+	$sql=$db->singlequery($query);
+	if($sql)
+	{
+		$fields=mysql_num_fields($sql);
+		
+		// get row
+		if($row=mysql_fetch_row($sql))
+		{
+		// make associative array
+			for($field=0;$field<$fields;$field++)
+			{
+				$result[mysql_field_name($sql,$field)]=$row[$field];
+			}
+		}
+	}
+	//  print_r($result);
+	return $result;
 }
 
 
@@ -296,49 +295,49 @@ function getrowbykey($table, $keyname, $value, $fieldnames = array(0 => '*'))
 function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 => '*'), $orderby="", $ascdesc="ASC")
 {
 	global $db;
-  $result=array();
-
-  $query="select ";
-  $nooffields=count($fieldnames);
-  for($i=0; $i<$nooffields-1;$i++)
-  {
-    $query.=$fieldnames[$i].", ";
-  }
-  $query.=$fieldnames[$nooffields-1];
-  $query.=" from ".$table." where ".$condition;
-  if(strlen($orderby)>0)
-  {
-    $query.=" order by ".$orderby." ".$ascdesc;
-  }
-//  print($query);
-  $sql=$db->singlequery($query);
-  if($sql)
-  {
-    $fields=mysql_num_fields($sql);
-    
-    // get index for field name
-    $found=false;
-    for($field=0;!$found && $field<$fields;$field++)
-    {
-      if(mysql_field_name($sql,$field)==$keyname)
-      {
-        $fieldindex=$field;
-        $found=true;
-      }
-    }
-
-    // get column
-    for($i=0;$row=mysql_fetch_row($sql);$i++)
-    {
-      // make associative array
-      for($field=0;$field<$fields;$field++)
-      {
-        $result[$row[$fieldindex]][mysql_field_name($sql,$field)]=$row[$field];
-      }
-    }
-  }
-//  print_r($result);
-  return $result;
+	$result=array();
+	
+	$query="select ";
+	$nooffields=count($fieldnames);
+	for($i=0; $i<$nooffields-1;$i++)
+	{
+		$query.=$fieldnames[$i].", ";
+	}
+	$query.=$fieldnames[$nooffields-1];
+	$query.=" from ".$table." where ".$condition;
+	if(strlen($orderby)>0)
+	{
+		$query.=" order by ".$orderby." ".$ascdesc;
+	}
+	//  print($query);
+	$sql=$db->singlequery($query);
+	if($sql)
+	{
+		$fields=mysql_num_fields($sql);
+		
+		// get index for field name
+		$found=false;
+		for($field=0;!$found && $field<$fields;$field++)
+		{
+			if(mysql_field_name($sql,$field)==$keyname)
+			{
+				$fieldindex=$field;
+				$found=true;
+			}
+		}
+	
+		// get column
+		for($i=0;$row=mysql_fetch_row($sql);$i++)
+		{
+			// make associative array
+			for($field=0;$field<$fields;$field++)
+			{
+				$result[$row[$fieldindex]][mysql_field_name($sql,$field)]=$row[$field];
+			}
+		}
+	}
+	//  print_r($result);
+	return $result;
 }
 
 
@@ -352,21 +351,20 @@ function getorderedcolumn($fieldname, $table, $condition, $orderby, $ascdesc="DE
 
 //  print('cond: '.$condition.'<p>');
 
-  $result=array();
-
-  $query="select ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
-//  print($query.'<br>');
-  $sql=$db->singlequery($query);
-  if($sql)
-  {
-    // get column
-    while($row=mysql_fetch_row($sql))
-    {
-      array_push($result,$row[0]);
-
-    }
-  }
-  return $result;
+	$result=array();
+	
+	$query="select ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
+	//  print($query.'<br>');
+	$sql=$db->singlequery($query);
+	if($sql)
+	{
+		// get column
+		while($row=mysql_fetch_row($sql))
+		{
+			array_push($result,$row[0]);
+		}
+	}
+	return $result;
 }
 
 //
@@ -378,20 +376,20 @@ function getorderedcolumnlimit($fieldname, $table, $condition, $orderby, $offset
 
 //  print('cond: '.$condition.'<p>');
 
-  $result=array();
-
-  $query="select ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
-  $query.=" limit ".$offset.", ".$number;
-//  print($query.'<br>');
-  $sql=$db->singlequery($query);
-  if($sql)
-  {
-    // get column
-    while($row=mysql_fetch_row($sql))
-    {
-      array_push($result,$row[0]);
-    }
-  }
+	$result=array();
+	
+	$query="select ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
+	$query.=" limit ".$offset.", ".$number;
+	//  print($query.'<br>');
+	$sql=$db->singlequery($query);
+	if($sql)
+	{
+		// get column
+		while($row=mysql_fetch_row($sql))
+		{
+			array_push($result,$row[0]);
+		}
+	}
   return $result;
 }
 
@@ -406,20 +404,20 @@ function getdistinctorderedcolumn($fieldname, $table, $condition, $orderby, $asc
 
 //  print('cond: '.$condition.'<p>');
 
-  $result=array();
-
-  $query="select distinct ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
-//  print($query.'<br>');
-  $sql=$db->singlequery($query);
-  if($sql)
-  {
-    // get column
-    while($row=mysql_fetch_row($sql))
-    {
-      array_push($result,$row[0]);
-    }
-  }
-  return $result;
+	$result=array();
+	
+	$query="select distinct ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
+	//  print($query.'<br>');
+	$sql=$db->singlequery($query);
+	if($sql)
+	{
+		// get column
+		while($row=mysql_fetch_row($sql))
+		{
+			array_push($result,$row[0]);
+		}
+	}
+	return $result;
 }
 
 //
@@ -428,20 +426,18 @@ function getdistinctorderedcolumn($fieldname, $table, $condition, $orderby, $asc
 function getdbelement($fieldname, $table, $conditionkey, $conditionvalue)
 {
 	global $db;
-  $result="";
-
-  $query="select ".$fieldname." from ".$table." where ".$conditionkey." = '".$conditionvalue."';";
-//  print($query.'<br>');
-  $sql=$db->singlequery($query);
-
-  if($sql)
-  {
-    $row=mysql_fetch_row($sql);
-    $result=$row[0];
-  }
-
-
-  return $result;
+	$result="";
+	
+	$query="select ".$fieldname." from ".$table." where ".$conditionkey." = '".$conditionvalue."';";
+	//  print($query.'<br>');
+	$sql=$db->singlequery($query);
+	
+	if($sql)
+	{
+		$row=mysql_fetch_row($sql);
+		$result=$row[0];
+	}
+	return $result;
 }
 
 //
@@ -450,21 +446,21 @@ function getdbelement($fieldname, $table, $conditionkey, $conditionvalue)
 function getmax($fieldname, $table, $condition)
 {
 	global $db;
-
-  $result="";
-
-  $query="select max(".$fieldname.") from ".$table;
-  $query.=" where ".$condition.";";
-  
-//  print($query.'<br>');
-  $sql=$db->singlequery($query);
-
-  if($sql)
-  {
-    $row=mysql_fetch_row($sql);
-    $result=$row[0];
-  }
-  return $result;
+	
+	$result="";
+	
+	$query="select max(".$fieldname.") from ".$table;
+	$query.=" where ".$condition.";";
+	
+	//  print($query.'<br>');
+	$sql=$db->singlequery($query);
+	
+	if($sql)
+	{
+		$row=mysql_fetch_row($sql);
+		$result=$row[0];
+	}
+	return $result;
 }
 
 //
@@ -473,20 +469,20 @@ function getmax($fieldname, $table, $condition)
 function getmin($fieldname, $table, $condition)
 {
 	global $db;
-  $result="";
-
-  $query="select min(".$fieldname.") from ".$table;
-  $query.=" where ".$condition.";";
-
-//  print($query.'<br>');
-  $sql=$db->singlequery($query);
-
-  if($sql)
-  {
-    $row=mysql_fetch_row($sql);
-    $result=$row[0];
-  }
-  return $result;
+	$result="";
+	
+	$query="select min(".$fieldname.") from ".$table;
+	$query.=" where ".$condition.";";
+	
+	//  print($query.'<br>');
+	$sql=$db->singlequery($query);
+	
+	if($sql)
+	{
+		$row=mysql_fetch_row($sql);
+		$result=$row[0];
+	}
+	return $result;
 }
 
 //
@@ -495,20 +491,18 @@ function getmin($fieldname, $table, $condition)
 function countelements($keyname, $table)
 {
 	global $db;
-  $result="";
-
-  $query="select count(".$keyname.") from ".$table.";";
-//  print($query.'<br>');
-  $sql=$db->singlequery($query);
-
-  if($sql)
-  {
-    $row=mysql_fetch_row($sql);
-    $result=$row[0];
-  }
-
-
-  return $result;
+	$result="";
+	
+	$query="select count(".$keyname.") from ".$table.";";
+	//  print($query.'<br>');
+	$sql=$db->singlequery($query);
+	
+	if($sql)
+	{
+		$row=mysql_fetch_row($sql);
+		$result=$row[0];
+	}
+	return $result;
 }
 
 //
@@ -517,18 +511,18 @@ function countelements($keyname, $table)
 function countelementscondition($keyname, $table,$condition)
 {
 	global $db;
-  $result="";
-
-  $query="select count(".$keyname.") from ".$table." WHERE ".$condition.";";
-//  print($query.'<br>');
-  $sql=$db->singlequery($query);
-
-  if($sql)
-  {
-    $row=mysql_fetch_row($sql);
-    $result=$row[0];
-  }
-  return $result;
+	$result="";
+	
+	$query="select count(".$keyname.") from ".$table." WHERE ".$condition.";";
+	//  print($query.'<br>');
+	$sql=$db->singlequery($query);
+	
+	if($sql)
+	{
+		$row=mysql_fetch_row($sql);
+		$result=$row[0];
+	}
+	return $result;
 }
 
 
@@ -539,14 +533,14 @@ function countelementscondition($keyname, $table,$condition)
 //
 function getproperties()
 {
-  $result=array();
-  $names=getorderedcolumn("property_name",SITEPROPERTIES_TABLE, "1", "property_name", "ASC");
-  $values=getorderedcolumn("property_value",SITEPROPERTIES_TABLE, "1", "property_name", "ASC");
-  for($i=0;$i<count($names);$i++)
-  {
-    $result[$names[$i]]=$values[$i];
-  }
-  return $result;
+	$result=array();
+	$names=getorderedcolumn("property_name",SITEPROPERTIES_TABLE, "1", "property_name", "ASC");
+	$values=getorderedcolumn("property_value",SITEPROPERTIES_TABLE, "1", "property_name", "ASC");
+	for($i=0;$i<count($names);$i++)
+	{
+		$result[$names[$i]]=$values[$i];
+	}
+	return $result;
 }
 
 //
@@ -554,10 +548,9 @@ function getproperties()
 //
 function getproperty($propertyname)
 {
-  global $properties;
-  //debug_print_backtrace();
-  return $properties[$propertyname];
-  
+	global $properties;
+	//debug_print_backtrace();
+	return $properties[$propertyname];
 }
 
 ?>

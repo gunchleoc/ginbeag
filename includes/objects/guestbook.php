@@ -32,9 +32,7 @@ class Guestbook extends Template {
 
 
 		if(getproperty('Display Banners'))
-		{
   			$this->vars['banners'] = new BannerList();
-		}
 
 
 		// guestbook
@@ -47,45 +45,37 @@ class Guestbook extends Template {
 			$this->stringvars['enabled'] = "enabled";
 			// show only post if post has been added
 			if($postadded)
-			{
 				$this->stringvars['postadded'] = getlang("guestbook_messageadded");
-			}
+
 			// show guestbook entries
 			else
 			{
 				$this->vars['entries']= new GuestbookEntryList($itemsperpage, $offset,$listtitle);
 			
 				if($showguestbookform)
-				{
 					$this->vars['guestbookform'] = new GuestbookForm($postername,$email,$subject,$emailmessage);
-				}
 
 				if($showleavemessagebutton)
-				{
 					$this->stringvars['leavemessage'] = getlang("guestbook_leavemessage");
-				}
+
 			}
 			// when message is being sent of has just been sent
 			if($showpost)
-			{
 				$this->vars['post'] = new GuestbookPost($postername, $email, $subject, $emailmessage);
-			}
+
 			// general messaging stuff
 			if(strlen($message)>0)
-			{
 				$this->stringvars['message'] =$message;
-			}
+
 			if(strlen($error)>0)
-			{
 				$this->stringvars['error'] =$error;
-			}
 		}
  	}
 
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("guestbook.tpl");
+		$this->addTemplate("guestbook.tpl");
     }
 
 }
@@ -95,10 +85,6 @@ class Guestbook extends Template {
 // List entries in Guestbook
 //
 class GuestbookEntryList extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-    //var $vars=array();
-
 
     function GuestbookEntryList($number, $offset, $title="")
     {
@@ -129,7 +115,7 @@ class GuestbookEntryList extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("guestbookentrylist.tpl");
+		$this->addTemplate("guestbookentrylist.tpl");
     }
 
 }
@@ -140,10 +126,6 @@ class GuestbookEntryList extends Template {
 // Entry displayed in Guestbook
 //
 class GuestbookEntry extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-    //var $vars=array();
-
 
     function GuestbookEntry($entry)
     {
@@ -163,7 +145,7 @@ class GuestbookEntry extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("guestbookentry.tpl");
+		$this->addTemplate("guestbookentry.tpl");
     }
 
 }
@@ -174,10 +156,6 @@ class GuestbookEntry extends Template {
 // Own entry displayed to person posting
 //
 class GuestbookPost extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-    //var $vars=array();
-
 
     function GuestbookPost($postername, $email, $subject, $message)
     {
@@ -197,7 +175,7 @@ class GuestbookPost extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("guestbookpost.tpl");
+		$this->addTemplate("guestbookpost.tpl");
     }
 
 }
@@ -208,10 +186,6 @@ class GuestbookPost extends Template {
 // Own entry displayed to person posting
 //
 class GuestbookForm extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-    //var $vars=array();
-
 
     function GuestbookForm($postername,$email,$subject,$message)
     {
@@ -241,7 +215,6 @@ class GuestbookForm extends Template {
     	
   		if($emailvariables['Use Math CAPTCHA']['property_value'])
   		{
-  			
     		$this->vars['captcha']= new MathCAPTCHA();
     		$this->stringvars['l_legend_captcha']=getlang("antispam_legend_captcha");
     	}
@@ -253,7 +226,7 @@ class GuestbookForm extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("guestbookform.tpl");
+		$this->addTemplate("guestbookform.tpl");
     }
 
 }

@@ -10,8 +10,8 @@ include_once($projectroot."includes/objects/template.php");
 //
 class EmailInfo  extends Template {
 
-    function EmailInfo($email,$subject,$messagetext,$sendcopy) {
-    
+    function EmailInfo($email,$subject,$messagetext,$sendcopy)
+    {
     	parent::__construct();
     
     	$this->stringvars['l_email_enteredmessage']=getlang("email_enteredmessage");
@@ -22,7 +22,8 @@ class EmailInfo  extends Template {
     	$this->stringvars['l_message']=getlang("email_message");
     	$this->stringvars['message']=stripslashes(nl2br($messagetext));
 
-    	if($sendcopy) {
+    	if($sendcopy)
+    	{
 			$this->stringvars['sendcopy']=getlang("email_copyrequested");
 		}
 		else
@@ -33,7 +34,7 @@ class EmailInfo  extends Template {
 
     function createTemplates()
     {
-      $this->addTemplate("emailinfo.tpl");
+		$this->addTemplate("emailinfo.tpl");
     }
 }
 
@@ -42,7 +43,8 @@ class EmailInfo  extends Template {
 //
 class MathCAPTCHA  extends Template {
 
-    function MathCAPTCHA() {
+    function MathCAPTCHA()
+    {
     	global $emailvariables;
     	parent::__construct();
     
@@ -55,7 +57,7 @@ class MathCAPTCHA  extends Template {
 
     function createTemplates()
     {
-      $this->addTemplate("mathcaptcha.tpl");
+		$this->addTemplate("mathcaptcha.tpl");
     }
 }
 

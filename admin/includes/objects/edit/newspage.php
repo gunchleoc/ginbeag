@@ -13,7 +13,7 @@ include_once($projectroot."includes/objects/categories.php");
 include_once($projectroot."admin/includes/objects/editor.php");
 include_once($projectroot."admin/includes/objects/imageeditor.php");
 
-/// TODO: Offset fr alle Eintrge kontrollieren!!!
+/// TODO: Offset für alle Eintrge kontrollieren!!!
 
 
 //
@@ -21,27 +21,27 @@ include_once($projectroot."admin/includes/objects/imageeditor.php");
 //
 class NewsitemImagePropertiesForm extends Template {
 
-  function NewsitemImagePropertiesForm($image,$newsitem,$imageid,$offset=0)
-  {
-    global $offset;
-    parent::__construct();
-    $this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&imageid=".$imageid."&offset=".$offset."&newsitem=".$newsitem."&action=editcontents";
-    $this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
-
-    $this->stringvars['imageid']=$imageid;
-    $this->stringvars['imagefilename']=$image;
-
-    if(strlen($image)>0 && imageexists($image))
-    {
-        $this->vars['image'] = new CaptionedImageAdmin($image,$this->stringvars['page'],2);
-    }
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/newsitemimagepropertiesform.tpl");
-  }
+	function NewsitemImagePropertiesForm($image,$newsitem,$imageid,$offset=0)
+	{
+		global $offset;
+		parent::__construct();
+		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&imageid=".$imageid."&offset=".$offset."&newsitem=".$newsitem."&action=editcontents";
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		
+		$this->stringvars['imageid']=$imageid;
+		$this->stringvars['imagefilename']=$image;
+		
+		if(strlen($image)>0 && imageexists($image))
+		{
+			$this->vars['image'] = new CaptionedImageAdmin($image,$this->stringvars['page'],2);
+		}
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/newsitemimagepropertiesform.tpl");
+	}
 }
 
 
@@ -132,13 +132,13 @@ class NewsitemSectionForm extends Template {
 //
 //
 class InsertNewsItemSectionForm extends Template {
+
 	function InsertNewsItemSectionForm($newsitem,$newsitemsection)
 	{
 		global $offset;
 		parent::__construct();
 		
 		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&newsitemsection=".$newsitemsection."&action=editcontents";
-
 	}
 
 	// assigns templates
@@ -153,15 +153,14 @@ class InsertNewsItemSectionForm extends Template {
 //
 //
 class DeleteNewsItemConfirm extends Template {
+
 	function DeleteNewsItemConfirm($newsitem)
 	{
 		global $offset;
 		parent::__construct();
 		
 		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&action=editcontents";
-
 		$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars["page"]));
-
 		$this->vars['item'] = new Newsitem($newsitem, $offset,true,true,false);
 	}
 
@@ -177,6 +176,7 @@ class DeleteNewsItemConfirm extends Template {
 //
 //
 class DeleteNewsItemSectionConfirm extends Template {
+
 	function DeleteNewsItemSectionConfirm($newsitem,$newsitemsection)
 	{
 		global $offset;
@@ -186,7 +186,6 @@ class DeleteNewsItemSectionConfirm extends Template {
 
 		$contents=getnewsitemcontents($newsitem);
 		$this->stringvars['newsitemtitle']=title2html($contents['title']);
-
 		$this->vars['section'] = new Newsitemsection($newsitemsection, false,2,true,true);
 	}
 
@@ -263,6 +262,7 @@ class NewsItemDisplayOrderForm extends Template {
 //
 //
 class NewsItemSearchForm extends Template {
+
 	function NewsItemSearchForm()
 	{
 		parent::__construct();
@@ -281,16 +281,14 @@ class NewsItemSearchForm extends Template {
 //
 //
 class NewsItemSearchResults extends Template {
+
 	function NewsItemSearchResults($searchtitle)
 	{
 		parent::__construct();
 		
 		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&offset=0&action=editcontents";
-		
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
-
 		$this->vars['searchform']= new NewsItemSearchForm();
-
 		$this->stringvars['searchtitle']=title2html($searchtitle);
 
 		$newsitems=searchnewsitemtitles($searchtitle,$this->stringvars["page"],true);
@@ -320,6 +318,7 @@ class NewsItemSearchResults extends Template {
 //
 //
 class NewsItemSearchResult extends Template {
+
 	function NewsItemSearchResult($newsitem,$offset)
 	{
 		parent::__construct();
@@ -330,7 +329,6 @@ class NewsItemSearchResult extends Template {
 
 		$this->stringvars['sectiontitle']=title2html($contents['title']);
 		$this->stringvars['synopsis']=text2html($contents['synopsis']);
-		
 	    $this->stringvars['contributor']= input2html($contents['contributor']);
     	$this->stringvars['source']= input2html($contents['source']);
     	
@@ -383,7 +381,11 @@ class ArchiveNewsItemsForm extends Template {
 	}
 }
 
+//
+//
+//
 class FakeTheDateForm extends Template {
+
 	function FakeTheDateForm($newsitem, $contents,$offset)
 	{
 		parent::__construct($newsitem);
@@ -408,7 +410,11 @@ class FakeTheDateForm extends Template {
 	}
 }
 
+//
+//
+//
 class NewsItemSourceForm extends Template {
+
 	function NewsItemSourceForm($newsitem, $contents)
 	{
 		parent::__construct($newsitem);
@@ -449,6 +455,9 @@ class NewsItemPermissionsForm extends Template {
 	}
 }
 
+//
+//
+//
 class NewsItemPublishForm extends Template {
 
 	function NewsItemPublishForm($newsitem, $permissions, $offset)
@@ -458,21 +467,14 @@ class NewsItemPublishForm extends Template {
 		$this->stringvars['previewlink']=getprojectrootlinkpath()."admin/includes/preview.php?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&action=editcontents";
 
 		if(!$permissions['permission']== PERMISSION_REFUSED)
-		{
 			$this->stringvars['notpermissionrefused']="true";
-		}
 		else
-		{
 			$this->stringvars['permissionrefused']="true";
-		}
+
 		if(isnewsitempublished($newsitem))
-		{
 			$this->stringvars['ispublished']="true";
-		}
 		else
-		{
 			$this->stringvars['isnotpublished']="true";
-		}
 	}
 
 	// assigns templates
@@ -482,6 +484,9 @@ class NewsItemPublishForm extends Template {
 	}
 }
 
+//
+//
+//
 class NewsItemDeleteForm extends Template {
 
 	function NewsItemDeleteForm($newsitem, $offset)
@@ -499,6 +504,9 @@ class NewsItemDeleteForm extends Template {
 }
 
 
+//
+//
+//
 class EditNewsItemForms extends Template {
 
 	function EditNewsItemForms($page, $offset)
@@ -506,9 +514,7 @@ class EditNewsItemForms extends Template {
 		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
 		
 		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&offset=".$offset."&action=editcontents";
-  		
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
-
 		$this->vars['newsitemaddform'] = new NewsItemAddForm();
 		
 		$noofnewsitems=countnewsitems($page);
@@ -519,7 +525,6 @@ class EditNewsItemForms extends Template {
 		}
 
 		$newsitems=getnewsitems($page,1,$offset);
-		
 
 		$this->vars['pagemenu']= new PageMenu($offset,1,$noofnewsitems,'action=editcontents');
 
@@ -538,16 +543,11 @@ class EditNewsItemForms extends Template {
 			$this->stringvars['newsitem']=$newsitem;
 
 			if($contents['title'])
-			{
 				$this->stringvars['newsitemtitle']=title2html($contents['title']);
-			}
 			else
-			{
 				$this->stringvars['newsitemtitle']="New Newsitem";
-			}
 
 			$this->stringvars['authorname']=getusername($contents['editor_id']);
-			
 			$this->stringvars['title']=input2html($contents['title']);		
 			
 			$this->vars['newsitemdeleteform']= new NewsItemDeleteForm($newsitem, $offset);
@@ -556,7 +556,6 @@ class EditNewsItemForms extends Template {
 			$this->vars['newsitemsynopsisform']= new NewsitemSynopsisForm($newsitem);
 
 			// sections
-
 			$sections=getnewsitemsections($newsitem);
 			$noofsections=count($sections);
 			for($i=0;$i<$noofsections;$i++)
@@ -571,7 +570,6 @@ class EditNewsItemForms extends Template {
 
 			$this->vars['newsitemsourceform'] = new NewsItemSourceForm($newsitem, $contents);
 			$this->vars['fakethedateform'] = new FakeTheDateForm($newsitem, $contents,$offset);
-
 			$this->vars['categorylist']=new Categorylist(getcategoriesfornewsitem($newsitem));
 			$this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid']);
 		}
@@ -593,6 +591,9 @@ class EditNewsItemForms extends Template {
 }
 
 
+//
+//
+//
 class EditNews extends Template {
 
 	function EditNews($page)
@@ -603,13 +604,9 @@ class EditNews extends Template {
   	
     	$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
     	$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",array("image"=>getpageintroimage($page), "halign" =>getpageintrohalign($page)));
-		
 		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&action=editcontents";
-  		
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
-
 		$this->vars['newsitemarchiveform'] = new NewsItemArchiveForm();
-
 		$this->vars['newsitemdisplayorderform'] = new NewsItemDisplayOrderForm();
 		
 		if(hasrssfeed($page))

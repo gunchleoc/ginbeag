@@ -11,15 +11,15 @@ include_once($projectroot."language/languages.php");
 //
 function getoffsetforjumppage($noofitems,$itemsperpage,$offset)
 {
-  global $_GET;
-
-  if(isset($_GET['jumppage']) && $_GET['jumppage']>0
-     && $noofitems && $_GET['jumppage']<=ceil($noofitems/$itemsperpage))
-  {
-    $offset=($_GET['jumppage']-1)*$itemsperpage;
-    unset($_GET['jumppage']);
-  }
-  return $offset;
+	global $_GET;
+	
+	if(isset($_GET['jumppage']) && $_GET['jumppage']>0
+		&& $noofitems && $_GET['jumppage']<=ceil($noofitems/$itemsperpage))
+	{
+		$offset=($_GET['jumppage']-1)*$itemsperpage;
+		unset($_GET['jumppage']);
+	}
+	return $offset;
 }
 
 
@@ -30,22 +30,22 @@ function getoffsetforjumppage($noofitems,$itemsperpage,$offset)
 //
 function makecopyright($permissions)
 {
-  	$textcopyright="";
-  	$imagecopyright="";
-  	$bypermission="";
-  	if(strlen($permissions['copyright'])>0)
-  	{
-    	$textcopyright= sprintf(getlang("footer_textcopyright"),title2html($permissions['copyright']));
-  	}
-  	if(strlen($permissions['image_copyright'])>0)
-  	{
-  		$imagecopyright= sprintf(getlang("footer_imagecopyright"),title2html($permissions['image_copyright']));
-  	}
-  	if(($permissions['permission'])==PERMISSION_GRANTED)
-  	{
-    	$bypermission=getlang("footer_bypermission");
-  	}
-  	return sprintf(getlang("footer_copyright"),$textcopyright, $imagecopyright, $bypermission);
+	$textcopyright="";
+	$imagecopyright="";
+	$bypermission="";
+	if(strlen($permissions['copyright'])>0)
+	{
+		$textcopyright= sprintf(getlang("footer_textcopyright"),title2html($permissions['copyright']));
+	}
+	if(strlen($permissions['image_copyright'])>0)
+	{
+		$imagecopyright= sprintf(getlang("footer_imagecopyright"),title2html($permissions['image_copyright']));
+	}
+	if(($permissions['permission'])==PERMISSION_GRANTED)
+	{
+		$bypermission=getlang("footer_bypermission");
+	}
+	return sprintf(getlang("footer_copyright"),$textcopyright, $imagecopyright, $bypermission);
 }
 
 

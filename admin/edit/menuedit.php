@@ -23,11 +23,11 @@ else $page=0;
 $message = getpagelock($page);
 if(!$message)
 {
-  $editpage = new EditMenu($page);
+	$editpage = new EditMenu($page);
 }
 else
 {
-  $editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
+	$editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
 }
 $content = new AdminMain($page,"editcontents","",$editpage);
 print($content->toHTML());

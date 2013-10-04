@@ -16,15 +16,11 @@ include_once($projectroot."admin/includes/objects/images.php");
 //
 class ImageEditor extends Template {
 
-    function ImageEditor($page, $elementid, $elementtype,$contents) {
-    	global $articlepage, $offset;
-    	
+    function ImageEditor($page, $elementid, $elementtype,$contents)
+    {
     	parent::__construct($page.'-'.$elementid);
-
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/imageeditor.js");
-
-    	//print_r($contents);
     	
     	$imagealign="left";
     	$this->stringvars['image']="";
@@ -49,11 +45,7 @@ class ImageEditor extends Template {
     	}
     
 		$this->stringvars['elementtype']=$elementtype;
-
 		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
-
-		//$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&offset=".$offset."&articlepage=".$articlepage."&action=editcontents";
-		
 		$this->vars['filenamepane'] = new ImageEditorFilenamePane($page,$elementid, $this->stringvars['image'],$elementtype);
 
 		if($elementtype=="link")
@@ -76,7 +68,7 @@ class ImageEditor extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/imageeditor.tpl");
+		$this->addTemplate("admin/imageeditor.tpl");
     }
 }
 
@@ -86,8 +78,8 @@ class ImageEditor extends Template {
 //
 class ImageEditorFilenamePane extends Template {
 
-    function ImageEditorFilenamePane($page,$elementid, $image, $elementtype) {
-    	
+    function ImageEditorFilenamePane($page,$elementid, $image, $elementtype)
+    {
     	parent::__construct($page.'-'.$elementid);
     
 		$this->stringvars['image']=$image;
@@ -100,7 +92,7 @@ class ImageEditorFilenamePane extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/imageeditorfilenamepane.tpl");
+		$this->addTemplate("admin/imageeditorfilenamepane.tpl");
     }
 }
 
@@ -112,8 +104,8 @@ class ImageEditorFilenamePane extends Template {
 //
 class ImageEditorPropertiesPane extends Template {
 
-    function ImageEditorPropertiesPane($page,$elementid, $imagealign) {
-    	
+    function ImageEditorPropertiesPane($page,$elementid, $imagealign)
+    {
     	parent::__construct($page.'-'.$elementid);
     	
 		$this->stringvars['submitname'] ="Save image alignment";
@@ -127,7 +119,7 @@ class ImageEditorPropertiesPane extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/imageeditorpropertiespane.tpl");
+		$this->addTemplate("admin/imageeditorpropertiespane.tpl");
     }
 }
 
@@ -139,27 +131,19 @@ class ImageEditorPropertiesPane extends Template {
 //
 class ImageEditorImagePane extends Template {
 
-    function ImageEditorImagePane($page,$image) {
-    	
+    function ImageEditorImagePane($page,$image)
+    {
     	parent::__construct();
+    	$this->stringvars['image']="";
     	
-		if(strlen($image)>0)
-		{
-			if(imageexists($image))
-			{
-				$this->vars['image'] = new CaptionedImageAdmin($image,$page,2);
-			}
-		}
-		else
-		{
-			$this->stringvars['image']="";
-		}
+		if(strlen($image)>0 && imageexists($image))
+			$this->vars['image'] = new CaptionedImageAdmin($image,$page,2);
     }
 
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/imageeditorimagepane.tpl");
+		$this->addTemplate("admin/imageeditorimagepane.tpl");
     }
 }
 

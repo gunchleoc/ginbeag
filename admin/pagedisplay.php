@@ -12,13 +12,9 @@ checksession($sid);
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-
-// check legal vars
-
 include_once($projectroot."includes/objects/page.php");
 
 //print_r($_GET);
-
 
 $page = new Page("page",true);
 print($page->toHTML());

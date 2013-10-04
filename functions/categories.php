@@ -13,7 +13,7 @@ include_once($projectroot."functions/db.php");
 
 function getallcategorieswithname()
 {
-  return getmultiplefields(CATEGORIES_TABLE, "category_id","1", array(0 => '*'), $orderby="parent_id, name");
+	return getmultiplefields(CATEGORIES_TABLE, "category_id","1", array(0 => '*'), $orderby="parent_id, name");
 }
 
 //
@@ -21,12 +21,12 @@ function getallcategorieswithname()
 //
 function getcategorynamessorted($categories)
 {
-  if(count($categories>0))
-  {
-    $condition="category_id IN ('".implode($categories,"', '")."')";
-    return getorderedcolumn("name", CATEGORIES_TABLE, $condition, "name");
-  }
-  else return array();
+	if(count($categories>0))
+	{
+		$condition="category_id IN ('".implode($categories,"', '")."')";
+		return getorderedcolumn("name", CATEGORIES_TABLE, $condition, "name");
+	}
+	else return array();
 }
 
 //
@@ -35,7 +35,7 @@ function getcategorynamessorted($categories)
 function getcategoryname($catid)
 {
 	global $db;
-  return getdbelement("name",CATEGORIES_TABLE, "category_id", $db->setinteger($catid));
+	return getdbelement("name",CATEGORIES_TABLE, "category_id", $db->setinteger($catid));
 }
 
 //
@@ -44,7 +44,7 @@ function getcategoryname($catid)
 function getcategorychildren($catid)
 {
 	global $db;
-  return getorderedcolumn("category_id",CATEGORIES_TABLE,"parent_id = '".$db->setinteger($catid)."'","name","ASC");
+	return getorderedcolumn("category_id",CATEGORIES_TABLE,"parent_id = '".$db->setinteger($catid)."'","name","ASC");
 }
 
 
@@ -54,7 +54,7 @@ function getcategorychildren($catid)
 function getcategoryparent($catid)
 {
 	global $db;
-  return getdbelement("parent_id",CATEGORIES_TABLE, "category_id",$db->setinteger($catid));
+	return getdbelement("parent_id",CATEGORIES_TABLE, "category_id",$db->setinteger($catid));
 }
 
 //
@@ -62,8 +62,8 @@ function getcategoryparent($catid)
 //
 function isroot($catid)
 {
-  $parentid=getcategoryparent($catid);
-  return $parentid==0;
+	$parentid=getcategoryparent($catid);
+	return $parentid==0;
 }
 
 
@@ -73,7 +73,7 @@ function isroot($catid)
 function getcategoryimages($catid)
 {
 	global $db;
-  return getorderedcolumn("image_filename",IMAGECATS_TABLE,"category = '".$db->setinteger($catid)."'","image_filename","ASC");
+	return getorderedcolumn("image_filename",IMAGECATS_TABLE,"category = '".$db->setinteger($catid)."'","image_filename","ASC");
 }
 
 //
@@ -82,7 +82,7 @@ function getcategoryimages($catid)
 function getcategorypages($catid)
 {
 	global $db;
-  return getorderedcolumn("page_id",PAGECATS_TABLE,"category = '".$db->setinteger($catid)."'", "page_id","ASC");
+	return getorderedcolumn("page_id",PAGECATS_TABLE,"category = '".$db->setinteger($catid)."'", "page_id","ASC");
 }
 
 //
@@ -91,7 +91,7 @@ function getcategorypages($catid)
 function getcategorynewsitems($catid)
 {
 	global $db;
-  return getorderedcolumn("newsitem_id",NEWSITEMCATS_TABLE,"category = '".$db->setinteger($catid)."'", "newsitem_id","ASC");
+	return getorderedcolumn("newsitem_id",NEWSITEMCATS_TABLE,"category = '".$db->setinteger($catid)."'", "newsitem_id","ASC");
 }
 
 
@@ -101,7 +101,7 @@ function getcategorynewsitems($catid)
 function getcategoriesforimage($filename)
 {
 	global $db;
-  return getcolumn("category",IMAGECATS_TABLE, "image_filename = '".$db->setstring($filename)."'");
+	return getcolumn("category",IMAGECATS_TABLE, "image_filename = '".$db->setstring($filename)."'");
 }
 
 //
@@ -110,7 +110,7 @@ function getcategoriesforimage($filename)
 function getcategoriesforpage($page_id)
 {
 	global $db;
-  return getcolumn("category",PAGECATS_TABLE, "page_id = '".$db->setinteger($page_id)."'");
+	return getcolumn("category",PAGECATS_TABLE, "page_id = '".$db->setinteger($page_id)."'");
 }
 
 //
@@ -119,7 +119,7 @@ function getcategoriesforpage($page_id)
 function getcategoriesfornewsitem($newsitem_id)
 {
 	global $db;
-  return getcolumn("category",NEWSITEMCATS_TABLE, "newsitem_id = '".$db->setinteger($newsitem_id)."'");
+	return getcolumn("category",NEWSITEMCATS_TABLE, "newsitem_id = '".$db->setinteger($newsitem_id)."'");
 }
 
 ?>

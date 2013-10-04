@@ -26,7 +26,6 @@ $LEGALVARS["userid"]=1;
 $LEGALVARS["username"]=1;
 $LEGALVARS["sitestats"]=1;
 
-
 $getkeys=array_keys($_GET);
 
 while($key=current($getkeys))
@@ -39,6 +38,5 @@ while($key=current($getkeys))
 	}
 	next($getkeys);
 }
-
 
 ?>

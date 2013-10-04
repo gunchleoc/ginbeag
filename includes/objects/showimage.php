@@ -11,10 +11,6 @@ include_once($projectroot."includes/objects/page.php");
 // Showimage main class
 //
 class Showimage extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-    //var $vars=array();
-
 
     function Showimage($image,$item=0,$showhidden=false)
     {
@@ -28,17 +24,15 @@ class Showimage extends Template {
 
 		if($caption)
 		{
-			//todo why encoding?
 			$this->vars['pageintro'] = new PageIntro(getlang("image_viewing")." - ".title2html($caption),"","");
 			$this->vars['header']= new PageHeader($this->stringvars['page'],utf8_decode(getlang("image_viewing"))." - ".utf8_decode(title2html($caption)));
 		}
 		else
 		{
-			//todo why encoding?
 			$this->vars['header']= new PageHeader($this->stringvars['page'],utf8_decode(getlang("image_viewing")));
 			$this->vars['pageintro'] = new PageIntro(getlang("image_viewing"),"","");
 		}
-		// function Navigator($this->stringvars['page'],$sistersinnavigator,$depth,$displaytype="page",$showhidden=false) {
+
 		$this->vars['navigator'] = new Navigator($this->stringvars['page'],false,1,"page",$showhidden);
 		
 		if(getproperty('Display Banners'))
@@ -134,9 +128,8 @@ class Showimage extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("showimage.tpl");
+		$this->addTemplate("showimage.tpl");
     }
-
 }
 
 
@@ -144,9 +137,6 @@ class Showimage extends Template {
 // container for editdata
 //
 class ImageEditdata extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-
 
     function ImageEditdata($image, $showhidden=false)
     {

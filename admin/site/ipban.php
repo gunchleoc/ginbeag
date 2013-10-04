@@ -13,7 +13,7 @@ checksession($sid);
 
 if(!isadmin($sid))
 {
-  die('<p class="highlight">You have no permission for this area</p>');
+	die('<p class="highlight">You have no permission for this area</p>');
 }
 
 if(isset($_GET['page'])) $page=$_GET['page'];
@@ -23,20 +23,20 @@ $message="";
 
 if(isset($_POST['banipallrestricted']))
 {
-  $ip=trim($_POST['ip']);
-  if($ip === long2ip(ip2long($ip)))
-  {
-    addbannedipforrestrictedpages($ip);
-  }
-  else
-  {
-    $message='<i>'.$ip.'</i> is not a valid IP address.';
-  }
+	$ip=trim($_POST['ip']);
+	if($ip === long2ip(ip2long($ip)))
+	{
+		addbannedipforrestrictedpages($ip);
+	}
+	else
+	{
+		$message='<i>'.$ip.'</i> is not a valid IP address.';
+	}
 }
 elseif(isset($_POST['unbanipallrestricted']))
 {
-  removebannedipforrestrictedpageas($_POST['ip']);
-  $message='<i>'.$_POST['ip'].'</i> has been unbanned.';
+	removebannedipforrestrictedpageas($_POST['ip']);
+	$message='<i>'.$_POST['ip'].'</i> has been unbanned.';
 }
 
 

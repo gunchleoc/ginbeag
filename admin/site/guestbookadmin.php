@@ -13,7 +13,7 @@ checksession($sid);
 
 if(!isadmin($sid))
 {
-  die('<p class="highlight">You have no permission for this area</p>');
+	die('<p class="highlight">You have no permission for this area</p>');
 }
 
 if(isset($_GET['page'])) $page=$_GET['page'];
@@ -48,12 +48,10 @@ if($postaction ==='saveproperties')
   	{
     	$message="Failed to save Guestbook properties";
   	}
-	
 }
 
 
 $itemsperpage=getproperty('Guestbook Entries Per Page');
-
 
 if(isset($_POST["deleteentry"]))
 {
@@ -61,8 +59,8 @@ if(isset($_POST["deleteentry"]))
 }
 elseif(isset($_POST["deleteconfirm"]))
 {
-  $message='Entry #'.$_POST['messageid'].' deleted.';
-  deleteguestbookentry($_POST['messageid']);
+	$message='Entry #'.$_POST['messageid'].' deleted.';
+	deleteguestbookentry($_POST['messageid']);
 }
 if(!isset($_POST["deleteentry"]))
 {
@@ -70,9 +68,7 @@ if(!isset($_POST["deleteentry"]))
   	else $offset=0;
   
   	$contents = new AdminGuestbookEntryList($itemsperpage, $offset);
-	
 }
-
 
 $content = new AdminMain($page,"siteguest",$message,$contents);
 print($content->toHTML());

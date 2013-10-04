@@ -19,25 +19,21 @@ $sendmail=false;
 
 if(isset($_GET['user']))
 {
-  $recipient=getuseremail($_GET['user']);
-  $userid=getuserid($_GET['user']);
+	$recipient=getuseremail($_GET['user']);
+	$userid=getuserid($_GET['user']);
 }
 elseif(isset($_POST['userid']))
 {
-  $userid=$_POST['userid'];
-  if($userid==0)
-  {
-    $recipient=getproperty("Admin Email Address");
-  }
-  else
-  {
-    $recipient=getuseremail($userid);
-  }
+	$userid=$_POST['userid'];
+	if($userid==0)
+		$recipient=getproperty("Admin Email Address");
+	else
+		$recipient=getuseremail($userid);
 }
 else
 {
-  $recipient=getproperty("Admin Email Address");
-  $userid=0;
+	$recipient=getproperty("Admin Email Address");
+	$userid=0;
 }
 
 

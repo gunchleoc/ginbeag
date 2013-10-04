@@ -4,24 +4,11 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/includes/objects/preview.php");
-include_once($projectroot."includes/objects/images.php");
-include_once($projectroot."includes/objects/categories.php");
-
 
 $sid=$_GET['sid'];
 checksession($sid);
 
-
-$type="";
-$newsitem=0;
-$text="";
-$linkparams="";
-
-$page=$_GET['page'];
-$newsitem=$_GET['newsitem'];
-
-
-$contents= new Preview($newsitem, $linkparams);
+$contents= new Preview($_GET['newsitem']);
 print($contents->toHTML());
 $db->closedb();
 ?>

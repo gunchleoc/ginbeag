@@ -12,7 +12,7 @@ checksession($sid);
 
 if(!isadmin($sid))
 {
-  die('<p class="highlight">You have no permission for this area</p>');
+	die('<p class="highlight">You have no permission for this area</p>');
 }
 
 if(isset($_GET['page'])) $page=$_GET['page'];
@@ -28,7 +28,6 @@ $message="";
 
 if($postaction=='savesite')
 {
-	//$message="Saving Site Features";
   	$message=savesitefeatures();
 }
 
@@ -59,40 +58,42 @@ $db->closedb();
 
 function savesitefeatures()
 {
-  global $sid, $_POST, $db;
-  
-  $message="";
-
-  $properties['Display Picture of the Day']=$db->setinteger($_POST['displaypotd']);
-  if(isset($_POST['selectedcat']))
-  {
-  	$potdcats=$_POST['selectedcat'];
-  	for($i=0;$i<count($potdcats);$i++) {
-  		$potdcats[$i] = $db->setinteger($potdcats[$i]);
-  	}
-    $properties['Picture of the Day Categories']=implode(",",$potdcats);
-  }
-  else $properties['Picture of the Day Categories']=$db->setstring($_POST['oldpotdcats']);
-
-  $properties['Display Article of the Day']=$db->setinteger($_POST['displayaotd']);
-  $aotdpages=explode(',',$_POST['aotdpages']);
-
-  for($i=0;$i<count($aotdpages);$i++) {
-  	$aotdpages[$i] = $db->setinteger($aotdpages[$i]);
-  }
-  $properties['Article of the Day Start Pages']=implode(",",$aotdpages);
-  
-  $success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
-
-  if($success="1")
-  {
-    $message="Random Items of the Day saved";
-  }
-  else
-  {
-    $message="Failed to save Random Items of the Day".$sql;
-  }
-  return $message;
+	global $sid, $_POST, $db;
+	
+	$message="";
+	
+	$properties['Display Picture of the Day']=$db->setinteger($_POST['displaypotd']);
+	if(isset($_POST['selectedcat']))
+	{
+		$potdcats=$_POST['selectedcat'];
+		for($i=0;$i<count($potdcats);$i++)
+		{
+			$potdcats[$i] = $db->setinteger($potdcats[$i]);
+		}
+		$properties['Picture of the Day Categories']=implode(",",$potdcats);
+	}
+	else $properties['Picture of the Day Categories']=$db->setstring($_POST['oldpotdcats']);
+	
+	$properties['Display Article of the Day']=$db->setinteger($_POST['displayaotd']);
+	$aotdpages=explode(',',$_POST['aotdpages']);
+	
+	for($i=0;$i<count($aotdpages);$i++)
+	{
+		$aotdpages[$i] = $db->setinteger($aotdpages[$i]);
+	}
+	$properties['Article of the Day Start Pages']=implode(",",$aotdpages);
+	
+	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
+	
+	if($success="1")
+	{
+		$message="Random Items of the Day saved";
+	}
+	else
+	{
+		$message="Failed to save Random Items of the Day".$sql;
+	}
+	return $message;
 }
 
 ?>

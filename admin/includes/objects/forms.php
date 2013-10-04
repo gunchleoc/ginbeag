@@ -19,17 +19,17 @@ include_once($projectroot."includes/objects/template.php");
 //
 class MovePageForm extends Template {
 
-  function MovePageForm($page,$moveid)
-  {
-    parent::__construct($moveid);
-    $this->stringvars['moveid']=$moveid;
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/movepageform.tpl");
-  }
+	function MovePageForm($page,$moveid)
+	{
+		parent::__construct($moveid);
+		$this->stringvars['moveid']=$moveid;
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/movepageform.tpl");
+	}
 }
 
 //
@@ -37,24 +37,24 @@ class MovePageForm extends Template {
 //
 class DoneButton extends Template {
 
-  function DoneButton($page,$params="&action=edit",$link="pageedit.php",$buttontext="Done",$class="mainoption")
-  {
-    parent::__construct();
-    $this->stringvars['link']=$link."?sid=".$this->stringvars['sid']."&page=".$page.$params;
-    $this->stringvars['buttontext']=$buttontext;
-    $this->stringvars['class']=$class;
-
-    if(str_endswith($link,"admin.php"))
-      $this->stringvars['target']="_top";
-    else
-      $this->stringvars['target']="_self";
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/donebutton.tpl");
-  }
+	function DoneButton($page,$params="&action=edit",$link="pageedit.php",$buttontext="Done",$class="mainoption")
+	{
+		parent::__construct();
+		$this->stringvars['link']=$link."?sid=".$this->stringvars['sid']."&page=".$page.$params;
+		$this->stringvars['buttontext']=$buttontext;
+		$this->stringvars['class']=$class;
+		
+		if(str_endswith($link,"admin.php"))
+			$this->stringvars['target']="_top";
+		else
+			$this->stringvars['target']="_self";
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/donebutton.tpl");
+	}
 }
 
 
@@ -63,18 +63,18 @@ class DoneButton extends Template {
 //
 class DonePage extends Template {
 
-  function DonePage($title,$params="&action=edit",$link="pageedit.php",$buttontext="Done")
-  {
-  	parent::__construct();
-    $this->vars['donebutton'] = new DoneButton($this->stringvars['page'],$params,$link,$buttontext);
-    $this->stringvars['title'] =$title;
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/donepage.tpl");
-  }
+	function DonePage($title,$params="&action=edit",$link="pageedit.php",$buttontext="Done")
+	{
+		parent::__construct();
+		$this->vars['donebutton'] = new DoneButton($this->stringvars['page'],$params,$link,$buttontext);
+		$this->stringvars['title'] =$title;
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/donepage.tpl");
+	}
 }
 
 
@@ -83,20 +83,20 @@ class DonePage extends Template {
 //
 class DoneRedirect extends Template {
 
-  function DoneRedirect($page,$title,$params="&action=edit",$link="pageedit.php",$buttontext="Done")
-  {
-  	parent::__construct();
-  	
-  	$this->vars['donebutton'] =new DoneButton($page,$params,$link,$buttontext,"mainoption");
-  	$this->stringvars['url'] =$link.'?sid='.$this->stringvars['sid'].'&page='.$page.$params;
-  	$this->stringvars['title'] =$title;
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/donepage.tpl");
-  }
+	function DoneRedirect($page,$title,$params="&action=edit",$link="pageedit.php",$buttontext="Done")
+	{
+		parent::__construct();
+		
+		$this->vars['donebutton'] =new DoneButton($page,$params,$link,$buttontext,"mainoption");
+		$this->stringvars['url'] =$link.'?sid='.$this->stringvars['sid'].'&page='.$page.$params;
+		$this->stringvars['title'] =$title;
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/donepage.tpl");
+	}
 }
 
 
@@ -109,37 +109,35 @@ class DoneRedirect extends Template {
 //
 class EditPageIntroSettingsButton extends Template {
 
-  function EditPageIntroSettingsButton()
-  {
-    parent::__construct();
-    
-
-    $pagetype = getpagetype($this->stringvars['page']);
-    if($pagetype==="article")
-    {
-        $this->stringvars['buttontext']="Edit synopsis, source info & categories ...";
-    }
-    elseif($pagetype==="menu" || $pagetype==="articlemenu")
-    {
-        $this->stringvars['buttontext']="Edit synopsis & navigation ...";
-    }
-    elseif($pagetype==="news")
-    {
-        $this->stringvars['buttontext']="Edit synopsis, rss & page order, or create archive ...";
-    }
-    else
-    {
-        $this->stringvars['buttontext']="Edit synopsis ...";
-    }
-
-	$this->stringvars['action']=getprojectrootlinkpath().'admin/edit/pageintrosettingsedit.php';
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/editpageintrosettingsbutton.tpl");
-  }
+	function EditPageIntroSettingsButton()
+	{
+		parent::__construct();
+	
+		$pagetype = getpagetype($this->stringvars['page']);
+		if($pagetype==="article")
+		{
+		    $this->stringvars['buttontext']="Edit synopsis, source info & categories ...";
+		}
+		elseif($pagetype==="menu" || $pagetype==="articlemenu")
+		{
+		    $this->stringvars['buttontext']="Edit synopsis & navigation ...";
+		}
+		elseif($pagetype==="news")
+		{
+		    $this->stringvars['buttontext']="Edit synopsis, rss & page order, or create archive ...";
+		}
+		else
+		{
+		    $this->stringvars['buttontext']="Edit synopsis ...";
+		}
+		$this->stringvars['action']=getprojectrootlinkpath().'admin/edit/pageintrosettingsedit.php';
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/editpageintrosettingsbutton.tpl");
+	}
 }
 
 
@@ -148,48 +146,48 @@ class EditPageIntroSettingsButton extends Template {
 //
 class EditPageContentsButton extends Template {
 
-  function EditPageContentsButton()
-  {
-    parent::__construct();
-
-    $pagetype = getpagetype($this->stringvars['page']);
-    if($pagetype==="article")
-    {
-        $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/articleedit.php';
-        $this->stringvars['title']="Edit sections ...";
-    }
-    elseif($pagetype==="gallery")
-    {
-        $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/galleryedit.php';
-        $this->stringvars['title']="Edit images ...";
-    }
-    elseif($pagetype==="linklist")
-    {
-        $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/linklistedit.php';
-        $this->stringvars['title']="Edit links ...";
-    }
-    elseif($pagetype==="menu" || $pagetype==="articlemenu" || $pagetype==="linklistmenu")
-    {
-        $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/menuedit.php';
-        $this->stringvars['title']="Edit page elements ...";
-    }
-    elseif($pagetype==="news")
-    {
-        $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/newsedit.php';
-        $this->stringvars['title']="Edit newsitems ...";
-    }
-    else
-    {
-        $this->stringvars['action']="pageedit.php";
-        $this->stringvars['title']="Edit page elements ...";
-    }
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/editpagecontentsbutton.tpl");
-  }
+	function EditPageContentsButton()
+	{
+		parent::__construct();
+		
+		$pagetype = getpagetype($this->stringvars['page']);
+		if($pagetype==="article")
+		{
+		    $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/articleedit.php';
+		    $this->stringvars['title']="Edit sections ...";
+		}
+		elseif($pagetype==="gallery")
+		{
+		    $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/galleryedit.php';
+		    $this->stringvars['title']="Edit images ...";
+		}
+		elseif($pagetype==="linklist")
+		{
+		    $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/linklistedit.php';
+		    $this->stringvars['title']="Edit links ...";
+		}
+		elseif($pagetype==="menu" || $pagetype==="articlemenu" || $pagetype==="linklistmenu")
+		{
+		    $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/menuedit.php';
+		    $this->stringvars['title']="Edit page elements ...";
+		}
+		elseif($pagetype==="news")
+		{
+		    $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/newsedit.php';
+		    $this->stringvars['title']="Edit newsitems ...";
+		}
+		else
+		{
+		    $this->stringvars['action']="pageedit.php";
+		    $this->stringvars['title']="Edit page elements ...";
+		}
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/editpagecontentsbutton.tpl");
+	}
 }
 
 
@@ -226,11 +224,13 @@ class PageEditNavigationButtons extends Template {
     	
     	if($firstbutton instanceof Template)
     		$this->vars['firstbutton']= $firstbutton;
-    	else $this->stringvars['firstbutton']= $firstbutton;
+    	else
+    		$this->stringvars['firstbutton']= $firstbutton;
     	
     	if($secondbutton instanceof Template)
     		$this->vars['secondbutton']= $secondbutton;
-    	else $this->stringvars['secondbutton']= $secondbutton;
+    	else
+    		$this->stringvars['secondbutton']= $secondbutton;
     	
     	$this->vars['donebutton']= new DoneButton($this->stringvars['page'],"&action=show&unlock=on",getprojectrootlinkpath().'admin/admin.php');
   	}
@@ -260,6 +260,7 @@ class SubmitRow extends Template {
     	$this->stringvars['submitlabel']=$submitlabel;
     	if($showreset)
     		$this->stringvars['show_reset']="reset";
+
     	if($showcancel)
     	{
     		$this->stringvars['show_cancel']="cancel";

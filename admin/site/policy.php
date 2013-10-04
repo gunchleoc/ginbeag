@@ -13,7 +13,7 @@ checksession($sid);
 
 if(!isadmin($sid))
 {
-  die('<p class="highlight">You have no permission for this area</p>');
+	die('<p class="highlight">You have no permission for this area</p>');
 }
 
 if(isset($_GET['page'])) $page=$_GET['page'];
@@ -39,24 +39,24 @@ $db->closedb();
 //
 function savesitefeatures()
 {
-  global $_POST, $db;
-  
-  $message="";
-
-  $properties['Display Site Policy']=$db->setinteger($_POST['displaypolicy']);
-  $properties['Site Policy Title']=$db->setstring(fixquotes($_POST['policytitle']));
-  
-  $success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
-
-  if($success="1")
-  {
-    $message="Site policy saved";
-  }
-  else
-  {
-    $message="Failed to save site policy".$sql;
-  }
-  return $message;
+	global $_POST, $db;
+	
+	$message="";
+	
+	$properties['Display Site Policy']=$db->setinteger($_POST['displaypolicy']);
+	$properties['Site Policy Title']=$db->setstring(fixquotes($_POST['policytitle']));
+	
+	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
+	
+	if($success="1")
+	{
+		$message="Site policy saved";
+	}
+	else
+	{
+		$message="Failed to save site policy".$sql;
+	}
+	return $message;
 }
 
 ?>

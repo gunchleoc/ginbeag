@@ -22,10 +22,8 @@ class SiteWhosOnline extends Template {
   		$noofsessions=count($sessions);
   		if($noofsessions>0)
   		{
-  	
   			for($i=0; $i<$noofsessions;$i++)
   			{
-
     			// get all user values from DB
     			$userid=getpublicsiduser($sessions[$i]);
     			$username=getpublicusername($userid);

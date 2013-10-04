@@ -15,32 +15,27 @@ include_once($projectroot."admin/includes/objects/forms.php");
 //
 class SiteCreatePublicUser extends Template {
 
-  function SiteCreatePublicUser($username, $message="", $newuserid=-1)
-  {
-  	global $projectroot;
-  	parent::__construct();
-  	
-  	$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteusercreate';
-    
-    $this->stringvars['username']=$username;
-    
-    if($newuserid >= 0)
-    {
-    	$this->stringvars['newuserlinks']='<p><a href="admin.php?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&userid='.$newuserid.'&type=public&action=siteuserman">Manage this user</a></p>';
-    }
-    else
-    {
-    	$this->stringvars['newuserlinks']="";
-    }
-    
-    $this->vars['submitrow']= new SubmitRow("createuser","Create User",false,true,"admin.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=siteuserman");
-  }
+	function SiteCreatePublicUser($username, $message="", $newuserid=-1)
+	{
+		global $projectroot;
+		parent::__construct();
+		
+		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteusercreate';
+		$this->stringvars['username']=$username;
+		
+		if($newuserid >= 0)
+			$this->stringvars['newuserlinks']='<p><a href="admin.php?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&userid='.$newuserid.'&type=public&action=siteuserman">Manage this user</a></p>';
+		else
+			$this->stringvars['newuserlinks']="";
 
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/site/createpublicuser.tpl");
-  }
+		$this->vars['submitrow']= new SubmitRow("createuser","Create User",false,true,"admin.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=siteuserman");
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/site/createpublicuser.tpl");
+	}
 }
 
 
@@ -83,8 +78,8 @@ class SiteUserlist extends Template {
 //
 class SiteUserlistAdminUser extends Template {
 
-  function SiteUserlistAdminUser($userid,$ref)
-  {
+	function SiteUserlistAdminUser($userid,$ref)
+	{
 		parent::__construct();
     	
     	$lastlogin = getlastlogin($userid);
@@ -123,7 +118,7 @@ class SiteUserlistAdminUser extends Template {
   		
   		$this->stringvars['lastlogin']=getlastlogin($userid);
   		$this->stringvars['retries']=getretries($userid);
-  	}
+	}
 
  	 // assigns templates
  	function createTemplates()
@@ -159,7 +154,6 @@ class SiteUserlistPublicUser extends Template {
     
   		if(ispublicuseractive($userid)) $this->stringvars['isactive']="Yes";
   		else $this->stringvars['isactive']="&mdash;";
-  		
   		
   		$userpages=getpageaccessforpublicuser($userid);
   		

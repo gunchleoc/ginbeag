@@ -16,17 +16,18 @@ include_once($projectroot."includes/objects/elements.php");
 //
 class SiteAdminNavigatorLink extends Template {
 
-    function SiteAdminNavigatorLink($linktitle,$action="") {
-      parent::__construct();
-
-      $this->stringvars['link']=getprojectrootlinkpath().'admin/admin.php?page='.$this->stringvars['page'].'&sid='.$this->stringvars['sid']."&action=".$action;
-      $this->stringvars['linktitle']=$linktitle;
+    function SiteAdminNavigatorLink($linktitle,$action="")
+    {
+		parent::__construct();
+		
+		$this->stringvars['link']=getprojectrootlinkpath().'admin/admin.php?page='.$this->stringvars['page'].'&sid='.$this->stringvars['sid']."&action=".$action;
+		$this->stringvars['linktitle']=$linktitle;
     }
 
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/site/adminnavigatorlink.tpl");
+		$this->addTemplate("admin/site/adminnavigatorlink.tpl");
     }
 }
 
@@ -38,23 +39,24 @@ class SiteAdminNavigatorLink extends Template {
 //
 class SiteAdminNavigatorCategory extends Template {
 
-    function SiteAdminNavigatorCategory($header,$links) {
+    function SiteAdminNavigatorCategory($header,$links)
+    {
     	parent::__construct();
 
-      // layout parameters
-      if(strlen($header)>0)
-        $this->stringvars['header']=$header;
-        
-      for($i=0;$i<count($links);$i++)
-      {
-        $this->listvars['link'][]=$links[$i];
-      }
+		// layout parameters
+		if(strlen($header)>0)
+		$this->stringvars['header']=$header;
+		
+		for($i=0;$i<count($links);$i++)
+		{
+			$this->listvars['link'][]=$links[$i];
+		}
     }
 
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/site/adminnavigatorcategory.tpl");
+		$this->addTemplate("admin/site/adminnavigatorcategory.tpl");
     }
 }
 
@@ -65,13 +67,14 @@ class SiteAdminNavigatorCategory extends Template {
 //
 class SiteAdminNavigatorHeader extends Template {
 
-    function SiteAdminNavigatorHeader() {
+    function SiteAdminNavigatorHeader()
+    {
     	parent::__construct();
 	}
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/site/adminnavigatorheader.tpl");
+		$this->addTemplate("admin/site/adminnavigatorheader.tpl");
     }
 }
 
@@ -82,62 +85,61 @@ class SiteAdminNavigatorHeader extends Template {
 //
 class SiteAdminNavigator extends Template {
 
-    function SiteAdminNavigator() {
-
-      parent::__construct();
-
-      $links=array();
-      $links[]= new SiteAdminNavigatorLink("Site Statistics","sitestats");
-      $this->listvars['category'][]= new SiteAdminNavigatorCategory("Site",$links);
-
-      $links=array();
-      $links[]= new SiteAdminNavigatorLink("Copyright Permissions","sitecopyperm");
-      if(isadmin($this->stringvars['sid']))
-      {
-        $links[]= new SiteAdminNavigatorLink("Referrers","sitereferrers");
-      }
-      $this->listvars['category'][]= new SiteAdminNavigatorCategory("Copyright",$links);
-
-      $links=array();
-      if(isadmin($this->stringvars['sid']))
-      {
-        $links[]= new SiteAdminNavigatorLink("Page Types","sitepagetype");
-      }
-      $links[]= new SiteAdminNavigatorLink("Restricted Pages","sitepagerestrict");
-      $this->listvars['category'][]= new SiteAdminNavigatorCategory("Pages",$links);
-
-      $links=array();
-      if(isadmin($this->stringvars['sid']))
-      {
-        $links[]= new SiteAdminNavigatorLink("Site Layout","sitelayout");
-        $links[]= new SiteAdminNavigatorLink("Items of the Day","siteiotd");
-        $links[]= new SiteAdminNavigatorLink("Anti-Spam","sitespam");
-        $links[]= new SiteAdminNavigatorLink("Guestbook","siteguest");
-        $links[]= new SiteAdminNavigatorLink("Site Policy","sitepolicy");
-        $links[]= new SiteAdminNavigatorLink("Banners","sitebanner");
-        $this->listvars['category'][]= new SiteAdminNavigatorCategory("Features &amp; Layout",$links);
-
-        $links=array();
-        $links[]= new SiteAdminNavigatorLink("Technical Setup","sitetech");
-        $links[]= new SiteAdminNavigatorLink("Database Utilities","sitedb");
-        $links[]= new SiteAdminNavigatorLink("Rebuild Indices","siteind");
-        $this->listvars['category'][]= new SiteAdminNavigatorCategory("Technical",$links);
-
-        $links=array();
-        $links[]= new SiteAdminNavigatorLink("User Management","siteuserman");
-        $links[]= new SiteAdminNavigatorLink("User Permissions","siteuserperm");
-        $links[]= new SiteAdminNavigatorLink("List Users","siteuserlist");
-        $links[]= new SiteAdminNavigatorLink("IP Ban","siteipban");
-      }
-        $links[]= new SiteAdminNavigatorLink("Who's Online","siteonline");
-        $this->listvars['category'][]= new SiteAdminNavigatorCategory("Users",$links);
-
-    }
+	function SiteAdminNavigator()
+	{
+		parent::__construct();
+		
+		$links=array();
+		$links[]= new SiteAdminNavigatorLink("Site Statistics","sitestats");
+		$this->listvars['category'][]= new SiteAdminNavigatorCategory("Site",$links);
+		
+		$links=array();
+		$links[]= new SiteAdminNavigatorLink("Copyright Permissions","sitecopyperm");
+		if(isadmin($this->stringvars['sid']))
+		{
+		$links[]= new SiteAdminNavigatorLink("Referrers","sitereferrers");
+		}
+		$this->listvars['category'][]= new SiteAdminNavigatorCategory("Copyright",$links);
+		
+		$links=array();
+		if(isadmin($this->stringvars['sid']))
+		{
+		$links[]= new SiteAdminNavigatorLink("Page Types","sitepagetype");
+		}
+		$links[]= new SiteAdminNavigatorLink("Restricted Pages","sitepagerestrict");
+		$this->listvars['category'][]= new SiteAdminNavigatorCategory("Pages",$links);
+		
+		$links=array();
+		if(isadmin($this->stringvars['sid']))
+		{
+			$links[]= new SiteAdminNavigatorLink("Site Layout","sitelayout");
+			$links[]= new SiteAdminNavigatorLink("Items of the Day","siteiotd");
+			$links[]= new SiteAdminNavigatorLink("Anti-Spam","sitespam");
+			$links[]= new SiteAdminNavigatorLink("Guestbook","siteguest");
+			$links[]= new SiteAdminNavigatorLink("Site Policy","sitepolicy");
+			$links[]= new SiteAdminNavigatorLink("Banners","sitebanner");
+			$this->listvars['category'][]= new SiteAdminNavigatorCategory("Features &amp; Layout",$links);
+			
+			$links=array();
+			$links[]= new SiteAdminNavigatorLink("Technical Setup","sitetech");
+			$links[]= new SiteAdminNavigatorLink("Database Utilities","sitedb");
+			$links[]= new SiteAdminNavigatorLink("Rebuild Indices","siteind");
+			$this->listvars['category'][]= new SiteAdminNavigatorCategory("Technical",$links);
+			
+			$links=array();
+			$links[]= new SiteAdminNavigatorLink("User Management","siteuserman");
+			$links[]= new SiteAdminNavigatorLink("User Permissions","siteuserperm");
+			$links[]= new SiteAdminNavigatorLink("List Users","siteuserlist");
+			$links[]= new SiteAdminNavigatorLink("IP Ban","siteipban");
+		}
+		$links[]= new SiteAdminNavigatorLink("Who's Online","siteonline");
+		$this->listvars['category'][]= new SiteAdminNavigatorCategory("Users",$links);
+	}
 
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/site/adminnavigator.tpl");
+		$this->addTemplate("admin/site/adminnavigator.tpl");
     }
 }
 

@@ -13,30 +13,29 @@ include_once($projectroot."includes/includes.php");
 //
 class Articlesection extends Template {
 
-    function Articlesection($articlesection_id,$articlepage,$showrefused,$showhidden) {
-    
+    function Articlesection($articlesection_id,$articlepage,$showrefused,$showhidden)
+    {
     	parent::__construct();
 
-      $sectioncontents=getarticlesectioncontents($articlesection_id);
-
-      if(strlen($sectioncontents['sectiontitle'])>0)
-      {
-        $this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
-        $this->stringvars['sectionid'] =$articlesection_id;
-      }
-
-      if(strlen($sectioncontents['sectionimage'])>0 && mayshowimage($sectioncontents['sectionimage'],$this->stringvars['page'],$showhidden))
-        $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],2,$sectioncontents['imagealign'],$showrefused,$showhidden);
-      else $this->stringvars['image']="";
-
-      $this->stringvars['text']=text2html($sectioncontents['text']);
-
+		$sectioncontents=getarticlesectioncontents($articlesection_id);
+		
+		if(strlen($sectioncontents['sectiontitle'])>0)
+		{
+			$this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
+			$this->stringvars['sectionid'] =$articlesection_id;
+		}
+		
+		if(strlen($sectioncontents['sectionimage'])>0 && mayshowimage($sectioncontents['sectionimage'],$this->stringvars['page'],$showhidden))
+		$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],2,$sectioncontents['imagealign'],$showrefused,$showhidden);
+		else $this->stringvars['image']="";
+		
+		$this->stringvars['text']=text2html($sectioncontents['text']);
     }
 
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("articlesection.tpl");
+		$this->addTemplate("articlesection.tpl");
     }
 }
 
@@ -120,7 +119,8 @@ class ArticleTOC extends Template {
   		$this->stringvars['l_toc'] =getlang('article_page_toc');
   		
   		$noofarticlepages=numberofarticlepages($this->stringvars['page']);
-  		for($i=1;$i<=$noofarticlepages;$i++) {
+  		for($i=1;$i<=$noofarticlepages;$i++)
+  		{
 	  		$articlesections=getarticlesections($this->stringvars['page'],$i);
 		    // get items
 		    for($j=0;$j<count($articlesections);$j++)
@@ -135,7 +135,7 @@ class ArticleTOC extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("articletoc.tpl");
+		$this->addTemplate("articletoc.tpl");
     }
 }
 
@@ -156,7 +156,7 @@ class ArticleTOCItem extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("articletocitem.tpl");
+		$this->addTemplate("articletocitem.tpl");
     }
 }
 
@@ -169,7 +169,8 @@ class ArticleTOCItem extends Template {
 //
 class ArticlesectionPrintview extends Template {
 
-	function ArticlesectionPrintview($articlesection) {
+	function ArticlesectionPrintview($articlesection)
+	{
 		parent::__construct();
 	
 		$sectioncontents=getarticlesectioncontents($articlesection);

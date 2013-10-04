@@ -12,7 +12,7 @@ include_once($projectroot."functions/db.php");
 function getlinklistitems($page_id)
 {
 	global $db;
-  return getorderedcolumn("link_id",LINKS_TABLE, "page_id='".$db->setinteger($page_id)."'", "position", "ASC");
+	return getorderedcolumn("link_id",LINKS_TABLE, "page_id='".$db->setinteger($page_id)."'", "position", "ASC");
 }
 
 //
@@ -21,7 +21,7 @@ function getlinklistitems($page_id)
 function getlinktitle($link_id)
 {
 	global $db;
-  return getdbelement("title",LINKS_TABLE, "link_id", $db->setinteger($link_id));
+	return getdbelement("title",LINKS_TABLE, "link_id", $db->setinteger($link_id));
 }
 
 //
@@ -30,7 +30,7 @@ function getlinktitle($link_id)
 function getlinkcontents($link_id)
 {
 	global $db;
-  return getrowbykey(LINKS_TABLE, "link_id", $db->setinteger($link_id));
+	return getrowbykey(LINKS_TABLE, "link_id", $db->setinteger($link_id));
 }
 
 //
@@ -39,7 +39,7 @@ function getlinkcontents($link_id)
 function getlastlinkposition($page_id)
 {
 	global $db;
-  return getmax("position",LINKS_TABLE, "page_id ='".$db->setinteger($page_id)."'");
+	return getmax("position",LINKS_TABLE, "page_id ='".$db->setinteger($page_id)."'");
 }
 
 //
@@ -48,6 +48,6 @@ function getlastlinkposition($page_id)
 function getlinkdescription($link_id)
 {
 	global $db;
-  return getdbelement("description",LINKS_TABLE, "link_id", $db->setinteger($link_id));
+	return getdbelement("description",LINKS_TABLE, "link_id", $db->setinteger($link_id));
 }
 ?>

@@ -17,7 +17,7 @@ include_once($projectroot."functions/db.php");
 function getpublicusername($user_id)
 {
 	global $db;
-  return getdbelement("username",PUBLICUSERS_TABLE, "user_id", $db->setinteger($user_id));
+	return getdbelement("username",PUBLICUSERS_TABLE, "user_id", $db->setinteger($user_id));
 }
 
 //
@@ -26,7 +26,7 @@ function getpublicusername($user_id)
 function getpublicuserid($username)
 {
 	global $db;
-  return getdbelement("user_id",PUBLICUSERS_TABLE, "username",$db->setstring($username));
+	return getdbelement("user_id",PUBLICUSERS_TABLE, "username",$db->setstring($username));
 }
 
 //
@@ -35,8 +35,7 @@ function getpublicuserid($username)
 function ispublicuseractive($user_id)
 {
 	global $db;
-  return getdbelement("user_active",PUBLICUSERS_TABLE, "user_id", $db->setinteger($user_id));
+	return getdbelement("user_active",PUBLICUSERS_TABLE, "user_id", $db->setinteger($user_id));
 }
-
 
 ?>

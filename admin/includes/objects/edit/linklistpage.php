@@ -14,18 +14,17 @@ include_once($projectroot."admin/includes/objects/imageeditor.php");
 //
 //
 class AddLinklistLinkForm extends Template {
-  function AddLinklistLinkForm()
-  {
-    parent::__construct();
-    
-    $this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
-  }
+	function AddLinklistLinkForm()
+	{
+		parent::__construct();
+		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
+	}
 
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/addlinklistlinkform.tpl");
-  }
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/addlinklistlinkform.tpl");
+	}
 }
 
 
@@ -33,37 +32,36 @@ class AddLinklistLinkForm extends Template {
 //
 //
 class EditLinkListLinkForm extends Template {
-  function EditLinkListLinkForm($linkid,$linktitle,$link,$image,$description)
-  {
-    parent::__construct($linkid);
-    
-    $this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-   	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editlinklist.js");
-   	
-   	$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&link=".$linkid."&action=editcontents";
-    $this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
-    
-    $this->stringvars['linkid']=$linkid;
-    
-    $this->stringvars['linktitle']=title2html($linktitle);
-    if(!$linktitle)
-    {
-      $this->stringvars['linktitle'] = "New Link";
-    }
-    $this->stringvars['linkinputtitle']=input2html($linktitle);
-    $this->stringvars['link']=$link;
-    $this->stringvars['description']=text2html($description);
-    
-    $this->vars['imageeditor'] = new ImageEditor($this->stringvars['page'],$linkid,"link",array("image"=>$image));
+	function EditLinkListLinkForm($linkid,$linktitle,$link,$image,$description)
+	{
+		parent::__construct($linkid);
+		
+		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editlinklist.js");
+		
+		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&link=".$linkid."&action=editcontents";
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		
+		$this->stringvars['linkid']=$linkid;
+		
+		$this->stringvars['linktitle']=title2html($linktitle);
+		if(!$linktitle)
+			$this->stringvars['linktitle'] = "New Link";
 
-    $this->vars['editdescription']= new Editor($this->stringvars['page'],$linkid,"link","Link Description");
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/editlinklistlinkform.tpl");
-  }
+		$this->stringvars['linkinputtitle']=input2html($linktitle);
+		$this->stringvars['link']=$link;
+		$this->stringvars['description']=text2html($description);
+		
+		$this->vars['imageeditor'] = new ImageEditor($this->stringvars['page'],$linkid,"link",array("image"=>$image));
+		
+		$this->vars['editdescription']= new Editor($this->stringvars['page'],$linkid,"link","Link Description");
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/editlinklistlinkform.tpl");
+	}
 }
 
 
@@ -71,42 +69,39 @@ class EditLinkListLinkForm extends Template {
 //
 //
 class EditLinklist extends Template {
-  function EditLinklist($page)
-  {
-    parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-  		
-  	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-  	
-  	$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
-    $this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+	function EditLinklist($page)
+	{
+		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		
+		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		
+		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		
+		$linkids=getlinklistitems($page);
+		if(count($linkids<1)) $this->stringvars['linkform']="";
+		
+		for($i=0;$i<count($linkids);$i++)
+		{
+			$contents=getlinkcontents($linkids[$i]);
 
-    $linkids=getlinklistitems($page);
-    if(count($linkids<1)) $this->stringvars['linkform']="";
+			if($contents['title'])
+				$linktitle=title2html($contents['title']);
+			else
+				$linktitle='New Link';
 
-    for($i=0;$i<count($linkids);$i++)
-    {
-      $contents=getlinkcontents($linkids[$i]);
-      if($contents['title'])
-      {
-        $linktitle=title2html($contents['title']);
-      }
-      else
-      {
-        $linktitle='New Link';
-      }
-      $this->listvars['linkform'][] = new EditLinkListLinkForm($linkids[$i],$contents['title'],$contents['link'],$contents['image'],$contents['description']);
-    }
-
-    $this->vars['addform'] = new AddLinklistLinkForm();
-    
-    $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/editlinklist.tpl");
-  }
+			$this->listvars['linkform'][] = new EditLinkListLinkForm($linkids[$i],$contents['title'],$contents['link'],$contents['image'],$contents['description']);
+		}
+		
+		$this->vars['addform'] = new AddLinklistLinkForm();
+		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/editlinklist.tpl");
+	}
 }
 
 ?>

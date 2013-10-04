@@ -14,10 +14,6 @@ include_once($projectroot."admin/includes/objects/forms.php");
 // List entries in Guestbook
 //
 class AdminGuestbookEntryList extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-    //var $vars=array();
-
 
     function AdminGuestbookEntryList($number, $offset)
     {
@@ -45,7 +41,7 @@ class AdminGuestbookEntryList extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/site/guestbookentrylist.tpl");
+		$this->addTemplate("admin/site/guestbookentrylist.tpl");
     }
 
 }
@@ -56,10 +52,6 @@ class AdminGuestbookEntryList extends Template {
 // Entry displayed in Guestbook
 //
 class AdminGuestbookEntry extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-    //var $vars=array();
-
 
     function AdminGuestbookEntry($entryid, $showdeleteform=true)
     {
@@ -87,7 +79,7 @@ class AdminGuestbookEntry extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/site/guestbookentry.tpl");
+		$this->addTemplate("admin/site/guestbookentry.tpl");
     }
 
 }
@@ -100,10 +92,6 @@ class AdminGuestbookEntry extends Template {
 // To confirm deleting of entry
 //
 class AdminGuestbookDeleteConfirmForm extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-    //var $vars=array();
-
 
     function AdminGuestbookDeleteConfirmForm($entryid)
     {
@@ -116,7 +104,7 @@ class AdminGuestbookDeleteConfirmForm extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/site/guestbookdeleteconfirmform.tpl");
+		$this->addTemplate("admin/site/guestbookdeleteconfirmform.tpl");
     }
 
 }
@@ -128,7 +116,6 @@ class AdminGuestbookDeleteConfirmForm extends Template {
 // To switch guestbook on and off
 //
 class AdminGuestbookEnableForm extends Template {
-
 
     function AdminGuestbookEnableForm()
     {
@@ -154,10 +141,9 @@ class AdminGuestbookEnableForm extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/site/guestbookenableform.tpl");
+	$this->addTemplate("admin/site/guestbookenableform.tpl");
     }
 
 }
-
 
 ?>

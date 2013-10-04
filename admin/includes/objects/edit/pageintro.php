@@ -14,22 +14,21 @@ include_once($projectroot."admin/includes/objects/imageeditor.php");
 //
 //
 class EditPageIntro extends Template {
-  function EditPageIntro($page)
-  {
-    parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-  		
-  	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-  	
-    $this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
-    $this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",array("image"=>getpageintroimage($page), "halign" =>getpageintrohalign($page)));
-    $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
-  }
+	function EditPageIntro($page)
+	{
+		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/edit/editpageintro.tpl");
-  }
+		$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
+		$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",array("image"=>getpageintroimage($page), "halign" =>getpageintrohalign($page)));
+		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/editpageintro.tpl");
+	}
 }
 
 ?>

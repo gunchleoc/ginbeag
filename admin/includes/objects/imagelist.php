@@ -19,43 +19,44 @@ include_once($projectroot."includes/objects/categories.php");
 //
 class AddImageForm extends Template {
 
-  function AddImageForm($filename="",$caption="",$source="",$sourcelink="",$copyright="",$permission="")
-  {
-    global $number;
-    parent::__construct();
+	function AddImageForm($filename="",$caption="",$source="",$sourcelink="",$copyright="",$permission="")
+	{
+		global $number;
 
-	// parameters from last image
-    $this->stringvars['caption']=utf8_decode(input2html($caption));
-    $this->stringvars['source']=utf8_decode(input2html($source));
-    $this->stringvars['sourcelink']=utf8_decode(input2html($sourcelink));
-    $this->stringvars['copyright']=utf8_decode(input2html($copyright));
-    $this->stringvars['permission']=$permission;
-    
-	// set permissions radio buttons
-    $this->vars['permission_granted'] = new RadioButtonForm("","permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
-    $this->vars['no_permission'] = new RadioButtonForm("","permission",NO_PERMISSION,"No permission",$this->stringvars['permission'] == NO_PERMISSION,"right");
-    $this->vars['permission_refused'] = new RadioButtonForm("","permission",PERMISSION_REFUSED,"Permission refused",$this->stringvars['permission'] == PERMISSION_REFUSED,"right");
-
-	// make category selection
-    $selectedcats=getcategoriesforimage($filename);
-    $this->vars['categoryselection']= new CategorySelectionForm(true,"",15,$selectedcats);
-    
-    // action vars
-    $actionvars=makeimagelistvarsfromget();
-    $actionvars["action"]="addimage";
-    $this->stringvars['actionvars']=$this->makeactionvars($actionvars);
-    
-    // display storage path
-    $this->stringvars['imagelinkpath']=getimagelinkpath("",getimagesubpath(basename($filename)));
-    
-    $this->stringvars['thumbnailsize']=getproperty("Thumbnail Size");
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/imagelist/addimageform.tpl");
-  }
+		parent::__construct();
+		
+		// parameters from last image
+		$this->stringvars['caption']=utf8_decode(input2html($caption));
+		$this->stringvars['source']=utf8_decode(input2html($source));
+		$this->stringvars['sourcelink']=utf8_decode(input2html($sourcelink));
+		$this->stringvars['copyright']=utf8_decode(input2html($copyright));
+		$this->stringvars['permission']=$permission;
+		
+		// set permissions radio buttons
+		$this->vars['permission_granted'] = new RadioButtonForm("","permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
+		$this->vars['no_permission'] = new RadioButtonForm("","permission",NO_PERMISSION,"No permission",$this->stringvars['permission'] == NO_PERMISSION,"right");
+		$this->vars['permission_refused'] = new RadioButtonForm("","permission",PERMISSION_REFUSED,"Permission refused",$this->stringvars['permission'] == PERMISSION_REFUSED,"right");
+		
+		// make category selection
+		$selectedcats=getcategoriesforimage($filename);
+		$this->vars['categoryselection']= new CategorySelectionForm(true,"",15,$selectedcats);
+		
+		// action vars
+		$actionvars=makeimagelistvarsfromget();
+		$actionvars["action"]="addimage";
+		$this->stringvars['actionvars']=$this->makeactionvars($actionvars);
+		
+		// display storage path
+		$this->stringvars['imagelinkpath']=getimagelinkpath("",getimagesubpath(basename($filename)));
+		
+		$this->stringvars['thumbnailsize']=getproperty("Thumbnail Size");
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/imagelist/addimageform.tpl");
+	}
 }
 
 
@@ -118,60 +119,60 @@ class DeleteThumbnailConfirmForm extends Template {
 //
 class EditImageForm extends Template {
 
-  function EditImageForm($filename)
-  {
-    global $number;
-    parent::__construct();
-    
-    $this->stringvars['jsid']=str_replace ( ".", "", $filename);
-    $this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-    $this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editimageform.js");
-    
-    $actionvars=makeimagelistvarsfromget();
-    $actionvars["number"]=$number;
-    $actionvars=$this->makeactionvars($actionvars);
-    	
-    $this->stringvars['actionvarsreplace']=$actionvars."&action=replaceimage";
-    $this->stringvars['actionvarsdelete']=$actionvars."&action=delete";
-    $this->stringvars['actionvarscat']=$actionvars."&action=cat";
-    $this->stringvars['actionvarsaddthumb']=$actionvars."&action=addthumb";
-    $this->stringvars['actionvarsreplacethumb']=$actionvars."&action=replacethumb";
-    $this->stringvars['actionvarsdeletethumbnail']=$actionvars."&action=deletethumbnail";
-    $this->stringvars['actionvarsdescription']=$actionvars."&action=description";
-    $this->stringvars['actionvarspermission']=$actionvars."&action=permission";
-    $this->stringvars['hiddenvars'] = '<input type="hidden" name="filename" value="'.$filename.'" />';
-    
+	function EditImageForm($filename)
+	{
+		global $number;
+		parent::__construct();
+		
+		$this->stringvars['jsid']=str_replace ( ".", "", $filename);
+		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editimageform.js");
+		
+		$actionvars=makeimagelistvarsfromget();
+		$actionvars["number"]=$number;
+		$actionvars=$this->makeactionvars($actionvars);
+			
+		$this->stringvars['actionvarsreplace']=$actionvars."&action=replaceimage";
+		$this->stringvars['actionvarsdelete']=$actionvars."&action=delete";
+		$this->stringvars['actionvarscat']=$actionvars."&action=cat";
+		$this->stringvars['actionvarsaddthumb']=$actionvars."&action=addthumb";
+		$this->stringvars['actionvarsreplacethumb']=$actionvars."&action=replacethumb";
+		$this->stringvars['actionvarsdeletethumbnail']=$actionvars."&action=deletethumbnail";
+		$this->stringvars['actionvarsdescription']=$actionvars."&action=description";
+		$this->stringvars['actionvarspermission']=$actionvars."&action=permission";
+		$this->stringvars['hiddenvars'] = '<input type="hidden" name="filename" value="'.$filename.'" />';
+		
+		
+		$image=getimage($filename);
+		$this->stringvars['filename']=$filename;
+		$this->stringvars['caption']=input2html($image['caption']);
+		$this->stringvars['source']=input2html($image['source']);
+		$this->stringvars['sourcelink']=input2html($image['sourcelink']);
+		$this->stringvars['copyright']=input2html($image['copyright']);
+		$this->stringvars['permission']=$image['permission'];
+		$this->stringvars['filepath']=getimagelinkpath($filename,getimagesubpath(basename($filename)));
+		
+		$this->vars['permission_granted'] = new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
+		$this->vars['no_permission'] = new RadioButtonForm($this->stringvars['jsid'],"permission",NO_PERMISSION,"No permission",$this->stringvars['permission'] == NO_PERMISSION,"right");
+		$this->vars['permission_refused'] = new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_REFUSED,"Permission refused",$this->stringvars['permission'] == PERMISSION_REFUSED,"right");
+		
+		$thumbnail = getthumbnail($filename);
+		$this->vars['image']= new AdminImage($filename, $image['uploaddate'], $image['editor_id'], $thumbnail,true);
+		
+		if(!$thumbnail)
+			$this->stringvars['no_thumbnail']="no thumbnail";
+		else
+			$this->stringvars['thumbnail']=getthumbnail($filename);
+	
+		$this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid']);
+	    $this->vars['categorylist']=new Categorylist(getcategoriesforimage($filename));
+	}
 
-    $image=getimage($filename);
-    $this->stringvars['filename']=$filename;
-    $this->stringvars['caption']=input2html($image['caption']);
-    $this->stringvars['source']=input2html($image['source']);
-    $this->stringvars['sourcelink']=input2html($image['sourcelink']);
-    $this->stringvars['copyright']=input2html($image['copyright']);
-    $this->stringvars['permission']=$image['permission'];
-    $this->stringvars['filepath']=getimagelinkpath($filename,getimagesubpath(basename($filename)));
-    
-    $this->vars['permission_granted'] = new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
-    $this->vars['no_permission'] = new RadioButtonForm($this->stringvars['jsid'],"permission",NO_PERMISSION,"No permission",$this->stringvars['permission'] == NO_PERMISSION,"right");
-    $this->vars['permission_refused'] = new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_REFUSED,"Permission refused",$this->stringvars['permission'] == PERMISSION_REFUSED,"right");
-
-    $thumbnail = getthumbnail($filename);
-    $this->vars['image']= new AdminImage($filename, $image['uploaddate'], $image['editor_id'], $thumbnail,true);
-
-    if(!$thumbnail)
-      $this->stringvars['no_thumbnail']="no thumbnail";
-    else
-      $this->stringvars['thumbnail']=getthumbnail($filename);
-
-    $this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid']);
-    $this->vars['categorylist']=new Categorylist(getcategoriesforimage($filename));
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/imagelist/editimageform.tpl");
-  }
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/imagelist/editimageform.tpl");
+	}
 }
 
 
@@ -183,6 +184,7 @@ class EditImageFormUsage extends Template {
 	function EditImageFormUsage($filename)
   	{
   		parent::__construct();
+
 	  	$pages=pagesforimage($filename);
 	  	$newsitems=newsitemsforimage($filename);
 	
@@ -227,35 +229,33 @@ class EditImageFormUsage extends Template {
 //
 class UnknownImageForm extends Template {
 
-  function UnknownImageForm($filename)
-  {
-    global $number;
-    parent::__construct();
-    
-    $actionvars=makeimagelistvarsfromget();
-    $actionvars["number"]=$number;
-    $actionvars["filefilter"]="filefilter";
-    $actionvars=$this->makeactionvars($actionvars);
-    $this->stringvars['actionvarsdeletefile']=$actionvars."&unknown=Unknown+Image+Files&action=deletefile";
-    $this->stringvars['actionvarsaddunknownfile']=$actionvars."&unknown=Unknown+Image+Files&action=addunknownfile";
-    $this->stringvars['hiddenvars'] = '<input type="hidden" name="filename" value="'.$filename.'" />';
+	function UnknownImageForm($filename)
+	{
+		global $number;
+		parent::__construct();
+		
+		$actionvars=makeimagelistvarsfromget();
+		$actionvars["number"]=$number;
+		$actionvars["filefilter"]="filefilter";
+		$actionvars=$this->makeactionvars($actionvars);
 
-    $this->stringvars['filename']=$filename;
-    $this->vars['image']=new AdminImage($filename,0,0,"",false);
+		$this->stringvars['actionvarsdeletefile']=$actionvars."&unknown=Unknown+Image+Files&action=deletefile";
+		$this->stringvars['actionvarsaddunknownfile']=$actionvars."&unknown=Unknown+Image+Files&action=addunknownfile";
+		$this->stringvars['hiddenvars'] = '<input type="hidden" name="filename" value="'.$filename.'" />';
+		$this->stringvars['filename']=$filename;
+		$this->vars['image']=new AdminImage($filename,0,0,"",false);
 
-    $this->stringvars['permission_granted']=PERMISSION_GRANTED;
-    $this->stringvars['no_permission']=NO_PERMISSION;
-    $this->stringvars['permission_refused']=PERMISSION_REFUSED;
-
-    $this->vars['categoryselection']= new CategorySelectionForm(true);
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/imagelist/unknownimageform.tpl");
-  }
-
+		$this->stringvars['permission_granted']=PERMISSION_GRANTED;
+		$this->stringvars['no_permission']=NO_PERMISSION;
+		$this->stringvars['permission_refused']=PERMISSION_REFUSED;
+		$this->vars['categoryselection']= new CategorySelectionForm(true);
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/imagelist/unknownimageform.tpl");
+	}
 }
 
 
@@ -267,6 +267,7 @@ class ImageList extends Template {
 	function ImageList($offset)
   	{
     	global $_GET, $projectroot, $number, $ascdesc, $order, $filter;
+
     	parent::__construct();
 
     	$imagedir=getproperty("Image Upload Path");
@@ -411,7 +412,7 @@ class ImageList extends Template {
 
     	$this->vars['filterform'] = new ImageFilterForm($offset,$imagesperpage,$noofimages,$message);
     	$this->vars['pagemenu'] = getpagemenu($offset,$number,$noofimages);
-  }
+	}
   
   
   
@@ -448,12 +449,11 @@ class ImageList extends Template {
 		}
   
 
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/imagelist/imagelist.tpl");
-  }
-
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/imagelist/imagelist.tpl");
+	}
 }
 
 
@@ -462,92 +462,91 @@ class ImageList extends Template {
 //
 class AdminImage extends Template {
 
-  function AdminImage($filename, $uploaddate, $uploader, $thumbnail="",$showcaption=true)
-  {
-    global $projectroot;
-    parent::__construct();
-    $this->stringvars['imagefile']=$filename;
+	function AdminImage($filename, $uploaddate, $uploader, $thumbnail="",$showcaption=true)
+	{
+		global $projectroot;
+		parent::__construct();
+		$this->stringvars['imagefile']=$filename;
+		
+		if($showcaption)
+		{
+			$this->vars['caption']= new ImageCaption($filename);
+		}
+		
+		$imagedir=$projectroot.getproperty("Image Upload Path");
+		$filename=$imagedir.getimagesubpath(basename($filename)).'/'.$filename;
+		
+		if(file_exists($filename))
+		{
+			$this->stringvars['image']="image";
+			$this->stringvars['imagepath']=getimagelinkpath($filename,getimagesubpath(basename($filename)));
+			//print($this->stringvars['imagepath']."*".$filename);
+			
+			$imageproperties = $this->imageproperties($filename, $uploaddate, $uploader);
+			if(strlen($imageproperties)>0)
+				$this->stringvars['imageproperties']=$imageproperties;
+			
+			$dimensions=calculateimagedimensions($filename,1);
+			$this->stringvars['width']=$dimensions["width"];
+			$this->stringvars['height']=$dimensions["height"];
+		}
+		else
+		{
+			$this->stringvars['no_image']="no image";
+		}
     
-    if($showcaption)
-    {
-      $this->vars['caption']= new ImageCaption($filename);
-    }
-  
-    $imagedir=$projectroot.getproperty("Image Upload Path");
-    $filename=$imagedir.getimagesubpath(basename($filename)).'/'.$filename;
+		if($thumbnail)
+		{
+			$this->stringvars['thumbnail']="thumbnail";
+			$this->stringvars['thumbnailpath']=getimagelinkpath($thumbnail,getimagesubpath(basename($filename)));
+			$thumbnail=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
+			
+			if(file_exists($thumbnail))
+			{
+				$thumbnailproperties = $this->imageproperties($thumbnail);
+				if(strlen($thumbnailproperties)>0)
+					$this->stringvars['thumbnailproperties']=$thumbnailproperties;
+			}
+		}
+		else
+		{
+			$this->stringvars['no_thumbnail']="no thumbnail";
+			if(isset ($dimensions["resized"]))
+				$this->stringvars['resized']=$dimensions["resized"];
+		}
+	}
 
-    if(file_exists($filename))
-    {
-      $this->stringvars['image']="image";
-      $this->stringvars['imagepath']=getimagelinkpath($filename,getimagesubpath(basename($filename)));
-      //print($this->stringvars['imagepath']."*".$filename);
-    
-      $imageproperties = $this->imageproperties($filename, $uploaddate, $uploader);
-      if(strlen($imageproperties)>0)
-        $this->stringvars['imageproperties']=$imageproperties;
-      
-      $dimensions=calculateimagedimensions($filename,1);
-      $this->stringvars['width']=$dimensions["width"];
-      $this->stringvars['height']=$dimensions["height"];
-      
-    }
-    else
-    {
-      $this->stringvars['no_image']="no image";
-    }
-    
-    if($thumbnail)
-    {
-      $this->stringvars['thumbnail']="thumbnail";
-      $this->stringvars['thumbnailpath']=getimagelinkpath($thumbnail,getimagesubpath(basename($filename)));
-      $thumbnail=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
-      
-      if(file_exists($thumbnail))
-      {
-        $thumbnailproperties = $this->imageproperties($thumbnail);
-        if(strlen($thumbnailproperties)>0)
-          $this->stringvars['thumbnailproperties']=$thumbnailproperties;
-      }
-    }
-    else
-    {
-      $this->stringvars['no_thumbnail']="no thumbnail";
-      if(isset ($dimensions["resized"]))
-      	$this->stringvars['resized']=$dimensions["resized"];
-    }
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/imagelist/adminimage.tpl");
-  }
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/imagelist/adminimage.tpl");
+	}
   
-  //
-  // gets file dimensions and upload info as a string
-  //
-  function imageproperties($filename, $uploaddate="", $uploader="")
-  {
-    $result="";
-    if(file_exists($filename))
-    {
-      $imageproperties=@getimagesize($filename);
-      $width=$imageproperties[0];
-      $height=$imageproperties[1];
-      $result.=basename($filename);
-      $result.='&nbsp;- '.$width.'&nbsp;x&nbsp;'.$height.'&nbsp;pixel';
-      $result.='&nbsp;- '.filesize($filename).'&nbsp;bytes.';
-      if($uploaddate || $uploader)
-      {
-        $result.='<br />Uploaded&nbsp;'.$uploaddate.' by&nbsp;'.getusername($uploader).'.';
-      }
-    }
-    else
-    {
-      $result.='<p class="highlight">File <i>'.basename($filename).'</i> not found</p>';
-    }
-    return $result;
-  }
+	//
+	// gets file dimensions and upload info as a string
+	//
+	function imageproperties($filename, $uploaddate="", $uploader="")
+	{
+		$result="";
+		if(file_exists($filename))
+		{
+			$imageproperties=@getimagesize($filename);
+			$width=$imageproperties[0];
+			$height=$imageproperties[1];
+			$result.=basename($filename);
+			$result.='&nbsp;- '.$width.'&nbsp;x&nbsp;'.$height.'&nbsp;pixel';
+			$result.='&nbsp;- '.filesize($filename).'&nbsp;bytes.';
+			if($uploaddate || $uploader)
+			{
+				$result.='<br />Uploaded&nbsp;'.$uploaddate.' by&nbsp;'.getusername($uploader).'.';
+			}
+		}
+		else
+		{
+			$result.='<p class="highlight">File <i>'.basename($filename).'</i> not found</p>';
+		}
+		return $result;
+	}
 }
 
 
@@ -556,118 +555,110 @@ class AdminImage extends Template {
 //
 class ImageFilterForm extends Template {
 
-  function ImageFilterForm($offset,$imagesperpage,$noofimages,$message="")
-  {
-    global $_GET, $order, $ascdesc, $number;
-    parent::__construct();
-
-    $this->stringvars['message']=$message;
-    $this->stringvars['number']=$number;
-
-    if(isset($_GET["filename"])) $this->stringvars['filename']= $_GET["filename"];
-    else $this->stringvars['filename']="";
-
-    if(isset($_GET["caption"])) $this->stringvars['caption']= $_GET["caption"];
-    else $this->stringvars['caption']="";
-
-    if(isset($_GET["source"])) $this->stringvars['source']= $_GET["source"];
-    else $this->stringvars['source']="";
-
-    if(isset($_GET["copyright"])) $this->stringvars['copyright']= $_GET["copyright"];
-    else $this->stringvars['copyright']="";
-
-    if(isset($_GET["uploader"])) $this->stringvars['uploader']= $_GET["uploader"];
-    else $this->stringvars['uploader']=-1;
+	function ImageFilterForm($offset,$imagesperpage,$noofimages,$message="")
+	{
+		global $_GET, $order, $ascdesc, $number;
+		parent::__construct();
+		
+		$this->stringvars['message']=$message;
+		$this->stringvars['number']=$number;
+		
+		if(isset($_GET["filename"])) $this->stringvars['filename']= $_GET["filename"];
+		else $this->stringvars['filename']="";
+		
+		if(isset($_GET["caption"])) $this->stringvars['caption']= $_GET["caption"];
+		else $this->stringvars['caption']="";
+		
+		if(isset($_GET["source"])) $this->stringvars['source']= $_GET["source"];
+		else $this->stringvars['source']="";
+		
+		if(isset($_GET["copyright"])) $this->stringvars['copyright']= $_GET["copyright"];
+		else $this->stringvars['copyright']="";
+		
+		if(isset($_GET["uploader"])) $this->stringvars['uploader']= $_GET["uploader"];
+		else $this->stringvars['uploader']=-1;
+		
+		// make hidden fields
+		//$this->vars['categoryselection']= new CategorySelectionForm(true);
+		//$selectedcats=getcategoriesforimage($filename);
+		if(isset($_GET["selectedcat"]) && is_array($_GET["selectedcat"])>0) $this->vars['categoryselection']= new CategorySelectionForm(true,"",15,$_GET["selectedcat"]);
+		else $this->vars['categoryselection']= new CategorySelectionForm(true);
     
-    // make hidden fields
-    //$this->vars['categoryselection']= new CategorySelectionForm(true);
-    //$selectedcats=getcategoriesforimage($filename);
-    if(isset($_GET["selectedcat"]) && is_array($_GET["selectedcat"])>0) $this->vars['categoryselection']= new CategorySelectionForm(true,"",15,$_GET["selectedcat"]);
-    else $this->vars['categoryselection']= new CategorySelectionForm(true);
-    
-    if(isset($_GET["categoriesblank"]))
-      $this->stringvars['categoriesblank']="checked";
-    else
-      $this->stringvars['categoriesblank']="";
-
-    if(isset($_GET["sourceblank"]))
-      $this->stringvars['sourceblank']="checked";
-    else
-      $this->stringvars['sourceblank']="";
+		if(isset($_GET["categoriesblank"]))
+			$this->stringvars['categoriesblank']="checked";
+		else
+			$this->stringvars['categoriesblank']="";
+		
+		if(isset($_GET["sourceblank"]))
+			$this->stringvars['sourceblank']="checked";
+		else
+			$this->stringvars['sourceblank']="";
+		
+		if(isset($_GET["copyrightblank"]))
+			$this->stringvars['copyrightblank']="checked";
+		else
+			$this->stringvars['copyrightblank']="";
       
-
-    if(isset($_GET["copyrightblank"]))
-      $this->stringvars['copyrightblank']="checked";
-    else
-      $this->stringvars['copyrightblank']="";
-      
-    $this->vars['usersselectionform']= new ImageUsersSelectionForm($this->stringvars['uploader']);
-
-
-    $this->vars['imageorderselection']= new ImageOrderSelectionForm($order);
-    $this->vars['ascdescselection']= new AscDescSelectionForm($ascdesc=="asc");
-    $this->vars['pagemenu']= getpagemenu($offset, $number, $noofimages);
+		$this->vars['usersselectionform']= new ImageUsersSelectionForm($this->stringvars['uploader']);
+		$this->vars['imageorderselection']= new ImageOrderSelectionForm($order);
+		$this->vars['ascdescselection']= new AscDescSelectionForm($ascdesc=="asc");
+		$this->vars['pagemenu']= getpagemenu($offset, $number, $noofimages);
     
-    // so $_GET can be restored after building hidden vars
-    $tempget = $_GET;
+		// so $_GET can be restored after building hidden vars
+		$tempget = $_GET;
 
-	// reset previous searches
-	unset($_GET['selectedcat']);
-	unset($_GET['source']);
-	unset($_GET['caption']);
-	unset($_GET['filename']);
-	unset($_GET['sourceblank']);
-	unset($_GET['uploader']);
-	unset($_GET['copyright']);
-	unset($_GET['copyrightblank']);
-	unset($_GET['categoriesblank']);
-	unset($_GET['offset']);
-
-    $hiddenvars["number"]=$number;
-    $hiddenvars["order"]=$order;
-    $hiddenvars["ascdesc"]=$ascdesc;
-    $hiddenvars=makeimagelistvarsfromget();
-    $this->stringvars['orderselectionhiddenfields']=$this->makehiddenvars($hiddenvars);
-
-    /*
-	unset($_GET['missing']);
-	unset($_GET['unused']);
-	unset($_GET['unknown']);
-	unset($_GET['nothumb']);
-	unset($_GET['missingthumb']);
-    */
+		// reset previous searches
+		unset($_GET['selectedcat']);
+		unset($_GET['source']);
+		unset($_GET['caption']);
+		unset($_GET['filename']);
+		unset($_GET['sourceblank']);
+		unset($_GET['uploader']);
+		unset($_GET['copyright']);
+		unset($_GET['copyrightblank']);
+		unset($_GET['categoriesblank']);
+		unset($_GET['offset']);
+		
+		$hiddenvars["number"]=$number;
+		$hiddenvars["order"]=$order;
+		$hiddenvars["ascdesc"]=$ascdesc;
+		$hiddenvars=makeimagelistvarsfromget();
+		$this->stringvars['orderselectionhiddenfields']=$this->makehiddenvars($hiddenvars);
+		
+		/*
+		unset($_GET['missing']);
+		unset($_GET['unused']);
+		unset($_GET['unknown']);
+		unset($_GET['nothumb']);
+		unset($_GET['missingthumb']);
+		*/
+		
+		$hiddenvars["number"]=$number;
+		$hiddenvars["order"]=$order;
+		$hiddenvars["ascdesc"]=$ascdesc;
+		$this->stringvars['hiddenfields']=$this->makehiddenvars($hiddenvars);
     
-    $hiddenvars["number"]=$number;
-    $hiddenvars["order"]=$order;
-    $hiddenvars["ascdesc"]=$ascdesc;
-    $this->stringvars['hiddenfields']=$this->makehiddenvars($hiddenvars);
-    
-    // restore $_GET
-    $_GET = $tempget;
+		// restore $_GET
+		$_GET = $tempget;
 
-  }
+	}
 
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/imagelist/imagefilterform.tpl");
-  }
-  
-  
-  
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/imagelist/imagefilterform.tpl");
+	}
 }
 
 //
 // for filterform
 //
 class ImageOrderSelectionForm  extends Template {
-    var $stringvars=array("optionform_name" => "",
-                          "optionform_attributes" => "",
-                          "optionform_size" => "1");
-    var $listvars=array("option" => array());
 
-    function ImageOrderSelectionForm($order="") {
+    function ImageOrderSelectionForm($order="")
+    {
     	parent::__construct();
+    	
         $this->stringvars['optionform_name'] = "order";
         $this->stringvars['optionform_id'] ="order";
         $this->stringvars['optionform_label'] ="Order by: ";
@@ -683,7 +674,7 @@ class ImageOrderSelectionForm  extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("optionform.tpl");
+		$this->addTemplate("optionform.tpl");
     }
 }
 
@@ -692,25 +683,22 @@ class ImageOrderSelectionForm  extends Template {
 // for filterform
 //
 class ImageUsersSelectionForm  extends Template {
-    var $stringvars=array("optionform_name" => "",
-                          "optionform_attributes" => "",
-                          "optionform_size" => "1");
-    var $listvars=array("option" => array());
 
-    function ImageUsersSelectionForm($selecteduser=0) {
+    function ImageUsersSelectionForm($selecteduser=0)
+    {
     	parent::__construct();
-      $this->stringvars['optionform_name'] = "uploader";
-      $this->stringvars['optionform_id'] ="uploader";
-      $this->stringvars['optionform_label'] ="Uploader: ";
-      $this->stringvars['jsid'] ="";
-        
-      $users=getallusers();
-
-      $this->listvars['option'][]= new OptionFormOption(0,$selecteduser==0,"Anybody");
-      for($i=0;$i<count($users);$i++)
-      {
-        $this->listvars['option'][]= new OptionFormOption($users[$i],$selecteduser==$users[$i],getusername($users[$i]));
-      }
+    	
+		$this->stringvars['optionform_name'] = "uploader";
+		$this->stringvars['optionform_id'] ="uploader";
+		$this->stringvars['optionform_label'] ="Uploader: ";
+		$this->stringvars['jsid'] ="";
+		$this->listvars['option'][]= new OptionFormOption(0,$selecteduser==0,"Anybody");
+		
+		$users=getallusers();
+		for($i=0;$i<count($users);$i++)
+		{
+			$this->listvars['option'][]= new OptionFormOption($users[$i],$selecteduser==$users[$i],getusername($users[$i]));
+		}
     }
 
     // assigns templates
@@ -726,8 +714,10 @@ class ImageUsersSelectionForm  extends Template {
 //
 class AdminImagePage  extends Template {
 
-	function AdminImagePage($messagetitle,$message,$filename,$addimageform,$form,$displayeditform=false) {
+	function AdminImagePage($messagetitle,$message,$filename,$addimageform,$form,$displayeditform=false)
+	{
 		global $number;
+		
 		parent::__construct($filename,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
 
     	$this->stringvars['stylesheet']=getCSSPath("main.css");
@@ -761,7 +751,7 @@ class AdminImagePage  extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("admin/imagelist/adminimagepage.tpl");
+		$this->addTemplate("admin/imagelist/adminimagepage.tpl");
     }
 }
 

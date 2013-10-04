@@ -24,7 +24,6 @@ include_once($projectroot."admin/includes/objects/imagelist.php");
 $sid=$_GET['sid'];
 checksession($sid);
 
-
 // clear filter
 if(isset($_GET['clear']))
 {
@@ -43,16 +42,12 @@ if(isset($_GET['filter']))
 	unset($_GET['filter']);
 }
 
-
 $offset=0;
 if(isset($_GET['offset'])) $offset=$_GET['offset'];
 
-
+$number=5;
 if(isset($_GET['number']) && $_GET['number']>0)
   $number=$_GET['number'];
-else
-  $number=5;
-
 
 $page=0;
 if(isset($_GET['page'])) $page=$_GET['page'];
@@ -64,14 +59,11 @@ elseif(isset($_POST['action'])) $action=$_POST['action'];
 unset($_GET['action']);
 unset($_POST['action']);
 
-
 $order="filename";
 if(isset($_GET['order'])) $order=$_GET['order'];
 
 $ascdesc="asc";
 if(isset($_GET['ascdesc'])) $ascdesc=$_GET['ascdesc'];
-
-
 
 $filename="";
 if(isset($_POST['filename'])) $filename=$_POST['filename'];
@@ -135,8 +127,6 @@ if(isset($_POST["addimage"]))
 	    	$messagetitle.=" - SECURITY WARNING";
 	    	$message.='<div class="highlight">WARNING: unable to create index files in '.$imagedir.'. Please use FTP to copy these files from <em>'.$projectroot.getproperty("Image Upload Path").'</em> for security reasons!</div>';
 	    }
-	   
-    
 	    if(strlen($newname)>0)
 	    {
 			$extension=substr($filename,strrpos($filename,"."),strlen($filename));
@@ -234,7 +224,6 @@ elseif($action==="addthumb")
 		if($extension === $imageextension)
 		{
 			$newthumbname=$imagename.'_thn'.$extension;
-			//$success= uploadfile($_FILES,getproperty("Image Upload Path").$subpath,"filename",$filename);
 			$success=uploadfile($_FILES,getproperty("Image Upload Path").getimagesubpath($filename),"thumbnail",$newthumbname);
 			$thumbnail=$newthumbname;
 		}
@@ -270,8 +259,6 @@ elseif($action==="replacethumb")
 	{
 		
 		$thumbnailfilename=getthumbnail($filename);
-		//if ($thumbnailfilename=="") $success = true;
-		//else 
 		$extension=substr($thumbnail,strrpos($thumbnail,"."),strlen($thumbnail));
 		$imageextension=substr($filename,strrpos($filename,"."),strlen($filename));
 		if($extension === $imageextension)
@@ -428,11 +415,6 @@ elseif($action==="executethumbnaildelete")
 	unset($_POST['action']);
   	$displayeditform=true;
 }
-/*if($action!=="delete" && $action !=="deletethumbnail")
-{
-
-}
-*/
 
 if($form)
 {
@@ -446,10 +428,7 @@ else
 }
 
 print($adminimagepage->toHTML());
-
-
 $db->closedb();
-
 
 
 //
@@ -457,17 +436,17 @@ $db->closedb();
 //
 function checkextension($oldfile,$newfile)
 {
-  $oldextension=substr($oldfile,strrpos($oldfile,"."),strlen($oldfile));
-  $newextension=substr($newfile,strrpos($newfile,"."),strlen($newfile));
-  if($oldextension===$newextension)
-  {
-    return true;
-  }
-  else
-  {
-    print('<p class="highlight">Image must be of type <i>'.$oldextension.'</i></p>');
-    return false;
-  }
+	$oldextension=substr($oldfile,strrpos($oldfile,"."),strlen($oldfile));
+	$newextension=substr($newfile,strrpos($newfile,"."),strlen($newfile));
+	if($oldextension===$newextension)
+	{
+		return true;
+	}
+	else
+	{
+		print('<p class="highlight">Image must be of type <i>'.$oldextension.'</i></p>');
+		return false;
+	}
 }
 
 ?>

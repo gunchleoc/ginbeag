@@ -1,5 +1,4 @@
 <?php
-
 $LEGALVARS = array();
 $LEGALVARS["action"]=1;
 $LEGALVARS["articlepage"]=1;
@@ -74,6 +73,5 @@ while($key=current($getkeys))
 	}
 	next($getkeys);
 }
-
 
 ?>

@@ -15,7 +15,7 @@ checksession($sid);
 
 if(!isadmin($sid))
 {
-  die('<p class="highlight">You have no permission for this area</p>');
+	die('<p class="highlight">You have no permission for this area</p>');
 }
 
 if(isset($_GET['page'])) $page=$_GET['page'];
@@ -40,32 +40,32 @@ else $passconf="";
 
 if($username && $pass===$passconf)
 {
-  if(publicuserexists($username))
-  {
-    $message='Username already exists!';
-  }
-  elseif(!$pass)
-  {
-    $message='Please specify a password!';
-  }
-  else
-  {
-    $register=addpublicuser($username,$pass);
-    
-    if($register)
-    {
-    	$message='Created user <em>'.$username.'</em> successfully';
-    	$username="";
-    }
-    else
-    {
-      $message='Error creating user';
-    }
-  }
+	if(publicuserexists($username))
+	{
+		$message='Username already exists!';
+	}
+	elseif(!$pass)
+	{
+		$message='Please specify a password!';
+	}
+	else
+	{
+		$register=addpublicuser($username,$pass);
+		
+		if($register)
+		{
+			$message='Created user <em>'.$username.'</em> successfully';
+			$username="";
+		}
+		else
+		{
+			$message='Error creating user';
+		}
+	}
 }
 elseif($username && $pass!=$passconf)
 {
-  $message='Passwords did not match!';
+	$message='Passwords did not match!';
 }
 
 $content = new AdminMain($page,"siteusercreate","",new SiteCreatePublicUser($username, $message, $register));

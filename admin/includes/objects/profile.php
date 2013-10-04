@@ -16,27 +16,25 @@ include_once($projectroot."includes/objects/page.php");
 //
 class ProfilePage extends Template {
 
-  function ProfilePage($userid,$message="")
-  {
-    global $_GET;
-    parent::__construct();
-    
-    $this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
-    
-    $this->stringvars['username']=getusername($userid);
-    $this->stringvars['email']=getuseremail($userid);
-    $this->stringvars['contactfunction']=getcontactfunction($userid);
+	function ProfilePage($userid,$message="")
+	{
+		global $_GET;
 
-    $this->stringvars['page']=$_GET['page'];
-    
-    $this->vars['is_contact']= new CheckBoxForm("iscontact","Is Contact","",getiscontact($userid));
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/profilepage.tpl");
-  }
+		parent::__construct();
+		
+		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['username']=getusername($userid);
+		$this->stringvars['email']=getuseremail($userid);
+		$this->stringvars['contactfunction']=getcontactfunction($userid);
+		$this->stringvars['page']=$_GET['page'];
+		$this->vars['is_contact']= new CheckBoxForm("iscontact","Is Contact","",getiscontact($userid));
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/profilepage.tpl");
+	}
 }
 
 //
@@ -53,7 +51,6 @@ class RegisterPage extends Template {
 		
 		if(strlen($message)>0)
         	$this->stringvars['message']=$message;
-
 
 		$this->stringvars['user']=input2html($user);
     	$this->stringvars['email']=$email;

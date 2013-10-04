@@ -37,7 +37,7 @@ class CategorylistLink extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("categorylistlink.tpl");
+		$this->addTemplate("categorylistlink.tpl");
     }
 }
 
@@ -46,7 +46,6 @@ class CategorylistLink extends Template {
 //
 //
 class CategorylistLinks extends Template {
-
 
     function CategorylistLinks($categories,$page)
     {
@@ -73,7 +72,7 @@ class CategorylistLinks extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("categorylistlinks.tpl");
+		$this->addTemplate("categorylistlinks.tpl");
     }
 }
 
@@ -106,7 +105,7 @@ class Categorylist extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("categorylist.tpl");
+		$this->addTemplate("categorylist.tpl");
     }
 }
 ?>

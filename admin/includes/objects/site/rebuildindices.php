@@ -12,17 +12,17 @@ include_once($projectroot."includes/objects/elements.php");
 //
 class SiteRebuildIndices extends Template {
 
-  function SiteRebuildIndices()
-  {
-  	parent::__construct();
-  	$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=restrictedpages&action=siteind';
-  }
-
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/site/rebuildindices.tpl");
-  }
+	function SiteRebuildIndices()
+	{
+		parent::__construct();
+		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=restrictedpages&action=siteind';
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/site/rebuildindices.tpl");
+	}
 }
 
 ?>
