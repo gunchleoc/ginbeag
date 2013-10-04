@@ -1,7 +1,7 @@
 <h1 class="headerpagetitle">Edit Page {ARTICLEPAGE} of Article</h1>
 {NAVIGATIONBUTTONS}
 <div align="right">{PAGEMENU}</div>
-<div class="contentheader">Global Functions for this Page of the Article</div>
+<div class="contentheader">Add section or page</div>
 <div class="contentsection">
 	<div class="leftalign">
 		<form name="addarticlepageform" action="{ACTIONVARS}" method="post">
