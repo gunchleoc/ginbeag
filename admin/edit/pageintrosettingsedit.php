@@ -126,7 +126,7 @@ if(!$message)
 		$editpage = new EditPageIntro($page);
 	}
 	
-	$content = new AdminMain($page,"pageintrosettingsedit",$message,$editpage);
+	$content = new AdminMain($page,"editpageintro",$message,$editpage);
 	print($content->toHTML());
 }
 // locked page
