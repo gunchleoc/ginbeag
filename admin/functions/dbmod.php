@@ -21,11 +21,11 @@ include_once($projectroot."includes/functions.php");
 function deleteentry($table,$condition)
 {
 	global $db;
-  $query="DELETE FROM ".$table;
-  $query.=(" where ".$condition.";");
-//  print($query.'<p>');
-  $sql=$db->singlequery($query);
-  return $sql;
+	$query="DELETE FROM ".$table;
+	$query.=(" where ".$condition.";");
+	//  print($query.'<p>');
+	$sql=$db->singlequery($query);
+	return $sql;
 }
 
 //
@@ -41,7 +41,7 @@ function updatefield($table,$field,$value,$condition)
   	$query.=(" where ".$condition.";");
 //  print($query.'<p>');
   	$sql=$db->singlequery($query);
-  return $sql;
+	return $sql;
 }
 
 //
@@ -50,20 +50,20 @@ function updatefield($table,$field,$value,$condition)
 function updatefields($table,$fieldnames,$values,$primarykeyname,$primarykeyvalue)
 {
 	global $db;
-  $queries=array();
-
-  for($i=0;$i<count($fieldnames);$i++)
-  {
-    $query=("update ");
-    $query.=($table." set ");
-    $query.=$fieldnames[$i]."=";
-    $query.="'".$values[$i]."'";
-    $query.=(" where ".$primarykeyname." = '".$primarykeyvalue."';");
-    array_push($queries,$query);
-  }
-//  print_r($queries);
-  $sql=$db->multiquery($queries);
-  return $sql;
+	$queries=array();
+	
+	for($i=0;$i<count($fieldnames);$i++)
+	{
+		$query=("update ");
+		$query.=($table." set ");
+		$query.=$fieldnames[$i]."=";
+		$query.="'".$values[$i]."'";
+		$query.=(" where ".$primarykeyname." = '".$primarykeyvalue."';");
+		array_push($queries,$query);
+	}
+	//  print_r($queries);
+	$sql=$db->multiquery($queries);
+	return $sql;
 }
 
 //
@@ -72,20 +72,20 @@ function updatefields($table,$fieldnames,$values,$primarykeyname,$primarykeyvalu
 function updateentries($table,$values,$primarykeyname,$fieldname)
 {
 	global $db;
-  $queries=array();
-  $keys=array_keys($values);
-
-  for($i=0;$i<count($keys);$i++)
-  {
-    $query=("update ");
-    $query.=($table." set ");
-    $query.=$fieldname."=";
-    $query.="'".$values[$keys[$i]]."'";
-    $query.=(" where ".$primarykeyname." = '".$keys[$i]."';");
-    array_push($queries,$query);
-  }
-  $sql=$db->multiquery($queries);
-  return $sql;
+	$queries=array();
+	$keys=array_keys($values);
+	
+	for($i=0;$i<count($keys);$i++)
+	{
+		$query=("update ");
+		$query.=($table." set ");
+		$query.=$fieldname."=";
+		$query.="'".$values[$keys[$i]]."'";
+		$query.=(" where ".$primarykeyname." = '".$keys[$i]."';");
+		array_push($queries,$query);
+	}
+	$sql=$db->multiquery($queries);
+	return $sql;
 }
 
 
@@ -95,17 +95,17 @@ function updateentries($table,$values,$primarykeyname,$fieldname)
 function insertentry($table,$values)
 {
 	global $db;
-  $query="insert into ";
-  $query.=$table." values(";
-  for($i=0;$i<count($values)-1;$i++)
-  {
-    $query.="'".$values[$i]."', ";
-  }
-  $query.="'".$values[count($values)-1]."');";
-//  print('<p>'.$query);
-
-  $sql=$db->singlequery($query);
-  return $sql;
+	$query="insert into ";
+	$query.=$table." values(";
+	for($i=0;$i<count($values)-1;$i++)
+	{
+		$query.="'".$values[$i]."', ";
+	}
+	$query.="'".$values[count($values)-1]."');";
+	//  print('<p>'.$query);
+	
+	$sql=$db->singlequery($query);
+	return $sql;
 }
 
 
@@ -115,9 +115,9 @@ function insertentry($table,$values)
 function optimizetable($table)
 {
 	global $db;
-  $query="OPTIMIZE TABLE ".$table.";";
-//  print($query.'<p>');
-  $sql=$db->singlequery($query);
-  return $sql;
+	$query="OPTIMIZE TABLE ".$table.";";
+	//  print($query.'<p>');
+	$sql=$db->singlequery($query);
+	return $sql;
 }
 ?>

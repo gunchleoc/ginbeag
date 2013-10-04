@@ -18,7 +18,7 @@ include_once($projectroot."functions/guestbook.php");
 function deleteguestbookentry($message_id)
 {
 	global $db;
-  deleteentry(GUESTBOOK_TABLE,"message_id ='".$db->setinteger($message_id)."'");
+  	return deleteentry(GUESTBOOK_TABLE,"message_id ='".$db->setinteger($message_id)."'");
 }
 
 ?>

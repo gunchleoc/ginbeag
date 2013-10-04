@@ -18,13 +18,13 @@ include_once($projectroot."functions/publicusers.php");
 function addpublicuser($user,$pass)
 {
 	global $db;
-  $values=array();
-  $values[]=0;
-  $values[]=1;
-  $values[]=$db->setstring($user);
-  $values[]=md5($pass);
-
-  return insertentry(PUBLICUSERS_TABLE,$values);
+	$values=array();
+	$values[]=0;
+	$values[]=1;
+	$values[]=$db->setstring($user);
+	$values[]=md5($pass);
+	
+	return insertentry(PUBLICUSERS_TABLE,$values);
 }
 
 
@@ -34,35 +34,35 @@ function addpublicuser($user,$pass)
 function changepublicuserpasswordadmin($userid,$newpass,$confirmpass,$sid)
 {
 	global $db;
-  $result="Failed to change password";
-
-  if(isadmin($sid))
-  {
-   if(strlen($newpass)>7)
-   {
-      if($newpass===$confirmpass)
-      {
-        $sql=updatefield(PUBLICUSERS_TABLE,"password",$db->setstring(md5($newpass)),"user_id = '".$db->setinteger($userid)."'");
-        if($sql)
-        {
-          $result="Password changed successfully";
-        }
-      }
-      else
-      {
-        $result="Passwords did not match";
-      }
-    }
-    else
-    {
-      $result="Your password must be at least 8 digits long";
-    }
-  }
-  else
-  {
-    $result="Please hack someone else.";
-  }
-  return $result;
+	$result="Failed to change password";
+	
+	if(isadmin($sid))
+	{
+		if(strlen($newpass)>7)
+		{
+			if($newpass===$confirmpass)
+			{
+				$sql=updatefield(PUBLICUSERS_TABLE,"password",$db->setstring(md5($newpass)),"user_id = '".$db->setinteger($userid)."'");
+				if($sql)
+				{
+				  $result="Password changed successfully";
+				}
+			}
+			else
+			{
+				$result="Passwords did not match";
+			}
+		}
+		else
+		{
+			$result="Your password must be at least 8 digits long";
+		}
+	}
+	else
+	{
+		$result="Please hack someone else.";
+	}
+	return $result;
 }
 
 
@@ -72,7 +72,7 @@ function changepublicuserpasswordadmin($userid,$newpass,$confirmpass,$sid)
 function activatepublicuser($userid)
 {
 	global $db;
-  updatefield(PUBLICUSERS_TABLE,"user_active",1,"user_id = '".$db->setinteger($userid)."'");
+	updatefield(PUBLICUSERS_TABLE,"user_active",1,"user_id = '".$db->setinteger($userid)."'");
 }
 
 //
@@ -81,7 +81,7 @@ function activatepublicuser($userid)
 function deactivatepublicuser($userid)
 {
 	global $db;
-  updatefield(PUBLICUSERS_TABLE,"user_active",0,"user_id = '".$db->setinteger($userid)."'");
+	updatefield(PUBLICUSERS_TABLE,"user_active",0,"user_id = '".$db->setinteger($userid)."'");
 }
 
 
@@ -91,7 +91,7 @@ function deactivatepublicuser($userid)
 function publicuserexists($username)
 {
 	global $db;
-  return getdbelement("username", PUBLICUSERS_TABLE, "username", $db->setstring($username));
+	return getdbelement("username", PUBLICUSERS_TABLE, "username", $db->setstring($username));
 }
 
 
@@ -100,7 +100,7 @@ function publicuserexists($username)
 //
 function getallpublicusers()
 {
-  return getorderedcolumn("user_id",PUBLICUSERS_TABLE,"1", "username","ASC");
+	return getorderedcolumn("user_id",PUBLICUSERS_TABLE,"1", "username","ASC");
 }
 
 // *************************** restricted access **************************** //
@@ -111,14 +111,16 @@ function getallpublicusers()
 function addpageaccess($userids,$pageid)
 {
 	global $db;
-  for($i=0;$i<count($userids);$i++)
-  {
-    $values=array();
-    $values[]=0;
-    $values[]=$db->setinteger($pageid);
-    $values[]=$db->setinteger($userids[$i]);
-    insertentry(RESTRICTEDPAGESACCESS_TABLE,$values);
-  }
+	$result = true;
+	for($i=0;$i<count($userids);$i++)
+	{
+		$values=array();
+		$values[]=0;
+		$values[]=$db->setinteger($pageid);
+		$values[]=$db->setinteger($userids[$i]);
+		$result = $result & insertentry(RESTRICTEDPAGESACCESS_TABLE,$values);
+	}
+	return $result;
 }
 
 //
@@ -127,10 +129,12 @@ function addpageaccess($userids,$pageid)
 function removepageaccess($userids,$pageid)
 {
 	global $db;
-  for($i=0;$i<count($userids);$i++)
-  {
-    deleteentry(RESTRICTEDPAGESACCESS_TABLE,"page_id ='".$db->setinteger($pageid)."' AND publicuser_id ='".$db->setinteger($userids[$i])."'");
-  }
+	$result = true;
+	for($i=0;$i<count($userids);$i++)
+	{
+		$result = $result & deleteentry(RESTRICTEDPAGESACCESS_TABLE,"page_id ='".$db->setinteger($pageid)."' AND publicuser_id ='".$db->setinteger($userids[$i])."'");
+	}
+	return $result;
 }
 
 //
@@ -139,7 +143,7 @@ function removepageaccess($userids,$pageid)
 function getallpublicuserswithaccessforpage($pageid)
 {
 	global $db;
-  return getcolumn("publicuser_id",RESTRICTEDPAGESACCESS_TABLE,"page_id = '".$db->setinteger($pageid)."'");
+	return getcolumn("publicuser_id",RESTRICTEDPAGESACCESS_TABLE,"page_id = '".$db->setinteger($pageid)."'");
 }
 
 
@@ -150,12 +154,14 @@ function getallpublicuserswithaccessforpage($pageid)
 //
 function addbannedipforrestrictedpages($ip)
 {
-  $ip = ip2long($ip);
-  $dbip= getdbelement("ip", RESTRICTEDPAGESBANNEDIPS_TABLE, "ip",$ip);
-  if($ip != $dbip)
-  {
-    insertentry(RESTRICTEDPAGESBANNEDIPS_TABLE,array(0 => $ip));
-  }
+	$result = true;
+	$ip = ip2long($ip);
+	$dbip= getdbelement("ip", RESTRICTEDPAGESBANNEDIPS_TABLE, "ip",$ip);
+	if($ip != $dbip)
+	{
+		$result = $result & insertentry(RESTRICTEDPAGESBANNEDIPS_TABLE,array(0 => $ip));
+	}
+	return $result;
 }
 
 //
@@ -163,7 +169,7 @@ function addbannedipforrestrictedpages($ip)
 //
 function removebannedipforrestrictedpageas($ip)
 {
-  deleteentry(RESTRICTEDPAGESBANNEDIPS_TABLE,"ip = '".ip2long($ip)."'");
+	return deleteentry(RESTRICTEDPAGESBANNEDIPS_TABLE,"ip = '".ip2long($ip)."'");
 }
 
 //
@@ -171,8 +177,8 @@ function removebannedipforrestrictedpageas($ip)
 //
 function getalladdbannedipforrestrictedpages()
 {
-  $longips= getorderedcolumn("ip",RESTRICTEDPAGESBANNEDIPS_TABLE,"1","ip","ASC");
-  return array_map ("long2ip", $longips);
+	$longips= getorderedcolumn("ip",RESTRICTEDPAGESBANNEDIPS_TABLE,"1","ip","ASC");
+	return array_map ("long2ip", $longips);
 }
 
 ?>

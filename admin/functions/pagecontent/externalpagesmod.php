@@ -11,7 +11,7 @@ include_once($projectroot."admin/functions/dbmod.php");
 function updateexternallink($page_id, $link)
 {
 	global $db;
-  return updatefield(EXTERNALS_TABLE,"link",$db->setstring($link) ,"page_id='".$db->setinteger($page_id)."'");
+	return updatefield(EXTERNALS_TABLE,"link",$db->setstring($link) ,"page_id='".$db->setinteger($page_id)."'");
 }
 
 ?>
