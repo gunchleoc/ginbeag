@@ -37,10 +37,10 @@ class MovePageForm extends Template {
 //
 class DoneButton extends Template {
 
-  function DoneButton($params="&action=edit",$link="pageedit.php",$buttontext="Done",$class="mainoption")
+  function DoneButton($page,$params="&action=edit",$link="pageedit.php",$buttontext="Done",$class="mainoption")
   {
     parent::__construct();
-    $this->stringvars['link']=$link."?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'].$params;
+    $this->stringvars['link']=$link."?sid=".$this->stringvars['sid']."&page=".$page.$params;
     $this->stringvars['buttontext']=$buttontext;
     $this->stringvars['class']=$class;
 
@@ -66,7 +66,7 @@ class DonePage extends Template {
   function DonePage($title,$params="&action=edit",$link="pageedit.php",$buttontext="Done")
   {
   	parent::__construct();
-    $this->vars['donebutton'] = new DoneButton($params,$link,$buttontext);
+    $this->vars['donebutton'] = new DoneButton($this->stringvars['page'],$params,$link,$buttontext);
     $this->stringvars['title'] =$title;
   }
 
@@ -87,7 +87,7 @@ class DoneRedirect extends Template {
   {
   	parent::__construct();
   	
-  	$this->vars['donebutton'] =new DoneButton($params,$link,$buttontext,"mainoption");
+  	$this->vars['donebutton'] =new DoneButton($page,$params,$link,$buttontext,"mainoption");
   	$this->stringvars['url'] =$link.'?sid='.$this->stringvars['sid'].'&page='.$page.$params;
   	$this->stringvars['title'] =$title;
   }
@@ -202,7 +202,7 @@ class GeneralSettingsButton extends Template {
   	{
     	parent::__construct();
     	
-    	$this->vars['button']= new DoneButton("&action=edit",getprojectrootlinkpath().'admin/pageedit.php',"General settings","liteoption");
+    	$this->vars['button']= new DoneButton($this->stringvars['page'],"&action=edit",getprojectrootlinkpath().'admin/pageedit.php',"General settings","liteoption");
   	}
 
   	// assigns templates
@@ -232,7 +232,7 @@ class PageEditNavigationButtons extends Template {
     		$this->vars['secondbutton']= $secondbutton;
     	else $this->stringvars['secondbutton']= $secondbutton;
     	
-    	$this->vars['donebutton']= new DoneButton("&action=show&unlock=on",getprojectrootlinkpath().'admin/admin.php');
+    	$this->vars['donebutton']= new DoneButton($this->stringvars['page'],"&action=show&unlock=on",getprojectrootlinkpath().'admin/admin.php');
   	}
 
   	// assigns templates
