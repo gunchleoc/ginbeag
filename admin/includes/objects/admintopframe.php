@@ -74,7 +74,31 @@ class AdminTopFrame extends Template {
 		    }
 		    elseif($this->stringvars['page'])
 		    {
-		    	$this->vars['editpagelink']=new AdminTopFrameLink("pageedit.php","Edit Page","&action=edit");
+		    	$pagetype=getpagetype($page);
+		    	if($pagetype==="article")
+			    {
+			        $this->vars['editpagelink']=new AdminTopFrameLink("edit/articleedit.php","Edit Page","");
+			    }
+			    elseif($pagetype==="gallery")
+			    {
+			        $this->vars['editpagelink']=new AdminTopFrameLink("edit/galleryedit.php","Edit Page","");
+			    }
+			    elseif($pagetype==="linklist")
+			    {
+			        $this->vars['editpagelink']=new AdminTopFrameLink("edit/linklistedit.php","Edit Page","");
+			    }
+			    elseif($pagetype==="menu" || $pagetype==="articlemenu")
+			    {
+			        $this->vars['editpagelink']=new AdminTopFrameLink("edit/menuedit.php","Edit Page","");
+			    }
+			    elseif($pagetype==="news")
+			    {
+			        $this->vars['editpagelink']=new AdminTopFrameLink("edit/newsedit.php","Edit Page","");
+			    }
+			    else
+			    {
+			        $this->vars['editpagelink']=new AdminTopFrameLink("pageedit.php","Edit Page","&action=edit");
+			    }
 		    }
 		    $this->vars['previewpagelink']=new AdminTopFrameLink("pagedisplay.php","Preview Page","","_blank");
 		    
