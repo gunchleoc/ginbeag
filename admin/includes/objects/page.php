@@ -304,10 +304,6 @@ class EditPage extends Template {
 			$this->vars['contentsform']= new ExternalForm();
 			$this->vars['navigationbuttons']= new PageEditNavigationButtons("","");
 		}
-		elseif($pagetype==="menu" || $pagetype==="articlemenu")
-		{
-			$this->vars['navigationbuttons']= new PageEditNavigationButtons(new EditPageIntroSettingsButton(),"");
-		}
 		else
 		{
 			$this->vars['navigationbuttons']= new PageEditNavigationButtons(new EditPageIntroSettingsButton(),new EditPageContentsButton());

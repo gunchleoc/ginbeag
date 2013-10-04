@@ -84,6 +84,34 @@ class MenuMovePageFormContainer extends Template {
 
 
 
+
+//
+//
+//
+class EditMenuSubpages extends Template {
+	function EditMenuSubpages($page)
+	{
+   		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+  		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+
+		$subpageids=getallsubpageids($page);
+		if(count($subpageids)>0)
+			$this->vars['movepageform'] = new MenuMovePageFormContainer ($page,$subpageids);
+		else
+			$this->vars['movepageform'] = "This menu has no subpages.";
+
+		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
+	}
+	
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/edit/editmenusubpages.tpl");
+	}
+}
+
+
+
 //
 //
 //
@@ -100,15 +128,7 @@ class EditMenu extends Template {
 		
 		$this->vars['menulevelsform'] = new EditMenuLevelsForm($page,$contents['sistersinnavigator'],$contents['displaydepth'],$contents['navigatordepth']);
 		
-		$subpageids=getallsubpageids($page);
-		
-		if(count($subpageids)>0)
-		{
-			$this->stringvars['hassubpages']="true";
-			$this->vars['movepageform'] = new MenuMovePageFormContainer ($page,$subpageids);
-		}
-
-		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),"");
+		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
 	}
 	
 	// assigns templates

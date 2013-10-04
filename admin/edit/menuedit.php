@@ -23,7 +23,7 @@ else $page=0;
 $message = getpagelock($page);
 if(!$message)
 {
-	$editpage = new EditMenu($page);
+	$editpage = new EditMenuSubpages($page);
 }
 else
 {

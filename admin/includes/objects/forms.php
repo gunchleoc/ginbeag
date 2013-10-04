@@ -120,7 +120,7 @@ class EditPageIntroSettingsButton extends Template {
 		}
 		elseif($pagetype==="menu" || $pagetype==="articlemenu")
 		{
-		    $this->stringvars['buttontext']="Edit synopsis & navigation ...";
+		    $this->stringvars['buttontext']="Edit synopsis & navigation options ...";
 		}
 		elseif($pagetype==="news")
 		{
@@ -169,7 +169,7 @@ class EditPageContentsButton extends Template {
 		elseif($pagetype==="menu" || $pagetype==="articlemenu" || $pagetype==="linklistmenu")
 		{
 		    $this->stringvars['action']=getprojectrootlinkpath().'admin/edit/menuedit.php';
-		    $this->stringvars['title']="Edit page elements ...";
+		    $this->stringvars['title']="Edit order of subpages ...";
 		}
 		elseif($pagetype==="news")
 		{
