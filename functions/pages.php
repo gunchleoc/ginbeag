@@ -342,19 +342,11 @@ function hasaccesssession($sid, $page_id)
   
 	if($masterpage)
 	{
-
 		$user_id=getdbelement("session_user_id",PUBLICSESSIONS_TABLE, "session_id", $db->setstring($sid));
-		
 		$page_id=$db->setinteger($page_id);
 		
 		$query="select publicuser_id from ".RESTRICTEDPAGESACCESS_TABLE." where publicuser_id = '".$user_id."' AND page_id = '".$masterpage."';";
-		//print($query);
-		$sql=$db->singlequery($query);
-		if($sql)
-		{
-			$row=mysql_fetch_row($sql);
-			$result=$row[0];
-		}
+		$result = getdbresultsingle($query);
 	}
 	return $result;
 }

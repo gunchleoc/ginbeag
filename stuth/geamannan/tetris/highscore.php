@@ -156,6 +156,21 @@ function setstring($var)
 }
 
 
+
+//
+//
+//
+function getdbresultsingle($query)
+{
+	$sql=$db->singlequery($query);
+	if($sql)
+	{
+		$row=mysql_fetch_row($sql);
+		return $row[0];
+	}
+	else return false;
+}
+
 //
 //
 //
@@ -164,17 +179,7 @@ function countelements($keyname, $table)
   $result="";
 
   $query="select count(".$keyname.") from ".$table.";";
-//  print($query.'<br>');
-  $sql=singlequery($query);
-
-  if($sql)
-  {
-    $row=mysql_fetch_row($sql);
-    $result=$row[0];
-  }
-
-
-  return $result;
+  return getdbresultsingle($query);
 }
 
 
@@ -187,16 +192,7 @@ function getmin($fieldname, $table, $condition)
 
   $query="select min(".$fieldname.") from ".$table;
   $query.=" where ".$condition.";";
-
-//  print($query.'<br>');
-  $sql=singlequery($query);
-
-  if($sql)
-  {
-    $row=mysql_fetch_row($sql);
-    $result=$row[0];
-  }
-  return $result;
+  return getdbresultsingle($query);
 }
 
 
@@ -207,7 +203,6 @@ function deleteentry($table,$condition)
 {
   $query="DELETE FROM ".$table;
   $query.=(" where ".$condition.";");
-//  print($query.'<p>');
   $sql=singlequery($query);
   return $sql;
 }
@@ -226,8 +221,6 @@ function insertentry($table,$values)
     $query.="'".$values[$i]."', ";
   }
   $query.="'".$values[count($values)-1]."');";
-//  print('<p>'.$query);
-
   $sql=singlequery($query);
   return $sql;
 }

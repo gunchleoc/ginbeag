@@ -39,14 +39,7 @@ function getgalleryimagefilenames($page_id, $showrefused,$showhidden=false)
 	{
 		$query="select gallery.image_filename from ".GALLERYITEMS_TABLE." as gallery, ".IMAGES_TABLE." as images where ";
 		$query.="gallery.page_id='".$db->setinteger($page_id)."' AND gallery.image_filename = images.image_filename AND images.permission <> ".PERMISSION_REFUSED." order by position ASC";
-		$sql=$db->singlequery($query);
-		if($sql)
-		{
-			while($row=mysql_fetch_row($sql))
-			{
-				array_push($result,$row[0]);
-			}
-		}
+		$result = getdbresultcolumn($query);
 	}
 	return $result;
 }

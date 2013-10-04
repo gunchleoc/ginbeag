@@ -223,25 +223,36 @@ class Database {
 }
 
 
-// *************************** db convenience functions ********************* //
+// *************************** helpers for db convenience functions ********************* //
 
 //
 //
 //
-function getcolumn($fieldname, $table, $condition)
+function getdbresultsingle($query)
 {
 	global $db;
-
-//  print('cond: '.$condition.'<p>');
-
-	$result=array();
 	
-	$query="select ".$fieldname." from ".$table." where ".$condition;
-	//  print($query);
 	$sql=$db->singlequery($query);
 	if($sql)
 	{
-		// get column
+		$row=mysql_fetch_row($sql);
+		return $row[0];
+	}
+	else return false;
+}
+
+
+//
+//
+//
+function getdbresultcolumn($query)
+{
+	global $db;
+	
+	$result=array();
+	$sql=$db->singlequery($query);
+	if($sql)
+	{
 		while($row=mysql_fetch_row($sql))
 		{
 			array_push($result,$row[0]);
@@ -249,6 +260,9 @@ function getcolumn($fieldname, $table, $condition)
 	}
 	return $result;
 }
+
+// *************************** db convenience functions ********************* //
+
 
 //
 //
@@ -340,6 +354,15 @@ function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 =
 	return $result;
 }
 
+//
+//
+//
+function getcolumn($fieldname, $table, $condition)
+{
+	global $db;
+	$query="select ".$fieldname." from ".$table." where ".$condition;
+	return getdbresultcolumn($query);
+}
 
 
 //
@@ -348,23 +371,8 @@ function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 =
 function getorderedcolumn($fieldname, $table, $condition, $orderby, $ascdesc="DESC")
 {
 	global $db;
-
-//  print('cond: '.$condition.'<p>');
-
-	$result=array();
-	
 	$query="select ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
-	//  print($query.'<br>');
-	$sql=$db->singlequery($query);
-	if($sql)
-	{
-		// get column
-		while($row=mysql_fetch_row($sql))
-		{
-			array_push($result,$row[0]);
-		}
-	}
-	return $result;
+	return getdbresultcolumn($query);
 }
 
 //
@@ -373,26 +381,10 @@ function getorderedcolumn($fieldname, $table, $condition, $orderby, $ascdesc="DE
 function getorderedcolumnlimit($fieldname, $table, $condition, $orderby, $offset, $number, $ascdesc="DESC")
 {
 	global $db;
-
-//  print('cond: '.$condition.'<p>');
-
-	$result=array();
-	
 	$query="select ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
 	$query.=" limit ".$offset.", ".$number;
-	//  print($query.'<br>');
-	$sql=$db->singlequery($query);
-	if($sql)
-	{
-		// get column
-		while($row=mysql_fetch_row($sql))
-		{
-			array_push($result,$row[0]);
-		}
-	}
-  return $result;
+	return getdbresultcolumn($query);
 }
-
 
 
 //
@@ -401,24 +393,10 @@ function getorderedcolumnlimit($fieldname, $table, $condition, $orderby, $offset
 function getdistinctorderedcolumn($fieldname, $table, $condition, $orderby, $ascdesc="DESC")
 {
 	global $db;
-
-//  print('cond: '.$condition.'<p>');
-
-	$result=array();
-	
 	$query="select distinct ".$fieldname." from ".$table." where ".$condition." order by ".$orderby." ".$ascdesc;
-	//  print($query.'<br>');
-	$sql=$db->singlequery($query);
-	if($sql)
-	{
-		// get column
-		while($row=mysql_fetch_row($sql))
-		{
-			array_push($result,$row[0]);
-		}
-	}
-	return $result;
+	return getdbresultcolumn($query);
 }
+
 
 //
 //
@@ -426,18 +404,8 @@ function getdistinctorderedcolumn($fieldname, $table, $condition, $orderby, $asc
 function getdbelement($fieldname, $table, $conditionkey, $conditionvalue)
 {
 	global $db;
-	$result="";
-	
 	$query="select ".$fieldname." from ".$table." where ".$conditionkey." = '".$conditionvalue."';";
-	//  print($query.'<br>');
-	$sql=$db->singlequery($query);
-	
-	if($sql)
-	{
-		$row=mysql_fetch_row($sql);
-		$result=$row[0];
-	}
-	return $result;
+	return getdbresultsingle($query);
 }
 
 //
@@ -446,21 +414,8 @@ function getdbelement($fieldname, $table, $conditionkey, $conditionvalue)
 function getmax($fieldname, $table, $condition)
 {
 	global $db;
-	
-	$result="";
-	
-	$query="select max(".$fieldname.") from ".$table;
-	$query.=" where ".$condition.";";
-	
-	//  print($query.'<br>');
-	$sql=$db->singlequery($query);
-	
-	if($sql)
-	{
-		$row=mysql_fetch_row($sql);
-		$result=$row[0];
-	}
-	return $result;
+	$query="select max(".$fieldname.") from ".$table." where ".$condition.";";
+	return getdbresultsingle($query);
 }
 
 //
@@ -469,20 +424,8 @@ function getmax($fieldname, $table, $condition)
 function getmin($fieldname, $table, $condition)
 {
 	global $db;
-	$result="";
-	
-	$query="select min(".$fieldname.") from ".$table;
-	$query.=" where ".$condition.";";
-	
-	//  print($query.'<br>');
-	$sql=$db->singlequery($query);
-	
-	if($sql)
-	{
-		$row=mysql_fetch_row($sql);
-		$result=$row[0];
-	}
-	return $result;
+	$query="select min(".$fieldname.") from ".$table." where ".$condition.";";
+	return getdbresultsingle($query);
 }
 
 //
@@ -491,18 +434,8 @@ function getmin($fieldname, $table, $condition)
 function countelements($keyname, $table)
 {
 	global $db;
-	$result="";
-	
 	$query="select count(".$keyname.") from ".$table.";";
-	//  print($query.'<br>');
-	$sql=$db->singlequery($query);
-	
-	if($sql)
-	{
-		$row=mysql_fetch_row($sql);
-		$result=$row[0];
-	}
-	return $result;
+	return getdbresultsingle($query);
 }
 
 //
@@ -511,18 +444,8 @@ function countelements($keyname, $table)
 function countelementscondition($keyname, $table,$condition)
 {
 	global $db;
-	$result="";
-	
 	$query="select count(".$keyname.") from ".$table." WHERE ".$condition.";";
-	//  print($query.'<br>');
-	$sql=$db->singlequery($query);
-	
-	if($sql)
-	{
-		$row=mysql_fetch_row($sql);
-		$result=$row[0];
-	}
-	return $result;
+	return getdbresultsingle($query);
 }
 
 

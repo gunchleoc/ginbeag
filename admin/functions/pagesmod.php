@@ -532,19 +532,9 @@ function getpagerestrictionmaster($page_id)
 function hasaccess($user_id, $page_id)
 {
 	global $db;
-	$result=false;
-	$user_id=$db->setinteger($user_id);
-	$page_id=$db->setinteger($page_id);
-	$masterpage=getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $page_id);
-	$query="select publicuser_id from ".RESTRICTEDPAGESACCESS_TABLE." where publicuser_id = '".$user_id."' AND page_id = '".$masterpage."';";
-	//print($query);
-	$sql=$db->singlequery($query);
-	if($sql)
-	{
-		$row=mysql_fetch_row($sql);
-		$result=$row[0];
-	}
-	return $result;
+	$masterpage=getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $db->setinteger($page_id));
+	$query="select publicuser_id from ".RESTRICTEDPAGESACCESS_TABLE." where publicuser_id = '".$db->setinteger($user_id)."' AND page_id = '".$masterpage."';";
+	return getdbresultsingle($query);
 }
 
 

@@ -276,8 +276,6 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
 	$date=$to["day"]." ".$months[$to["month"]]." ".$to["year"]." 23:59:59";
 	$todate=date(DATETIMEFORMAT, strtotime($date));
 	
-	$result=array();
-	
 	// get all category children
 	$categories=array();
 	if($selectedcat!=1)
@@ -331,22 +329,7 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
 	{
 		$query.=" limit ".$offset.", ".$newsitemsperpage;
 	}
-
-//  print($query.'<p>');
-
-	if($query)
-	{
-		$sql=$db->singlequery($query);
-	}
-	if($sql)
-	{
-		// get column
-		while($row=mysql_fetch_row($sql))
-		{
-			array_push($result,$row[0]);
-		}
-	}
-	return $result;
+	return getdbresultcolumn($query);
 }
 
 //
@@ -354,24 +337,12 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
 //
 function searchnewsitemtitles($search,$page,$showhidden=false)
 {
-	global $db;
 	$query="SELECT DISTINCTROW newsitem_id FROM ".NEWSITEMS_TABLE;
 	$query.=" WHERE page_id = '".$db->setinteger($page)."'";
 	$query.=" AND title like '%".$db->setstring(trim($search))."%'";
 	
 	//  $query.=" AND MATCH(title) AGAINST('".str_replace(" ",",",trim($db->setstring($search)))."'))";
-	
-	$sql=$db->singlequery($query);
-	$result=array();
-	if($sql)
-	{
-		// get column
-		while($row=mysql_fetch_row($sql))
-		{
-			array_push($result,$row[0]);
-		}
-	}
-	return $result;
+	return getdbresultcolumn($query);
 }
 
 //

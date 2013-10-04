@@ -294,44 +294,10 @@ function checkpublicip($sid)
 function getsidforpublicuser($user_id,$ip)
 {
 	global $db;
-	$result=false;
 	$query="select session_id from ".PUBLICSESSIONS_TABLE." where session_user_id = '".$db->setinteger($user_id)."' AND session_ip = '".$db->setinteger($ip)."';";
 	//print($query);
-	$sql=$db->singlequery($query);
-	if($sql)
-	{
-		$row=mysql_fetch_row($sql);
-		$result=$row[0];
-	}
-	return $result;
+	return getdbresultsingle($query);
 }
-
-//
-//
-//
-/*function getloggedinusers()
-{
-	global $db;
-  $result=array();
-  
-  $query="select username from ";
-  $query.=USERS_TABLE." as users, ";
-  $query.=SESSIONS_TABLE." as sessions";
-  $query.=" where users.user_id = sessions.session_user_id";
-  $query.=" order by users.username ASC";
-    
-  $sql=$db->singlequery($query);
-  if($sql)
-  {
-    // get column
-    while($row=mysql_fetch_row($sql))
-    {
-      array_push($result,$row[0]);
-    }
-  }
-  return $result;
-}*/
-
 
 //
 //

@@ -330,7 +330,7 @@ class NewsPage extends Template {
 			{
 			$this->stringvars['message']=getlang("news_filter_result");
 			}
-			$this->stringvars['l_showall'] =sprintf(getlang("news_filter_showall"),$this->stringvars['pagetitle']);
+			$this->stringvars['l_showall'] =sprintf(getlang("news_filter_showall"),title2html(getpagetitle($this->stringvars['page'])));
 		}
 
 		// get items

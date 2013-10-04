@@ -63,8 +63,6 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$inclu
   $order=$db->setstring($order);
   $ascdesc=$db->setstring($ascdesc);
 
-  $result=array();
-  
   // get all category children
   $categories=array();
   if($selectedcat!=1)
@@ -153,24 +151,7 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$inclu
     $query.=$ascdesc;
   }
   
-//  print($query.'<p>');
-
-  if($query)
-  {
-    $sql=$db->singlequery($query);
-  }
-  if($sql)
-  {
-    // get column
-    while($row=mysql_fetch_row($sql))
-    {
-      if(displaylinksforpagearray($sid,$row[0]))
-      {
-        array_push($result,$row[0]);
-      }
-    }
-  }
-  return $result;
+	return getdbresultcolumn($query);
 }
 
 //
