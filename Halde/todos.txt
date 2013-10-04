@@ -51,20 +51,13 @@ Desired new public features:
 
 Desired new admin features:
 =====================
-- error messages not prominent enough (e.g. publicuser, new password not long enough)
 - AJAX editor: get styles + colors from database, then make color button
 - present internal links in preview with the correct link target? AJAX editor + Preview
-- Links/Bilder von Seite zu Seite verschieben/kopieren.
 - imagelist: unknownimageform group images with thumbnails.
-- bannerlist: if something's in the code, grey out other fields
 - editimagelist: missing/unused etc. neu programmieren. in imagefilterform.tpl auskommentiert. unused, unknown, missing, nothumb, missingthumb
 - editimagelist: cat search option to exclude subcats
 - checkexternal/internal links
-- images in pages: user decides if displayed full size (autoshrink when there's no thumbnail on/off)
 - admin - register link not accessible - keep it hidden. Make new site function to send register link.
-- pagelist (sitemap) for admin nav is missing/add title search function?
-- news, articles: tag system instead of categories.
-
 
 templating for:
 - D:\webserver\localhost\minicms\admin\functions\pagesmod.php rebuildaccessrestrictionindex()
