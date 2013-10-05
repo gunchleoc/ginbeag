@@ -205,6 +205,30 @@ class AdminNavigator extends Template {
 }
 
 
+
+//
+// Complete list of pages for Admin Navigator
+// iterate over branch and create links
+//
+class AdminNavigatorHeader extends Template {
+
+    function AdminNavigatorHeader()
+    {
+		parent::__construct();
+		
+		$this->vars['jumptopageform']= new JumpToPageForm(getprojectrootlinkpath()."admin/admin.php",array(),"left","_top");
+		$this->stringvars['pagelistlink']= getprojectrootlinkpath()."admin/includes/pagelist.php?sid=".$this->stringvars['sid'].'&page='.$this->stringvars['page'];
+		
+    }
+
+    // assigns templates
+    function createTemplates()
+    {
+      $this->addTemplate("admin/adminnavigatorheader.tpl");
+    }
+}
+
+
 //
 // Complete list of pages for Admin Navigator
 // iterate over branch and create links
@@ -215,15 +239,12 @@ class PageList extends Template {
     {
 		parent::__construct();
 		
-		$this->vars['header']=new HTMLHeader("Please choose a page to return to the admin panel","Webpage Building");
-		
 		$roots=getrootpages();
 		for($i=0;$i<count($roots);$i++)
 		{
-			$this->listvars['navigator'][]=new AdminNavigatorBranch($roots[$i],5000000000000000,0);
+			$this->listvars['navigator'][]=new AdminNavigatorBranch($roots[$i],50,0);
 		}
 		
-		$this->vars['footer']=new HTMLFooter();
     }
 
     // assigns templates

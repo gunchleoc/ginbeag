@@ -61,6 +61,7 @@ $allowedscripts[]=$root4array."admin/includes/ajax/news/updatecategories.php";
 $allowedscripts[]=$root4array."admin/includes/ajax/news/updatedate.php";
 $allowedscripts[]=$root4array."admin/includes/ajax/news/updatesectiontitle.php";
 $allowedscripts[]=$root4array."admin/includes/ajax/news/updatetitle.php";
+$allowedscripts[]=$root4array."admin/includes/pagelist.php";
 $allowedscripts[]=$root4array."admin/includes/preview.php";
 $allowedscripts[]=$root4array."admin/login.php";
 $allowedscripts[]=$root4array."admin/pagedelete.php";

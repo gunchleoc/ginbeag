@@ -65,6 +65,7 @@ class AdminTopFrame extends Template {
     		}
     		if($action == "pagenew") $this->stringvars['newpagelink']="New Page";
 		    else $this->vars['newpagelink']=new AdminTopFrameLink("pagenew.php","New Page");
+		    
 
 		    if($action == "edit" || $action == "editcontents" || $action == "editpageintro")
       		{

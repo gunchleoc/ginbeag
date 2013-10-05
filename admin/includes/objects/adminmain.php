@@ -60,7 +60,7 @@ class AdminMain extends Template {
 		else
 		{
 	      	include_once($projectroot."admin/includes/objects/navigator.php");
-	      	$this->vars['navigatorfixed'] = new JumpToPageForm(getprojectrootlinkpath()."admin/admin.php",array(),"left","_top");
+	      	$this->vars['navigatorfixed'] = new AdminNavigatorHeader();
 	      	$this->vars['navigatorscroll'] = new AdminNavigator($page);
 		}
 
