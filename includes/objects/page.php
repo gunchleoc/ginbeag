@@ -989,7 +989,7 @@ class Page extends Template {
 			else
 			{
 				// todo why encoding problem?
-				$this->vars['contents']  = new PageIntro(getlang("error_pagenotfound"),utf8_decode(sprintf(getlang("error_pagenonotfound"),$page_id)),"");
+				$this->vars['contents']  = new PageIntro(utf8_decode(getlang("error_pagenotfound")),utf8_decode(sprintf(getlang("error_pagenonotfound"),$page_id)),"");
 			}
 		}
 	}
