@@ -60,9 +60,10 @@ Desired new admin features:
 - admin - register link not accessible - keep it hidden. Make new site function to send register link.
 
 templating for:
-- D:\webserver\localhost\minicms\admin\functions\pagesmod.php rebuildaccessrestrictionindex()
-- D:\webserver\localhost\minicms\admin\site\dbutils.php showtables()
-- D:\webserver\localhost\minicms\admin\includes\templates\adminnavigator.php class PageTree($page_id)
+- admin\functions\pagesmod.php rebuildaccessrestrictionindex()
+- admin\site\dbutils.php showtables()
+- admin\includes\templates\adminnavigator.php class PageTree($page_id)
+- rss.php
 
 
 Check on Sue's login problem sometime
