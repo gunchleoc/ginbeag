@@ -22,10 +22,13 @@ html body {
 
 #navigatorscroll {
 	height:97%;
-	overflow:scroll;
+	overflow:auto;
+	resize:horizontal;
 	border-style: solid;
 	border-width: 1px 1px 1px 1px;
 	padding-left:0.5em;
+	font-size: 95%;
+	background-color: #CCCCCC;
 }
 
 
