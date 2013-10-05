@@ -99,6 +99,16 @@ function getnewestnewsitemdate($page_id)
 //
 //
 //
+function getnewsitempage($newsitem_id)
+{
+	global $db;
+  return getdbelement("page_id", NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem_id));
+}
+
+
+//
+//
+//
 function getnewsitemsynopsistext($newsitem_id)
 {
 	global $db;

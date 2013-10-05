@@ -3,7 +3,6 @@ $projectroot=dirname(__FILE__)."/";
 
 include_once($projectroot."functions/db.php");
 
-
 // anti bot nonsense links
 // ********************************* achtung - bot secure ist server-spezifisch!
 $testpath = "/".getproperty("Local Path");
@@ -12,7 +11,6 @@ if(getproperty("Local Path") == "") $testpath = "";
 if(!((isset($_SERVER["ORIG_PATH_TRANSLATED"]) && $_SERVER["ORIG_PATH_TRANSLATED"] == $projectroot."index.php") ||
 	$_SERVER["PHP_SELF"] == $testpath."/index.php"))
 {
-//	print("test: ".$_SERVER["PHP_SELF"]);
 	header("HTTP/1.0 404 Not Found");
 	print("HTTP 404: Sorry, but this page does not exist.");
 	exit;
@@ -32,6 +30,12 @@ else $sid="";
 
 if(isset($_GET['page'])) $page = $_GET['page'];
 elseif(isset($_POST['page'])) $page = $_POST['page'];
+elseif(isset($_GET['newsitem']))
+{
+	include_once($projectroot."functions/pagecontent/newspages.php");
+	$page = getnewsitempage($_GET['newsitem']);
+	$_GET['page']=$page;
+}
 else $page=0;
 
 // logout public user
