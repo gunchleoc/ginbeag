@@ -830,19 +830,19 @@ class Page extends Template {
 	//
 	//
 	//
-	function makeheader($page_id, $showrefused, $showhidden)
+	function makeheader($page, $showrefused, $showhidden)
 	{
 		global $_GET;
 		$title="";
 		if(!$showhidden)
 		{
-			if(ispagerestrictedarray($page_id))
+			if(ispagerestrictedarray($page))
 			{
-				checkpublicsession($page_id);
+				checkpublicsession($page);
 			}
 
-			if(ispublished($page_id))
-				$title=$this->getmaintitle($page_id);
+			if(ispublished($page))
+				$title=$this->getmaintitle($page);
 			elseif(isset($_GET["sitepolicy"]))
 				$title=getproperty("Site Policy Title");
 			elseif(isset($_GET["sitemap"]))
@@ -852,30 +852,30 @@ class Page extends Template {
 		}
 		else
 		{
-			if(@strlen($page_id<1) || $page_id<0)
+			if(@strlen($page<1) || $page<0)
 			{
 				$title ="Welcome to the webpage editing panel";
 			}
 			else
 			{
-				$title="Displaying ".getpagetype($page_id)." page#".$page_id." - ".$this->getmaintitle($page_id);
+				$title="Displaying ".getpagetype($page)." page#".$page." - ".$this->getmaintitle($page);
 			
-				if(getpagetype($page_id)==="external")
-					$url=getexternallink($page_id);
+				if(getpagetype($page)==="external")
+					$url=getexternallink($page);
 				else
 					$url=getprojectrootlinkpath()."index.php".makelinkparameters($_GET);
 				
 				$this->vars['message'] = new AdminPageDisplayMessage($showrefused);
 			}
 		}
-		$this->vars['header'] = new PageHeader($page_id, $title,$this->displaytype);
+		$this->vars['header'] = new PageHeader($page, $title,$this->displaytype);
 
 	}
   
 	//
 	//
 	//
-	function makecontents($page_id, $pagetype, $showrefused, $showhidden)
+	function makecontents($page, $pagetype, $showrefused, $showhidden)
 	{
 		global $_GET, $offset, $projectroot;
     
@@ -921,7 +921,7 @@ class Page extends Template {
 		}
 
 		// reroute to guide for webpage editors
-		elseif($showhidden && @strlen($page_id<1) || $page_id<0)
+		elseif($showhidden && @strlen($page<1) || $page<0)
 		{
 			$messagetext='<table border="0" cellpadding="10" cellspacing="0" width="100%">';
 			$messagetext.='<tr><td><p class="gen">Please check the <a href="http://www.noclockthing.de/minicms" target="_blank">';
@@ -937,7 +937,7 @@ class Page extends Template {
 		// create page content
 		else
 		{
-			if($showhidden || ispublished($page_id))
+			if($showhidden || ispublished($page))
 			{
 				if(isset($_GET['offset'])) $offset=$_GET['offset'];
 				else $offset=0;
@@ -950,16 +950,16 @@ class Page extends Template {
 				elseif($pagetype==="articlemenu")
 				{
 					include_once($projectroot."includes/objects/menupage.php");
-					$this->vars['contents'] = new ArticleMenuPage($page_id,$showrefused,$showhidden);
+					$this->vars['contents'] = new ArticleMenuPage($page,$showrefused,$showhidden);
 				}
 				elseif($pagetype==="menu" || $pagetype=="linklistmenu")
 				{
 					include_once($projectroot."includes/objects/menupage.php");
-					$this->vars['contents'] = new MenuPage($page_id,$showrefused,$showhidden);
+					$this->vars['contents'] = new MenuPage($page,$showrefused,$showhidden);
 				}
 				elseif($pagetype==="external")
 				{
-					$this->stringvars['contents'] ='<a href="'.getexternallink($page_id).'" target="_blank">External page</a>';
+					$this->stringvars['contents'] ='<a href="'.getexternallink($page).'" target="_blank">External page</a>';
 				}
 				elseif($pagetype==="gallery")
 				{
@@ -974,7 +974,7 @@ class Page extends Template {
 				elseif($pagetype==="news")
 				{
 					include_once($projectroot."includes/objects/newspage.php");
-					$this->vars['contents']  = new NewsPage($page_id,$offset,$showrefused,$showhidden);
+					$this->vars['contents']  = new NewsPage($page,$offset,$showrefused,$showhidden);
 				}
 			}
 			elseif(isset($_GET["sitepolicy"]))
@@ -989,7 +989,7 @@ class Page extends Template {
 			else
 			{
 				// todo why encoding problem?
-				$this->vars['contents']  = new PageIntro(utf8_decode(getlang("error_pagenotfound")),utf8_decode(sprintf(getlang("error_pagenonotfound"),$page_id)),"");
+				$this->vars['contents']  = new PageIntro(utf8_decode(getlang("error_pagenotfound")),utf8_decode(sprintf(getlang("error_pagenonotfound"),$page)),"");
 			}
 		}
 	}
@@ -1088,16 +1088,16 @@ class Printview extends Template {
 	//
 	//
 	//
-	function makeheader($page_id)
+	function makeheader($page)
 	{
 		$title="";
-		if(ispagerestrictedarray($page_id))
+		if(ispagerestrictedarray($page))
 		{
-			checkpublicsession($page_id);
+			checkpublicsession($page);
 		}
-		if(ispublished($page_id))
+		if(ispublished($page))
 		{
-			$title=$this->getmaintitle($page_id);
+			$title=$this->getmaintitle($page);
 		}
 		else
 		{
@@ -1109,11 +1109,11 @@ class Printview extends Template {
 	//
 	//
 	//
-	function makecontents($page_id, $pagetype, $showrefused)
+	function makecontents($page, $pagetype, $showrefused)
 	{
 		global $projectroot,$_GET        ;
 		
-		if(ispublished($page_id))
+		if(ispublished($page))
 		{
 			if($pagetype==="article")
 			{
@@ -1133,7 +1133,7 @@ class Printview extends Template {
 		}
 		else
 		{
-			$this->vars['contents']  = new PageIntro("Page not found","Could not find page ".$page_id.".","");
+			$this->vars['contents']  = new PageIntro("Page not found","Could not find page ".$page.".","");
 		}
 	}
 	

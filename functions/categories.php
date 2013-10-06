@@ -107,19 +107,19 @@ function getcategoriesforimage($filename)
 //
 //
 //
-function getcategoriesforpage($page_id)
+function getcategoriesforpage($page)
 {
 	global $db;
-	return getcolumn("category",PAGECATS_TABLE, "page_id = '".$db->setinteger($page_id)."'");
+	return getcolumn("category",PAGECATS_TABLE, "page_id = '".$db->setinteger($page)."'");
 }
 
 //
 //
 //
-function getcategoriesfornewsitem($newsitem_id)
+function getcategoriesfornewsitem($newsitem)
 {
 	global $db;
-	return getcolumn("category",NEWSITEMCATS_TABLE, "newsitem_id = '".$db->setinteger($newsitem_id)."'");
+	return getcolumn("category",NEWSITEMCATS_TABLE, "newsitem_id = '".$db->setinteger($newsitem)."'");
 }
 
 ?>

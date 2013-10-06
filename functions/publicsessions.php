@@ -30,15 +30,15 @@ function publiclogin($username,$password)
 	
 	if(!ispublicuseripbanned($ip))
 	{
-		$user_id=getpublicuserid($username);
+		$user=getpublicuserid($username);
 		$result=array();
 		$proceed=true;
-		$retries=getpublicretries($user_id,$ip);
+		$retries=getpublicretries($user,$ip);
 		
 		if($retries>=3)
 		{
 			$time=date(DATETIMEFORMAT, strtotime('-15 minutes'));
-			$lastlogin=getlastpubliclogin($user_id,$ip);
+			$lastlogin=getlastpubliclogin($user,$ip);
 			if($lastlogin>=$time)
 			{
 				$result['message']=getlang("login_passwordcount");
@@ -49,14 +49,14 @@ function publiclogin($username,$password)
 		{
 			if(checkpublicpassword($username,$password))
 			{
-				$result['sid']=createpublicsession($user_id,$ip,1);
+				$result['sid']=createpublicsession($user,$ip,1);
 				if($result['sid']) $result['message']=getlang("login_success");
 				else $result['message']=getlang("login_error_sessionfail");
 			}
 			else
 			{
 			$result['message']=getlang("login_error_username");
-			updatepubliclogindate($user_id,$ip);
+			updatepubliclogindate($user,$ip);
 			}
 		}
 	}
@@ -104,14 +104,14 @@ function publiclogout($sid)
 //
 //
 //
-function updatepubliclogindate($user_id,$ip)
+function updatepubliclogindate($user,$ip)
 {
 	global $db;
-	$user_id=$db->setinteger($user_id);
+	$user=$db->setinteger($user);
 	
 	$now=strtotime('now');
 	
-	$sid=getsidforpublicuser($user_id,$ip);
+	$sid=getsidforpublicuser($user,$ip);
 	
 	if($sid)
 	{
@@ -123,7 +123,7 @@ function updatepubliclogindate($user_id,$ip)
 		//  print($query.'<p>');
 		$sql=$db->singlequery($query);
 		
-		$retries=getpublicretries($user_id,$ip);
+		$retries=getpublicretries($user,$ip);
 		
 		$query=("update ");
 		$query.=(PUBLICSESSIONS_TABLE." set ");
@@ -135,7 +135,7 @@ function updatepubliclogindate($user_id,$ip)
 	}
 	else
 	{
-		createpublicsession($user_id,$ip,0);
+		createpublicsession($user,$ip,0);
 	}
 }
 
@@ -143,10 +143,10 @@ function updatepubliclogindate($user_id,$ip)
 //
 //
 //
-function createpublicsession($user_id,$ip,$session_valid)
+function createpublicsession($user,$ip,$session_valid)
 {
 	global $db;
-	$user_id=$db->setinteger($user_id);
+	$user=$db->setinteger($user);
 	$session_valid=$db->setinteger($session_valid);
 	
 	$result="";
@@ -158,7 +158,7 @@ function createpublicsession($user_id,$ip,$session_valid)
 	
 	clearpublicsessions();
 	
-	$lastsession=getsidforpublicuser($user_id,$ip);
+	$lastsession=getsidforpublicuser($user,$ip);
 	
 	if($lastsession)
 	{
@@ -167,7 +167,7 @@ function createpublicsession($user_id,$ip,$session_valid)
 	
 	$values=array();
 	$values[]=$sid;
-	$values[]=$user_id;
+	$values[]=$user;
 	$values[]=date(DATETIMEFORMAT, $now);
 	$values[]=$ip;
 	$values[]=$session_valid;
@@ -240,18 +240,18 @@ function publictimeout($sid)
 //
 //
 //
-function checkpublicsession($page_id)
+function checkpublicsession($page)
 {
 	global $db;
 	global $_GET;
 	$isvalid=isset($_GET["sid"]) && ispublicsessionvalid($db->setstring($_GET["sid"]));
-	//  $user_id=getpublicsiduser($_GET["sid"]);
+	//  $user=getpublicsiduser($_GET["sid"]);
 	if(!isset($_GET["sid"])) $hasaccess = false;
-	else $hasaccess =hasaccesssession($_GET["sid"], $page_id);
+	else $hasaccess =hasaccesssession($_GET["sid"], $page);
 
 	if(!$isvalid || publictimeout($_GET["sid"]) || !$hasaccess)
 	// todo: reinstate ip check
-	//if(!$isvalid || publictimeout($_GET["sid"]) || !checkpublicip($_GET["sid"]) || !hasaccesssession($_GET["sid"],$page_id))
+	//if(!$isvalid || publictimeout($_GET["sid"]) || !checkpublicip($_GET["sid"]) || !hasaccesssession($_GET["sid"],$page))
 	{
 		if(!$hasaccess) $message=getlang("restricted_nopermission");
 		else $message=getlang("restricted_expired");
@@ -291,10 +291,10 @@ function checkpublicip($sid)
 //
 // todo bug
 //
-function getsidforpublicuser($user_id,$ip)
+function getsidforpublicuser($user,$ip)
 {
 	global $db;
-	$query="select session_id from ".PUBLICSESSIONS_TABLE." where session_user_id = '".$db->setinteger($user_id)."' AND session_ip = '".$db->setinteger($ip)."';";
+	$query="select session_id from ".PUBLICSESSIONS_TABLE." where session_user_id = '".$db->setinteger($user)."' AND session_ip = '".$db->setinteger($ip)."';";
 	//print($query);
 	return getdbresultsingle($query);
 }
@@ -302,18 +302,18 @@ function getsidforpublicuser($user_id,$ip)
 //
 //
 //
-function getpublicretries($user_id,$ip)
+function getpublicretries($user,$ip)
 {
-	$sid=getsidforpublicuser($user_id,$ip);
+	$sid=getsidforpublicuser($user,$ip);
 	return getdbelement("retries",PUBLICSESSIONS_TABLE, "session_id", $sid);
 }
 
 //
 //
 //
-function getlastpubliclogin($user_id,$ip)
+function getlastpubliclogin($user,$ip)
 {
-	$sid=getsidforpublicuser($user_id,$ip);
+	$sid=getsidforpublicuser($user,$ip);
 	return getdbelement("session_time",PUBLICSESSIONS_TABLE, "session_id", $sid);
 }
 

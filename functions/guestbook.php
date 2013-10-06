@@ -59,16 +59,16 @@ function countguestbookentries()
 //
 //
 //
-function getguestbookentrycontents($message_id)
+function getguestbookentrycontents($message)
 {
 	global $db;
 	$result=array();
-	$message_id=$db->setinteger($message_id);
-	$result['name']= getdbelement("name",GUESTBOOK_TABLE, "message_id", $message_id);
-	$result['email']= getdbelement("email",GUESTBOOK_TABLE, "message_id", $message_id);
-	$result['subject']= getdbelement("subject",GUESTBOOK_TABLE, "message_id", $message_id);
-	$result['message']= getdbelement("message",GUESTBOOK_TABLE, "message_id", $message_id);
-	$result['date']= getdbelement("date",GUESTBOOK_TABLE, "message_id", $message_id);
+	$message=$db->setinteger($message);
+	$result['name']= getdbelement("name",GUESTBOOK_TABLE, "message_id", $message);
+	$result['email']= getdbelement("email",GUESTBOOK_TABLE, "message_id", $message);
+	$result['subject']= getdbelement("subject",GUESTBOOK_TABLE, "message_id", $message);
+	$result['message']= getdbelement("message",GUESTBOOK_TABLE, "message_id", $message);
+	$result['date']= getdbelement("date",GUESTBOOK_TABLE, "message_id", $message);
 	
 	return $result;
 }

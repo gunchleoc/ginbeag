@@ -173,11 +173,11 @@ function removeimagecategories($filename,$categories)
 //
 //
 //
-function addpagecategories($page_id,$categories)
+function addpagecategories($page,$categories)
 {
 	global $db;
 	$result = true;
-	$pagecategories=getcategoriesforpage($page_id);
+	$pagecategories=getcategoriesforpage($page);
 	for($i=0;$i<count($categories);$i++)
 	{
 		if(!isroot($categories[$i]))
@@ -193,7 +193,7 @@ function addpagecategories($page_id,$categories)
 			if($addcategory)
 			{
 				$values[0]=0;
-				$values[1]=$db->setinteger($page_id);
+				$values[1]=$db->setinteger($page);
 				$values[2]=$db->setinteger($categories[$i]);
 				$result = $result & insertentry(PAGECATS_TABLE,$values);
 			}
@@ -206,13 +206,13 @@ function addpagecategories($page_id,$categories)
 //
 //
 //
-function removepagecategories($page_id,$categories)
+function removepagecategories($page,$categories)
 {
 	global $db;
 	$result = true;
 	for($i=0;$i<count($categories);$i++)
 	{
-		$condition="page_id ='".$db->setinteger($page_id)."' and category ='".$db->setinteger($categories[$i])."'";
+		$condition="page_id ='".$db->setinteger($page)."' and category ='".$db->setinteger($categories[$i])."'";
 		$result = $result & deleteentry(PAGECATS_TABLE,$condition);
 	}
 	return $result;
@@ -222,11 +222,11 @@ function removepagecategories($page_id,$categories)
 //
 //
 //
-function addnewsitemcategories($newsitem_id,$categories)
+function addnewsitemcategories($newsitem,$categories)
 {
 	global $db;
 	$result=true;
-  	$newsitemcategories=getcategoriesfornewsitem($newsitem_id);
+  	$newsitemcategories=getcategoriesfornewsitem($newsitem);
   	for($i=0;$i<count($categories);$i++)
   	{
     	if(!isroot($categories[$i]))
@@ -242,7 +242,7 @@ function addnewsitemcategories($newsitem_id,$categories)
       		if($addcategory)
       		{
         		$values[0]=0;
-        		$values[1]=$db->setinteger($newsitem_id);
+        		$values[1]=$db->setinteger($newsitem);
         		$values[2]=$db->setinteger($categories[$i]);
         		$temp = insertentry(NEWSITEMCATS_TABLE,$values);
         		$result = $result & ($temp>0);
@@ -256,13 +256,13 @@ function addnewsitemcategories($newsitem_id,$categories)
 //
 //
 //
-function removenewsitemcategories($newsitem_id,$categories)
+function removenewsitemcategories($newsitem,$categories)
 {
 	global $db;
 	$result=true;
   	for($i=0;$i<count($categories);$i++)
   	{
-    	$condition="newsitem_id ='".$db->setinteger($newsitem_id)."' and category ='".$db->setinteger($categories[$i])."'";
+    	$condition="newsitem_id ='".$db->setinteger($newsitem)."' and category ='".$db->setinteger($categories[$i])."'";
     	$result = $result & deleteentry(NEWSITEMCATS_TABLE,$condition);
   	}
   	return $result;

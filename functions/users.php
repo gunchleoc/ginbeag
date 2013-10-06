@@ -14,19 +14,19 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getusername($user_id)
+function getusername($user)
 {
 	global $db;
-	return getdbelement("username",USERS_TABLE, "user_id", $db->setinteger($user_id));
+	return getdbelement("username",USERS_TABLE, "user_id", $db->setinteger($user));
 }
 
 //
 //
 //
-function getuseremail($user_id)
+function getuseremail($user)
 {
 	global $db;
-	return getdbelement("email",USERS_TABLE, "user_id", $db->setinteger($user_id));
+	return getdbelement("email",USERS_TABLE, "user_id", $db->setinteger($user));
 }
 
 //
@@ -50,19 +50,19 @@ function getallcontacts()
 //
 //
 //
-function getiscontact($user_id)
+function getiscontact($user)
 {
 	global $db;
-	return getdbelement("iscontact",USERS_TABLE, "user_id",$db->setinteger($user_id));
+	return getdbelement("iscontact",USERS_TABLE, "user_id",$db->setinteger($user));
 }
 
 //
 //
 //
-function getcontactfunction($user_id)
+function getcontactfunction($user)
 {
 	global $db;
-	return getdbelement("contactfunction",USERS_TABLE, "user_id",$db->setinteger($user_id));
+	return getdbelement("contactfunction",USERS_TABLE, "user_id",$db->setinteger($user));
 }
 
 ?>

@@ -18,7 +18,7 @@ include_once($projectroot."includes/objects/elements.php");
 //
 class SiteBannerEditForm extends Template {
 
-	function SiteBannerEditForm($banner_id)
+	function SiteBannerEditForm($banner)
 	{
 		parent::__construct();
 		
@@ -26,15 +26,15 @@ class SiteBannerEditForm extends Template {
 		$this->stringvars['deleteactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=deletebanner&action=sitebanner';
 		$this->stringvars['editactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=editbanner&action=sitebanner';
 		
-		$contents=getbannercontents($banner_id);
+		$contents=getbannercontents($banner);
 		if($contents['header'])
 			$this->stringvars['header']=input2html($contents['header']);
 		else
 			$this->stringvars['header']="";
 		
-		$this->vars['banner'] = new Banner($banner_id,true);
+		$this->vars['banner'] = new Banner($banner,true);
 		
-		if(!isbannercomplete($banner_id))
+		if(!isbannercomplete($banner))
 			$this->stringvars['incomplete']= "incomplete";
 		
 		if(strlen($contents['image'])>0)
@@ -43,8 +43,8 @@ class SiteBannerEditForm extends Template {
 		$this->stringvars['description']=input2html($contents['description']);
 		$this->stringvars['link']=$contents['link'];
 		$this->stringvars['code']=input2html($contents['code']);
-		$this->stringvars['jsid']=$banner_id;
-		$this->stringvars['bannerid']=$banner_id;
+		$this->stringvars['jsid']=$banner;
+		$this->stringvars['bannerid']=$banner;
 		
 		$this->vars['submitrow']= new SubmitRow("bannerproperties","Submit Banner Changes",true);
 	}

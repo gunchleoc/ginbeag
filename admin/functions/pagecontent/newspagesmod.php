@@ -9,16 +9,16 @@ include_once($projectroot."functions/pagecontent/newspages.php");
 //
 //
 //
-function setdisplaynewestnewsitemfirst($page_id, $shownewestfirst)
+function setdisplaynewestnewsitemfirst($page, $shownewestfirst)
 {
 	global $db;
   if($shownewestfirst)
   {
-    updatefield(NEWS_TABLE,"shownewestfirst ",1,"page_id='".$db->setinteger($page_id)."'");
+    updatefield(NEWS_TABLE,"shownewestfirst ",1,"page_id='".$db->setinteger($page)."'");
   }
   else
   {
-    updatefield(NEWS_TABLE,"shownewestfirst ",0,"page_id='".$db->setinteger($page_id)."'");
+    updatefield(NEWS_TABLE,"shownewestfirst ",0,"page_id='".$db->setinteger($page)."'");
   }
 }
 
@@ -26,52 +26,52 @@ function setdisplaynewestnewsitemfirst($page_id, $shownewestfirst)
 //
 //
 //
-function getnewsitems($page_id,$number,$offset)
+function getnewsitems($page,$number,$offset)
 {
 	global $db;
-  return getorderedcolumnlimit("newsitem_id",NEWSITEMS_TABLE, "page_id='".$db->setinteger($page_id)."'", "date", $db->setinteger($offset), $db->setinteger($number),"DESC");
+  return getorderedcolumnlimit("newsitem_id",NEWSITEMS_TABLE, "page_id='".$db->setinteger($page)."'", "date", $db->setinteger($offset), $db->setinteger($number),"DESC");
 }
 
 //
 //
 //
-function countnewsitems($page_id)
+function countnewsitems($page)
 {
 	global $db;
-  return countelementscondition("newsitem_id",NEWSITEMS_TABLE, "page_id='".$db->setinteger($page_id)."'");
+  return countelementscondition("newsitem_id",NEWSITEMS_TABLE, "page_id='".$db->setinteger($page)."'");
 }
 
 //
 //
 //
-function getpagefornewsitem($newsitem_id)
+function getpagefornewsitem($newsitem)
 {
 	global $db;
-  return getdbelement("page_id",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem_id));
+  return getdbelement("page_id",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
 }
 
 
 //
 //
 //
-function updatenewsitemtitle($newsitem_id, $title)
+function updatenewsitemtitle($newsitem, $title)
 {
 	global $db;
-  	return updatefield(NEWSITEMS_TABLE,"title",$db->setstring($title),"newsitem_id='".$db->setinteger($newsitem_id)."'");
+  	return updatefield(NEWSITEMS_TABLE,"title",$db->setstring($title),"newsitem_id='".$db->setinteger($newsitem)."'");
 }
 
 //
 //
 //
-function addnewsitemsynopsisimage($newsitem_id, $filename)
+function addnewsitemsynopsisimage($newsitem, $filename)
 {
 	global $db;
-  $newsitem_id= $db->setinteger($newsitem_id);
-  $lastposition= getmax("position",NEWSITEMSYNIMG_TABLE, "newsitem_id = '".$newsitem_id."'");
+  $newsitem= $db->setinteger($newsitem);
+  $lastposition= getmax("position",NEWSITEMSYNIMG_TABLE, "newsitem_id = '".$newsitem."'");
 
   $values=array();
   $values[]=0;
-  $values[]=$newsitem_id;
+  $values[]=$newsitem;
   $values[]=$db->setstring($filename);
   $values[]=$lastposition+1;
   return insertentry(NEWSITEMSYNIMG_TABLE,$values);
@@ -80,39 +80,39 @@ function addnewsitemsynopsisimage($newsitem_id, $filename)
 //
 //
 //
-function editnewsitemsynopsisimage($newsitemimage_id, $filename)
+function editnewsitemsynopsisimage($newsitemimage, $filename)
 {
 	global $db;
-  updatefield(NEWSITEMSYNIMG_TABLE,"image_filename",$db->setstring($filename),"newsitemimage_id='".$db->setinteger($newsitemimage_id)."'");
+  updatefield(NEWSITEMSYNIMG_TABLE,"image_filename",$db->setstring($filename),"newsitemimage_id='".$db->setinteger($newsitemimage)."'");
 }
 
 //
 //
 //
-function removenewsitemsynopsisimage($newsitemimage_id)
+function removenewsitemsynopsisimage($newsitemimage)
 {
 	global $db;
-  deleteentry(NEWSITEMSYNIMG_TABLE,"newsitemimage_id ='".$db->setinteger($newsitemimage_id)."'");
+  deleteentry(NEWSITEMSYNIMG_TABLE,"newsitemimage_id ='".$db->setinteger($newsitemimage)."'");
 }
 
 //
 //
 //
-function updatenewsitemsource($newsitem_id, $source, $sourcelink, $location, $contributor)
+function updatenewsitemsource($newsitem, $source, $sourcelink, $location, $contributor)
 {
 	global $db;
 	$result = true;
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"source",$db->setstring($source),"newsitem_id='".$db->setinteger($newsitem_id)."'");
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"sourcelink",$db->setstring($sourcelink),"newsitem_id='".$db->setinteger($newsitem_id)."'");
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"location",$db->setstring($location),"newsitem_id='".$db->setinteger($newsitem_id)."'");
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"contributor",$db->setstring($contributor),"newsitem_id='".$db->setinteger($newsitem_id)."'");
+  	$result = $result & updatefield(NEWSITEMS_TABLE,"source",$db->setstring($source),"newsitem_id='".$db->setinteger($newsitem)."'");
+  	$result = $result & updatefield(NEWSITEMS_TABLE,"sourcelink",$db->setstring($sourcelink),"newsitem_id='".$db->setinteger($newsitem)."'");
+  	$result = $result & updatefield(NEWSITEMS_TABLE,"location",$db->setstring($location),"newsitem_id='".$db->setinteger($newsitem)."'");
+  	$result = $result & updatefield(NEWSITEMS_TABLE,"contributor",$db->setstring($contributor),"newsitem_id='".$db->setinteger($newsitem)."'");
   	return $result;
 }
 
 //
 //
 //
-function fakethedate($newsitem_id,$day,$month,$year,$hours,$minutes,$seconds)
+function fakethedate($newsitem,$day,$month,$year,$hours,$minutes,$seconds)
 {
 	global $db;
 	$result=false;
@@ -124,7 +124,7 @@ function fakethedate($newsitem_id,$day,$month,$year,$hours,$minutes,$seconds)
   	if(strlen($year)==4)
   	{
     	$date=$db->setinteger($year)."-".$db->setinteger($month)."-".$db->setinteger($day)." ".$db->setinteger($hours).":".$db->setinteger($minutes).":".$db->setinteger($seconds);
-    	$result=updatefield(NEWSITEMS_TABLE,"date",$date,"newsitem_id='".$db->setinteger($newsitem_id)."'");
+    	$result=updatefield(NEWSITEMS_TABLE,"date",$date,"newsitem_id='".$db->setinteger($newsitem)."'");
   	}
   	return $result;
 }
@@ -132,12 +132,12 @@ function fakethedate($newsitem_id,$day,$month,$year,$hours,$minutes,$seconds)
 //
 //
 //
-function publishnewsitem($newsitem_id)
+function publishnewsitem($newsitem)
 {
 	global $db;
-  if(!newsitempermissionrefused($newsitem_id))
+  if(!newsitempermissionrefused($newsitem))
   {
-    return updatefield(NEWSITEMS_TABLE,"ispublished",1,"newsitem_id='".$db->setinteger($newsitem_id)."'");
+    return updatefield(NEWSITEMS_TABLE,"ispublished",1,"newsitem_id='".$db->setinteger($newsitem)."'");
   }
   else return false;
 }
@@ -146,27 +146,27 @@ function publishnewsitem($newsitem_id)
 //
 //
 //
-function unpublishnewsitem($newsitem_id)
+function unpublishnewsitem($newsitem)
 {
 	global $db;
-  return updatefield(NEWSITEMS_TABLE,"ispublished",0,"newsitem_id='".$db->setinteger($newsitem_id)."'");
+  return updatefield(NEWSITEMS_TABLE,"ispublished",0,"newsitem_id='".$db->setinteger($newsitem)."'");
 }
 
 //
 //
 //
-function updatenewsitemcopyright($newsitem_id,$copyright,$imagecopyright,$permission)
+function updatenewsitemcopyright($newsitem,$copyright,$imagecopyright,$permission)
 {
 	global $db;
 	$result=true;
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"copyright",$db->setstring($copyright),"newsitem_id='".$db->setinteger($newsitem_id)."'");
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"image_copyright",$db->setstring($imagecopyright),"newsitem_id='".$db->setinteger($newsitem_id)."'");
+  	$result = $result & updatefield(NEWSITEMS_TABLE,"copyright",$db->setstring($copyright),"newsitem_id='".$db->setinteger($newsitem)."'");
+  	$result = $result & updatefield(NEWSITEMS_TABLE,"image_copyright",$db->setstring($imagecopyright),"newsitem_id='".$db->setinteger($newsitem)."'");
 
   	if($permission == PERMISSION_REFUSED)
   	{
-    	unpublishnewsitem($newsitem_id);
+    	unpublishnewsitem($newsitem);
   	}
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"permission",$db->setinteger($permission),"newsitem_id='".$db->setinteger($newsitem_id)."'");
+  	$result = $result & updatefield(NEWSITEMS_TABLE,"permission",$db->setinteger($permission),"newsitem_id='".$db->setinteger($newsitem)."'");
   	return $result;
 }
 
@@ -174,12 +174,12 @@ function updatenewsitemcopyright($newsitem_id,$copyright,$imagecopyright,$permis
 //
 //
 //
-function addnewsitem($page_id,$sid)
+function addnewsitem($page,$sid)
 {
 	global $db;
   $values=array();
   $values[]=0;
-  $values[]=$db->setinteger($page_id);
+  $values[]=$db->setinteger($page);
   $values[]='';
   $values[]='';
   $values[]='';
@@ -199,12 +199,12 @@ function addnewsitem($page_id,$sid)
 //
 //
 //
-function deletenewsitem($newsitem_id)
+function deletenewsitem($newsitem)
 {
 	global $db;
-  deleteentry(NEWSITEMS_TABLE,"newsitem_id ='".$db->setinteger($newsitem_id)."'");
-  deleteentry(NEWSITEMCATS_TABLE,"newsitem_id ='".$db->setinteger($newsitem_id)."'");
-  deleteentry(NEWSITEMSECTIONS_TABLE,"newsitem_id ='".$db->setinteger($newsitem_id)."'");
+  deleteentry(NEWSITEMS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
+  deleteentry(NEWSITEMCATS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
+  deleteentry(NEWSITEMSECTIONS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
 }
 
 //
@@ -302,10 +302,10 @@ function archivenewsitems($page,$day,$month,$year,$sid)
 //
 //
 //
-function updatenewsitemsynopsistext($newsitem_id,$text)
+function updatenewsitemsynopsistext($newsitem,$text)
 {
 	global $db;
-  	return updatefield(NEWSITEMS_TABLE,"synopsis",$db->setstring($text),"newsitem_id='".$db->setinteger($newsitem_id)."'");
+  	return updatefield(NEWSITEMS_TABLE,"synopsis",$db->setstring($text),"newsitem_id='".$db->setinteger($newsitem)."'");
 }
 
 
@@ -313,22 +313,22 @@ function updatenewsitemsynopsistext($newsitem_id,$text)
 //
 //
 //
-function addnewsitemsection($newsitem_id, $section_id,$isquote=false)
+function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
 {
 	global $db;
-  $newsitem_id=$db->setinteger($newsitem_id);
-  $section_id=$db->setinteger($section_id);
+  $newsitem=$db->setinteger($newsitem);
+  $newsitemsection=$db->setinteger($newsitemsection);
   
-  if(!$section_id)
+  if(!$newsitemsection)
   {
-    $sections=getnewsitemsections($newsitem_id);
+    $sections=getnewsitemsections($newsitem);
     if(count($sections)>0)
   	{
-    	$section_id=$sections[count($sections)-1];
+    	$newsitemsection=$sections[count($sections)-1];
     }
-    else $section_id=0;
+    else $newsitemsection=0;
   }
-  $sectionnumber=getnewsitemsectionnumber($section_id);
+  $sectionnumber=getnewsitemsectionnumber($newsitemsection);
   
   if($isquote)
   {
@@ -341,9 +341,9 @@ function addnewsitemsection($newsitem_id, $section_id,$isquote=false)
 
   //make room
 
-  if(getlastnewsitemsection($newsitem_id)!=$sectionnumber)
+  if(getlastnewsitemsection($newsitem)!=$sectionnumber)
   {
-    $sections=getnewsitemsections($newsitem_id);
+    $sections=getnewsitemsections($newsitem);
     $finished=false;
     for($i=count($sections)-1;$i>0 && !$finished;$i--)
     {
@@ -365,7 +365,7 @@ function addnewsitemsection($newsitem_id, $section_id,$isquote=false)
   {
     $values=array();
     $values[]=0;
-    $values[]=$newsitem_id;
+    $values[]=$newsitem;
     $values[]=$newsectionnumber;
     $values[]='';
     $values[]='[quote]';
@@ -378,7 +378,7 @@ function addnewsitemsection($newsitem_id, $section_id,$isquote=false)
 
   $values=array();
   $values[]=0;
-  $values[]=$newsitem_id;
+  $values[]=$newsitem;
   $values[]=$newsectionnumber;
   $values[]='';
   $values[]='';
@@ -393,7 +393,7 @@ function addnewsitemsection($newsitem_id, $section_id,$isquote=false)
 
     $values=array();
     $values[]=0;
-    $values[]=$newsitem_id;
+    $values[]=$newsitem;
     $values[]=$newsectionnumber;
     $values[]='';
     $values[]='[unquote]';
@@ -408,29 +408,29 @@ function addnewsitemsection($newsitem_id, $section_id,$isquote=false)
 //
 //
 //
-function updatenewsitemsectionimagealign($section_id,$imagealign)
+function updatenewsitemsectionimagealign($newsitemsection,$imagealign)
 {
 	global $db;
-	return updatefield(NEWSITEMSECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"newsitemsection_id='".$db->setinteger($section_id)."'");
+	return updatefield(NEWSITEMSECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
 }
 
 
 //
 //
 //
-function updatenewsitemsectionimagefilename($section_id,$imagefilename)
+function updatenewsitemsectionimagefilename($newsitemsection,$imagefilename)
 {
 	global $db;
-	return updatefield(NEWSITEMSECTIONS_TABLE,"sectionimage",$db->setstring(basename($imagefilename)),"newsitemsection_id='".$db->setinteger($section_id)."'");
+	return updatefield(NEWSITEMSECTIONS_TABLE,"sectionimage",$db->setstring(basename($imagefilename)),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
 }
 
 //
 //
 //
-function updatenewsitemsectionttitle($section_id,$title)
+function updatenewsitemsectionttitle($newsitemsection,$title)
 {
 	global $db;
-  	$result = updatefield(NEWSITEMSECTIONS_TABLE,"sectiontitle",$db->setstring($title),"newsitemsection_id='".$db->setinteger($section_id)."'");
+  	$result = updatefield(NEWSITEMSECTIONS_TABLE,"sectiontitle",$db->setstring($title),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
   	return $result;
 }
 
@@ -438,27 +438,27 @@ function updatenewsitemsectionttitle($section_id,$title)
 //
 //
 //
-function updatenewsitemsectiontext($section_id,$text)
+function updatenewsitemsectiontext($newsitemsection,$text)
 {
 	global $db;
-  	return updatefield(NEWSITEMSECTIONS_TABLE,"text",$db->setstring($text),"newsitemsection_id='".$db->setinteger($section_id)."'");
+  	return updatefield(NEWSITEMSECTIONS_TABLE,"text",$db->setstring($text),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
 }
 
 
 //
 //
 //
-function deletenewsitemsection($newsitem_id, $section_id)
+function deletenewsitemsection($newsitem, $newsitemsection)
 {
 	global $db;
-  $section_id=$db->setinteger($section_id);
+  $newsitemsection=$db->setinteger($newsitemsection);
 
   // remove quotes if necessary
-  $sections=getnewsitemsections($newsitem_id);
+  $sections=getnewsitemsections($newsitem);
   $found=false;
   for($i=1;$i<count($sections)-1&&!$found;$i++)
   {
-    if($sections[$i]==$section_id)
+    if($sections[$i]==$newsitemsection)
     {
       $found=true;
       $text1=getnewsitemsectiontext($sections[$i-1]);
@@ -472,24 +472,24 @@ function deletenewsitemsection($newsitem_id, $section_id)
     }
   }
   // delete
-  deleteentry(NEWSITEMSECTIONS_TABLE,"newsitemsection_id ='".$section_id."'");
+  deleteentry(NEWSITEMSECTIONS_TABLE,"newsitemsection_id ='".$newsitemsection."'");
 }
 
 //
 //
 //
-function addrssfeed($page_id)
+function addrssfeed($page)
 {
 	global $db;
-  insertentry(RSS_TABLE,array( 0=> $db->setinteger($page_id)));
+  insertentry(RSS_TABLE,array( 0=> $db->setinteger($page)));
 }
 
 //
 //
 //
-function removerssfeed($page_id)
+function removerssfeed($page)
 {
 	global $db;
-  deleteentry(RSS_TABLE,"page_id='".$db->setinteger($page_id)."'");
+  deleteentry(RSS_TABLE,"page_id='".$db->setinteger($page)."'");
 }
 ?>

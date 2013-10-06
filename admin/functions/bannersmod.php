@@ -67,17 +67,17 @@ function addbannercode($header, $code)
 //
 //
 //
-function updatebanner($banner_id, $header, $imagefilename,$description,$link)
+function updatebanner($banner, $header, $imagefilename,$description,$link)
 {
 	global $db;
-	$banner_id=$db->setinteger($banner_id);
+	$banner=$db->setinteger($banner);
 	$result = true;
 	
-	$result = $result & updatefield(BANNERS_TABLE,"header",$db->setstring($header),"banner_id='".$banner_id."'");
-	$result = $result & updatefield(BANNERS_TABLE,"image",$db->setstring(basename($imagefilename)),"banner_id='".$banner_id."'");
-	$result = $result & updatefield(BANNERS_TABLE,"description",$db->setstring($description),"banner_id='".$banner_id."'");
-	$result = $result & updatefield(BANNERS_TABLE,"link",$db->setstring($link),"banner_id='".$banner_id."'");
-	$result = $result & updatefield(BANNERS_TABLE,"code","","banner_id='".$banner_id."'");
+	$result = $result & updatefield(BANNERS_TABLE,"header",$db->setstring($header),"banner_id='".$banner."'");
+	$result = $result & updatefield(BANNERS_TABLE,"image",$db->setstring(basename($imagefilename)),"banner_id='".$banner."'");
+	$result = $result & updatefield(BANNERS_TABLE,"description",$db->setstring($description),"banner_id='".$banner."'");
+	$result = $result & updatefield(BANNERS_TABLE,"link",$db->setstring($link),"banner_id='".$banner."'");
+	$result = $result & updatefield(BANNERS_TABLE,"code","","banner_id='".$banner."'");
 	return $result;
 }
 
@@ -86,18 +86,18 @@ function updatebanner($banner_id, $header, $imagefilename,$description,$link)
 //
 //
 //
-function updatebannercode($banner_id, $header, $code)
+function updatebannercode($banner, $header, $code)
 {
 	global $db;
-	$banner_id=$db->setinteger($banner_id);
+	$banner=$db->setinteger($banner);
 	$result = true;
 	if(strlen($code)>0)
 	{
-		$result = $result & updatefield(BANNERS_TABLE,"header",$db->setstring($header),"banner_id='".$banner_id."'");
-		$result = $result & updatefield(BANNERS_TABLE,"image","","banner_id='".$banner_id."'");
-		$result = $result & updatefield(BANNERS_TABLE,"description","","banner_id='".$banner_id."'");
-		$result = $result & updatefield(BANNERS_TABLE,"link","","banner_id='".$banner_id."'");
-		$result = $result & updatefield(BANNERS_TABLE,"code",$db->setstring($code),"banner_id='".$banner_id."'");
+		$result = $result & updatefield(BANNERS_TABLE,"header",$db->setstring($header),"banner_id='".$banner."'");
+		$result = $result & updatefield(BANNERS_TABLE,"image","","banner_id='".$banner."'");
+		$result = $result & updatefield(BANNERS_TABLE,"description","","banner_id='".$banner."'");
+		$result = $result & updatefield(BANNERS_TABLE,"link","","banner_id='".$banner."'");
+		$result = $result & updatefield(BANNERS_TABLE,"code",$db->setstring($code),"banner_id='".$banner."'");
 	}
 	else $result = $false;
 	return $result;
@@ -108,17 +108,17 @@ function updatebannercode($banner_id, $header, $code)
 //
 //
 //
-function deletebanner($banner_id)
+function deletebanner($banner)
 {
 	global $db;
-  	return deleteentry(BANNERS_TABLE,"banner_id ='".$db->setinteger($banner_id)."'");
+  	return deleteentry(BANNERS_TABLE,"banner_id ='".$db->setinteger($banner)."'");
 }
 
 
 //
 //
 //
-function movebanner($banner_id, $direction, $positions=1)
+function movebanner($banner, $direction, $positions=1)
 {
 	$result = false;
 	if($positions>0)
@@ -135,7 +135,7 @@ function movebanner($banner_id, $direction, $positions=1)
 		$idposition=0;
 		for($i=0;$i<count($sisterids)&&!$found;$i++)
 		{
-			if($banner_id==$sisterids[$i])
+			if($banner==$sisterids[$i])
 			{
 				$found=true;
 				$idposition=$i;

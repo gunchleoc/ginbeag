@@ -16,30 +16,30 @@ include_once($projectroot."functions/users.php");
 //
 //
 //
-function getcopyrightinfo($copyright_id)
+function getcopyrightinfo($copyright)
 {
 	global $db;
-	$copyright_id=$db->setinteger($copyright_id);
+	$copyright=$db->setinteger($copyright);
 	
 	$result=array();
-	$result['holder']= getdbelement("holder", COPYRIGHT_TABLE, "copyright_id", $copyright_id);
-	$result['contact']= getdbelement("contact", COPYRIGHT_TABLE, "copyright_id", $copyright_id);
-	$result['comments']= getdbelement("comments", COPYRIGHT_TABLE, "copyright_id", $copyright_id);
-	$result['permission']= getdbelement("permission", COPYRIGHT_TABLE, "copyright_id", $copyright_id);
-	$result['credit']= getdbelement("credit", COPYRIGHT_TABLE, "copyright_id", $copyright_id);
-	$result['added']= getdbelement("added", COPYRIGHT_TABLE, "copyright_id", $copyright_id);
-	$result['editdate']= getdbelement("editdate", COPYRIGHT_TABLE, "copyright_id", $copyright_id);
-	$result['editorid']= getdbelement("editor_id", COPYRIGHT_TABLE, "copyright_id", $copyright_id);
+	$result['holder']= getdbelement("holder", COPYRIGHT_TABLE, "copyright_id", $copyright);
+	$result['contact']= getdbelement("contact", COPYRIGHT_TABLE, "copyright_id", $copyright);
+	$result['comments']= getdbelement("comments", COPYRIGHT_TABLE, "copyright_id", $copyright);
+	$result['permission']= getdbelement("permission", COPYRIGHT_TABLE, "copyright_id", $copyright);
+	$result['credit']= getdbelement("credit", COPYRIGHT_TABLE, "copyright_id", $copyright);
+	$result['added']= getdbelement("added", COPYRIGHT_TABLE, "copyright_id", $copyright);
+	$result['editdate']= getdbelement("editdate", COPYRIGHT_TABLE, "copyright_id", $copyright);
+	$result['editorid']= getdbelement("editor_id", COPYRIGHT_TABLE, "copyright_id", $copyright);
 	return $result;
 }
 
 //
 //
 //
-function getcopyrightholder($copyright_id)
+function getcopyrightholder($copyright)
 {
 	global $db;
-	return getdbelement("holder", COPYRIGHT_TABLE, "copyright_id", $db->setinteger($copyright_id));
+	return getdbelement("holder", COPYRIGHT_TABLE, "copyright_id", $db->setinteger($copyright));
 }
 
 //
@@ -87,11 +87,11 @@ function searchholder($holder,$order="copyright_id",$ascdesc="ASC",$filterpermis
 //
 //
 //
-function updatecopyrightholder($copyright_id,$holder,$contact,$comments,$permission,$credit,$sid)
+function updatecopyrightholder($copyright,$holder,$contact,$comments,$permission,$credit,$sid)
 {
 	global $db;
 	$values=array();
-	$values[]=$db->setinteger($copyright_id);
+	$values[]=$db->setinteger($copyright);
 	$values[]=$db->setstring($holder);
 	$values[]=$db->setstring($contact);
 	$values[]=$db->setstring($comments);
@@ -110,7 +110,7 @@ function updatecopyrightholder($copyright_id,$holder,$contact,$comments,$permiss
 	$keys[]="editdate";
 	$keys[]="editor_id";
 	
-	updatefields(COPYRIGHT_TABLE,$keys,$values,"copyright_id",$db->setinteger($copyright_id));
+	updatefields(COPYRIGHT_TABLE,$keys,$values,"copyright_id",$db->setinteger($copyright));
 }
 
 
@@ -141,10 +141,10 @@ function addcopyrightholder($holder,$contact,$comments,$permission,$credit,$sid)
 //
 //
 //
-function deletecopyrightholder($copyright_id)
+function deletecopyrightholder($copyright)
 {
 	global $db;
-	deleteentry(COPYRIGHT_TABLE,"copyright_id ='".$db->setinteger($copyright_id)."'");
+	deleteentry(COPYRIGHT_TABLE,"copyright_id ='".$db->setinteger($copyright)."'");
 }
 
 ?>

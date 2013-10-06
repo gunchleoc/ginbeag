@@ -8,35 +8,35 @@ include_once($projectroot."admin/functions/dbmod.php");
 //
 //
 //
-function updatearticlesource($page_id,$author,$location,$day,$month,$year,$source,$sourcelink,$toc)
+function updatearticlesource($page,$author,$location,$day,$month,$year,$source,$sourcelink,$toc)
 {
 	global $db;
-	$page_id=$db->setinteger($page_id);
+	$page=$db->setinteger($page);
 	
 	if($toc=="true") $toc=1;
 	else $toc=0;
 	
 	if(strlen($year)!=4) $year="0000";
-	updatefield(ARTICLES_TABLE,"article_author",$db->setstring($author),"page_id='".$page_id."'");
-	updatefield(ARTICLES_TABLE,"location",$db->setstring($location),"page_id='".$page_id."'");
-	updatefield(ARTICLES_TABLE,"day",$db->setinteger($day),"page_id='".$page_id."'");
-	updatefield(ARTICLES_TABLE,"month",$db->setinteger($month),"page_id='".$page_id."'");
-	updatefield(ARTICLES_TABLE,"year",$db->setinteger($year),"page_id='".$page_id."'");
-	updatefield(ARTICLES_TABLE,"source",$db->setstring($source),"page_id='".$page_id."'");
-	updatefield(ARTICLES_TABLE,"sourcelink",$db->setstring($sourcelink),"page_id='".$page_id."'");
-	updatefield(ARTICLES_TABLE,"use_toc",$toc,"page_id='".$page_id."'");
+	updatefield(ARTICLES_TABLE,"article_author",$db->setstring($author),"page_id='".$page."'");
+	updatefield(ARTICLES_TABLE,"location",$db->setstring($location),"page_id='".$page."'");
+	updatefield(ARTICLES_TABLE,"day",$db->setinteger($day),"page_id='".$page."'");
+	updatefield(ARTICLES_TABLE,"month",$db->setinteger($month),"page_id='".$page."'");
+	updatefield(ARTICLES_TABLE,"year",$db->setinteger($year),"page_id='".$page."'");
+	updatefield(ARTICLES_TABLE,"source",$db->setstring($source),"page_id='".$page."'");
+	updatefield(ARTICLES_TABLE,"sourcelink",$db->setstring($sourcelink),"page_id='".$page."'");
+	updatefield(ARTICLES_TABLE,"use_toc",$toc,"page_id='".$page."'");
 }
 
 //
 //
 //
-function addarticlepage($page_id)
+function addarticlepage($page)
 {
 	global $db;
-	$numberofpages=numberofarticlepages($db->setinteger($page_id));
-	if(getlastarticlesection($page_id,$numberofpages))
+	$numberofpages=numberofarticlepages($db->setinteger($page));
+	if(getlastarticlesection($page,$numberofpages))
 	{
-		return updatefield(ARTICLES_TABLE,"numberofpages",$numberofpages+1,"page_id='".$page_id."'");
+		return updatefield(ARTICLES_TABLE,"numberofpages",$numberofpages+1,"page_id='".$page."'");
 	}
 	else return false;
 }
@@ -45,14 +45,15 @@ function addarticlepage($page_id)
 //
 //
 //
-function deletelastarticlepage($article_id)
+function deletelastarticlepage($page)
 {
 	global $db;
-	$numberofpages=numberofarticlepages($db->setinteger($article_id));
+	$page=$db->setinteger($page);
+	$numberofpages=numberofarticlepages($db->setinteger($page));
 	
-	if(!getlastarticlesection($article_id,$numberofpages))
+	if(!getlastarticlesection($page,$numberofpages))
 	{
-		return updatefield(ARTICLES_TABLE,"numberofpages",$numberofpages-1,"page_id='".$article_id."'");
+		return updatefield(ARTICLES_TABLE,"numberofpages",$numberofpages-1,"page_id='".$page."'");
 	}
 	else return false;
 }
@@ -60,17 +61,17 @@ function deletelastarticlepage($article_id)
 //
 //
 //
-function addarticlesection($article_id,$pagenumber)
+function addarticlesection($page,$pagenumber)
 {
 	global $db;
-	$article_id=$db->setinteger($article_id);
+	$page=$db->setinteger($page);
 	$pagenumber=$db->setinteger($pagenumber);
 	
-	$lastsection=getlastarticlesection($article_id,$pagenumber);
+	$lastsection=getlastarticlesection($page,$pagenumber);
 	
 	$values=array();
 	$values[]=0;
-	$values[]=$article_id;
+	$values[]=$page;
 	$values[]=$pagenumber;
 	$values[]=$lastsection+1;
 	$values[]="";
@@ -84,80 +85,80 @@ function addarticlesection($article_id,$pagenumber)
 //
 //
 //
-function updatearticlesectionimagealign($section_id,$imagealign)
+function updatearticlesectionimagealign($articlesection,$imagealign)
 {
 	global $db;
-	return updatefield(ARTICLESECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"articlesection_id='".$db->setinteger($section_id)."'");
+	return updatefield(ARTICLESECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"articlesection_id='".$db->setinteger($articlesection)."'");
 }
 
 
 //
 //
 //
-function updatearticlesectionimagefilename($section_id,$imagefilename)
+function updatearticlesectionimagefilename($articlesection,$imagefilename)
 {
 	global $db;
-	return updatefield(ARTICLESECTIONS_TABLE,"sectionimage",$db->setstring(basename($imagefilename)),"articlesection_id='".$db->setinteger($section_id)."'");
+	return updatefield(ARTICLESECTIONS_TABLE,"sectionimage",$db->setstring(basename($imagefilename)),"articlesection_id='".$db->setinteger($articlesection)."'");
 }
 
 //
 //
 //
-function updatearticlesectiontitle($section_id,$sectiontitle)
+function updatearticlesectiontitle($articlesection,$sectiontitle)
 {
 	global $db;
-  	return updatefield(ARTICLESECTIONS_TABLE,"sectiontitle",$db->setstring($sectiontitle),"articlesection_id='".$db->setinteger($section_id)."'");
+  	return updatefield(ARTICLESECTIONS_TABLE,"sectiontitle",$db->setstring($sectiontitle),"articlesection_id='".$db->setinteger($articlesection)."'");
 }
 
 //
 //
 //
-function updatearticlesectiontext($section_id,$text)
+function updatearticlesectiontext($articlesection,$text)
 {
 	global $db;
-  	return updatefield(ARTICLESECTIONS_TABLE,"text",$db->setstring($text),"articlesection_id='".$db->setinteger($section_id)."'");
+  	return updatefield(ARTICLESECTIONS_TABLE,"text",$db->setstring($text),"articlesection_id='".$db->setinteger($articlesection)."'");
 }
 
 
 //
 //
 //
-function deletearticlesection($articlesection_id)
+function deletearticlesection($articlesection)
 {
 	global $db;
-	return deleteentry(ARTICLESECTIONS_TABLE,"articlesection_id ='".$db->setinteger($articlesection_id)."'");
+	return deleteentry(ARTICLESECTIONS_TABLE,"articlesection_id ='".$db->setinteger($articlesection)."'");
 }
 
 
 //
 // returns the articlepage the section will be in after the move
 //
-function movearticlesection($section_id,$pagenumber,$direction)
+function movearticlesection($articlesection,$pagenumber,$direction)
 {
 	global $db;
-	$section_id=$db->setinteger($section_id);
-	$page_id=getdbelement("article_id",ARTICLESECTIONS_TABLE, "articlesection_id", $section_id);
+	$articlesection=$db->setinteger($articlesection);
+	$page=getdbelement("article_id",ARTICLESECTIONS_TABLE, "articlesection_id", $articlesection);
 	$pagenumber=$db->setinteger($pagenumber);
-	$navpos=getarticlesectionnumber($section_id);
+	$navpos=getarticlesectionnumber($articlesection);
 	
 	$result=$pagenumber;
   
 	// move section to next articlepage
-	if($direction==="down" && $navpos==getlastarticlesection($page_id,$pagenumber))
+	if($direction==="down" && $navpos==getlastarticlesection($page,$pagenumber))
 	{
 		// prepare page
-		$noofpages=numberofarticlepages($page_id);
+		$noofpages=numberofarticlepages($page);
 		$newpage=$pagenumber+1;
 		$result=$newpage;
 		
 		if($noofpages<$newpage)
 		{
-			addarticlepage($page_id);
+			addarticlepage($page);
 		}
 		else
 		{
 			// make room
-			$sisterids=getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, "article_id='".$page_id."' AND pagenumber='".$newpage."'", "sectionnumber", "ASC");
+			$sisterids=getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, "article_id='".$page."' AND pagenumber='".$newpage."'", "sectionnumber", "ASC");
 			for($i=0;$i<count($sisterids);$i++)
 			{
 				$sisternavpos=getarticlesectionnumber($sisterids[$i]);
@@ -165,8 +166,8 @@ function movearticlesection($section_id,$pagenumber,$direction)
 			}
 		}
 		// move
-		updatefield(ARTICLESECTIONS_TABLE,"pagenumber",$newpage,"articlesection_id='".$section_id."'");
-		updatefield(ARTICLESECTIONS_TABLE,"sectionnumber",1,"articlesection_id='".$section_id."'");
+		updatefield(ARTICLESECTIONS_TABLE,"pagenumber",$newpage,"articlesection_id='".$articlesection."'");
+		updatefield(ARTICLESECTIONS_TABLE,"sectionnumber",1,"articlesection_id='".$articlesection."'");
 	}
 	// move section to previous articlepage
 	elseif($direction==="up" && $navpos==1 && $pagenumber>1)
@@ -174,13 +175,13 @@ function movearticlesection($section_id,$pagenumber,$direction)
 		$newpage=$pagenumber-1;
 		$result=$newpage;
 		
-		$newnav=getlastarticlesection($page_id,$newpage);
+		$newnav=getlastarticlesection($page,$newpage);
 		$newnav++;
-		updatefield(ARTICLESECTIONS_TABLE,"pagenumber",$newpage,"articlesection_id='".$section_id."'");
-		updatefield(ARTICLESECTIONS_TABLE,"sectionnumber",$newnav,"articlesection_id='".$section_id."'");
+		updatefield(ARTICLESECTIONS_TABLE,"pagenumber",$newpage,"articlesection_id='".$articlesection."'");
+		updatefield(ARTICLESECTIONS_TABLE,"sectionnumber",$newnav,"articlesection_id='".$articlesection."'");
 		
 		// fill space
-		$sisterids=getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, "article_id='".$page_id."' AND pagenumber='".$pagenumber."'", "sectionnumber", "ASC");
+		$sisterids=getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, "article_id='".$page."' AND pagenumber='".$pagenumber."'", "sectionnumber", "ASC");
 		for($i=0;$i<count($sisterids);$i++)
 		{
 			$sisternavpos=getarticlesectionnumber($sisterids[$i]);
@@ -192,17 +193,17 @@ function movearticlesection($section_id,$pagenumber,$direction)
 	{
 		if($direction==="down")
 		{
-			$sisterids=getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, "article_id='".$page_id."' AND pagenumber='".$pagenumber."'", "sectionnumber", "ASC");
+			$sisterids=getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, "article_id='".$page."' AND pagenumber='".$pagenumber."'", "sectionnumber", "ASC");
 		}
 		else
 		{
-			$sisterids=getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, "article_id='".$page_id."' AND pagenumber='".$pagenumber."'", "sectionnumber", "DESC");
+			$sisterids=getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, "article_id='".$page."' AND pagenumber='".$pagenumber."'", "sectionnumber", "DESC");
 		}
 		$found=false;
 		$idposition=0;
 		for($i=0;$i<count($sisterids)&&!$found;$i++)
 		{
-			if($section_id==$sisterids[$i])
+			if($articlesection==$sisterids[$i])
 			{
 				$found=true;
 				$idposition=$i;
@@ -211,10 +212,10 @@ function movearticlesection($section_id,$pagenumber,$direction)
 		if($found && $idposition+1<count($sisterids))
 		{
 			$otherid=$sisterids[$idposition+1];
-			$navpos=getarticlesectionnumber($section_id);
+			$navpos=getarticlesectionnumber($articlesection);
 			$othernavpos=getarticlesectionnumber($otherid);
 			
-			$swap[$section_id]=$othernavpos;
+			$swap[$articlesection]=$othernavpos;
 			$swap[$otherid]=$navpos;
 			updateentries(ARTICLESECTIONS_TABLE,$swap,"articlesection_id","sectionnumber");
 		}

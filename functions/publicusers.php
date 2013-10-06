@@ -14,10 +14,10 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getpublicusername($user_id)
+function getpublicusername($user)
 {
 	global $db;
-	return getdbelement("username",PUBLICUSERS_TABLE, "user_id", $db->setinteger($user_id));
+	return getdbelement("username",PUBLICUSERS_TABLE, "user_id", $db->setinteger($user));
 }
 
 //
@@ -32,10 +32,10 @@ function getpublicuserid($username)
 //
 //
 //
-function ispublicuseractive($user_id)
+function ispublicuseractive($user)
 {
 	global $db;
-	return getdbelement("user_active",PUBLICUSERS_TABLE, "user_id", $db->setinteger($user_id));
+	return getdbelement("user_active",PUBLICUSERS_TABLE, "user_id", $db->setinteger($user));
 }
 
 ?>

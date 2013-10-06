@@ -8,14 +8,14 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getpublishednewsitems($page_id,$number,$offset)
+function getpublishednewsitems($page,$number,$offset)
 {
 	global $db;
-	$page_id=$db->setinteger($page_id);
+	$page=$db->setinteger($page);
 	if(!$offset) $offset=0;
 	if(!$number>0) $number=1;
-	$condition="page_id='".$page_id."' AND ispublished='1'";
-	if(displaynewestnewsitemfirst($page_id)) $order="DESC";
+	$condition="page_id='".$page."' AND ispublished='1'";
+	if(displaynewestnewsitemfirst($page)) $order="DESC";
 	else $order="ASC";
 	return getorderedcolumnlimit("newsitem_id",NEWSITEMS_TABLE,$condition, "date", $db->setinteger($offset), $db->setinteger($number),$order);
 }
@@ -25,21 +25,21 @@ function getpublishednewsitems($page_id,$number,$offset)
 //
 //
 //
-function displaynewestnewsitemfirst($page_id)
+function displaynewestnewsitemfirst($page)
 {
 	global $db;
-	return getdbelement("shownewestfirst",NEWS_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("shownewestfirst",NEWS_TABLE, "page_id", $db->setinteger($page));
 }
 
 //
 //
 //
-function getnewsitemoffset($page_id,$number,$newsitem,$showhidden=false)
+function getnewsitemoffset($page,$number,$newsitem,$showhidden=false)
 {
 	global $db;
 	if(!$number>0) $number=1;
 	$date=getdbelement("date",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
-	$condition="page_id='".$db->setinteger($page_id)."'";
+	$condition="page_id='".$db->setinteger($page)."'";
 	if(!$showhidden) $condition.=" AND ispublished='1'";
 	$condition.=" AND date > '".$date."'";
 	$noofelements = countelementscondition("newsitem_id",NEWSITEMS_TABLE,$condition);
@@ -49,10 +49,10 @@ function getnewsitemoffset($page_id,$number,$newsitem,$showhidden=false)
 //
 //
 //
-function countpublishednewsitems($page_id)
+function countpublishednewsitems($page)
 {
 	global $db;
-	$condition="page_id='".$db->setinteger($page_id)."' AND ispublished='1'";
+	$condition="page_id='".$db->setinteger($page)."' AND ispublished='1'";
 	return countelementscondition("newsitem_id",NEWSITEMS_TABLE, $condition);
 }
 
@@ -60,156 +60,156 @@ function countpublishednewsitems($page_id)
 //
 //
 //
-function getnewsitemcontents($newsitem_id)
+function getnewsitemcontents($newsitem)
 {
 	global $db;
-	return getrowbykey(NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem_id));
+	return getrowbykey(NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
 }
 
 //
 // returns a date array
 //
-function getnewsitemdate($newsitem_id)
+function getnewsitemdate($newsitem)
 {
 	global $db;
-	$date =getdbelement("date",NEWSITEMS_TABLE, "newsitem_id",$db->setinteger($newsitem_id));
+	$date =getdbelement("date",NEWSITEMS_TABLE, "newsitem_id",$db->setinteger($newsitem));
 	return @getdate(strtotime($date));
 }
 
 //
 //
 //
-function getoldestnewsitemdate($page_id)
+function getoldestnewsitemdate($page)
 {
 	global $db;
-	$date=getmin("date",NEWSITEMS_TABLE, "page_id",$db->setinteger($page_id));
+	$date=getmin("date",NEWSITEMS_TABLE, "page_id",$db->setinteger($page));
 	return @getdate(strtotime($date));
 }
 
 //
 //
 //
-function getnewestnewsitemdate($page_id)
+function getnewestnewsitemdate($page)
 {
 	global $db;
-	$date=getmax("date", NEWSITEMS_TABLE, "page_id",$db->setinteger($page_id));
+	$date=getmax("date", NEWSITEMS_TABLE, "page_id",$db->setinteger($page));
 	return @getdate(strtotime($date));
 }
 
 //
 //
 //
-function getnewsitempage($newsitem_id)
+function getnewsitempage($newsitem)
 {
 	global $db;
-  return getdbelement("page_id", NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem_id));
+  return getdbelement("page_id", NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
 }
 
 
 //
 //
 //
-function getnewsitemsynopsistext($newsitem_id)
+function getnewsitemsynopsistext($newsitem)
 {
 	global $db;
-  return getdbelement("synopsis", NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem_id));
+  return getdbelement("synopsis", NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
 }
 
 //
 //
 //
-function getnewsitemsynopsisimageids($newsitem_id)
+function getnewsitemsynopsisimageids($newsitem)
 {
 	global $db;
-	$condition= "newsitem_id='".$db->setinteger($newsitem_id)."'";
+	$condition= "newsitem_id='".$db->setinteger($newsitem)."'";
 	return getorderedcolumn("newsitemimage_id",NEWSITEMSYNIMG_TABLE, $condition, "position", "ASC");
 }
 
 //
 //
 //
-function getnewsitemsynopsisimage($newsitemimage_id)
+function getnewsitemsynopsisimage($newsitemimage)
 {
 	global $db;
-	return getdbelement("image_filename",NEWSITEMSYNIMG_TABLE, "newsitemimage_id", $db->setinteger($newsitemimage_id));
+	return getdbelement("image_filename",NEWSITEMSYNIMG_TABLE, "newsitemimage_id", $db->setinteger($newsitemimage));
 }
 
 
 //
 //
 //
-function getnewsitemsynopsisimages($newsitem_id)
+function getnewsitemsynopsisimages($newsitem)
 {
 	global $db;
-	$condition= "newsitem_id='".$db->setinteger($newsitem_id)."'";
+	$condition= "newsitem_id='".$db->setinteger($newsitem)."'";
 	return getorderedcolumn("image_filename",NEWSITEMSYNIMG_TABLE, $condition, "position", "ASC");
 }
 
 //
 //
 //
-function getnewsitemsections($newsitem_id)
+function getnewsitemsections($newsitem)
 {
 	global $db;
-	$condition= "newsitem_id='".$db->setinteger($newsitem_id)."'";
+	$condition= "newsitem_id='".$db->setinteger($newsitem)."'";
 	return getorderedcolumn("newsitemsection_id",NEWSITEMSECTIONS_TABLE, $condition, "sectionnumber", "ASC");
 }
 
 //
 //
 //
-function getnewsitemsectioncontents($section_id)
+function getnewsitemsectioncontents($newsitemsection)
 {
 	global $db;
-	return getrowbykey(NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($section_id));
+	return getrowbykey(NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($newsitemsection));
 }
 
 //
 //
 //
-function getnewsitemsectiontext($section_id)
+function getnewsitemsectiontext($newsitemsection)
 {
 	global $db;
-	return getdbelement("text",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($section_id));
-}
-
-
-//
-//
-//
-function getnewsitemsectionimage($section_id)
-{
-	global $db;
-	return getdbelement("sectionimage",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($section_id));
+	return getdbelement("text",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($newsitemsection));
 }
 
 
 //
 //
 //
-function getnewsitemsectionimagealign($section_id)
+function getnewsitemsectionimage($newsitemsection)
 {
 	global $db;
-	return getdbelement("imagealign",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($section_id));
+	return getdbelement("sectionimage",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($newsitemsection));
 }
 
 
 //
 //
 //
-function getnewsitemsectionnumber($section_id)
+function getnewsitemsectionimagealign($newsitemsection)
 {
 	global $db;
-	return getdbelement("sectionnumber",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($section_id));
+	return getdbelement("imagealign",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($newsitemsection));
+}
+
+
+//
+//
+//
+function getnewsitemsectionnumber($newsitemsection)
+{
+	global $db;
+	return getdbelement("sectionnumber",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($newsitemsection));
 }
 
 //
 //
 //
-function isnewsitempublished($newsitem_id)
+function isnewsitempublished($newsitem)
 {
 	global $db;
-	return getdbelement("ispublished",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem_id));
+	return getdbelement("ispublished",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
 }
 
 
@@ -217,39 +217,39 @@ function isnewsitempublished($newsitem_id)
 // returns array of copyright, imagecopyright, permission
 // permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION, PERMISSION_REFUSED
 //
-function getnewsitemcopyright($newsitem_id)
+function getnewsitemcopyright($newsitem)
 {
 	global $db;
 	$fieldnames = array(0 => 'copyright', 1=> 'image_copyright', 2=>'permission');
-	return getrowbykey(NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem_id), $fieldnames);
+	return getrowbykey(NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem), $fieldnames);
 }
 
 //
 //
 //
-function getnewsitempermission($newsitem_id)
+function getnewsitempermission($newsitem)
 {
 	global $db;
-	return getdbelement("permission",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem_id));
+	return getdbelement("permission",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
 }
 
 
 //
 //
 //
-function newsitempermissionrefused($newsitem_id)
+function newsitempermissionrefused($newsitem)
 {
-	$permission = getnewsitempermission($newsitem_id);
+	$permission = getnewsitempermission($newsitem);
 	return $permission==PERMISSION_REFUSED;
 }
 
 //
 //
 //
-function getlastnewsitemsection($newsitem_id)
+function getlastnewsitemsection($newsitem)
 {
 	global $db;
-	return getmax("sectionnumber",NEWSITEMSECTIONS_TABLE,"newsitem_id ='".$db->setinteger($newsitem_id)."'");
+	return getmax("sectionnumber",NEWSITEMSECTIONS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
 }
 
 

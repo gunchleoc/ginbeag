@@ -8,8 +8,8 @@ include_once($projectroot."functions/publicsessions.php");
 include_once($projectroot ."config.php");
 
 
-if(isset($_GET["sid"])) $user_id=getpublicsiduser($_GET["sid"]);
-else $user_id=0;
+if(isset($_GET["sid"])) $user=getpublicsiduser($_GET["sid"]);
+else $user=0;
 
 
 ################################################################################
@@ -30,66 +30,66 @@ $fields[]='ispublished';
 $allpages=getmultiplefields(PAGES_TABLE, "page_id","1", $fields, $orderby="parent_id, position_navigator");
 
 $allrestrictedpages=getmultiplefields(RESTRICTEDPAGES_TABLE, "page_id","1", array(0 => "page_id", 1 => "masterpage"), $orderby="page_id");
-$directrestrictedpagesaccess=getmultiplefields(RESTRICTEDPAGESACCESS_TABLE, "page_id","publicuser_id = '".$user_id."'", array(0 => "page_id"), $orderby="page_id");
+$directrestrictedpagesaccess=getmultiplefields(RESTRICTEDPAGESACCESS_TABLE, "page_id","publicuser_id = '".$user."'", array(0 => "page_id"), $orderby="page_id");
 
 //print_r($allpages[5]);
 
 //
 //
 //
-function getpagetypearray($page_id)
+function getpagetypearray($page)
 {
 	global $allpages;
-	return $allpages[$page_id]['pagetype'];
+	return $allpages[$page]['pagetype'];
 }
 
 //
 //
 //
-function getpagetitlearray($page_id)
+function getpagetitlearray($page)
 {
 	global $allpages;
-	return $allpages[$page_id]['title_page'];
+	return $allpages[$page]['title_page'];
 }
 
 //
 //
 //
-function getnavtitlearray($page_id)
+function getnavtitlearray($page)
 {
 	global $allpages;
-	return $allpages[$page_id]['title_navigator'];
+	return $allpages[$page]['title_navigator'];
 }
 
 //
 //
 //
-function getnavpositionarray($page_id)
+function getnavpositionarray($page)
 {
 	global $allpages;
-	return $allpages[$page_id]['position_navigator'];
+	return $allpages[$page]['position_navigator'];
 }
 
 //
 //
 //
-function getparentarray($page_id)
+function getparentarray($page)
 {
 	global $allpages;
-	return $allpages[$page_id]['parent_id'];
+	return $allpages[$page]['parent_id'];
 }
 
 //
 //
 //
-function getchildrenarray($page_id,$ascdesc="ASC")
+function getchildrenarray($page,$ascdesc="ASC")
 {
 	global $allpages;
 	$result=array();
 	reset($allpages);
 	while($checkpage=current($allpages))
 	{
-		if($checkpage['parent_id']==$page_id)
+		if($checkpage['parent_id']==$page)
 		{
 			array_push($result,$checkpage['page_id']);
 		}
@@ -101,20 +101,20 @@ function getchildrenarray($page_id,$ascdesc="ASC")
 //
 //
 //
-function ispublishedarray($page_id)
+function ispublishedarray($page)
 {
 	global $allpages;
-	return $allpages[$page_id]['ispublished'];
+	return $allpages[$page]['ispublished'];
 }
 
 
 //
 //
 //
-function isrootpagearray($page_id)
+function isrootpagearray($page)
 {
 	global $allpages;
-	if($page_id>0) return $allpages[$page_id]['parent_id']==0;
+	if($page>0) return $allpages[$page]['parent_id']==0;
 	else return false;
 }
 
@@ -124,31 +124,31 @@ function isrootpagearray($page_id)
 //
 //
 //
-function displaylinksforpagearray($sid,$page_id)
+function displaylinksforpagearray($sid,$page)
 {
-	global $user_id;
-	return (ispublishedarray($page_id) && (!ispagerestrictedarray($page_id) || hasaccesssession($sid, $page_id)));
+	global $user;
+	return (ispublishedarray($page) && (!ispagerestrictedarray($page) || hasaccesssession($sid, $page)));
 }
 
 //
 //
 //
-function ispagerestrictedarray($page_id)
+function ispagerestrictedarray($page)
 {
 	global $allrestrictedpages;
-	return array_key_exists($page_id,$allrestrictedpages);
+	return array_key_exists($page,$allrestrictedpages);
 }
 
 //
 // use only for current logged in public user!!
 //
-function hasaccessarray($page_id)
+function hasaccessarray($page)
 {
 	global $allrestrictedpages, $directrestrictedpagesaccess;
 	$result=true;
-	if(array_key_exists($page_id,$allrestrictedpages))
+	if(array_key_exists($page,$allrestrictedpages))
 	{
-		$masterpage = $allrestrictedpages[$page_id]["masterpage"];
+		$masterpage = $allrestrictedpages[$page]["masterpage"];
 		if(array_key_exists($masterpage,$directrestrictedpagesaccess)) $result=false;
 	}
 	return $result;

@@ -67,7 +67,7 @@ class AdminNavigatorLink extends Template {
 //
 class AdminNavigatorBranch extends Template {
 
-    function AdminNavigatorBranch($page_id,$depth,$level=0)
+    function AdminNavigatorBranch($page,$depth,$level=0)
     {
 		parent::__construct();
         if($level==0)
@@ -76,14 +76,14 @@ class AdminNavigatorBranch extends Template {
 			$class="navlink";
         
         $isroot=false;
-        if(isrootpagearray($page_id))
+        if(isrootpagearray($page))
           $isroot=true;
 
-        $this->listvars['link'][]= new AdminNavigatorLink($page_id,$level,$class,$isroot);
+        $this->listvars['link'][]= new AdminNavigatorLink($page,$level,$class,$isroot);
 
         if($depth>0)
         {
-			$pageids=getchildrenarray($page_id);
+			$pageids=getchildrenarray($page);
 			for($i=0;$i<count($pageids);$i++)
 			{
 				$this->listvars['link'][]= new AdminNavigatorBranch($pageids[$i],$depth-1,$level+1);
@@ -103,14 +103,14 @@ class AdminNavigatorBranch extends Template {
 //
 class AdminNavigator extends Template {
 
-	function AdminNavigator($page_id)
+	function AdminNavigator($page)
 	{
 	    global $_GET;
 	    
 	    parent::__construct();
     
 		// navigator
-		if($page_id==0 || !pageexists($page_id))
+		if($page==0 || !pageexists($page))
 		{
 			$roots=getrootpages();
 			while(count($roots))
@@ -121,11 +121,11 @@ class AdminNavigator extends Template {
 		}
 		else
 		{
-			if(isrootpagearray($page_id))
+			if(isrootpagearray($page))
 			{
 				$roots=getrootpages();
 				$currentroot=array_shift($roots);
-				$navposition=getnavpositionarray($page_id);
+				$navposition=getnavpositionarray($page);
 				// display upper root pages
 				while(getnavpositionarray($currentroot)<$navposition)
 				{
@@ -133,14 +133,14 @@ class AdminNavigator extends Template {
 					$currentroot=array_shift($roots);
 				}
 				// display root page
-				$this->listvars['link'][]=new AdminNavigatorBranch($page_id,1,0);
+				$this->listvars['link'][]=new AdminNavigatorBranch($page,1,0);
 			}
 			else
 			{
 				// get parent chain
 				$parentpages=array();
 				$level=0;
-				$currentpage=$page_id;
+				$currentpage=$page;
 				while(!isrootpagearray($currentpage))
 				{
 					$parent= getparentarray($currentpage);
@@ -169,9 +169,9 @@ class AdminNavigator extends Template {
 				}
 				// display page
 				// get sisters then display 1 level only.
-				$sisterids=getsisters($page_id);
+				$sisterids=getsisters($page);
 				$currentsister=array_shift($sisterids);
-				$pagenavposition=getnavpositionarray($page_id);
+				$pagenavposition=getnavpositionarray($page);
 				// display upper sister pages
 				while(getnavpositionarray($currentsister)<$pagenavposition)
 				{
@@ -179,7 +179,7 @@ class AdminNavigator extends Template {
 					$currentsister=array_shift($sisterids);
 				}
 				// display page
-				$this->listvars['link'][]=new AdminNavigatorBranch($page_id,1,$level);
+				$this->listvars['link'][]=new AdminNavigatorBranch($page,1,$level);
 
 				// display lower sister pages
 				while(count($sisterids))

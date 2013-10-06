@@ -114,106 +114,106 @@ function getpagetypes()
 //
 //
 //
-function getpagetype($page_id)
+function getpagetype($page)
 {
 	global $db;
-	return getdbelement("pagetype",PAGES_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("pagetype",PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 //
 //
 //
-function getpagetitle($page_id)
+function getpagetitle($page)
 {
 	global $db;
-	return getdbelement("title_page",PAGES_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("title_page",PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 //
 //
 //
-function getnavtitle($page_id)
+function getnavtitle($page)
 {
 	global $db;
-	return getdbelement("title_navigator",PAGES_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("title_navigator",PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 
 //
 //
 //
-function getpageintro($page_id)
+function getpageintro($page)
 {
 	global $db;
 	$fieldnames = array(0 => 'introtext', 1=> 'introimage', 2=>'imagehalign');
-	return getrowbykey(PAGES_TABLE, "page_id", $db->setinteger($page_id), $fieldnames);
+	return getrowbykey(PAGES_TABLE, "page_id", $db->setinteger($page), $fieldnames);
 }
 
 //
 //
 //
-function getpageintrotext($page_id)
+function getpageintrotext($page)
 {
 	global $db;
-  	return getdbelement("introtext", PAGES_TABLE, "page_id", $db->setinteger($page_id));
-}
-
-
-//
-//
-//
-function getpageintroimage($page_id)
-{
-	global $db;
-  	return getdbelement("introimage", PAGES_TABLE, "page_id", $db->setinteger($page_id));
+  	return getdbelement("introtext", PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 
 //
 //
 //
-function getpageintrohalign($page_id)
+function getpageintroimage($page)
 {
 	global $db;
-  	return getdbelement("imagehalign", PAGES_TABLE, "page_id", $db->setinteger($page_id));
+  	return getdbelement("introimage", PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 
 //
 //
 //
-function getnavposition($page_id)
+function getpageintrohalign($page)
 {
 	global $db;
-	return getdbelement("position_navigator",PAGES_TABLE, "page_id", $db->setinteger($page_id));
+  	return getdbelement("imagehalign", PAGES_TABLE, "page_id", $db->setinteger($page));
+}
+
+
+//
+//
+//
+function getnavposition($page)
+{
+	global $db;
+	return getdbelement("position_navigator",PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 //
 //
 //
-function getpageeditor($page_id)
+function getpageeditor($page)
 {
 	global $db;
-	return getdbelement("editor_id",PAGES_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("editor_id",PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 //
 // returns array of copyright, imagecopyright, permission
 // permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION, PERMISSION_REFUSED
 //
-function getcopyright($page_id)
+function getcopyright($page)
 {
 	global $db;
 	$fieldnames = array(0 => 'copyright', 1=> 'image_copyright', 2=>'permission');
-	return getrowbykey(PAGES_TABLE, "page_id", $db->setinteger($page_id), $fieldnames);
+	return getrowbykey(PAGES_TABLE, "page_id", $db->setinteger($page), $fieldnames);
 }
 
 //
 // permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION, PERMISSION_REFUSED
 //
-function getpermission($page_id)
+function getpermission($page)
 {
-	return getdbelement("permission",PAGES_TABLE, "page_id", $page_id);
+	return getdbelement("permission",PAGES_TABLE, "page_id", $page);
 }
 
 
@@ -229,67 +229,67 @@ function permissionrefused($filename)
 //
 //
 //
-function geteditdate($page_id)
+function geteditdate($page)
 {
 	global $db;
-	return getdbelement("editdate", PAGES_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("editdate", PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 //
 //
 //
-function getparent($page_id)
+function getparent($page)
 {
 	global $db;
-	return getdbelement("parent_id",PAGES_TABLE, "page_id", $db->setinteger($page_id));
-}
-
-
-//
-//
-//
-function getsisters($page_id,$ascdesc="ASC")
-{
-	global $db;
-	return getorderedcolumn("page_id",PAGES_TABLE, "parent_id='".getparent($db->setinteger($page_id))."'", "position_navigator", $db->setstring($ascdesc));
-}
-
-//
-//
-//
-function getchildren($page_id,$ascdesc="ASC")
-{
-	global $db;
-	return getorderedcolumn("page_id",PAGES_TABLE, "parent_id='".$db->setinteger($page_id)."'", "position_navigator", $db->setstring($ascdesc));
-}
-
-//
-//
-//
-function ispublished($page_id)
-{
-	global $db;
-	return getdbelement("ispublished",PAGES_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("parent_id",PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 
 //
 //
 //
-function pageexists($page_id)
+function getsisters($page,$ascdesc="ASC")
 {
 	global $db;
-	$foundpage = getdbelement("page_id",PAGES_TABLE, "page_id", $db->setinteger($page_id));
-	return $foundpage>0 && $foundpage == $page_id;
+	return getorderedcolumn("page_id",PAGES_TABLE, "parent_id='".getparent($db->setinteger($page))."'", "position_navigator", $db->setstring($ascdesc));
+}
+
+//
+//
+//
+function getchildren($page,$ascdesc="ASC")
+{
+	global $db;
+	return getorderedcolumn("page_id",PAGES_TABLE, "parent_id='".$db->setinteger($page)."'", "position_navigator", $db->setstring($ascdesc));
+}
+
+//
+//
+//
+function ispublished($page)
+{
+	global $db;
+	return getdbelement("ispublished",PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 
 //
 //
 //
-function isrootpage($page_id)
+function pageexists($page)
 {
-	return getparent($page_id)==0;
+	global $db;
+	$foundpage = getdbelement("page_id",PAGES_TABLE, "page_id", $db->setinteger($page));
+	return $foundpage>0 && $foundpage == $page;
+}
+
+
+//
+//
+//
+function isrootpage($page)
+{
+	return getparent($page)==0;
 }
 
 //
@@ -313,37 +313,37 @@ function getallpages($fields)
 //
 //
 //
-function ispagerestricted($page_id)
+function ispagerestricted($page)
 {
 	global $db;
-	return getdbelement("page_id",RESTRICTEDPAGES_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("page_id",RESTRICTEDPAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 
 //
 //
 //
-function isthisexactpagerestricted($page_id)
+function isthisexactpagerestricted($page)
 {
 	global $db;
-	return getdbelement("page_id",RESTRICTEDPAGES_TABLE, "masterpage", $db->setinteger($page_id));
+	return getdbelement("page_id",RESTRICTEDPAGES_TABLE, "masterpage", $db->setinteger($page));
 }
 
 
 //
 //
 //
-function hasaccesssession($sid, $page_id)
+function hasaccesssession($sid, $page)
 {
 	global $db;
 	$result=true;
 
-	$masterpage=getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $page_id);
+	$masterpage=getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $page);
   
 	if($masterpage)
 	{
 		$user_id=getdbelement("session_user_id",PUBLICSESSIONS_TABLE, "session_id", $db->setstring($sid));
-		$page_id=$db->setinteger($page_id);
+		$page=$db->setinteger($page);
 		
 		$query="select publicuser_id from ".RESTRICTEDPAGESACCESS_TABLE." where publicuser_id = '".$user_id."' AND page_id = '".$masterpage."';";
 		$result = getdbresultsingle($query);
@@ -355,13 +355,13 @@ function hasaccesssession($sid, $page_id)
 //
 //
 //
-function showpermissionrefusedimages($page_id)
+function showpermissionrefusedimages($page)
 {
 	global $db;
-	$showrefused = getdbelement("showpermissionrefusedimages",PAGES_TABLE, "page_id", $db->setinteger($page_id));
+	$showrefused = getdbelement("showpermissionrefusedimages",PAGES_TABLE, "page_id", $db->setinteger($page));
 	if($showrefused)
 	{
-		$showrefused = $showrefused && ispagerestricted($page_id);
+		$showrefused = $showrefused && ispagerestricted($page);
 	}
 	return $showrefused;
 }
@@ -369,20 +369,20 @@ function showpermissionrefusedimages($page_id)
 //
 //
 //
-function mayshowimage($image,$page_id,$showhidden)
+function mayshowimage($image,$page,$showhidden)
 {
-	return !imagepermissionrefused($image) || $showhidden || (ispagerestricted($page_id) && showpermissionrefusedimages($page_id));
+	return !imagepermissionrefused($image) || $showhidden || (ispagerestricted($page) && showpermissionrefusedimages($page));
 }
 
 
 //
 //
 //
-function getsubpagesforpagetype($page_id, $pagetype)
+function getsubpagesforpagetype($page, $pagetype)
 {
 	global $db;
 	$result=array();
-	$searchme=array(0 => $db->setinteger($page_id));
+	$searchme=array(0 => $db->setinteger($page));
 	$pagetype=$db->setstring($pagetype);
 	while(count($searchme))
 	{
@@ -401,10 +401,10 @@ function getsubpagesforpagetype($page_id, $pagetype)
 //
 //
 //
-function hasrssfeed($page_id)
+function hasrssfeed($page)
 {
 	global $db;
-	return getdbelement("page_id",RSS_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("page_id",RSS_TABLE, "page_id", $db->setinteger($page));
 }
 
 //

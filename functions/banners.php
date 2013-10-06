@@ -16,10 +16,10 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getbannercontents($banner_id)
+function getbannercontents($banner)
 {
 	global $db;
-	return getrowbykey(BANNERS_TABLE, "banner_id", $db->setinteger($banner_id));
+	return getrowbykey(BANNERS_TABLE, "banner_id", $db->setinteger($banner));
 }
 
 //
@@ -33,9 +33,9 @@ function getbanners()
 //
 //
 //
-function isbannercomplete($banner_id)
+function isbannercomplete($banner)
 {
-	$contents=getbannercontents($banner_id);
+	$contents=getbannercontents($banner);
 	$result=true;
 	if(!strlen($contents['image'])>0 || !strlen($contents['description'])>0 || !strlen($contents['link'])>0)
 	{

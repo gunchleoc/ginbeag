@@ -13,16 +13,16 @@ include_once($projectroot."includes/includes.php");
 //
 class Articlesection extends Template {
 
-    function Articlesection($articlesection_id,$articlepage,$showrefused,$showhidden)
+    function Articlesection($articlesection,$articlepage,$showrefused,$showhidden)
     {
     	parent::__construct();
 
-		$sectioncontents=getarticlesectioncontents($articlesection_id);
+		$sectioncontents=getarticlesectioncontents($articlesection);
 		
 		if(strlen($sectioncontents['sectiontitle'])>0)
 		{
 			$this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
-			$this->stringvars['sectionid'] =$articlesection_id;
+			$this->stringvars['sectionid'] =$articlesection;
 		}
 		
 		if(strlen($sectioncontents['sectionimage'])>0 && mayshowimage($sectioncontents['sectionimage'],$this->stringvars['page'],$showhidden))

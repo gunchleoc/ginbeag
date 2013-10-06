@@ -20,13 +20,13 @@ class Newsitemsection extends Template {
 	var $isquotestart=false;
     var $isquoteend=false;
 
-    function Newsitemsection($newsitemsection_id,$isquoted=false,$imagefactor=2,$showrefused=false,$showhidden=false)
+    function Newsitemsection($newsitemsection,$isquoted=false,$imagefactor=2,$showrefused=false,$showhidden=false)
     {
 		//parent::__construct();
     
     	$this->stringvars['l_quote']=getlang("section_quote");
 
-        $sectioncontents=getnewsitemsectioncontents($newsitemsection_id);
+        $sectioncontents=getnewsitemsectioncontents($newsitemsection);
         if($sectioncontents['text']==="[quote]") $this->isquotestart = true;
         elseif($sectioncontents['text']==="[unquote]") $this->isquoteend = true;
         else

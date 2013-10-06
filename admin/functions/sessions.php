@@ -24,17 +24,17 @@ function login($username,$password)
 	$username=$db->setstring($username);
 	$password=md5($password);
 	
-	$user_id=getuserid($username);
+	$user=getuserid($username);
 	
 	$result=array();
 	$proceed=true;
-	$retries=getretries($user_id);
+	$retries=getretries($user);
 	
 	if($retries>=3)
 	{
 	
 		$time=date(DATETIMEFORMAT, strtotime('-15 minutes'));
-		$lastlogin=getlastlogin($user_id);
+		$lastlogin=getlastlogin($user);
 		if($lastlogin>=$time)
 		{
 			$result['message']="You have entered the wrong password too often, so your account is locked for now. Please try again later.";
@@ -47,7 +47,7 @@ function login($username,$password)
 	{
 		if(checkpassword($username,$password))
 		{
-			$result['sid']=createsession($user_id);
+			$result['sid']=createsession($user);
 			if($result['sid'])
 			{
 				$result['message']="login successful";
@@ -166,12 +166,12 @@ function updatelogindate($username,$increasecount=false)
 //
 //
 //
-function createsession($user_id)
+function createsession($user)
 {
 	global $db;
 	
 	
-  	$user_id=$db->setinteger($user_id);
+  	$user=$db->setinteger($user);
 
   	$result="";
 
@@ -183,7 +183,7 @@ function createsession($user_id)
 
   	clearsessions();
   
-  	$lastsession=getdbelement("session_id",SESSIONS_TABLE, "session_user_id", $user_id);
+  	$lastsession=getdbelement("session_id",SESSIONS_TABLE, "session_user_id", $user);
   	if($lastsession)
   	{
     	$sql=deleteentry(SESSIONS_TABLE,"session_id='".$lastsession."'");
@@ -191,7 +191,7 @@ function createsession($user_id)
 
   	$values=array();
   	$values[]=$sid;
-  	$values[]=$user_id;
+  	$values[]=$user;
   	$values[]=date(DATETIMEFORMAT, $now);
   	$values[]=$ip;
 
@@ -201,7 +201,7 @@ function createsession($user_id)
   	$cookiedomain = getproperty("Domain Name");
 	$localpath =makecookiepath();
   	
-	setcookie($cookieprefix."userid", $user_id,0, $localpath, $cookiedomain, 0, 1);
+	setcookie($cookieprefix."userid", $user,0, $localpath, $cookiedomain, 0, 1);
 	setcookie($cookieprefix."sid", $sid,0, $localpath, $cookiedomain, 0, 1);
 	setcookie($cookieprefix."clientip", $ip,0, $localpath, $cookiedomain, 0, 1);
 
@@ -372,27 +372,27 @@ function getloggedinusers()
 //
 //
 //
-function isactive($user_id)
+function isactive($user)
 {
 	global $db;
-	return getdbelement("user_active",USERS_TABLE, "user_id", $db->setinteger($user_id));
+	return getdbelement("user_active",USERS_TABLE, "user_id", $db->setinteger($user));
 }
 
 //
 //
 //
-function getretries($user_id)
+function getretries($user)
 {
 	global $db;
-	return getdbelement("retries",USERS_TABLE, "user_id", $db->setinteger($user_id));
+	return getdbelement("retries",USERS_TABLE, "user_id", $db->setinteger($user));
 }
 
 //
 //
 //
-function getlastlogin($user_id)
+function getlastlogin($user)
 {
 	global $db;
-	return getdbelement("last_login",USERS_TABLE, "user_id", $db->setinteger($user_id));
+	return getdbelement("last_login",USERS_TABLE, "user_id", $db->setinteger($user));
 }
 ?>

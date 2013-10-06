@@ -14,11 +14,11 @@ include_once($projectroot."functions/pages.php");
 //
 //
 //
-function renamepage($page_id, $title_navigator, $title_page)
+function renamepage($page, $title_navigator, $title_page)
 {
 	global $db;
-	$result= updatefield(PAGES_TABLE,"title_page",$db->setstring($title_page),"page_id='".$db->setinteger($page_id)."'");
-	$result= $result & updatefield(PAGES_TABLE,"title_navigator",$db->setstring($title_navigator),"page_id='".$db->setinteger($page_id)."'");
+	$result= updatefield(PAGES_TABLE,"title_page",$db->setstring($title_page),"page_id='".$db->setinteger($page)."'");
+	$result= $result & updatefield(PAGES_TABLE,"title_navigator",$db->setstring($title_navigator),"page_id='".$db->setinteger($page)."'");
 	return $result;
 }
 
@@ -26,47 +26,47 @@ function renamepage($page_id, $title_navigator, $title_page)
 //
 //
 //
-function updatepageintro($page_id, $introtext)
+function updatepageintro($page, $introtext)
 {
 	global $db;
-  	return updatefield(PAGES_TABLE,"introtext",$db->setstring($introtext) ,"page_id='".$db->setinteger($page_id)."'");
+  	return updatefield(PAGES_TABLE,"introtext",$db->setstring($introtext) ,"page_id='".$db->setinteger($page)."'");
 }
 
 
 //
 //
 //
-function updatepageintroimagealign($page_id,$imagealign)
+function updatepageintroimagealign($page,$imagealign)
 {
 	global $db;
-  	return updatefield(PAGES_TABLE,"imagehalign",$db->setstring($imagealign),"page_id='".$db->setinteger($page_id)."'");
+  	return updatefield(PAGES_TABLE,"imagehalign",$db->setstring($imagealign),"page_id='".$db->setinteger($page)."'");
 }
 
 //
 //
 //
-function updatepageintroimagefilename($page_id,$imagefilename)
+function updatepageintroimagefilename($page,$imagefilename)
 {
 	global $db;
-  	return updatefield(PAGES_TABLE,"introimage",$db->setstring(basename($imagefilename)),"page_id='".$db->setinteger($page_id)."'");
+  	return updatefield(PAGES_TABLE,"introimage",$db->setstring(basename($imagefilename)),"page_id='".$db->setinteger($page)."'");
 }
 
 
 //
 //
 //
-function movepage($page_id, $direction, $positions=1)
+function movepage($page, $direction, $positions=1)
 {
 	global $db;
-	$page_id=$db->setinteger($page_id);
+	$page=$db->setinteger($page);
 	$result = true;
 	
 	if($direction==="top")
 	{
-		$minpos=getmin("position_navigator",PAGES_TABLE, "parent_id='".getparent($page_id)."'");
+		$minpos=getmin("position_navigator",PAGES_TABLE, "parent_id='".getparent($page)."'");
 		if($minpos<=1)
 		{
-			$sisterids=getsisters($page_id);
+			$sisterids=getsisters($page);
 			$newpos=array();
 			for($i=0;$i<count($sisterids);$i++)
 			{
@@ -74,28 +74,28 @@ function movepage($page_id, $direction, $positions=1)
 			}
 				updateentries(PAGES_TABLE,$newpos,"page_id","position_navigator");
 			}
-		$result = $result & updatefield(PAGES_TABLE,"position_navigator",1,"page_id='".$page_id."'");
+		$result = $result & updatefield(PAGES_TABLE,"position_navigator",1,"page_id='".$page."'");
 	}
 	elseif($direction==="bottom")
 	{
-		$maxpos=getmax("position_navigator",PAGES_TABLE, "parent_id='".getparent($page_id)."'");
-		$result = $result & updatefield(PAGES_TABLE,"position_navigator",$maxpos+1,"page_id='".$page_id."'");
+		$maxpos=getmax("position_navigator",PAGES_TABLE, "parent_id='".getparent($page)."'");
+		$result = $result & updatefield(PAGES_TABLE,"position_navigator",$maxpos+1,"page_id='".$page."'");
 	}
 	elseif($positions>0)
 	{
 		if($direction==="down")
 		{
-			$sisterids=getsisters($page_id);
+			$sisterids=getsisters($page);
 		}
 		else
 		{
-			$sisterids=getsisters($page_id, "DESC");
+			$sisterids=getsisters($page, "DESC");
 		}
 		$found=false;
 		$idposition=0;
 		for($i=0;$i<count($sisterids)&&!$found;$i++)
 		{
-			if($page_id==$sisterids[$i])
+			if($page==$sisterids[$i])
 			{
 				$found=true;
 				$idposition=$i;
@@ -317,12 +317,12 @@ function updaterestrictions($pagetype,$allowroot,$allowsimplemenu)
 //
 //
 //
-function publish($page_id)
+function publish($page)
 {
 	global $db;
-	if(ispublishable($page_id))
+	if(ispublishable($page))
 	{
-		return updatefield(PAGES_TABLE,"ispublished",1 ,"page_id='".$db->setinteger($page_id)."'");
+		return updatefield(PAGES_TABLE,"ispublished",1 ,"page_id='".$db->setinteger($page)."'");
 	}
 	else return false;
 }
@@ -330,32 +330,32 @@ function publish($page_id)
 //
 //
 //
-function unpublish($page_id)
+function unpublish($page)
 {
 	global $db;
-	return updatefield(PAGES_TABLE,"ispublished",0 ,"page_id='".$db->setinteger($page_id)."'");
+	return updatefield(PAGES_TABLE,"ispublished",0 ,"page_id='".$db->setinteger($page)."'");
 }
 
 
 //
 //
 //
-function makepublishable($page_id)
+function makepublishable($page)
 {
 	global $db;
-    return updatefield(PAGES_TABLE,"ispublishable",1 ,"page_id='".$db->setinteger($page_id)."'");
+    return updatefield(PAGES_TABLE,"ispublishable",1 ,"page_id='".$db->setinteger($page)."'");
 }
 
 
 //
 //
 //
-function hide($page_id)
+function hide($page)
 {
 	global $db;
-	if(!ispublished($page_id))
+	if(!ispublished($page))
 	{
-		return updatefield(PAGES_TABLE,"ispublishable",0 ,"page_id='".$db->setinteger($page_id)."'");
+		return updatefield(PAGES_TABLE,"ispublishable",0 ,"page_id='".$db->setinteger($page)."'");
 	}
 	else return false;
 }
@@ -365,18 +365,18 @@ function hide($page_id)
 //
 //
 //
-function ispublishable($page_id)
+function ispublishable($page)
 {
 	global $db;
-	$pagetype=getpagetype($page_id);
+	$pagetype=getpagetype($page);
 	
-	if(getpermission($page_id)==PERMISSION_REFUSED)
+	if(getpermission($page)==PERMISSION_REFUSED)
 	{
 		return 0;
 	}
 	else
 	{
-		return getdbelement("ispublishable",PAGES_TABLE, "page_id",$db->setinteger($page_id));
+		return getdbelement("ispublishable",PAGES_TABLE, "page_id",$db->setinteger($page));
 	}
 }
 
@@ -385,29 +385,29 @@ function ispublishable($page_id)
 //
 //
 //
-function updateeditdata($page_id, $sid)
+function updateeditdata($page, $sid)
 {
 	global $db;
 	$now=date(DATETIMEFORMAT, strtotime('now'));
-	$result = updatefield(PAGES_TABLE,"editdate",$now,"page_id='".$db->setinteger($page_id)."'");
-	$result = $result & updatefield(PAGES_TABLE,"editor_id",getsiduser($sid),"page_id='".$db->setinteger($page_id)."'");
+	$result = updatefield(PAGES_TABLE,"editdate",$now,"page_id='".$db->setinteger($page)."'");
+	$result = $result & updatefield(PAGES_TABLE,"editor_id",getsiduser($sid),"page_id='".$db->setinteger($page)."'");
 }
 
 //
 // permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION, PERMISSION_REFUSED
 //
-function updatecopyright($page_id,$copyright,$imagecopyright,$permission)
+function updatecopyright($page,$copyright,$imagecopyright,$permission)
 {
 	global $db;
-	$page_id=$db->setinteger($page_id);
-	$result = updatefield(PAGES_TABLE,"copyright",$db->setstring($copyright),"page_id='".$page_id."'");
-	$result = $result & updatefield(PAGES_TABLE,"image_copyright",$db->setstring($imagecopyright),"page_id='".$page_id."'");
-	$result = $result & updatefield(PAGES_TABLE,"permission",$db->setinteger($permission),"page_id='".$page_id."'");
+	$page=$db->setinteger($page);
+	$result = updatefield(PAGES_TABLE,"copyright",$db->setstring($copyright),"page_id='".$page."'");
+	$result = $result & updatefield(PAGES_TABLE,"image_copyright",$db->setstring($imagecopyright),"page_id='".$page."'");
+	$result = $result & updatefield(PAGES_TABLE,"permission",$db->setinteger($permission),"page_id='".$page."'");
 	
 	if($db->setinteger($permission)==PERMISSION_REFUSED)
 	{
-		$result = $result & unpublish($page_id);
-		$result = $result & hide($page_id);
+		$result = $result & unpublish($page);
+		$result = $result & hide($page);
 	}
 	return $result;
 }
@@ -419,18 +419,18 @@ function updatecopyright($page_id,$copyright,$imagecopyright,$permission)
 //
 //
 //
-function restrictaccess($page_id)
+function restrictaccess($page)
 {
 	global $db;
-	$page_id = $db->setinteger($page_id);
+	$page = $db->setinteger($page);
 	$result = true;
-	if(ispagerestricted($page_id))
+	if(ispagerestricted($page))
 	{
-		$result = $result & updatefield(RESTRICTEDPAGES_TABLE,"masterpage",$page_id,"page_id = ".$page_id);
+		$result = $result & updatefield(RESTRICTEDPAGES_TABLE,"masterpage",$page,"page_id = ".$page);
 	}
 	else
 	{
-		$result = $result & insertentry(RESTRICTEDPAGES_TABLE,array(0=>$page_id, 1=>$page_id));
+		$result = $result & insertentry(RESTRICTEDPAGES_TABLE,array(0=>$page, 1=>$page));
 	}
 	rebuildaccessrestrictionindex();
 	return $result;
@@ -440,11 +440,11 @@ function restrictaccess($page_id)
 //
 //
 //
-function removeaccessrestriction($page_id)
+function removeaccessrestriction($page)
 {
 	global $db;
-	$result = deleteentry(RESTRICTEDPAGES_TABLE,"masterpage ='".$db->setinteger($page_id)."'");
-	$result = $result & deleteentry(RESTRICTEDPAGESACCESS_TABLE,"page_id ='".$db->setinteger($page_id)."'");
+	$result = deleteentry(RESTRICTEDPAGES_TABLE,"masterpage ='".$db->setinteger($page)."'");
+	$result = $result & deleteentry(RESTRICTEDPAGESACCESS_TABLE,"page_id ='".$db->setinteger($page)."'");
 	rebuildaccessrestrictionindex();
 	return $result;
 }
@@ -502,10 +502,10 @@ function rebuildaccessrestrictionindex()
 //
 //
 //
-function getpageaccessforpublicuser($user_id)
+function getpageaccessforpublicuser($user)
 {
 	global $db;
-	return getcolumn("page_id",RESTRICTEDPAGESACCESS_TABLE, "publicuser_id = '".$db->setinteger($user_id)."'");
+	return getcolumn("page_id",RESTRICTEDPAGESACCESS_TABLE, "publicuser_id = '".$db->setinteger($user)."'");
 }
 
 //
@@ -519,21 +519,21 @@ function getrestrictedpages()
 //
 //
 //
-function getpagerestrictionmaster($page_id)
+function getpagerestrictionmaster($page)
 {
 	global $db;
-	return getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 
 //
 //
 //
-function hasaccess($user_id, $page_id)
+function hasaccess($user, $page)
 {
 	global $db;
-	$masterpage=getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $db->setinteger($page_id));
-	$query="select publicuser_id from ".RESTRICTEDPAGESACCESS_TABLE." where publicuser_id = '".$db->setinteger($user_id)."' AND page_id = '".$masterpage."';";
+	$masterpage=getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $db->setinteger($page));
+	$query="select publicuser_id from ".RESTRICTEDPAGESACCESS_TABLE." where publicuser_id = '".$db->setinteger($user)."' AND page_id = '".$masterpage."';";
 	return getdbresultsingle($query);
 }
 
@@ -541,18 +541,18 @@ function hasaccess($user_id, $page_id)
 //
 //
 //
-function setshowpermissionrefusedimages($page_id, $show)
+function setshowpermissionrefusedimages($page, $show)
 {
 	global $db;
-	$page_id = $db->setinteger($page_id);
+	$page = $db->setinteger($page);
 	
-	if($show && ispagerestricted($page_id))
+	if($show && ispagerestricted($page))
 	{
-		$result = updatefield(PAGES_TABLE,"showpermissionrefusedimages",1,"page_id='".$page_id."'");
+		$result = updatefield(PAGES_TABLE,"showpermissionrefusedimages",1,"page_id='".$page."'");
 	}
 	else
 	{
-		$result = updatefield(PAGES_TABLE,"showpermissionrefusedimages",0,"page_id='".$page_id."'");
+		$result = updatefield(PAGES_TABLE,"showpermissionrefusedimages",0,"page_id='".$page."'");
 	}
 	return $result;
 }
@@ -602,25 +602,25 @@ function getpagelock($page)
 //
 //
 //
-function lockpage($user_id, $page_id)
+function lockpage($user, $page)
 {
 	global $db;
 	$now=date(DATETIMEFORMAT, strtotime('now'));
 	
-	$page_id=$db->setinteger($page_id);
-	$user_id=$db->setinteger($user_id);
+	$page=$db->setinteger($page);
+	$user=$db->setinteger($user);
 	
-	$lockuserid=getdbelement("user_id",LOCKS_TABLE, "page_id", $page_id);
+	$lockuserid=getdbelement("user_id",LOCKS_TABLE, "page_id", $page);
 	if($lockuserid)
 	{
-		$result = updatefield(LOCKS_TABLE,"locktime",$now,"page_id='".$page_id."'");
-		$result = $result & updatefield(LOCKS_TABLE,"user_id",$user_id,"page_id='".$page_id."'");
+		$result = updatefield(LOCKS_TABLE,"locktime",$now,"page_id='".$page."'");
+		$result = $result & updatefield(LOCKS_TABLE,"user_id",$user,"page_id='".$page."'");
 	}
 	else
 	{
 		$values=array();
-		$values[]=$page_id;
-		$values[]=$user_id;
+		$values[]=$page;
+		$values[]=$user;
 		$values[]=$now;
 		$result = insertentry(LOCKS_TABLE,$values);
 	}
@@ -630,10 +630,10 @@ function lockpage($user_id, $page_id)
 //
 //
 //
-function unlockpage($page_id)
+function unlockpage($page)
 {
 	global $db;
-	return deleteentry(LOCKS_TABLE,"page_id='".$db->setinteger($page_id)."'");
+	return deleteentry(LOCKS_TABLE,"page_id='".$db->setinteger($page)."'");
 }
 
 //
@@ -647,17 +647,17 @@ function unlockuserpages($sid)
 //
 // array user_id, locktime
 //
-function getlock($page_id, $user_id=false)
+function getlock($page, $user=false)
 {
 	global $db;
 	// clear old locks
 	$time=date(DATETIMEFORMAT, strtotime('-30 minutes'));
 	deleteentry(LOCKS_TABLE,"locktime<'".$time."'");
 	
-	$result['user_id']= getdbelement("user_id",LOCKS_TABLE, "page_id",$db->setinteger($page_id));
+	$result['user_id']= getdbelement("user_id",LOCKS_TABLE, "page_id",$db->setinteger($page));
 	if($result['user_id'])
 	{
-		$result['locktime']=getdbelement("locktime",LOCKS_TABLE, "page_id",$db->setinteger($page_id));
+		$result['locktime']=getdbelement("locktime",LOCKS_TABLE, "page_id",$db->setinteger($page));
 	}
 	return $result;
 }
@@ -665,8 +665,8 @@ function getlock($page_id, $user_id=false)
 //
 // array user_id, locktime
 //
-function islocked($page_id)
+function islocked($page)
 {
-	return getlock($page_id);
+	return getlock($page);
 }
 ?>

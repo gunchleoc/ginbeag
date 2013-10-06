@@ -13,16 +13,16 @@ include_once($projectroot."functions/pages.php");
 //
 //
 //
-function addgalleryimage($page_id,$filename)
+function addgalleryimage($page,$filename)
 {
 	global $db;
-	$page_id=$db->setinteger($page_id);
+	$page=$db->setinteger($page);
 	
-	$lastposition=getlastgalleryimageposition($page_id);
+	$lastposition=getlastgalleryimageposition($page);
 	
 	$values=array();
 	$values[]=0;
-	$values[]=$page_id;
+	$values[]=$page;
 	$values[]=$db->setstring($filename);
 	$values[]=$lastposition+1;
 	return insertentry(GALLERYITEMS_TABLE,$values);
@@ -31,46 +31,46 @@ function addgalleryimage($page_id,$filename)
 //
 //
 //
-function changegalleryimage($galleryitem_id, $filename)
+function changegalleryimage($galleryitem, $filename)
 {
 	global $db;
-	return updatefield(GALLERYITEMS_TABLE,"image_filename",$db->setstring($filename),"galleryitem_id='".$db->setinteger($galleryitem_id)."'");
+	return updatefield(GALLERYITEMS_TABLE,"image_filename",$db->setstring($filename),"galleryitem_id='".$db->setinteger($galleryitem)."'");
 }
 
 //
 //
 //
-function removegalleryimage($galleryitem_id)
+function removegalleryimage($galleryitem)
 {
 	global $db;
-	return deleteentry(GALLERYITEMS_TABLE,"galleryitem_id='".$db->setinteger($galleryitem_id)."'");
+	return deleteentry(GALLERYITEMS_TABLE,"galleryitem_id='".$db->setinteger($galleryitem)."'");
 }
 
 
 //
 //
 //
-function movegalleryimage($galleryitem_id, $direction, $positions=1)
+function movegalleryimage($galleryitem, $direction, $positions=1)
 {
 	global $db;
 	$result=false;
 	
 	if($positions>0)
 	{
-		$page_id=getdbelement("page_id",GALLERYITEMS_TABLE, "galleryitem_id", $db->setinteger($galleryitem_id));
+		$page=getdbelement("page_id",GALLERYITEMS_TABLE, "galleryitem_id", $db->setinteger($galleryitem));
 		if($direction==="down")
 		{
-			$sisterids=getorderedcolumn("galleryitem_id",GALLERYITEMS_TABLE, "page_id='".($page_id)."'", "position", "ASC");
+			$sisterids=getorderedcolumn("galleryitem_id",GALLERYITEMS_TABLE, "page_id='".($page)."'", "position", "ASC");
 		}
 		else
 		{
-			$sisterids=getorderedcolumn("galleryitem_id",GALLERYITEMS_TABLE, "page_id='".($page_id)."'", "position", "DESC");
+			$sisterids=getorderedcolumn("galleryitem_id",GALLERYITEMS_TABLE, "page_id='".($page)."'", "position", "DESC");
 		}
 		$found=false;
 		$idposition=0;
 		for($i=0;$i<count($sisterids)&&!$found;$i++)
 		{
-			if($galleryitem_id==$sisterids[$i])
+			if($galleryitem==$sisterids[$i])
 			{
 				$found=true;
 				$idposition=$i;
@@ -101,12 +101,12 @@ function movegalleryimage($galleryitem_id, $direction, $positions=1)
 	return $result;
 }
 
-function reindexgallerypositions($page_id)
+function reindexgallerypositions($page)
 {
 	global $db;
 	$items=array();
 	
-	$query="select galleryitem_id, position from ".GALLERYITEMS_TABLE." where page_id = ".$db->setinteger($page_id)." order by position ASC;";
+	$query="select galleryitem_id, position from ".GALLERYITEMS_TABLE." where page_id = ".$db->setinteger($page)." order by position ASC;";
 	//  print($query.'<br>');
 	$sql=$db->singlequery($query);
 	if($sql)

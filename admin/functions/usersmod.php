@@ -233,13 +233,13 @@ function userexists($username)
 //
 //
 //
-function emailexists($email,$user_id=false)
+function emailexists($email,$user=false)
 {
 	global $db;
 	$emailuser= getdbelement("user_id", USERS_TABLE, "email", $db->setstring($email));
-	if($user_id)
+	if($user)
 	{
-		return ($emailuser && ($user_id !== $emailuser));
+		return ($emailuser && ($user !== $emailuser));
 	}
 	else
 	{

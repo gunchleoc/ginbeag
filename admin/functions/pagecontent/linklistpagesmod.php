@@ -11,15 +11,15 @@ include_once($projectroot."admin/functions/dbmod.php");
 //
 //
 //
-function addlink($page_id,$linktitle,$link,$imagefilename,$description)
+function addlink($page,$linktitle,$link,$imagefilename,$description)
 {
 	global $db;
-	$page_id=$db->setinteger($page_id);
-	$lastposition=getlastlinkposition($page_id);
+	$page=$db->setinteger($page);
+	$lastposition=getlastlinkposition($page);
 	
 	$values=array();
 	$values[]=0;
-	$values[]=$page_id;
+	$values[]=$page;
 	$values[]=$db->setstring($linktitle);
 	$values[]=$db->setstring($imagefilename);
 	$values[]=$db->setstring($link);
@@ -31,65 +31,65 @@ function addlink($page_id,$linktitle,$link,$imagefilename,$description)
 //
 //
 //
-function deletelink($link_id)
+function deletelink($link)
 {
 	global $db;
-  	return deleteentry(LINKS_TABLE,"link_id ='".$db->setinteger($link_id)."'");
+  	return deleteentry(LINKS_TABLE,"link_id ='".$db->setinteger($link)."'");
 }
 
 //
 //
 //
-function updatelinkdescription($link_id, $text)
+function updatelinkdescription($link, $text)
 {
 	global $db;
-  	return updatefield(LINKS_TABLE,"description",$db->setstring($text),"link_id='".$db->setinteger($link_id)."'");
+  	return updatefield(LINKS_TABLE,"description",$db->setstring($text),"link_id='".$db->setinteger($link)."'");
 }
 
 //
 //
 //
-function updatelinkproperties($link_id,$title,$link)
+function updatelinkproperties($link,$title,$link)
 {
 	global $db;
 	$result = true;
-	$result = $result & updatefield(LINKS_TABLE,"title",$db->setstring($title),"link_id='".$db->setinteger($link_id)."'");
-	$result = $result & updatefield(LINKS_TABLE,"link",$db->setstring($link),"link_id='".$db->setinteger($link_id)."'");
+	$result = $result & updatefield(LINKS_TABLE,"title",$db->setstring($title),"link_id='".$db->setinteger($link)."'");
+	$result = $result & updatefield(LINKS_TABLE,"link",$db->setstring($link),"link_id='".$db->setinteger($link)."'");
 	return $result;
 }
 
 //
 //
 //
-function updatelinkimagefilename($link_id,$image)
+function updatelinkimagefilename($link,$image)
 {
 	global $db;
-  	return updatefield(LINKS_TABLE,"image",$db->setstring($image),"link_id='".$db->setinteger($link_id)."'");
+  	return updatefield(LINKS_TABLE,"image",$db->setstring($image),"link_id='".$db->setinteger($link)."'");
 }
 
 //
 //
 //
-function movelink($link_id, $direction, $positions=1)
+function movelink($link, $direction, $positions=1)
 {
 	global $db;
 	$result = false;
 	if($positions>0)
 	{
-		$page_id=getdbelement("page_id",LINKS_TABLE, "link_id", $db->setinteger($link_id));
+		$page=getdbelement("page_id",LINKS_TABLE, "link_id", $db->setinteger($link));
 		if($direction==="down")
 		{
-			$sisterids=getorderedcolumn("link_id",LINKS_TABLE, "page_id='".($page_id)."'", "position", "ASC");
+			$sisterids=getorderedcolumn("link_id",LINKS_TABLE, "page_id='".($page)."'", "position", "ASC");
 		}
 		else
 		{
-			$sisterids=getorderedcolumn("link_id",LINKS_TABLE, "page_id='".($page_id)."'", "position", "DESC");
+			$sisterids=getorderedcolumn("link_id",LINKS_TABLE, "page_id='".($page)."'", "position", "DESC");
 		}
 		$found=false;
 		$idposition=0;
 		for($i=0;$i<count($sisterids)&&!$found;$i++)
 		{
-			if($link_id==$sisterids[$i])
+			if($link==$sisterids[$i])
 			{
 				$found=true;
 				$idposition=$i;

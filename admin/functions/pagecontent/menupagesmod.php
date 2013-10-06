@@ -9,20 +9,20 @@ include_once($projectroot."admin/functions/dbmod.php");
 //
 //
 //
-function updatemenunavigation($page_id, $navigatordepth , $displaydepth , $sistersinnavigator)
+function updatemenunavigation($page, $navigatordepth , $displaydepth , $sistersinnavigator)
 {
 	global $db;
-	$page_id=$db->setinteger($page_id);
+	$page=$db->setinteger($page);
 	
-	$sql=updatefield(MENUS_TABLE,"navigatordepth",$db->setinteger($navigatordepth) ,"page_id='".$page_id."'");
+	$sql=updatefield(MENUS_TABLE,"navigatordepth",$db->setinteger($navigatordepth) ,"page_id='".$page."'");
 	
 	if($sql)
 	{
-		$sql= updatefield(MENUS_TABLE,"displaydepth ",$db->setinteger($displaydepth) ,"page_id='".$page_id."'");
+		$sql= updatefield(MENUS_TABLE,"displaydepth ",$db->setinteger($displaydepth) ,"page_id='".$page."'");
 	}
 	if($sql)
 	{
-		$sql= updatefield(MENUS_TABLE,"sistersinnavigator ",$db->setinteger($sistersinnavigator) ,"page_id='".$page_id."'");
+		$sql= updatefield(MENUS_TABLE,"sistersinnavigator ",$db->setinteger($sistersinnavigator) ,"page_id='".$page."'");
 	}
 	return $sql;
 }

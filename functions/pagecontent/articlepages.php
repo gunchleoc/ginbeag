@@ -8,10 +8,10 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getarticlepagecontents($page_id)
+function getarticlepagecontents($page)
 {
 	global $db;
-	return getrowbykey(ARTICLES_TABLE, "page_id", $db->setinteger($page_id));
+	return getrowbykey(ARTICLES_TABLE, "page_id", $db->setinteger($page));
 }
 
 
@@ -19,20 +19,20 @@ function getarticlepagecontents($page_id)
 //
 //
 //
-function numberofarticlepages($page_id)
+function numberofarticlepages($page)
 {
 	global $db;
-	return getdbelement("numberofpages",ARTICLES_TABLE, "page_id", $db->setinteger($page_id));
+	return getdbelement("numberofpages",ARTICLES_TABLE, "page_id", $db->setinteger($page));
 }
 
 
 //
 //
 //
-function getlastarticlesection($article_id,$pagenumber)
+function getlastarticlesection($page,$pagenumber)
 {
 	global $db;
-	$condition="article_id ='".$db->setinteger($article_id)."' and pagenumber ='".$db->setinteger($pagenumber)."'";
+	$condition="article_id ='".$db->setinteger($page)."' and pagenumber ='".$db->setinteger($pagenumber)."'";
 	return getmax("sectionnumber",ARTICLESECTIONS_TABLE, $condition);
 }
 
@@ -40,10 +40,10 @@ function getlastarticlesection($article_id,$pagenumber)
 //
 // the section number on the page. Not the primary key!!!
 //
-function getarticlesections($page_id, $pagenumber)
+function getarticlesections($page, $pagenumber)
 {
 	global $db;
-	$condition= "(article_id='".$db->setinteger($page_id)."'";
+	$condition= "(article_id='".$db->setinteger($page)."'";
 	$condition.= " AND pagenumber='".$db->setinteger($pagenumber)."')";
 	return getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, $condition, "sectionnumber", "ASC");
 }
@@ -53,47 +53,47 @@ function getarticlesections($page_id, $pagenumber)
 //
 // for printview
 //
-function getallarticlesections($page_id)
+function getallarticlesections($page)
 {
 	global $db;
-	$condition= "article_id='".$db->setinteger($page_id)."'";
+	$condition= "article_id='".$db->setinteger($page)."'";
 	return getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, $condition, "pagenumber, sectionnumber", "ASC");
 }
 
 //
 //
 //
-function getarticlesectioncontents($section_id)
+function getarticlesectioncontents($articlesection)
 {
 	global $db;
-	return getrowbykey(ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($section_id));
+	return getrowbykey(ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($articlesection));
 }
 
 //
 //
 //
-function getarticlesectiontitle($section_id)
+function getarticlesectiontitle($articlesection)
 {
 	global $db;
-	return getdbelement("sectiontitle",ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($section_id));
+	return getdbelement("sectiontitle",ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($articlesection));
 }
 
 //
 //
 //
-function getarticlesectiontext($section_id)
+function getarticlesectiontext($articlesection)
 {
 	global $db;
-	return getdbelement("text",ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($section_id));
+	return getdbelement("text",ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($articlesection));
 }
 
 //
 //
 //
-function getarticlesectionnumber($section_id)
+function getarticlesectionnumber($articlesection)
 {
 	global $db;
-	return getdbelement("sectionnumber",ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($section_id));
+	return getdbelement("sectionnumber",ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($articlesection));
 }
 
 ?>

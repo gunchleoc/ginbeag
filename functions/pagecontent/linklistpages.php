@@ -9,45 +9,45 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getlinklistitems($page_id)
+function getlinklistitems($page)
 {
 	global $db;
-	return getorderedcolumn("link_id",LINKS_TABLE, "page_id='".$db->setinteger($page_id)."'", "position", "ASC");
+	return getorderedcolumn("link_id",LINKS_TABLE, "page_id='".$db->setinteger($page)."'", "position", "ASC");
 }
 
 //
 //
 //
-function getlinktitle($link_id)
+function getlinktitle($link)
 {
 	global $db;
-	return getdbelement("title",LINKS_TABLE, "link_id", $db->setinteger($link_id));
+	return getdbelement("title",LINKS_TABLE, "link_id", $db->setinteger($link));
 }
 
 //
 //
 //
-function getlinkcontents($link_id)
+function getlinkcontents($link)
 {
 	global $db;
-	return getrowbykey(LINKS_TABLE, "link_id", $db->setinteger($link_id));
+	return getrowbykey(LINKS_TABLE, "link_id", $db->setinteger($link));
 }
 
 //
 //
 //
-function getlastlinkposition($page_id)
+function getlastlinkposition($page)
 {
 	global $db;
-	return getmax("position",LINKS_TABLE, "page_id ='".$db->setinteger($page_id)."'");
+	return getmax("position",LINKS_TABLE, "page_id ='".$db->setinteger($page)."'");
 }
 
 //
 //
 //
-function getlinkdescription($link_id)
+function getlinkdescription($link)
 {
 	global $db;
-	return getdbelement("description",LINKS_TABLE, "link_id", $db->setinteger($link_id));
+	return getdbelement("description",LINKS_TABLE, "link_id", $db->setinteger($link));
 }
 ?>

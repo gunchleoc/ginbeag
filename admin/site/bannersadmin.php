@@ -80,9 +80,9 @@ elseif($postaction=='addbanner')
 		
 		if($success)
 		{
-			$banner_id=addbanner(fixquotes($_POST['header']), $filename ,fixquotes($_POST['description']),$_POST['link']);
+			$banner=addbanner(fixquotes($_POST['header']), $filename ,fixquotes($_POST['description']),$_POST['link']);
 			$message='Added banner <i>'.$_POST['header'].'</i>';
-			if(!isbannercomplete($banner_id))
+			if(!isbannercomplete($banner))
 			{
 				$message='This banner is not complete and will not be displayed! Please fill out all required fields.';
 			}
