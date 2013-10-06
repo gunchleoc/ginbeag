@@ -19,19 +19,18 @@ class Showimage extends Template {
     	
     	$this->stringvars['site_description']=title2html(getproperty("Site Description"));
     	
+    	$pagetitle=utf8_decode(getlang("image_viewing"));
+    	
  		$caption=getcaption($image);
- 		if(strlen($caption)>30) $caption = substr($caption,0,30)."...";
 
 		if($caption)
 		{
-			$this->vars['pageintro'] = new PageIntro(getlang("image_viewing")." - ".title2html($caption),"","");
-			$this->vars['header']= new PageHeader($this->stringvars['page'],utf8_decode(getlang("image_viewing"))." - ".utf8_decode(title2html($caption)));
+			if(strlen($caption)>30) $caption = substr($caption,0,30)."...";
+			$caption = utf8_decode(title2html($caption));
+			$pagetitle = $pagetitle." - ".$caption;
 		}
-		else
-		{
-			$this->vars['header']= new PageHeader($this->stringvars['page'],utf8_decode(getlang("image_viewing")));
-			$this->vars['pageintro'] = new PageIntro(getlang("image_viewing"),"","");
-		}
+		$this->vars['pageintro'] = new PageIntro($pagetitle,"","");
+		$this->vars['header']= new PageHeader($this->stringvars['page'],$pagetitle);
 
 		$this->vars['navigator'] = new Navigator($this->stringvars['page'],false,1,"page",$showhidden);
 		
