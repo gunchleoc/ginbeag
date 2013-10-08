@@ -12,6 +12,7 @@ include_once($projectroot."admin/includes/objects/images.php");
 include_once($projectroot."includes/objects/categories.php");
 include_once($projectroot."admin/includes/objects/editor.php");
 include_once($projectroot."admin/includes/objects/imageeditor.php");
+include_once($projectroot."includes/objects/newspage.php");
 
 /// TODO: Offset für alle Eintrge kontrollieren!!!
 
