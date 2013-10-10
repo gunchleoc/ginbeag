@@ -4,5 +4,6 @@
 	<a name="section{SECTIONID}"></a>
 	<h3 class="sectiontitle">{TITLE}</h3>
 	<!-- END switch TITLE -->
-	<div class="sectiontext">{IMAGE}{TEXT}</div>
+	{IMAGE}
+	<div class="sectiontext">{TEXT}</div>
 </div>

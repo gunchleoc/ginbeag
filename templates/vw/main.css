@@ -324,7 +324,7 @@ a.footer:hover { color: yellow; text-decoration: underline;}
 .sectiontitle	{
 	font-size: 220%;
 	font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.75em;
 	color : yellow;
 }
 
@@ -333,7 +333,7 @@ a.footer:hover { color: yellow; text-decoration: underline;}
 	font-size: 175%; 
 	font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
 	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.75em;
 	color : yellow;
 	margin-top: 1em;
 }
@@ -343,12 +343,13 @@ a.footer:hover { color: yellow; text-decoration: underline;}
 
 /* section text all over the place */
 .sectiontext {
+	padding-top: 0.75em;
 	text-align: justify;
 }
 
 /* Synopsis for page intros formerly articlesynopsis */
 .introtext	{
-	padding-top: 1em;
+	padding-top: 0.75em;
 	font-weight: bold;
 	text-align: justify;
 }
@@ -457,6 +458,12 @@ a.contentnavtitle:hover{ text-decoration: underline; color : yellow; }
 	padding-top: 0.5em;
 	border-color: #00AEED;
 }
+
+/* section text all over the place */
+.newsitemsynopsis {
+	padding-top: 1em;
+}
+
 
 /* Newsitem: Label for section with quoted text */
 .newsquotetitle {

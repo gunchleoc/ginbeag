@@ -283,7 +283,7 @@ input.mainoption {
 .sectiontitle	{
 	font-size: 220%;
 	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.75em;
 	color : #0066CC;
 }
 .sectiontitle span.en	{
@@ -295,7 +295,7 @@ input.mainoption {
 	font-size: 175%; 
 	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
 	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.75em;
 	color : #0066CC;
 	margin-top: 1em;
 }
@@ -309,12 +309,13 @@ input.mainoption {
 
 /* section text all over the place */
 .sectiontext {
+	padding-top: 0.75em;
 	text-align: justify;
 }
 
 /* Synopsis for page intros formerly articlesynopsis */
 .introtext	{
-	padding-top: 1em;
+	padding-top: 0.75em;
 	font-weight: bold;
 	text-align: justify;
 }

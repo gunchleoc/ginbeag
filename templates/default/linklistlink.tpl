@@ -3,10 +3,8 @@
   	<h3 class="linktitle">
     	<a href="{LINK}"  class="linktitle" target="_blank">{TITLE}</a>
   	</h3>
-  	<div class="sectiontext">
-		<!-- BEGIN switch IMAGE -->	  
-		{IMAGE}
-		<!-- END switch IMAGE -->	  	  
-	  	{TEXT}
-	</div>
+  	<!-- BEGIN switch IMAGE -->
+  	<div class="captionedimage" style="float:left;">{IMAGE}</div>
+	<!-- END switch IMAGE -->
+  	<div class="sectiontext">{TEXT}</div>
 </div>

@@ -318,7 +318,7 @@ a.footer:hover { color: #DEA479; text-decoration: underline;}
 .sectiontitle	{
 	font-size: 220%;
 	font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.75em;
 	color : #DECB97;
 }
 
@@ -327,7 +327,7 @@ a.footer:hover { color: #DEA479; text-decoration: underline;}
 	font-size: 175%; 
 	font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
 	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.75em;
 	color : #DECB97;
 	margin-top: 1em;
 }
@@ -337,12 +337,13 @@ a.footer:hover { color: #DEA479; text-decoration: underline;}
 
 /* section text all over the place */
 .sectiontext {
+	padding-top: 0.75em;
 	text-align: justify;
 }
 
 /* Synopsis for page intros formerly articlesynopsis */
 .introtext	{
-	padding-top: 1em;
+	padding-top: 0.75em;
 	font-weight: bold;
 	text-align: justify;
 	color: #DECB97;

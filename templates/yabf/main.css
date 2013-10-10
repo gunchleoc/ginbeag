@@ -308,7 +308,7 @@ a.navlink:active { text-decoration:none; color: #3067F2; }
 .sectiontitle	{
 	font-size: 220%;
 	font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.75em;
 	color : #D75876;
 }
 
@@ -317,7 +317,7 @@ a.navlink:active { text-decoration:none; color: #3067F2; }
 	font-size: 175%; 
 	font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
 	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.75em;
 	color : #D75876;
 	margin-top: 1em;
 }
@@ -327,12 +327,13 @@ a.navlink:active { text-decoration:none; color: #3067F2; }
 
 /* section text all over the place */
 .sectiontext {
+	padding-top: 0.75em;
 	text-align: justify;
 }
 
 /* Synopsis for page intros formerly articlesynopsis */
 .introtext	{
-	padding-top: 1em;
+	padding-top: 0.75em;
 	font-weight: bold;
 	text-align: justify;
 }

@@ -71,9 +71,23 @@ class CaptionedImage extends Template {
       	
       	// CSS stuff
       	
-      	if ($halign == "right") $this->stringvars['halign']="float:right; ";
-      	elseif ($halign == "left") $this->stringvars['halign']="float:left; ";
-      	else $this->stringvars['halign']=$halign;
+      	if ($halign == "right")
+      	{
+      		$this->stringvars['halign']="float:right; ";
+      	}
+      	elseif ($halign == "left")
+      	{
+      		$this->stringvars['halign']="float:left; ";
+      	}
+      	elseif ($halign == "center")
+      	{
+      		$this->stringvars['halign']="";
+      		$this->stringvars['center']="center";
+      	}
+      	else
+      	{
+      		$this->stringvars['halign']=$halign;
+      	}
       	
 		// determine image dimensions
 		$width=MAXIMAGEDIMENSION;

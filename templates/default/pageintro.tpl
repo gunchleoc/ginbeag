@@ -1,6 +1,6 @@
 <h2 class="pagetitle">{PAGETITLE}</h2>
 <!-- BEGIN switch IMAGE -->
-<p align="left">{IMAGE}</p>
+{IMAGE}
 <!-- END switch IMAGE -->
-<p class="introtext">{TEXT}</p>
+<div class="introtext">{TEXT}</div>
 <div class="newline"></div>

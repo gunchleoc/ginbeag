@@ -28,11 +28,9 @@
     	<div class="newsitemcategories">{CATEGORYLIST}</div>
     	
     	<!-- BEGIN switch SYNOPSIS_IMAGE -->
-    	<div class="introtext">
-	      	<br>&nbsp;<br>
-	      	{IMAGE}
-	      	<br>&nbsp;<br>
-	      	{TEXT}
+		<div class="newsitemsynopsis">
+	    	{IMAGE}
+	    	<div class="introtext">{TEXT}</div>
     	</div>
     	<!-- END switch SYNOPSIS_IMAGE -->
     <!-- BEGIN switch SECTION -->
