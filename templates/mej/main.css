@@ -278,6 +278,7 @@ a.navlink:active { text-decoration:none; color: #DEA479; }
 	background-color: #0D2A43;
 	background-image: url(img/navigator.gif);
 	height: 24px;
+	overflow-x:auto;
 }
 
 /* Site name */

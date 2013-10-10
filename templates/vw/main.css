@@ -116,7 +116,7 @@ input.mainoption {
 	width: 20%;
 	text-align: right;
 	float:right;
-}
+}	
 
 #navigator {
 	width: 19.5%;
@@ -287,6 +287,7 @@ a.navlink:active { text-decoration:none; color:yellow; }
 	color : #FFFF00;
 	background-image: url(img/navigator.gif);
 	height: 24px;
+	overflow-x:auto;
 
 }
 
