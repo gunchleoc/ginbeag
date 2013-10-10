@@ -91,6 +91,10 @@ input.mainoption {
 
 /************ main layout containers ************/
 
+#header {
+	padding-bottom:2em;
+}
+
 #headerleft {
 	width: 20%;
 	float:left;
@@ -98,11 +102,11 @@ input.mainoption {
 
 
 #headercenter {
-	margin-left: 20%;
-	margin-right: 20%;
 	width: 56.5%;
-	position:absolute;
 	text-align: center;
+	display: block;
+    margin: 0 auto;
+	float:left;
 }
 
 #headerright {
@@ -266,18 +270,14 @@ a.navlink:active { text-decoration:none; color: #DEA479; }
 	border-width: 1px 0px 2px 0px;
 	padding-top: 0.4em;
 	padding-bottom: 0.35em;
-
 	padding-left:0.5em;
 	padding-right:0.5em;
-
-	margin-top: 8em;
 	font-size: 160%;
 	font-family: Arial, Helvetica, sans-serif; 
 	color: #DEA479;
 	background-color: #0D2A43;
 	background-image: url(img/navigator.gif);
 	height: 24px;
-
 }
 
 /* Site name */
