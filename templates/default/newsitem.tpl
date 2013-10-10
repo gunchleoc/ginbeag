@@ -29,7 +29,14 @@
     	
     	<!-- BEGIN switch SYNOPSIS_IMAGE -->
 		<div class="newsitemsynopsis">
+			<!-- BEGIN switch MULTIPLE_IMAGES -->
+			<div class="captionedimage" style="float:left; display: block; margin: 0 auto; width:{WIDTH};">
+			<!-- END switch MULTIPLE_IMAGES -->
 	    	{IMAGE}
+	    	<!-- BEGIN switch MULTIPLE_IMAGES -->
+	    	</div>
+	    	<div class="newline"></div>
+	    	<!-- END switch MULTIPLE_IMAGES -->
 	    	<div class="introtext">{TEXT}</div>
     	</div>
     	<!-- END switch SYNOPSIS_IMAGE -->

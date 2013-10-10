@@ -71,7 +71,7 @@ class Newsitem extends Template {
 
     function Newsitem($newsitem,$offset,$showrefused,$showhidden=false,$showtoplink=true)
     {
-		global $_GET;
+		global $_GET, $projectroot;
       
 		parent::__construct();
 		
@@ -139,14 +139,35 @@ class Newsitem extends Template {
 			}
 			else
 			{
+				$width=0;
+				$this->stringvars['multiple_images']="".$noofimages;
 				for($i=0;$i<$noofimages;$i++)
 				{
 					if(mayshowimage($images[$i],$this->stringvars['page'],$showhidden))
 					{
 						$image = new Image($images[$i],$noofimages,$showhidden);
 						$this->listvars['image'][] = $image;
+						
+						$thumbnail = getthumbnail($images[$i]);
+	
+						$imagedir=$projectroot.getproperty("Image Upload Path");
+				      	$filepath=$imagedir.getimagesubpath(basename($images[$i])).'/'.$images[$i];
+				      	$thumbnailpath=$imagedir.getimagesubpath(basename($images[$i])).'/'.$thumbnail;
+						
+						if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
+						{
+							$imageproperties=@getimagesize($thumbnailpath);
+							$width += $imageproperties[0];
+						}
+						else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath))
+						{
+							$dimensions=calculateimagedimensions($images[$i],1);
+							$width+=$dimensions["width"];
+						}
 					}
 				}
+				$width+=20;
+				$this->stringvars['width']=$width;
 			}
 			$this->stringvars['synopsis_image']="synopsis_image";
 		}
