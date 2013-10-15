@@ -38,13 +38,14 @@ if(!$message)
 		if(getlastarticlesection($page,$lastpage))
 		{
 			addarticlepage($page);
-			$editpage = new EditArticlePage($lastpage+1);
+			$articlepage=$lastpage+1;
 		}
 		else
 		{
-			$editpage = new EditArticlePage($lastpage);
+			$articlepage=$lastpage;
 			$message="You cannot add a page after an empty page";
 		}
+		$editpage = new EditArticlePage($articlepage);
 	}
 	elseif(isset($_POST['addarticlesection']))
 	{
@@ -77,20 +78,20 @@ if(!$message)
 			{
 				deletelastarticlepage($page);
 				updateeditdata($page);
-				$editpage = new EditArticlePage($articlepage-1);
+				$articlepage--;
 				$message = 'Deleted page #'.$articlepage.' of this article';
 			}
 			else
 			{
-				$editpage = new EditArticlePage($articlepage);
 				$message="Could not delete page because there are still some sections in it";
 			}
 		}
 		else
 		{
-			$editpage = new EditArticlePage(1);
+			$articlepage=1;
 			$message="Could not delete page because there is only 1 page left";
 		}
+		$editpage = new EditArticlePage($articlepage);
 	}
 	elseif(isset($_POST['movesectionup']))
 	{
@@ -106,7 +107,10 @@ if(!$message)
 		$editpage = new EditArticlePage($articlepage);
 		$message="Moved section down";
 	}
-	$editpage = new EditArticlePage($articlepage);
+	else
+	{
+		$editpage = new EditArticlePage($articlepage);
+	}
 }
 else
 {
