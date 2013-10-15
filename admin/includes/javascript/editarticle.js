@@ -33,7 +33,6 @@ $(document).ready(function() {
 			postRequest(
 					projectroot+"admin/includes/ajax/articles/savesource.php",
 	       			{
-						sid: $("#{JSID}sid").val(),
 	       				page: $("#{JSID}page").val(),
 	       				author: uni2ent($("#{JSID}author").val()),
 	       				location: uni2ent($("#{JSID}location").val()),
@@ -69,7 +68,6 @@ $(document).ready(function() {
 			projectroot+"admin/includes/ajax/articles/addcategories.php",
 			{
 				page: $("#{JSID}page").val(),
-	   			sid: $("#{JSID}sid").val(),
 	   			selectedcat: $("#{JSID}selectedcat").val()
 	   		},
 	   		function(xml)
@@ -78,8 +76,7 @@ $(document).ready(function() {
 	   			postRequest(
 	   					projectroot+"admin/includes/ajax/articles/updatecategories.php",
 		       			{
-	    					page: $("#{JSID}page").val(),
-			       			sid: $("#{JSID}sid").val()
+	    					page: $("#{JSID}page").val()
 			       		},
 			       		function(html)
 	    				{
@@ -110,7 +107,6 @@ $(document).ready(function() {
 			projectroot+"admin/includes/ajax/articles/removecategories.php",
 			{
 				page: $("#{JSID}page").val(),
-	   			sid: $("#{JSID}sid").val(),
 	   			selectedcat: $("#{JSID}selectedcat").val()
 	   		},
 	   		function(xml)
@@ -119,8 +115,7 @@ $(document).ready(function() {
 	   			postRequest(
 	   					projectroot+"admin/includes/ajax/articles/updatecategories.php",
 		       			{
-	    					page: $("#{JSID}page").val(),
-			       			sid: $("#{JSID}sid").val()
+	    					page: $("#{JSID}page").val()
 			       		},
 			       		function(html)
 	    				{

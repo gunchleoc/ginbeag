@@ -5,9 +5,7 @@ include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/includes/objects/navigator.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-$sid=$_GET['sid'];
-
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;

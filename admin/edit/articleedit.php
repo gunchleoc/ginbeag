@@ -8,9 +8,7 @@ include_once($projectroot."admin/includes/objects/edit/articlepage.php");
 include_once($projectroot."includes/objects/elements.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -61,7 +59,7 @@ if(!$message)
 	elseif(isset($_POST['confirmdeletesection']))
 	{
 		deletearticlesection($articlesection);
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		$editpage = new EditArticlePage($articlepage);
 		$message="Deleted section";
 	}
@@ -78,7 +76,7 @@ if(!$message)
 			if(!getlastarticlesection($page,$noofpages))
 			{
 				deletelastarticlepage($page);
-				updateeditdata($page, $sid);
+				updateeditdata($page);
 				$editpage = new EditArticlePage($articlepage-1);
 				$message = 'Deleted page #'.$articlepage.' of this article';
 			}
@@ -97,14 +95,14 @@ if(!$message)
 	elseif(isset($_POST['movesectionup']))
 	{
 		$articlepage=movearticlesection($_GET['articlesection'],$_GET['articlepage'], "up");
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		$editpage = new EditArticlePage($articlepage);
 		$message="Moved section up";
 	}
 	elseif(isset($_POST['movesectiondown']))
 	{
 		$articlepage=movearticlesection($_GET['articlesection'],$_GET['articlepage'], "down");
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		$editpage = new EditArticlePage($articlepage);
 		$message="Moved section down";
 	}

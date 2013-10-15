@@ -11,8 +11,7 @@ include_once($projectroot."admin/functions/sessions.php");
 //print_r($_POST);
 //print_r($_GET);
 
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 $filename=$_POST['filename'];
 $image=getimage($filename);

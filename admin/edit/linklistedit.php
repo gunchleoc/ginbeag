@@ -10,9 +10,7 @@ include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -42,7 +40,7 @@ if(!$message)
 		if($_POST['deletelinkconfirm'])
 		{
 			deletelink($_GET['link']);
-			updateeditdata($page, $sid);
+			updateeditdata($page);
 		}
 		else
 		{
@@ -53,13 +51,13 @@ if(!$message)
 	{
 		$message='Moved link up';
 		movelink($_GET['link'], "up", $_POST['positions']);
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 	}
 	elseif(isset($_POST['movelinkdown']))
 	{
 		$message='Moved link down';
 		movelink($_GET['link'], "down", $_POST['positions']);
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 	}
 	$editpage = new EditLinklist($page);
 }

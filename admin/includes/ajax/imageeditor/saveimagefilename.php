@@ -9,8 +9,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/functions/sessions.php");
 
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 
 // todo check if image exists
@@ -95,7 +94,7 @@ else {
 	else
 	{
 		print('<message error="0">');
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		print($message);
 	}
 //print_r($_POST);

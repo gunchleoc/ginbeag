@@ -1,6 +1,5 @@
 <h1 class="headerpagetitle">Edit Article</h1>
 {JAVASCRIPT}
-<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 <input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 
 {NAVIGATIONBUTTONS}

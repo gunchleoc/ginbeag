@@ -15,7 +15,6 @@ $(document).ready(function() {
 			projectroot+"admin/includes/ajax/news/savetitle.php",
 			{
 				newsitem: $("#{JSID}newsitem").val(),
-				sid: $("#{JSID}sid").val(),
 				page: $("#{JSID}page").val(),
 				title: uni2ent($("#{JSID}title").val())
 	   		},
@@ -24,8 +23,7 @@ $(document).ready(function() {
 	       		postRequest(
    					projectroot+"admin/includes/ajax/news/updatetitle.php",
 	       			{
-    					newsitem: $("#{JSID}newsitem").val(),
-		       			sid: $("#{JSID}sid").val()
+    					newsitem: $("#{JSID}newsitem").val()
 		       		},
 		       		function(html)
     				{
@@ -58,8 +56,7 @@ $(document).ready(function() {
 				projectroot+"admin/includes/ajax/news/unpublish.php",
        			{
 					newsitem: $("#{JSID}newsitem").val(),
-					page: $("#{JSID}page").val(),
-	       			sid: $("#{JSID}sid").val()
+					page: $("#{JSID}page").val()
 	       		},
 	       		function(xml)
 				{
@@ -81,8 +78,7 @@ $(document).ready(function() {
 				projectroot+"admin/includes/ajax/news/publish.php",
        			{
 					newsitem: $("#{JSID}newsitem").val(),
-					page: $("#{JSID}page").val(),
-	       			sid: $("#{JSID}sid").val()
+					page: $("#{JSID}page").val()
 	       		},
 	       		function(xml)
 				{
@@ -116,7 +112,6 @@ $(document).ready(function() {
 			projectroot+"admin/includes/ajax/news/savepermissions.php",
    			{
 				newsitem: $("#{JSID}newsitem").val(),
-				sid: $("#{JSID}sid").val(),
 				page: $("#{JSID}page").val(),
        			copyright: uni2ent($("#{JSID}copyright").val()),
 	   			imagecopyright: uni2ent($("#{JSID}imagecopyright").val()),
@@ -150,7 +145,6 @@ $(document).ready(function() {
 			projectroot+"admin/includes/ajax/news/savesource.php",
    			{
 				newsitem: $("#{JSID}newsitem").val(),
-				sid: $("#{JSID}sid").val(),
 				page: $("#{JSID}page").val(),
 				source: uni2ent($("#{JSID}source").val()),
 				sourcelink: $("#{JSID}sourcelink").val(),
@@ -198,7 +192,6 @@ $(document).ready(function() {
 				projectroot+"admin/includes/ajax/news/savedate.php",
 	   			{
 					newsitem: $("#{JSID}newsitem").val(),
-	       			sid: $("#{JSID}sid").val(),
 	       			page: $("#{JSID}page").val(),
 	       			day: $("#{JSID}day").val(),
 	       			month: $("#{JSID}month").val(),
@@ -213,8 +206,7 @@ $(document).ready(function() {
 	   				postRequest(
 	   					projectroot+"admin/includes/ajax/news/updatedate.php",
 		       			{
-							newsitem: $("#{JSID}newsitem").val(),
-	       					sid: $("#{JSID}sid").val()
+							newsitem: $("#{JSID}newsitem").val()
 			       		},
 			       		function(html)
 	    				{
@@ -247,7 +239,6 @@ $(document).ready(function() {
 			{
 				newsitem: $("#{JSID}newsitem").val(),
 				page: $("#{JSID}page").val(),
-	   			sid: $("#{JSID}sid").val(),
 	   			selectedcat: $("#{JSID}selectedcat").val()
 	   		},
 	   		function(xml)
@@ -255,8 +246,7 @@ $(document).ready(function() {
 	   			postRequest(
    					projectroot+"admin/includes/ajax/news/updatecategories.php",
 	       			{
-    					newsitem: $("#{JSID}newsitem").val(),
-		       			sid: $("#{JSID}sid").val()
+    					newsitem: $("#{JSID}newsitem").val()
 		       		},
 		       		function(html)
     				{
@@ -289,7 +279,6 @@ $(document).ready(function() {
 			{
 				newsitem: $("#{JSID}newsitem").val(),
 				page: $("#{JSID}page").val(),
-	   			sid: $("#{JSID}sid").val(),
 	   			selectedcat: $("#{JSID}selectedcat").val()
 	   		},
 	   		function(xml)
@@ -298,8 +287,7 @@ $(document).ready(function() {
 	   			postRequest(
    					projectroot+"admin/includes/ajax/news/updatecategories.php",
 	       			{
-    					newsitem: $("#{JSID}newsitem").val(),
-		       			sid: $("#{JSID}sid").val()
+    					newsitem: $("#{JSID}newsitem").val()
 		       		},
 		       		function(html)
     				{

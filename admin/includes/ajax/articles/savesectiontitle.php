@@ -10,8 +10,8 @@ include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
-$sid=$_POST['sid'];
-checksession($sid);
+
+checksession();
 
 header('Content-type: text/xml;	charset=utf-8');
 echo '<?xml version="1.0" encoding="UTF-8"?>';
@@ -34,7 +34,7 @@ else {
 	if($success >=0)
 	{
 		print('<message error="0">');
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		print("Updated Section Title for Section ID: ".$articlesection);
 	}
 	else

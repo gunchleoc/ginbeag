@@ -11,8 +11,7 @@ include_once($projectroot."functions/categories.php");
 
 //print_r($_POST);
 
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 $printme= new Categorylist(getcategoriesforpage($_POST['page']));
 

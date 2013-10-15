@@ -17,7 +17,6 @@ $(document).ready(function() {
 		postRequest(
 			projectroot+"admin/includes/ajax/menus/movepage.php",
 			{
-				sid: $("#{JSID}sid").val(),
 	       		page: $("#{JSID}page").val(),
 	       		moveid: $("#{JSID}moveid").val(),
 	       		positions: $("#{JSID}positions").val(),
@@ -28,7 +27,6 @@ $(document).ready(function() {
 				postRequest(
 					projectroot+"admin/includes/ajax/menus/updatesubpages.php",
 					{
-						sid: $("#{JSID}sid").val(),
 			       		page: $("#{JSID}page").val()
 			   		},
 			   		function(html)
@@ -56,7 +54,6 @@ $(document).ready(function() {
 		postRequest(
 			projectroot+"admin/includes/ajax/menus/movepage.php",
 			{
-				sid: $("#{JSID}sid").val(),
 	       		page: $("#{JSID}page").val(),
 	       		moveid: $("#{JSID}moveid").val(),
 	       		positions: $("#{JSID}positions").val(),
@@ -67,7 +64,6 @@ $(document).ready(function() {
 				postRequest(
 					projectroot+"admin/includes/ajax/menus/updatesubpages.php",
 					{
-						sid: $("#{JSID}sid").val(),
 			       		page: $("#{JSID}page").val()
 			   		},
 			   		function(html)
@@ -95,7 +91,6 @@ $(document).ready(function() {
 		postRequest(
 			projectroot+"admin/includes/ajax/menus/movepage.php",
 			{
-				sid: $("#{JSID}sid").val(),
 	       		page: $("#{JSID}page").val(),
 	       		moveid: $("#{JSID}moveid").val(),
 	       		positions: $("#{JSID}positions").val(),
@@ -106,7 +101,6 @@ $(document).ready(function() {
 				postRequest(
 					projectroot+"admin/includes/ajax/menus/updatesubpages.php",
 					{
-						sid: $("#{JSID}sid").val(),
 			       		page: $("#{JSID}page").val()
 			   		},
 			   		function(html)
@@ -133,7 +127,6 @@ $(document).ready(function() {
 		postRequest(
 			projectroot+"admin/includes/ajax/menus/movepage.php",
 			{
-				sid: $("#{JSID}sid").val(),
 	       		page: $("#{JSID}page").val(),
 	       		moveid: $("#{JSID}moveid").val(),
 	       		positions: $("#{JSID}positions").val(),
@@ -144,7 +137,6 @@ $(document).ready(function() {
 				postRequest(
 					projectroot+"admin/includes/ajax/menus/updatesubpages.php",
 					{
-						sid: $("#{JSID}sid").val(),
 			       		page: $("#{JSID}page").val()
 			   		},
 			   		function(html)

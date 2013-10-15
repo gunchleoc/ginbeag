@@ -12,9 +12,7 @@ include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."admin/includes/objects/page.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-
-$sid=$_GET['sid'];
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -45,7 +43,7 @@ elseif(isset($_POST["executedelete"]))
 {
 	$pagename = title2html(getpagetitle($page));
 	$parent=getparent($page);
-	$deletepage=deletepage($page,$sid);
+	$deletepage=deletepage($page);
 	$deletepage--;
 	unlockpage($page);
 	$message='Deleted the following page(s): "'.title2html($pagename).'"<br />'.$deletepage.' subpages were included in delete.';

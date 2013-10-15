@@ -31,12 +31,12 @@ function addpublicuser($user,$pass)
 //
 //
 //
-function changepublicuserpasswordadmin($userid,$newpass,$confirmpass,$sid)
+function changepublicuserpasswordadmin($userid,$newpass,$confirmpass)
 {
 	global $db;
 	$result="Failed to change password";
 	
-	if(isadmin($sid))
+	if(isadmin())
 	{
 		if(strlen($newpass)>7)
 		{

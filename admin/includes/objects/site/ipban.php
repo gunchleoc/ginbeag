@@ -18,7 +18,7 @@ class SiteIPBanIP extends Template {
 		parent::__construct();
 		
 		$this->stringvars['ip']=$ip;
-		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteipban';
+		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=siteipban';
 	}
 	
 	// assigns templates
@@ -40,7 +40,7 @@ class SiteIPBan extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteipban';
+		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=siteipban';
 		
 		$ips=getalladdbannedipforrestrictedpages();
 		$noofips=count($ips);

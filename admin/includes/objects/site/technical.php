@@ -17,7 +17,7 @@ class SiteTechnical extends Template {
   	{
   		parent::__construct();
   		
-  		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=savesite&action=sitetech';
+  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&postaction=savesite&action=sitetech';
   	
   		$properties=getproperties();
   		

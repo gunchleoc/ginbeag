@@ -19,7 +19,7 @@ class CategoryMoveForm extends Template {
 		
 		$this->vars['fromform']=new CategorySelectionForm(false,"",15,array(),false,"movefrom","Select a category to move:");
 		$this->vars['toform']=new CategorySelectionForm(false,"",15,array(),false,"moveto","Select destination:");
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=movecat";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=movecat";
 		$this->vars['submitrow']=new SubmitRow("movecat","Move");
 	}
 	
@@ -42,7 +42,7 @@ class EditCategoryForm extends Template {
 		
 		$this->stringvars['addsubtext']=$addsubtext;
 		$this->stringvars['editcattext']=$editcattext;
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcat";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcat";
 		$this->vars['categoryselection']=new CategorySelectionForm(false,"",15,array(),"assignSelectValue(this, editcattext)","selectedcat","Select a category for editing:");
 		$this->vars['deleteconfirm']= new CheckboxForm("delcatconfirm","Delete selected","Confirm delete",false,"right");
 	}
@@ -68,7 +68,7 @@ class AdminCategories extends Template {
 		
 		$this->vars['categorymoveform']= new CategoryMoveForm();
 		$this->vars['editcategoryform']= new EditCategoryForm($addsubtext, $editcattext);
-		$this->stringvars['linktarget']= "admin.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['linktarget']= "admin.php?page=".$this->stringvars['page'];
 	}
 	
 	// assigns templates

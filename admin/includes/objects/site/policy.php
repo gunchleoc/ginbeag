@@ -21,7 +21,7 @@ class SitePolicy extends Template {
   		
   		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
   		
-  		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=savesite&action=sitepolicy';
+  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&postaction=savesite&action=sitepolicy';
   	
   		$properties=getproperties();
   		

@@ -21,8 +21,8 @@ class SiteSelectUserPermissionsForm extends Template {
   	{
 		parent::__construct();
 		$this->stringvars['username']=$username;
-		$this->stringvars['userlistlink']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&action=siteuserlist&ref=userpermissions";
-		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&action=siteuserperm";
+		$this->stringvars['userlistlink']="?page=".$this->stringvars["page"]."&action=siteuserlist&ref=userpermissions";
+		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&action=siteuserperm";
 	}
 
   	// assigns templates
@@ -42,7 +42,7 @@ class SiteUserLevelForm extends Template {
   	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&changelevel=change&action=siteuserperm";
+		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&changelevel=change&action=siteuserperm";
   		
   		$this->stringvars['userid']=$userid;
   		$this->stringvars['username']=getusername($userid);
@@ -55,9 +55,9 @@ class SiteUserLevelForm extends Template {
   		
   		$this->vars['submitrow']= new SubmitRow("changelevel","Change Userlevel",true);
   		
-  		$this->stringvars["returnlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&username='.$this->stringvars['username'].'&action=siteuserperm';
-  		$this->stringvars["managelink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&userid='.$userid.'&action=siteuserman';
-  		$this->stringvars["userlistlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteuserlist';
+  		$this->stringvars["returnlink"]='?page='.$this->stringvars['page'].'&username='.$this->stringvars['username'].'&action=siteuserperm';
+  		$this->stringvars["managelink"]='?page='.$this->stringvars['page'].'&userid='.$userid.'&action=siteuserman';
+  		$this->stringvars["userlistlink"]='?page='.$this->stringvars['page'].'&action=siteuserlist';
 	}
 
   	// assigns templates
@@ -99,9 +99,9 @@ class SitePublicUserAccessForm extends Template {
     		$this->listvars['pagesnoaccess'][]= new SitePublicUserAccessPageForm($userid,$restrictedpagesnoaccess[$i],false);
 		}
 		
-  		$this->stringvars["returnlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&username='.$this->stringvars['username'].'&action=siteuserperm';
-  		$this->stringvars["managelink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&userid='.$userid.'&type=public&action=siteuserman';
-  		$this->stringvars["userlistlink"]='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteuserlist#public';
+  		$this->stringvars["returnlink"]='?page='.$this->stringvars['page'].'&username='.$this->stringvars['username'].'&action=siteuserperm';
+  		$this->stringvars["managelink"]='?page='.$this->stringvars['page'].'&userid='.$userid.'&type=public&action=siteuserman';
+  		$this->stringvars["userlistlink"]='?page='.$this->stringvars['page'].'&action=siteuserlist#public';
 
 	}
 
@@ -121,7 +121,7 @@ class SitePublicUserAccessPageForm extends Template {
   	{
   		parent::__construct();
   		
-		$this->stringvars['pagelink']=getprojectrootlinkpath()."admin/pagedisplay.php?page=".$page.'&sid='.$this->stringvars['sid'];
+		$this->stringvars['pagelink']=getprojectrootlinkpath()."admin/pagedisplay.php?page=".$page;
 		$this->stringvars['pagelinktitle']=$page.": ".title2html(getnavtitle($page));
 		$this->stringvars['userid']=$userid;
 		$this->stringvars['userpage']=$page;
@@ -137,7 +137,7 @@ class SitePublicUserAccessPageForm extends Template {
   			$this->stringvars['changeaccesslabel']="Add access to this page";
 
   		}
-  		$this->stringvars['actionvars']="?sid=".$this->stringvars["sid"]."&page=".$this->stringvars["page"]."&changeaccess=".$this->stringvars['changeaccessaction']."&type=public&action=siteuserperm";
+  		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&changeaccess=".$this->stringvars['changeaccessaction']."&type=public&action=siteuserperm";
 	}
 
   	// assigns templates

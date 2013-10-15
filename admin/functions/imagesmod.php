@@ -3,6 +3,7 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/functions/dbmod.php");
+include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."functions/users.php");
 include_once($projectroot."functions/images.php");
 
@@ -15,7 +16,7 @@ include_once($projectroot."functions/images.php");
 //
 // returns false if image already exists
 //
-function addimage($filename,$subpath,$caption,$source,$sourcelink,$copyright,$permission, $sid)
+function addimage($filename,$subpath,$caption,$source,$sourcelink,$copyright,$permission)
 {
 	global $db;
   	$now=date(DATETIMEFORMAT, strtotime('now'));
@@ -33,7 +34,7 @@ function addimage($filename,$subpath,$caption,$source,$sourcelink,$copyright,$pe
     	$values[]=$db->setstring($source);
     	$values[]=$db->setstring($sourcelink);
     	$values[]=$now;
-    	$values[]=getsiduser($db->setstring($sid));
+    	$values[]=getsiduser();
     	$values[]=$db->setstring($copyright);
     	$values[]=$db->setinteger($permission);
     	$result= insertentry(IMAGES_TABLE,$values);

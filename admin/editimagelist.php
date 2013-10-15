@@ -21,8 +21,7 @@ include_once($projectroot."admin/includes/objects/imagelist.php");
 
 //todo: test!!!
 
-$sid=$_GET['sid'];
-checksession($sid);
+checksession();
 
 // clear filter
 if(isset($_GET['clear']))
@@ -146,7 +145,7 @@ if(isset($_POST["addimage"]))
 	    }
 	    if($success)
 	    {
-			addimage($filename,$subpath,$caption,$source,$sourcelink,$copyright,$permission,$sid);
+			addimage($filename,$subpath,$caption,$source,$sourcelink,$copyright,$permission);
 			addimagecategories($filename,$selectedcats);
 			$filename=basename($filename);
 			
@@ -292,7 +291,7 @@ elseif($action==="addunknownfile")
 	}
 	else
 	{
-		addimage($filename,$caption,$source,$sourcelink,$copyright,$permission,$sid);
+		addimage($filename,$caption,$source,$sourcelink,$copyright,$permission);
 		addimagecategories($filename,$selectedcats);
 		$message="Added Image";
 	}
@@ -366,14 +365,14 @@ elseif($action==="executedelete")
 			$displayeditform=true;
 			for($i=0;$i<count($pages);$i++)
 			{
-				$message.='<a href="admin.php?sid='.$sid.'&page='.$pages[$i].'" target="_blank">#'.$pages[$i].'</a>';
+				$message.='<a href="admin.php?page='.$pages[$i].'" target="_blank">#'.$pages[$i].'</a>';
 			}
 			$message.='<br />And in the following Newsitem(s): ';
 			for($i=0;$i<count($newsitems);$i++)
 			{
 				$newspage=getpagefornewsitem($newsitems[$i]);
 				$offset=getnewsitemoffset($newspage,1,$newsitems[$i],true);
-				$message.='<a href="admin.php?sid='.$sid.'&page='.$newspage.'&offset='.$offset.'&action=news" target="_blank">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
+				$message.='<a href="admin.php?page='.$newspage.'&offset='.$offset.'&action=news" target="_blank">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
 			}
 		}
 	}

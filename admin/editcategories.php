@@ -12,13 +12,7 @@ include_once($projectroot."admin/includes/objects/categories.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 include_once($projectroot."includes/functions.php");
 
-
-if(isset($_GET['sid']))
-{
-	$sid=$_GET['sid'];
-}
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page']))
 {

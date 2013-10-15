@@ -10,12 +10,9 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
-
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 $subpageids=getallsubpageids($_POST['page']);
 $printme= new MenuMovePageFormContainer ($_POST['page'],$subpageids);
-print("<div> test ".$_POST['page']."</div>");
 print($printme->toHTML());
 ?>

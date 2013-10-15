@@ -1,7 +1,6 @@
 {JAVASCRIPT}
 <input type="hidden" id="{JSID}linkid" name="linkid" value="{LINKID}">
 <input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
-<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 <div class="contentheader"><span id="{JSID}sectionheader">{LINKTITLE}</span></div>
 <div class="contentsection">
 	<form name="changelinkproperties">

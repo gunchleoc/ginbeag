@@ -11,10 +11,7 @@ include_once($projectroot."admin/includes/objects/adminmain.php");
 //print("<br/Get: ");
 //print_r($_GET);
 
-
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -77,7 +74,7 @@ if(!$message)
 			else
 			{
 				// do the archiving
-				$moveditems=archivenewsitems($page,$_POST['day'],$_POST['month'],$_POST['year'],$sid);
+				$moveditems=archivenewsitems($page,$_POST['day'],$_POST['month'],$_POST['year']);
 				if($moveditems>0)
 				{
 					$message="Moved ".$moveditems." newsitem(s) to new page.";
@@ -88,7 +85,7 @@ if(!$message)
 				}
 			}
 			$editpage = new ArchiveNewsItemsForm();
-			updateeditdata($page, $sid);
+			updateeditdata($page);
 		} // doarchivenewsitems
 		// rss
 		elseif(isset($_POST['rssfeed']))
@@ -104,14 +101,14 @@ if(!$message)
 				removerssfeed($page);
 				$message = "RSS disabled for this newspage";
 			}
-			updateeditdata($page, $sid);
+			updateeditdata($page);
 			$editpage = new EditNews($page);
 		}
 		// display order
 		elseif(isset($_POST['setdisplayorder']))
 		{
 			setdisplaynewestnewsitemfirst($page, $_POST['displayorder']);
-			updateeditdata($page, $sid);
+			updateeditdata($page);
 			$editpage = new EditNews($page);
 		}
 		else

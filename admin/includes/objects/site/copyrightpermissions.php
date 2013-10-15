@@ -73,7 +73,7 @@ class SiteCopyrightDeleteForm extends Template {
   	{
   		parent::__construct();
   		
-  		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitecopyperm';
+  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitecopyperm';
   		
   		$copyright=getcopyrightinfo($copyid);
   	
@@ -106,7 +106,7 @@ class SiteCopyrightAddForm extends Template {
   	{
   		parent::__construct();
   		
-  		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitecopyperm';
+  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitecopyperm';
   		
 		$copyright=array();
   		if($holder || $contact || $comments || $credit)
@@ -146,7 +146,7 @@ class SiteCopyrightEditForm extends Template {
   	{
   		parent::__construct();
   		
-  		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitecopyperm';
+  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitecopyperm';
   		
   		$copyright=getcopyrightinfo($copyid);
   		if($holder || $contact || $comments || $credit)
@@ -183,7 +183,7 @@ class SiteCopyrightInfo extends Template {
   	{
   		parent::__construct();
   		
-  		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitecopyperm';
+  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitecopyperm';
   		
   		$copyright=getcopyrightinfo($copyid);
   		
@@ -197,7 +197,7 @@ class SiteCopyrightInfo extends Template {
 		$this->stringvars['dateadded']=formatdate($copyright['added']);
 		$this->stringvars['editdate']=formatdatetime($copyright['editdate'],true);
 		
-		$this->stringvars['imagesearchlink']='../editimagelist.php?sid='.$this->stringvars['sid'].'&source=all&copyright='.$copyright['holder'].'&filter=Display+Selection';
+		$this->stringvars['imagesearchlink']='../editimagelist.php?source=all&copyright='.$copyright['holder'].'&filter=Display+Selection';
 	}
 
   	// assigns templates
@@ -218,7 +218,7 @@ class SiteCopyrightForms extends Template {
   		global $entriesperpage,$order,$ascdesc,$filterpermission;
   		parent::__construct();
   		
-  		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitecopyperm';
+  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitecopyperm';
 
   		$params="order=".$order."&ascdesc=".$ascdesc."&filterpermission=".$filterpermission;
   		if($searchholder)
@@ -235,9 +235,9 @@ class SiteCopyrightForms extends Template {
     		$copyids=getcopyrightids($order,$ascdesc,$filterpermission);
   		}
 
-  		$this->stringvars['searchformparams']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&order='.$order.'&ascdesc='.$ascdesc.'&filterpermission='.$filterpermission.'&postaction=search&action=sitecopyperm"';
+  		$this->stringvars['searchformparams']='?page='.$this->stringvars['page'].'&order='.$order.'&ascdesc='.$ascdesc.'&filterpermission='.$filterpermission.'&postaction=search&action=sitecopyperm"';
   		$this->stringvars['searchtext']=$searchholder;
-  		$this->stringvars['orderformparams']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=order&action=sitecopyperm"';
+  		$this->stringvars['orderformparams']='?page='.$this->stringvars['page'].'&postaction=order&action=sitecopyperm"';
 		if($searchholder) $this->stringvars['orderformparams'].='&search=search&holder='.$searchholder;
 		
 		$this->stringvars['permission_granted']=PERMISSION_GRANTED;

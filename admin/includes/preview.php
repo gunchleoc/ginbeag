@@ -5,8 +5,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/includes/objects/preview.php");
 
-$sid=$_GET['sid'];
-checksession($sid);
+checksession();
 
 $contents= new Preview($_GET['newsitem']);
 print($contents->toHTML());

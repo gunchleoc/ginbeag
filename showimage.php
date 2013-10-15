@@ -52,7 +52,7 @@ if(isset($_GET['item']))
 	$image=$_POST[$_GET['item']];
 }
 
-$showimage = new Showimage($image,$item,false);
+$showimage = new Showimage($page,$image,$item,false);
 
 print($showimage->toHTML());
 

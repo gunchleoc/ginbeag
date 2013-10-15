@@ -10,9 +10,7 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
-
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 
 $success=false;
@@ -22,25 +20,25 @@ if(isset($_POST['moveup']))
 {
 	$message = " Up";
   	$success = movepage($_POST['moveid'], "up", $_POST['positions']);
-  	updateeditdata($_POST['page'], $sid);
+  	updateeditdata($_POST['page']);
 }
 elseif(isset($_POST['movedown']))
 {
   	$message = " Down";
   	$success = movepage($_POST['moveid'], "down", $_POST['positions']);
-  	updateeditdata($_POST['page'], $sid);
+  	updateeditdata($_POST['page']);
 }
 elseif(isset($_POST['movetop']))
 {
   	$message = " to the Top";
   	$success = movepage($_POST['moveid'], "top");
-  	updateeditdata($_POST['page'], $sid);
+  	updateeditdata($_POST['page']);
 }
 else
 {
   	$message = " to the Bottom";
   	$success = movepage($_POST['moveid'], "bottom");
-  	updateeditdata($_POST['page'], $sid);
+  	updateeditdata($_POST['page']);
 }
 
 
@@ -50,7 +48,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 if($success >=0)
 {
 	print('<message error="0">');
-	updateeditdata($_POST['page'], $sid);
+	updateeditdata($_POST['page']);
 	print("Moved Subpage".$message);
 }
 else

@@ -18,10 +18,7 @@ include_once($projectroot."admin/functions/sessions.php");
 // print_r($_POST);
  //print_r($_GET);
 
-
-$sid="";
-if (isset($_GET['sid'])) $sid = $_GET['sid'];
-checksession($sid);
+checksession();
 
 $nextitem=0;
 $previousitem=0;
@@ -42,7 +39,7 @@ if(isset($_GET['item']))
 	$image=$_POST[$_GET['item']];
 }
 
-$showimage = new Showimage($image,$item,true);
+$showimage = new Showimage($page,$image,$item,true);
 print($showimage->toHTML());
 $db->closedb();
 ?>

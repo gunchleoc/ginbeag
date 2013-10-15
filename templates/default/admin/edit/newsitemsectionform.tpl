@@ -1,6 +1,5 @@
 <!-- BEGIN switch NOTQUOTE -->
 {JAVASCRIPT}
-<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 <input type="hidden" id="{JSID}newsitemsection" name="newsitemsection" value="{NEWSITEMSECTION}">
 <input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 

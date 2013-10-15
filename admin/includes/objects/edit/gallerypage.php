@@ -18,7 +18,7 @@ class ShowAllImagesButton extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&noofimages=".($noofimages)."&action=editcontents";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&noofimages=".($noofimages)."&action=editcontents";
 		
 		if($isshowall)
 		{
@@ -48,8 +48,8 @@ class GalleryImageForm extends Template {
 	{
 		parent::__construct($imageid);
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".$pageposition."&noofimages=".$noofimages."&action=editcontents";
-		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".$pageposition."&noofimages=".$noofimages."&action=editcontents";
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
 		
 		$this->stringvars['imageid']=$imageid;
 		
@@ -84,8 +84,8 @@ class AddGalleryImageForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".($pageposition+1)."&noofimages=".($noofimages+1)."&action=editcontents";
-		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".($pageposition+1)."&noofimages=".($noofimages+1)."&action=editcontents";
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
 		
 		if($showall)
 			$this->stringvars['showall']="showall";
@@ -107,7 +107,7 @@ class ReindexGalleryForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcontents";
 		
 		if($showall)
 			$this->stringvars['showall']="showall";

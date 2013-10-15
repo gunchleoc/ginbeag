@@ -16,7 +16,6 @@ $(document).ready(function() {
 			projectroot+"admin/includes/ajax/articles/savesectiontitle.php",
 			{
 				articlesection: $("#{JSID}articlesection").val(),
-	   			sid: $("#{JSID}sid").val(),
 	   			page: $("#{JSID}page").val(),
 	   			sectiontitle: uni2ent($("#{JSID}sectiontitle").val())
 	   		},
@@ -26,8 +25,7 @@ $(document).ready(function() {
 				postRequest(
 					projectroot+"admin/includes/ajax/articles/updatesectiontitle.php",
 	       			{
-						articlesection: $("#{JSID}articlesection").val(),
-	       				sid: $("#{JSID}sid").val()
+						articlesection: $("#{JSID}articlesection").val()
 		       		},
 		       		function(html)
 					{

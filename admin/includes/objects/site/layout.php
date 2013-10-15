@@ -21,7 +21,7 @@ class SiteLayout extends Template {
 		global $projectroot;
 		parent::__construct();
 		
-		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitelayout&postaction=savesite';
+		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitelayout&postaction=savesite';
 		
 		$this->vars['submitrow']= new SubmitRow("submit","Submit",true);
 		

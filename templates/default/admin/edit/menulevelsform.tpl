@@ -1,7 +1,6 @@
 {JAVASCRIPT}
 
 <form>
-	<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 	<input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 	<fieldset>
 		<legend class="highlight">Edit Menu Page Options</legend>

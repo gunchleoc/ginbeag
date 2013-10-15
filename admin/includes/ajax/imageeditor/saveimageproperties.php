@@ -9,8 +9,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 //include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
 include_once($projectroot."admin/functions/sessions.php");
 
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 
 header('Content-type: text/xml;	charset=utf-8');
@@ -69,7 +68,7 @@ else {
 	else
 	{
 		print('<message error="0">');
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		print($message);
 	}
 

@@ -183,7 +183,6 @@ function doGetCaretPosition (ctrl) {
        			{
 					edittext: $("#{JSID}edittext").val(),
 	       			page: $("#{JSID}page").val(),
-	       			sid: $("#{JSID}sid").val(),
 	       			item: $("#{JSID}item").val(),
 	       			title: $("#{JSID}title").val(),
 	       			elementtype: $("#{JSID}elementtype").val()
@@ -428,7 +427,7 @@ function doGetCaretPosition (ctrl) {
 			disableElements(elements);
 			$("#{JSID}status").html("Saving now ... ");
 			$("#{JSID}previewarea").html("Fetching preview ...");
-			showprogressbox("Saving "+$("#{JSID}elementtype").val()+" ... ");
+			showprogressbox("Saving Text ... ");
 			
 			var sourcetext = cleanupquotes($("#{JSID}edittext").val());
 			$("#{JSID}edittext").val(sourcetext);
@@ -452,7 +451,6 @@ function doGetCaretPosition (ctrl) {
 		       			{
 	    					savetext: uni2ent(sourcetext),
 			       			page: $("#{JSID}page").val(),
-			       			sid: $("#{JSID}sid").val(),
 			       			item: $("#{JSID}item").val(),
 			       			elementtype: $("#{JSID}elementtype").val()
 			       		},
@@ -478,7 +476,6 @@ function doGetCaretPosition (ctrl) {
 				   					projectroot+"admin/includes/ajax/editor/collapseeditor.php",
 					       			{
 				    					page: $("#{JSID}page").val(),
-						       			sid: $("#{JSID}sid").val(),
 						       			item: $("#{JSID}item").val(),
 						       			title: $("#{JSID}title").val(),
 						       			elementtype: $("#{JSID}elementtype").val()
@@ -533,7 +530,6 @@ function doGetCaretPosition (ctrl) {
 					projectroot+"admin/includes/ajax/editor/editorcontentssavedialog.php",
 	       			{
 						page: $("#{JSID}page").val(),
-		       			sid: $("#{JSID}sid").val(),
 		       			item: $("#{JSID}item").val(),
 		       			edittext: $("#{JSID}edittext").val(),
 		       			title: $("#{JSID}title").val(),
@@ -558,7 +554,6 @@ function doGetCaretPosition (ctrl) {
 					projectroot+"admin/includes/ajax/editor/collapseeditor.php",
 	       			{
 						page: $("#{JSID}page").val(),
-		       			sid: $("#{JSID}sid").val(),
 		       			item: $("#{JSID}item").val(),
 		       			title: $("#{JSID}title").val(),
 		       			elementtype: $("#{JSID}elementtype").val()
@@ -604,7 +599,6 @@ function doGetCaretPosition (ctrl) {
        			{
 					savetext: uni2ent(sourcetext),
 	       			page: $("#{JSID}page").val(),
-	       			sid: $("#{JSID}sid").val(),
 	       			item: $("#{JSID}item").val(),
 	       			elementtype: $("#{JSID}elementtype").val()
 	       		},
@@ -622,7 +616,6 @@ function doGetCaretPosition (ctrl) {
 			       			{
 								edittext: $("#{JSID}edittext").val(),
 				       			page: $("#{JSID}page").val(),
-				       			sid: $("#{JSID}sid").val(),
 				       			item: $("#{JSID}item").val(),
 				       			title: $("#{JSID}title").val(),
 				       			elementtype: $("#{JSID}elementtype").val()
@@ -646,7 +639,6 @@ function doGetCaretPosition (ctrl) {
 							projectroot+"admin/includes/ajax/editor/collapseeditor.php",
 			       			{
 								page: $("#{JSID}page").val(),
-				       			sid: $("#{JSID}sid").val(),
 				       			item: $("#{JSID}item").val(),
 				       			title: $("#{JSID}title").val(),
 				       			elementtype: $("#{JSID}elementtype").val()
@@ -692,7 +684,6 @@ function doGetCaretPosition (ctrl) {
 				projectroot+"admin/includes/ajax/editor/collapseeditor.php",
        			{
 					page: $("#{JSID}page").val(),
-	       			sid: $("#{JSID}sid").val(),
 	       			item: $("#{JSID}item").val(),
 	       			title: $("#{JSID}title").val(),
 	       			elementtype: $("#{JSID}elementtype").val()
@@ -720,7 +711,6 @@ function doGetCaretPosition (ctrl) {
        			{
 					edittext: $("#{JSID}edittext").val(),
 	       			page: $("#{JSID}page").val(),
-	       			sid: $("#{JSID}sid").val(),
 	       			item: $("#{JSID}item").val(),
 	       			title: $("#{JSID}title").val(),
 	       			elementtype: $("#{JSID}elementtype").val()

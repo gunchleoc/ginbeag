@@ -11,9 +11,7 @@ include_once($projectroot."admin/includes/objects/site/copyrightpermissions.php"
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -69,7 +67,7 @@ elseif(isset($_POST['changecopyright']))
 	{
 		updatecopyrightholder($_POST['copyrightid'],$holder,
 		                      fixquotes(trim($_POST['contact'])),fixquotes(trim($_POST['comments'])),
-		                      $_POST['permission'],fixquotes($_POST['credit']),$sid);
+		                      $_POST['permission'],fixquotes($_POST['credit']));
 		print('<p class="highlight">Updated copyright<p>');
 		$forms = new SiteCopyrightForms($offset);
 	}
@@ -95,7 +93,7 @@ elseif(isset($_POST['addcopyright']))
 	{
 		addcopyrightholder($holder,fixquotes(trim($_POST['contact'])),
 		                   fixquotes(trim($_POST['comments'])),
-		                   $_POST['permission'],fixquotes($_POST['credit']),$sid);
+		                   $_POST['permission'],fixquotes($_POST['credit']));
 		print('<p class="highlight">Added copyright holder<p>');
 		$forms = new SiteCopyrightForms($offset);
 	}

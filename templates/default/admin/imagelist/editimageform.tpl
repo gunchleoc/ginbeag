@@ -1,6 +1,5 @@
 {JAVASCRIPT}
 <input type="hidden" id="{JSID}filename" name="filename" value="{FILENAME}">
-<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 <div class="contentoutline">
 	<div class="contentheader">Image: <em>{FILENAME}</em></div>
 	<div class="contentsection">

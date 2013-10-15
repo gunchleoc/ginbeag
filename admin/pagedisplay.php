@@ -5,9 +5,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."includes/legalvars.php");
 include_once($projectroot."admin/functions/sessions.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;

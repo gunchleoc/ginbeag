@@ -12,9 +12,7 @@ include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -49,7 +47,7 @@ if(isset($_POST['create']))
 
 		if($createpage)
 		{
-			$userid=getsiduser($sid);
+			$userid=getsiduser();
 			$page=createpage($parent, $title, $navtitle, $type,$userid,$ispublishable);
 			$allpages=getmultiplefields(PAGES_TABLE, "page_id","1", $fields, $orderby="parent_id, position_navigator");
 			if($parent)

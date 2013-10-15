@@ -6,9 +6,7 @@ include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/includes/objects/edit/menupage.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;

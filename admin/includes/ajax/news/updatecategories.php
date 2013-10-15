@@ -12,8 +12,7 @@ include_once($projectroot."functions/categories.php");
 //print_r($_POST);
 //print_r($_GET);
 
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 $printme= new Categorylist(getcategoriesfornewsitem($_POST['newsitem']));
 

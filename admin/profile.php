@@ -11,8 +11,7 @@ include_once($projectroot."admin/includes/objects/profile.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-$sid=$_GET['sid'];
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -31,7 +30,7 @@ if(isset($_POST['email'])) $email=trim($_POST['email']);
 else $email="";
 
 
-$userid=getsiduser($sid);
+$userid=getsiduser();
 $message="";
 
 if(isset($_POST['contact']))

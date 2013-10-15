@@ -3,6 +3,7 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/functions/dbmod.php");
+include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."functions/users.php");
 //include_once($projectroot."functions/pages.php");
 
@@ -87,7 +88,7 @@ function searchholder($holder,$order="copyright_id",$ascdesc="ASC",$filterpermis
 //
 //
 //
-function updatecopyrightholder($copyright,$holder,$contact,$comments,$permission,$credit,$sid)
+function updatecopyrightholder($copyright,$holder,$contact,$comments,$permission,$credit)
 {
 	global $db;
 	$values=array();
@@ -98,7 +99,7 @@ function updatecopyrightholder($copyright,$holder,$contact,$comments,$permission
 	$values[]=$db->setinteger($permission);
 	$values[]=$db->setstring($credit);
 	$values[]=date(DATETIMEFORMAT, strtotime('now'));
-	$values[]=getsiduser($sid);
+	$values[]=getsiduser();
 	
 	$keys=array();
 	$keys[]="copyright_id";
@@ -117,7 +118,7 @@ function updatecopyrightholder($copyright,$holder,$contact,$comments,$permission
 //
 //
 //
-function addcopyrightholder($holder,$contact,$comments,$permission,$credit,$sid)
+function addcopyrightholder($holder,$contact,$comments,$permission,$credit)
 {
 	global $db;
 	if(!holderexists($holder))
@@ -131,7 +132,7 @@ function addcopyrightholder($holder,$contact,$comments,$permission,$credit,$sid)
 		$values[]=$db->setstring($credit);
 		$values[]=date(DATETIMEFORMAT, strtotime('now'));
 		$values[]=date(DATETIMEFORMAT, strtotime('now'));
-		$values[]=getsiduser($sid);
+		$values[]=getsiduser();
 		
 		return insertentry(COPYRIGHT_TABLE,$values);
 	}

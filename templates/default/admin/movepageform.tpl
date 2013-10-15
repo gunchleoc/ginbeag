@@ -1,6 +1,5 @@
 <form>
 	<input id="{JSID}moveid" type="hidden" name="moveid" value="{MOVEID}" />
-	<input id="{JSID}sid" type="hidden" name="sid" value="{SID}" />
 	<input id="{JSID}page" type="hidden" name="page" value="{PAGE}" />
 	<input type="button" id="{JSID}movetop" name="movetop" value="Move to the Top" />
 	&nbsp;&nbsp;&nbsp;<input type="button" id="{JSID}moveup" name="moveup" value="Move Up" />

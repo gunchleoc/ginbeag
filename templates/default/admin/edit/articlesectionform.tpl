@@ -1,5 +1,4 @@
 {JAVASCRIPT}
-<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 <input type="hidden" id="{JSID}articlesection" name="articlesection" value="{ARTICLESECTION}">
 <input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 <a name="section{ARTICLESECTION}"></a>

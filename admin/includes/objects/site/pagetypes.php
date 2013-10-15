@@ -46,7 +46,7 @@ class SitePageType extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitepagetype';
+		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitepagetype';
 		
 		$this->stringvars['pagetype']=$pagetype;
 		$this->stringvars['description']=$description;

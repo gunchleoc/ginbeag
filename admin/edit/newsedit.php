@@ -11,9 +11,7 @@ include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -46,8 +44,8 @@ if(!$message)
 	// add a newsitem
 	if(isset($_POST['addnewsitem']))
 	{
-		addnewsitem($page,$sid);
-		updateeditdata($page, $sid);
+		addnewsitem($page);
+		updateeditdata($page);
 		$offset=0;
 		$editpage = new EditNewsItemForms($page,$offset);
 		$message="Added news item";
@@ -60,7 +58,7 @@ if(!$message)
 		if(imageexists($filename))
 		{
 			addnewsitemsynopsisimage($_GET['newsitem'], $filename);
-			updateeditdata($page, $sid);
+			updateeditdata($page);
 			$message="Added synopsis image";
 		}
 		else
@@ -76,7 +74,7 @@ if(!$message)
 		{
 			$message="Edited synopsis image";
 			editnewsitemsynopsisimage($_GET['imageid'],$_POST['imagefilename']);
-			updateeditdata($page, $sid);
+			updateeditdata($page);
 		}
 		else
 		{
@@ -96,21 +94,21 @@ if(!$message)
 		{
 			$message="Failed to remove image. Please confirm when removing an image.";
 		}
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		$editpage = new EditNewsItemForms($page,$offset);
 	}
 	// sections
 	elseif(isset($_POST['addsection']))
 	{
 		addnewsitemsection($_GET['newsitem'],$_GET['newsitemsection']);
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		$editpage = new EditNewsItemForms($page,$offset);
 		$message="Added section to newsitem";
 	}
 	elseif(isset($_POST['addquotedsection']))
 	{
 		addnewsitemsection($_GET['newsitem'],$_GET['newsitemsection'],true);
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		$editpage = new EditNewsItemForms($page,$offset);
 		$message="Added quoted section to newsitem on page";
 	}
@@ -121,7 +119,7 @@ if(!$message)
 	elseif(isset($_POST['confirmdeletesection']))
 	{
 		deletenewsitemsection($_GET['newsitem'],$_GET['newsitemsection']);
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		$editpage = new EditNewsItemForms($page,$offset);
 		$message="Section deleted";
 	}
@@ -143,7 +141,7 @@ if(!$message)
 	elseif(isset($_POST['confirmdeleteitem']))
 	{
 		deletenewsitem($_GET['newsitem']);
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		$editpage = new EditNewsItemForms($page,$offset);
 		$message="Newsitem deleted";
 	}

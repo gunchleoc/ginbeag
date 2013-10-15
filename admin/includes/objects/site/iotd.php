@@ -18,7 +18,7 @@ class SiteRandomItems extends Template {
   	{
   		parent::__construct();
   		
-  		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteiotd&postaction=savesite';
+  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=siteiotd&postaction=savesite';
 
   		$properties=getproperties();
   		$potdcats=explode(",",$properties["Picture of the Day Categories"]);

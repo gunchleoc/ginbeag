@@ -1,7 +1,6 @@
 {JAVASCRIPT}
 <input type="hidden" id="{JSID}galleryitemid" name="galleryitemid" value="{IMAGEID}">
 <input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
-<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 <div class="contentheader">Gallery Image</div>
 <div class="contentsection">
 	<form name="galleryimageform" action="{ACTIONVARS}" method="post">

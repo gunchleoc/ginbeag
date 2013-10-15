@@ -22,7 +22,6 @@ if($("#{JSID}imagefilename").val()=="")
 		postRequest(
 			projectroot+"admin/includes/ajax/linklists/savelinkproperties.php",
 			{
-				sid: $("#{JSID}sid").val(),
        			page: $("#{JSID}page").val(),
        			title: uni2ent($("#{JSID}title").val()),
        			link: $("#{JSID}link").val(),
@@ -33,7 +32,6 @@ if($("#{JSID}imagefilename").val()=="")
 	   			postRequest(
    					projectroot+"admin/includes/ajax/linklists/updatelinktitle.php",
 	       			{
-    					sid: $("#{JSID}sid").val(),
 	       				page: $("#{JSID}page").val(),
 	       				linkid: $("#{JSID}linkid").val()
 		       		},

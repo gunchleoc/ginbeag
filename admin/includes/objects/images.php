@@ -20,7 +20,7 @@ class CaptionedImageAdmin extends Template {
     	
     	$this->vars['image']= new CaptionedImage($filename,$factor,"left", true,true);
     	$this->stringvars['imagelinkpath']=getimagelinkpath($filename, getimagesubpath(basename($filename)));
-    	$this->stringvars['editimagelink']='<a href="'.getprojectrootlinkpath().'admin/editimagelist.php?sid='.$this->stringvars['sid'].'&page='.$page.'&filename='.$filename.'&caption=&source=&copyright=&uploader=0&filter=Display+Selection" target="_blank">Edit this image</a>';
+    	$this->stringvars['editimagelink']='<a href="'.getprojectrootlinkpath().'admin/editimagelist.php?page='.$page.'&filename='.$filename.'&caption=&source=&copyright=&uploader=0&filter=Display+Selection" target="_blank">Edit this image</a>';
   	}
 
   	// assigns templates

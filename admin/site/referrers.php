@@ -8,14 +8,8 @@ include_once($projectroot."admin/functions/referrersmod.php");
 include_once($projectroot."admin/includes/objects/site/referrers.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
-
-if(!isadmin($sid))
-{
-	die('<p class="highlight">You have no permission for this area</p>');
-}
+checksession();
+checkadmin();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;

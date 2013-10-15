@@ -22,9 +22,9 @@ class SiteBannerEditForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['moveactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=movebanner&action=sitebanner';
-		$this->stringvars['deleteactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=deletebanner&action=sitebanner';
-		$this->stringvars['editactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=editbanner&action=sitebanner';
+		$this->stringvars['moveactionvars']='?page='.$this->stringvars['page'].'&postaction=movebanner&action=sitebanner';
+		$this->stringvars['deleteactionvars']='?page='.$this->stringvars['page'].'&postaction=deletebanner&action=sitebanner';
+		$this->stringvars['editactionvars']='?page='.$this->stringvars['page'].'&postaction=editbanner&action=sitebanner';
 		
 		$contents=getbannercontents($banner);
 		if($contents['header'])
@@ -69,8 +69,8 @@ class SiteBanners extends Template {
 		parent::__construct();
 		
 		$this->stringvars['displayhiddenvars']='<input type="hidden" name="postaction" value="displaybanners" />';
-		$this->stringvars['displayactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=displaybanners&action=sitebanner';
-		$this->stringvars['addactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=addbanner&action=sitebanner';
+		$this->stringvars['displayactionvars']='?page='.$this->stringvars['page'].'&postaction=displaybanners&action=sitebanner';
+		$this->stringvars['addactionvars']='?page='.$this->stringvars['page'].'&postaction=addbanner&action=sitebanner';
 		
 		if(getproperty('Display Banners'))
 		{

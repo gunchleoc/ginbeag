@@ -12,11 +12,19 @@ include_once($projectroot."includes/objects/page.php");
 //
 class Showimage extends Template {
 
-    function Showimage($image,$item=0,$showhidden=false)
+    function Showimage($page,$image,$item=0,$showhidden=false)
     {
     	global $_POST;
     	parent::__construct();
     	
+    	/*if($page && !$showhidden)
+		{
+			if(ispagerestrictedarray($page))
+			{
+				//checkpublicsession($page);
+			}
+		}
+    	*/
     	$this->stringvars['site_description']=title2html(getproperty("Site Description"));
     	
     	$pagetitle=utf8_decode(getlang("image_viewing"));
@@ -47,7 +55,7 @@ class Showimage extends Template {
       	if($this->stringvars['page']!=0)
       	{
       		if($showhidden)
-      			$this->stringvars['returnpage']='pagedisplay.php?page='.$this->stringvars['page'].'&sid='.$this->stringvars['sid'];
+      			$this->stringvars['returnpage']='pagedisplay.php?page='.$this->stringvars['page'];
       		else
       			$this->stringvars['returnpage']='index.php?page='.$this->stringvars['page'].'&sid='.$this->stringvars['sid'];
       		$this->stringvars['returnpagetitle']=getlang("image_viewthumbnails");

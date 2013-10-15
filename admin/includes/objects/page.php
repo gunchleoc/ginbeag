@@ -24,7 +24,7 @@ class DeletePageConfirmForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page'];
 		
 		$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
 		
@@ -58,7 +58,7 @@ class FindNewParentForm extends Template {
 	function FindNewParentForm()
 	{
 		parent::__construct();
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=findnewparent";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=findnewparent";
 	}
 	
 	// assigns templates
@@ -79,7 +79,7 @@ class SelectNewParentForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=newparent";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=newparent";
 		$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
 		
 		$values=array();
@@ -101,7 +101,7 @@ class SelectNewParentForm extends Template {
 		}
 		
 		$this->vars['targetform']= new OptionForm(0,$values,$descriptions,"parentnode","Move this page to:",20);
-		$this->stringvars['cancellocation']='?action=edit&sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'];
+		$this->stringvars['cancellocation']='?action=edit&page='.$this->stringvars['page'];
 	}
 	
 	// assigns templates
@@ -123,8 +123,8 @@ class RestrictAccessForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=restrictaccess";
-		$this->stringvars['usersactionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=restrictaccessusers";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=restrictaccess";
+		$this->stringvars['usersactionvars']= "?page=".$this->stringvars['page']."&action=restrictaccessusers";
 		
 		$accessrestricted=isthisexactpagerestricted($this->stringvars['page']);
 		
@@ -180,7 +180,7 @@ class PermissionsForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=setpermissions";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=setpermissions";
 		
 		$accessrestricted=ispagerestricted($this->stringvars['page']);
 		
@@ -217,7 +217,7 @@ class RenamePageForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=rename";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=rename";
 		$this->stringvars['navtitle']=input2html(getnavtitle($this->stringvars['page']));
 		$this->stringvars['pagetitle']=input2html(getpagetitle($this->stringvars['page']));
 		$this->vars['submitrow']= new SubmitRow("submit","Rename",true);
@@ -240,7 +240,7 @@ class SetPublishableForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=setpublishable";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=setpublishable";
 		
 		$permissionrefused=permissionrefused($this->stringvars['page']);
 		if(!$permissionrefused)
@@ -273,7 +273,7 @@ class ExternalForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=edit";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=edit";
 		$this->stringvars['link']=getexternallink($this->stringvars['page']);
 	}
 	

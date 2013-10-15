@@ -11,9 +11,7 @@ include_once($projectroot."includes/objects/elements.php");
 include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -45,7 +43,7 @@ if(!$message)
 		if(imageexists($filename))
 		{
 			addgalleryimage($page,$filename);
-			updateeditdata($page, $sid);
+			updateeditdata($page);
 			$message = 'Added image';
 			if(!getthumbnail($filename))
 			{
@@ -66,7 +64,7 @@ if(!$message)
 		if(isset($_POST['removeconfirm']))
 		{
 			removegalleryimage($_POST['galleryitemid']);
-			updateeditdata($page, $sid);
+			updateeditdata($page);
 			$noofimages=countgalleryimages($page);
 			if($offset>=$noofimages)
 			{
@@ -84,7 +82,7 @@ if(!$message)
 		movegalleryimage($_POST['galleryitemid'],"up", $_POST['positions']);
 		$offset=(floor(($_GET['pageposition']-$_POST['positions'])/$imagesperpage))*$imagesperpage-$imagesperpage;
 		if($offset<0) $offset=0;
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 	}
 	elseif(isset($_POST['moveimagedown']))
 	{
@@ -97,13 +95,13 @@ if(!$message)
 		{
 			$offset=(floor($noofimages/$imagesperpage))*$imagesperpage;
 		}
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 	}
 	elseif(isset($_POST['reindex']))
 	{
 		reindexgallerypositions($page);
 		$message = 'Reindexed Gallery';
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 	}
 	$editpage = new EditGallery($page,$offset,$imagesperpage,$showall);
 }

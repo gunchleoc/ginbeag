@@ -80,11 +80,11 @@ function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
 //
 //
 //
-function changeuserpasswordadmin($userid,$newpass,$confirmpass,$sid)
+function changeuserpasswordadmin($userid,$newpass,$confirmpass)
 {
 	global $db;
 	$result="Failed to change password";
-	if(isadmin($sid))
+	if(isadmin())
 	{
 		if(strlen($newpass)>7)
 		{

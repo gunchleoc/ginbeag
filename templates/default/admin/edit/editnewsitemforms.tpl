@@ -1,6 +1,5 @@
 <h1 class="headerpagetitle">Edit News Page and Item {NEWSITEM}: <span id="{JSID}headernewsitemtitle">{NEWSITEMTITLE}</span></h1>
 {JAVASCRIPT}
-<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 <input type="hidden" id="{JSID}newsitem" name="newsitem" value="{NEWSITEM}">
 <input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 

@@ -12,12 +12,10 @@ include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
 // todo: reorganize position_navigator with page locking
 // todo: return error state when needed
 //
-function deletepage($page, $sid)
+function deletepage($page)
 {
 	global $db;
 	$page=$db->setinteger($page);
-  	$sid=$db->setstring($sid);
-  
 
 //  print("hallo delete");
     $pagestosearch[0]=$page;

@@ -16,7 +16,6 @@ $(document).ready(function() {
 		postRequest(
 			projectroot+"admin/includes/ajax/menus/saveoptions.php",
 			{
-				sid: $("#{JSID}sid").val(),
 	       		page: $("#{JSID}page").val(),
 	       		sisters: $("#{JSID}sisters").attr('checked'),
 	       		pagelevels: $("#{JSID}pagelevels").val(),

@@ -385,12 +385,12 @@ function ispublishable($page)
 //
 //
 //
-function updateeditdata($page, $sid)
+function updateeditdata($page)
 {
 	global $db;
 	$now=date(DATETIMEFORMAT, strtotime('now'));
 	$result = updatefield(PAGES_TABLE,"editdate",$now,"page_id='".$db->setinteger($page)."'");
-	$result = $result & updatefield(PAGES_TABLE,"editor_id",getsiduser($sid),"page_id='".$db->setinteger($page)."'");
+	$result = $result & updatefield(PAGES_TABLE,"editor_id",getsiduser(),"page_id='".$db->setinteger($page)."'");
 }
 
 //
@@ -569,15 +569,15 @@ function setshowpermissionrefusedimages($page, $show)
 //
 function getpagelock($page)
 {
-  	global $sid, $_GET;
+  	global $db;
 
   	$result="";
 
     $lock=getlock($page);
-    if($lock['user_id'] && $lock['user_id']!==getsiduser($sid) )
+    if($lock['user_id'] && $lock['user_id']!==getsiduser() )
     {
     	// if session of lock owner has espired, clear lock
-    	$other_sid=getusersid($lock['user_id']);
+    	$other_sid= getdbelement("session_id",SESSIONS_TABLE, "session_user_id", $db->setinteger($lock['user_id']));
     	if(timeout($other_sid))
     	{
     		unlockpage($page);
@@ -593,11 +593,12 @@ function getpagelock($page)
     }
     else
     {
-      lockpage(getsiduser($sid), $page);
+      lockpage(getsiduser(), $page);
     }
 
   	return $result;
 }
+
 
 //
 //
@@ -639,9 +640,9 @@ function unlockpage($page)
 //
 //
 //
-function unlockuserpages($sid)
+function unlockuserpages()
 {
-	return deleteentry(LOCKS_TABLE,"user_id='".getsiduser($sid)."'");
+	return deleteentry(LOCKS_TABLE,"user_id='".getsiduser()."'");
 }
 
 //

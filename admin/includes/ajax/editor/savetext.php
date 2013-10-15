@@ -12,9 +12,7 @@ include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
 
 //print_r($_POST);
 
-
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 
 header('Content-type: text/xml;	charset=utf-8');
@@ -38,7 +36,7 @@ else {
 	if($elementtype=="pageintro")
 	{
 		$success=updatepageintro($page, $text);
-		if($success) $message= "Saved page intro / synopsis";
+		if($success) $message= "Saved synopsis";
 	}
 	elseif($elementtype=="articlesection")
 	{
@@ -69,7 +67,7 @@ else {
 	if($success >=0)
 	{
 		print('<message error="0">');
-		updateeditdata($page, $sid);
+		updateeditdata($page);
 		print($message);
 	}
 	else

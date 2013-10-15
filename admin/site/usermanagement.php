@@ -11,14 +11,8 @@ include_once($projectroot."admin/includes/objects/site/users.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
-
-if(!isadmin($sid))
-{
-	die('<p class="highlight">You have no permission for this area</p>');
-}
+checksession();
+checkadmin();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -55,7 +49,7 @@ elseif(isset($_GET['type']) && $_GET['type']==="public")
 	{
 		if(isset($_POST['pass']))
 		{
-			$message=changepublicuserpasswordadmin($userid,$_POST['pass'],$_POST['passconfirm'],$sid);
+			$message=changepublicuserpasswordadmin($userid,$_POST['pass'],$_POST['passconfirm']);
 		}
 	}
 	elseif(isset($_POST['deactivate']))
@@ -76,7 +70,7 @@ else
 	{
 		if($_POST['pass'])
 		{
-			$message.=changeuserpasswordadmin($userid,$_POST['pass'],$_POST['passconfirm'],$sid);
+			$message.=changeuserpasswordadmin($userid,$_POST['pass'],$_POST['passconfirm']);
 		}
 		if($_POST['email'])
 		{

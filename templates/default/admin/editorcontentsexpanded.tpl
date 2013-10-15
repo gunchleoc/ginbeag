@@ -27,7 +27,6 @@
 				<input type="reset" id="{JSID}resetbutton" name="reset" value="Reset" />
 				&nbsp;&nbsp;
 				<input type="button" id="{JSID}hideeditorbutton" name="hideeditorbutton" value="Hide Editor" />
-				<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 				<input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 				<input type="hidden" id="{JSID}item" name="item" value="{ITEM}">
 				<input type="hidden" id="{JSID}elementtype" name="elementtype" value="{ELEMENTTYPE}">

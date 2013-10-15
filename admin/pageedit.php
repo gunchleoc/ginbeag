@@ -23,9 +23,7 @@ print("<br />Get: ");
 print_r($_GET);
 */
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-checksession($sid);
+checksession();
 
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
@@ -71,7 +69,7 @@ elseif($action==="edit")
 elseif($action==="rename")
 {
 	renamepage($page, fixquotes($_POST['navtitle']), fixquotes($_POST['title']));
-	updateeditdata($page, $sid);
+	updateeditdata($page);
 	unlockpage($page);
 	$message="Renamed page to:<br /> <em>".edittitle2html($_POST['navtitle'])."</br />".edittitle2html($_POST['title'])."</em>";
 	$editpage = new DoneRedirect($page,"Renamed page","&action=edit","","Edit this page");
@@ -102,7 +100,7 @@ elseif($action==="move")
 		movepage($page, "bottom");
 		$message="Moved the page <em>".title2html(getpagetitle($page))."</em> to the bottom";
 	}
-	updateeditdata(getparent($page), $sid);
+	updateeditdata(getparent($page));
 	unlockpage($page);
 	
 	$editpage = new DoneRedirect($page,$title,"&action=edit","","Edit this page");
@@ -125,7 +123,7 @@ elseif($action==="newparent")
 	}
 	$message.="</i>";
 	$message.="<br />".movetonewparentpage($page,$newparent);
-	updateeditdata($newparent, $sid);
+	updateeditdata($newparent);
 	unlockpage($page);
 	$editpage = new DoneRedirect($page,"Moved page to a new parent page","&action=edit","","Edit this page");
 }
@@ -171,7 +169,7 @@ elseif($action==="setpermissions")
 	updatecopyright($page,fixquotes($_POST['copyright']),fixquotes($_POST['imagecopyright']),$_POST['permission']);
 	// todo if access restricted
 	if (ispagerestricted($page)) setshowpermissionrefusedimages($page, $_POST["show"]);
-	updateeditdata($page, $sid);
+	updateeditdata($page);
 	$message="Edited copyright permissions";
 }
 // access restriction

@@ -19,7 +19,7 @@ class SiteAntispam extends Template {
 		global $projectroot;
 		parent::__construct();
 		
-		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=savesite&action=sitespam';
+		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&postaction=savesite&action=sitespam';
 		
 		$this->stringvars['hiddenvars']='<input type="hidden" name="postaction" value="savesite" />';
 		

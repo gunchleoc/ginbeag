@@ -20,7 +20,7 @@ class SiteAdminNavigatorLink extends Template {
     {
 		parent::__construct();
 		
-		$this->stringvars['link']=getprojectrootlinkpath().'admin/admin.php?page='.$this->stringvars['page'].'&sid='.$this->stringvars['sid']."&action=".$action;
+		$this->stringvars['link']=getprojectrootlinkpath().'admin/admin.php?page='.$this->stringvars['page'].'&action='.$action;
 		$this->stringvars['linktitle']=$linktitle;
     }
 
@@ -95,22 +95,22 @@ class SiteAdminNavigator extends Template {
 		
 		$links=array();
 		$links[]= new SiteAdminNavigatorLink("Copyright Permissions","sitecopyperm");
-		if(isadmin($this->stringvars['sid']))
+		if(isadmin())
 		{
-		$links[]= new SiteAdminNavigatorLink("Referrers","sitereferrers");
+			$links[]= new SiteAdminNavigatorLink("Referrers","sitereferrers");
 		}
 		$this->listvars['category'][]= new SiteAdminNavigatorCategory("Copyright",$links);
 		
 		$links=array();
-		if(isadmin($this->stringvars['sid']))
+		if(isadmin())
 		{
-		$links[]= new SiteAdminNavigatorLink("Page Types","sitepagetype");
+			$links[]= new SiteAdminNavigatorLink("Page Types","sitepagetype");
 		}
 		$links[]= new SiteAdminNavigatorLink("Restricted Pages","sitepagerestrict");
 		$this->listvars['category'][]= new SiteAdminNavigatorCategory("Pages",$links);
 		
 		$links=array();
-		if(isadmin($this->stringvars['sid']))
+		if(isadmin())
 		{
 			$links[]= new SiteAdminNavigatorLink("Site Layout","sitelayout");
 			$links[]= new SiteAdminNavigatorLink("Items of the Day","siteiotd");

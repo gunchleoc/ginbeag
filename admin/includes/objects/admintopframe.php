@@ -21,7 +21,7 @@ class AdminTopFrameLink extends Template {
     {
       parent::__construct();
       
-      $this->stringvars['link']=getprojectrootlinkpath()."admin/".$link."?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'].$params;
+      $this->stringvars['link']=getprojectrootlinkpath()."admin/".$link."?page=".$this->stringvars['page'].$params;
       $this->stringvars['linktitle']=$linktitle;
       $this->stringvars['target']=$target;
     }
@@ -45,7 +45,7 @@ class AdminTopFrame extends Template {
 
     	$this->stringvars['sitename']=title2html(getproperty("Site Name"));
 
-    	if(isloggedin($this->stringvars['sid']))
+    	if(isloggedin())
     	{
 	    	if($page)
     		{
@@ -120,7 +120,7 @@ class AdminTopFrame extends Template {
 		    	$this->vars['siteadminlink']=new AdminTopFrameLink("admin.php","Site","&action=site");
 		    	$this->stringvars['showeditlinks']="on";
 		    }
-		    $profilelinktitle="Profile [".title2html(getusername(getsiduser($this->stringvars['sid'])))."]";
+		    $profilelinktitle="Profile [".title2html(getusername(getsiduser()))."]";
 		    if($action == "profile") $this->stringvars['profilelink']=$profilelinktitle;
 		    else $this->vars['profilelink']=new AdminTopFrameLink("profile.php",$profilelinktitle);
 		    

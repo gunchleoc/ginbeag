@@ -31,18 +31,14 @@ else
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/functions/sessions.php");
 
-if(isset($_GET['sid'])) $sid=$_GET['sid'];
-else $sid="";
-
 if(isset($_GET['logout']))
 {
 	unset($_GET['logout']);
-  	logout($sid);
- 	unlockuserpages($sid);
-  	$sid="";
+  	logout();
+ 	unlockuserpages();
 }
 
-checksession($sid);
+checksession();
 
 include_once($projectroot."admin/includes/actions.php");
 

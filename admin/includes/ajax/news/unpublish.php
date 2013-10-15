@@ -10,8 +10,7 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 header('Content-type: text/xml;	charset=utf-8');
 echo '<?xml version="1.0" encoding="UTF-8"?>';
@@ -27,7 +26,7 @@ else {
 	if($success >=0)
 	{
 		print('<message error="0">');
-		updateeditdata($_POST['page'], $sid);
+		updateeditdata($_POST['page']);
 		print("Hid Newsitem ID:".$_POST['newsitem']);
 	}
 	else

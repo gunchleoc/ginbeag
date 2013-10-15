@@ -1,6 +1,5 @@
 {JAVASCRIPT}
 <input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
-<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 
 <form id="{JSID}editor">
 	<div class="contentoutline">

@@ -4,7 +4,9 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"pagecontent"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/functions/dbmod.php");
+include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."functions/pagecontent/newspages.php");
+
 
 //
 //
@@ -174,7 +176,7 @@ function updatenewsitemcopyright($newsitem,$copyright,$imagecopyright,$permissio
 //
 //
 //
-function addnewsitem($page,$sid)
+function addnewsitem($page)
 {
 	global $db;
   $values=array();
@@ -187,7 +189,7 @@ function addnewsitem($page,$sid)
   $values[]='';
   $values[]='';
   $values[]=date(DATETIMEFORMAT, strtotime('now'));
-  $values[]=getsiduser($sid);
+  $values[]=getsiduser();
   $values[]='';
   $values[]='';
   $values[]=NO_PERMISSION;
@@ -212,7 +214,7 @@ function deletenewsitem($newsitem)
 // to a new page below $page
 // returns number of archived newsitems
 //
-function archivenewsitems($page,$day,$month,$year,$sid)
+function archivenewsitems($page,$day,$month,$year)
 {
 	global $db;
   $page = $db->setinteger($page);
@@ -282,7 +284,7 @@ function archivenewsitems($page,$day,$month,$year,$sid)
     }
     $navtitle.=$interval2;
 
-    $newpage=createpage($page,$pagetitle,$navtitle,"news",getsiduser($sid),ispublishable($page));
+    $newpage=createpage($page,$pagetitle,$navtitle,"news",getsiduser(),ispublishable($page));
     $values="";
     for($i=0;$i<$noofitems;$i++)
     {

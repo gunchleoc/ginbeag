@@ -11,8 +11,7 @@ include_once($projectroot."admin/functions/categoriesmod.php");
 //print_r($_POST);
 //print_r($_GET);
 
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 $filename="";
 if(isset($_POST['filename'])) $filename=$_POST['filename'];

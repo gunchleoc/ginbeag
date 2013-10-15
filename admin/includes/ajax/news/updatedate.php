@@ -11,8 +11,7 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 $contents=getnewsitemcontents($_POST['newsitem']);
 print(formatdatetime($contents['date']));

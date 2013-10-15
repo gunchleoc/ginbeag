@@ -17,7 +17,7 @@ class SiteReferrers extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitereferrers';
+		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitereferrers';
 		
 		$blockedrefs=getblockedreferrers();
 		
@@ -49,7 +49,7 @@ class SiteReferrer extends Template {
   {
   	parent::__construct();
   	
-  	$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitereferrers';
+  	$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitereferrers';
   	
   	$this->stringvars["referrer"]=$referrer;
   }
@@ -72,7 +72,7 @@ class SiteReferrerUnblockForm extends Template {
   {
   	parent::__construct();
   	
-  	$this->stringvars['actionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=sitereferrers';
+  	$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitereferrers';
   	
   	$this->stringvars["referrer"]=$referrer;
   	

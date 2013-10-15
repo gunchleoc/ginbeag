@@ -22,7 +22,7 @@ class ProfilePage extends Template {
 
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page'];
 		$this->stringvars['username']=getusername($userid);
 		$this->stringvars['email']=getuseremail($userid);
 		$this->stringvars['contactfunction']=getcontactfunction($userid);

@@ -88,7 +88,6 @@ $(document).ready(function() {
        			{
 					imagefilename: $("#{JSID}imagefilename").val(),
 	       			page: $("#{JSID}page").val(),
-	       			sid: $("#{JSID}sid").val(),
 	       			item: $("#{JSID}item").val(),
 	       			elementtype: $("#{JSID}elementtype").val()
 	       		},
@@ -105,7 +104,6 @@ $(document).ready(function() {
 							projectroot+"admin/includes/ajax/imageeditor/updateimage.php",
 			       			{
 				       			page: $("#{JSID}page").val(),
-				       			sid: $("#{JSID}sid").val(),
 				       			item: $("#{JSID}item").val(),
 				       			elementtype: $("#{JSID}elementtype").val()
 				       		},
@@ -126,7 +124,6 @@ $(document).ready(function() {
 								projectroot+"admin/includes/ajax/imageeditor/showimageproperties.php",
 				       			{
 					       			page: $("#{JSID}page").val(),
-					       			sid: $("#{JSID}sid").val(),
 					       			item: $("#{JSID}item").val(),
 					       			elementtype: $("#{JSID}elementtype").val()
 					       		},
@@ -196,7 +193,6 @@ $(document).ready(function() {
        			{
 					imagealign: $('input[name={JSID}imagealign]:checked').val(),
 	       			page: $("#{JSID}page").val(),
-	       			sid: $("#{JSID}sid").val(),
 	       			item: $("#{JSID}item").val(),
 	       			elementtype: $("#{JSID}elementtype").val()
 	       		},

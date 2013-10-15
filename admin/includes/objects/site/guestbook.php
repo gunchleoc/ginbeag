@@ -57,7 +57,7 @@ class AdminGuestbookEntry extends Template {
     {
     	parent::__construct();
     	
-    	$this->stringvars['deleteactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteguest';
+    	$this->stringvars['deleteactionvars']='?page='.$this->stringvars['page'].'&action=siteguest';
     	
     	$contents=getguestbookentrycontents($entryid);
     	$this->stringvars['messageid']=$entryid;
@@ -96,7 +96,7 @@ class AdminGuestbookDeleteConfirmForm extends Template {
     function AdminGuestbookDeleteConfirmForm($entryid)
     {
     	parent::__construct();
-    	$this->stringvars['deleteactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=siteguest';
+    	$this->stringvars['deleteactionvars']='?page='.$this->stringvars['page'].'&action=siteguest';
     	$this->stringvars['messageid']=$entryid;
     	$this->vars['entry']=new AdminGuestbookEntry($entryid, false);
  	}
@@ -121,7 +121,7 @@ class AdminGuestbookEnableForm extends Template {
     {
     	parent::__construct();
     	
-    	$this->stringvars['enableactionvars']='?sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&postaction=saveproperties&action=siteguest';
+    	$this->stringvars['enableactionvars']='?page='.$this->stringvars['page'].'&postaction=saveproperties&action=siteguest';
 
     	$properties=getproperties();
     

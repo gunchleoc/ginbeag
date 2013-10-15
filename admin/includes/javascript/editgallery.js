@@ -15,7 +15,6 @@ $(document).ready(function() {
 		postRequest(
 			projectroot+"admin/includes/ajax/galleries/saveimage.php",
 			{
-				sid: $("#{JSID}sid").val(),
 	   			page: $("#{JSID}page").val(),
 	   			imagefilename: $("#{JSID}imagefilename").val(),
 	   			galleryitemid: $("#{JSID}galleryitemid").val()
@@ -27,7 +26,6 @@ $(document).ready(function() {
 				postRequest(
 	   					projectroot+"admin/includes/ajax/galleries/updateimage.php",
 		       			{
-	    					sid: $("#{JSID}sid").val(),
 		       				page: $("#{JSID}page").val(),
 		       				galleryitemid: $("#{JSID}galleryitemid").val()
 			       		},

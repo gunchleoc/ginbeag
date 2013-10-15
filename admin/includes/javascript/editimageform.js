@@ -14,7 +14,6 @@ $(document).ready(function() {
 			projectroot+"admin/includes/ajax/imagelist/savedescription.php",
    			{
 				filename: $("#{JSID}filename").val(),
-   				sid: $("#{JSID}sid").val(),
    				caption: uni2ent($("#{JSID}caption").val()),
    				source: uni2ent($("#{JSID}source").val()),
    				sourcelink: $("#{JSID}sourcelink").val(),
@@ -26,8 +25,7 @@ $(document).ready(function() {
    				postRequest(
    					projectroot+"admin/includes/ajax/imagelist/updateimage.php",
 	       			{
-    					filename: $("#{JSID}filename").val(),
-       					sid: $("#{JSID}sid").val()
+    					filename: $("#{JSID}filename").val()
 		       		},
 		       		function(html)
     				{
@@ -58,7 +56,6 @@ $(document).ready(function() {
 			projectroot+"admin/includes/ajax/imagelist/addcategories.php",
    			{
 				filename: $("#{JSID}filename").val(),
-       			sid: $("#{JSID}sid").val(),
        			selectedcat: $("#{JSID}selectedcat").val()
        		},
        		function(xml)
@@ -66,8 +63,7 @@ $(document).ready(function() {
    				postRequest(
    					projectroot+"admin/includes/ajax/imagelist/updatecategories.php",
 	       			{
-    					filename: $("#{JSID}filename").val(),
-       					sid: $("#{JSID}sid").val()
+    					filename: $("#{JSID}filename").val()
 		       		},
 		       		function(html)
     				{
@@ -98,7 +94,6 @@ $(document).ready(function() {
 			projectroot+"admin/includes/ajax/imagelist/removecategories.php",
    			{
 				filename: $("#{JSID}filename").val(),
-       			sid: $("#{JSID}sid").val(),
        			selectedcat: $("#{JSID}selectedcat").val()
        		},
        		function(xml)
@@ -106,8 +101,7 @@ $(document).ready(function() {
    				postRequest(
    					projectroot+"admin/includes/ajax/imagelist/updatecategories.php",
 	       			{
-    					filename: $("#{JSID}filename").val(),
-       					sid: $("#{JSID}sid").val()
+    					filename: $("#{JSID}filename").val()
 		       		},
 		       		function(html)
     				{
@@ -134,8 +128,7 @@ $(document).ready(function() {
 		postRequest(
 			projectroot+"admin/includes/ajax/imagelist/getimageusage.php",
    			{
-				filename: $("#{JSID}filename").val(),
-				sid: $("#{JSID}sid").val()
+				filename: $("#{JSID}filename").val()
        		},
        		function(html)
 			{

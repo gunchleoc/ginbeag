@@ -1194,7 +1194,7 @@ class AdminPageDisplayMessage extends Template {
         }
         
         $this->stringvars['navtitle']= title2html(getnavtitle($this->stringvars['page']));
-        $this->stringvars['editlink']=getprojectrootlinkpath()."admin/pageedit.php".makelinkparameters($_GET).'&sid='.$this->stringvars['sid'].'&page='.$this->stringvars['page'].'&action=edit';
+        $this->stringvars['editlink']=getprojectrootlinkpath()."admin/pageedit.php".makelinkparameters($_GET).'&page='.$this->stringvars['page'].'&action=edit';
       
         if(ispagerestrictedarray($this->stringvars['page']))
         {

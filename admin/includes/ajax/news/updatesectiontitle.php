@@ -11,8 +11,7 @@ include_once($projectroot."admin/functions/sessions.php");
 //print_r($_POST);
 //print_r($_GET);
 
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 $contents=getnewsitemsectioncontents($_POST['newsitemsection']);
 if(strlen($contents['sectiontitle'])>0)

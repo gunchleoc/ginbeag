@@ -40,7 +40,7 @@ class DoneButton extends Template {
 	function DoneButton($page,$params="&action=edit",$link="pageedit.php",$buttontext="Done",$class="mainoption")
 	{
 		parent::__construct();
-		$this->stringvars['link']=$link."?sid=".$this->stringvars['sid']."&page=".$page.$params;
+		$this->stringvars['link']=$link."?page=".$page.$params;
 		$this->stringvars['buttontext']=$buttontext;
 		$this->stringvars['class']=$class;
 		
@@ -88,7 +88,7 @@ class DoneRedirect extends Template {
 		parent::__construct();
 		
 		$this->vars['donebutton'] =new DoneButton($page,$params,$link,$buttontext,"mainoption");
-		$this->stringvars['url'] =$link.'?sid='.$this->stringvars['sid'].'&page='.$page.$params;
+		$this->stringvars['url'] =$link.'?page='.$page.$params;
 		$this->stringvars['title'] =$title;
 	}
 	

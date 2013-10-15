@@ -90,7 +90,7 @@ function checkpassword($username,$md5password)
 //
 // returns sid
 //
-function logout($sid)
+function logout()
 {
 	global $db;
 	
@@ -103,12 +103,12 @@ function logout($sid)
 	setcookie($cookieprefix."userid", "", 1, $localpath, $cookiedomain, 0, 1);
 	setcookie($cookieprefix."clientip", "", 1, $localpath, $cookiedomain, 0, 1);
 	
-	unlockuserpages($sid);
+	unlockuserpages();
   	optimizetable(LOCKS_TABLE);
   	optimizetable(NEWSITEMSECTIONS_TABLE);
   	optimizetable(NEWSITEMS_TABLE);
   	optimizetable(MONTHLYPAGESTATS_TABLE);
-  	deleteentry(SESSIONS_TABLE,"session_id='".$db->setstring($sid)."'");
+  	deleteentry(SESSIONS_TABLE,"session_id='".$db->setstring(getsid())."'");
   	optimizetable(SESSIONS_TABLE);
   	clearoldpagecacheentries();
 }
@@ -261,10 +261,10 @@ function timeout($sid)
 //
 //
 //
-function checksession($sid)
+function checksession()
 {
 	global $_GET, $db, $projectroot;
-	if(!isloggedin($sid))
+	if(!isloggedin())
 	{
 		$header = new HTMLHeader("Access restricted","Webpage Building","",getprojectrootlinkpath().'admin/login.php'.makelinkparameters($_GET),'Click or tap here to log in',false);
 		print($header->toHTML());
@@ -281,20 +281,19 @@ function checksession($sid)
 //
 //
 //
-function isloggedin($sid)
+function isloggedin()
 {
-	global $sid, $_COOKIE;
-	
-	$result=true;
-	
-	//print_r($_COOKIE);
+	global $_COOKIE;
 	
 	$cookieprefix = getproperty("Cookie Prefix");
+	if(isset($_COOKIE[$cookieprefix."sid"])) $sid = $_COOKIE[$cookieprefix."sid"];
+	else return false;
+	
+	$result=true;
 	
 	$userid=getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $sid);
 	$clientip=getclientip();
 	
-	if(!isset($_COOKIE[$cookieprefix."sid"]) || $_COOKIE[$cookieprefix."sid"]!=$sid) $result=false;
 	if(!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) $result=false;
 	if(!isset($_COOKIE[$cookieprefix."clientip"]) || substr($_COOKIE[$cookieprefix."clientip"],0,6)!=substr($clientip,0,6)) $result=false;
 
@@ -305,13 +304,40 @@ function isloggedin($sid)
 	return $result;
 }
 
+
+
 //
 //
 //
-function isadmin($sid)
+function getsid()
 {
-	$userlevel=getdbelement("userlevel", USERS_TABLE, "user_id",getsiduser($sid));
+	global $_COOKIE;
+	
+	$cookieprefix = getproperty("Cookie Prefix");
+	if(isset($_COOKIE[$cookieprefix."sid"])) return $_COOKIE[$cookieprefix."sid"];
+	else return "";
+}
+
+
+//
+//
+//
+function isadmin()
+{
+	$userlevel=getdbelement("userlevel", USERS_TABLE, "user_id",getsiduser());
 	return $userlevel==USERLEVEL_ADMIN;
+}
+
+
+//
+//
+//
+function checkadmin()
+{
+	if(!isadmin())
+	{
+		die('<p class="highlight">You have no permission for this area</p>');
+	}
 }
 
 
@@ -323,7 +349,7 @@ function checkip($sid,$userid,$clientip)
 	global $db;
   	$sid=$db->setstring($sid);
   
-  	// quick fix for Sue + pplaskka who can't get in
+  	// quick fix for some users who can't get in
   	if($userid==7 || $userid==13 || $userid==19) return true;
   
   	if($clientip)
@@ -339,21 +365,12 @@ function checkip($sid,$userid,$clientip)
 //
 //
 //
-function getsiduser($sid)
+function getsiduser()
 {
 	global $db;
-	return getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $db->setstring($sid));
+	return getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $db->setstring(getsid()));
 }
 
-
-//
-//
-//
-function getusersid($user)
-{
-	global $db;
-	return getdbelement("session_id",SESSIONS_TABLE, "session_user_id", $db->setstring($user));
-}
 
 
 //

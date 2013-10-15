@@ -22,7 +22,7 @@ class ArticlePageButton extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&articlepage=".$articlepage."&action=editcontents";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&articlepage=".$articlepage."&action=editcontents";
 		$this->stringvars['articlepage']=$articlepage;
 	}
 	
@@ -94,7 +94,7 @@ class ArticleSectionForm extends Template {
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editarticlepage.js");
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&articlepage=".$articlepage."&articlesection=".$articlesection."&action=editcontents#section".$articlesection;
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&articlepage=".$articlepage."&articlesection=".$articlesection."&action=editcontents#section".$articlesection;
 		
 		$contents=getarticlesectioncontents($articlesection);
 		
@@ -135,7 +135,7 @@ class EditArticlePage extends Template {
 		
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&articlepage=".$articlepage."&action=editcontents";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&articlepage=".$articlepage."&action=editcontents";
 		
 		$this->stringvars['articlepage']=$articlepage;
 		
@@ -184,7 +184,7 @@ class DeleteArticleSectionConfirm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&articlepage=".$articlepage."&articlesection=".$articlesection."&action=editcontents";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&articlepage=".$articlepage."&articlesection=".$articlesection."&action=editcontents";
 		$this->vars['section'] = new Articlesection($articlesection,$articlepage,true,true);
 	}
 

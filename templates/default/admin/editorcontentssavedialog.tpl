@@ -4,7 +4,6 @@
 	<input type="button" id="{JSID}expandeditedbutton" name="expandeditedbutton" value="Continue editing" class="mainoption"  />
 	&nbsp;&nbsp;
 	<input type="button" id="{JSID}dismissbutton" name="dismissbutton" value="Discard changes" class="mainoption"  />
-	<input type="hidden" id="{JSID}sid" name="sid" value="{SID}">
 	<input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 	<input type="hidden" id="{JSID}item" name="item" value="{ITEM}">
 	<input type="hidden" id="{JSID}edittext" name="edittext" value="{EDITTEXT}">			

@@ -33,7 +33,7 @@ function issiteaction($action)
 
 function getsiteformlink($action,$postaction)
 {
-	global $sid, $page;
-	return "admin.php?sid=".$sid."&page=".$page."&action=".$action."&postaction=".$postaction;
+	global $page;
+	return "admin.php?page=".$page."&action=".$action."&postaction=".$postaction;
 }
 ?>

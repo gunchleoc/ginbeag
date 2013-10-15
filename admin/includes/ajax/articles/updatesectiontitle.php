@@ -12,8 +12,7 @@ include_once($projectroot."admin/functions/sessions.php");
 //print_r($_POST);
 //print_r($_GET);
 
-$sid=$_POST['sid'];
-checksession($sid);
+checksession();
 
 $contents=getarticlesectioncontents($_POST['articlesection']);
 if(strlen($contents['sectiontitle'])>0)

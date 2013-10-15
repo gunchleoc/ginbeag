@@ -17,7 +17,7 @@ class AddLinklistLinkForm extends Template {
 	function AddLinklistLinkForm()
 	{
 		parent::__construct();
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcontents";
 	}
 
 	// assigns templates
@@ -39,8 +39,8 @@ class EditLinkListLinkForm extends Template {
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editlinklist.js");
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&link=".$linkid."&action=editcontents";
-		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&link=".$linkid."&action=editcontents";
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
 		
 		$this->stringvars['linkid']=$linkid;
 		
@@ -75,8 +75,8 @@ class EditLinklist extends Template {
 		
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		
-		$this->stringvars['actionvars']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&action=editcontents";
-		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcontents";
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
 		
 		$linkids=getlinklistitems($page);
 		if(count($linkids<1)) $this->stringvars['linkform']="";
