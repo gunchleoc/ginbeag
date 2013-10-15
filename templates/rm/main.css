@@ -544,7 +544,8 @@ a.linktitle:active { text-decoration:underline; color:#CCCCFF; }
 	text-align: center;
 	border-style: solid;
 	border-width: 1px;
-	border-color: 89CAC8;
+	border-color: #89CAC8;
+	background-color: #0F384D;
 }
 .imagecaption {
 	padding-left: 0.75em;

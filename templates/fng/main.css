@@ -501,6 +501,7 @@ div.newsquote {
 	text-align: center;
 	border-style: solid;
 	border-width: 1px;
+	background-color: white;
 }
 .imagecaption {
 	padding-left: 0.75em;

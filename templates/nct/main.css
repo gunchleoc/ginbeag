@@ -494,6 +494,7 @@ div.newsquote {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #9DA2CF;
+	background-color: #000000;
 }
 .imagecaption {
 	padding-left: 0.75em;

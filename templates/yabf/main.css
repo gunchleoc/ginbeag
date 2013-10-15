@@ -528,7 +528,8 @@ a.linktitle:active { text-decoration:underline; color:#3067F2; }
 	text-align: center;
 	border-style: solid;
 	border-width: 1px;
-	border-color: 89CAC8;
+	border-color: #89CAC8;
+	background-color: #F8F2D9;
 }
 .imagecaption {
 	padding-left: 0.75em;
