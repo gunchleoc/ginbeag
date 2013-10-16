@@ -49,12 +49,12 @@ function updatelinkdescription($link, $text)
 //
 //
 //
-function updatelinkproperties($link,$title,$link)
+function updatelinkproperties($linkid,$title,$link)
 {
 	global $db;
 	$result = true;
-	$result = $result & updatefield(LINKS_TABLE,"title",$db->setstring($title),"link_id='".$db->setinteger($link)."'");
-	$result = $result & updatefield(LINKS_TABLE,"link",$db->setstring($link),"link_id='".$db->setinteger($link)."'");
+	$result = $result & updatefield(LINKS_TABLE,"title",$db->setstring($title),"link_id='".$db->setinteger($linkid)."'");
+	$result = $result & updatefield(LINKS_TABLE,"link",$db->setstring($link),"link_id='".$db->setinteger($linkid)."'");
 	return $result;
 }
 
