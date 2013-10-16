@@ -5,6 +5,10 @@ textarea, select, input {
 	background-color : #203640!important;
 }
 
+textarea:disabled, select:disabled, input:disabled {
+	color:#909090;
+}
+
 /* Separate properties for buttons; not supported by IE */
 input[type=button], input[type=submit], input[type=reset], .button  {
 	font-size:95%;
