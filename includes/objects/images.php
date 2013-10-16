@@ -119,20 +119,6 @@ class CaptionedImage extends Template {
         	if($showhidden)
         	{
           		$this->vars['image'] = new Image($filename,$factor,"&page=".$this->stringvars['page'],$showhidden);
-          		
-
-          		if(imagepermissionrefused($filename))
-          		{
-            		$this->stringvars['caption'].='<div class="highlight">Permission refused for this image;<br />';
-            		if($showrefused)
-            		{
-              			$this->stringvars['caption'].='but shown anyway!</div>';
-            		}
-            		else
-            		{
-              			$this->stringvars['caption'].='hidden from webpage!</div>';
-            		}
-          		}
         	}
         	elseif(!imagepermissionrefused($filename) || $showrefused)
         	{
@@ -141,7 +127,7 @@ class CaptionedImage extends Template {
       }
       else $this->stringvars['image']='<i>'.$filename.'</i>';
       
-      $this->vars['caption'] = new ImageCaption($filename);
+      $this->vars['caption'] = new ImageCaption($filename, $showhidden, $showrefused);
 
     }
 
@@ -158,7 +144,7 @@ class CaptionedImage extends Template {
 //
 class ImageCaption extends Template {
 
-    function ImageCaption($filename)
+    function ImageCaption($filename, $showhidden=false, $showrefused=false)
     {
 		global $projectroot;
 		parent::__construct();
@@ -231,6 +217,19 @@ class ImageCaption extends Template {
 		if($permission==PERMISSION_GRANTED) $result.=getlang("image_bypermission");
 		
 		$this->stringvars['caption']=$result;
+		
+   		if($showhidden && imagepermissionrefused($filename))
+  		{
+    		$this->stringvars['caption'].='<div class="highlight">Permission refused for this image;<br />';
+    		if($showrefused)
+    		{
+      			$this->stringvars['caption'].='but shown anyway!</div>';
+    		}
+    		else
+    		{
+      			$this->stringvars['caption'].='hidden from webpage!</div>';
+    		}
+  		}
     }
 
     // assigns templates
