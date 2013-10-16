@@ -93,7 +93,7 @@ class RSSPage extends Template {
 			}
 			$pubdate=@date("r", strtotime($contents['date']));
 			
-			$this->listvars['item'][]= new RSSItem($newsitems[$i],title2html($contents['title']),$description,$link,$source,$pubdate);
+			$this->listvars['item'][]= new RSSItem($newsitems[$i],title2html($contents['title']),$description,$link,$contents['source'],$pubdate);
       	}
 		
 	}
