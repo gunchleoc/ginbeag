@@ -31,7 +31,7 @@
 
 {NEWSITEMSYNOPSISFORM}
 <div class="contentheader">Sections</div>
-<div class="contentsection">{NEWSITEMSECTIONFORM}</div>
+<div class="contentsection">{NEWSITEMSECTIONFORM}{INSERTNEWSITEMSECTIONFORM}</div>
 {NEWSITEMPERMISSIONSFORM}
 {NEWSITEMSOURCEFORM}
 {FAKETHEDATEFORM}

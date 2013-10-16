@@ -566,8 +566,9 @@ class EditNewsItemForms extends Template {
 			if($noofsections<1)
 			{
 				$this->stringvars['nosections']="true";
-				$this->vars['newsitemsectionform'] = new InsertNewsItemSectionForm($newsitem,0);
+				$this->stringvars['newsitemsectionform'] = "";
 			}
+			$this->vars['insertnewsitemsectionform']=new InsertNewsItemSectionForm($newsitem,0);
 
 			$this->vars['newsitemsourceform'] = new NewsItemSourceForm($newsitem, $contents);
 			$this->vars['fakethedateform'] = new FakeTheDateForm($newsitem, $contents,$offset);
