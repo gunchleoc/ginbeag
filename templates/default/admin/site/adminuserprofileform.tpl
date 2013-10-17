@@ -3,6 +3,7 @@
 <div class="contentsection">
 
 	<form name="profile" action="{PROFILEACTIONVARS}" method="post">
+		{HIDDENVARS}
 		<fieldset>
 			<legend class="highlight">{USERNAME}'s E-mail Adress</legend>
 			<label for="email">E-mail Address:</label>
@@ -21,23 +22,22 @@
 				<input id="passconfirm" type="password" name="passconfirm" maxlength="32" size="20" />
 				<div class="formexplain">Type the same password again.</div>
 			</div>
-
 		</fieldset>
 			<div class="newline">
 				<br />
-				<input type="hidden" name="userid" value="{USERID}" />
+				
 				<input type="submit" name="profile" value="Change Password / E-mail" class="mainoption" />
 				<input type="reset" value="Reset Forms" />
 			</div>
 	</form>
 
 	<form name="generatepasswordform" action="{PASSGENACTIONVARS}" method="post">
-		<input type="hidden" name="userid" value="{USERID}" />
+		{HIDDENVARS}
 		<p><input type="submit" name="generate" value="Auto-generate new password" class="mainoption"></p>
 	</form>
 
 	<form name="activate" action="{ACTIVATEACTIONVARS}" method="post">
-		<input type="hidden" name="userid" value="{USERID}" />
+		{HIDDENVARS}
 		<!-- BEGIN switch ISACTIVE -->
 		<input type="submit" name="deactivate" value="Deactivate {USERNAME}'s account" class="mainoption">
 		<!-- END switch ISACTIVE -->
@@ -50,7 +50,7 @@
 <div class="contentheader">Profile for: {USERNAME}</div>
 <div class="contentsection">
 	<form name="contactsettingsform" action="{CONTACTACTIONVARS}" method="post">
-	
+		{HIDDENVARS}
 		<fieldset>
 			<legend class="highlight">Contact page options</legend>
 			<div class="leftalign">
@@ -64,7 +64,6 @@
 
 		</fieldset>
 		<div class="newline">
-			<input type="hidden" name="userid" value="{USERID}" />
 			<input type="submit" name="contact" value="Submit Changes" class="mainoption" />
 			<input type="reset" value="Reset" />
 		</div>

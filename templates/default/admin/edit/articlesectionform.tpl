@@ -1,6 +1,5 @@
 {JAVASCRIPT}
-<input type="hidden" id="{JSID}articlesection" name="articlesection" value="{ARTICLESECTION}">
-<input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
+{HIDDENVARS}
 <a name="section{ARTICLESECTION}"></a>
 <div class="contentheader"><span id="{JSID}sectionheader">{SECTIONHEADER}</span></div>
 <div class="contentsection">

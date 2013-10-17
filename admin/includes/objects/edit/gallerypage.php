@@ -56,10 +56,11 @@ class GalleryImageForm extends Template {
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editgallery.js");
 		
-		
+		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'galleryitemid" name="galleryitemid" value="'.$imageid.'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
 		
 		if($showall)
-			$this->stringvars['showall']="showall";
+			$this->stringvars['hiddenvars'].='<input type="hidden" name="showall" value="true" />';
 		
 		$this->stringvars['imagefilename']=getgalleryimage($imageid);
 		$this->vars['image'] = new CaptionedImageAdmin($this->stringvars['imagefilename'],$this->stringvars['page'],2);
@@ -87,8 +88,8 @@ class AddGalleryImageForm extends Template {
 		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".($pageposition+1)."&noofimages=".($noofimages+1)."&action=editcontents";
 		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
 		
-		if($showall)
-			$this->stringvars['showall']="showall";
+		if($showall) $this->stringvars['hiddenvars']='<input type="hidden" name="showall" value="true">';
+		else $this->stringvars['hiddenvars']="";
 	}
 	
 	// assigns templates
@@ -110,7 +111,9 @@ class ReindexGalleryForm extends Template {
 		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcontents";
 		
 		if($showall)
-			$this->stringvars['showall']="showall";
+			$this->stringvars['hiddenvars']='<input type="hidden" name="showall" value="true" />';
+		else
+			$this->stringvars['hiddenvars']='';
 	}
 	
 	// assigns templates

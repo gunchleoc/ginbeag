@@ -58,9 +58,9 @@ class AdminGuestbookEntry extends Template {
     	parent::__construct();
     	
     	$this->stringvars['deleteactionvars']='?page='.$this->stringvars['page'].'&action=siteguest';
+    	$this->stringvars['hiddenvars']='<input type="hidden" name="messageid" value="'.$entryid.'" />';
     	
     	$contents=getguestbookentrycontents($entryid);
-    	$this->stringvars['messageid']=$entryid;
     	$this->stringvars['name']=title2html($contents["name"]);
     	$this->stringvars['email']=title2html($contents["email"]);
     	$this->stringvars['date']=formatdatetime($contents["date"]);
@@ -97,7 +97,7 @@ class AdminGuestbookDeleteConfirmForm extends Template {
     {
     	parent::__construct();
     	$this->stringvars['deleteactionvars']='?page='.$this->stringvars['page'].'&action=siteguest';
-    	$this->stringvars['messageid']=$entryid;
+    	$this->stringvars['hiddenvars']='<input type="hidden" name="messageid" value="'.$entryid.'" />';
     	$this->vars['entry']=new AdminGuestbookEntry($entryid, false);
  	}
 

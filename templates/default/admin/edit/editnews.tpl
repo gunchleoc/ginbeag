@@ -9,8 +9,7 @@
 	<div class="rightalign">
 		<form name="rssform" action="{ACTIONVARS}" method="post">
 	  		<!-- BEGIN switch RSSBUTTON -->{RSSBUTTON} &nbsp;&nbsp;&nbsp; <!-- END switch RSSBUTTON -->
-	  		<input type="submit" name="rssfeed" value="{BUTTONTEXT}" class="mainoption">
-	  		<input type="hidden" name="{FIELDNAME}">
+	  		<input type="submit" name="{FIELDNAME}" value="{BUTTONTEXT}" class="mainoption">
 		</form>
 		<br />{NEWSITEMARCHIVEFORM}
 	</div>

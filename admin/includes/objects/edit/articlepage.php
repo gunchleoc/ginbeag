@@ -44,6 +44,8 @@ class EditArticle extends Template {
 	  		
 	  	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 	   	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editarticle.js");
+	   	
+	   	$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
 	
 	    $contents=getarticlepagecontents($page);
 	    
@@ -95,6 +97,9 @@ class ArticleSectionForm extends Template {
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editarticlepage.js");
 		
 		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&articlepage=".$articlepage."&articlesection=".$articlesection."&action=editcontents#section".$articlesection;
+		
+		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'articlesection" name="articlesection" value="'.$articlesection.'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
 		
 		$contents=getarticlesectioncontents($articlesection);
 		

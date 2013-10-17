@@ -74,6 +74,7 @@ class SiteCopyrightDeleteForm extends Template {
   		parent::__construct();
   		
   		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitecopyperm';
+  		$this->stringvars['hiddenvars']='<input type="hidden" name="copyrightid" value="'.$copyid.'" />';
   		
   		$copyright=getcopyrightinfo($copyid);
   	
@@ -147,6 +148,7 @@ class SiteCopyrightEditForm extends Template {
   		parent::__construct();
   		
   		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitecopyperm';
+  		$this->stringvars['hiddenvars']='<input type="hidden" name="copyrightid" value="'.$copyid.'" />';
   		
   		$copyright=getcopyrightinfo($copyid);
   		if($holder || $contact || $comments || $credit)
@@ -184,6 +186,7 @@ class SiteCopyrightInfo extends Template {
   		parent::__construct();
   		
   		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitecopyperm';
+  		$this->stringvars['hiddenvars']='<input type="hidden" name="copyrightid" value="'.$copyid.'" />';
   		
   		$copyright=getcopyrightinfo($copyid);
   		

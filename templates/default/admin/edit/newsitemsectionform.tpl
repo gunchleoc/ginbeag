@@ -1,8 +1,6 @@
 <!-- BEGIN switch NOTQUOTE -->
 {JAVASCRIPT}
-<input type="hidden" id="{JSID}newsitemsection" name="newsitemsection" value="{NEWSITEMSECTION}">
-<input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
-
+{HIDDENVARS}
 <a name="section{NEWSITEMSECTION}"></a>
 <div class="contentheader">Section: <span id="{JSID}sectionheader">{SECTIONHEADER}</span></div>
 <div class="contentsection">

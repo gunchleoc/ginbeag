@@ -1,17 +1,11 @@
 <?php
 $projectroot=dirname(__FILE__);
 
-// zweimal, weil nur auf "a" geprft wird
+// zweimal, weil nur auf "a" geprüft wird
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-//include_once($projectroot."functions/pages.php");
 include_once($projectroot."includes/objects/template.php");
-//include_once($projectroot."includes/includes.php");
-//include_once($projectroot."includes/objects/forms.php");
-//include_once($projectroot."functions/images.php");
-//include_once($projectroot."admin/includes/objects/images.php");
-
 
 //
 // $page: caller
@@ -22,7 +16,8 @@ class MovePageForm extends Template {
 	function MovePageForm($page,$moveid)
 	{
 		parent::__construct($moveid);
-		$this->stringvars['moveid']=$moveid;
+		$this->stringvars['hiddenvars']='<input id="'.$this->stringvars['jsid'].'page" type="hidden" name="page" value="'.$this->stringvars['page'].'" />';
+		$this->stringvars['hiddenvars'].='<input id="'.$this->stringvars['jsid'].'moveid" type="hidden" name="moveid" value="'.$moveid.'" />';
 	}
 	
 	// assigns templates
@@ -131,6 +126,9 @@ class EditPageIntroSettingsButton extends Template {
 		    $this->stringvars['buttontext']="Edit synopsis ...";
 		}
 		$this->stringvars['action']=getprojectrootlinkpath().'admin/edit/pageintrosettingsedit.php';
+		
+		$this->stringvars['hiddenvars']='<input type="hidden" id="page" name="page" value="'.$this->stringvars['page'].'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" name="action" value="editcontents" />';
 	}
 	
 	// assigns templates
@@ -181,6 +179,10 @@ class EditPageContentsButton extends Template {
 		    $this->stringvars['action']="pageedit.php";
 		    $this->stringvars['title']="Edit page elements ...";
 		}
+		
+		$this->stringvars['hiddenvars']='<input type="hidden" id="page" name="page" value="'.$this->stringvars['page'].'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" name="action" value="editcontents" />';
+
 	}
 	
 	// assigns templates

@@ -1,9 +1,7 @@
 <div class="contentheader">Add Image to end of gallery</div>
 <div class="contentsection">
 	<form name="addgalleryimageform" action="{ACTIONVARS}" method="post">
-		<!-- BEGIN switch SHOWALL -->
-		<input type="hidden" name="showall" value="true">
-		<!-- END switch SHOWALL -->
+		{HIDDENVARS}
 		<fieldset>
 			<legend class="highlight">Image File</legend>
 			<label for="addimagefilename">Filename:</label>

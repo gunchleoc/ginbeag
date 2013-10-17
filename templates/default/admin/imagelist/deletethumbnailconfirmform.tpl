@@ -7,7 +7,7 @@
 			{IMAGE}
 			<p>
 				<form name="deletethumbnailform" action="{ACTIONVARS}" method="post">
-					<input type="hidden" name="filename" value="{FILENAME}" />
+					{HIDDENVARS}
 					<input type="submit" name="delete" value="Yes, please delete" />
 					&nbsp;&nbsp;&nbsp;
 					<input type="submit" name="nodelete" value="Oops, no!" class="mainoption" />

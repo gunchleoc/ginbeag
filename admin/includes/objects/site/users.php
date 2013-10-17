@@ -220,9 +220,9 @@ class SiteAdminUserProfileForm extends Template {
   		$this->stringvars['activateactionvars']="?page=".$this->stringvars["page"]."&action=siteuserman";
   		$this->stringvars['passgenactionvars']="?page=".$this->stringvars["page"]."&generate=generate&action=siteuserman";
   		$this->stringvars['contactactionvars']="?page=".$this->stringvars["page"]."&contact=contact&action=siteuserman";
+  		$this->stringvars['hiddenvars']='<input type="hidden" name="userid" value="'.$userid.'" />';
 	
   		$this->stringvars['username']=getusername($userid);
-  		$this->stringvars['userid']=$userid;
   		$this->stringvars['email']=getuseremail($userid);
   		$this->stringvars['contactfunction']=getcontactfunction($userid);
   		
@@ -256,6 +256,7 @@ class SitePublicUserProfileForm extends Template {
   		$this->stringvars['userid']=$userid;
   		$this->stringvars['profileactionvars']="?page=".$this->stringvars["page"]."&profile=change&type=public&action=siteuserman";
   		$this->stringvars['activateactionvars']="?page=".$this->stringvars["page"]."&type=public&action=siteuserman";
+  		$this->stringvars['hiddenvars']='<input type="hidden" name="userid" value="'.$userid.'" />';
   		
   		if(ispublicuseractive($userid)) $this->stringvars['isactive']="true";
   		else $this->stringvars['notactive']="true";

@@ -27,7 +27,7 @@
 </table>
 
 <form name="confirmdeleteform" action="{ACTIONVARS}" method="post">
-  	<input type="hidden" name="copyrightid" value="{ID}" />
+  	{HIDDENVARS}
   	<input type="submit" name="confirmdelete" value="Yes, please delete" />
   	&nbsp;&nbsp;
   	<input type="submit" name="cancel" value="No, please cancel" />

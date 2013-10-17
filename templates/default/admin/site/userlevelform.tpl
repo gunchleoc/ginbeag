@@ -2,6 +2,7 @@
 <div class="contentheader">Permissions for: {USERNAME}</div>
 <div class="contentsection">
 	<form name="profile" action="{ACTIONVARS}" method="post">
+		{HIDDENVARS}
 		<fieldset>
 			<legend class="highlight">{USERNAME}'s Permissions</legend>
 			<label for="userlevel">Set <em>{USERNAME}</em>'s access level to:</label>
@@ -10,7 +11,6 @@
 				<option value="{USERLEVEL_ADMIN}"<!-- BEGIN switch LEVELISADMIN --> selected<!-- END switch LEVELISADMIN -->>Administrator</option>
 			</select>
 		</fieldset>
-		<input type="hidden" name="userid" value="{USERID}" />
 		{SUBMITROW}
 	</form>
 </div>

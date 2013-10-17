@@ -20,11 +20,12 @@ class SiteBannerEditForm extends Template {
 
 	function SiteBannerEditForm($banner)
 	{
-		parent::__construct();
+		parent::__construct($banner);
 		
 		$this->stringvars['moveactionvars']='?page='.$this->stringvars['page'].'&postaction=movebanner&action=sitebanner';
 		$this->stringvars['deleteactionvars']='?page='.$this->stringvars['page'].'&postaction=deletebanner&action=sitebanner';
 		$this->stringvars['editactionvars']='?page='.$this->stringvars['page'].'&postaction=editbanner&action=sitebanner';
+		$this->stringvars['hiddenvars']='<input type="hidden" name="bannerid" value="'.$banner.'" />';
 		
 		$contents=getbannercontents($banner);
 		if($contents['header'])
@@ -39,12 +40,12 @@ class SiteBannerEditForm extends Template {
 		
 		if(strlen($contents['image'])>0)
 			$this->stringvars['image']=$contents['image'];
+		else
+			$this->stringvars['noimage']="true";
 
 		$this->stringvars['description']=input2html($contents['description']);
 		$this->stringvars['link']=$contents['link'];
 		$this->stringvars['code']=input2html($contents['code']);
-		$this->stringvars['jsid']=$banner;
-		$this->stringvars['bannerid']=$banner;
 		
 		$this->vars['submitrow']= new SubmitRow("bannerproperties","Submit Banner Changes",true);
 	}

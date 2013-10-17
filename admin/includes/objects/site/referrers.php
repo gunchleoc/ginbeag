@@ -50,6 +50,7 @@ class SiteReferrer extends Template {
   	parent::__construct();
   	
   	$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitereferrers';
+  	$this->stringvars['hiddenvars']='<input type="hidden" name="referrer" value="'.$referrer.'" />';
   	
   	$this->stringvars["referrer"]=$referrer;
   }
@@ -73,6 +74,7 @@ class SiteReferrerUnblockForm extends Template {
   	parent::__construct();
   	
   	$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitereferrers';
+  	$this->stringvars['hiddenvars']='<input type="hidden" name="referrer" value="'.$referrer.'" />';
   	
   	$this->stringvars["referrer"]=$referrer;
   	

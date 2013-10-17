@@ -21,6 +21,8 @@ class SiteRandomItems extends Template {
   		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=siteiotd&postaction=savesite';
 
   		$properties=getproperties();
+  		$this->stringvars['hiddenvars']='<input type="hidden" name="oldpotdcats" value="'.$properties["Picture of the Day Categories"].'">';
+  		
   		$potdcats=explode(",",$properties["Picture of the Day Categories"]);
   		$potdcatnames=array();
   		if(!count($potdcats))
@@ -49,7 +51,6 @@ class SiteRandomItems extends Template {
         
         $this->stringvars['potdlist']= $potdcatlistoutput;
         $this->vars['potdcatform']=new CategorySelectionForm(true);
-        $this->stringvars['potdoldcats']=$properties["Picture of the Day Categories"];
 
 		if($properties["Display Article of the Day"]) $this->stringvars['aotdon']="true";
 		else $this->stringvars['aotdoff']= "true";

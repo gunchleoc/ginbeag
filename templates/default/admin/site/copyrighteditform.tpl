@@ -12,7 +12,7 @@
 		{FORMELEMENTS}
 		<tr>
 			<td colspan="2" class="table" align="center">
-				<input type="hidden" name="copyrightid" value="{ID}" />
+				{HIDDENVARS}
 				<input type="submit" name="changecopyright" value="Submit Changes" class="mainoption" />
 				&nbsp;&nbsp;
 				<input type="reset" name="reset" value="Reset Forms" />

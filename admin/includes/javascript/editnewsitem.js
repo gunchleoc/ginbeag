@@ -48,7 +48,7 @@ $(document).ready(function() {
 		elements[0] = $("#{JSID}publishbutton");
 		disableElements(elements);
 	
-		if($("#{JSID}ispublished").val()=="true")
+		if($("#{JSID}publishbutton").val()=="Hide Newsitem")
 		{
 			showprogressbox("Hiding Newsitem ID: "+$("#{JSID}newsitem").val()+" ...");
 			

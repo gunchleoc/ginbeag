@@ -2,6 +2,7 @@
 <div class="contentheader">Manage User for Restriced Areas: {USERNAME}</div>
 <div class="contentsection">
 	<form name="profile" action="{PROFILEACTIONVARS}" method="post">
+		{HIDDENVARS}
 		<fieldset>
 			<legend class="highlight">{USERNAME}'s Password</legend>	
 			<div class="leftalign">
@@ -15,12 +16,11 @@
 				<div class="formexplain">Type the same password again.</div>
 			</div>
 		</fieldset>
-		<input type="hidden" name="userid" value="{USERID}" />
 		{SUBMITROW}
 	</form>
 
 	<form name="activatepublic" action="{ACTIVATEACTIONVARS}" method="post">
-		<input type="hidden" name="userid" value="{USERID}" />
+		{HIDDENVARS}
 		<!-- BEGIN switch ISACTIVE -->
 		<input type="submit" name="deactivate" value="Deactivate '{USERNAME}'" class="mainoption">
 		<!-- END switch ISACTIVE -->

@@ -3,6 +3,7 @@
 	<div class="contentsection">
 		<form name="bannerproperties" enctype="multipart/form-data" action="{EDITACTIONVARS}" method="post">
 			{BANNER}
+			{HIDDENVARS}
 			<!-- BEGIN switch INCOMPLETE -->
 			<p class="highlight">This banner is not complete and will not be displayed! Please fill out all required fields.</p>
 			<!-- END switch INCOMPLETE -->
@@ -16,11 +17,13 @@
 			<fieldset>
 				<legend class="highlight">Banner Content</legend>	
 				<!-- BEGIN switch IMAGE -->
-				<input type="hidden" name="oldimage" value="{IMAGE}" />
-				{IMAGE}
-				<br />
+				<label for="{JSID}oldimage">Image:</label>
+				<input class="highlight" id="{JSID}oldimage" type="text" name="oldimage" value="{IMAGE}" style=" border:0px;" disabled />
+				<label for="{JSID}image">Upload New Image:</label>
 				<!-- END switch IMAGE -->
+				<!-- BEGIN switch NOIMAGE -->
 				<label for="{JSID}image">Image:</label>
+				<!-- END switch NOIMAGE -->
 				<input id="{JSID}image" type="file" name="image" size="40" maxlength="255" />
 				<br /><label for="{JSID}description">Description:</label>
 				<input id="{JSID}description" type="text" name="description" size="50" maxlength="255" value="{DESCRIPTION}" />
@@ -35,27 +38,26 @@
 				<textarea id="{JSID}code" name="code" cols="50" rows="5">{CODE}</textarea>
 				<div class="formexplain">Enter the banner code manually. If you use this, leave Image, Description and Link blank.</div>
 			</fieldset>
-			<input type="hidden" name="bannerid" value="{BANNERID}" />
 			{SUBMITROW}
 		</form>
 	
 		<hr>
 		<form name="movebanner" action="{MOVEACTIONVARS}" method="post">
+			{HIDDENVARS}
 			<p>
 				<input type="submit" name="movebannerup" value="move banner up" />
-				<input type="hidden" name="bannerid" value="{BANNERID}" />
 				&nbsp;&nbsp;&nbsp;<input type="text" name="positions" size="2" maxlength="3" value="1" />
 				&nbsp;&nbsp;&nbsp;<input type="submit" name="movebannerdown" value="move banner down" />
 			</p>
 		</form>
 		<hr>
 		<form name="deletebanner" action="{DELETEACTIONVARS}" method="post">
+			{HIDDENVARS}
 			<p>
 		  		<input type="submit" name="deletebanner" value="Delete this banner" />
 		  		<input type="checkbox" name="deletebannerconfirm" value="Confirm delete" />
 		  		Confirm delete
 		  	</p>
-		  	<input type="hidden" name="bannerid" value="{BANNERID}" />
 		</form>
 	</div>
 </div>

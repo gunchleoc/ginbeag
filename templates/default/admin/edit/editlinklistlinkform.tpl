@@ -1,6 +1,5 @@
 {JAVASCRIPT}
-<input type="hidden" id="{JSID}linkid" name="linkid" value="{LINKID}">
-<input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
+{HIDDENVARS}
 <div class="contentheader"><span id="{JSID}sectionheader">{LINKTITLE}</span></div>
 <div class="contentsection">
 	<form name="changelinkproperties">

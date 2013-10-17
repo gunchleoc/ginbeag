@@ -37,6 +37,7 @@ class Editor extends Template {
 			$this->vars['editorcontents']= new EditorContentsExpanded($page,$item, $elementtype,"Edit ".$title);
 
       	$this->stringvars['previewtext']=text2html(geteditortext($page,$item, $elementtype));
+      	$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
     }
 
     // assigns templates
@@ -54,10 +55,13 @@ class EditorContentsExpanded extends Template {
     function EditorContentsExpanded($page,$item, $elementtype,$title="Edit text", $edittext=false)
     {
     	parent::__construct($page.'-'.$item);
-    
-		$this->stringvars['item']=$item;
-		$this->stringvars['elementtype']=$elementtype;
+
 		$this->stringvars['title']=$title;
+		
+		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'item" name="item" value="'.$item.'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'elementtype" name="elementtype" value="'.$elementtype.'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'title" name="title" value="'.$title.'">';
 				
 		if($edittext!=false)
 		{
@@ -90,10 +94,13 @@ class EditorContentsCollapsed extends Template {
     function EditorContentsCollapsed($page,$item, $elementtype, $title="Edit text")
     {
     	parent::__construct($page.'-'.$item);
-    
-		$this->stringvars['item']=$item;
-		$this->stringvars['elementtype']=$elementtype;
-		$this->stringvars['title']=$title;
+    	
+    	$this->stringvars['title']=$title;
+		
+		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'item" name="item" value="'.$item.'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'elementtype" name="elementtype" value="'.$elementtype.'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'title" name="title" value="'.$title.'">';
     }
 
     // assigns templates
@@ -112,10 +119,12 @@ class EditorContentsSaveDialog extends Template {
     {
     	parent::__construct($page.'-'.$item);
     
-		$this->stringvars['item']=$item;
-		$this->stringvars['elementtype']=$elementtype;
-		$this->stringvars['edittext']=htmlspecialchars($edittext); // for quotes etc
-		$this->stringvars['title']=$title;
+		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'item" name="item" value="'.$item.'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'elementtype" name="elementtype" value="'.$elementtype.'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'title" name="title" value="'.$title.'">';
+		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'edittext" name="edittext" value="'.htmlspecialchars($edittext).'">';
+
     }
 
     // assigns templates

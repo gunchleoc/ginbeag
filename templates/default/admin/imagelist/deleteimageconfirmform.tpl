@@ -7,10 +7,10 @@
 			{IMAGE}
 			<p>
 			<form name="deleteimageform" action="{ACTIONVARS}" method="post">
-			  <input type="hidden" name="filename" value="{FILENAME}" />
-			  <input type="submit" name="delete" value="Yes, please delete" />
-			  &nbsp;&nbsp;&nbsp;
-			  <input type="submit" name="nodelete" value="Oops, no!" class="mainoption" />
+				{HIDDENVARS}
+				<input type="submit" name="delete" value="Yes, please delete" />
+				&nbsp;&nbsp;&nbsp;
+				<input type="submit" name="nodelete" value="Oops, no!" class="mainoption" />
 			</form>
 		</div>
 	</div>

@@ -1,5 +1,5 @@
 {JAVASCRIPT}
-<input type="hidden" id="{JSID}filename" name="filename" value="{FILENAME}">
+{HIDDENVARS}
 <div class="contentoutline">
 	<div class="contentheader">Image: <em>{FILENAME}</em></div>
 	<div class="contentsection">

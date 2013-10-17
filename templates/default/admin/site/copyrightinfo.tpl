@@ -27,7 +27,7 @@
     </td>
     <td align="left" valign="top">
       	<form name="editform" action="{ACTIONVARS}" method="post">
-        	<input type="hidden" name="copyrightid" value="{ID}" />
+        	{HIDDENVARS}
         	<input type="submit" name="editcopyright" value="&nbsp;Edit&nbsp;" />
         	<br />&nbsp;<br />
         	<input type="submit" name="deletecopyrightform" value="Delete" />

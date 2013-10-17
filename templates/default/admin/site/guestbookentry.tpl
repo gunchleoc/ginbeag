@@ -8,7 +8,7 @@
 
 <!-- BEGIN switch DELETEFORM -->
 <form name="deleteform" action="{DELETEACTIONVARS}" method="post">
-	<input type="hidden" name="messageid" value="{MESSAGEID}" />
+	{HIDDENVARS}
 	<input type="submit" name="deleteentry" value="Delete this entry" />
 </form>
 <!-- END switch DELETEFORM -->

@@ -3,7 +3,7 @@
 {ENTRY}
 
 <form name="deleteconfirmform" action="{DELETEACTIONVARS}" method="post">
-	<input type="hidden" name="messageid" value="{MESSAGEID}" />
+	{HIDDENVARS}
 	<input type="submit" name="deleteconfirm" value="Yes, please delete this entry!" class="mainoption" />
 	<input type="submit" name="deleteabort" value="Oops, no!" />
 </form>

@@ -43,8 +43,8 @@ class SiteUserLevelForm extends Template {
 		parent::__construct();
 		
 		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&changelevel=change&action=siteuserperm";
+		$this->stringvars['hiddenvars']='<input type="hidden" name="userid" value="'.$userid.'" />';
   		
-  		$this->stringvars['userid']=$userid;
   		$this->stringvars['username']=getusername($userid);
   		
   		$this->stringvars['userlevel_user']=USERLEVEL_USER;
@@ -121,10 +121,11 @@ class SitePublicUserAccessPageForm extends Template {
   	{
   		parent::__construct();
   		
+  		$this->stringvars['hiddenvars']='<input type="hidden" name="userid" value="'.$userid.'">';
+  		$this->stringvars['hiddenvars'].='<input type="hidden" name="pageid" value="'.$page.'">';
+  		
 		$this->stringvars['pagelink']=getprojectrootlinkpath()."admin/pagedisplay.php?page=".$page;
 		$this->stringvars['pagelinktitle']=$page.": ".title2html(getnavtitle($page));
-		$this->stringvars['userid']=$userid;
-		$this->stringvars['userpage']=$page;
 
   		if($hasaccess)
   		{

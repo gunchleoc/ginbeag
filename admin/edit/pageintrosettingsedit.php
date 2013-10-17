@@ -88,20 +88,17 @@ if(!$message)
 			updateeditdata($page);
 		} // doarchivenewsitems
 		// rss
-		elseif(isset($_POST['rssfeed']))
+		elseif(isset($_POST['enablerss']))
 		{
-			$message="";
-			if(isset($_POST['enablerss']))
-			{
-				addrssfeed($page);
-				$message = "RSS enabled for this newspage";
-			}
-			elseif(isset($_POST['disablerss']))
-			{
-				removerssfeed($page);
-				$message = "RSS disabled for this newspage";
-			}
-			updateeditdata($page);
+			addrssfeed($page);
+			$message = "RSS enabled for this newspage";
+			$editpage = new EditNews($page);
+
+		}
+		elseif(isset($_POST['disablerss']))
+		{
+			removerssfeed($page);
+			$message = "RSS disabled for this newspage";
 			$editpage = new EditNews($page);
 		}
 		// display order

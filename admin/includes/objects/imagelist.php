@@ -1,6 +1,6 @@
 <?php
 $projectroot=dirname(__FILE__);
-// zweimal, weil nur auf "a" geprft wird
+// zweimal, weil nur auf "a" geprüft wird
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
@@ -75,8 +75,8 @@ class DeleteImageConfirmForm extends Template {
 		$this->stringvars['filename']=$filename;
 		
 		$actionvars=makeimagelistvarsfromget();
-		//$actionvars["action"]="executedelete";
 		$this->stringvars['actionvars']=$this->makeactionvars($actionvars)."&action=executedelete";
+		$this->stringvars['hiddenvars']='<input type="hidden" name="filename" value="'.$filename.'" />';
 	}
 
 	// assigns templates
@@ -102,8 +102,8 @@ class DeleteThumbnailConfirmForm extends Template {
 	    $this->stringvars['filename']=$filename;
 	
 	   	$actionvars=makeimagelistvarsfromget();
-	   	//$actionvars["action"]="executethumbnaildelete";
 	   	$this->stringvars['actionvars']=$this->makeactionvars($actionvars)."&action=executethumbnaildelete";
+	   	$this->stringvars['hiddenvars']='<input type="hidden" name="filename" value="'.$filename.'" />';
 	}
 	
 	// assigns templates
@@ -122,11 +122,11 @@ class EditImageForm extends Template {
 	function EditImageForm($filename)
 	{
 		global $number;
-		parent::__construct();
-		
-		$this->stringvars['jsid']=str_replace ( ".", "", $filename);
+		parent::__construct(str_replace ( ".", "-", $filename));
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editimageform.js");
+		
+		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'filename" name="filename" value="'.$filename.'">';
 		
 		$actionvars=makeimagelistvarsfromget();
 		$actionvars["number"]=$number;
@@ -140,7 +140,8 @@ class EditImageForm extends Template {
 		$this->stringvars['actionvarsdeletethumbnail']=$actionvars."&action=deletethumbnail";
 		$this->stringvars['actionvarsdescription']=$actionvars."&action=description";
 		$this->stringvars['actionvarspermission']=$actionvars."&action=permission";
-		$this->stringvars['hiddenvars'] = '<input type="hidden" name="filename" value="'.$filename.'" />';
+		//$this->stringvars['hiddenvars'] = '<input type="hidden" name="filename" value="'.$filename.'" />';
+	    $this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'filename" name="filename" value="'.$filename.'">';
 		
 		
 		$image=getimage($filename);

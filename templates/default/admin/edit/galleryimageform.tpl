@@ -1,13 +1,8 @@
 {JAVASCRIPT}
-<input type="hidden" id="{JSID}galleryitemid" name="galleryitemid" value="{IMAGEID}">
-<input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 <div class="contentheader">Gallery Image</div>
 <div class="contentsection">
 	<form name="galleryimageform" action="{ACTIONVARS}" method="post">
-	  <!-- BEGIN switch SHOWALL -->
-	  <input type="hidden" name="showall" value="true" />
-	  <!-- END switch SHOWALL -->
-	  <input type="hidden" name="galleryitemid" value="{IMAGEID}" />
+		{HIDDENVARS}
 	  	<div class="leftalign">
 			<fieldset>
 				<legend class="highlight">Image File</legend>

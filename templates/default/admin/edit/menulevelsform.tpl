@@ -1,7 +1,6 @@
 {JAVASCRIPT}
-
+{HIDDENVARS}
 <form>
-	<input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
 	<fieldset>
 		<legend class="highlight">Edit Menu Page Options</legend>
 		<fieldset>
@@ -16,7 +15,6 @@
 			<legend>Numbers of levels to display in navigator</legend>
 			{NAVIGATORLEVELSFORM}
 		</fieldset>		
-	
 		<input type="button" id="{JSID}saveoptionsbutton" name="saveoptionsbutton" value="Save Levels" class="mainoption" />
 		&nbsp;&nbsp;
 		<input type="reset" id="{JSID}saveoptionsreset" name="saveoptionsreset" value="Reset" />

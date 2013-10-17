@@ -1,6 +1,6 @@
 <h1 class="headerpagetitle">Random Items of the Day</h1>
 <form name="site" action="{ACTIONVARS}" method="post">
-
+	{HIDDENVARS}
 	<div class="contentheader">On Random: Picture of the Day</div>
 	<div class="contentsection">
 		<fieldset>
@@ -12,9 +12,7 @@
 		<fieldset>
 			<legend class="highlight">Categories for Picture of the Day</legend>	
 			{POTDCATFORM}
-			<input type="hidden" name="oldpotdcats" value="{POTDOLDCATS}">
 			<div class="formexplain">The random Picture of the Day will be generated from the selected categories and their subcategories.<br /><br />Current categories: {POTDLIST}</div>
-			
 		</fieldset>
 	</div>
 

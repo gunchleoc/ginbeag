@@ -47,6 +47,7 @@ class SitePageType extends Template {
 		parent::__construct();
 		
 		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitepagetype';
+		$this->stringvars['hiddenvars']='<input type="hidden" name="pagetype" value="'.$pagetype.'">';
 		
 		$this->stringvars['pagetype']=$pagetype;
 		$this->stringvars['description']=$description;

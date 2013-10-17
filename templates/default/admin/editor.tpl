@@ -1,7 +1,6 @@
 {JAVASCRIPT}
-<input type="hidden" id="{JSID}page" name="page" value="{PAGE}">
-
 <form id="{JSID}editor">
+	{HIDDENVARS}
 	<div class="contentoutline">
 		<div class="contentheader">{TITLE}</div>
 		<div class="contentsection">
