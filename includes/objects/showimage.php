@@ -109,7 +109,7 @@ class Showimage extends Template {
 		{
 			$this->stringvars['imagepath'] = getimagelinkpath($image,getimagesubpath(basename($image)));
 			$this->stringvars['simplecaption'] = title2html($caption);
-			$this->vars['caption'] = new ImageCaption($image $showhidden);
+			$this->vars['caption'] = new ImageCaption($image, $showhidden);
 
 		}
 		else
