@@ -323,6 +323,7 @@ elseif($action==="executedelete")
 	if(isset($_POST['delete']))
 	{
 	    $messagetitle="Deleting image <i>".$filename."</i></i>";
+	    $imagedir = getproperty("Image Upload Path").getimagesubpath(basename($filename));
 	    $pages=pagesforimage($filename);
 	    $newsitems=newsitemsforimage($filename);
 	    if(!((count($pages)>0) || (count($newsitems)>0)))
@@ -330,31 +331,36 @@ elseif($action==="executedelete")
 			if(hasthumbnail($filename))
 			{
 				$thumbnail=getthumbnail($filename);
-				$success=deletefile(getproperty("Image Upload Path").getimagesubpath(basename($filename)),$thumbnail);
+				$success=deletefile($imagedir,$thumbnail);
 				if($success)
 				{
-					deletefile(getproperty("Image Upload Path").getimagesubpath(basename($filename)),$filename);
+					$success = deletefile($imagedir,$filename);
 					if(!file_exists($filename))
 					{
 						deleteimage($filename);
 					}
+					else
+					{
+						$message="Failed to delete image file <em>".$filename."</em> from dir <em>".$imagedir."</em>";
+						$displayeditform=true;
+					}
 				}
 				else
 				{
-					$message="Failed to delete file <i>".$filename."</i>";
+					$message="Failed to delete  thumbnail file <em>".$thumbnail."</em> from dir <em>".$imagedir."</em>";
 					$displayeditform=true;
 				}
 			}
 			else
 			{
-				deletefile(getproperty("Image Upload Path").getimagesubpath(basename($filename)),$filename);
+				deletefile($imagedir,$filename);
 				if(!file_exists($filename))
 				{
 					deleteimage($filename);
 				}
 				else
 				{
-					$message="Failed to delete file <i>".$filename."</i>";
+					$message="Failed to delete image file <em>".$filename."</em> from dir <em>".$imagedir."</em>";
 					$displayeditform=true;
 				}
 			}
@@ -387,10 +393,11 @@ elseif($action==="executethumbnaildelete")
 	if(isset($_POST['delete']))
   	{
     	$messagetitle="Deleting thumbnail for image <em>".$filename."</em>";
+    	$imagedir = getproperty("Image Upload Path").getimagesubpath(basename($filename));
     	if(hasthumbnail($filename))
     	{
       		$thumbnail=getthumbnail($filename);
-      		$success=deletefile(getproperty("Image Upload Path"),$thumbnail);
+      		$success=deletefile($imagedir,$thumbnail);
       		if($success)
       		{
         		deletethumbnail($filename);
@@ -398,7 +405,7 @@ elseif($action==="executethumbnaildelete")
       		}
       		else
       		{
-        		$message="Failed to delete file <em>".$thumbnail."</em>";
+        		$message="Failed to delete thumbnail file <em>".$thumbnail."</em> from dir <em>".$imagedir."</em>";
       		}
     	}
     	else
