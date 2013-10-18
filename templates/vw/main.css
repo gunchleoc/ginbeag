@@ -283,12 +283,10 @@ a.navlink:active { text-decoration:none; color:yellow; }
 	font-size: 160%;
 	font-family: Arial, Helvetica, sans-serif; 
 	color: yellow;
-	background-color: #D4ECFB;
+	background-color: #006378;
 	color : #FFFF00;
 	background-image: url(img/navigator.gif);
-	height: 24px;
-	overflow-x:auto;
-
+	background-repeat:repeat-x;
 }
 
 /* Site name */
