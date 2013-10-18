@@ -302,9 +302,11 @@ function getpictureoftheday()
 		}
 	
 		list($usec, $sec) = explode(' ', microtime());
-		$random= ((float) $sec + ((float) $usec * 100000)) % count($images);
+		if($images) $random= ((float) $sec + ((float) $usec * 100000)) % count($images);
+		else $random = 0;
 		
-		$potd=$images[$random];
+		if (isset($images[$random])) $potd=$images[$random];
+		else $potd=false;
 		if($potd)
 		{
 			$query="insert into ";
