@@ -202,7 +202,10 @@ class NavigatorLink extends Template {
 
 			$this->stringvars['linktooltip']=striptitletags(getpagetitlearray($page));
 
-			$this->stringvars['title']=title2html(getnavtitlearray($page));
+			if($this->style=="splashpage") $this->stringvars['title']= title2html(str_replace(" ","&nbsp;",getnavtitlearray($page)));
+			else $this->stringvars['title']=title2html(getnavtitlearray($page));
+			
+			
 			
 			if(isset($_GET['m']))
 			{
