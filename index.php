@@ -38,17 +38,20 @@ elseif(isset($_GET['newsitem']))
 }
 else $page=0;
 
+$wasloggedout = false;
+
 // logout public user
 if(isset($_GET['logout']))
 {
 	publiclogout($_GET['sid']);
 	unset($_GET['sid']);
 	unset($_GET['logout']);
+	$wasloggedout = true;
 }
 // mobile style
 if(isset($_GET['m']))
 {
-	if(!isset($_GET['page']))
+	if(!isset($_GET['page']) || ($page == 0 && $wasloggedout))
 	{
 		$page = new Page("splashpagemobile",false);
 	}
@@ -68,7 +71,7 @@ if(isset($_GET['m']))
 else
 {
 	// show splash page
-	if(!isset($_GET['page']))
+	if(!isset($_GET['page']) || ($page == 0 && $wasloggedout))
 	{
 		$page = new Page("splashpage",false);
 	}

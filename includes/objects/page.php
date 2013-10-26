@@ -660,7 +660,7 @@ class PageHeader extends Template {
 		$this->displaytype=$displaytype;
 		parent::__construct();
 		
-		$this->stringvars['logoutlink']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."logout=on";
+		$this->stringvars['logoutlink']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&logout=on";
 		
 		$this->stringvars['keywords']="";
 		if($page>0)

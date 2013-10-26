@@ -23,8 +23,8 @@ include_once($projectroot."includes/legalvars.php");
 include_once($projectroot."includes/includes.php");
 include_once($projectroot."functions/publicsessions.php");
 include_once($projectroot."functions/publicusers.php");
-//include_once($projectroot."includes/objects/elements.php");
-include_once($projectroot."includes/objects/forms.php");
+include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."includes/objects/login.php");
 include_once($projectroot."includes/objects/page.php");
 
 
@@ -41,6 +41,7 @@ if(isset($_POST['user']))
 	{
 		$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
 		$loginform = new LoginForm($user,getlang("login_error_username"));
+		$footer = new PageFooter();
 	}
 	elseif(ispublicuseractive($userid))
 	{
@@ -49,30 +50,32 @@ if(isset($_POST['user']))
 		{
 			$_GET['sid']= $login['sid'];
 			$contenturl='index.php'.makelinkparameters($_GET,true);
-			$header = new HTMLHeader("Login","Login",$login['message'],$contenturl,getlang("login_enter"),true);
+			$header = new HTMLHeader(getlang("login_pagetitle"),getlang("login_pagetitle"),$login['message'],$contenturl,getlang("login_enter"),true);
+			$footer = new HTMLFooter();
 		}
 		else
 		{
 			$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
 			$loginform = new LoginForm($user,$login['message']);
+			$footer = new PageFooter();
 		}
 	}
 	else
 	{
 		$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
 		$loginform = new LoginForm("",getlang("login_error_inactive"));
+		$footer = new PageFooter();
 	}
 }
 else
 {
 	$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
   	$loginform = new LoginForm("");
+  	$footer = new PageFooter();
 }
 
 print($header->toHTML());
 if (isset($loginform)) print($loginform->toHTML());
-
-$footer = new PageFooter();
 print($footer->toHTML());
 
 $db->closedb();
