@@ -347,6 +347,7 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
 //
 function searchnewsitemtitles($search,$page,$showhidden=false)
 {
+	global $db;
 	$query="SELECT DISTINCTROW newsitem_id FROM ".NEWSITEMS_TABLE;
 	$query.=" WHERE page_id = '".$db->setinteger($page)."'";
 	$query.=" AND title like '%".$db->setstring(trim($search))."%'";
