@@ -149,7 +149,7 @@ $lang["section_quote"]="Às-earrann:";
 /**************************************************************/
 
 $lang["navigator_contact"]="Fios thugainn";
-$lang["navigator_sitemap"]="Mapa an làraich";
+$lang["navigator_sitemap"]="Mapa na làraich";
 $lang["navigator_home"]="Dhachaigh";
 $lang["navigator_guestbook"]="Leabhar nan aoighean";
 $lang["navigator_aotd"]="Alt an latha";
@@ -157,12 +157,12 @@ $lang["navigator_potd"]="Air&nbsp;thuaiream:&nbsp;Dealbh&nbsp;an&nbsp;latha";
 $lang["navigator_notfound"]="Cha deach an ceangal a lorg";
 
 $lang["pagetitle_contact"]="Fios thugainn";
-$lang["pagetitle_sitemap"]="Mapa an làraich";
+$lang["pagetitle_sitemap"]="Mapa na làraich";
 //$lang["pagetitle_home"]="Dachaigh";
 $lang["pagetitle_guestbook"]="Leabhar nan aoighean";
 
 $lang["pageintro_contact"]="Cuir post-d thugainn";
-$lang["pageintro_sitemap"]="Mapa an làraich";
+$lang["pageintro_sitemap"]="Mapa na làraich";
 //$lang["pageintro_home"]="Dachaigh";
 $lang["pageintro_guestbook"]="Teachdaireachdan nan aoighean";
 
