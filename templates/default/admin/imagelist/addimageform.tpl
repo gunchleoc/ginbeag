@@ -29,13 +29,13 @@
 							<input id="addimagecaption" type="text" name="caption" value="{CAPTION}" size="30" maxlength="200" />
 							<div class="formexplain">Optional. Describe what's on the image.</div>
 					
-							<br /><label for="addimagesource">Source: </label>
+							<br /><label for="addimagesource">Source Name: </label>
 							<input id="addimagesource" type="text" name="source" value="{SOURCE}" size="30" maxlength="255" />
 							<div class="formexplain">Optional. Name of the website or other source you got the image from.</div>
 					
-							<br /><label for="addimagesourcelink">Source Link: </label>
+							<br /><label for="addimagesourcelink">Source URL: </label>
 							<input id="addimagesourcelink" type="text" name="sourcelink" value="{SOURCELINK}" size="30" maxlength="255" />
-							<div class="formexplain">Optional. Link to the website you got the image from.</div>
+							<div class="formexplain">Optional. Link to the website you got the image from, starting with the protocol, e.g. <em>http://</em>.</div>
 					
 							<br /><label for="addimagecopyright">Copyright Holder: </label>
 							<input id="addimagecopyright" type="text" name="copyright" value="{COPYRIGHT}" size="30" maxlength="255" />

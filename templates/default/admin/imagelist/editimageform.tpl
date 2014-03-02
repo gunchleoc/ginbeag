@@ -18,13 +18,13 @@
 						<input id="{JSID}caption" type="text" name="caption" value="{CAPTION}" size="30" />
 						<div class="formexplain">Describe what's on the image.</div>
 				
-						<br /><label for="{JSID}source">Source: </label>
+						<br /><label for="{JSID}source">Source Name: </label>
 						<input id="{JSID}source" type="text" name="source" value="{SOURCE}" size="30" maxlength="255" />
 						<div class="formexplain">Name of the website or other source you got the image from.</div>
 				
-						<br /><label for="{JSID}sourcelink">Source Link: </label>
+						<br /><label for="{JSID}sourcelink">Source URL: </label>
 						<input id="{JSID}sourcelink" type="text" name="sourcelink" value="{SOURCELINK}" size="30" maxlength="255" />
-						<div class="formexplain">Link to the website you got the image from.</div>
+						<div class="formexplain">Link to the website you got the image from, starting with the protocol, e.g. <em>http://</em>.</div>
 				
 						<br /><label for="{JSID}copyright">Copyright Holder: </label>
 						<input id="{JSID}copyright" type="text" name="copyright" value="{COPYRIGHT}" size="30" maxlength="255" />
