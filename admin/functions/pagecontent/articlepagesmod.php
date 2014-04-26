@@ -78,6 +78,8 @@ function addarticlesection($page,$pagenumber)
 	$values[]="";
 	$values[]="";
 	$values[]="left";
+	$values[]=1;
+	$values[]=1;
 	return insertentry(ARTICLESECTIONS_TABLE,$values);
 }
 
@@ -89,6 +91,17 @@ function updatearticlesectionimagealign($articlesection,$imagealign)
 {
 	global $db;
 	return updatefield(ARTICLESECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"articlesection_id='".$db->setinteger($articlesection)."'");
+}
+
+
+//
+//
+//
+function updatearticlesectionimagesize($articlesection,$autoshrink, $usethumbnail)
+{
+	global $db;
+	$success = updatefield(ARTICLESECTIONS_TABLE,"imageautoshrink",$db->setinteger($autoshrink),"articlesection_id='".$db->setinteger($articlesection)."'");
+	return $success & updatefield(ARTICLESECTIONS_TABLE,"usethumbnail",$db->setinteger($usethumbnail),"articlesection_id='".$db->setinteger($articlesection)."'");
 }
 
 

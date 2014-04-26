@@ -11,7 +11,8 @@ $(document).ready(function() {
 
 	// only activate buttons if there is a change
 	var filenameisedited=false;
-	var propertiesisedited=false;
+	var alignisedited=false;
+	var sizeisedited=false;
 	
 	/**
 	 * call when something changes in the text
@@ -21,7 +22,7 @@ $(document).ready(function() {
 		filenameisedited=true;
 		$("#{JSID}submitfilename").val("Save Changes");
 		$("#{JSID}submitfilename").css("font-style","normal");
-		//$("#{JSID}submitfilename").css("height:auto;");
+		enableElements([$("#{JSID}submitfilename"),$("#{JSID}resetfilename")]);
 	}
 	
 	/**
@@ -32,31 +33,57 @@ $(document).ready(function() {
 		filenameisedited=false;
 		$("#{JSID}submitfilename").val("To change image, type in the box above");
 		$("#{JSID}submitfilename").css("font-style","italic");
+		disableElements([$("#{JSID}submitfilename"),$("#{JSID}resetfilename")]);
 	}
 
 	/**
 	 * call when something changes in the text
 	 */
-	function setpropertiesisedited()
+	function setalignisedited()
 	{
-		filenameisedited=true;
-		$("#{JSID}submitproperties").val("Save Changes");
-		$("#{JSID}submitproperties").css("font-style","normal");
-		//$("#{JSID}submitfilename").css("height:auto;");
+		alignisedited=true;
+		$("#{JSID}submitalignment").val("Save Changes");
+		$("#{JSID}submitalignment").css("font-style","normal");
+		enableElements([$("#{JSID}submitalignment"),$("#{JSID}resetalignment")]);
 	}
 	
 	/**
 	 * call when changes are reset or saved
 	 */
-	function setpropertiesisnotedited()
+	function setalignisnotedited()
 	{
-		filenameisedited=false;
-		$("#{JSID}submitproperties").val("To change image alignment, select a button above");
-		$("#{JSID}submitproperties").css("font-style","italic");
+		alignisedited=false;
+		$("#{JSID}submitalignment").val("To change image alignment, select a button above");
+		$("#{JSID}submitalignment").css("font-style","italic");
+		disableElements([$("#{JSID}submitalignment"),$("#{JSID}resetalignment")]);
+	}
+
+
+	/**
+	 * call when something changes in the text
+	 */
+	function setsizeisedited()
+	{
+		sizeisedited=true;
+		$("#{JSID}submitsize").val("Save Changes");
+		$("#{JSID}submitsize").css("font-style","normal");
+		enableElements([$("#{JSID}submitsize"),$("#{JSID}resetsize")]);
+	}
+
+	/**
+	 * call when changes are reset or saved
+	 */
+	function setsizeisnotedited()
+	{
+		sizeisedited=false;
+		$("#{JSID}submitsize").val("To change image size options, select a button above");
+		$("#{JSID}submitsize").css("font-style","italic");
+		disableElements([$("#{JSID}submitsize"),$("#{JSID}resetsize")]);
 	}
 
 	addlistenersFilename();
-	addlistenersProperties();
+	addlistenersAlign();
+	addlistenersSize();
 
 	
 	/**
@@ -116,12 +143,27 @@ $(document).ready(function() {
 				    	
 				    	if($("#{JSID}imagefilename").val().length<1)
 				    	{
-				    		$("#{JSID}editorpropertiespane").html("");
+							$("#{JSID}editoralignmentpane").html("");
+							$("#{JSID}editorsizepane").html("");
 				    	}
 				    	else
 				    	{
+							postRequest(
+								projectroot+"admin/includes/ajax/imageeditor/showimagealignment.php",
+								{
+									page: $("#{JSID}page").val(),
+									item: $("#{JSID}item").val(),
+										elementtype: $("#{JSID}elementtype").val()
+								},
+								function(html)
+								{
+									$("#{JSID}editoralignmentpane").html(html);
+									addlistenersAlign();
+								},
+								elements
+							); // post showimagealignment.php
 				    		postRequest(
-								projectroot+"admin/includes/ajax/imageeditor/showimageproperties.php",
+								projectroot+"admin/includes/ajax/imageeditor/showimagesize.php",
 				       			{
 					       			page: $("#{JSID}page").val(),
 					       			item: $("#{JSID}item").val(),
@@ -129,11 +171,11 @@ $(document).ready(function() {
 					       		},
 								function(html)
 								{
-									$("#{JSID}editorpropertiespane").html(html);
-									addlistenersProperties();
+									$("#{JSID}editorsizepane").html(html);
+									addlistenersSize();
 								},
 								elements
-					    	); // post showimageproperties.php
+							); // post showimagesize.php
 				    	}
 			       		
 					} // no error
@@ -160,36 +202,36 @@ $(document).ready(function() {
 	/**
 	 * listeners for alignment pane
 	 */	
-	function addlistenersProperties()
+	function addlistenersAlign()
 	{
-		setpropertiesisnotedited();
+		setalignisnotedited();
 		
 		var elements = new Array();
-		elements[0] = $("#{JSID}submitproperties");
-		elements[1] = $("#{JSID}resetproperties");
+		elements[0] = $("#{JSID}submitalignment");
+		elements[1] = $("#{JSID}resetalignment");
 		
 		// watch edit state to activate save button
 		$("#{JSID}imagealignleft").on("click", function() {
-			setpropertiesisedited();
+			setalignisedited();
 		});
 		
 		$("#{JSID}imagealignright").on("click", function() {
-			setpropertiesisedited();
+			setalignisedited();
 		});
 		
 		$("#{JSID}imagealigncenter").on("click", function() {
-			setpropertiesisedited();
+			setalignisedited();
 		});
 		
 		/* save image filename */
-		$("#{JSID}submitproperties").click(function() {
+		$("#{JSID}submitalignment").click(function() {
 
 			disableElements(elements);
 
 			showprogressbox("Saving Image Alignment: "+$('input[name={JSID}imagealign]:checked').val()+" ... ");
 			
 			postRequest(
-				projectroot+"admin/includes/ajax/imageeditor/saveimageproperties.php",
+				projectroot+"admin/includes/ajax/imageeditor/saveimagealignment.php",
        			{
 					imagealign: $('input[name={JSID}imagealign]:checked').val(),
 	       			page: $("#{JSID}page").val(),
@@ -202,22 +244,91 @@ $(document).ready(function() {
 					var error = element.attr("error");
 					if(error !="1")
 		       		{
-		       			//alert("Image saved!");
-			       		setpropertiesisnotedited();
+						setalignisnotedited();
 					} // no error
 					showmessageXML(xml);
 					enableElements(elements);
 				},
 				elements
-	    	); // post saveimageproperties.php
+			); // post saveimagealignment.php
 			
 		}); // submitfilename
 		
 		/* reset edit status */
-		$("#{JSID}resetproperties").click(function() {
-       		setpropertiesisnotedited();
+		$("#{JSID}resetalignment").click(function() {
+			setalignisnotedited();
 		});	// resetbutton
 
-	} // addlistenersproperties
-	
+	} // addlistenersalign
+
+
+
+
+	/**
+	 * listeners for size pane
+	 */
+	function addlistenersSize()
+	{
+		setsizeisnotedited();
+
+		var elements = new Array();
+		elements[0] = $("#{JSID}submitzize");
+		elements[1] = $("#{JSID}resetsize");
+
+		// watch edit state to activate save button
+		$("#{JSID}autoshrinkon").on("click", function() {
+			setsizeisedited();
+		});
+
+		$("#{JSID}autoshrinkoff").on("click", function() {
+			setsizeisedited();
+		});
+
+		$("#{JSID}usethumbnailon").on("click", function() {
+			setsizeisedited();
+		});
+
+		$("#{JSID}usethumbnailoff").on("click", function() {
+			setsizeisedited();
+		});
+
+		/* save image size */
+		$("#{JSID}submitsize").click(function() {
+
+			disableElements(elements);
+
+			showprogressbox("Saving Image Size: Shrink "+$('input[name={JSID}autoshrink]:checked').val()+" Thumbnail "+$('input[name={JSID}usethumbnail]:checked').val()+" ... ");
+
+			postRequest(
+				projectroot+"admin/includes/ajax/imageeditor/saveimagesize.php",
+				{
+					autoshrink: $('input[name={JSID}autoshrink]:checked').val(),
+					usethumbnail: $('input[name={JSID}usethumbnail]:checked').val(),
+					page: $("#{JSID}page").val(),
+					item: $("#{JSID}item").val(),
+					elementtype: $("#{JSID}elementtype").val()
+				},
+				function(xml)
+				{
+					var element=$(xml).find('message');
+					var error = element.attr("error");
+					if(error !="1")
+					{
+						setalignisnotedited();
+					} // no error
+					showmessageXML(xml);
+					enableElements(elements);
+				},
+				elements
+			); // post saveimagesize.php
+
+		}); // submitsize
+
+		/* reset edit status */
+		$("#{JSID}resetsize").click(function() {
+			setsizeisnotedited();
+		});	// resetbutton
+
+	} // addlistenerssize
+
 }); // document

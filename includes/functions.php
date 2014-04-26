@@ -339,38 +339,42 @@ function makearticledate($day,$month,$year)
 //
 //
 //
-function calculateimagedimensions($filename,$factor=1)
+function calculateimagedimensions($filename, $autoshrink=false)
 {
-	if(!($factor>=0)) $factor=1;
 	$resized=false;
-	if(file_exists($filename)&& filetype($filename)=="file")
+	$width=0;
+	$height=0;
+	$result = array("width" => 0, "height" => 0, "resized" => false);
+
+	if(file_exists($filename) && filetype($filename)=="file")
 	{
 		$imageproperties=@getimagesize($filename);
 		$width=$imageproperties[0];
 		$height=$imageproperties[1];
 		
-		if($factor>0)
+		if($autoshrink)
 		{
-			$maxdimension=MAXIMAGEDIMENSION/$factor;
-			
-			if($width>$maxdimension)
+			// todo Mobile Thumbnail Size
+			if($width>getproperty("Thumbnail Size"))
 			{
 				$resized=true;
-				$test=ceil($width / $maxdimension); // add a little more because captioned images are framed
+				$test=ceil($width / getproperty("Thumbnail Size")); // add a little more because captioned images are framed
 				$width=floor($width/$test);
 				$height=floor($height/$test);
 			}
-			if($height>$maxdimension)
+			if($height>getproperty("Thumbnail Size"))
 			{
 				$resized=true;
-				$test=ceil($height / $maxdimension);
+				$test=ceil($height / getproperty("Thumbnail Size"));
 				$width=floor($width/$test);
 				$height=floor($height/$test);
 			}
+			$result["resized"]= $resized;
 		}
-		return array("width" => $width, "height" => $height, "resized" => $resized);
 	}
-	else return array("width" => 0, "height" => 0, "resized" => false);
+	$result["width"]= $width;
+	$result["height"]= $height;
+	return $result;
 }
 
 //

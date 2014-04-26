@@ -34,7 +34,7 @@ class NewsitemImagePropertiesForm extends Template {
 		
 		if(strlen($image)>0 && imageexists($image))
 		{
-			$this->vars['image'] = new CaptionedImageAdmin($image,$this->stringvars['page'],2);
+			$this->vars['image'] = new CaptionedImageAdmin($image, $this->stringvars['page']);
 		}
 	}
 	
@@ -190,7 +190,7 @@ class DeleteNewsItemSectionConfirm extends Template {
 
 		$contents=getnewsitemcontents($newsitem);
 		$this->stringvars['newsitemtitle']=title2html($contents['title']);
-		$this->vars['section'] = new Newsitemsection($newsitemsection, false,2,true,true);
+		$this->vars['section'] = new Newsitemsection($newsitemsection, false, true, true);
 	}
 
 	// assigns templates
@@ -612,7 +612,7 @@ class EditNews extends Template {
 	  	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
   	
     	$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
-    	$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",array("image"=>getpageintroimage($page), "halign" =>getpageintrohalign($page)));
+		$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",getpageintro($page));
 		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&action=editcontents";
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
 		$this->vars['newsitemarchiveform'] = new NewsItemArchiveForm();

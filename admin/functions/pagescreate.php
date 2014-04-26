@@ -35,6 +35,8 @@ function createpage($parent, $title, $navtitle, $pagetype, $user, $ispublishable
 	$values[]=""; // Introtext
 	$values[]=""; // Introimage
 	$values[]="left"; // Intro image halign
+	$values[]=1;
+	$values[]=1;
 	$values[]=$lastnavposition;
 	$values[]=$pagetype;
 	$values[]=$date;

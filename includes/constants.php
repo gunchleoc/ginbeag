@@ -61,7 +61,6 @@ define('PERMISSION_REFUSED',0);
 define('USERLEVEL_USER',0);
 define('USERLEVEL_ADMIN',1);
 
-define('MAXIMAGEDIMENSION',200); // todo replace with thumbnail width parameter?
 define('IMAGECAPTIONLINEHEIGHT',8); // todo replace site property? Hack for gallery pages CSS
 
 ?>

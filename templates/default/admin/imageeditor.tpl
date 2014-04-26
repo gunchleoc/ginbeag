@@ -4,10 +4,11 @@
 	<form id="{JSID}imageeditor">
 		<div class="leftalign" style="width:56%">
 			{FILENAMEPANE}
-			<div id="{JSID}editorpropertiespane">{PROPERTIESPANE}</div>
+			<div id="{JSID}editoralignmentpane">{ALIGNMENTPANE}</div>
 		</div>
 		<div id="{JSID}editorimagepane" class="rightalign">{IMAGEPANE}</div>
 		<div class="newline"></div>
+		<div id="{JSID}editorsizepane">{SIZEPANE}</div>
 	</form>
 </div>
 <div id="{JSID}messagebox" class="messagebox highlight" style="height:0px; width=0px; position:absolute;"></div>

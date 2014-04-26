@@ -27,8 +27,7 @@ class GalleryCaptionedImage extends Template {
       	{
         	if($showhidden)
         	{
-          		$this->vars['image'] = new Image($filename,1,"&page=".$this->stringvars['page'],$showhidden);
-          		
+				$this->vars['image'] = new Image($filename, true, true, "&page=".$this->stringvars['page'],$showhidden);
 
           		if(imagepermissionrefused($filename))
           		{
@@ -45,7 +44,7 @@ class GalleryCaptionedImage extends Template {
         	}
         	elseif(!imagepermissionrefused($filename) || $showrefused)
         	{
-          		$this->vars['image'] = new Image($filename,1,"&page=".$this->stringvars['page'],$showhidden);
+				$this->vars['image'] = new Image($filename, true, true, "&page=".$this->stringvars['page'],$showhidden);
         	}
 		}
 		else $this->stringvars['image']='<i>'.$filename.'</i>';
@@ -115,8 +114,7 @@ class GalleryPage extends Template {
 		if(!$offset) $offset=0;
 		
 		$pageintro = getpageintro($this->stringvars['page']);
-   		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
-		
+		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showrefused,$showhidden);
 		
 		//pagemenu
 		$this->vars['pagemenu']= new PageMenu($offset, $imagesperpage, $noofimages);
@@ -126,8 +124,8 @@ class GalleryPage extends Template {
 		
 
 		// determine image dimensions
-		$width=MAXIMAGEDIMENSION;
-		$height=MAXIMAGEDIMENSION;
+		$width=getproperty("Thumbnail Size");
+		$height=getproperty("Thumbnail Size");
 		for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
 		{
 			$thumbnail = getthumbnail($images[$i]);
@@ -144,7 +142,7 @@ class GalleryPage extends Template {
 			}
 			else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath))
 			{
-				$dimensions=calculateimagedimensions($images[$i],1);
+				$dimensions=calculateimagedimensions($images[$i]);
 				if ($width < $dimensions["width"]) $width=$dimensions["width"];
 				if ($height < $dimensions["height"]) $height=$dimensions["height"];
 			}
@@ -167,9 +165,9 @@ class GalleryPage extends Template {
 			}
 			if($image['permission']==PERMISSION_GRANTED) $height = $height + IMAGECAPTIONLINEHEIGHT;
 		}
-		if (!$width) $width=MAXIMAGEDIMENSION;
+		if (!$width) $width=getproperty("Thumbnail Size");
 		$width = $width + IMAGECAPTIONLINEHEIGHT;
-		if (!$height) $height=MAXIMAGEDIMENSION+150;
+		if (!$height) $height=getproperty("Thumbnail Size")+150;
 		
 		// create images
 		for($i=$startindex;$i<count($images) && $i<$endindex;$i++)

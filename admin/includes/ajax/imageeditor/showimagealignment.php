@@ -19,7 +19,8 @@ $elementtype=$_POST["elementtype"];
 if($elementtype=="pageintro")
 {
 	include_once($projectroot."functions/pages.php");
-	$align=getpageintrohalign($_POST['page']);
+	$contents=getpageintro($_POST['page']);
+	$align = $contents['imagehalign'];
 }
 elseif($elementtype=="articlesection")
 {
@@ -39,7 +40,7 @@ elseif($elementtype=="link")
 else print ("Error: Unknown elementtype: ".$elementtype."</br /> for image on page: ".$_POST['page'].", item: ".$_POST['item']);
 if($align)
 {
-	$printme = new ImageEditorPropertiesPane($_POST["page"],$_POST["item"], $align);
+	$printme = new ImageEditorAlignmentPane($_POST["page"],$_POST["item"], $align);
 	print($printme->toHTML());
 }
 

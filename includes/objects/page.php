@@ -411,7 +411,7 @@ class Navigator extends Template {
 				$potd=getpictureoftheday();
 				if($potd)
 				{
-					$this->vars['potd_image']=new Image($potd,1,"",$showhidden);
+					$this->vars['potd_image']=new Image($potd, true, true, "", $showhidden);
 					$this->stringvars['l_potd']=getlang("navigator_potd");
 					$homelink=false;
 				}
@@ -626,17 +626,17 @@ class Navigator extends Template {
 //
 class PageIntro extends Template {
 
-	function PageIntro($title,$text,$image,$imagealign="left",$showrefused=false,$showhidden=false)
+	function PageIntro($title, $text, $image="", $imageautoshrink=true, $usethumbnail=true, $imagealign="left",$showrefused=false,$showhidden=false)
 	{
 		parent::__construct();
 		$this->stringvars['pagetitle']=title2html($title);
 		
 		$this->stringvars['text']=text2html($text);
 		
-		if(strlen($image)>0 && mayshowimage($image,$this->stringvars['page'],$showhidden))
-		$this->vars['image'] = new CaptionedImage($image,2,$imagealign,$showrefused,$showhidden);
-		
-		$this->stringvars['image']=$image;
+		if($image && mayshowimage($image,$this->stringvars['page'],$showhidden))
+			$this->vars['image'] = new CaptionedImage($image, $imageautoshrink, $usethumbnail, $imagealign, $showrefused, $showhidden);
+		else
+			$this->stringvars['image']=$image;
 	}
 	
 	// assigns templates
@@ -982,7 +982,7 @@ class Page extends Template {
 			}
 			elseif(isset($_GET["sitepolicy"]))
 			{
-				$this->vars['contents']  = new PageIntro(title2html(getproperty("Site Policy Title")),getdbelement("sitepolicytext",SITEPOLICY_TABLE,"policy_id",0),"");
+				$this->vars['contents']  = new PageIntro(title2html(getproperty("Site Policy Title")),getdbelement("sitepolicytext",SITEPOLICY_TABLE,"policy_id",0));
 			}
 			elseif(isset($_GET["sitemap"]))
 			{
@@ -992,7 +992,7 @@ class Page extends Template {
 			else
 			{
 				// todo why encoding problem?
-				$this->vars['contents']  = new PageIntro(utf8_decode(getlang("error_pagenotfound")),utf8_decode(sprintf(getlang("error_pagenonotfound"),$page)),"");
+				$this->vars['contents']  = new PageIntro(utf8_decode(getlang("error_pagenotfound")),utf8_decode(sprintf(getlang("error_pagenonotfound"),$page)));
 			}
 		}
 	}
@@ -1136,7 +1136,7 @@ class Printview extends Template {
 		}
 		else
 		{
-			$this->vars['contents']  = new PageIntro("Page not found","Could not find page ".$page.".","");
+			$this->vars['contents']  = new PageIntro("Page not found","Could not find page ".$page.".");
 		}
 	}
 	

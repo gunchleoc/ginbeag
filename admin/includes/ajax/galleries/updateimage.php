@@ -14,7 +14,7 @@ include_once($projectroot."admin/functions/sessions.php");
 checksession();
 
 $filename=getgalleryimage($_POST['galleryitemid']);
-$printme = new CaptionedImageAdmin($filename,$_POST['page'],2);
+$printme = new CaptionedImageAdmin($filename, $_POST['page']);
 
 print($printme->toHTML());
 ?>

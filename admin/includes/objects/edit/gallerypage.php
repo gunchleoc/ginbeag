@@ -63,7 +63,7 @@ class GalleryImageForm extends Template {
 			$this->stringvars['hiddenvars'].='<input type="hidden" name="showall" value="true" />';
 		
 		$this->stringvars['imagefilename']=getgalleryimage($imageid);
-		$this->vars['image'] = new CaptionedImageAdmin($this->stringvars['imagefilename'],$this->stringvars['page'],2);
+		$this->vars['image'] = new CaptionedImageAdmin($this->stringvars['imagefilename'], $this->stringvars['page']);
 		
 		if(!getthumbnail($this->stringvars['imagefilename']))
 			$this->stringvars['no_thumbnail']="This image has no thumbnail";

@@ -20,7 +20,7 @@ class EditPageIntro extends Template {
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 
 		$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
-		$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",array("image"=>getpageintroimage($page), "halign" =>getpageintrohalign($page)));
+		$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",getpageintro($page));
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
 	}
 	

@@ -14,11 +14,11 @@ include_once($projectroot."includes/functions.php");
 //
 class CaptionedImageAdmin extends Template {
 
-	function CaptionedImageAdmin($filename,$page,$factor=1)
+	function CaptionedImageAdmin($filename, $page)
   	{
     	parent::__construct();
     	
-    	$this->vars['image']= new CaptionedImage($filename,$factor,"left", true,true);
+		$this->vars['image']= new CaptionedImage($filename, true, true, "left");
     	$this->stringvars['imagelinkpath']=getimagelinkpath($filename, getimagesubpath(basename($filename)));
     	$this->stringvars['editimagelink']='<a href="'.getprojectrootlinkpath().'admin/editimagelist.php?page='.$page.'&filename='.$filename.'&caption=&source=&copyright=&uploader=0&filter=Display+Selection" target="_blank">Edit this image</a>';
   	}

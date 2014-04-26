@@ -32,7 +32,7 @@ class AddLinklistLinkForm extends Template {
 //
 //
 class EditLinkListLinkForm extends Template {
-	function EditLinkListLinkForm($linkid,$linktitle,$link,$image,$description)
+	function EditLinkListLinkForm($linkid)
 	{
 		parent::__construct($linkid);
 		
@@ -47,15 +47,17 @@ class EditLinkListLinkForm extends Template {
 		
 		$this->stringvars['linkid']=$linkid;
 		
-		$this->stringvars['linktitle']=title2html($linktitle);
-		if(!$linktitle)
+		$contents=getlinkcontents($linkid);
+
+		$this->stringvars['linktitle']=title2html($contents['title']);
+		if(!$contents['title'])
 			$this->stringvars['linktitle'] = "New Link";
 
-		$this->stringvars['linkinputtitle']=input2html($linktitle);
-		$this->stringvars['link']=$link;
-		$this->stringvars['description']=text2html($description);
+		$this->stringvars['linkinputtitle']=input2html($contents['title']);
+		$this->stringvars['link']=$contents['link'];
+		$this->stringvars['description']=text2html($contents['description']);
 		
-		$this->vars['imageeditor'] = new ImageEditor($this->stringvars['page'],$linkid,"link",array("image"=>$image));
+		$this->vars['imageeditor'] = new ImageEditor($this->stringvars['page'],$linkid,"link",$contents);
 		
 		$this->vars['editdescription']= new Editor($this->stringvars['page'],$linkid,"link","Link Description");
 	}
@@ -86,14 +88,15 @@ class EditLinklist extends Template {
 		
 		for($i=0;$i<count($linkids);$i++)
 		{
+		/*
 			$contents=getlinkcontents($linkids[$i]);
 
 			if($contents['title'])
 				$linktitle=title2html($contents['title']);
 			else
 				$linktitle='New Link';
-
-			$this->listvars['linkform'][] = new EditLinkListLinkForm($linkids[$i],$contents['title'],$contents['link'],$contents['image'],$contents['description']);
+*/
+			$this->listvars['linkform'][] = new EditLinkListLinkForm($linkids[$i]);
 		}
 		
 		$this->vars['addform'] = new AddLinklistLinkForm();

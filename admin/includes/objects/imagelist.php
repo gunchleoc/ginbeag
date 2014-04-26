@@ -487,7 +487,7 @@ class AdminImage extends Template {
 			if(strlen($imageproperties)>0)
 				$this->stringvars['imageproperties']=$imageproperties;
 			
-			$dimensions=calculateimagedimensions($filename,1);
+			$dimensions=calculateimagedimensions($filename, true);
 			$this->stringvars['width']=$dimensions["width"];
 			$this->stringvars['height']=$dimensions["height"];
 		}

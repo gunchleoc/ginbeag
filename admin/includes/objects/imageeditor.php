@@ -16,32 +16,40 @@ include_once($projectroot."admin/includes/objects/images.php");
 //
 class ImageEditor extends Template {
 
-    function ImageEditor($page, $elementid, $elementtype,$contents)
+    function ImageEditor($page, $elementid, $elementtype, $contents)
     {
     	parent::__construct($page.'-'.$elementid);
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/imageeditor.js");
     	
     	$imagealign="left";
+		$autoshrink=1;
+		$usethumbnail=1;
     	$this->stringvars['image']="";
-    	
+
     	if($elementtype==="pageintro")
     	{
-    		$this->stringvars['image']=$contents["image"];
-    		$imagealign = $contents["halign"];
-    		$this->stringvars['title']="Synopsis";
+			$this->stringvars['image']=$contents["introimage"];
+			$imagealign = $contents["imagehalign"];
+			$autoshrink=$contents["imageautoshrink"];
+			$usethumbnail=$contents["usethumbnail"];
+			$this->stringvars['title']="Synopsis";
     	}
     	elseif($elementtype==="articlesection" || $elementtype==="newsitemsection")
     	{
-    		$this->stringvars['image']=$contents['sectionimage'];
-    		$imagealign = $contents['imagealign'];
-    		$this->stringvars['title']="Section";
+			$this->stringvars['image']=$contents['sectionimage'];
+			$imagealign = $contents['imagealign'];
+			$autoshrink=$contents["imageautoshrink"];
+			$usethumbnail=$contents["usethumbnail"];
+			$this->stringvars['title']="Section";
     	}
     	elseif($elementtype==="link")
     	{
-    		$this->stringvars['image']=$contents['image'];
-    		$imagealign = "";
-    		$this->stringvars['title']="Link";
+			$this->stringvars['image']=$contents['image'];
+			$imagealign = "";
+			$autoshrink="";
+			$usethumbnail="";
+			$this->stringvars['title']="Link";
     	}
     
 		$this->stringvars['elementtype']=$elementtype;
@@ -50,17 +58,20 @@ class ImageEditor extends Template {
 
 		if($elementtype=="link")
 		{
-			$this->stringvars['propertiespane'] ="";
+			$this->stringvars['alignmentpane'] ="";
+			$this->stringvars['sizepane'] ="";
 			$this->vars['imagepane'] = new ImageEditorImagePane($page,$this->stringvars['image']);
 		}
 		elseif($this->stringvars['image'])
 		{
-			$this->vars['propertiespane'] = new ImageEditorPropertiesPane($page,$elementid, $imagealign);
+			$this->vars['alignmentpane'] = new ImageEditorAlignmentPane($page,$elementid, $imagealign);
 			$this->vars['imagepane'] = new ImageEditorImagePane($page,$this->stringvars['image']);
+			$this->vars['sizepane'] = new ImageEditorSizePane($page,$elementid, $autoshrink, $usethumbnail);
 		}
 		else
 		{
-			$this->stringvars['propertiespane'] ="";
+			$this->stringvars['alignmentpane'] ="";
+			$this->stringvars['sizepane'] ="";
 			$this->stringvars['imagepane'] = "";
 		}
     }
@@ -102,9 +113,9 @@ class ImageEditorFilenamePane extends Template {
 // Templating for Image alignment within a section.
 // Planned feature: scale image yes/no, use thumbnail yes/no
 //
-class ImageEditorPropertiesPane extends Template {
+class ImageEditorAlignmentPane extends Template {
 
-    function ImageEditorPropertiesPane($page,$elementid, $imagealign)
+    function ImageEditorAlignmentPane($page,$elementid, $imagealign)
     {
     	parent::__construct($page.'-'.$elementid);
     	
@@ -119,10 +130,36 @@ class ImageEditorPropertiesPane extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("admin/imageeditorpropertiespane.tpl");
+		$this->addTemplate("admin/imageeditoralignmentpane.tpl");
     }
 }
 
+
+//
+// Templating for Image alignment within a section.
+// Planned feature: scale image yes/no, use thumbnail yes/no
+//
+class ImageEditorSizePane extends Template {
+
+	function ImageEditorSizePane($page,$elementid, $autoshrink, $usethumbnail)
+	{
+		parent::__construct($page.'-'.$elementid);
+
+		$this->stringvars['submitname'] ="Save image size options";
+
+		$this->vars['shrink_on_button']= new RadioButtonForm($this->stringvars["jsid"],"autoshrink","on","Shrink",$autoshrink,"right");
+		$this->vars['shrink_off_button']= new RadioButtonForm($this->stringvars["jsid"],"autoshrink","off","Don't Shrink",!$autoshrink,"right");
+		$this->vars['thumbnail_on_button']= new RadioButtonForm($this->stringvars["jsid"],"usethumbnail","on","Use Thumbnail",$usethumbnail,"right");
+		$this->vars['thumbnail_off_button']= new RadioButtonForm($this->stringvars["jsid"],"usethumbnail","off","Don't Use Thumbnail",!$usethumbnail,"right");
+
+    }
+
+    // assigns templates
+    function createTemplates()
+    {
+		$this->addTemplate("admin/imageeditorsizepane.tpl");
+    }
+}
 
 
 
@@ -137,7 +174,7 @@ class ImageEditorImagePane extends Template {
     	$this->stringvars['image']="";
     	
 		if(strlen($image)>0 && imageexists($image))
-			$this->vars['image'] = new CaptionedImageAdmin($image,$page,2);
+			$this->vars['image'] = new CaptionedImageAdmin($image, $page);
     }
 
     // assigns templates

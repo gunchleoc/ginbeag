@@ -142,7 +142,7 @@ function placeOnBottom(element)
 	else height=0;
 	
 	var windowheight = document.body.clientHeight;
-	var top = windowheight-height*2-15;
+	var top = windowheight-height*2-30;
 	
 	// Internet Exploder
 	if(element.css("position")=="static")

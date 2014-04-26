@@ -50,7 +50,7 @@ class EditArticle extends Template {
 	    $contents=getarticlepagecontents($page);
 	    
 	    $this->vars['synopsiseditor'] = new Editor($page,0,"pageintro","Synopsis Text");
-	    $this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",array("image"=>getpageintroimage($page), "halign" =>getpageintrohalign($page)));
+	    $this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",getpageintro($page));
 	
 	    $this->stringvars['author']= input2html($contents['article_author']);
 	    $this->stringvars['location']= input2html($contents['location']);

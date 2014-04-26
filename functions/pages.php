@@ -145,7 +145,7 @@ function getnavtitle($page)
 function getpageintro($page)
 {
 	global $db;
-	$fieldnames = array(0 => 'introtext', 1=> 'introimage', 2=>'imagehalign');
+	$fieldnames = array(0 => 'introtext', 1=> 'introimage', 2=>'imagehalign', 3 => 'imageautoshrink', 4 => 'usethumbnail');
 	return getrowbykey(PAGES_TABLE, "page_id", $db->setinteger($page), $fieldnames);
 }
 
@@ -166,16 +166,6 @@ function getpageintroimage($page)
 {
 	global $db;
   	return getdbelement("introimage", PAGES_TABLE, "page_id", $db->setinteger($page));
-}
-
-
-//
-//
-//
-function getpageintrohalign($page)
-{
-	global $db;
-  	return getdbelement("imagehalign", PAGES_TABLE, "page_id", $db->setinteger($page));
 }
 
 

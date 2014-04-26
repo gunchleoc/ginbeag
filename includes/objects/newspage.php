@@ -20,7 +20,7 @@ class Newsitemsection extends Template {
 	var $isquotestart=false;
     var $isquoteend=false;
 
-    function Newsitemsection($newsitemsection,$isquoted=false,$imagefactor=2,$showrefused=false,$showhidden=false)
+    function Newsitemsection($newsitemsection, $isquoted=false, $showrefused=false, $showhidden=false)
     {
 		//parent::__construct();
     
@@ -36,7 +36,7 @@ class Newsitemsection extends Template {
 
 //todo                    mayshowimage($sectioncontents['sectionimage'],$this->stringvars['page'],$showhidden)
           if(strlen($sectioncontents['sectionimage'])>0 && ($showhidden || !imagepermissionrefused($sectioncontents['sectionimage'])))
-            $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$imagefactor,$sectioncontents['imagealign'],$showrefused,$showhidden);
+            $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'],$showrefused,$showhidden);
           else $this->stringvars['image']="";
 		  
 		  $this->stringvars['text']=text2html($sectioncontents['text']);
@@ -135,7 +135,7 @@ class Newsitem extends Template {
 		{
 			if($noofimages==1)
 			{
-				$this->vars['image'] = new CaptionedImage($images[0],2,"left",$showrefused,$showhidden);
+				$this->vars['image'] = new CaptionedImage($images[0],$contents['imageautoshrink'], $contents['usethumbnail'], "left",$showrefused,$showhidden);
 			}
 			else
 			{
@@ -145,7 +145,7 @@ class Newsitem extends Template {
 				{
 					if(mayshowimage($images[$i],$this->stringvars['page'],$showhidden))
 					{
-						$image = new Image($images[$i],$noofimages,$showhidden);
+						$image = new Image($images[$i],true, true, "", $showhidden);
 						$this->listvars['image'][] = $image;
 						
 						$thumbnail = getthumbnail($images[$i]);
@@ -161,7 +161,7 @@ class Newsitem extends Template {
 						}
 						else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath))
 						{
-							$dimensions=calculateimagedimensions($images[$i],1);
+							$dimensions=calculateimagedimensions($images[$i]);
 							$width+=$dimensions["width"];
 						}
 					}
@@ -182,7 +182,7 @@ class Newsitem extends Template {
 			$isquote=false;
 			for($i=0;$i<$noofsections;$i++)
 			{
-				$newsitemsection = new Newsitemsection($sections[$i],$isquote,2,$showrefused,$showhidden);
+				$newsitemsection = new Newsitemsection($sections[$i], $isquote, $showrefused, $showhidden);
 				$this->listvars['section'][] = $newsitemsection;
 				$isquote == $newsitemsection->isquotestart();
 			}
@@ -245,7 +245,7 @@ class NewsPage extends Template {
 		parent::__construct();
 		
 		$pageintro = getpageintro($this->stringvars['page']);
-		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
+		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showrefused,$showhidden);
 		
 		$this->stringvars['actionvars']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
 		

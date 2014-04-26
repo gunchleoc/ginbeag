@@ -194,6 +194,8 @@ function addnewsitem($page)
   $values[]='';
   $values[]=NO_PERMISSION;
   $values[]=0;
+  $values[]=1;
+  $values[]=1;
 
   return insertentry(NEWSITEMS_TABLE,$values);
 }
@@ -373,6 +375,8 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
     $values[]='[quote]';
     $values[]='';
     $values[]='left';
+    $values[]=1;
+    $values[]=1;
     insertentry(NEWSITEMSECTIONS_TABLE,$values);
 
     $newsectionnumber=$newsectionnumber+1;
@@ -386,6 +390,8 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
   $values[]='';
   $values[]='';
   $values[]='left';
+  $values[]=1;
+  $values[]=1;
 
   $result=insertentry(NEWSITEMSECTIONS_TABLE,$values);
   
@@ -401,6 +407,8 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
     $values[]='[unquote]';
     $values[]='';
     $values[]='left';
+    $values[]=1;
+    $values[]=1;
     insertentry(NEWSITEMSECTIONS_TABLE,$values);
   }
   return $result;
@@ -414,6 +422,16 @@ function updatenewsitemsectionimagealign($newsitemsection,$imagealign)
 {
 	global $db;
 	return updatefield(NEWSITEMSECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
+}
+
+//
+//
+//
+function updatenewsitemsectionimagesize($newsitemsection,$autoshrink, $usethumbnail)
+{
+	global $db;
+	$success = updatefield(NEWSITEMSECTIONS_TABLE,"imageautoshrink",$db->setinteger($autoshrink),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
+	return $success & updatefield(NEWSITEMSECTIONS_TABLE,"usethumbnail",$db->setinteger($usethumbnail),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
 }
 
 

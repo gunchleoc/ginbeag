@@ -9,7 +9,7 @@ include_once($projectroot."includes/objects/template.php");
 //
 class Image extends Template {
 
-    function Image($filename,$factor=1,$params="",$showhidden=false)
+    function Image($filename, $imageautoshrink, $usethumbnail, $params="", $showhidden=false)
     {
 		global $projectroot;
       
@@ -23,11 +23,11 @@ class Image extends Template {
 		$filename=$imagedir.getimagesubpath(basename($filename)).'/'.$filename;
 		if(file_exists($filename) && !is_dir($filename))
 		{
-			$dimensions=calculateimagedimensions($filename,$factor);
+			$dimensions=calculateimagedimensions($filename, $imageautoshrink);
 			$width=$dimensions["width"];
 			$height=$dimensions["height"];
 
-			if($thumbnail && file_exists($imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail))
+			if($usethumbnail && $thumbnail && file_exists($imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail))
 			{
 				//$thumbnail=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
 				if($showhidden)
@@ -63,12 +63,12 @@ class Image extends Template {
 //
 class CaptionedImage extends Template {
 
-    function CaptionedImage($filename,$factor=1,$halign="left", $showrefused=false,$showhidden=false)
+    function CaptionedImage($filename, $imageautoshrink, $usethumbnail, $halign="left", $showrefused=false, $showhidden=false)
     {
     	global $projectroot, $_GET;
     	
     	parent::__construct();
-      	
+
       	// CSS stuff
       	
       	if ($halign == "right")
@@ -90,26 +90,32 @@ class CaptionedImage extends Template {
       	}
       	
 		// determine image dimensions
-		$width=MAXIMAGEDIMENSION;
+		$width=getproperty("Thumbnail Size");
 
-		$thumbnail = getthumbnail($filename);
-	
 		$imagedir=$projectroot.getproperty("Image Upload Path");
       	$filepath=$imagedir.getimagesubpath(basename($filename)).'/'.$filename;
+		$thumbnail = getthumbnail($filename);
       	$thumbnailpath=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
 		
-		if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
+		if($usethumbnail)
 		{
-			$imageproperties=@getimagesize($thumbnailpath);
-			$width = $imageproperties[0];
+			if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
+			{
+				$imageproperties=@getimagesize($thumbnailpath);
+				$width = $imageproperties[0];
+			}
+			else if(imageexists($filename) && file_exists($filepath) && !is_dir($filepath))
+			{
+				$imageproperties=@getimagesize($filepath);
+				$width = $imageproperties[0];
+			}
 		}
 		else if(imageexists($filename) && file_exists($filepath) && !is_dir($filepath))
 		{
-			$dimensions=calculateimagedimensions($filename,1);
+			$dimensions=calculateimagedimensions($filepath, $imageautoshrink);
 			$width=$dimensions["width"];
 		}
 
-		if (!$width) $width=MAXIMAGEDIMENSION;
 		$width = $width + IMAGECAPTIONLINEHEIGHT;
 		$this->stringvars["width"]=$width;
 
@@ -118,11 +124,11 @@ class CaptionedImage extends Template {
       	{
         	if($showhidden)
         	{
-          		$this->vars['image'] = new Image($filename,$factor,"&page=".$this->stringvars['page'],$showhidden);
+				$this->vars['image'] = new Image($filename, $imageautoshrink, $usethumbnail, "&page=".$this->stringvars['page'], $showhidden);
         	}
         	elseif(!imagepermissionrefused($filename) || $showrefused)
         	{
-          		$this->vars['image'] = new Image($filename,$factor,"&page=".$this->stringvars['page'],$showhidden);
+				$this->vars['image'] = new Image($filename, $imageautoshrink, $usethumbnail, "&page=".$this->stringvars['page'], $showhidden);
         	}
       }
       else $this->stringvars['image']='<i>'.$filename.'</i>';

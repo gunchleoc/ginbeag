@@ -23,7 +23,7 @@ class LinklistLink extends Template {
 		$this->stringvars['linkid'] = $linkid;
 		
 		if($hasimage)
-			$this->vars['image'] = new LinkedImage($image,$link, $this->stringvars['title'], 2);
+			$this->vars['image'] = new LinkedImage($image,$link, $this->stringvars['title']);
 
 		$this->stringvars['text'] = text2html($description);
 	}
@@ -41,7 +41,7 @@ class LinklistLink extends Template {
 //
 class LinkedImage extends Template {
 
-    function LinkedImage($filename,$linkurl, $linkname, $factor=1)
+    function LinkedImage($filename,$linkurl, $linkname)
     {
 		global $projectroot;
 		
@@ -50,32 +50,30 @@ class LinkedImage extends Template {
 		$image="";
 		$this->stringvars['halign']="float: left;";
 		$alttext=title2html($linkname);
-		$thumbnail=getthumbnail($filename);
+
+		$width=getproperty("Thumbnail Size");
+
 		$imagedir=$projectroot.getproperty("Image Upload Path");
-		$filename=$imagedir.getimagesubpath(basename($filename)).'/'.$filename;
-		if(file_exists($filename))
+		$filepath=$imagedir.getimagesubpath(basename($filename)).'/'.$filename;
+		$thumbnail = getthumbnail($filename);
+		$thumbnailpath=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
+
+		if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
 		{
-			if(!is_dir($filename))
-			{
-				$dimensions=calculateimagedimensions($filename,$factor);
-				$width=$dimensions["width"];
-				$height=$dimensions["height"];
-				
-				if($thumbnail && file_exists($imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail))
-				{
-					//$thumbnail=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
-					$image='<a href="'.$linkurl.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath(basename($filename))).'" alt="'.$alttext.'" title="'.$alttext.'" class="linkedimage"></a>';
-				}
-				else
-				{
-					$image='<a href="'.$linkurl.'"><img src="'.getimagelinkpath($filename,getimagesubpath(basename($filename))).'" width="'.$width.'" height="'.$height.'" alt="'.$alttext.'" title="'.$alttext.'" class="linkedimage"></a>';
-				}
-			}
+			$image='<a href="'.$linkurl.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath(basename($filename))).'" alt="'.$alttext.'" title="'.$alttext.'" class="linkedimage"></a>';
+		}
+		else if(imageexists($filename) && file_exists($filepath) && !is_dir($filepath))
+		{
+			$dimensions=calculateimagedimensions($filepath, true);
+			$width=$dimensions["width"];
+			$height=$dimensions["height"];
+			$image='<a href="'.$linkurl.'"><img src="'.getimagelinkpath($filename,getimagesubpath(basename($filename))).'" width="'.$width.'" height="'.$height.'" alt="'.$alttext.'" title="'.$alttext.'" class="linkedimage"></a>';
 		}
 		else
 		{
 			$image='<a href="'.$linkurl.'">'.$alttext.'</a>';
 		}
+
 		$this->stringvars['image']=$image;
     }
     
@@ -105,7 +103,7 @@ class LinklistPage extends Template {
 		$this->vars['printviewbutton']= new LinkButton('?sid='.$this->stringvars['sid'].'&printview=on&page='.$this->stringvars['page'],getlang("pagemenu_printview"),"img/printview.png");
 		
 		$pageintro = getpageintro($this->stringvars['page']);
-		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
+		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showrefused,$showhidden);
 		
 		// links
 		for($i=$offset;$i<($noofids)&&$i<$noofids;$i++)
@@ -141,7 +139,7 @@ class LinklistPagePrintview extends Template {
 		$noofids=count($linkids);
 		
 		$pageintro = getpageintro($this->stringvars['page']);
-		$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
+		$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showrefused,$showhidden);
 		
 		$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
 		

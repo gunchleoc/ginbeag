@@ -42,6 +42,18 @@ function updatepageintroimagealign($page,$imagealign)
   	return updatefield(PAGES_TABLE,"imagehalign",$db->setstring($imagealign),"page_id='".$db->setinteger($page)."'");
 }
 
+
+//
+//
+//
+function updatepageintroimagesize($page,$autoshrink, $usethumbnail)
+{
+	global $db;
+	$success = updatefield(PAGES_TABLE,"imageautoshrink",$db->setinteger($autoshrink),"page_id='".$db->setinteger($page)."'");
+	return $success & updatefield(PAGES_TABLE,"usethumbnail",$db->setinteger($usethumbnail),"page_id='".$db->setinteger($page)."'");
+}
+
+
 //
 //
 //

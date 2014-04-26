@@ -299,7 +299,7 @@ function isloggedin()
 
 	if(timeout($sid)) $result=false;
 	
-	if(!checkip($sid, $userid, $clientip)) $result=false;
+	// todo check for browser agent instead if(!checkip($sid, $userid, $clientip)) $result=false;
 
 	return $result;
 }
@@ -342,11 +342,12 @@ function checkadmin()
 
 
 //
-//
+// todo remove this?
 //
 function checkip($sid,$userid,$clientip)
 {
 	global $db;
+	return true;
   	$sid=$db->setstring($sid);
   
   	// quick fix for some users who can't get in

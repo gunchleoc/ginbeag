@@ -26,7 +26,7 @@ class Articlesection extends Template {
 		}
 		
 		if(strlen($sectioncontents['sectionimage'])>0 && mayshowimage($sectioncontents['sectionimage'],$this->stringvars['page'],$showhidden))
-		$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],2,$sectioncontents['imagealign'],$showrefused,$showhidden);
+		$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'], $sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'],$showrefused,$showhidden);
 		else $this->stringvars['image']="";
 		
 		$this->stringvars['text']=text2html($sectioncontents['text']);
@@ -78,7 +78,8 @@ class ArticlePage extends Template {
     	$pageintro = getpageintro($this->stringvars['page']);
     	
     	if($articlepage==1)
-    		$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imagehalign'],$showrefused,$showhidden);
+			$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showrefused,$showhidden);
+		else $this->stringvars['pageintro'] = "";
     	
     	$noofarticlepages=numberofarticlepages($this->stringvars['page']);
     
@@ -181,7 +182,7 @@ class ArticlesectionPrintview extends Template {
       	$this->stringvars['image']="";
       	
       	if(strlen($sectioncontents['sectionimage'])>0 && mayshowimage($sectioncontents['sectionimage'],$this->stringvars['page'],false))
-        	$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],2,$sectioncontents['imagealign'],false,false);
+			$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'],$sectioncontents['imagealign'],false,false);
       	else $this->stringvars['image']="";
 
       	$this->stringvars['text']=text2html($sectioncontents['text']);
@@ -228,18 +229,10 @@ class ArticlePagePrintview extends Template {
       		$this->stringvars['source']=title2html($pagecontents['source']);
       		$this->stringvars['l_source']=getlang("article_page_source");
      	}
-
-
-    	$this->stringvars['text']=text2html(getpageintrotext($this->stringvars['page']));
     	
-   	
-    	$synopsisimage=getpageintroimage($this->stringvars['page']);
-    	
-    	if(strlen($synopsisimage)>0 && mayshowimage($synopsisimage,$this->stringvars['page'],false))
-      		$this->vars['image'] = new CaptionedImage($synopsisimage,2,getpageintrohalign($this->stringvars['page']),false,false);
+		$pageintro = getpageintro($this->stringvars['page']);
+		$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign']);
 
-    	else $this->stringvars['image']="";
-    	
 		if($pagecontents['use_toc'])
     		$this->vars['toc']=new ArticleTOC();
     	else

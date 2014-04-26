@@ -37,7 +37,7 @@ class Showimage extends Template {
 			$caption = utf8_decode(title2html($caption));
 			$pagetitle = $pagetitle." - ".$caption;
 		}
-		$this->vars['pageintro'] = new PageIntro($pagetitle,"","");
+		$this->vars['pageintro'] = new PageIntro($pagetitle,"");
 		$this->vars['header']= new PageHeader($this->stringvars['page'],$pagetitle);
 
 		$this->vars['navigator'] = new Navigator($this->stringvars['page'],false,1,"page",$showhidden);

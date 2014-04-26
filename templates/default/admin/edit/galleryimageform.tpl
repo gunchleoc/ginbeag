@@ -3,7 +3,7 @@
 <div class="contentsection">
 	<form name="galleryimageform" action="{ACTIONVARS}" method="post">
 		{HIDDENVARS}
-	  	<div class="leftalign">
+		<div class="leftalign" style="width:70%">
 			<fieldset>
 				<legend class="highlight">Image File</legend>
 				<label for="{JSID}imagefilename">Filename:</label>

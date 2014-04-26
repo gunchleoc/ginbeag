@@ -16,7 +16,7 @@ class Sitemap extends Template {
 	function Sitemap($showhidden=false)
 	{
 		parent::__construct();
-		$this->vars['pageintro'] = new PageIntro(utf8_decode(getlang("pagetitle_sitemap")),"","");
+		$this->vars['pageintro'] = new PageIntro(utf8_decode(getlang("pagetitle_sitemap")),"");
 		  
 		$roots=getrootpages();
 		for($i=0;$i<count($roots);$i++)

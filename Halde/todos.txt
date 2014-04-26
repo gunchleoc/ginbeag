@@ -1,3 +1,23 @@
+
+ALTER TABLE `XXX_articlesections` ADD `imageautoshrink` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1',
+ADD `usethumbnail` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1'
+
+ALTER TABLE `XXX_newsitemsections` ADD `imageautoshrink` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1',
+ADD `usethumbnail` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1'
+
+ALTER TABLE `XXX_newsitems` ADD `imageautoshrink` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1',
+ADD `usethumbnail` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1'
+
+ALTER TABLE `XXX_pages` ADD `imageautoshrink` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1' AFTER `imagehalign` ,
+ADD `usethumbnail` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1' AFTER `imageautoshrink`
+
+
+BUG menu move page up by 3 result display
+
+Gallery: move reindex gallery to synopsis etc.
+
+Review usage of ImageCaption re showrefused - is this used anyway?
+
 #############################################################
 redesign todos
 _____________________________________________________________
@@ -31,7 +51,7 @@ css: separate visited link color.
 #############################################################
 
 AJAX for page edit
-AJAX for image forms - all done except for newsitem synopsis ilamges
+AJAX for image forms - all done except for newsitem synopsis images
 
 #############################################################
 
@@ -62,8 +82,6 @@ Desired new admin features:
 templating for:
 - admin\functions\pagesmod.php rebuildaccessrestrictionindex()
 - admin\site\dbutils.php showtables()
-- admin\includes\templates\adminnavigator.php class PageTree($page_id)
-
 
 Check on Sue's login problem sometime
 
