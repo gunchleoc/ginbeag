@@ -19,33 +19,30 @@ class Image extends Template {
 		$alttext=title2html(getcaption($filename));
 		if(!$alttext) $alttext = $filename;
 		$thumbnail=getthumbnail($filename);
-		$imagedir=$projectroot.getproperty("Image Upload Path");
-		$filename=$imagedir.getimagesubpath(basename($filename)).'/'.$filename;
-		if(file_exists($filename) && !is_dir($filename))
+		$filepath=getimagepath($filename);
+		$thumbnailpath = getthumbnailpath($filename, $thumbnail);
+		if(file_exists($filepath) && !is_dir($filepath))
 		{
-			$dimensions=calculateimagedimensions($filename, $imageautoshrink);
-			$width=$dimensions["width"];
-			$height=$dimensions["height"];
-
-			if($usethumbnail && $thumbnail && file_exists($imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail))
+			if($usethumbnail && $thumbnail && file_exists($thumbnailpath))
 			{
-				//$thumbnail=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
+				$dimensions=getimagedimensions($thumbnailpath);
 				if($showhidden)
-					$image='<a href="'.getprojectrootlinkpath().'admin/showimage.php?image='.basename($filename).$params.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath(basename($filename))).'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
+					$image='<a href="'.getprojectrootlinkpath().'admin/showimage.php?image='.$filename.$params.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
 				else
-					$image='<a href="'.getprojectrootlinkpath().'showimage.php?image='.basename($filename).'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath(basename($filename))).'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
+					$image='<a href="'.getprojectrootlinkpath().'showimage.php?image='.$filename.'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
 			}
 			else
 			{
+				$dimensions=calculateimagedimensions($filepath, $imageautoshrink);
 				if($showhidden)
-					$image='<a href="'.getprojectrootlinkpath().'admin/showimage.php?image='.basename($filename).$params.'"><img src="'.getimagelinkpath($filename,getimagesubpath(basename($filename))).'" width="'.$width.'" height="'.$height.'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
+					$image='<a href="'.getprojectrootlinkpath().'admin/showimage.php?image='.$filename.$params.'"><img src="'.getimagelinkpath($filename,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
 				else
-					$image='<a href="'.getprojectrootlinkpath().'showimage.php?image='.basename($filename).'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($filename,getimagesubpath(basename($filename))).'" width="'.$width.'" height="'.$height.'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
+					$image='<a href="'.getprojectrootlinkpath().'showimage.php?image='.$filename.'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($filepath,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
 			}
 		}
 		else
 		{
-			$image='<span class="smalltext">Image <i>'.basename($filename).'</i></span>';
+			$image='<span class="smalltext">Image <i>'.$filename.'</i></span>';
 		}
 		$this->stringvars['image']=$image;
 	}
@@ -92,22 +89,23 @@ class CaptionedImage extends Template {
 		// determine image dimensions
 		$width=getproperty("Thumbnail Size");
 
-		$imagedir=$projectroot.getproperty("Image Upload Path");
-      	$filepath=$imagedir.getimagesubpath(basename($filename)).'/'.$filename;
+		$filepath=getimagepath($filename);
 		$thumbnail = getthumbnail($filename);
-      	$thumbnailpath=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
+		$thumbnailpath=getthumbnailpath($filename, $thumbnail);
 		
 		if($usethumbnail)
 		{
 			if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
 			{
-				$imageproperties=@getimagesize($thumbnailpath);
-				$width = $imageproperties[0];
+				$dimensions = getimagedimensions($thumbnailpath);
+				$width = $dimensions["width"];
+
 			}
 			else if(imageexists($filename) && file_exists($filepath) && !is_dir($filepath))
 			{
-				$imageproperties=@getimagesize($filepath);
-				$width = $imageproperties[0];
+				$dimensions = getimagedimensions($filepath);
+				$width = $dimensions["width"];
+
 			}
 		}
 		else if(imageexists($filename) && file_exists($filepath) && !is_dir($filepath))
@@ -117,7 +115,7 @@ class CaptionedImage extends Template {
 		}
 
 		$width = $width + IMAGECAPTIONLINEHEIGHT;
-		$this->stringvars["width"]=$width;
+		$this->stringvars["width"] = $width;
 
 		// make the image
       	if(imageexists($filename))

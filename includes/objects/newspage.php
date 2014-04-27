@@ -151,20 +151,18 @@ class Newsitem extends Template {
 						$this->listvars['image'][] = $image;
 						
 						$thumbnail = getthumbnail($images[$i]);
-	
-						$imagedir=$projectroot.getproperty("Image Upload Path");
-				      	$filepath=$imagedir.getimagesubpath(basename($images[$i])).'/'.$images[$i];
-				      	$thumbnailpath=$imagedir.getimagesubpath(basename($images[$i])).'/'.$thumbnail;
+						$filepath = getimagepath($images[$i]);
+						$thumbnailpath = getthumbnailpath($images[$i], $thumbnail);
 						
 						if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
 						{
-							$imageproperties=@getimagesize($thumbnailpath);
-							$width += $imageproperties[0];
+							$dimensions = getimagedimensions($thumbnailpath);
+							$width += $dimensions["width"];
 						}
 						else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath))
 						{
-							$dimensions=calculateimagedimensions($images[$i]);
-							$width+=$dimensions["width"];
+							$dimensions = calculateimagedimensions($images[$i]);
+							$width += $dimensions["width"];
 						}
 					}
 				}

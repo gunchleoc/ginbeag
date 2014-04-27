@@ -53,21 +53,19 @@ class LinkedImage extends Template {
 
 		$width=getproperty("Thumbnail Size");
 
-		$imagedir=$projectroot.getproperty("Image Upload Path");
-		$filepath=$imagedir.getimagesubpath(basename($filename)).'/'.$filename;
+		$filepath = getimagepath($filename);
 		$thumbnail = getthumbnail($filename);
-		$thumbnailpath=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
+		$thumbnailpath = getthumbnailpath($filename, $thumbnail);
 
 		if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
 		{
-			$image='<a href="'.$linkurl.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath(basename($filename))).'" alt="'.$alttext.'" title="'.$alttext.'" class="linkedimage"></a>';
+			$dimensions=getimagedimensions($thumbnailpath);
+			$image='<a href="'.$linkurl.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" class="linkedimage"></a>';
 		}
 		else if(imageexists($filename) && file_exists($filepath) && !is_dir($filepath))
 		{
 			$dimensions=calculateimagedimensions($filepath, true);
-			$width=$dimensions["width"];
-			$height=$dimensions["height"];
-			$image='<a href="'.$linkurl.'"><img src="'.getimagelinkpath($filename,getimagesubpath(basename($filename))).'" width="'.$width.'" height="'.$height.'" alt="'.$alttext.'" title="'.$alttext.'" class="linkedimage"></a>';
+			$image='<a href="'.$linkurl.'"><img src="'.getimagelinkpath($filename,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" class="linkedimage"></a>';
 		}
 		else
 		{

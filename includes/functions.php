@@ -327,44 +327,52 @@ function makearticledate($day,$month,$year)
 	return $result;
 }
 
+
 //
 //
 //
-function calculateimagedimensions($filename, $autoshrink=false)
+function getimagedimensions($filepath)
 {
-	$resized=false;
 	$width=0;
 	$height=0;
-	$result = array("width" => 0, "height" => 0, "resized" => false);
 
-	if(file_exists($filename) && filetype($filename)=="file")
+	if(file_exists($filepath) && filetype($filepath)=="file")
 	{
-		$imageproperties=@getimagesize($filename);
+		$imageproperties=@getimagesize($filepath);
 		$width=$imageproperties[0];
 		$height=$imageproperties[1];
-		
-		if($autoshrink)
+	}
+	return array("width" => $width, "height" => $height);
+}
+
+
+
+//
+//
+//
+function calculateimagedimensions($filepath, $autoshrink=false)
+{
+	$result = getimagedimensions($filepath);
+	$result["resized"] = false;
+
+	if($autoshrink)
+	{
+		// todo Mobile Thumbnail Size
+		if($result["width"] > getproperty("Thumbnail Size"))
 		{
-			// todo Mobile Thumbnail Size
-			if($width>getproperty("Thumbnail Size"))
-			{
-				$resized=true;
-				$test=ceil($width / getproperty("Thumbnail Size")); // add a little more because captioned images are framed
-				$width=floor($width/$test);
-				$height=floor($height/$test);
-			}
-			if($height>getproperty("Thumbnail Size"))
-			{
-				$resized=true;
-				$test=ceil($height / getproperty("Thumbnail Size"));
-				$width=floor($width/$test);
-				$height=floor($height/$test);
-			}
-			$result["resized"]= $resized;
+			$result["resized"] = true;
+			$factor = ceil($result["width"] / getproperty("Thumbnail Size")); // add a little more because captioned images are framed
+			$result["width"] = floor($result["width"] / $factor);
+			$result["height"] = floor($result["height"] / $factor);
+		}
+		if($result["height"]>getproperty("Thumbnail Size"))
+		{
+			$result["resized"] = true;
+			$factor = ceil($result["height"] / getproperty("Thumbnail Size"));
+			$result["width"] = floor($result["width"] / $factor);
+			$result["height"] = floor($result["height"] / $factor);
 		}
 	}
-	$result["width"]= $width;
-	$result["height"]= $height;
 	return $result;
 }
 
@@ -382,6 +390,23 @@ function getimagelinkpath($filename,$subpath)
 	return $result;
 }
 
+//
+//
+//
+function getimagepath($filename)
+{
+	global $projectroot;
+	return $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename)).'/'.$filename;
+}
+
+//
+//
+//
+function getthumbnailpath($imagefilename, $thumbnailfilename)
+{
+	global $projectroot;
+	return $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($imagefilename)).'/'.$thumbnailfilename;
+}
 
 
 //

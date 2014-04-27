@@ -7,7 +7,7 @@
 <!-- END switch COMPLETE_BANNER -->
 <!-- BEGIN switch LINK -->
 <a href="{LINK}" target="_blank" title="{DESCRIPTION}">
-	<img src="{IMAGE}" alt ="{DESCRIPTION}" />
+	<img src="{IMAGE}" alt ="{DESCRIPTION}" width="{WIDTH}" height="{HEIGHT}" />
 </a>
 <!-- END switch LINK -->
 <br />

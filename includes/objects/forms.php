@@ -487,11 +487,17 @@ class LinkButton extends Template {
 
 	function LinkButton($link,$title,$image)
 	{
+		global $projectroot;
 		parent::__construct();
 		
 		$this->stringvars['link']=$link;
 		$this->stringvars['title']=$title;
 		$this->stringvars['imgsrc']=getCSSPath($image);
+		$imgfilepath = $projectroot."templates/".getproperty("Default Template")."/img/".basename($image);
+		if(!file_exists($imgfilepath)) $imgfilepath = $projectroot."templates/default/img/".basename($image);
+		$dimensions = getimagedimensions($imgfilepath);
+		$this->stringvars['width'] = $dimensions["width"];
+		$this->stringvars['height'] = $dimensions["height"];
 	}
 	// assigns templates
 	function createTemplates()

@@ -272,7 +272,6 @@ class ImageList extends Template {
 
     	parent::__construct();
 
-    	$imagedir=getproperty("Image Upload Path");
     	$allfilenames=array();
     	$filenames=array();
     	$message="";
@@ -475,20 +474,19 @@ class AdminImage extends Template {
 			$this->vars['caption']= new ImageCaption($filename);
 		}
 		
-		$imagedir=$projectroot.getproperty("Image Upload Path");
-		$filename=$imagedir.getimagesubpath(basename($filename)).'/'.$filename;
+		$filepath =	getimagepath($filename);
 		
-		if(file_exists($filename))
+		if(file_exists($filepath))
 		{
 			$this->stringvars['image']="image";
-			$this->stringvars['imagepath']=getimagelinkpath($filename,getimagesubpath(basename($filename)));
+			$this->stringvars['imagepath']=getimagelinkpath($filepath,getimagesubpath(basename($filepath)));
 			//print($this->stringvars['imagepath']."*".$filename);
 			
-			$imageproperties = $this->imageproperties($filename, $uploaddate, $uploader);
+			$imageproperties = $this->imageproperties($filepath, $uploaddate, $uploader);
 			if(strlen($imageproperties)>0)
 				$this->stringvars['imageproperties']=$imageproperties;
 			
-			$dimensions=calculateimagedimensions($filename, true);
+			$dimensions=calculateimagedimensions($filepath, true);
 			$this->stringvars['width']=$dimensions["width"];
 			$this->stringvars['height']=$dimensions["height"];
 		}
@@ -501,11 +499,15 @@ class AdminImage extends Template {
 		{
 			$this->stringvars['thumbnail']="thumbnail";
 			$this->stringvars['thumbnailpath']=getimagelinkpath($thumbnail,getimagesubpath(basename($filename)));
-			$thumbnail=$imagedir.getimagesubpath(basename($filename)).'/'.$thumbnail;
+			$thumbnailpath = getthumbnailpath($filepath, $thumbnail);
+			$dimensions=getimagedimensions($thumbnailpath);
 			
-			if(file_exists($thumbnail))
+			if(file_exists($thumbnailpath))
 			{
-				$thumbnailproperties = $this->imageproperties($thumbnail);
+
+				$this->stringvars['width']=$dimensions["width"];
+				$this->stringvars['height']=$dimensions["height"];
+				$thumbnailproperties = $this->imageproperties($thumbnailpath);
 				if(strlen($thumbnailproperties)>0)
 					$this->stringvars['thumbnailproperties']=$thumbnailproperties;
 			}
@@ -513,7 +515,7 @@ class AdminImage extends Template {
 		else
 		{
 			$this->stringvars['no_thumbnail']="no thumbnail";
-			if(isset ($dimensions["resized"]))
+			if(isset($dimensions["resized"]) && $dimensions["resized"])
 				$this->stringvars['resized']=$dimensions["resized"];
 		}
 	}
@@ -532,11 +534,9 @@ class AdminImage extends Template {
 		$result="";
 		if(file_exists($filename))
 		{
-			$imageproperties=@getimagesize($filename);
-			$width=$imageproperties[0];
-			$height=$imageproperties[1];
+			$dimensions = getimagedimensions($filename);
 			$result.=basename($filename);
-			$result.='&nbsp;- '.$width.'&nbsp;x&nbsp;'.$height.'&nbsp;pixel';
+			$result.='&nbsp;- '.$dimensions["width"].'&nbsp;x&nbsp;'.$dimensions["height"].'&nbsp;pixel';
 			$result.='&nbsp;- '.filesize($filename).'&nbsp;bytes.';
 			if($uploaddate || $uploader)
 			{

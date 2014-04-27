@@ -129,16 +129,14 @@ class GalleryPage extends Template {
 		for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
 		{
 			$thumbnail = getthumbnail($images[$i]);
-		
-			$imagedir=$projectroot.getproperty("Image Upload Path");
-	      	$filepath=$imagedir.getimagesubpath(basename($images[$i])).'/'.$images[$i];
-	      	$thumbnailpath=$imagedir.getimagesubpath(basename($images[$i])).'/'.$thumbnail;
+			$filepath = getimagepath($images[$i]);
+			$thumbnailpath = getthumbnailpath($images[$i], $thumbnail);
 			
 			if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
 			{
-				$imageproperties=@getimagesize($thumbnailpath);
-				if ($width < $imageproperties[0]) $width = $imageproperties[0];
-				if ($height < $imageproperties[1]) $height =$imageproperties[1];
+				$dimensions = getimagedimensions($thumbnailpath);
+				if ($width < $dimensions["width"]) $width = $dimensions["width"];
+				if ($height < $dimensions["height"]) $height = $dimensions["height"];
 			}
 			else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath))
 			{

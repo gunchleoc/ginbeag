@@ -41,7 +41,7 @@
 	<div align="center">
 		<!-- BEGIN switch IMAGEPATH -->
 		<div class="captionedimage" align="center">
-			<img src="{IMAGEPATH}" alt="{SIMPLECAPTION}" />
+			<img src="{IMAGEPATH}" alt="{SIMPLECAPTION}" width="{WIDTH}" height="{HEIGHT}" />
 			<div class="imagecaption">{CAPTION}</div>
 		</div>	
 		<!-- END switch IMAGEPATH -->	

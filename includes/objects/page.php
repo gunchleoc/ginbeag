@@ -55,6 +55,7 @@ class Banner extends Template {
 
     function Banner($banner,$showheader=false)
     {
+		global $projectroot;
     	parent::__construct();
 
 		$contents=getbannercontents($banner);
@@ -71,6 +72,9 @@ class Banner extends Template {
 		{
 			$this->stringvars['link']=$contents['link'];
 			$this->stringvars['image']=getbannerlinkpath($contents['image']);
+			$dimensions = getimagedimensions($projectroot."img/banners/".$contents['image']);
+			$this->stringvars['width'] = $dimensions["width"];
+			$this->stringvars['height'] = $dimensions["height"];
 			$this->stringvars['description']=title2html($contents['description']);
 		}
 	}
@@ -657,6 +661,7 @@ class PageHeader extends Template {
 
 	function PageHeader($page, $title, $displaytype="page")
 	{
+		global $projectroot;
 		$this->displaytype=$displaytype;
 		parent::__construct();
 		
@@ -685,11 +690,21 @@ class PageHeader extends Template {
 		
 		$image=getproperty("Left Header Image");
 		if(strlen($image)>0)
+		{
 			$this->stringvars['left_image']=getprojectrootlinkpath().'img/'.$image;
+			$dimensions = getimagedimensions($projectroot."img/".$image);
+			$this->stringvars['left_width'] = $dimensions["width"];
+			$this->stringvars['left_height'] = $dimensions["height"];
+		}
 		
 		$image=getproperty("Right Header Image");
 		if(strlen($image)>0)
+		{
 			$this->stringvars['right_image']=getprojectrootlinkpath().'img/'.$image;
+			$dimensions = getimagedimensions($projectroot."img/".$image);
+			$this->stringvars['right_width'] = $dimensions["width"];
+			$this->stringvars['right_height'] = $dimensions["height"];
+		}
 		
 		$link=getproperty("Left Header Link");
 		if(strlen($link)>0)

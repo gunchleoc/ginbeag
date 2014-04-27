@@ -56,7 +56,7 @@ $(document).ready(function() {
 	      	<!-- BEGIN switch LEFT_LINK -->
 	        <a href="{LEFT_LINK}">
 		        <!-- END switch LEFT_LINK -->
-		        <img src="{LEFT_IMAGE}" border="0" alt="{SITENAME}" vspace="1" />
+		        <img src="{LEFT_IMAGE}" border="0" alt="{SITENAME}" vspace="1" width="{LEFT_WIDTH}" height="{LEFT_HEIGHT}" />
 		        <!-- BEGIN switch LEFT_LINK -->
 	        </a>
 	      <!-- END switch LEFT_LINK -->
@@ -73,7 +73,7 @@ $(document).ready(function() {
 			<!-- BEGIN switch RIGHT_LINK -->
 			<a href="{RIGHT_LINK}">
 				<!-- END switch RIGHT_LINK -->
-				<img src="{RIGHT_IMAGE}" border="0" alt="{SITENAME}" vspace="1" />
+				<img src="{RIGHT_IMAGE}" border="0" alt="{SITENAME}" vspace="1" width="{LEFT_WIDTH}" height="{LEFT_HEIGHT}" />
 				<!-- BEGIN switch RIGHT_LINK -->
 			</a>
 			<!-- END switch RIGHT_LINK -->

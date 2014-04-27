@@ -108,6 +108,9 @@ class Showimage extends Template {
 		if(strlen($image)>1)
 		{
 			$this->stringvars['imagepath'] = getimagelinkpath($image,getimagesubpath(basename($image)));
+			$dimensions = getimagedimensions(getimagepath($image));
+			$this->stringvars['width'] = $dimensions["width"];
+			$this->stringvars['height'] = $dimensions["height"];
 			$this->stringvars['simplecaption'] = title2html($caption);
 			$this->vars['caption'] = new ImageCaption($image, $showhidden);
 
