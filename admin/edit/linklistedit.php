@@ -36,8 +36,8 @@ if(!$message)
 	}
 	elseif(isset($_POST['deletelink']))
 	{
-		$message='Deleting link <i>'.title2html(getlinktitle($_GET['link'])).'</i>';
-		if($_POST['deletelinkconfirm'])
+		$message='Deleted link <i>'.title2html(getlinktitle($_GET['link'])).'</i>';
+		if(isset($_POST['deletelinkconfirm']))
 		{
 			deletelink($_GET['link']);
 			updateeditdata($page);

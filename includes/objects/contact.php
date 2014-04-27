@@ -101,10 +101,9 @@ class ContactForm extends Template {
     	$this->stringvars['l_emailmessage']=getlang("email_message");
     	$this->stringvars['messagevariable']=$emailvariables['Message Text Variable']['property_value'];
     	$this->stringvars['message']=$message;
-    	if($sendcopy)
-    	{
-    		$this->stringvars['sendcopy_checked']="checked";
-    	}
+
+		$this->vars["sendcopyform"] = new CheckboxForm("sendcopy", "sendcopy", getlang("email_sendcopy"), $sendcopy, "right");
+
     	$this->stringvars['l_emailsendcopy']=getlang("email_sendcopy");
   		if($emailvariables['Use Math CAPTCHA']['property_value'])
   		{

@@ -250,6 +250,7 @@ class UnknownImageForm extends Template {
 		$this->stringvars['no_permission']=NO_PERMISSION;
 		$this->stringvars['permission_refused']=PERMISSION_REFUSED;
 		$this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE);
+		$this->vars['deletefileconfirmform']= new CheckboxForm("deletefileconfirm","deletefileconfirm","Confirm delete",false, "right");
 	}
 	
 	// assigns templates
@@ -584,20 +585,9 @@ class ImageFilterForm extends Template {
 		if(isset($_GET["selectedcat"]) && is_array($_GET["selectedcat"])>0) $this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE,15,$_GET["selectedcat"]);
 		else $this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE);
     
-		if(isset($_GET["categoriesblank"]))
-			$this->stringvars['categoriesblank']="checked";
-		else
-			$this->stringvars['categoriesblank']="";
-		
-		if(isset($_GET["sourceblank"]))
-			$this->stringvars['sourceblank']="checked";
-		else
-			$this->stringvars['sourceblank']="";
-		
-		if(isset($_GET["copyrightblank"]))
-			$this->stringvars['copyrightblank']="checked";
-		else
-			$this->stringvars['copyrightblank']="";
+		$this->vars['categoriesblankform'] =  new CheckboxForm("categoriesblank", "categoriesblank", "Search for images without categories", isset($_GET["categoriesblank"]), "right");
+		$this->vars['sourceblankform'] =  new CheckboxForm("sourceblank", "sourceblank", "Search for images with blank source", isset($_GET["sourceblank"]), "right");
+		$this->vars['copyrightblankform'] =  new CheckboxForm("copyrightblank", "copyrightblank", "Search for images with blank copyright", isset($_GET["copyrightblank"]), "right");
       
 		$this->vars['usersselectionform']= new ImageUsersSelectionForm($this->stringvars['uploader']);
 		$this->vars['imageorderselection']= new ImageOrderSelectionForm($order);

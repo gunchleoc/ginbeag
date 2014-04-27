@@ -53,10 +53,7 @@
 		{HIDDENVARS}
 		<fieldset>
 			<legend class="highlight">Contact page options</legend>
-			<div class="leftalign">
-				<label for="iscontact"><em>{USERNAME}</em> can be contacted through the contact page:</label>
-				<input id="iscontact" type="checkbox" name="iscontact" value="Is Contact"<!-- BEGIN switch ISCONTACT --> checked<!-- END switch ISCONTACT -->/>
-			</div>
+			<div class="leftalign">{ISCONTACTFORM}</div>
 			<div style="margin-left: 50%;">
 				<label for="contactfunction">People should contact <em>{USERNAME}</em> for questions about:</label>
 				<input id="contactfunction" type="text" name="contactfunction" size="20" maxlength="50" value="{CONTACTFUNCTION}" />

@@ -17,14 +17,12 @@
 				
 						<br/><label for="filtersource">Source: </label>
 						<input id="filtersource" type="text" maxlength="255" size="30" name="source" value="{SOURCE}" />
-						<br /><input id="filtersourceblank" type="checkbox" name="sourceblank" {SOURCEBLANK} />
-						<label for="filtersourceblank">Search for images with blank source</label>
+						<br />{SOURCEBLANKFORM}
 						<div class="formexplain">Search for text contained in a source.</div>
 						
 						<br/><label for="filtercopyright">Copyright Holder: </label>
 						<input id="filtercopyright" type="text" maxlength="255" size="30" name="copyright" value="{COPYRIGHT}" />
-						<br /><input id="filtercopyrightblank" type="checkbox" name="copyrightblank" {COPYRIGHTBLANK} />
-						<label for="filtercopyrightblank">Search for images with blank copyight holder</label>
+						<br />{COPYRIGHTBLANKFORM}
 						<div class="formexplain">Search for copyright holder.</div>
 					</fieldset>
 					<fieldset>
@@ -36,8 +34,7 @@
 					<fieldset>
 						<legend class="highlight">Image category</legend>
 				        {CATEGORYSELECTION}
-				        <br /><input id="filtercategoriesblank" type="checkbox" name="categoriesblank" {CATEGORIESBLANK} />
-						<label for="filtercategoriesblank">Search for images without categories</label>
+				        <br />{CATEGORIESBLANKFORM}
 					</fieldset>
 				</div>
 				<div class="newline"></div>

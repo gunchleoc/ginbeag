@@ -9,8 +9,7 @@
 		</fieldset>
 		<fieldset>
 			<legend class="highlight">Placing</legend>
-			<label for="root">Create main page:</label>
-			<input id="root" type="checkbox" name="root" {ROOTCHECKED} />
+			{ROOTCHECKEDFORM}
 			<div class="formexplain">If this is checked, the new page will be a main page. If this is empty, the page will be created under the last page you selected.</div>
 		</fieldset>
 		<fieldset>

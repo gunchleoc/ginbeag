@@ -150,11 +150,11 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
 	else
 	{
 		@mail($recipient,sprintf(utf8_decode(getlang("email_contactsubject")),getproperty("Site Name")).$subject,$message_intro.$messagetext,"From: ".$addy)
-		or die('<p class="highlight"><b>'.getlang("email_errorsending").'</b></p>');
+		or die('<p class="highlight"><b>'.utf8_decode(getlang("email_errorsending")).'</b></p>');
 		if($sendcopy)
 		{
 			@mail($addy,getlang("email_yourmessage").getproperty("Site Name")." - ".$subject,getlang("email_thisemailwassent").":\n\n".$message_intro.$messagetext,"From: ".$addy)
-			or die('<p class="highlight"><b>'.getlang("email_errorsending").'</b></p>');
+			or die('<p class="highlight"><b>'.utf8_decode(getlang("email_errorsending")).'</b></p>');
 		}
 		print('<p>'.getlang("email_youremailsent").".<p>");
 	}
@@ -171,7 +171,7 @@ function sendplainemail($subject,$message,$recipient)
   
   	$adminemail=getproperty("Admin Email Address");
 
-  	$error='<p class="highlight">'.getlang("email_errorsending").sprintf(getlang("email_contactwebmaster"),'<a href="../contact.php?user=webmaster">','</a>').'</p>';
+	$error='<p class="highlight">'.utf8_decode(getlang("email_errorsending")).sprintf(getlang("email_contactwebmaster"),'<a href="../contact.php?user=webmaster">','</a>').'</p>';
 
   	@mail($recipient,$subject,$message,"From: ".$adminemail)
       	or die($error);

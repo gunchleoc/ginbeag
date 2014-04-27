@@ -46,6 +46,8 @@ class SiteBannerEditForm extends Template {
 		$this->stringvars['description']=input2html($contents['description']);
 		$this->stringvars['link']=$contents['link'];
 		$this->stringvars['code']=input2html($contents['code']);
+
+		$this->vars['deletebannerconfirmform']= new CheckboxForm("deletebannerconfirm","deletebannerconfirm","Confirm delete",false, "right");
 		
 		$this->vars['submitrow']= new SubmitRow("bannerproperties","Submit Banner Changes",true);
 	}

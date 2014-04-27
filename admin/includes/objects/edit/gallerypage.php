@@ -67,6 +67,8 @@ class GalleryImageForm extends Template {
 		
 		if(!getthumbnail($this->stringvars['imagefilename']))
 			$this->stringvars['no_thumbnail']="This image has no thumbnail";
+
+		$this->vars['removeconfirmform']= new CheckboxForm("removeconfirm","removeconfirm","Confirm remove",false, "right");
 	}
 	
 	// assigns templates

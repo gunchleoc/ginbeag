@@ -60,6 +60,7 @@ class EditLinkListLinkForm extends Template {
 		$this->vars['imageeditor'] = new ImageEditor($this->stringvars['page'],$linkid,"link",$contents);
 		
 		$this->vars['editdescription']= new Editor($this->stringvars['page'],$linkid,"link","Link Description");
+		$this->vars['deleteconfirmform']= new CheckboxForm("deletelinkconfirm","deletelinkconfirm","Confirm delete",false, "right");
 	}
 	
 	// assigns templates

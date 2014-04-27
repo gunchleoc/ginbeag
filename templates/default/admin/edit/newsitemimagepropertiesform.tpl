@@ -12,8 +12,7 @@
 			</fieldset>
               <p>
                 <input type="submit" name="removenewsitemsynopsisimage" value="Remove image" />
-                <input type="checkbox" name="removeconfirm" value="Confirm remove" />
-                Confirm remove
+                {REMOVECONFIRMFORM}
               </p>
 		</div>
 		<div class="rightalign">{IMAGE}</div>

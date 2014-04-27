@@ -27,11 +27,7 @@ class NewPageForm extends Template {
 		$this->stringvars['pagetitle']=$title;
 		$this->stringvars['navtitle']=$navtitle;
 		
-		if($isrootchecked)
-			$this->stringvars['rootchecked']="checked";
-		else
-			$this->stringvars['rootchecked']="";
-		
+		$this->vars['rootcheckedform']= new CheckboxForm("root","root","Create main page:",$isrootchecked);
 		$this->vars['is_publishable_yes']= new RadioButtonForm("","ispublishable","public","Public page",$ispublishable);
 		$this->vars['is_publishable_no']= new RadioButtonForm("","ispublishable","internal","Internal page",!$ispublishable);
 		

@@ -51,8 +51,8 @@ class SitePageType extends Template {
 		
 		$this->stringvars['pagetype']=$pagetype;
 		$this->stringvars['description']=$description;
-		if($restrictions["allowroot"]) $this->stringvars['allowroot']="true";
-		if($restrictions["allowsimplemenu"]) $this->stringvars['allowsimplemenu']="true";
+		$this->vars['allowrootform']= new CheckboxForm("allowroot","allowroot","",$restrictions["allowroot"]);
+		$this->vars['allowsimplemenuform']= new CheckboxForm("allowsimplemenu","allowsimplemenu","",$restrictions["allowsimplemenu"]);
 		if($restrictions["allowself"]) $this->stringvars['allowself']="true";
 	}
 	

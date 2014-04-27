@@ -25,8 +25,7 @@
 			</p>
 			<p>
 				<input type="submit" name="removegalleryimage" value="Remove image from this gallery" />
-				<input type="checkbox" name="removeconfirm" value="Confirm remove" />
-				Confirm remove
+				{REMOVECONFIRMFORM}
 			</p>
 	    </div>
 	    <div class="rightalign"><span id="{JSID}image">{IMAGE}</span></div>

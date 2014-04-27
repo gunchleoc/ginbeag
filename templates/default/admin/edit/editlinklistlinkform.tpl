@@ -28,8 +28,7 @@
 	  	</p>
 		<p>
 	  		<input type="submit" name="deletelink" value="Delete this link" />
-	  		<input type="checkbox" name="deletelinkconfirm" value="Confirm delete" />
-	  		Confirm delete
+			{DELETECONFIRMFORM}
 	  	</p>
 	</form>
 </div>

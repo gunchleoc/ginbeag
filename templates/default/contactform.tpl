@@ -22,8 +22,7 @@
 	</fieldset>
 	<fieldset>
 		<legend>{L_LEGEND_OPTIONS}</legend>
-		<input id="sendcopy" type="checkbox" name="sendcopy" {SENDCOPY_CHECKED} />
-		<label for="sendcopy">{L_EMAILSENDCOPY}</label>
+		{SENDCOPYFORM}
 	</fieldset>
 	<!-- BEGIN switch CAPTCHA -->
 	<fieldset>

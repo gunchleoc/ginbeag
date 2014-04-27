@@ -230,6 +230,7 @@ class SiteAdminUserProfileForm extends Template {
   		else $this->stringvars['notactive']="true";
   		
   		if(getiscontact($userid)) $this->stringvars['iscontact']="true";
+  		$this->vars['iscontactform']= new CheckboxForm("iscontact","iscontact","<em>".$this->stringvars['username']."</em> can be contacted through the contact page:", getiscontact($userid));
   		
   		$this->stringvars["returnlink"]='?page='.$this->stringvars['page'].'&username='.$this->stringvars['username'].'&action=siteuserman';
   		$this->stringvars["permissionslink"]='?page='.$this->stringvars['page'].'&userid='.$userid.'&action=siteuserperm';

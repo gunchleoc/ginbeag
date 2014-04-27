@@ -55,8 +55,7 @@
 			{HIDDENVARS}
 			<p>
 		  		<input type="submit" name="deletebanner" value="Delete this banner" />
-		  		<input type="checkbox" name="deletebannerconfirm" value="Confirm delete" />
-		  		Confirm delete
+				{DELETEBANNERCONFIRMFORM}
 		  	</p>
 		</form>
 	</div>

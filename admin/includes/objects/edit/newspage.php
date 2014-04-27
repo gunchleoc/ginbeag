@@ -36,6 +36,7 @@ class NewsitemImagePropertiesForm extends Template {
 		{
 			$this->vars['image'] = new CaptionedImageAdmin($image, $this->stringvars['page']);
 		}
+		$this->vars['removeconfirmform']= new CheckboxForm("removeconfirm","removeconfirm","Confirm remove",false, "right");
 	}
 	
 	// assigns templates

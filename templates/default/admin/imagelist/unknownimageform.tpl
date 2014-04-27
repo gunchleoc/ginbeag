@@ -5,7 +5,7 @@
 			<form name="deleteform" action="{ACTIONVARSDELETEFILE}" method="post">
 				{HIDDENVARS}
 				<input type="submit" name="deletefile" value="Delete this file" class="mainoption" />
-				<br /><input type="checkbox" name="deletefileconfirm" />Confirm delete
+				<br /><{DELETEFILECONFIRMFORM}
 			</form>
 		</div>
 		<form name="addunknownform" action="{ACTIONVARSADDUNKNOWNFILE}" method="post">
