@@ -319,19 +319,10 @@ function str_containsstr($haystack, $needle)
 function makearticledate($day,$month,$year)
 {
 	$result="";
-	if($year!="0000")
+
+	if($year!="0000" && $month && $day)
 	{
-		$result=$year;
-		
-		if($month)
-		{
-			$month=getlangarray("date_month",$month);
-			$result=$month.' '.$result;
-			if($day)
-			{
-				$result=$day.' '.$result;
-			}
-		}
+		$result = $day." ".getlangarray("date_month",$month)." ".$year;
 	}
 	return $result;
 }

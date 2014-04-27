@@ -86,7 +86,7 @@ class SiteCopyrightDeleteForm extends Template {
 		$this->stringvars['permission']=permission2html($copyright['permission']);
 		$this->stringvars['editor']=title2html(getusername($copyright['editorid']));
 		$this->stringvars['dateadded']=formatdate($copyright['added']);
-		$this->stringvars['editdate']=formatdatetime($copyright['editdate'],true);
+		$this->stringvars['editdate']=formatdatetime($copyright['editdate']);
 		$this->vars['permissionexplanation']=new SiteCopyrightPermissionExplanation();
 	}
 
@@ -198,7 +198,7 @@ class SiteCopyrightInfo extends Template {
 		$this->stringvars['permission']=permission2html($copyright['permission']);
 		$this->stringvars['editor']=title2html(getusername($copyright['editorid']));
 		$this->stringvars['dateadded']=formatdate($copyright['added']);
-		$this->stringvars['editdate']=formatdatetime($copyright['editdate'],true);
+		$this->stringvars['editdate']=formatdatetime($copyright['editdate']);
 		
 		$this->stringvars['imagesearchlink']='../editimagelist.php?source=all&copyright='.$copyright['holder'].'&filter=Display+Selection';
 	}

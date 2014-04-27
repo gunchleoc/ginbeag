@@ -51,57 +51,56 @@ function makecopyright($permissions)
 
 
 //
-// todo handle short month
+// formats date and time
 //
-function formatdatetime($date,$short=false)
+function formatdatetime($date)
 {
-	$result ="";
-  	if(!$short)
-  	{
-    	$format=getproperty("Date Time Format");
-	  	$result= @date($format,strtotime($date));
-	  	$result= str_replace("January",getlangarray("date_month",1),$result);
-	  	$result= str_replace("February",getlangarray("date_month",2),$result);
-	  	$result= str_replace("March",getlangarray("date_month",3),$result);
-	  	$result= str_replace("April",getlangarray("date_month",4),$result);
-	  	$result= str_replace("May",getlangarray("date_month",5),$result);
-	  	$result= str_replace("June",getlangarray("date_month",6),$result);
-	  	$result= str_replace("July",getlangarray("date_month",7),$result);
-	  	$result= str_replace("August",getlangarray("date_month",8),$result);
-	  	$result= str_replace("September",getlangarray("date_month",9),$result);
-	  	$result= str_replace("October",getlangarray("date_month",10),$result);
-	  	$result= str_replace("November",getlangarray("date_month",11),$result);
-	  	$result= str_replace("December",getlangarray("date_month",12),$result);
-  	}
-  	else
-  	{
-    	$format=SHORTDATETIMEFORMAT;
-    	$result= @date($format,strtotime($date));
-  	}
+	$result = @date(getproperty("Date Time Format"), strtotime($date));
+	$result = translatemonth($result);
   	return str_replace(" ","&nbsp;",$result);;
 }
 
 //
-// todo handle short month
+// formats a date
 //
 function formatdate($date)
 {
-	$result="";
-  	$format=getproperty("Date Format");
-  	$result=  @date($format,strtotime($date));
-  	$result= str_replace("January",getlangarray("date_month",1),$result);
-  	$result= str_replace("February",getlangarray("date_month",2),$result);
-  	$result= str_replace("March",getlangarray("date_month",3),$result);
-  	$result= str_replace("April",getlangarray("date_month",4),$result);
-  	$result= str_replace("May",getlangarray("date_month",5),$result);
-  	$result= str_replace("June",getlangarray("date_month",6),$result);
-  	$result= str_replace("July",getlangarray("date_month",7),$result);
-  	$result= str_replace("August",getlangarray("date_month",8),$result);
-  	$result= str_replace("September",getlangarray("date_month",9),$result);
-  	$result= str_replace("October",getlangarray("date_month",10),$result);
-  	$result= str_replace("November",getlangarray("date_month",11),$result);
-  	$result= str_replace("December",getlangarray("date_month",12),$result);
-  	
+	$result = @date(getproperty("Date Format"), strtotime($date));
+	$result = translatemonth($result);
   	return str_replace(" ","&nbsp;",$result);
 }
+
+//
+// helper function for formatdate and formatdatetime
+//
+function translatemonth($date)
+{
+	$date = str_replace("January", getlangarray("date_month",1), $date);
+	$date = str_replace("February", getlangarray("date_month",2), $date);
+	$date = str_replace("March", getlangarray("date_month",3), $date);
+	$date = str_replace("April", getlangarray("date_month",4), $date);
+	$date = str_replace("May", getlangarray("date_month",5), $date);
+	$date = str_replace("June", getlangarray("date_month",6), $date);
+	$date = str_replace("July", getlangarray("date_month",7), $date);
+	$date = str_replace("August", getlangarray("date_month",8), $date);
+	$date = str_replace("September", getlangarray("date_month",9), $date);
+	$date = str_replace("October", getlangarray("date_month",10), $date);
+	$date = str_replace("November", getlangarray("date_month",11), $date);
+	$date = str_replace("December", getlangarray("date_month",12), $date);
+	$date = str_replace("Jan", getlangarray("date_month_short",1), $date);
+	$date = str_replace("Feb", getlangarray("date_month_short",2), $date);
+	$date = str_replace("Mar", getlangarray("date_month_short",3), $date);
+	$date = str_replace("Apr", getlangarray("date_month_short",4), $date);
+	$date = str_replace("May", getlangarray("date_month_short",5), $date);
+	$date = str_replace("Jun", getlangarray("date_month_short",6), $date);
+	$date = str_replace("Jul", getlangarray("date_month_short",7), $date);
+	$date = str_replace("Aug", getlangarray("date_month_short",8), $date);
+	$date = str_replace("Sep", getlangarray("date_month_short",9), $date);
+	$date = str_replace("Oct", getlangarray("date_month_short",10), $date);
+	$date = str_replace("Nov", getlangarray("date_month_short",11), $date);
+	$date = str_replace("Dec", getlangarray("date_month_short",12), $date);
+	return $date;
+}
+
+
 ?>

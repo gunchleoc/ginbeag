@@ -110,6 +110,8 @@ $lang["news_rss_feed"]="Ìnbhir RSS airson na duilleige seo";
 
 $lang["newsitem_returnbutton"]="Seall na h-uile nàidheachd";
 
+$lang["news_title_default"]="Nàidheachd – %s";
+
 /**************************************************************/
 /* categories *************************************************/
 /**************************************************************/
@@ -330,4 +332,17 @@ $lang["date_month"][9]="dhen t-Sùltain";
 $lang["date_month"][10]="dhen Dàmhair";
 $lang["date_month"][11]="dhen t-Sàmhainn";
 $lang["date_month"][12]="dhen Dùbhlachd";
+
+$lang["date_month_short"][1]="Fàoi";
+$lang["date_month_short"][2]="Geàrr";
+$lang["date_month_short"][3]="Màrt";
+$lang["date_month_short"][4]="Gìbl";
+$lang["date_month_short"][5]="Cèit";
+$lang["date_month_short"][6]="Ògmh";
+$lang["date_month_short"][7]="Iùch";
+$lang["date_month_short"][8]="Lùn";
+$lang["date_month_short"][9]="Sùlt";
+$lang["date_month_short"][10]="Dàmh";
+$lang["date_month_short"][11]="Sàmh";
+$lang["date_month_short"][12]="Dùbh";
 ?>

@@ -62,7 +62,9 @@ class ArticlePage extends Template {
       		$this->stringvars['l_author']=getlang('article_page_author');
     	}
 
-    	$this->stringvars['location']=title2html($pagecontents['location']);
+		if(strlen($pagecontents['location'])>0)
+			$this->stringvars['location']=title2html($pagecontents['location']);
+
     	$this->stringvars['date']=makearticledate($pagecontents['day'],$pagecontents['month'],$pagecontents['year']);
 
     	if(strlen($pagecontents['sourcelink'])>0)

@@ -3,7 +3,9 @@
 <p class="articleauthor">{L_AUTHOR} {ARTICLE_AUTHOR}</p>
 <!-- END switch ARTICLE_AUTHOR -->
 <p>
-	<span class="articlelocation">{LOCATION}</span>
+	<!-- BEGIN switch LOCATION -->
+	<span class="articlelocation">{LOCATION},</span>
+	<!-- END switch LOCATION -->
 	<span class="articledate">{DATE}</span>
 </p>
 <!-- BEGIN switch SOURCE -->

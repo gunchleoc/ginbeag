@@ -89,6 +89,8 @@ class Newsitem extends Template {
 		
 		if(strlen($contents['title'])>0)
 			$this->stringvars['title'] =title2html($contents['title']);
+		else
+			$this->stringvars['title'] = sprintf(getlang("news_title_default"),formatdate($contents['date']));
 		
 		if(strlen($contents['date'])>0 || strlen($contents['location'])>0)
 			$this->stringvars['location_date'] ="locationdate";

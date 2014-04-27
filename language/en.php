@@ -112,6 +112,7 @@ $lang["news_rss_feed"]="RSS feed for this page";
 
 $lang["newsitem_returnbutton"]="Show all newsitems";
 
+$lang["news_title_default"]="News – %s";
 
 /**************************************************************/
 /* categories *************************************************/
@@ -325,7 +326,6 @@ $lang["error_pagenotfound"]="Page not found";
 $lang["error_pagenonotfound"]="Could not find page %d.";
 
 
-
 $lang["date_month"][1]="January";
 $lang["date_month"][2]="February";
 $lang["date_month"][3]="March";
@@ -338,4 +338,17 @@ $lang["date_month"][9]="September";
 $lang["date_month"][10]="October";
 $lang["date_month"][11]="November";
 $lang["date_month"][12]="December";
+
+$lang["date_month_short"][1]="Jan";
+$lang["date_month_short"][2]="Feb";
+$lang["date_month_short"][3]="Mar";
+$lang["date_month_short"][4]="Apr";
+$lang["date_month_short"][5]="May";
+$lang["date_month_short"][6]="Jun";
+$lang["date_month_short"][7]="Jul";
+$lang["date_month_short"][8]="Aug";
+$lang["date_month_short"][9]="Sep";
+$lang["date_month_short"][10]="Oct";
+$lang["date_month_short"][11]="Nov";
+$lang["date_month_short"][12]="Dec";
 ?>
