@@ -139,6 +139,25 @@ function movepage($page, $direction, $positions=1)
 	return $result;
 }
 
+
+//
+//
+//
+function sortsubpagesbyname($page)
+{
+	global $db;
+	$result = true;
+
+	$pages = getorderedcolumn("page_id",PAGES_TABLE, "parent_id='".$db->setinteger($page)."'", "title_page", "ASC");
+
+	for($i=0;$i<count($pages);$i++)
+	{
+		$result = $result & updatefield(PAGES_TABLE,"position_navigator",$i,"page_id='".$pages[$i]."'");
+	}
+	return $result;
+}
+
+
 //
 //
 //

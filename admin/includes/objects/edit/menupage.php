@@ -44,6 +44,7 @@ class MenuMovePageForm extends Template {
 	function MenuMovePageForm ($page,$position,$noofelements,$title,$jsid,$movepageform)
 	{
 		parent::__construct($jsid);
+		$this->stringvars['page']=$page;
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editmenumovepage.js");
 		
@@ -96,6 +97,7 @@ class EditMenuSubpages extends Template {
 	{
    		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
   		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['actionvars']= "?page=".$page."&action=editcontents";
 
 		$subpageids=getallsubpageids($page);
 		if(count($subpageids)>0)

@@ -53,6 +53,7 @@ $LEGALVARS["sid"]=1;
 $LEGALVARS["sitepolicy"]=1;
 $LEGALVARS["sitestats"]=1;
 $LEGALVARS["sortlinks"]=1;
+$LEGALVARS["sortsubpages"]=1;
 $LEGALVARS["source"]=1;
 $LEGALVARS["sourcelink"]=1;
 $LEGALVARS["structure"]=1;
