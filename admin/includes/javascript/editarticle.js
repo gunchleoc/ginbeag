@@ -24,8 +24,8 @@ $(document).ready(function() {
 			elements[6] = $("#{JSID}year");
 			elements[7] = $("#{JSID}source");
 			elements[8] = $("#{JSID}sourcelink");
-			elements[9] = $("#{JSID}toc_yes");
-			elements[10] = $("#{JSID}toc_no");
+			elements[9] = $("#{JSID}tocyes");
+			elements[10] = $("#{JSID}tocno");
 			disableElements(elements);
 			
 			showprogressbox("Saving Source Info for Article ID: "+$("#{JSID}page").val()+" ...");
@@ -41,7 +41,7 @@ $(document).ready(function() {
 	       				year: $("#{JSID}year").val(),
 	       				source: uni2ent($("#{JSID}source").val()),
 	       				sourcelink: $("#{JSID}sourcelink").val(),
-	       				toc: $("#{JSID}toc_yes").is(':checked')
+						toc: $("#{JSID}tocyes").is(':checked')
 		       		},
 		       		function(xml)
 					{

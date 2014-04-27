@@ -16,8 +16,7 @@
 		<fieldset>
 			<legend class="highlight">Math CAPTCHA</legend>
 			<label for="usemathcaptcha">Use Math CAPTCHA:</label>	
-			<input type="radio" name="usemathcaptcha" value="1"{USEMATHCAPTCHA}>Yes
-            <input type="radio" name="usemathcaptcha" value="0"{NOT_USEMATHCAPTCHA}>No
+			{USEMATHCAPTCHA_YES} {USEMATHCAPTCHA_NO}
 			<div class="formexplain">Spam protection - people have to solve a simple addition problem on random before sending an e-mail or making an entry in the Guestbook.</div>
 			{SUBMITROW}
 		</fieldset>

@@ -2,9 +2,8 @@
 	<div class="contentheader">Guestbook Settings</div>
 	<div class="contentsection">
 		<fieldset>
-			<legend class="highlight">Enable Guestbook</legend>	
-			<input type="radio" name="enableguestbook" value="1"<!-- BEGIN switch GUESTBOOKDISABLED --> checked<!-- END switch GUESTBOOKDISABLED -->>Yes
-           	<input type="radio" name="enableguestbook" value="0"<!-- BEGIN switch GUESTBOOKENABLED --> checked<!-- END switch GUESTBOOKENABLED -->>No
+			<legend class="highlight">Enable Guestbook</legend>
+			{ENABLEGUESTBOOK_YES} {ENABLEGUESTBOOK_NO}
 			<div class="formexplain">Adds a guestbook to the site.</div>
 		</fieldset>
 		<fieldset>

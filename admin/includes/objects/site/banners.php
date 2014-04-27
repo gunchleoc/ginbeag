@@ -74,17 +74,9 @@ class SiteBanners extends Template {
 		$this->stringvars['displayhiddenvars']='<input type="hidden" name="postaction" value="displaybanners" />';
 		$this->stringvars['displayactionvars']='?page='.$this->stringvars['page'].'&postaction=displaybanners&action=sitebanner';
 		$this->stringvars['addactionvars']='?page='.$this->stringvars['page'].'&postaction=addbanner&action=sitebanner';
-		
-		if(getproperty('Display Banners'))
-		{
-			$this->stringvars['displaybanners'] =' checked';
-			$this->stringvars['not_displaybanners'] ='';
-		}
-		else
-		{
-			$this->stringvars['displaybanners'] ='';
-			$this->stringvars['not_displaybanners'] =' checked';
-		}
+
+		$this->vars['displaybanners_yes'] = new RadioButtonForm($this->stringvars['jsid'], "toggledisplaybanners", 1, "Yes", getproperty('Display Banners'), "right");
+	    $this->vars['displaybanners_no'] = new RadioButtonForm($this->stringvars['jsid'], "toggledisplaybanners", 0, "No", !getproperty('Display Banners'), "right");
 		
 		$banners=getbanners();
 		for($i=0;$i<count($banners);$i++)

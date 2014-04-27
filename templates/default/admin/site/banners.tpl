@@ -5,10 +5,7 @@
 	<div class="contentsection">
 		<fieldset>
 			<legend class="highlight">Display banners?</legend>	
-			<input type="radio" name="toggledisplaybanners" value="1" {DISPLAYBANNERS}>
-				Yes
-				<input type="radio" name="toggledisplaybanners" value="0" {NOT_DISPLAYBANNERS}>
-				No
+			{DISPLAYBANNERS_YES} {DISPLAYBANNERS_NO}
 			<div class="formexplain">Turn all banners on or off.</div>
 		</fieldset>
 		<input type="submit" name="displaybanners" value="Submit" />

@@ -38,22 +38,15 @@ class SiteCopyrightInputformElements extends Template {
 		$this->stringvars['contact']=input2html($copyright['contact']);
 		$this->stringvars['comments']=input2html($copyright['comments']);
 		$this->stringvars['credit']=input2html($copyright['credit']);
-		$this->stringvars['permission_granted']=PERMISSION_GRANTED;
-		if($copyright['permission']==PERMISSION_GRANTED) $this->stringvars['granted']="true";
-		$this->stringvars['permission_imagesonly']=PERMISSION_IMAGESONLY;
-		if($copyright['permission']==PERMISSION_IMAGESONLY) $this->stringvars['imagesonly']="true";
-		$this->stringvars['permission_linkimagesonly']=PERMISSION_LINKIMAGESONLY;
-		if($copyright['permission']==PERMISSION_LINKIMAGESONLY)$this->stringvars['linkimagesonly']="true";
-		$this->stringvars['permission_linkonly']=PERMISSION_LINKONLY;
-		if($copyright['permission']==PERMISSION_LINKONLY) $this->stringvars['linkonly']="true";
-		$this->stringvars['permission_refused']=PERMISSION_REFUSED;
-		if($copyright['permission']==PERMISSION_REFUSED)$this->stringvars['refused']="true";
-		$this->stringvars['permission_noreply']=PERMISSION_NOREPLY;
-		if($copyright['permission']==PERMISSION_NOREPLY) $this->stringvars['noreply']="true";
-		$this->stringvars['permission_pending']=PERMISSION_PENDING;
-		if($copyright['permission']==PERMISSION_PENDING) $this->stringvars['pending']="true";
-		$this->stringvars['no_permission']=NO_PERMISSION;
-		if($copyright['permission']==NO_PERMISSION) $this->stringvars['nopermission']="true";
+
+		$this->vars['permission_granted'] = new RadioButtonForm($this->stringvars['jsid'], "permission", PERMISSION_GRANTED, "Permission granted", $copyright['permission']==PERMISSION_GRANTED, "right");
+		$this->vars['permission_imagesonly'] = new RadioButtonForm($this->stringvars['jsid'], "permission", PERMISSION_IMAGESONLY, "Permission for images only", $copyright['permission']==PERMISSION_IMAGESONLY, "right");
+		$this->vars['permission_linkimagesonly'] = new RadioButtonForm($this->stringvars['jsid'], "permission", PERMISSION_LINKIMAGESONLY, "Permission for images and links only", $copyright['permission']==PERMISSION_LINKIMAGESONLY, "right");
+		$this->vars['permission_linkonly'] = new RadioButtonForm($this->stringvars['jsid'], "permission", PERMISSION_LINKONLY, "Permission for links only", $copyright['permission']==PERMISSION_LINKONLY, "right");
+		$this->vars['permission_refused'] = new RadioButtonForm($this->stringvars['jsid'], "permission", PERMISSION_REFUSED, "Permission Refused", $copyright['permission']==PERMISSION_REFUSED, "right");
+		$this->vars['permission_noreply'] = new RadioButtonForm($this->stringvars['jsid'], "permission", PERMISSION_NOREPLY, "No Reply", $copyright['permission']==PERMISSION_NOREPLY, "right");
+		$this->vars['permission_pending'] = new RadioButtonForm($this->stringvars['jsid'], "permission", PERMISSION_PENDING, "Permission Pending", $copyright['permission']==PERMISSION_PENDING, "right");
+		$this->vars['no_permission'] = new RadioButtonForm($this->stringvars['jsid'], "permission", NO_PERMISSION, "No Permission", $copyright['permission']==NO_PERMISSION, "right");
 	}
 
   	// assigns templates

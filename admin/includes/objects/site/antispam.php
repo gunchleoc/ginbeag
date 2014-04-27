@@ -24,12 +24,9 @@ class SiteAntispam extends Template {
 		$this->stringvars['hiddenvars']='<input type="hidden" name="postaction" value="savesite" />';
 		
 		$variables=getmultiplefields(ANTISPAM_TABLE, "property_name", "1", array(0 => 'property_name', 1 => 'property_value'));
-		
-		
-		if($variables['Use Math CAPTCHA']['property_value'])
-			$this->stringvars['usemathcaptcha']=" checked";
-		else
-			$this->stringvars['not_usemathcaptcha']=" checked";
+
+		$this->vars['usemathcaptcha_yes'] = new RadioButtonForm($this->stringvars['jsid'], "usemathcaptcha", 1, "Yes", $variables['Use Math CAPTCHA']['property_value'], "right");
+	    $this->vars['usemathcaptcha_no'] = new RadioButtonForm($this->stringvars['jsid'], "usemathcaptcha", 0, "No", !$variables['Use Math CAPTCHA']['property_value'], "right");
 		
 		$this->vars['submitrow']= new SubmitRow("submit","Submit",true);
 	}

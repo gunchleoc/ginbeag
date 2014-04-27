@@ -41,7 +41,7 @@ else
 {
 	for($j=0;$j<count($potdcats);$j++)
 	{
-	  	array_push($potdcatnames,getcategoryname($potdcats[$j]));
+		array_push($potdcatnames,getcategoryname($potdcats[$j], CATEGORY_IMAGE));
 	}
 	sort($potdcatnames);
 	$potdcatlistoutput=implode(", ",$potdcatnames);

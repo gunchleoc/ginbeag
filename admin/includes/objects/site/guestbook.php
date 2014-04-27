@@ -124,15 +124,10 @@ class AdminGuestbookEnableForm extends Template {
     	$this->stringvars['enableactionvars']='?page='.$this->stringvars['page'].'&postaction=saveproperties&action=siteguest';
 
     	$properties=getproperties();
-    
-    	if($properties["Enable Guestbook"])
-    	{
-    		$this->stringvars['guestbookdisabled']="Yes";
-    	}
-    	else
-    	{
-    		$this->stringvars['guestbookenabled']="No";
-    	}
+
+		$this->vars['enableguestbook_yes'] = new RadioButtonForm($this->stringvars['jsid'], "enableguestbook", 1, "Yes", $properties["Enable Guestbook"], "right");
+	    $this->vars['enableguestbook_no'] = new RadioButtonForm($this->stringvars['jsid'], "enableguestbook", 0, "No", !$properties["Enable Guestbook"], "right");
+
    		$this->stringvars['entriesperpage']=$properties["Guestbook Entries Per Page"];
    		
    		$this->vars['submitrow']= new SubmitRow("saveproperties","Submit",true);

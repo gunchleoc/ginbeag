@@ -35,29 +35,21 @@
     <td>Permission</td>
     <td align="left">
 		<br />
-		<input type="radio" name="permission" value="{PERMISSION_GRANTED}" <!-- BEGIN switch GRANTED --> checked<!-- END switch GRANTED -->>
-		Permission granted
+		{PERMISSION_GRANTED}
 		<br />
-		<input type="radio" name="permission" value="{PERMISSION_IMAGESONLY}" <!-- BEGIN switch IMAGESONLY --> checked<!-- END switch IMAGESONLY -->>
-		Permission for images only
+		{PERMISSION_IMAGESONLY}
 		<br />
-		<input type="radio" name="permission" value="{PERMISSION_LINKIMAGESONLY}" <!-- BEGIN switch LINKIMAGESONLY --> checked<!-- END switch LINKIMAGESONLY -->>
-		Permission for images and links only
+		{PERMISSION_LINKIMAGESONLY}
 		<br />
-		<input type="radio" name="permission" value="{PERMISSION_LINKONLY}" <!-- BEGIN switch LINKONLY --> checked<!-- END switch LINKONLY -->>
-		Permission for links only
+		{PERMISSION_LINKONLY}
 		<br />
-		<input type="radio" name="permission" value="{PERMISSION_REFUSED}" <!-- BEGIN switch REFUSED --> checked<!-- END switch REFUSED -->>
-		Permission Refused
+		{PERMISSION_REFUSED}
 		<br />
-		<input type="radio" name="permission" value="{PERMISSION_NOREPLY}" <!-- BEGIN switch NOREPLY --> checked<!-- END switch NOREPLY -->>
-		No Reply
+		{PERMISSION_NOREPLY}
 		<br />
-		<input type="radio" name="permission" value="{PERMISSION_PENDING}" <!-- BEGIN switch PENDING --> checked<!-- END switch PENDING -->>
-		Permission Pending
+		{PERMISSION_PENDING}
 		<br />
-		<input type="radio" name="permission" value="{NO_PERMISSION}" <!-- BEGIN switch NOPERMISSION --> checked<!-- END switch NOPERMISSION -->>
-		No Permission
+		{NO_PERMISSION}
 		<br />&nbsp;
     </td>
 </tr>

@@ -59,17 +59,9 @@ class EditArticle extends Template {
 	    $this->vars['dayform']= new DayOptionForm($contents['day'],true,$this->stringvars['jsid']);
 	    $this->vars['monthform']= new MonthOptionForm($contents['month'],true,$this->stringvars['jsid']);
 	    $this->stringvars['year']=$contents['year'];
-    
-	    if($contents['use_toc'])
-	    {
-			$this->stringvars['toc_yes_checked']= "checked";
-	    	$this->stringvars['toc_no_checked']= "";
-	    }
-	    else
-	    {
-	    	$this->stringvars['toc_yes_checked']= "";
-	    	$this->stringvars['toc_no_checked']= "checked";
-	    }
+
+	    $this->vars['toc_yes'] = new RadioButtonForm($this->stringvars['jsid'], "toc", "yes", "Yes", $contents['use_toc'], "right");
+	    $this->vars['toc_no'] = new RadioButtonForm($this->stringvars['jsid'], "toc", "no", "No", !$contents['use_toc'], "right");
 
 	    $this->vars['categorylist']=new Categorylist(getcategoriesforpage($page), CATEGORY_ARTICLE);
 	    $this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid'],CATEGORY_ARTICLE);

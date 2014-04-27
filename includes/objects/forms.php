@@ -327,7 +327,6 @@ class OptionFormMultiple extends Template {
     	parent::__construct();
 
         $this->stringvars['optionform_name'] =strtolower(str_replace(" ","",$name))."[]";
-        $this->stringvars['optionform_name'] =strtolower(str_replace(" ","",$name));
         $this->stringvars['optionform_label'] =$label;
         $this->stringvars['optionform_size']=$size;
         $this->stringvars['optionform_attributes']=$attributes." multiple";

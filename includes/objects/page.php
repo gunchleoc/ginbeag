@@ -421,7 +421,7 @@ class Navigator extends Template {
 				$aotd=getarticleoftheday();
 				if($aotd)
 				{
-					$this->stringvars['aotd_link']=getprojectrootlinkpath().'index.php?page='.$aotd."&sid=".$this->stringvars['sid'];
+					$this->stringvars['aotd_link']=getprojectrootlinkpath().'index.php'.$linkparams.'&page='.$aotd;
 					$this->stringvars['l_aotd']=getlang("navigator_aotd");
 					$homelink=false;
 				}

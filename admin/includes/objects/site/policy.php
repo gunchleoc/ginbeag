@@ -28,15 +28,9 @@ class SitePolicy extends Template {
   		$policytitle=$properties["Site Policy Title"];
   		$policytext=getdbelement("sitepolicytext",SITEPOLICY_TABLE,"policy_id",0);
 
-        if($properties["Display Site Policy"])
-        {
-        	$this->stringvars['policyon']="true";
-        }
-        else
-        {
-        	$this->stringvars['policyoff']="true";
-        }
-        
+		$this->vars['displaypolicy_yes'] = new RadioButtonForm("", "displaypolicy", 1, "Yes", $properties["Display Site Policy"], "right");
+	    $this->vars['displaypolicy_no'] = new RadioButtonForm("", "displaypolicy", 0, "No", !$properties["Display Site Policy"], "right");
+
         $this->stringvars['policytitle']=$properties["Site Policy Title"];
         
         $this->vars['policytext']= new Editor($this->stringvars['page'],0,"sitepolicy","Site Policy");

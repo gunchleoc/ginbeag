@@ -33,27 +33,20 @@ class SiteRandomItems extends Template {
   		{
     		for($j=0;$j<count($potdcats);$j++)
     		{
-      			array_push($potdcatnames,getcategoryname($potdcats[$j]));
+				array_push($potdcatnames,getcategoryname($potdcats[$j], CATEGORY_IMAGE));
     		}
     		sort($potdcatnames);
     		$potdcatlistoutput=implode(", ",$potdcatnames);
   		}
-  		
-  		
-        if($properties["Display Picture of the Day"])
-        {
-        	$this->stringvars['potdon']="true";
-        }
-        else
-        {
-        	$this->stringvars['potdoff']="true";
-        }
-        
+
+		$this->vars['displaypotd_yes'] = new RadioButtonForm($this->stringvars['jsid'], "displaypotd", 1, "Yes", $properties["Display Picture of the Day"], "right");
+	    $this->vars['displaypotd_no'] = new RadioButtonForm($this->stringvars['jsid'], "displaypotd", 0, "No", !$properties["Display Picture of the Day"], "right");
+
         $this->stringvars['potdlist']= $potdcatlistoutput;
         $this->vars['potdcatform']=new CategorySelectionForm(true,"",CATEGORY_IMAGE);
 
-		if($properties["Display Article of the Day"]) $this->stringvars['aotdon']="true";
-		else $this->stringvars['aotdoff']= "true";
+		$this->vars['displayaotd_yes'] = new RadioButtonForm($this->stringvars['jsid'], "displayaotd", 1, "Yes", $properties["Display Article of the Day"], "right");
+	    $this->vars['displayaotd_no'] = new RadioButtonForm($this->stringvars['jsid'], "displayaotd", 0, "No", !$properties["Display Article of the Day"], "right");
        
         $this->stringvars['aotdpages']= $properties["Article of the Day Start Pages"];
         

@@ -4,9 +4,8 @@
 	<div class="contentheader">On Random: Picture of the Day</div>
 	<div class="contentsection">
 		<fieldset>
-			<legend class="highlight">Display Picture of the Day</legend>	
-			<input type="radio" name="displaypotd" value="1"<!-- BEGIN switch POTDON --> checked<!-- END switch POTDON -->>Yes
-           	<input type="radio" name="displaypotd" value="0"<!-- BEGIN switch POTDOFF --> checked<!-- END switch POTDOFF -->>No
+			<legend class="highlight">Display Picture of the Day</legend>
+			{DISPLAYPOTD_YES} {DISPLAYPOTD_NO}
 			<div class="formexplain">Will a Picture of the Day be shown in the navigator?</div>
 		</fieldset>
 		<fieldset>
@@ -24,8 +23,7 @@
 	<div class="contentsection">
 		<fieldset>
 			<legend class="highlight">Display Article of the Day</legend>	
-			<input type="radio" name="displayaotd" value="1"<!-- BEGIN switch AOTDON --> checked<!-- END switch AOTDON -->>Yes
-           	<input type="radio" name="displayaotd" value="0"<!-- BEGIN switch AOTDOFF --> checked<!-- END switch AOTDOFF -->>No
+			{DISPLAYAOTD_YES} {DISPLAYAOTD_NO}
 			<div class="formexplain">Will an Article of the Day be shown in the navigator?</div>
 		</fieldset>
 		<fieldset>

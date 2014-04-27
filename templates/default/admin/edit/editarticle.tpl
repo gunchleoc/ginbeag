@@ -29,8 +29,7 @@
 		<fieldset>
 			<legend class="highlight">Table of Contents</legend>
 			<label for="{JSID}author">Display Table of Contents:</label>
-			<input id="{JSID}toc_yes" type="radio" name="toc" value="yes" {TOC_YES_CHECKED} />Yes
-			<input id="{JSID}toc_no" type="radio" name="toc" value="no" {TOC_NO_CHECKED} />No
+			{TOC_YES} {TOC_NO}
 		</fieldset>
 		<input type="button" id="{JSID}savesourcebutton" name="savesourcebutton" value="Save Changes" class="mainoption" />
 		&nbsp;&nbsp;

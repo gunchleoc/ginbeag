@@ -26,22 +26,7 @@ class SiteLayout extends Template {
 		$this->vars['submitrow']= new SubmitRow("submit","Submit",true);
 		
 		$properties=getproperties();
-		$potdcats=explode(",",$properties["Picture of the Day Categories"]);
-		$potdcatnames=array();
-		if(!count($potdcats))
-		{
-			$potdcatlistoutput="All Categories";
-		}
-		else
-		{
-			for($j=0;$j<count($potdcats);$j++)
-			{
-		  		array_push($potdcatnames,getcategoryname($potdcats[$j]));
-			}
-			sort($potdcatnames);
-			$potdcatlistoutput=implode(", ",$potdcatnames);
-		}
-		
+
 		$linksonsplashpage=explode(",",$properties['Links on Splash Page']);
 		
 		$this->stringvars['sitename']=input2html($properties["Site Name"]);
@@ -114,23 +99,16 @@ class SiteLayout extends Template {
 		$this->stringvars['linksonsplashpagedisplay']=$linksonsplashpagedisplay;
 		
 		$this->vars['linksonsplashpage'] = new OptionFormMultiple($linksonsplashpage,$rootpages,$rootpagetitles,"linksonsplashpage","Links on Splashpage", $size=10);
-		
-		$this->stringvars['alllinksonsplash']="";
-		$this->stringvars['not_alllinksonsplash']="";
-		if($properties["Show All Links on Splash Page"]) $this->stringvars['alllinksonsplash']=" checked";
-		else $this->stringvars['not_alllinksonsplash']=" checked";
-		
-		$this->stringvars['sitedescriptiononsplash']="";
-		$this->stringvars['not_sitedescriptiononsplash']="";
-		if($properties["Display Site Description on Splash Page"]) $this->stringvars['sitedescriptiononsplash']=" checked";
-		else $this->stringvars['not_sitedescriptiononsplash']=" checked";
-		
-		$this->stringvars['fontnormal']="";
-		$this->stringvars['fontitalic']="";
-		$this->stringvars['fontbold']="";
-		if($properties["Splash Page Font"] === "normal") $this->stringvars['fontnormal']=" checked";
-		elseif($properties["Splash Page Font"] === "italic") $this->stringvars['fontitalic']=" checked";
-		elseif($properties["Splash Page Font"] === "bold") $this->stringvars['fontbold']=" checked";
+
+		$this->vars['alllinksonsplashpage_yes'] = new RadioButtonForm($this->stringvars['jsid'], "alllinksonsplashpage", 1, "Show All Links on Splash Page", $properties["Show All Links on Splash Page"], "right");
+	    $this->vars['alllinksonsplashpage_no'] = new RadioButtonForm($this->stringvars['jsid'], "alllinksonsplashpage", 0, "Show the above selection only", !$properties["Show All Links on Splash Page"], "right");
+
+	    $this->vars['showsitedescription_yes'] = new RadioButtonForm($this->stringvars['jsid'], "showsd", 1, "Yes", $properties["Display Site Description on Splash Page"], "right");
+	    $this->vars['showsitedescription_no'] = new RadioButtonForm($this->stringvars['jsid'], "showsd", 0, "No", !$properties["Display Site Description on Splash Page"], "right");
+
+		$this->vars['spfont_normal'] = new RadioButtonForm($this->stringvars['jsid'], "spfont", "normal", "Normal", $properties["Splash Page Font"] === "normal", "right");
+		$this->vars['spfont_italic'] = new RadioButtonForm($this->stringvars['jsid'], "spfont", "italic", "Italic", $properties["Splash Page Font"] === "italic", "right");
+		$this->vars['spfont_bold'] = new RadioButtonForm($this->stringvars['jsid'], "spfont", "bold", "Bold", $properties["Splash Page Font"] === "bold", "right");
 		
 		$this->stringvars['splashtext1']=input2html($properties["Splash Page Text 1 - 1"].$properties["Splash Page Text 1 - 2"]);
 		$this->stringvars['splashimage']=$properties["Splash Page Image"];

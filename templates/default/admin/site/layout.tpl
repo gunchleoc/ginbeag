@@ -88,21 +88,17 @@
 			{LINKSONSPLASHPAGE}	
 			<div class="formexplain">Current selection of links to main pages to be displayed on the splash page: {LINKSONSPLASHPAGEDISPLAY}</div>
 	<br />
-			<input type="radio" name="alllinksonsplashpage" value="1" {ALLLINKSONSPLASH}>Show All Links on Splash Page
-			<input type="radio" name="alllinksonsplashpage" value="0" {NOT_ALLLINKSONSPLASH}>Show the above selection only
+			{ALLLINKSONSPLASHPAGE_YES} {ALLLINKSONSPLASHPAGE_NO}
 			<div class="formexplain">Toggles if all main pages are automatically displayed on the Splash Page, or if the above selection is used.</div>
 		</fieldset>
 		<fieldset>
-			<legend class="highlight">Display Site Description on Splash Page</legend>	
-			<input type="radio" name="showsd" value="1" {SITEDESCRIPTIONONSPLASH}>Yes
-	        <input type="radio" name="showsd" value="0" {NOT_SITEDESCRIPTIONONSPLASH}>No
+			<legend class="highlight">Display Site Description on Splash Page</legend>
+			{SHOWSITEDESCRIPTION_YES} {SHOWSITEDESCRIPTION_NO}
 			<div class="formexplain">Toggles if the Site Description will be displayed on the Splash Page</div>
 		</fieldset>
 		<fieldset>
 			<legend class="highlight">Splash Page Font</legend>	
-			<input type="radio" name="spfont" value="normal" {FONTNORMAL}>Normal
-			<input type="radio" name="spfont" value="italic" {FONTITALIC}>Italic
-			<input type="radio" name="spfont" value="bold" {FONTBOLD}>Bold
+			{SPFONT_NORMAL} {SPFONT_ITALIC} {SPFONT_BOLD}
 			<div class="formexplain">Font style for the text entered below</div>
 		</fieldset>
 		<fieldset>
