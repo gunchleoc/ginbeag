@@ -50,7 +50,7 @@ class SiteRandomItems extends Template {
         }
         
         $this->stringvars['potdlist']= $potdcatlistoutput;
-        $this->vars['potdcatform']=new CategorySelectionForm(true);
+        $this->vars['potdcatform']=new CategorySelectionForm(true,"",CATEGORY_IMAGE);
 
 		if($properties["Display Article of the Day"]) $this->stringvars['aotdon']="true";
 		else $this->stringvars['aotdoff']= "true";

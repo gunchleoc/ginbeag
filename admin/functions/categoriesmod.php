@@ -15,26 +15,30 @@ include_once($projectroot."functions/categories.php");
 //
 //
 //
-function addcategory($parent,$name)
+function addcategory($parent,$name, $cattype)
 {
 	global $db;
+	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
+	else  $table = CATEGORIES_TABLE;
 	$values[0]=0;
 	$values[1]=$db->setinteger($parent);
 	$values[2]=$db->setstring($name);
-	return insertentry(CATEGORIES_TABLE,$values);
+	return insertentry($table,$values);
 }
 
 //
 // returns false if isroot($catid)
 //
-function renamecategory($catid,$name)
+function renamecategory($catid, $name, $cattype)
 {
 	global $db;
+	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
+	else  $table = CATEGORIES_TABLE;
 	$result=false;
 	
-	if(!isroot($catid))
+	if(!isroot($catid, $cattype))
 	{
-		$result = updatefield(CATEGORIES_TABLE,"name",$db->setstring($name),"category_id = '".$db->setinteger($catid)."'");
+		$result = updatefield($table,"name",$db->setstring($name),"category_id = '".$db->setinteger($catid)."'");
 	}
 	return $result;
 }
@@ -42,14 +46,16 @@ function renamecategory($catid,$name)
 //
 // returns false if isroot($catid)
 //
-function movecategory($catid,$newparent)
+function movecategory($catid,$newparent, $cattype)
 {
 	global $db;
+	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
+	else  $table = CATEGORIES_TABLE;
 	$result=false;
 	
-	if(!isroot($catid) && !isdescendant($catid,$newparent))
+	if(!isroot($catid, $cattype) && !isdescendant($catid,$newparent, $cattype))
 	{
-		$result=updatefield(CATEGORIES_TABLE,"parent_id",$db->setinteger($newparent),"category_id = '".$db->setinteger($catid)."'");
+		$result=updatefield($table,"parent_id",$db->setinteger($newparent),"category_id = '".$db->setinteger($catid)."'");
 	}
 	return $result;
 }
@@ -57,10 +63,10 @@ function movecategory($catid,$newparent)
 //
 //
 //
-function isdescendant($parent,$descendant)
+function isdescendant($parent,$descendant, $cattype)
 {
 	$result=false;
-	$children=getcategorychildren($parent);
+	$children=getcategorychildren($parent, $cattype);
 	while(!$result && count($children))
 	{
 		$currentchild=array_pop($children);
@@ -70,7 +76,7 @@ function isdescendant($parent,$descendant)
 		}
 		else
 		{
-			$children=array_merge($children,getcategorychildren($currentchild));
+			$children=array_merge($children,getcategorychildren($currentchild, $cattype));
 		}
 	}
 	return $result;
@@ -80,42 +86,51 @@ function isdescendant($parent,$descendant)
 // removes category from elements
 // if category is not a root category, replaces category with parent category
 //
-function deletecategory($catid)
+function deletecategory($catid, $cattype)
 {
 	global $db;
-	$imagefilenames=getcategoryimages($catid);
-	$result= true;
+	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
+	else  $table = CATEGORIES_TABLE;
+	$result=true;
 	
-	for($i=0;$i<count($imagefilenames);$i++)
+	if($cattype==CATEGORY_IMAGE)
 	{
-		removeimagecategories($imagefilenames[$i],array(0 => $catid));
-		if(!isroot($catid))
+		$imagefilenames=getcategoryimages($catid);
+		$result= true;
+
+		for($i=0;$i<count($imagefilenames);$i++)
 		{
-			$result= $result & addimagecategories($imagefilenames[$i],array(0 => getcategoryparent($catid)));
+			removeimagecategories($imagefilenames[$i],array(0 => $catid));
+			if(!isroot($catid))
+			{
+				$result= $result & addimagecategories($imagefilenames[$i],array(0 => getcategoryparent($catid, $cattype)));
+			}
 		}
 	}
-	
-	$pageids=getcategorypages($catid);
-	for($i=0;$i<count($pageids);$i++)
+	else
 	{
-		removepagecategories($pageids[$i],array(0 => $catid));
-		if(!isroot($catid))
+		$pageids=getcategorypages($catid);
+		for($i=0;$i<count($pageids);$i++)
 		{
-			$result= $result & addpagecategories($pageids[$i],array(0 => getcategoryparent($catid)));
+			removepagecategories($pageids[$i],array(0 => $catid));
+			if(!isroot($catid, $cattype))
+			{
+				$result= $result & addpagecategories($pageids[$i],array(0 => getcategoryparent($catid, $cattype)));
+			}
+		}
+
+		$newsitemids=getcategorynewsitems($catid);
+		for($i=0;$i<count($newsitemids);$i++)
+		{
+			removenewsitemcategories($newsitemids[$i],array(0 => $catid));
+			if(!isroot($catid))
+			{
+				$result= $result & addnewsitemcategories($newsitemids[$i],array(0 => getcategoryparent($catid, $cattype)));
+			}
 		}
 	}
-		
-	$newsitemids=getcategorynewsitems($catid);
-	for($i=0;$i<count($newsitemids);$i++)
-	{
-		removenewsitemcategories($newsitemids[$i],array(0 => $catid));
-		if(!isroot($catid))
-		{
-			$result= $result & addnewsitemcategories($newsitemids[$i],array(0 => getcategoryparent($catid)));
-		}
-	}
-	
-	$result= $result & deleteentry(CATEGORIES_TABLE,"category_id='".$db->setinteger($catid)."'");
+
+	$result= $result & deleteentry($table,"category_id='".$db->setinteger($catid)."'");
 	return $result;
 }
 
@@ -126,11 +141,12 @@ function deletecategory($catid)
 function addimagecategories($filename,$categories)
 {
 	global $db;
+
 	$result=true;
   	$imagecategories=getcategoriesforimage($filename);
   	for($i=0;$i<count($categories);$i++)
   	{
-    	if(!isroot($categories[$i]))
+		if(!isroot($categories[$i], CATEGORY_IMAGE))
     	{
       		$addcategory=true;
       		for($j=0;$addcategory && $j<count($imagecategories);$j++)
@@ -180,7 +196,7 @@ function addpagecategories($page,$categories)
 	$pagecategories=getcategoriesforpage($page);
 	for($i=0;$i<count($categories);$i++)
 	{
-		if(!isroot($categories[$i]))
+		if(!isroot($categories[$i], CATEGORY_ARTICLE))
 		{
 			$addcategory=true;
 			for($j=0;$addcategory && $j<count($pagecategories);$j++)
@@ -225,11 +241,11 @@ function removepagecategories($page,$categories)
 function addnewsitemcategories($newsitem,$categories)
 {
 	global $db;
-	$result=true;
+
   	$newsitemcategories=getcategoriesfornewsitem($newsitem);
   	for($i=0;$i<count($categories);$i++)
   	{
-    	if(!isroot($categories[$i]))
+		if(!isroot($categories[$i], CATEGORY_NEWS))
     	{
       		$addcategory=true;
       		for($j=0;$addcategory && $j<count($newsitemcategories);$j++)

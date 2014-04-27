@@ -273,7 +273,7 @@ function getpictureoftheday()
 			{
 				$selectedcat=array_pop($pendingcategories);
 				array_push($categories,$selectedcat);
-				$pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat));
+				$pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat, CATEGORY_ARTICLE));
 			}
 		}
 		if(count($categories)==0) $categories=array(0 => 0);

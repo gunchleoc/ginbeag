@@ -16,7 +16,7 @@ checksession();
 
 $filename=$_POST['filename'];
 
-$printme= new Categorylist(getcategoriesforimage($filename));
+$printme= new Categorylist(getcategoriesforimage($filename), CATEGORY_IMAGE);
 
 print($printme->toHTML());
 ?>

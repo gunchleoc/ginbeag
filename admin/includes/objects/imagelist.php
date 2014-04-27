@@ -39,7 +39,7 @@ class AddImageForm extends Template {
 		
 		// make category selection
 		$selectedcats=getcategoriesforimage($filename);
-		$this->vars['categoryselection']= new CategorySelectionForm(true,"",15,$selectedcats);
+		$this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE,15,$selectedcats);
 		
 		// action vars
 		$actionvars=makeimagelistvarsfromget();
@@ -165,8 +165,8 @@ class EditImageForm extends Template {
 		else
 			$this->stringvars['thumbnail']=getthumbnail($filename);
 	
-		$this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid']);
-	    $this->vars['categorylist']=new Categorylist(getcategoriesforimage($filename));
+		$this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid'],CATEGORY_IMAGE);
+	    $this->vars['categorylist']=new Categorylist(getcategoriesforimage($filename), CATEGORY_IMAGE);
 	}
 
 	// assigns templates
@@ -249,7 +249,7 @@ class UnknownImageForm extends Template {
 		$this->stringvars['permission_granted']=PERMISSION_GRANTED;
 		$this->stringvars['no_permission']=NO_PERMISSION;
 		$this->stringvars['permission_refused']=PERMISSION_REFUSED;
-		$this->vars['categoryselection']= new CategorySelectionForm(true);
+		$this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE);
 	}
 	
 	// assigns templates
@@ -580,10 +580,9 @@ class ImageFilterForm extends Template {
 		else $this->stringvars['uploader']=-1;
 		
 		// make hidden fields
-		//$this->vars['categoryselection']= new CategorySelectionForm(true);
-		//$selectedcats=getcategoriesforimage($filename);
-		if(isset($_GET["selectedcat"]) && is_array($_GET["selectedcat"])>0) $this->vars['categoryselection']= new CategorySelectionForm(true,"",15,$_GET["selectedcat"]);
-		else $this->vars['categoryselection']= new CategorySelectionForm(true);
+
+		if(isset($_GET["selectedcat"]) && is_array($_GET["selectedcat"])>0) $this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE,15,$_GET["selectedcat"]);
+		else $this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE);
     
 		if(isset($_GET["categoriesblank"]))
 			$this->stringvars['categoriesblank']="checked";

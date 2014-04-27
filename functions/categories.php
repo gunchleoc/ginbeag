@@ -11,20 +11,25 @@ include_once($projectroot."functions/db.php");
 ################################################################################
 
 
-function getallcategorieswithname()
+function getallcategorieswithname($cattype)
 {
-	return getmultiplefields(CATEGORIES_TABLE, "category_id","1", array(0 => '*'), $orderby="parent_id, name");
+	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
+	else  $table = CATEGORIES_TABLE;
+	return getmultiplefields($table, "category_id","1", array(0 => '*'), $orderby="parent_id, name");
 }
 
 //
 //
 //
-function getcategorynamessorted($categories)
+function getcategorynamessorted($categories, $cattype)
 {
+	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
+	else  $table = CATEGORIES_TABLE;
+
 	if(count($categories>0))
 	{
 		$condition="category_id IN ('".implode($categories,"', '")."')";
-		return getorderedcolumn("name", CATEGORIES_TABLE, $condition, "name");
+		return getorderedcolumn("name", $table, $condition, "name");
 	}
 	else return array();
 }
@@ -32,37 +37,46 @@ function getcategorynamessorted($categories)
 //
 //
 //
-function getcategoryname($catid)
+function getcategoryname($catid, $cattype)
 {
 	global $db;
-	return getdbelement("name",CATEGORIES_TABLE, "category_id", $db->setinteger($catid));
+	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
+	else  $table = CATEGORIES_TABLE;
+
+	return getdbelement("name",$table, "category_id", $db->setinteger($catid));
 }
 
 //
 //
 //
-function getcategorychildren($catid)
+function getcategorychildren($catid, $cattype)
 {
 	global $db;
-	return getorderedcolumn("category_id",CATEGORIES_TABLE,"parent_id = '".$db->setinteger($catid)."'","name","ASC");
+	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
+	else  $table = CATEGORIES_TABLE;
+
+	return getorderedcolumn("category_id",$table,"parent_id = '".$db->setinteger($catid)."'","name","ASC");
 }
 
 
 //
 //
 //
-function getcategoryparent($catid)
+function getcategoryparent($catid, $cattype)
 {
 	global $db;
-	return getdbelement("parent_id",CATEGORIES_TABLE, "category_id",$db->setinteger($catid));
+	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
+	else  $table = CATEGORIES_TABLE;
+
+	return getdbelement("parent_id",$table, "category_id",$db->setinteger($catid));
 }
 
 //
 //
 //
-function isroot($catid)
+function isroot($catid, $cattype)
 {
-	$parentid=getcategoryparent($catid);
+	$parentid=getcategoryparent($catid, $cattype);
 	return $parentid==0;
 }
 

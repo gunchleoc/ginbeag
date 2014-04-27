@@ -72,7 +72,7 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$inclu
     {
       $selectedcat=array_pop($pendingcategories);
       array_push($categories,$selectedcat);
-      $pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat));
+      $pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat, CATEGORY_ARTICLE));
     }
   }
   

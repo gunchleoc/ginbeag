@@ -112,7 +112,7 @@ class Newsitem extends Template {
 			$this->stringvars['l_contributor'] =getlang('news_source_foundby');
 		}
 
-		$this->vars['categorylist']=new CategorylistLinks(getcategoriesfornewsitem($newsitem),$this->stringvars["page"]);
+		$this->vars['categorylist']=new CategorylistLinks(getcategoriesfornewsitem($newsitem),$this->stringvars["page"],CATEGORY_NEWS);
 		
 		if(strlen($contents['synopsis'])>0)
 			$this->stringvars['synopsis_image']="synopsis_image";
@@ -406,7 +406,7 @@ class NewsPage extends Template {
 		}
 		
 		$this->stringvars["page"]= $page;
-		$this->vars["categoryselection"]= new CategorySelectionForm(false,"",1,array($selectedcat => $selectedcat));
+		$this->vars["categoryselection"]= new CategorySelectionForm(false,"",CATEGORY_NEWS,1,array($selectedcat => $selectedcat));
 		$this->vars["from_day"]= new DayOptionForm($from["day"],true,"","fromday",getlang("news_filter_fromday"));
 		$this->vars["from_month"]=new MonthOptionForm($from["month"],true,"","frommonth",getlang("news_filter_frommonth"));
 		$this->vars["from_year"]=new YearOptionForm($from["year"],$oldestdate["year"],$newestdate["year"],"","fromyear",getlang("news_filter_fromyear"));

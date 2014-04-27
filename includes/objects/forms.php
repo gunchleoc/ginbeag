@@ -164,7 +164,7 @@ class PageMenu extends Template {
 //
 class CategorySelectionForm  extends Template {
 
-    function CategorySelectionForm($multiple=false,$jsid="",$size=15,$selectedcat=array(),$jsfunction=false,$optionformname="selectedcat", $optionformlabel="")
+    function CategorySelectionForm($multiple=false,$jsid ="", $cattype, $size=15,$selectedcat=array(),$jsfunction=false,$optionformname="selectedcat", $optionformlabel="")
     {
 		$this->stringvars['jsid'] =$jsid;
 		parent::__construct($jsid);
@@ -182,7 +182,7 @@ class CategorySelectionForm  extends Template {
 		if($multiple) $attributes.=' multiple';
 		$this->stringvars['optionform_attributes'] =$attributes;
 		
-		$allcategories=getallcategorieswithname();
+		$allcategories=getallcategorieswithname($cattype);
 		
 		$this->listvars['option'][]= new OptionFormOption(1,"",getlang("form_cat_allcats"));
 		

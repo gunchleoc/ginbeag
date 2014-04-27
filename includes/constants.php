@@ -17,6 +17,7 @@ define('ARTICLESECTIONS_TABLE', $table_prefix.'articlesections');
 define('BANNERS_TABLE', $table_prefix.'banners');
 define('BLOCKEDREFERRERS_TABLE', $table_prefix.'blockedreferrers');
 define('CATEGORIES_TABLE', $table_prefix.'categories');
+define('CATEGORIES_IMAGES_TABLE', $table_prefix.'categories_images');
 define('COPYRIGHT_TABLE', $table_prefix.'blanketcopyright');
 define('EXTERNALS_TABLE', $table_prefix.'externals');
 define('GALLERYITEMS_TABLE', $table_prefix.'galleryitems');
@@ -49,6 +50,7 @@ define('MONTHLYPAGESTATS_TABLE', $table_prefix.'stats_pages_monthly');
 define('THUMBNAILS_TABLE', $table_prefix.'thumbnails');
 define('USERS_TABLE', $table_prefix.'users');
 
+// Content permissions
 define('PERMISSION_PENDING',10);
 define('PERMISSION_NOREPLY',9);
 define('PERMISSION_IMAGESONLY',5);
@@ -58,9 +60,16 @@ define('PERMISSION_GRANTED',2);
 define('NO_PERMISSION',1);
 define('PERMISSION_REFUSED',0);
 
+// Admin/Webediting panel permissions
 define('USERLEVEL_USER',0);
 define('USERLEVEL_ADMIN',1);
 
-define('IMAGECAPTIONLINEHEIGHT',8); // todo replace site property? Hack for gallery pages CSS
+// for different types of categories
+define('CATEGORY_IMAGE',"image");
+define('CATEGORY_ARTICLE',"article");
+define('CATEGORY_NEWS',"newsitem");
+
+// todo replace site property? Hack for gallery pages CSS
+define('IMAGECAPTIONLINEHEIGHT',8);
 
 ?>

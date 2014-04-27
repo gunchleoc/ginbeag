@@ -13,7 +13,7 @@ include_once($projectroot."functions/categories.php");
 
 checksession();
 
-$printme= new Categorylist(getcategoriesforpage($_POST['page']));
+$printme= new Categorylist(getcategoriesforpage($_POST['page']), CATEGORY_ARTICLE);
 
 print($printme->toHTML());
 ?>

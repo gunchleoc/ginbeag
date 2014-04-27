@@ -668,7 +668,7 @@ class PageHeader extends Template {
 			$categories=getcategoriesforpage($page);
 			for($i=0;$i<count($categories);$i++)
 			{
-				$this->stringvars['keywords'].= title2html(getcategoryname($categories[$i])).', ';
+				$this->stringvars['keywords'].= title2html(getcategoryname($categories[$i], CATEGORY_ARTICLE)).', ';
 			}
 		}
 		$this->stringvars['keywords'].=title2html(getproperty('Google Keywords'));

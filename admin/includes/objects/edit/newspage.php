@@ -575,8 +575,8 @@ class EditNewsItemForms extends Template {
 
 			$this->vars['newsitemsourceform'] = new NewsItemSourceForm($newsitem, $contents);
 			$this->vars['fakethedateform'] = new FakeTheDateForm($newsitem, $contents,$offset);
-			$this->vars['categorylist']=new Categorylist(getcategoriesfornewsitem($newsitem));
-			$this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid']);
+			$this->vars['categorylist']=new Categorylist(getcategoriesfornewsitem($newsitem), CATEGORY_NEWS);
+			$this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid'],CATEGORY_NEWS);
 		}
 		else
 		{

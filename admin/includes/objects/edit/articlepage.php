@@ -71,8 +71,8 @@ class EditArticle extends Template {
 	    	$this->stringvars['toc_no_checked']= "checked";
 	    }
 
-	    $this->vars['categorylist']=new Categorylist(getcategoriesforpage($page));
-	    $this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid']);
+	    $this->vars['categorylist']=new Categorylist(getcategoriesforpage($page), CATEGORY_ARTICLE);
+	    $this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid'],CATEGORY_ARTICLE);
 	    $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
 	}
 

@@ -96,7 +96,7 @@ class ArticleInfo extends Template {
 		}
 		
 		$this->stringvars['articleinfo']=$articleinfo;
-		$this->vars['categorylist']=new CategorylistLinks(getcategoriesforpage($article),$page);
+		$this->vars['categorylist']=new CategorylistLinks(getcategoriesforpage($article),$page,CATEGORY_ARTICLE);
 	}
 
     // assigns templates
@@ -184,7 +184,7 @@ class ArticleMenuPage extends Template {
 	{
 	
 		$this->stringvars["page"]= $page;
-		$this->vars["categoryselection"]= new CategorySelectionForm(false,"",1,array($selectedcat => $selectedcat));
+		$this->vars["categoryselection"]= new CategorySelectionForm(false,"",CATEGORY_ARTICLE,1,array($selectedcat => $selectedcat));
 		
 		$this->stringvars["hiddenvars"]= '<input type="hidden" name="page" value="'.$this->stringvars["page"].'" />';
 		$this->stringvars["hiddenvars"].= '<input type="hidden" name="sid" value="'.$this->stringvars["sid"].'" />';

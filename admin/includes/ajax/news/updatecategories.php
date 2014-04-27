@@ -14,7 +14,7 @@ include_once($projectroot."functions/categories.php");
 
 checksession();
 
-$printme= new Categorylist(getcategoriesfornewsitem($_POST['newsitem']));
+$printme= new Categorylist(getcategoriesfornewsitem($_POST['newsitem']), CATEGORY_NEWS);
 
 print($printme->toHTML());
 ?>

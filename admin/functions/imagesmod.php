@@ -290,7 +290,7 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 		{
 			$selectedcat=array_pop($pendingcategories);
 			array_push($categories,$selectedcat);
-			$pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat));
+			$pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat, CATEGORY_IMAGE));
 		}
 	}
 	
