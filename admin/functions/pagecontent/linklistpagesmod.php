@@ -119,4 +119,23 @@ function movelink($link, $direction, $positions=1)
 	}
 	return $result;
 }
+
+
+//
+//
+//
+function sortlinksbyname($page)
+{
+	global $db;
+	$result = false;
+
+	$links = getorderedcolumn("link_id",LINKS_TABLE, "page_id='".$db->setinteger($page)."'", "title", "ASC");
+
+	for($i=0;$i<count($links);$i++)
+	{
+		$result = $result & updatefield(LINKS_TABLE,"position",$i,"link_id='".$links[$i]."'");
+	}
+	return $result;
+}
+
 ?>

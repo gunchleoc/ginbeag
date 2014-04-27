@@ -59,6 +59,12 @@ if(!$message)
 		movelink($_GET['link'], "down", $_POST['positions']);
 		updateeditdata($page);
 	}
+	elseif(isset($_POST['sortlinks']))
+	{
+		$message='Sorted links from A-Z';
+		sortlinksbyname($page);
+		updateeditdata($page);
+	}
 	$editpage = new EditLinklist($page);
 }
 else

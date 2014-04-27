@@ -88,14 +88,6 @@ class EditLinklist extends Template {
 		
 		for($i=0;$i<count($linkids);$i++)
 		{
-		/*
-			$contents=getlinkcontents($linkids[$i]);
-
-			if($contents['title'])
-				$linktitle=title2html($contents['title']);
-			else
-				$linktitle='New Link';
-*/
 			$this->listvars['linkform'][] = new EditLinkListLinkForm($linkids[$i]);
 		}
 		
