@@ -189,11 +189,11 @@ function createsession($user)
     	$sql=deleteentry(SESSIONS_TABLE,"session_id='".$lastsession."'");
   	}
 
-  	$values=array();
-  	$values[]=$sid;
-  	$values[]=$user;
-  	$values[]=date(DATETIMEFORMAT, $now);
-  	$values[]=$ip;
+	$values=array();
+	$values[]=$sid;
+	$values[]=$user;
+	$values[]=date(DATETIMEFORMAT, $now);
+	$values[]=substr($_SERVER["HTTP_USER_AGENT"], 0, 255);
 
   	$sql=insertentry(SESSIONS_TABLE,$values);
   	
@@ -283,25 +283,23 @@ function checksession()
 //
 function isloggedin()
 {
-	global $_COOKIE;
+	global $_COOKIE, $_SERVER;
 	
 	$cookieprefix = getproperty("Cookie Prefix");
 	if(isset($_COOKIE[$cookieprefix."sid"])) $sid = $_COOKIE[$cookieprefix."sid"];
 	else return false;
 	
-	$result=true;
-	
 	$userid=getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $sid);
+	if(!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) return false;
+
 	$clientip=getclientip();
-	
-	if(!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) $result=false;
-	if(!isset($_COOKIE[$cookieprefix."clientip"]) || substr($_COOKIE[$cookieprefix."clientip"],0,6)!=substr($clientip,0,6)) $result=false;
+	if(!isset($_COOKIE[$cookieprefix."clientip"]) || substr($_COOKIE[$cookieprefix."clientip"],0,6)!=substr($clientip,0,6)) return false;
 
-	if(timeout($sid)) $result=false;
+	if(timeout($sid)) return false;
 	
-	// todo check for browser agent instead if(!checkip($sid, $userid, $clientip)) $result=false;
+	if(!checkagent($sid, $userid, $_SERVER["HTTP_USER_AGENT"])) return false;
 
-	return $result;
+	return true;
 }
 
 
@@ -342,26 +340,21 @@ function checkadmin()
 
 
 //
-// todo remove this?
+// compares browser agent to entry in the sessions table
 //
-function checkip($sid,$userid,$clientip)
+function checkagent($sid, $userid, $browseragent)
 {
 	global $db;
-	return true;
-  	$sid=$db->setstring($sid);
-  
-  	// quick fix for some users who can't get in
-  	if($userid==7 || $userid==13 || $userid==19) return true;
-  
-  	if($clientip)
-  	{
-    	$sessionip=getdbelement("session_ip",SESSIONS_TABLE, "session_id", $sid);
-    	$clientprefix=(substr($clientip,0,6));
-    	$sessionprefix=(substr($sessionip,0,6));
-    	return($clientprefix===$sessionprefix);
-  	}
-  	else return false;
+	$result = true;
+
+	if($browseragent)
+	{
+		$sessionagent=getdbelement("browseragent",SESSIONS_TABLE, "session_id", $db->setstring($sid));
+		$result = (substr($sessionagent,0,255)===substr($browseragent,0,255));
+	}
+	return $result;
 }
+
 
 //
 //
