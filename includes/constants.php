@@ -1,14 +1,7 @@
 <?php
 
-// Debug Level
-define('DEBUG', 1); // Debugging on
-//define('DEBUG', 0); // Debugging off
-
 //Datetime format for database entries
 define('DATETIMEFORMAT','Y-m-d H:i:s');
-
-//todo move to config http://de.php.net/manual/en/timezones.php
-date_default_timezone_set ('Europe/London');
 
 // Table names
 define('ANTISPAM_TABLE', $table_prefix.'antispam');
