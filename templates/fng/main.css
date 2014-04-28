@@ -127,8 +127,6 @@ input.mainoption {
 
 #banners {
 	width: 95%;
-	position: absolute;
-	background-color: #A9E2FF;
 	margin-top: 2em;
 	font-size: 75%;
 	border-style: solid;
@@ -147,8 +145,7 @@ input.mainoption {
 	padding-top: 0em;
 	margin-left: 21%;
 	margin-top: 1.5em;
-	padding-bottom:120px;
-
+	padding-bottom:3em;
 }
 
 /* formerly bodyline */

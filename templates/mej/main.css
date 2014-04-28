@@ -135,7 +135,6 @@ input.mainoption {
 
 #banners {
 	width: 95%;
-	position: absolute;
 	background-color: #0D2A43;
 	margin-top: 2em;
 	font-size: 75%;
@@ -155,8 +154,7 @@ input.mainoption {
 	padding-top: 0em;
 	margin-left: 21%;
 	margin-top: 1.5em;
-	padding-bottom:120px;
-
+	padding-bottom:3em;
 }
 
 

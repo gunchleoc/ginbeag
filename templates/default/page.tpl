@@ -16,5 +16,5 @@
 <div id="contentarea" title="{L_CONTENT}">
     {CONTENTS}
 </div>
-
+<div class="newline"></div>
 {FOOTER}
