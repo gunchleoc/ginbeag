@@ -1,34 +1,79 @@
 <?php
+/**
+ * This file contains the superclass for all objects that generate screen output
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 include_once($projectroot."includes/includes.php");
 include_once($projectroot."language/languages.php");
 
-//
-// Page template superclass
-//
+
+/**
+ * Page template superclass
+ *
+ * Inherit from this class fo all objects that output HTML to the screen.
+ * Data ist stored in special arrays ($stringvars, $vars, $listvars).
+ * The placeholder variables in the corresponding .tpl file are then replaced by the
+ * contents of these arrays.
+ *
+ * $stringvars contains strings
+ * $vars contains individual Template objects
+ * $listvars contains arrays of Template objects
+ *
+ * To create a template object, call this constructor first (parent::__construct();)
+ * in its constructor, then add your data into the special arrays.
+ *
+ * Make sure to overwrite createTemplates() as well.
+ */
 class Template {
+	/**
+	 * A list of .tpl files used to generate the HTML representation of the object
+	 */
 	var $templates=array();
 
-    // vars that are simple strings
+
+	/**
+	 * Content variables that are simple strings
+	 */
     var $stringvars=array();
 
-    // vars have to be of class Template
+	/**
+	 * Content variables of class Template
+	 */
     var $vars=array();
 
-    // arrays of vars of class Template
+	/**
+	 * Arrays of content variables of class Template
+	 */
     var $listvars=array();
     
-    // array of links to javascript files
+	/**
+	 * Links to javascript library files
+	 */
     var $jspaths=array();
     
-    // javascript to be loaded in header. contains jsids that need replacing
+	/**
+	 * Javascript to be loaded inline. Contains {JSID}s that need replacing
+	 */
     var $jscripts=array();
 
 
-    // overwrite this constructor
-    // fill attributes, then call createTemplates
-    //
+    /**
+	 * Constructor for the template superclass
+	 *
+	 * To create a template object, call this constructor first (parent::__construct();)
+	 * in its constructor, then add your data into the special arrays ($stringvars, $vars, $listvars).
+	 *
+	 * @param string $jsid A string added to HTML elements' IDs in the .tpl file, for uniquely
+	 * referencing multiple elements with the same name. Will be inserted for each {JSID} in the .tpl file.
+	 *
+	 * @param array $jspaths A list of javascript libraries to link in the HTML
+	 *
+	 * @param array $jscripts A list of javascript functions to include inline in the HTML. These will be run through the parser.
+	 *
+	 * @return void
+	 */
     function Template($jsid="",$jspaths=array(),$jscripts=array())
     {
     	global $sid, $page;
@@ -41,16 +86,24 @@ class Template {
     	$this->createTemplates();
     }
     
-    //
-    // overwrite this function
-    // assign templates using addTemplate
-    //
+
+    /**
+     * Overwrite this function to add .tpl file to represent your object as HTML
+     *
+     * Call $this->addTemplate("<filename>.tpl"); in this function
+     *
+     * @return void
+     */
     function createTemplates()
     {
     }
     
-	// get array of links to javascript files
-	// already prepared as string for includion in HTML header
+
+	/**
+     * Get an array of links to javascript files already prepared as string for includion in HTML header
+     *
+     * @return string HTML with <script> tags to link to the $jspaths
+     */
 	function getjspaths()
 	{
 		$result="";
@@ -63,8 +116,14 @@ class Template {
 	  	return $result;
 	}
 
-	// get inline javascript as string to be placed in header
-	// jsids have been replaced
+
+	/**
+     * Get inline javascript as string to be placed in header. {JSID}s have been replaced.
+     *
+     * Calls prepareJavaScript($jsid, $scriptpath) for all $jscripts
+     *
+     * @return string HTML with <script> tags and inline javascript that has the {JSID} replaced
+     */
 	function getscripts()
 	{
 		$result="";
@@ -76,20 +135,32 @@ class Template {
 		return $result;
 	}
 	  
-    //
-    // adds a template to be parsed
-    // templates have to be added in the sequence
-    // that you want them concatenated
-    //
+
+	/**
+     * Adds a .tpl template to be parsed and added to the HTML output
+     *
+     * You can call this function multiple times.
+     * Templates have to be added in the sequence that you want them concatenated.
+     *
+     * @param string $filename The filename of the .tpl file to be added
+     *
+     * @return void
+     */
     function addTemplate($filename)
     {
 		$this->templates[]=$filename;
     }
 
 
-    //
-    // parses variables in the attribute arrays into all templates
-    //
+	/**
+	 * Parses variables in the attribute arrays into all .tpl templates
+	 *
+	 * Data ist stored in special arrays ($stringvars, $vars, $listvars).
+	 * The placeholder variables in the corresponding .tpl file are replaced by the
+	 * contents of these arrays by this function.
+	 *
+	 * @return string the HTML representation of this object
+	 */
     function toHTML()
     {
 		global $projectroot;
@@ -191,66 +262,6 @@ class Template {
 	}
     
     
-    //
-    // $source="get", "post"
-    // $excludes = array, list of variables to exclude, using the array keys
-    // addvars = additional vars that are not in $_GET or $_POST
-    // result = string to be added to template stringvars
-    //
-    function makehiddenvarsold($source="get",$excludes = array(),$addvars = array())
-    {
-		global $_GET, $_POST, $sid, $LEGALVARS; /// todo legalvars check fails
-    	
-		//print_r($LEGALVARS);
-    	
-		$result='<input type="hidden" name="sid" value="'.$sid.'" />';
-		$excludes["sid"]= "sid";
-    	
-		$vars = array();
-    	
-		if($source=="get") $vars = $_GET;
-		else $vars = $_POST;
-    	
-		// eliminate excluded vars    	
-		$keys = array_keys($vars);
-    	while($key=current($keys))
-  		{
-    		if(array_key_exists($key,$excludes))
-    		{
-    			unset($vars[$key]);
-    		}
-    		next($keys);
-  		}    	
-    	
-    	// vars from get/post
-    	$keys = array_keys($vars);
-    	while($key=current($keys))
-  		{
-  			//if(!array_key_exists($key,$excludes) && array_key_exists($key,$LEGALVARS))
-    		//if(!array_key_exists($key,$excludes))
-    		{
-      			$result.= '<input type="hidden" name="'.$key.'" value="'.$vars[$key].'" />';
-    		}
-    		next($keys);
-  		}
-  		
-  		// add extra vars
-    	$addkeys = array_keys($addvars);
-    	while($key=current($addkeys))
-  		{
-  			//if(!array_key_exists($key,$vars) && array_key_exists($key,$LEGALVARS))
-    		if(!array_key_exists($key,$vars))
-    		{
-      			$$result.= '<input type="hidden" name="'.$key.'" value="'.$addvars[$key].'" />';
-    		}
-    		next($addkeys);
-  		}   		
-  		return $result;
-    }
-    
-
-
-
 
     //
     // $vars must be an array. keys = varnames, values = varvalues
@@ -306,10 +317,11 @@ class Template {
 /************************* non-object functions ****************************/
 
 
-//
-// individualise javascripts with jsid
-// needed when same javascript is inserted more than once into the same page
-//
+/**
+ * Individualise javascripts with {JSID}s. Needed when the same javascript is inserted more than once into the same page.
+ *
+ * @return string HTML with <script> tags and inline javascript that has the {JSID} replaced
+ */
 function prepareJavaScript($jsid, $scriptpath)
 {
 	global $projectroot;
@@ -330,9 +342,12 @@ function prepareJavaScript($jsid, $scriptpath)
 
 
 
-//
-// helper for testing
-//
+
+/**
+ * Helper function for testing
+ *
+ * @return string with all vars of this object
+ */
 function print_vars($obj)
 {
     foreach (get_object_vars($obj) as $prop => $val)
@@ -343,9 +358,16 @@ function print_vars($obj)
     echo "<p>&nbsp;</p>";
 }
 
-//
-// get CSS for the chosen template
-//
+
+/**
+ * Gets the weblink for a stylesheet.
+ *
+ * Reverts to default style if file is not available for the template chosen by the user in the site layout.
+ *
+ * @param string $stylesheet A filename for the stylesheet. e.g. "main.css"
+ *
+ * @return string wih the weblink for the stylesheet
+ */
 function getCSSPath($stylesheet="")
 {
 	global $projectroot;
