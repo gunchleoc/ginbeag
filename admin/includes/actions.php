@@ -6,7 +6,6 @@ function issiteaction($action)
 	$actions = array();
 	$actions["site"]=1;
 	$actions["sitestats"]=1;
-	$actions["sitecopyperm"]=1;
 	$actions["sitereferrers"]=1;
 	$actions["sitepagetype"]=1;
 	$actions["sitepagerestrict"]=1;

@@ -69,10 +69,6 @@ elseif($action=="sitestats")
 {
 	include_once($projectroot."admin/site/stats.php");
 }
-elseif($action=="sitecopyperm")
-{
-	include_once($projectroot."admin/site/copyrightpermissions.php");
-}
 elseif($action=="sitereferrers")
 {
 	include_once($projectroot."admin/site/referrers.php");

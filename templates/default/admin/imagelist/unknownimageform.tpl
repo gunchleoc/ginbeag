@@ -40,7 +40,7 @@
 					
 					<fieldset>
 						<legend>Permissions</legend>
-						<span id="{JSID}permission">{PERMISSION_GRANTED} {NO_PERMISSION} {PERMISSION_REFUSED}</span>
+						<span id="{JSID}permission">{PERMISSION_GRANTED} {NO_PERMISSION}</span>
 						<div class="formexplain">Did the copyright owner give us permission to use this image?</div>
 					</fieldset>
 		

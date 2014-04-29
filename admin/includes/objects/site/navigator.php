@@ -93,13 +93,6 @@ class SiteAdminNavigator extends Template {
 		$links[]= new SiteAdminNavigatorLink("Site Statistics","sitestats");
 		$this->listvars['category'][]= new SiteAdminNavigatorCategory("Site",$links);
 		
-		$links=array();
-		$links[]= new SiteAdminNavigatorLink("Copyright Permissions","sitecopyperm");
-		if(isadmin())
-		{
-			$links[]= new SiteAdminNavigatorLink("Referrers","sitereferrers");
-		}
-		$this->listvars['category'][]= new SiteAdminNavigatorCategory("Copyright",$links);
 		
 		$links=array();
 		if(isadmin())
@@ -114,7 +107,6 @@ class SiteAdminNavigator extends Template {
 		{
 			$links[]= new SiteAdminNavigatorLink("Site Layout","sitelayout");
 			$links[]= new SiteAdminNavigatorLink("Items of the Day","siteiotd");
-			$links[]= new SiteAdminNavigatorLink("Anti-Spam","sitespam");
 			$links[]= new SiteAdminNavigatorLink("Guestbook","siteguest");
 			$links[]= new SiteAdminNavigatorLink("Site Policy","sitepolicy");
 			$links[]= new SiteAdminNavigatorLink("Banners","sitebanner");
@@ -125,7 +117,12 @@ class SiteAdminNavigator extends Template {
 			$links[]= new SiteAdminNavigatorLink("Database Utilities","sitedb");
 			$links[]= new SiteAdminNavigatorLink("Rebuild Indices","siteind");
 			$this->listvars['category'][]= new SiteAdminNavigatorCategory("Technical",$links);
-			
+
+			$links=array();
+			$links[]= new SiteAdminNavigatorLink("Anti-Spam","sitespam");
+			$links[]= new SiteAdminNavigatorLink("Blocked Sites","sitereferrers");
+			$this->listvars['category'][]= new SiteAdminNavigatorCategory("Protection",$links);
+
 			$links=array();
 			$links[]= new SiteAdminNavigatorLink("User Management","siteuserman");
 			$links[]= new SiteAdminNavigatorLink("User Permissions","siteuserperm");
