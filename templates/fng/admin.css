@@ -43,6 +43,7 @@ html body {
 	max-height: 65% !important;
 	overflow:auto;
 	margin-top:1em;
+	padding-bottom:120px;
 }
 
 #wrapper {
