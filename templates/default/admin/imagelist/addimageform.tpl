@@ -43,7 +43,7 @@
 						</fieldset>
 						<fieldset>
 							<legend>Permissions</legend>
-							{PERMISSION_GRANTED} {NO_PERMISSION} {PERMISSION_REFUSED}
+							{PERMISSION_GRANTED} {NO_PERMISSION}
 							<div class="formexplain">Did the copyright owner give us permission to use this image?</div>
 						</fieldset
 					</fieldset>	

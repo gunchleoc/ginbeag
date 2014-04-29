@@ -17,14 +17,8 @@
 				<legend class="highlight">Permissions</legend>
 				<p>
 					<span class="leftalign labelleft">Permissions for text content:</span>
-					{PERMISSION_GRANTED} {NO_PERMISSION} {PERMISSION_REFUSED}
+					{PERMISSION_GRANTED} {NO_PERMISSION}
 				</p>
-				<!-- BEGIN switch ACCESSRESTRICTED -->
-				<p>
-					<span class="leftalign labelleft">Show images with permission refused:</span>
-					{SHOWREFUSED_YES} {SHOWREFUSED_NO} 
-				</p>
-				<!-- END switch ACCESSRESTRICTED -->
 			</fieldset>
 			{SUBMITROW}
 		</div>

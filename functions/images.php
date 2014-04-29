@@ -190,14 +190,6 @@ function getimagepermission($filename)
 	return getdbelement("permission",IMAGES_TABLE, "image_filename",$db->setstring($filename));
 }
 
-//
-//
-//
-function imagepermissionrefused($filename)
-{
-	$refused= getimagepermission($filename);
-	return $refused==PERMISSION_REFUSED;
-}
 
 //
 //
@@ -254,7 +246,7 @@ function getpictureoftheday()
 	//  print($date);
 	
 	$potd=getdbelement("potd_filename",PICTUREOFTHEDAY_TABLE, "potd_date", $date);
-	if(!hasthumbnail($potd) || !imageisused($potd) || imagepermissionrefused($potd))
+	if(!hasthumbnail($potd) || !imageisused($potd))
 	{
 		$query="DELETE FROM ".PICTUREOFTHEDAY_TABLE." where potd_date= '".$date."';";
 		$sql=$db->singlequery($query);
@@ -286,7 +278,6 @@ function getpictureoftheday()
 		$query.=IMAGECATS_TABLE." as cats WHERE ";
 		$query.=" thumbs.image_filename = cats.image_filename";
 		$query.=" AND thumbs.image_filename = images.image_filename";
-		$query.=" AND images.permission <> '".PERMISSION_REFUSED."'";
 		$query.=" AND cats.category in(".$cats.")";
 	
 		//    print($query);

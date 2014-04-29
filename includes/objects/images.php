@@ -60,7 +60,7 @@ class Image extends Template {
 //
 class CaptionedImage extends Template {
 
-    function CaptionedImage($filename, $imageautoshrink, $usethumbnail, $halign="left", $showrefused=false, $showhidden=false)
+    function CaptionedImage($filename, $imageautoshrink, $usethumbnail, $halign="left", $showhidden=false)
     {
     	global $projectroot, $_GET;
     	
@@ -120,18 +120,11 @@ class CaptionedImage extends Template {
 		// make the image
       	if(imageexists($filename))
       	{
-        	if($showhidden)
-        	{
-				$this->vars['image'] = new Image($filename, $imageautoshrink, $usethumbnail, "&page=".$this->stringvars['page'], $showhidden);
-        	}
-        	elseif(!imagepermissionrefused($filename) || $showrefused)
-        	{
-				$this->vars['image'] = new Image($filename, $imageautoshrink, $usethumbnail, "&page=".$this->stringvars['page'], $showhidden);
-        	}
-      }
-      else $this->stringvars['image']='<i>'.$filename.'</i>';
-      
-      $this->vars['caption'] = new ImageCaption($filename, $showhidden, $showrefused);
+			$this->vars['image'] = new Image($filename, $imageautoshrink, $usethumbnail, "&page=".$this->stringvars['page'], $showhidden);
+		}
+		else $this->stringvars['image']='<i>'.$filename.'</i>';
+
+		$this->vars['caption'] = new ImageCaption($filename, $showhidden);
 
     }
 
@@ -148,7 +141,7 @@ class CaptionedImage extends Template {
 //
 class ImageCaption extends Template {
 
-    function ImageCaption($filename, $showhidden=false, $showrefused=false)
+    function ImageCaption($filename, $showhidden=false)
     {
 		global $projectroot;
 		parent::__construct();
@@ -221,19 +214,6 @@ class ImageCaption extends Template {
 		if($permission==PERMISSION_GRANTED) $result.=getlang("image_bypermission");
 		
 		$this->stringvars['caption']=$result;
-		
-   		if($showhidden && imagepermissionrefused($filename))
-  		{
-    		$this->stringvars['caption'].='<div class="highlight">Permission refused for this image;<br />';
-    		if($showrefused)
-    		{
-      			$this->stringvars['caption'].='but shown anyway!</div>';
-    		}
-    		else
-    		{
-      			$this->stringvars['caption'].='hidden from webpage!</div>';
-    		}
-  		}
     }
 
     // assigns templates

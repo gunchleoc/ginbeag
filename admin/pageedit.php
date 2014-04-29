@@ -167,8 +167,6 @@ elseif($action==="setpublishable")
 elseif($action==="setpermissions")
 {
 	updatecopyright($page,fixquotes($_POST['copyright']),fixquotes($_POST['imagecopyright']),$_POST['permission']);
-	// todo if access restricted
-	if (ispagerestricted($page)) setshowpermissionrefusedimages($page, $_POST["show"]);
 	updateeditdata($page);
 	$message="Edited copyright permissions";
 }
@@ -182,7 +180,6 @@ elseif($action==="restrictaccess")
 	else
 	{
 		removeaccessrestriction($page);
-		setshowpermissionrefusedimages($page, 0);
 	}
 	$message="Edited page restrictions";
 }

@@ -215,7 +215,7 @@ function isnewsitempublished($newsitem)
 
 //
 // returns array of copyright, imagecopyright, permission
-// permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION, PERMISSION_REFUSED
+// permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
 //
 function getnewsitemcopyright($newsitem)
 {
@@ -233,15 +233,6 @@ function getnewsitempermission($newsitem)
 	return getdbelement("permission",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
 }
 
-
-//
-//
-//
-function newsitempermissionrefused($newsitem)
-{
-	$permission = getnewsitempermission($newsitem);
-	return $permission==PERMISSION_REFUSED;
-}
 
 //
 //

@@ -450,7 +450,6 @@ class NewsItemPermissionsForm extends Template {
 		$this->stringvars['image_copyright']=input2html($permissions['image_copyright']);
 		$this->vars['permission_granted']= new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_GRANTED,"Permission granted",$permissions['permission']==PERMISSION_GRANTED,"right");
 		$this->vars['no_permission']= new RadioButtonForm($this->stringvars['jsid'],"permission",NO_PERMISSION,"No permission",$permissions['permission']==NO_PERMISSION,"right");
-		$this->vars['permission_refused']= new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_REFUSED,"Permission refused",$permissions['permission']==PERMISSION_REFUSED,"right");
 	}
 
 	// assigns templates
@@ -470,11 +469,6 @@ class NewsItemPublishForm extends Template {
 		parent::__construct($newsitem);
 		
 		$this->stringvars['previewlink']=getprojectrootlinkpath()."admin/includes/preview.php?page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&action=editcontents";
-
-		if(!$permissions['permission']== PERMISSION_REFUSED)
-			$this->stringvars['notpermissionrefused']="true";
-		else
-			$this->stringvars['permissionrefused']="true";
 
 		if(isnewsitempublished($newsitem))
 			$this->stringvars['buttontitle']="Hide Newsitem";

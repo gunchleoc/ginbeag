@@ -182,22 +182,12 @@ class PermissionsForm extends Template {
 		
 		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=setpermissions";
 		
-		$accessrestricted=ispagerestricted($this->stringvars['page']);
-		
 		$this->stringvars['copyright']=input2html($permissions['copyright']);
 		$this->stringvars['image_copyright']=input2html($permissions['image_copyright']);
 		
 		$this->vars['permission_granted']= new RadioButtonForm("","permission",PERMISSION_GRANTED,"Permission granted",$permissions['permission']==PERMISSION_GRANTED,"right");
 		$this->vars['no_permission']= new RadioButtonForm("","permission",NO_PERMISSION,"No permission",$permissions['permission']==NO_PERMISSION,"right");
-		$this->vars['permission_refused']= new RadioButtonForm("","permission",PERMISSION_REFUSED,"Permission refused",$permissions['permission']==PERMISSION_REFUSED,"right");
 		
-		if($accessrestricted)
-		{
-		  $showrefused=showpermissionrefusedimages($this->stringvars['page']);
-		  $this->stringvars['accessrestricted']="Access restricted";
-		  $this->vars['showrefused_yes']= new RadioButtonForm("","show","1","Yes",$showrefused);
-		  $this->vars['showrefused_no']= new RadioButtonForm("","show","0","No",!$showrefused);
-		}
 		$this->vars['submitrow']= new SubmitRow("setpermissions","Change Copyright and Permissions",true);
 	}
 	
@@ -242,16 +232,9 @@ class SetPublishableForm extends Template {
 		
 		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=setpublishable";
 		
-		$permissionrefused=permissionrefused($this->stringvars['page']);
-		if(!$permissionrefused)
-		{
-			$ispublishable=ispublishable($this->stringvars['page']);
-			$this->stringvars['not_permissionrefused']="Permission not refused";
-			$this->vars['publishable_yes']= new RadioButtonForm("","ispublishable","public","Public page",$ispublishable);
-			$this->vars['publishable_no']= new RadioButtonForm("","ispublishable","internal","Internal page",!$ispublishable);
-		}
-		else
-			$this->stringvars['permissionrefused']="Permission refused";
+		$ispublishable=ispublishable($this->stringvars['page']);
+		$this->vars['publishable_yes']= new RadioButtonForm("","ispublishable","public","Public page",$ispublishable);
+		$this->vars['publishable_no']= new RadioButtonForm("","ispublishable","internal","Internal page",!$ispublishable);
 		  
 		$this->vars['submitrow']= new SubmitRow("submit","Change Setting",true);
 	}

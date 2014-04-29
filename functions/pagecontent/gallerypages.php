@@ -26,22 +26,10 @@ function getgalleryimages($page)
 //
 //
 //
-function getgalleryimagefilenames($page, $showrefused,$showhidden=false)
+function getgalleryimagefilenames($page)
 {
 	global $db;
-	$result=array();
-	
-	if($showrefused || $showhidden)
-	{
-		$result=getorderedcolumn("image_filename",GALLERYITEMS_TABLE, "page_id='".$db->setinteger($page)."'", "position", "ASC");
-	}
-	else
-	{
-		$query="select gallery.image_filename from ".GALLERYITEMS_TABLE." as gallery, ".IMAGES_TABLE." as images where ";
-		$query.="gallery.page_id='".$db->setinteger($page)."' AND gallery.image_filename = images.image_filename AND images.permission <> ".PERMISSION_REFUSED." order by position ASC";
-		$result = getdbresultcolumn($query);
-	}
-	return $result;
+	return getorderedcolumn("image_filename",GALLERYITEMS_TABLE, "page_id='".$db->setinteger($page)."'", "position", "ASC");
 }
 
 

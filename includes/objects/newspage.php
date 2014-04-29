@@ -20,7 +20,7 @@ class Newsitemsection extends Template {
 	var $isquotestart=false;
     var $isquoteend=false;
 
-    function Newsitemsection($newsitemsection, $isquoted=false, $showrefused=false, $showhidden=false)
+    function Newsitemsection($newsitemsection, $isquoted=false, $showhidden=false)
     {
 		//parent::__construct();
     
@@ -34,9 +34,8 @@ class Newsitemsection extends Template {
           if(strlen($sectioncontents['sectiontitle'])>0)
             $this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
 
-//todo                    mayshowimage($sectioncontents['sectionimage'],$this->stringvars['page'],$showhidden)
-          if(strlen($sectioncontents['sectionimage'])>0 && ($showhidden || !imagepermissionrefused($sectioncontents['sectionimage'])))
-            $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'],$showrefused,$showhidden);
+          if(strlen($sectioncontents['sectionimage']) > 0)
+            $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'],$showhidden);
           else $this->stringvars['image']="";
 		  
 		  $this->stringvars['text']=text2html($sectioncontents['text']);
@@ -69,7 +68,7 @@ class Newsitemsection extends Template {
 //
 class Newsitem extends Template {
 
-    function Newsitem($newsitem,$offset,$showrefused,$showhidden=false,$showtoplink=true)
+    function Newsitem($newsitem,$offset,$showhidden=false,$showtoplink=true)
     {
 		global $_GET, $projectroot;
       
@@ -137,7 +136,7 @@ class Newsitem extends Template {
 		{
 			if($noofimages==1)
 			{
-				$this->vars['image'] = new CaptionedImage($images[0],$contents['imageautoshrink'], $contents['usethumbnail'], "left",$showrefused,$showhidden);
+				$this->vars['image'] = new CaptionedImage($images[0],$contents['imageautoshrink'], $contents['usethumbnail'], "left",$showhidden);
 			}
 			else
 			{
@@ -145,25 +144,22 @@ class Newsitem extends Template {
 				$this->stringvars['multiple_images']="".$noofimages;
 				for($i=0;$i<$noofimages;$i++)
 				{
-					if(mayshowimage($images[$i],$this->stringvars['page'],$showhidden))
+					$image = new Image($images[$i],true, true, "", $showhidden);
+					$this->listvars['image'][] = $image;
+
+					$thumbnail = getthumbnail($images[$i]);
+					$filepath = getimagepath($images[$i]);
+					$thumbnailpath = getthumbnailpath($images[$i], $thumbnail);
+
+					if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
 					{
-						$image = new Image($images[$i],true, true, "", $showhidden);
-						$this->listvars['image'][] = $image;
-						
-						$thumbnail = getthumbnail($images[$i]);
-						$filepath = getimagepath($images[$i]);
-						$thumbnailpath = getthumbnailpath($images[$i], $thumbnail);
-						
-						if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
-						{
-							$dimensions = getimagedimensions($thumbnailpath);
-							$width += $dimensions["width"];
-						}
-						else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath))
-						{
-							$dimensions = calculateimagedimensions($images[$i]);
-							$width += $dimensions["width"];
-						}
+						$dimensions = getimagedimensions($thumbnailpath);
+						$width += $dimensions["width"];
+					}
+					else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath))
+					{
+						$dimensions = calculateimagedimensions($images[$i]);
+						$width += $dimensions["width"];
 					}
 				}
 				$width+=20;
@@ -182,7 +178,7 @@ class Newsitem extends Template {
 			$isquote=false;
 			for($i=0;$i<$noofsections;$i++)
 			{
-				$newsitemsection = new Newsitemsection($sections[$i], $isquote, $showrefused, $showhidden);
+				$newsitemsection = new Newsitemsection($sections[$i], $isquote, $showhidden);
 				$this->listvars['section'][] = $newsitemsection;
 				$isquote == $newsitemsection->isquotestart();
 			}
@@ -204,7 +200,7 @@ class Newsitem extends Template {
 //
 class Newsitempage extends Template {
 
-    function Newsitempage($newsitem,$page,$offset,$showrefused,$showhidden=false,$showtoplink=true)
+    function Newsitempage($newsitem,$page,$offset,$showhidden=false,$showtoplink=true)
     {
 		global $_GET;
 		
@@ -216,7 +212,7 @@ class Newsitempage extends Template {
 		}
 		$this->stringvars['l_single']=getlang('news_single_showing');
 		
-		$this->vars['newsitem']= new Newsitem($newsitem,$offset,$showrefused,$showhidden,false); 
+		$this->vars['newsitem']= new Newsitem($newsitem,$offset,$showhidden,false);
 		
 		$contents=getnewsitemcontents($newsitem);
 		
@@ -238,14 +234,14 @@ class Newsitempage extends Template {
 // main class for newspages
 //
 class NewsPage extends Template {
-	function NewsPage($page,$offset,$showrefused,$showhidden)
+	function NewsPage($page,$offset,$showhidden)
 	{
 		global $_GET;
 		
 		parent::__construct();
 		
 		$pageintro = getpageintro($this->stringvars['page']);
-		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showrefused,$showhidden);
+		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 		
 		$this->stringvars['actionvars']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
 		
@@ -357,11 +353,11 @@ class NewsPage extends Template {
 		// get items
 		if(count($newsitems))
 		{
-			$this->listvars['newsitem'][] = new Newsitem($newsitems[0],$offset,$showrefused,$showhidden,false);
+			$this->listvars['newsitem'][] = new Newsitem($newsitems[0],$offset,$showhidden,false);
 		}
 		for($i=1;$i<count($newsitems);$i++)
 		{
-			$this->listvars['newsitem'][] = new Newsitem($newsitems[$i],$offset,$showrefused,$showhidden);
+			$this->listvars['newsitem'][] = new Newsitem($newsitems[$i],$offset,$showhidden);
 		}
 
 		$this->stringvars['l_displayoptions']=getlang("news_filter_displayoptions");

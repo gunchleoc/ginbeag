@@ -17,7 +17,7 @@ class MenuPage extends Template {
 
 	var $pagetype="";
 
-	function MenuPage($page,$showrefused,$showhidden=false)
+	function MenuPage($page,$showhidden=false)
 	{
 	    global $_GET;
 	    parent::__construct();
@@ -25,7 +25,7 @@ class MenuPage extends Template {
 	    $pagecontents=getmenucontents($page);
 
 		$pageintro = getpageintro($this->stringvars['page']);
-		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showrefused,$showhidden);
+		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 	
 	    $this->pagetype=getpagetypearray($page);
     
@@ -115,7 +115,7 @@ class ArticleMenuPage extends Template {
 
 	var $pagetype="";
 
-	function ArticleMenuPage($page,$showrefused,$showhidden=false)
+	function ArticleMenuPage($page,$showhidden=false)
 	{
 		global $_GET;
 		parent::__construct();
@@ -124,13 +124,10 @@ class ArticleMenuPage extends Template {
 		
 		$this->pagetype=getpagetypearray($page);
 	    
-	    // todo: room for image, need to add admin functions and database entry for that
-	//        if(mayshowimage($contents['image'],$page,$showhidden))
-	
 		$this->stringvars['actionvars']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
 		
 	   	$pageintro = getpageintro($this->stringvars['page']);
-		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showrefused,$showhidden);
+		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 		
 		$this->stringvars['l_displayoptions']=getlang("menu_filter_displayoptions");
 		$this->stringvars['l_categories']=getlang("menu_filter_categories");

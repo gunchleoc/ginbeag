@@ -137,11 +137,7 @@ function fakethedate($newsitem,$day,$month,$year,$hours,$minutes,$seconds)
 function publishnewsitem($newsitem)
 {
 	global $db;
-  if(!newsitempermissionrefused($newsitem))
-  {
     return updatefield(NEWSITEMS_TABLE,"ispublished",1,"newsitem_id='".$db->setinteger($newsitem)."'");
-  }
-  else return false;
 }
 
 
@@ -163,11 +159,6 @@ function updatenewsitemcopyright($newsitem,$copyright,$imagecopyright,$permissio
 	$result=true;
   	$result = $result & updatefield(NEWSITEMS_TABLE,"copyright",$db->setstring($copyright),"newsitem_id='".$db->setinteger($newsitem)."'");
   	$result = $result & updatefield(NEWSITEMS_TABLE,"image_copyright",$db->setstring($imagecopyright),"newsitem_id='".$db->setinteger($newsitem)."'");
-
-  	if($permission == PERMISSION_REFUSED)
-  	{
-    	unpublishnewsitem($newsitem);
-  	}
   	$result = $result & updatefield(NEWSITEMS_TABLE,"permission",$db->setinteger($permission),"newsitem_id='".$db->setinteger($newsitem)."'");
   	return $result;
 }

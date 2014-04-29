@@ -53,7 +53,7 @@ if(isset($_GET['m']))
 {
 	if(!isset($_GET['page']) || ($page == 0 && $wasloggedout))
 	{
-		$page = new Page("splashpagemobile",false);
+		$page = new Page("splashpagemobile");
 	}
 	// show normal page
 	else
@@ -73,7 +73,7 @@ else
 	// show splash page
 	if(!isset($_GET['page']) || ($page == 0 && $wasloggedout))
 	{
-		$page = new Page("splashpage",false);
+		$page = new Page("splashpage");
 	}
 	// show normal page
 	else

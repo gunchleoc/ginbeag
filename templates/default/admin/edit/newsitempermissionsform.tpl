@@ -6,7 +6,7 @@
 			<label for="{JSID}copyright">Copyright Holder:</label>
 			<input id="{JSID}copyright" type="text" name="copyright" size="70" maxlength="255" value="{COPYRIGHT}" />
 			<br /><label for="{JSID}permission">Permissions:</label>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {PERMISSION_GRANTED} &nbsp;&nbsp;&nbsp; {NO_PERMISSION} &nbsp;&nbsp;&nbsp; {PERMISSION_REFUSED}
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {PERMISSION_GRANTED} &nbsp;&nbsp;&nbsp; {NO_PERMISSION}
 		</fieldset>
 		<fieldset>
 			<legend class="highlight">Image Content</legend>

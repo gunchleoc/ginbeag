@@ -400,15 +400,7 @@ function ispublishable($page)
 {
 	global $db;
 	$pagetype=getpagetype($page);
-	
-	if(getpermission($page)==PERMISSION_REFUSED)
-	{
-		return 0;
-	}
-	else
-	{
-		return getdbelement("ispublishable",PAGES_TABLE, "page_id",$db->setinteger($page));
-	}
+	return getdbelement("ispublishable",PAGES_TABLE, "page_id",$db->setinteger($page));
 }
 
 
@@ -425,7 +417,7 @@ function updateeditdata($page)
 }
 
 //
-// permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION, PERMISSION_REFUSED
+// permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
 //
 function updatecopyright($page,$copyright,$imagecopyright,$permission)
 {
@@ -434,12 +426,6 @@ function updatecopyright($page,$copyright,$imagecopyright,$permission)
 	$result = updatefield(PAGES_TABLE,"copyright",$db->setstring($copyright),"page_id='".$page."'");
 	$result = $result & updatefield(PAGES_TABLE,"image_copyright",$db->setstring($imagecopyright),"page_id='".$page."'");
 	$result = $result & updatefield(PAGES_TABLE,"permission",$db->setinteger($permission),"page_id='".$page."'");
-	
-	if($db->setinteger($permission)==PERMISSION_REFUSED)
-	{
-		$result = $result & unpublish($page);
-		$result = $result & hide($page);
-	}
 	return $result;
 }
 
@@ -568,25 +554,6 @@ function hasaccess($user, $page)
 	return getdbresultsingle($query);
 }
 
-
-//
-//
-//
-function setshowpermissionrefusedimages($page, $show)
-{
-	global $db;
-	$page = $db->setinteger($page);
-	
-	if($show && ispagerestricted($page))
-	{
-		$result = updatefield(PAGES_TABLE,"showpermissionrefusedimages",1,"page_id='".$page."'");
-	}
-	else
-	{
-		$result = updatefield(PAGES_TABLE,"showpermissionrefusedimages",0,"page_id='".$page."'");
-	}
-	return $result;
-}
 
 
 // *************************** lock handling **************************************** //

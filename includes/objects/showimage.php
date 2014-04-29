@@ -82,7 +82,7 @@ class Showimage extends Template {
 		elseif($this->stringvars['page']!=0)
 		{
   			// generate item array
-  			$items=getgalleryimagefilenames($this->stringvars['page'], showpermissionrefusedimages($this->stringvars['page']));
+			$items=getgalleryimagefilenames($this->stringvars['page']);
   			$item = array_search($_GET['image'], $items);
   			if(!$item)
   			{

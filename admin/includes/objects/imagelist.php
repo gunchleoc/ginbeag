@@ -35,7 +35,6 @@ class AddImageForm extends Template {
 		// set permissions radio buttons
 		$this->vars['permission_granted'] = new RadioButtonForm("","permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
 		$this->vars['no_permission'] = new RadioButtonForm("","permission",NO_PERMISSION,"No permission",$this->stringvars['permission'] == NO_PERMISSION,"right");
-		$this->vars['permission_refused'] = new RadioButtonForm("","permission",PERMISSION_REFUSED,"Permission refused",$this->stringvars['permission'] == PERMISSION_REFUSED,"right");
 		
 		// make category selection
 		$selectedcats=getcategoriesforimage($filename);
@@ -155,7 +154,6 @@ class EditImageForm extends Template {
 		
 		$this->vars['permission_granted'] = new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
 		$this->vars['no_permission'] = new RadioButtonForm($this->stringvars['jsid'],"permission",NO_PERMISSION,"No permission",$this->stringvars['permission'] == NO_PERMISSION,"right");
-		$this->vars['permission_refused'] = new RadioButtonForm($this->stringvars['jsid'],"permission",PERMISSION_REFUSED,"Permission refused",$this->stringvars['permission'] == PERMISSION_REFUSED,"right");
 		
 		$thumbnail = getthumbnail($filename);
 		$this->vars['image']= new AdminImage($filename, $image['uploaddate'], $image['editor_id'], $thumbnail,true);
@@ -248,7 +246,6 @@ class UnknownImageForm extends Template {
 
 		$this->stringvars['permission_granted']=PERMISSION_GRANTED;
 		$this->stringvars['no_permission']=NO_PERMISSION;
-		$this->stringvars['permission_refused']=PERMISSION_REFUSED;
 		$this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE);
 		$this->vars['deletefileconfirmform']= new CheckboxForm("deletefileconfirm","deletefileconfirm","Confirm delete",false, "right");
 	}

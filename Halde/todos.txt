@@ -1,7 +1,5 @@
 Gallery: move reindex gallery to synopsis etc.
 
-Review usage of ImageCaption re showrefused - is this used anyway?
-
 #############################################################
 redesign todos
 _____________________________________________________________

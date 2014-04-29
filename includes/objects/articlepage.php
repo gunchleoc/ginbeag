@@ -13,7 +13,7 @@ include_once($projectroot."includes/includes.php");
 //
 class Articlesection extends Template {
 
-    function Articlesection($articlesection,$articlepage,$showrefused,$showhidden)
+    function Articlesection($articlesection,$articlepage,$showhidden)
     {
     	parent::__construct();
 
@@ -25,8 +25,8 @@ class Articlesection extends Template {
 			$this->stringvars['sectionid'] =$articlesection;
 		}
 		
-		if(strlen($sectioncontents['sectionimage'])>0 && mayshowimage($sectioncontents['sectionimage'],$this->stringvars['page'],$showhidden))
-		$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'], $sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'],$showrefused,$showhidden);
+		if(strlen($sectioncontents['sectionimage']) > 0)
+		$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'], $sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'],$showhidden);
 		else $this->stringvars['image']="";
 		
 		$this->stringvars['text']=text2html($sectioncontents['text']);
@@ -45,7 +45,7 @@ class Articlesection extends Template {
 // main class for newspages
 //
 class ArticlePage extends Template {
-	function ArticlePage($articlepage,$showrefused,$showhidden)
+	function ArticlePage($articlepage,$showhidden)
   	{
 		parent::__construct();
 
@@ -80,7 +80,7 @@ class ArticlePage extends Template {
     	$pageintro = getpageintro($this->stringvars['page']);
     	
     	if($articlepage==1)
-			$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showrefused,$showhidden);
+			$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 		else $this->stringvars['pageintro'] = "";
     	
     	$noofarticlepages=numberofarticlepages($this->stringvars['page']);
@@ -98,7 +98,7 @@ class ArticlePage extends Template {
     	// get items
     	for($i=0;$i<count($articlesections);$i++)
     	{
-      		$this->listvars['articlesection'][] = new Articlesection($articlesections[$i],$articlepage,$showrefused,$showhidden);
+			$this->listvars['articlesection'][] = new Articlesection($articlesections[$i],$articlepage,$showhidden);
     	}
 
     	$this->vars['editdata']= new Editdata($showhidden);
@@ -183,8 +183,8 @@ class ArticlesectionPrintview extends Template {
 
       	$this->stringvars['image']="";
       	
-      	if(strlen($sectioncontents['sectionimage'])>0 && mayshowimage($sectioncontents['sectionimage'],$this->stringvars['page'],false))
-			$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'],$sectioncontents['imagealign'],false,false);
+		if(strlen($sectioncontents['sectionimage']) > 0)
+			$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'],$sectioncontents['imagealign'],false);
       	else $this->stringvars['image']="";
 
       	$this->stringvars['text']=text2html($sectioncontents['text']);

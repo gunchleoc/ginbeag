@@ -16,7 +16,7 @@ include_once($projectroot."includes/includes.php");
 //
 class GalleryCaptionedImage extends Template {
 
-    function GalleryCaptionedImage($filename,$width, $showrefused=false,$showhidden=false)
+    function GalleryCaptionedImage($filename,$width,$showhidden=false)
     {
 		global $projectroot, $_GET;
     	
@@ -25,32 +25,12 @@ class GalleryCaptionedImage extends Template {
 		// Make the image
       	if(imageexists($filename))
       	{
-        	if($showhidden)
-        	{
-				$this->vars['image'] = new Image($filename, true, true, "&page=".$this->stringvars['page'],$showhidden);
-
-          		if(imagepermissionrefused($filename))
-          		{
-            		$this->stringvars['caption'].='<div class="highlight">Permission refused for this image;<br />';
-            		if($showrefused)
-            		{
-              			$this->stringvars['caption'].='but shown anyway!</div>';
-            		}
-            		else
-            		{
-              			$this->stringvars['caption'].='hidden from webpage!</div>';
-            		}
-          		}
-        	}
-        	elseif(!imagepermissionrefused($filename) || $showrefused)
-        	{
-				$this->vars['image'] = new Image($filename, true, true, "&page=".$this->stringvars['page'],$showhidden);
-        	}
+			$this->vars['image'] = new Image($filename, true, true, "&page=".$this->stringvars['page'],$showhidden);
 		}
 		else $this->stringvars['image']='<i>'.$filename.'</i>';
       
 		// Make the caption
-		$this->vars['caption'] = new ImageCaption($filename, $showhidden, $showrefused);
+		$this->vars['caption'] = new ImageCaption($filename, $showhidden);
       
 		// CS stuff
    		$this->stringvars['halign']="float:left; ";
@@ -70,7 +50,7 @@ class GalleryCaptionedImage extends Template {
 //
 class GalleryImage extends Template {
 
-	function GalleryImage($filename,$width=300,$height=350,$showrefused=false,$showhidden=false)
+	function GalleryImage($filename,$width=300,$height=350,$showhidden=false)
 	{
 		parent::__construct();
 		
@@ -81,7 +61,7 @@ class GalleryImage extends Template {
 		}
 		$this->stringvars["height"]="".$height."px";
 
-		$this->vars['image'] = new GalleryCaptionedImage($filename,$width,$showrefused,$showhidden);
+		$this->vars['image'] = new GalleryCaptionedImage($filename,$width,$showhidden);
 		
 		$filename;
 	}
@@ -102,19 +82,19 @@ class GalleryImage extends Template {
 //
 class GalleryPage extends Template {
 
-	function GalleryPage($offset=0,$showrefused=false,$showhidden=false)
+	function GalleryPage($offset=0,$showhidden=false)
 	{
 		global $projectroot;
 	
 		parent::__construct();
 		
 		$imagesperpage=getproperty("Gallery Images Per Page");
-		$images=getgalleryimagefilenames($this->stringvars['page'],$showrefused,$showhidden);
+		$images=getgalleryimagefilenames($this->stringvars['page']);
 		$noofimages=count($images);
 		if(!$offset) $offset=0;
 		
 		$pageintro = getpageintro($this->stringvars['page']);
-		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showrefused,$showhidden);
+		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 		
 		//pagemenu
 		$this->vars['pagemenu']= new PageMenu($offset, $imagesperpage, $noofimages);
@@ -170,7 +150,7 @@ class GalleryPage extends Template {
 		// create images
 		for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
 		{
-			$this->listvars['galleryimage'][]= new GalleryImage($images[$i],$width,$height,$showrefused,$showhidden);
+			$this->listvars['galleryimage'][]= new GalleryImage($images[$i],$width,$height,$showhidden);
 		} 
 		
 		$this->vars['editdata']= new Editdata($showhidden);

@@ -630,17 +630,13 @@ class Navigator extends Template {
 //
 class PageIntro extends Template {
 
-	function PageIntro($title, $text, $image="", $imageautoshrink=true, $usethumbnail=true, $imagealign="left",$showrefused=false,$showhidden=false)
+	function PageIntro($title, $text, $image="", $imageautoshrink=true, $usethumbnail=true, $imagealign="left",$showhidden=false)
 	{
 		parent::__construct();
 		$this->stringvars['pagetitle']=title2html($title);
-		
 		$this->stringvars['text']=text2html($text);
-		
-		if($image && mayshowimage($image,$this->stringvars['page'],$showhidden))
-			$this->vars['image'] = new CaptionedImage($image, $imageautoshrink, $usethumbnail, $imagealign, $showrefused, $showhidden);
-		else
-			$this->stringvars['image']=$image;
+		if($image && strlen($image) > 0)
+			$this->vars['image'] = new CaptionedImage($image, $imageautoshrink, $usethumbnail, $imagealign, $showhidden);
 	}
 	
 	// assigns templates
@@ -773,9 +769,7 @@ class Page extends Template {
 	    parent::__construct();
 	    
 	    // header
-	    $showrefused =showpermissionrefusedimages($this->stringvars['page']);
-	
-	    $this->makeheader($this->stringvars['page'], $showrefused, $showhidden);
+	    $this->makeheader($this->stringvars['page'], $showhidden);
 	
 
 		if(isset($_SERVER['HTTP_REFERER']) && isreferrerblocked($_SERVER['HTTP_REFERER']))
@@ -789,7 +783,6 @@ class Page extends Template {
 		}
 		else
 		{
-			$showrefused=showpermissionrefusedimages($this->stringvars['page']);
 			$pagetype=getpagetype($this->stringvars['page']);
 			
 			if(!$showhidden)
@@ -810,7 +803,7 @@ class Page extends Template {
 			}
 			else
 			{
-				$this->makecontents($this->stringvars['page'], $pagetype, $showrefused, $showhidden);
+				$this->makecontents($this->stringvars['page'], $pagetype, $showhidden);
 			}
       
 			// banners
@@ -848,7 +841,7 @@ class Page extends Template {
 	//
 	//
 	//
-	function makeheader($page, $showrefused, $showhidden)
+	function makeheader($page, $showhidden)
 	{
 		global $_GET;
 		$title="";
@@ -883,7 +876,7 @@ class Page extends Template {
 				else
 					$url=getprojectrootlinkpath()."index.php".makelinkparameters($_GET);
 				
-				$this->vars['message'] = new AdminPageDisplayMessage($showrefused);
+				$this->vars['message'] = new AdminPageDisplayMessage();
 			}
 		}
 		$this->vars['header'] = new PageHeader($page, $title,$this->displaytype);
@@ -893,7 +886,7 @@ class Page extends Template {
 	//
 	//
 	//
-	function makecontents($page, $pagetype, $showrefused, $showhidden)
+	function makecontents($page, $pagetype, $showhidden)
 	{
 		global $_GET, $offset, $projectroot;
     
@@ -963,17 +956,17 @@ class Page extends Template {
 				if($pagetype==="article")
 				{
 					include_once($projectroot."includes/objects/articlepage.php");
-					$this->vars['contents'] = new ArticlePage($articlepage,$showrefused,$showhidden);
+					$this->vars['contents'] = new ArticlePage($articlepage,$showhidden);
 				}
 				elseif($pagetype==="articlemenu")
 				{
 					include_once($projectroot."includes/objects/menupage.php");
-					$this->vars['contents'] = new ArticleMenuPage($page,$showrefused,$showhidden);
+					$this->vars['contents'] = new ArticleMenuPage($page,$showhidden);
 				}
 				elseif($pagetype==="menu" || $pagetype=="linklistmenu")
 				{
 					include_once($projectroot."includes/objects/menupage.php");
-					$this->vars['contents'] = new MenuPage($page,$showrefused,$showhidden);
+					$this->vars['contents'] = new MenuPage($page,$showhidden);
 				}
 				elseif($pagetype==="external")
 				{
@@ -982,17 +975,17 @@ class Page extends Template {
 				elseif($pagetype==="gallery")
 				{
 					include_once($projectroot."includes/objects/gallerypage.php");
-					$this->vars['contents'] = new GalleryPage($offset,$showrefused,$showhidden);
+					$this->vars['contents'] = new GalleryPage($offset,$showhidden);
 				}
 				elseif($pagetype==="linklist")
 				{
 					include_once($projectroot."includes/objects/linklistpage.php");
-					$this->vars['contents']  = new LinklistPage($offset,$showrefused,$showhidden);
+					$this->vars['contents']  = new LinklistPage($offset,$showhidden);
 				}
 				elseif($pagetype==="news")
 				{
 					include_once($projectroot."includes/objects/newspage.php");
-					$this->vars['contents']  = new NewsPage($page,$offset,$showrefused,$showhidden);
+					$this->vars['contents']  = new NewsPage($page,$offset,$showhidden);
 				}
 			}
 			elseif(isset($_GET["sitepolicy"]))
@@ -1079,7 +1072,6 @@ class Printview extends Template {
 		}
 		else
 		{
-			$showrefused=showpermissionrefusedimages($this->stringvars['page']);
 			$pagetype=getpagetype($this->stringvars['page']);
 		
 			if(!$showhidden)
@@ -1091,7 +1083,7 @@ class Printview extends Template {
 			}
 		
 			// contents
-			$this->makecontents($this->stringvars['page'], $pagetype, $showrefused, $showhidden);
+			$this->makecontents($this->stringvars['page'], $pagetype, $showhidden);
 			
 			// navigator
 			$this->vars['navigator'] = new Navigator($this->stringvars['page'],0,0,"printview",false);
@@ -1127,7 +1119,7 @@ class Printview extends Template {
 	//
 	//
 	//
-	function makecontents($page, $pagetype, $showrefused)
+	function makecontents($page, $pagetype)
 	{
 		global $projectroot,$_GET        ;
 		
@@ -1141,12 +1133,12 @@ class Printview extends Template {
 			elseif($pagetype==="linklist")
 			{
 				include_once($projectroot."includes/objects/linklistpage.php");
-				$this->vars['contents']  = new LinklistPagePrintview($showrefused,false);
+				$this->vars['contents']  = new LinklistPagePrintview(false);
 			}
 			elseif($pagetype==="news")
 			{
 				include_once($projectroot."includes/objects/newspage.php");
-				$this->vars['contents']  = new Newsitem($_GET['newsitem'],0,$showrefused,false,false);
+				$this->vars['contents']  = new Newsitem($_GET['newsitem'],0,false,false);
 			}
 		}
 		else
@@ -1195,7 +1187,7 @@ class Printview extends Template {
 //
 class AdminPageDisplayMessage extends Template {
 
-	function AdminPageDisplayMessage($showrefused)
+	function AdminPageDisplayMessage()
     {
     	global $_GET;
     	parent::__construct();
@@ -1217,10 +1209,6 @@ class AdminPageDisplayMessage extends Template {
         if(ispagerestrictedarray($this->stringvars['page']))
         {
         	$this->stringvars['isrestricted']="true";
-          	if($showrefused)
-          	{
-            	$this->stringvars['showrefused']="true";
-          	}
 		}
     }
 

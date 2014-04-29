@@ -21,9 +21,8 @@ function getarticleoftheday()
 	$date=date("Y-m-d",strtotime('now'));
 
 	$aotd=getdbelement("aotd_id",ARTICLEOFTHEDAY_TABLE, "aotd_date", $date);
-	if(!ispublished($aotd) || permissionrefused($aotd) || ispagerestricted($aotd))
+	if(!ispublished($aotd) || ispagerestricted($aotd))
 	{
-		//    print(!ispublished($aotd)." - ".permissionrefused($aotd)." - ".ispagerestricted($aotd)."<p>");
 		$query="DELETE FROM ".ARTICLEOFTHEDAY_TABLE." where aotd_date= '".$date."';";
 		$sql=$db->singlequery($query);
 		$aotd=0;
@@ -55,7 +54,6 @@ function getarticleoftheday()
 			}
 			$query=substr($query,0,strlen($query)-1);
 			$query.=") AND page.ispublished = '1'";
-			$query.=" AND page.permission <> '".PERMISSION_REFUSED."'";
 		
 			$sql=$db->singlequery($query);
 			$pagesforselection=array();
@@ -189,7 +187,7 @@ function getpageeditor($page)
 
 //
 // returns array of copyright, imagecopyright, permission
-// permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION, PERMISSION_REFUSED
+// permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
 //
 function getcopyright($page)
 {
@@ -199,22 +197,13 @@ function getcopyright($page)
 }
 
 //
-// permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION, PERMISSION_REFUSED
+// permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
 //
 function getpermission($page)
 {
 	return getdbelement("permission",PAGES_TABLE, "page_id", $page);
 }
 
-
-//
-//
-//
-function permissionrefused($filename)
-{
-	$refused= getpermission($filename);
-	return $refused==PERMISSION_REFUSED;
-}
 
 //
 //
@@ -339,29 +328,6 @@ function hasaccesssession($sid, $page)
 		$result = getdbresultsingle($query);
 	}
 	return $result;
-}
-
-
-//
-//
-//
-function showpermissionrefusedimages($page)
-{
-	global $db;
-	$showrefused = getdbelement("showpermissionrefusedimages",PAGES_TABLE, "page_id", $db->setinteger($page));
-	if($showrefused)
-	{
-		$showrefused = $showrefused && ispagerestricted($page);
-	}
-	return $showrefused;
-}
-
-//
-//
-//
-function mayshowimage($image,$page,$showhidden)
-{
-	return !imagepermissionrefused($image) || $showhidden || (ispagerestricted($page) && showpermissionrefusedimages($page));
 }
 
 
