@@ -18,8 +18,9 @@ include_once($projectroot."functions/categories.php");
 function addcategory($parent,$name, $cattype)
 {
 	global $db;
-	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
-	else  $table = CATEGORIES_TABLE;
+	if($cattype==CATEGORY_NEWS) $table = CATEGORIES_NEWS_TABLE;
+	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
+	else  $table = CATEGORIES_IMAGES_TABLE;
 	$values[0]=0;
 	$values[1]=$db->setinteger($parent);
 	$values[2]=$db->setstring($name);
@@ -32,8 +33,9 @@ function addcategory($parent,$name, $cattype)
 function renamecategory($catid, $name, $cattype)
 {
 	global $db;
-	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
-	else  $table = CATEGORIES_TABLE;
+	if($cattype==CATEGORY_NEWS) $table = CATEGORIES_NEWS_TABLE;
+	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
+	else  $table = CATEGORIES_IMAGES_TABLE;
 	$result=false;
 	
 	if(!isroot($catid, $cattype))
@@ -49,8 +51,9 @@ function renamecategory($catid, $name, $cattype)
 function movecategory($catid,$newparent, $cattype)
 {
 	global $db;
-	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
-	else  $table = CATEGORIES_TABLE;
+	if($cattype==CATEGORY_NEWS) $table = CATEGORIES_NEWS_TABLE;
+	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
+	else  $table = CATEGORIES_IMAGES_TABLE;
 	$result=false;
 	
 	if(!isroot($catid, $cattype) && !isdescendant($catid,$newparent, $cattype))
@@ -89,8 +92,9 @@ function isdescendant($parent,$descendant, $cattype)
 function deletecategory($catid, $cattype)
 {
 	global $db;
-	if($cattype==CATEGORY_IMAGE) $table = CATEGORIES_IMAGES_TABLE;
-	else  $table = CATEGORIES_TABLE;
+	if($cattype==CATEGORY_NEWS) $table = CATEGORIES_NEWS_TABLE;
+	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
+	else  $table = CATEGORIES_IMAGES_TABLE;
 	$result=true;
 	
 	if($cattype==CATEGORY_IMAGE)

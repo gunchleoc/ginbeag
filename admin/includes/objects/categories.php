@@ -71,18 +71,24 @@ class AdminCategories extends Template {
 		$this->vars['editcategoryform']= new EditCategoryForm($addsubtext, $editcattext, $cattype);
 		$this->stringvars['linktarget']= "admin.php?page=".$this->stringvars['page'];
 		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=selectcattype";
+		$this->vars['cattypeformarticle']= new RadioButtonForm($this->stringvars["jsid"], "cattype", CATEGORY_ARTICLE, "Article", $cattype == CATEGORY_ARTICLE, "right");
 		$this->vars['cattypeformimage']= new RadioButtonForm($this->stringvars["jsid"], "cattype", CATEGORY_IMAGE, "Image", $cattype == CATEGORY_IMAGE, "right");
-		$this->vars['cattypeformpage']= new RadioButtonForm($this->stringvars["jsid"], "cattype", CATEGORY_ARTICLE, "Page", $cattype != CATEGORY_IMAGE, "right");
-		if($cattype == CATEGORY_IMAGE)
+		$this->vars['cattypeformnews']= new RadioButtonForm($this->stringvars["jsid"], "cattype", CATEGORY_NEWS, "News", $cattype == CATEGORY_NEWS, "right");
+		if($cattype == CATEGORY_ARTICLE)
+		{
+			$this->stringvars['edittitle']= "Edit an Article Category";
+			$this->stringvars['movetitle']= "Move an Article Category";
+		}
+		elseif($cattype == CATEGORY_IMAGE)
 		{
 			$this->stringvars['edittitle']= "Edit an Image Category";
 			$this->stringvars['movetitle']= "Move an Image Category";
 		}
-		else
-		{
-			$this->stringvars['edittitle']= "Edit a Page Category";
-			$this->stringvars['movetitle']= "Move a Page Category";
+		else {
+			$this->stringvars['edittitle']= "Edit a News Category";
+			$this->stringvars['movetitle']= "Move a News Category";
 		}
+
 	}
 	
 	// assigns templates

@@ -3,7 +3,7 @@
 	<form name="categorytypeform" action="{ACTIONVARS}" method="post">
 		<fieldset>
 			<legend class="highlight">Choose which type of category you wish to edit</legend>
-			{CATTYPEFORMIMAGE} &nbsp;&nbsp;&nbsp; {CATTYPEFORMPAGE}
+			{CATTYPEFORMARTICLE} &nbsp;&nbsp;&nbsp; {CATTYPEFORMNEWS} &nbsp;&nbsp;&nbsp; {CATTYPEFORMIMAGE}
 			&nbsp;&nbsp;&nbsp;
 			<input type="submit" name="selectcattype" value="Go" />
 			<div class="formexplain">Categories for pages and for the image database are independent of each other.</div>

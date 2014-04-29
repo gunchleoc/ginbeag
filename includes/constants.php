@@ -10,8 +10,9 @@ define('ARTICLES_TABLE', $table_prefix.'articles');
 define('ARTICLESECTIONS_TABLE', $table_prefix.'articlesections');
 define('BANNERS_TABLE', $table_prefix.'banners');
 define('BLOCKEDREFERRERS_TABLE', $table_prefix.'blockedreferrers');
-define('CATEGORIES_TABLE', $table_prefix.'categories');
+define('CATEGORIES_ARTICLES_TABLE', $table_prefix.'categories_articles');
 define('CATEGORIES_IMAGES_TABLE', $table_prefix.'categories_images');
+define('CATEGORIES_NEWS_TABLE', $table_prefix.'categories_news');
 define('EXTERNALS_TABLE', $table_prefix.'externals');
 define('GALLERYITEMS_TABLE', $table_prefix.'galleryitems');
 define('GUESTBOOK_TABLE', $table_prefix.'guestbook');
@@ -52,9 +53,9 @@ define('USERLEVEL_USER',0);
 define('USERLEVEL_ADMIN',1);
 
 // for different types of categories
-define('CATEGORY_IMAGE',"image");
-define('CATEGORY_ARTICLE',"article");
-define('CATEGORY_NEWS',"newsitem");
+define('CATEGORY_ARTICLE', 0);
+define('CATEGORY_IMAGE', 1);
+define('CATEGORY_NEWS', 2);
 
 // todo replace site property? Hack for gallery pages CSS
 define('IMAGECAPTIONLINEHEIGHT',8);
