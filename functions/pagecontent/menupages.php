@@ -51,106 +51,100 @@ function getallarticleyears()
 //
 //
 //
-function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$includesubs,$showhidden=false)
+function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showhidden=false)
 {
 	global $db,$_GET;
-			if(isset($_GET['sid'])) $sid=$_GET['sid'];
-		else $sid="";
-  $page=$db->setinteger($page);
-  $selectedcat=$db->setinteger($selectedcat);
-  $from=$db->setinteger($from);
-  $to=$db->setinteger($to);
-  $order=$db->setstring($order);
-  $ascdesc=$db->setstring($ascdesc);
+	if(isset($_GET['sid'])) $sid=$_GET['sid'];
+	else $sid="";
+	$page=$db->setinteger($page);
+	$selectedcat=$db->setinteger($selectedcat);
+	$from=$db->setinteger($from);
+	$to=$db->setinteger($to);
+	$order=$db->setstring($order);
+	$ascdesc=$db->setstring($ascdesc);
 
-  // get all category children
-  $categories=array();
-  if($selectedcat!=1)
-  {
-    $pendingcategories=array(0 => $selectedcat);
-    while(count($pendingcategories))
-    {
-      $selectedcat=array_pop($pendingcategories);
-      array_push($categories,$selectedcat);
-      $pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat, CATEGORY_ARTICLE));
-    }
-  }
+	// get all category children
+	$categories=array();
+	if($selectedcat!=1)
+	{
+		$pendingcategories=array(0 => $selectedcat);
+		while(count($pendingcategories))
+		{
+			$selectedcat=array_pop($pendingcategories);
+			array_push($categories,$selectedcat);
+			$pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat, CATEGORY_ARTICLE));
+		}
+	}
   
-  $query="SELECT DISTINCTROW art.page_id FROM ";
-  $query.=ARTICLES_TABLE." AS art, ";
-  $query.=PAGES_TABLE." AS page";
-  // all parameters
-  if(count($categories)>0 && $from!="all" && $to!="all")
-  {
-    $query.=", ".PAGECATS_TABLE." AS cat";
-    $query.=" WHERE cat.page_id = art.page_id";
-    $query.=" AND cat.category IN (";
-    for($i=0;$i<count($categories);$i++)
-    {
-      $query.="'".$categories[$i]."',";
-    }
-    $query=substr($query,0,strlen($query)-1);
-    $query.=")";
-    $query.=" AND art.year BETWEEN '".$from."' AND '".$to."' AND";
-  }
-  // all years, filtered for categories
-  elseif(count($categories)>0)
-  {
-    $query.=", ".PAGECATS_TABLE." AS cat";
-    $query.=" WHERE cat.page_id = art.page_id";
-    $query.=" AND cat.category IN (";
-    for($i=0;$i<count($categories);$i++)
-    {
-      $query.="'".$categories[$i]."',";
-    }
-    $query=substr($query,0,strlen($query)-1);
-    $query.=") AND";
-  }
-  // only years
-  elseif($from!="all" && $to!="all")
-  {
-    $query.=" WHERE art.year BETWEEN '".$from."' AND '".$to."' AND ";
-  }
-  else
-  {
-    $query.=" WHERE ";
-  }
+	$query="SELECT DISTINCTROW art.page_id FROM ";
+	$query.=ARTICLES_TABLE." AS art, ";
+	$query.=PAGES_TABLE." AS page";
+	// all parameters
+	if(count($categories)>0 && $from!="all" && $to!="all")
+	{
+		$query.=", ".PAGECATS_TABLE." AS cat";
+		$query.=" WHERE cat.page_id = art.page_id";
+		$query.=" AND cat.category IN (";
+		for($i=0;$i<count($categories);$i++)
+		{
+			$query.="'".$categories[$i]."',";
+		}
+		$query=substr($query,0,strlen($query)-1);
+		$query.=")";
+		$query.=" AND art.year BETWEEN '".$from."' AND '".$to."' AND";
+	}
+	// all years, filtered for categories
+	elseif(count($categories)>0)
+	{
+		$query.=", ".PAGECATS_TABLE." AS cat";
+		$query.=" WHERE cat.page_id = art.page_id";
+		$query.=" AND cat.category IN (";
+		for($i=0;$i<count($categories);$i++)
+		{
+			$query.="'".$categories[$i]."',";
+		}
+		$query=substr($query,0,strlen($query)-1);
+		$query.=") AND";
+	}
+	// only years
+	elseif($from!="all" && $to!="all")
+	{
+		$query.=" WHERE art.year BETWEEN '".$from."' AND '".$to."' AND ";
+	}
+	else
+	{
+		$query.=" WHERE ";
+	}
 
-  $query.=" page.page_id = art.page_id AND ";
+		$query.=" page.page_id = art.page_id AND ";
   
-  if(!$showhidden)
-  {
-    $query.=" page.ispublished = '1' AND ";
-  }
+	if(!$showhidden)
+	{
+		$query.=" page.ispublished = '1' AND ";
+	}
     
-  // get pages to search
-  if($includesubs)
-  {
-    $pages=getsubpagesforpagetype($page, "articlemenu");
-  }
-  else
-  {
-    $pages=array(0 => $page);
-  }
-  $query.="page.parent_id IN (";
-  for($i=0;$i<count($pages);$i++)
-  {
-    $query.="'".$pages[$i]."',";
-  }
-  $query=substr($query,0,strlen($query)-1);
-  $query.=")";
+	// get pages to search
+	$pages=getsubpagesforpagetype($page, "articlemenu");
+
+	$query.="page.parent_id IN (";
+	for($i=0;$i<count($pages);$i++)
+	{
+		$query.="'".$pages[$i]."',";
+	}
+	$query=substr($query,0,strlen($query)-1);
+	$query.=")";
   
-  if($order)
-  {
-    $query.=" ORDER BY ";
-    if($order=="title") $query.="page.title_page ";
-    elseif($order=="author") $query.="art.article_author ";
-    elseif($order=="date") $query.="art.year, art.month, art.day ";
-    elseif($order=="source") $query.="art.source ";
-    elseif($order=="editdate") $query.="page.editdate ";
-    $query.=$ascdesc;
-  }
-  
+	if($order)
+	{
+		$query.=" ORDER BY ";
+		if($order=="title") $query.="page.title_page ";
+		elseif($order=="author") $query.="art.article_author ";
+		elseif($order=="date") $query.="art.year, art.month, art.day ";
+		elseif($order=="source") $query.="art.source ";
+		elseif($order=="editdate") $query.="page.editdate ";
+		$query.=$ascdesc;
+	}
+
 	return getdbresultcolumn($query);
 }
 

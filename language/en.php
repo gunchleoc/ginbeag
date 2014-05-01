@@ -51,7 +51,6 @@ $lang["menu_filter_to"]="To: ";
 $lang["menu_filter_go"]="Go";
 $lang["menu_filter_orderby"]="Order by: ";
 $lang["menu_filter_property"]="Property: ";
-$lang["menu_filter_subpages"]="Include subpages";
 $lang["menu_filter_nomatch"]="No matching pages found";
 $lang["menu_filter_clearsearch"]="Clear Search";
 $lang["menu_filter_badyearselection"]="Your year selection doesn't make sense";

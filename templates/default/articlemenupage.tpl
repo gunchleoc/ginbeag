@@ -17,7 +17,7 @@
 		</fieldset>
 		<fieldset>
 			<legend>{L_CATEGORIES}</legend>
-			{CATEGORYSELECTION} &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; {INCLUDE_SUBPAGES}
+			{CATEGORYSELECTION}
 		</fieldset>
 		<fieldset>
 			<legend>{L_ORDERBY}</legend>

@@ -48,7 +48,6 @@ $lang["menu_filter_to"]="Gù: ";
 $lang["menu_filter_go"]="Siùthad";
 $lang["menu_filter_orderby"]="Òrdugh a rèir: ";
 $lang["menu_filter_property"]="Bùadh: ";
-$lang["menu_filter_subpages"]="Gàbh a-steach na fo-dhuilleagan";
 $lang["menu_filter_nomatch"]="Cha do dh'fhrèagair gin de na h-aistean";
 $lang["menu_filter_clearsearch"]="Fàg an lorg";
 $lang["menu_filter_badyearselection"]="Cha dèan an dà bhliadhna a thagh thu ciall còmhla.";

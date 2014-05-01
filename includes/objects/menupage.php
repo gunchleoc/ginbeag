@@ -201,7 +201,6 @@ class ArticleMenuPage extends Template {
 		
 		$this->vars["order"]= new ArticlemenuOrderSelectionForm($order);
 		$this->vars["ascdesc"]= new AscDescSelectionForm($ascdesc!=="desc");
-		$this->vars["include_subpages"]= new CheckboxForm("subpages","1",getlang("menu_filter_subpages"),$subpages,"right");
 	}
 
 
@@ -222,8 +221,6 @@ class ArticleMenuPage extends Template {
 		$to=$_GET['to'];
 		$order=$_GET['order'];
 		$ascdesc=$_GET['ascdesc'];
-		if (isset($_GET['subpages'])) $subpages=$_GET['subpages'];
-		else $subpages=false;
 		
 		if($from>$to)
 		{
@@ -231,7 +228,7 @@ class ArticleMenuPage extends Template {
 		}
 		else
 		{
-			$result=getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$subpages,$showhidden);
+			$result=getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showhidden);
 			if(!count($result))
 			{
 				$this->stringvars['message']=getlang("menu_filter_nomatch");
