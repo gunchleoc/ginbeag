@@ -82,7 +82,7 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showh
 	// all parameters
 	if(count($categories)>0 && $from!="all" && $to!="all")
 	{
-		$query.=", ".PAGECATS_TABLE." AS cat";
+		$query.=", ".ARTICLECATS_TABLE." AS cat";
 		$query.=" WHERE cat.page_id = art.page_id";
 		$query.=" AND cat.category IN (";
 		for($i=0;$i<count($categories);$i++)
@@ -96,7 +96,7 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showh
 	// all years, filtered for categories
 	elseif(count($categories)>0)
 	{
-		$query.=", ".PAGECATS_TABLE." AS cat";
+		$query.=", ".ARTICLECATS_TABLE." AS cat";
 		$query.=" WHERE cat.page_id = art.page_id";
 		$query.=" AND cat.category IN (";
 		for($i=0;$i<count($categories);$i++)

@@ -42,7 +42,7 @@ function deletepage($page)
 		
 		if($pagetype==="article")
 		{
-			deleteentry(PAGECATS_TABLE,"page_id ='".$deleteids[$i]."'");
+			deleteentry(ARTICLECATS_TABLE,"page_id ='".$deleteids[$i]."'");
 			deleteentry(ARTICLESECTIONS_TABLE,"article_id='".$deleteids[$i]."'");
 			deleteentry(ARTICLES_TABLE,"page_id='".$deleteids[$i]."'");
 		}

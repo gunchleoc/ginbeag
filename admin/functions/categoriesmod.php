@@ -92,44 +92,46 @@ function isdescendant($parent,$descendant, $cattype)
 function deletecategory($catid, $cattype)
 {
 	global $db;
-	if($cattype==CATEGORY_NEWS) $table = CATEGORIES_NEWS_TABLE;
-	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
-	else  $table = CATEGORIES_IMAGES_TABLE;
 	$result=true;
 	
-	if($cattype==CATEGORY_IMAGE)
+	if($cattype==CATEGORY_NEWS)
 	{
+		$table = CATEGORIES_NEWS_TABLE;
+		$newsitemids=getcategorynewsitems($catid);
+		for($i=0;$i<count($newsitemids);$i++)
+		{
+			removenewsitemcategories($newsitemids[$i],array(0 => $catid));
+			if(!isroot($catid, $cattype))
+			{
+				$result= $result & addnewsitemcategories($newsitemids[$i],array(0 => getcategoryparent($catid, $cattype)));
+			}
+		}
+	}
+	elseif($cattype==CATEGORY_ARTICLE)
+	{
+		$table = CATEGORIES_ARTICLES_TABLE;
+		$pageids=getcategorypages($catid);
+		for($i=0;$i<count($pageids);$i++)
+		{
+			removearticlecategories($pageids[$i],array(0 => $catid));
+			if(!isroot($catid, $cattype))
+			{
+				$result= $result & addpagecategories($pageids[$i],array(0 => getcategoryparent($catid, $cattype)));
+			}
+		}
+	}
+	else
+	{
+		$table = CATEGORIES_IMAGES_TABLE;
 		$imagefilenames=getcategoryimages($catid);
 		$result= true;
 
 		for($i=0;$i<count($imagefilenames);$i++)
 		{
 			removeimagecategories($imagefilenames[$i],array(0 => $catid));
-			if(!isroot($catid))
-			{
-				$result= $result & addimagecategories($imagefilenames[$i],array(0 => getcategoryparent($catid, $cattype)));
-			}
-		}
-	}
-	else
-	{
-		$pageids=getcategorypages($catid);
-		for($i=0;$i<count($pageids);$i++)
-		{
-			removepagecategories($pageids[$i],array(0 => $catid));
 			if(!isroot($catid, $cattype))
 			{
-				$result= $result & addpagecategories($pageids[$i],array(0 => getcategoryparent($catid, $cattype)));
-			}
-		}
-
-		$newsitemids=getcategorynewsitems($catid);
-		for($i=0;$i<count($newsitemids);$i++)
-		{
-			removenewsitemcategories($newsitemids[$i],array(0 => $catid));
-			if(!isroot($catid))
-			{
-				$result= $result & addnewsitemcategories($newsitemids[$i],array(0 => getcategoryparent($catid, $cattype)));
+				$result= $result & addimagecategories($imagefilenames[$i],array(0 => getcategoryparent($catid, $cattype)));
 			}
 		}
 	}
@@ -215,7 +217,7 @@ function addpagecategories($page,$categories)
 				$values[0]=0;
 				$values[1]=$db->setinteger($page);
 				$values[2]=$db->setinteger($categories[$i]);
-				$result = $result & insertentry(PAGECATS_TABLE,$values);
+				$result = $result & insertentry(ARTICLECATS_TABLE,$values);
 			}
 		}
 	}
@@ -226,17 +228,18 @@ function addpagecategories($page,$categories)
 //
 //
 //
-function removepagecategories($page,$categories)
+function removearticlecategories($page,$categories)
 {
 	global $db;
 	$result = true;
 	for($i=0;$i<count($categories);$i++)
 	{
 		$condition="page_id ='".$db->setinteger($page)."' and category ='".$db->setinteger($categories[$i])."'";
-		$result = $result & deleteentry(PAGECATS_TABLE,$condition);
+		$result = $result & deleteentry(ARTICLECATS_TABLE,$condition);
 	}
 	return $result;
 }
+
 
 
 //
@@ -245,6 +248,7 @@ function removepagecategories($page,$categories)
 function addnewsitemcategories($newsitem,$categories)
 {
 	global $db;
+	$result = true;
 
   	$newsitemcategories=getcategoriesfornewsitem($newsitem);
   	for($i=0;$i<count($categories);$i++)

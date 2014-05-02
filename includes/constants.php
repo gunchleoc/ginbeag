@@ -5,6 +5,7 @@ define('DATETIMEFORMAT','Y-m-d H:i:s');
 
 // Table names
 define('ANTISPAM_TABLE', $table_prefix.'antispam');
+define('ARTICLECATS_TABLE', $table_prefix.'pages_categories');
 define('ARTICLEOFTHEDAY_TABLE', $table_prefix.'articleoftheday');
 define('ARTICLES_TABLE', $table_prefix.'articles');
 define('ARTICLESECTIONS_TABLE', $table_prefix.'articlesections');
@@ -28,7 +29,6 @@ define('NEWSITEMSYNIMG_TABLE', $table_prefix.'newsitems_synopsisimages');
 define('NEWSITEMSECTIONS_TABLE', $table_prefix.'newsitemsections');
 define('PAGECACHE_TABLE', $table_prefix.'pagecache');
 define('PAGES_TABLE', $table_prefix.'pages');
-define('PAGECATS_TABLE', $table_prefix.'pages_categories');
 define('PAGETYPES_TABLE', $table_prefix.'pagetypes');
 define('PUBLICSESSIONS_TABLE', $table_prefix.'publicsessions');
 define('PUBLICUSERS_TABLE', $table_prefix.'publicusers');

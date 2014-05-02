@@ -101,7 +101,7 @@ function getcategoryimages($catid)
 function getcategorypages($catid)
 {
 	global $db;
-	return getorderedcolumn("page_id",PAGECATS_TABLE,"category = '".$db->setinteger($catid)."'", "page_id","ASC");
+	return getorderedcolumn("page_id",ARTICLECATS_TABLE,"category = '".$db->setinteger($catid)."'", "page_id","ASC");
 }
 
 //
@@ -129,7 +129,7 @@ function getcategoriesforimage($filename)
 function getcategoriesforpage($page)
 {
 	global $db;
-	return getcolumn("category",PAGECATS_TABLE, "page_id = '".$db->setinteger($page)."'");
+	return getcolumn("category",ARTICLECATS_TABLE, "page_id = '".$db->setinteger($page)."'");
 }
 
 //

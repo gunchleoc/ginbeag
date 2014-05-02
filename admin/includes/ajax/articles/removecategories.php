@@ -24,7 +24,7 @@ if($message)
 else {
 
 	$selectedcats=$_POST['selectedcat'];
-	$success = removepagecategories($_POST['page'],$selectedcats);
+	$success = removearticlecategories($_POST['page'],$selectedcats);
 
 	if($success >=0)
 	{
