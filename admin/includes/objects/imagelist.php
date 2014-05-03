@@ -204,7 +204,7 @@ class EditImageFormUsage extends Template {
 				{
 					$newspage=getpagefornewsitem($newsitems[$i]);
 					$offset=getnewsitemoffset($newspage,1,$newsitems[$i],true);
-					$this->stringvars['newsitemlinks'].='<a href="admin.php?page='.$newspage.'&offset='.$offset.'&action=news" target="_blank" class="smalltext">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
+					$this->stringvars['newsitemlinks'].='<a href="edit/newsedit.php?page='.$newspage.'&offset='.$offset.'&action=editcontents" target="_blank" class="smalltext">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
 				}
 			}
 		}
