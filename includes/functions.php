@@ -127,6 +127,8 @@ function input2html($text)
 //
 function text2html($text)
 {
+	global $_GET;
+
 	$text=utf8_encode($text);
 	$text=stripslashes(stripslashes($text));
 	// lt and gt
@@ -136,6 +138,11 @@ function text2html($text)
 	//info at atjeff dot co dot nz
 	// http://de.php.net/manual/en/function.preg-replace.php
 	
+
+	// strip color tags for print view
+	if(isset($_GET['printview'])) $text = preg_replace("/\[color=(.*?)\](.*?)\[\/color\]/si", "\\2", $text);
+	else $text = preg_replace("/\[color=(.*?)\](.*?)\[\/color\]/si", "<span style=\"color:\\1\">\\2</span>", $text);
+
 	// bbcode to html
 	$patterns = array(
 		"/\[link\](.*?)\[\/link\]/i",
@@ -143,7 +150,6 @@ function text2html($text)
 		"/\[url=(.*?)\](.*?)\[\/url\]/i",
 		
 		"/\[style=(.*?)\](.*?)\[\/style\]/si",
-		"/\[color=(.*?)\](.*?)\[\/color\]/si",
 		"/\[img\](.*?)\[\/img\]/i",
 		"/\[b\](.*?)\[\/b\]/si",
 		"/\[u\](.*?)\[\/u\]/si",
@@ -155,7 +161,6 @@ function text2html($text)
 		"<a href=\"\\1\" target=\"_blank\">\\2</a>",
 		
 		"<span class=\"\\1\">\\2</span>",
-		"<font color=\"\\1\">\\2</font>",
 		"<img src=\"\\1\">",
 		"<b>\\1</b>",
 		"<u>\\1</u>",
