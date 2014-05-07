@@ -36,7 +36,7 @@ class MenuPage extends Template {
 			$children=getchildren($page,"ASC");
 			for($i=0;$i<count($children);$i++)
 			{
-				if(displaylinksforpagearray($this->stringvars['sid'],$children[$i]) || $showhidden)
+				if(displaylinksforpagearray($children[$i]) || $showhidden)
 				{
 					$this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i],$pagecontents['displaydepth']-1,0,$showhidden);
 				}
@@ -48,7 +48,7 @@ class MenuPage extends Template {
 			$children=getchildren($page,"ASC");
 			for($i=0;$i<count($children);$i++)
 			{
-				if(displaylinksforpagearray($this->stringvars['sid'],$children[$i]) || $showhidden)
+				if(displaylinksforpagearray($children[$i]) || $showhidden)
 				{
 					$this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i],$pagecontents['displaydepth']-1,0,$showhidden);
 				}
@@ -158,7 +158,7 @@ class ArticleMenuPage extends Template {
 		}
 		for($i=0;$i<count($children);$i++)
 		{
-			if(displaylinksforpagearray($this->stringvars['sid'],$children[$i]) || $showhidden)
+			if(displaylinksforpagearray($children[$i]) || $showhidden)
 			{
 				$this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i],$pagecontents['displaydepth']-1,0,$showhidden);
 			}
@@ -464,7 +464,7 @@ class MenuNavigatorBranch extends Template {
 			$pages=getchildrenarray($page);
 			for($i=0;$i<count($pages);$i++)
 			{
-				if(displaylinksforpagearray($sid,$pages[$i]) || $showhidden)
+				if(displaylinksforpagearray($pages[$i]) || $showhidden)
 				{
 					$this->listvars['link'][]= new MenuNavigatorBranch($pages[$i], $depth-1, $level+1,$showhidden);
 				}

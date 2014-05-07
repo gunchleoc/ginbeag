@@ -134,18 +134,17 @@ class NavigatorLink extends Template {
 	{
 		global $_GET;
 		$this->style=$style;
-		if(isset($_GET['sid'])) $sid=$_GET['sid'];
-		else $sid="";
-		
-		$linkparams="?sid=".$sid;
-		if(isset($_GET['m'])) $linkparams.="&m=on";
-		
 		if($level==0) $class="navtitle";
 	    else $class="navlink";
 
 		// layout parameters
 		$this->stringvars['link_class']=$class;
 		$this->stringvars['title_class']="";
+
+		parent::__construct();
+
+		$linkparams="?sid=".$this->stringvars["sid"];
+		if(isset($_GET['m'])) $linkparams.="&m=on";
 		
 		// for special pages like, contact, guestbook etc
 		if($page==0)
@@ -249,7 +248,6 @@ class NavigatorLink extends Template {
 		} 
       
 		//$this->stringvars['title']= "XXXXXXXXXXX test".$level." ------ ".$this->stringvars['title'];
-		$this->createTemplates();
 	}
 
     // assigns templates
@@ -279,15 +277,14 @@ class NavigatorBranch extends Template {
     function NavigatorBranch($page,$style="simple",$depth,$level=0,$speciallink="",$showhidden=false)
     {
     	global $_GET;
-    	if(isset($_GET['sid'])) $sid=$_GET['sid'];
-    	else $sid="";
-    	
+
         $this->style=$style;
-        //parent::__construct();
+        parent::__construct();
+
         if($level==0) $this->stringvars['wrapper_class'] = "navrootlinkwrapper";
         else $this->stringvars['wrapper_class'] = "navlinkwrapper";
         
-        if(hasaccesssession($sid, $page) || $showhidden)
+        if(hasaccesssession($this->stringvars["sid"], $page) || $showhidden)
         {
         	$this->listvars['link'][]= new NavigatorLink($page, $style, $level,$speciallink, $showhidden);
         }
@@ -299,13 +296,12 @@ class NavigatorBranch extends Template {
 			$pages=getchildrenarray($page);
 			for($i=0;$i<count($pages);$i++)
 			{
-				if(displaylinksforpagearray($sid,$pages[$i]) || $showhidden)
+				if(displaylinksforpagearray($pages[$i]) || $showhidden)
 				{
 					$this->listvars['link'][]= new NavigatorBranch($pages[$i],$style,$depth-1, $level+1,$speciallink, $showhidden);
 				}
 			}
         }
-        $this->createTemplates();
     }
 
     // assigns templates
@@ -336,14 +332,11 @@ class Navigator extends Template {
 	function Navigator($page,$sistersinnavigator,$depth,$displaytype="page",$showhidden=false)
 	{
 	    global $_GET;
-	    //parent::__construct();
 	    
-		if(isset($_GET['sid'])) $sid=$_GET['sid'];
-		else $sid="";
-
 	    $this->displaytype=$displaytype;
-		
-		$linkparams="?sid=".$sid;
+	    parent::__construct();
+
+		$linkparams="?sid=".$this->stringvars["sid"];
 		if(isset($_GET['m']))
 		{
 			$linkparams.="&m=on";
@@ -365,7 +358,7 @@ class Navigator extends Template {
 			while(count($roots))
 			{
 				$currentroot=array_shift($roots);
-				if(displaylinksforpagearray($sid, $currentroot) || $showhidden)
+				if(displaylinksforpagearray($currentroot) || $showhidden)
 				{
 					$this->listvars['link'][]=new NavigatorBranch($currentroot,"splashpage",0,0,"",$showhidden);
 				}
@@ -472,7 +465,7 @@ class Navigator extends Template {
 						while(count($sisterids))
 						{
 							$currentsister=array_shift($sisterids);
-							if(displaylinksforpagearray($sid, $currentsister) || $showhidden)
+							if(displaylinksforpagearray($currentsister) || $showhidden)
 							{
 								$this->listvars['sisterlink'][]=new NavigatorBranch($currentsister,"mobile",0,$level,"",$showhidden);
 							}
@@ -490,7 +483,7 @@ class Navigator extends Template {
 					while(count($roots))
 					{
 						$currentroot=array_shift($roots);
-						if(displaylinksforpagearray($sid,$currentroot) || $showhidden)
+						if(displaylinksforpagearray($currentroot) || $showhidden)
 						{
 							$this->listvars['link'][]=new NavigatorBranch($currentroot,$style,0,0,"",$showhidden);
 						}
@@ -507,7 +500,7 @@ class Navigator extends Template {
 						// display upper root pages
 						while(getnavpositionarray($currentroot)<$navposition)
 						{
-							if(displaylinksforpagearray($sid,$currentroot) || $showhidden)
+							if(displaylinksforpagearray($currentroot) || $showhidden)
 							{
 								$this->listvars['link'][]=new NavigatorBranch($currentroot,$style,0,0,"",$showhidden);
 							}
@@ -536,13 +529,13 @@ class Navigator extends Template {
 						// display upper root pages
 						while(getnavpositionarray($currentroot)<$parentrootnavposition)
 						{
-							if(displaylinksforpagearray($sid,$currentroot) || $showhidden)
+							if(displaylinksforpagearray($currentroot) || $showhidden)
 							{
 								$this->listvars['link'][]=new NavigatorBranch($currentroot,$style,0,0,"",$showhidden);
 							}
 							$currentroot=array_shift($roots);
 						}
-						if(displaylinksforpagearray($sid,$currentroot) || $showhidden)
+						if(displaylinksforpagearray($currentroot) || $showhidden)
 						{
 							$this->listvars['link'][]=new NavigatorBranch($currentroot,$style,0,0,"",$showhidden);
 						}
@@ -564,7 +557,7 @@ class Navigator extends Template {
 							// display upper sister pages
 							while(getnavpositionarray($currentsister)<$pagenavposition)
 							{
-								if(displaylinksforpagearray($sid,$currentsister) || $showhidden)
+								if(displaylinksforpagearray($currentsister) || $showhidden)
 								{
 									$this->listvars['link'][]=new NavigatorBranch($currentsister,$style,0,$level,"",$showhidden);
 								}
@@ -577,7 +570,7 @@ class Navigator extends Template {
 							while(count($sisterids))
 							{
 								$currentsister=array_shift($sisterids);
-								if(displaylinksforpagearray($sid,$currentsister) || $showhidden)
+								if(displaylinksforpagearray($currentsister) || $showhidden)
 								{
 									$this->listvars['link'][]=new NavigatorBranch($currentsister,$style,0,$level,"",$showhidden);
 								}
@@ -592,7 +585,7 @@ class Navigator extends Template {
 					while(count($roots))
 					{
 						$currentroot=array_shift($roots);
-						if(displaylinksforpagearray($sid,$currentroot) || $showhidden)
+						if(displaylinksforpagearray($currentroot) || $showhidden)
 						{
 							$this->listvars['link'][]=new NavigatorBranch($currentroot,$style,0,0,"",$showhidden);
 						}
@@ -606,7 +599,6 @@ class Navigator extends Template {
 				$this->listvars['link'][]=new NavigatorBranch(0,$style,0,0,"sitemap",$showhidden);
 			}
 		}
-		$this->createTemplates();
 	}
   
 	// assigns templates

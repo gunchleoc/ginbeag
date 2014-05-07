@@ -21,7 +21,7 @@ class Sitemap extends Template {
 		$roots=getrootpages();
 		for($i=0;$i<count($roots);$i++)
 		{
-			if(displaylinksforpagearray($this->stringvars['sid'],$roots[$i]) || $showhidden)
+			if(displaylinksforpagearray($roots[$i]) || $showhidden)
 			{
 				$this->listvars['subpages'][]= new SitemapBranch($roots[$i],5,true,0,"",$showhidden);
 			}
@@ -181,7 +181,7 @@ class SitemapBranch extends Template {
 			$pages=getchildrenarray($page);
 			for($i=0;$i<count($pages);$i++)
 			{
-				if(displaylinksforpagearray($sid,$pages[$i]) || $showhidden)
+				if(displaylinksforpagearray($pages[$i]) || $showhidden)
 				{
 					$this->listvars['link'][]= new SitemapBranch($pages[$i], $depth-1, $startwithroot, $level+1,$speciallink, $showhidden);
 				}

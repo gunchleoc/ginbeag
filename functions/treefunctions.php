@@ -124,9 +124,9 @@ function isrootpagearray($page)
 //
 //
 //
-function displaylinksforpagearray($sid,$page)
+function displaylinksforpagearray($page)
 {
-	global $user;
+	global $user, $sid;
 	return (ispublishedarray($page) && (!ispagerestrictedarray($page) || hasaccesssession($sid, $page)));
 }
 

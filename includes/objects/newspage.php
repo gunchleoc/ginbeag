@@ -22,8 +22,6 @@ class Newsitemsection extends Template {
 
     function Newsitemsection($newsitemsection, $isquoted=false, $showhidden=false)
     {
-		//parent::__construct();
-    
     	$this->stringvars['l_quote']=getlang("section_quote");
 
         $sectioncontents=getnewsitemsectioncontents($newsitemsection);
@@ -40,24 +38,14 @@ class Newsitemsection extends Template {
 		  
 		  $this->stringvars['text']=text2html($sectioncontents['text']);
         }
-        $this->createTemplates();
-    }
-
-    function isquotestart()
-    {
-        return $this->isquotestart;
-    }
-
-    function isquoteend()
-    {
-        return $this->isquoteend;
+		parent::__construct();
     }
 
     // assigns templates
     function createTemplates()
     {
-		if($this->isquotestart()) $this->addTemplate("newsitemsectionquotestart.tpl");
-		elseif($this->isquoteend()) $this->addTemplate("newsitemsectionquoteend.tpl");
+		if($this->isquotestart) $this->addTemplate("newsitemsectionquotestart.tpl");
+		elseif($this->isquoteend) $this->addTemplate("newsitemsectionquoteend.tpl");
 		else $this->addTemplate("newsitemsection.tpl");
     }
 }
@@ -180,7 +168,7 @@ class Newsitem extends Template {
 			{
 				$newsitemsection = new Newsitemsection($sections[$i], $isquote, $showhidden);
 				$this->listvars['section'][] = $newsitemsection;
-				$isquote == $newsitemsection->isquotestart();
+				$isquote == $newsitemsection->isquotestart;
 			}
 		}
 		$this->stringvars["l_topofthispage"] = getlang("pagemenu_topofthispage");
