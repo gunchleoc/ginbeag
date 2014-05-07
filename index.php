@@ -28,6 +28,13 @@ if(isset($_GET['sid'])) $sid = $_GET['sid'];
 elseif(isset($_POST['sid'])) $sid = $_POST['sid'];
 else $sid="";
 
+if(strlen($sid) > 0 && ! ispublicloggedin())
+{
+	$sid="";
+	unset($_GET['sid']);
+	unset($_POST['sid']);
+}
+
 if(isset($_GET['page'])) $page = $_GET['page'];
 elseif(isset($_POST['page'])) $page = $_POST['page'];
 elseif(isset($_GET['newsitem']))
@@ -45,6 +52,7 @@ if(isset($_GET['logout']))
 {
 	publiclogout($_GET['sid']);
 	unset($_GET['sid']);
+	$sid="";
 	unset($_GET['logout']);
 	$wasloggedout = true;
 }
