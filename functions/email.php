@@ -126,7 +126,7 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
 	
 	if($isguestbookentry)
 	{
-		$message_intro=getlang("email_yourguestbookentry").' @ '.getproperty("Site Name")."\n";
+		$message_intro=getlang("email_yourguestbookentry").' @ '. html_entity_decode(getproperty("Site Name"))."\n";
 	}
 	else
 	{
@@ -144,16 +144,16 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
 	
 	if($isguestbookentry)
 	{
-		@mail($recipient,getlang("email_guestbooksubject").getproperty("Site Name")." - ".$subject,getlang("email_guestbooksubject").getproperty("Site Name")."\n\n".$messagetext,"From: ".$recipient);
-		@mail($addy,getlang("email_yourguestbookentry").' @ '.getproperty("Site Name")." - ".$subject,$message_intro.$messagetext,"From: ".$recipient);
+		@mail($recipient,getlang("email_guestbooksubject"). html_entity_decode(getproperty("Site Name"))." - ".$subject,getlang("email_guestbooksubject"). html_entity_decode(getproperty("Site Name"))."\n\n".$messagetext,"From: ".$recipient);
+		@mail($addy,getlang("email_yourguestbookentry").' @ '. html_entity_decode(getproperty("Site Name"))." - ".$subject,$message_intro.$messagetext,"From: ".$recipient);
 	}
 	else
 	{
-		@mail($recipient,sprintf(utf8_decode(getlang("email_contactsubject")),getproperty("Site Name")).$subject,$message_intro.$messagetext,"From: ".$addy)
+		@mail($recipient,sprintf(utf8_decode(getlang("email_contactsubject")), html_entity_decode(getproperty("Site Name"))).$subject,$message_intro.$messagetext,"From: ".$addy)
 		or die('<p class="highlight"><b>'.utf8_decode(getlang("email_errorsending")).'</b></p>');
 		if($sendcopy)
 		{
-			@mail($addy,getlang("email_yourmessage").getproperty("Site Name")." - ".$subject,getlang("email_thisemailwassent").":\n\n".$message_intro.$messagetext,"From: ".$addy)
+			@mail($addy,getlang("email_yourmessage"). html_entity_decode(getproperty("Site Name"))." - ".$subject,getlang("email_thisemailwassent").":\n\n".$message_intro.$messagetext,"From: ".$addy)
 			or die('<p class="highlight"><b>'.utf8_decode(getlang("email_errorsending")).'</b></p>');
 		}
 		print('<p>'.getlang("email_youremailsent").".<p>");
