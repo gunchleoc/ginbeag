@@ -148,7 +148,7 @@ class EditArticlePage extends Template {
 		$articlesections=getarticlesections($this->stringvars['page'],$articlepage);
 		
 		$numberofarticlepages=numberofarticlepages($this->stringvars['page']);
-		$this->vars['pagemenu']= new PageMenu($articlepage-1,1,$numberofarticlepages,'action=editcontents');
+		$this->vars['pagemenu']= new PageMenu($articlepage-1, 1, $numberofarticlepages, array("action" => "editcontents"));
 		
 		if($numberofarticlepages==$articlepage)
 		{

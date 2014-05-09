@@ -587,7 +587,7 @@ class EditNewsItemForms extends Template {
 
 		$newsitems=getnewsitems($page,1,$offset);
 
-		$this->vars['pagemenu']= new PageMenu($offset,1,$noofnewsitems,'action=editcontents');
+		$this->vars['pagemenu']= new PageMenu($offset, 1, $noofnewsitems, array("action" => "editcontents"));
 
 		if($noofnewsitems>0)
 		{

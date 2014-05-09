@@ -313,20 +313,8 @@ class NewsPage extends Template {
 			{
 				$this->vars['jumpform'] = new JumpToPageForm("",array("page" => $this->stringvars['page']));
 			}
-			$params="";
-			if(count($filterparams))
-			{
-				$keys=array_keys($filterparams);
-				$key=current($keys);
-				$params.=$key."=".$filterparams[$key];
-				next($keys);
-				while($key=current($keys))
-				{
-					$params.="&".$key."=".$filterparams[$key];
-					next($keys);
-				}
-			}
-			$this->vars['pagemenu'] = new Pagemenu($offset,$newsitemsperpage,$noofnewsitems,$params,$this->stringvars['page']);
+
+			$this->vars['pagemenu'] = new Pagemenu($offset, $newsitemsperpage, $noofnewsitems, $filterparams);
 		}
 
 		// search result message

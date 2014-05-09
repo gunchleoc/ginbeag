@@ -456,8 +456,19 @@ function makelinkparameters($assoc_array)
 		{
 			if(!($key === "sid" && strlen($sid) > 0))
 			{
-				if(strlen($assoc_array[$key]) > 0)
-					$params.="&".$key."=".$assoc_array[$key];
+				if(var_is_array($assoc_array[$key]))
+				{
+					$subkeys=array_keys($assoc_array[$key]);
+					while($subkey = next($subkeys))
+					{
+						$params.="&".$key."=".$assoc_array[$key][$subkey];
+					}
+				}
+				else
+				{
+					if(strlen($assoc_array[$key]) > 0)
+						$params.="&".$key."=".$assoc_array[$key];
+				}
 			}
 		}
 		if(strlen($sid) > 0)
@@ -470,6 +481,15 @@ function makelinkparameters($assoc_array)
 		$params.="?sid=".$sid;
 	}
 	return $params;
+}
+
+
+//
+// returns true if the var is an array
+//
+function var_is_array($var)
+{
+	return ( (array) $var == $var);
 }
 
 

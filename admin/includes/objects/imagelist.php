@@ -754,7 +754,7 @@ function getpagemenu($offset,$imagesperpage,$noofimages)
 {
 	global $_GET, $order, $ascdesc, $filter;
 	
-  	$params="number=".$imagesperpage;
+	$params["number"] = $imagesperpage;
   	
   	/*
   	if(isset($_GET['unused']) ||
@@ -767,10 +767,8 @@ function getpagemenu($offset,$imagesperpage,$noofimages)
   	if($filter)
   	{
 
-    	if($filter)
-    	{
-      		$params.="&filter=1";
-    	}
+		$params["filter"] = 1;
+
     	/*
     	elseif(isset($_GET['unused'])) $params.="&unused=1";
     	elseif(isset($_GET['missing'])) $params.="&missing=1";
@@ -779,22 +777,24 @@ function getpagemenu($offset,$imagesperpage,$noofimages)
     	elseif(isset($_GET['missingthumb'])) $params.="&missingthumb=1";
     	*/
 
-    	if(isset($_GET["filename"])) $params.="&filename=".urlencode($_GET["filename"]);
-    	if(isset($_GET["caption"])) $params.="&caption=".urlencode($_GET["caption"]);
-    	if(isset($_GET["source"])) $params.="&source=".urlencode($_GET["source"]);
-    	if(isset($_GET["sourceblank"])) $params.="&sourceblank=1";
-    	if(isset($_GET["uploader"])) $params.="&uploader=".urlencode($_GET["uploader"]);
-    	if(isset($_GET["copyright"])) $params.="&copyright=".urlencode($_GET["copyright"]);
-    	if(isset($_GET["copyrightblank"])) $params.="&copyrightblank=1";
-    	if(isset($_GET["selectedcat"])) $selectedcats=$_GET["selectedcat"];
-    	else $selectedcats=array();
+		if(isset($_GET["filename"]) && strlen($_GET["filename"]) > 0) $params["filename"] = urlencode($_GET["filename"]);
+		if(isset($_GET["caption"]) && strlen($_GET["caption"]) > 0) $params["caption"] = urlencode($_GET["caption"]);
+		if(isset($_GET["source"]) && strlen($_GET["source"]) > 0) $params["source"] = urlencode($_GET["source"]);
+		if(isset($_GET["uploader"]) && strlen($_GET["uploader"]) > 0) $params["uploader"] = urlencode($_GET["uploader"]);
+		if(isset($_GET["copyright"]) && strlen($_GET["copyright"]) > 0) $params["copyright"] = urlencode($_GET["copyright"]);
+		if(isset($_GET["sourceblank"])) $params["sourceblank"] = 1;
+		if(isset($_GET["copyrightblank"])) $params["copyrightblank"] = 1;
 
-    	for($i=0;$i<count($selectedcats);$i++)
-    	{
-      		$params.="&selectedcat%5B%5D=".$selectedcats[$i];
-    	}
-    	if(isset($_GET["categoriesblank"])) $params.="&categoriesblank=1";
-    	$params.="&order=".$order."&ascdesc=".$ascdesc;
+		if(isset($_GET["selectedcat"])) $selectedcats=$_GET["selectedcat"];
+		else $selectedcats=array();
+
+		for($i=0;$i<count($selectedcats);$i++)
+		{
+			$params["selectedcat%5B%5D"][] = $selectedcats[$i];
+		}
+		if(isset($_GET["categoriesblank"])) $params["categoriesblank"] = 1;
+		$params["order"] = $order;
+		$params["ascdesc"] = $ascdesc;
   	}
   	return new PageMenu($offset, $imagesperpage, $noofimages, $params);
 }

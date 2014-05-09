@@ -53,10 +53,10 @@ class JumpToPageForm  extends Template {
 //
 class PageMenu extends Template {
 
-    function PageMenu($offset, $number, $last, $params="")
+    function PageMenu($offset, $number, $last, $params = array())
     {
     	parent::__construct();
-		$this->stringvars['pagemenu']=$this->makelinks($offset, $number, $last, $params,$this->stringvars['page']);
+		$this->stringvars['pagemenu']=$this->makelinks($offset, $number, $last, $params, $this->stringvars['page']);
     }
 
     // assigns templates
@@ -65,14 +65,11 @@ class PageMenu extends Template {
 		$this->addTemplate("pagemenu.tpl");
     }
     
-    function makelinks($offset, $number, $last, $params="")
+    function makelinks($offset, $number, $last, $params = array())
     {
 		$result="";
-		$sidparam="";
-		
-		if($this->stringvars['sid'] && strlen($this->stringvars['sid']) > 0) $sidparam.='sid='.$this->stringvars['sid'].'&';
-		if($this->stringvars['page']>0) $sidparam.='page='.$this->stringvars['page'].'&';
-		if($params) $params.="&";
+
+		if($this->stringvars['page'] > 0) $params["page"] = $this->stringvars['page'];
 
 		if(!$number>0) $number=1;
 
@@ -88,32 +85,21 @@ class PageMenu extends Template {
 			if($offset>0)
 			{
 				// "Previous"
-				$result.='<a href="?';
-				$result.=$sidparam;
-				$result.=$params;
-				$result.='offset='.$previous;
-				$result.='" method="post">'.getlang("pagemenu_previous").'</a> ';
+				$params["offset"] = $previous;
+				$result.='<a href="'.makelinkparameters($params).'">'.getlang("pagemenu_previous").'</a> ';
 			}
 			if($offset)
 			{
 				if($previous)
 				{
 					// First page number
-					$result.='<a href="?';
-					$result.=$sidparam;
-					$result.=$params;
-					$result.='offset=0';
-					$result.='" method="post">1</a>, ';
+					$params["offset"] = 0;
+					$result.='<a href="'.makelinkparameters($params).'">1</a>, ';
 					if(($previous-$number)>0) $result.='... ';
 				}
 				// previous number
-				$result.='<a href="?';
-				$result.=$sidparam;
-				$result.=$params;
-				$result.='offset='.$previous;
-				$result.='" method="post">';
-				$result.=1+($previous/$number);
-				$result.='</a>, ';
+				$params["offset"] = $previous;
+				$result.='<a href="'.makelinkparameters($params).'">'.(1+$previous/$number).'</a>, ';
 			}
 		
 			// current number
@@ -126,33 +112,22 @@ class PageMenu extends Template {
 			// next number
 			if($offset<$last)
 			{
-				$result.='<a href="?';
-				$result.=$sidparam;
-				$result.=$params;
-				$result.='offset='.$next;
-				$result.='" method="post">';
-				$result.=(1+$next/$number).'</a>';
+				$params["offset"] = $next;
+				$result.='<a href="'.makelinkparameters($params).'">'.(1+$next/$number).'</a>';
 				if($next<$last) $result.=', ';
 			}
 			if(($next+$number)<$last && $last/$number>2) $result.='... ';
 			if($next<$last)
 			{
 				// last number
-				$result.='<a href="?';
-				$result.=$sidparam;
-				$result.=$params;
-				$result.='offset='.$last;
-				$result.='" method="post">';
-				$result.=(1+$last/$number).'</a>';
+				$params["offset"] = $last;
+				$result.='<a href="'.makelinkparameters($params).'">'.(1+$last/$number).'</a>';
 			}
 			// "Next"
 			if($offset<$last)
 			{
-				$result.=' <a href="?';
-				$result.=$sidparam;
-				$result.=$params;
-				$result.='offset='.$next;
-				$result.='" method="post">'.getlang("pagemenu_next").'</a>';
+				$params["offset"] = $next;
+				$result.=' <a href="'.makelinkparameters($params).'">'.getlang("pagemenu_next").'</a>';
 			}
 		}
 		return $result;

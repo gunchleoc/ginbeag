@@ -22,7 +22,7 @@ class AdminGuestbookEntryList extends Template {
   		
 		$this->vars['enableform'] = new AdminGuestbookEnableForm();
   
-  		$this->vars['pagemenu']=new PageMenu($offset, $number, countguestbookentries());
+		$this->vars['pagemenu']=new PageMenu($offset, $number, countguestbookentries(), array("action" => "siteguest"));
   
   
   		if(count($entries)==0)

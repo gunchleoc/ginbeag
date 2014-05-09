@@ -90,7 +90,7 @@ class ArticlePage extends Template {
     
     	// pagemenu
     	if($noofarticlepages>1)
-      		$this->vars['pagemenu'] = new Pagemenu($articlepage-1,1,$noofarticlepages,'',$this->stringvars['page']);
+			$this->vars['pagemenu'] = new Pagemenu($articlepage-1,1,$noofarticlepages);
       		
 		if($pagecontents['use_toc'])
     		$this->vars['toc']=new ArticleTOC();
