@@ -20,7 +20,13 @@ class CategoryMoveForm extends Template {
 		
 		$this->vars['fromform']=new CategorySelectionForm(false,"",$cattype,15,array(),false,"movefrom","Select a category to move:");
 		$this->vars['toform']=new CategorySelectionForm(false,"",$cattype,15,array(),false,"moveto","Select destination:");
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=movecat&cattype=".$cattype;
+
+		$linkparameters=array();
+		$linkparameters["page"] = $this->stringvars['page'];
+		$linkparameters["action"] = "movecat";
+		$linkparameters["cattype"] = $cattype;
+		$this->stringvars['actionvars']= makelinkparameters($linkparameters);
+
 		$this->vars['submitrow']=new SubmitRow("movecat","Move");
 	}
 	
@@ -43,7 +49,13 @@ class EditCategoryForm extends Template {
 		
 		$this->stringvars['addsubtext']=$addsubtext;
 		$this->stringvars['editcattext']=$editcattext;
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcat&cattype=".$cattype;
+
+		$linkparameters=array();
+		$linkparameters["page"] = $this->stringvars['page'];
+		$linkparameters["action"] = "editcat";
+		$linkparameters["cattype"] = $cattype;
+		$this->stringvars['actionvars']= makelinkparameters($linkparameters);
+
 		$this->vars['categoryselection']=new CategorySelectionForm(false,"",$cattype,15,array(),"assignSelectValue(this, editcattext)","selectedcat","Select a category for editing:");
 		$this->vars['deleteconfirm']= new CheckboxForm("delcatconfirm","Delete selected","Confirm delete",false,"right");
 	}
@@ -69,8 +81,14 @@ class AdminCategories extends Template {
 		
 		$this->vars['categorymoveform']= new CategoryMoveForm($cattype);
 		$this->vars['editcategoryform']= new EditCategoryForm($addsubtext, $editcattext, $cattype);
-		$this->stringvars['linktarget']= "admin.php?page=".$this->stringvars['page'];
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=selectcattype";
+
+		$linkparameters=array();
+		$linkparameters["page"] = $this->stringvars['page'];
+		$this->stringvars['linktarget']= "admin.php".makelinkparameters($linkparameters);
+
+		$linkparameters["action"] = "selectcattype";
+		$this->stringvars['actionvars']= makelinkparameters($linkparameters);
+
 		$this->vars['cattypeformarticle']= new RadioButtonForm($this->stringvars["jsid"], "cattype", CATEGORY_ARTICLE, "Article", $cattype == CATEGORY_ARTICLE, "right");
 		$this->vars['cattypeformimage']= new RadioButtonForm($this->stringvars["jsid"], "cattype", CATEGORY_IMAGE, "Image", $cattype == CATEGORY_IMAGE, "right");
 		$this->vars['cattypeformnews']= new RadioButtonForm($this->stringvars["jsid"], "cattype", CATEGORY_NEWS, "News", $cattype == CATEGORY_NEWS, "right");

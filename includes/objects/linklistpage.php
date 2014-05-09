@@ -97,9 +97,12 @@ class LinklistPage extends Template {
 		$linkids=getlinklistitems($this->stringvars['page']);
 		$noofids=count($linkids);
 		if(!$offset) $offset=0;
-		
-		$this->vars['printviewbutton']= new LinkButton('?sid='.$this->stringvars['sid'].'&printview=on&page='.$this->stringvars['page'],getlang("pagemenu_printview"),"img/printview.png");
-		
+
+		$linkparams["printview"]="on";
+		$linkparams["page"]=$this->stringvars['page'];
+
+		$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
+
 		$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 		

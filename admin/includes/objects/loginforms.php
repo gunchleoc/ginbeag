@@ -22,7 +22,8 @@ class AdminLoginForm extends Template {
 		parent::__construct();
 		
 		$this->stringvars['params']=makelinkparameters($_GET);
-		$this->stringvars['username']=title2html($username);
+		$this->stringvars['username']=$username;
+		$this->stringvars['forgetfullink'] = makelinkparameters(array("user" => urlencode($username), "forgetful" => "on"));
     }
 
     // assigns templates
@@ -73,7 +74,7 @@ class ForgotEmailForm extends Template {
     function ForgotEmailForm($username)
     {
     	parent::__construct();
-		$this->stringvars['username']=title2html($username);
+		$this->stringvars['username']=$username;
     }
 
     // assigns templates
@@ -93,7 +94,8 @@ class ForgotPasswordForm extends Template {
     function ForgotPasswordForm($username)
     {
     	parent::__construct();
-		$this->stringvars['username']=title2html($username);
+		$this->stringvars['username']=$username;
+		$this->stringvars['forgetfullink'] = makelinkparameters(array("user" => urlencode($username), "superforgetful" => "on"));
     }
 
     // assigns templates

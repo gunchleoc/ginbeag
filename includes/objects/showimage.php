@@ -14,7 +14,7 @@ class Showimage extends Template {
 
     function Showimage($page,$image,$item=0,$showhidden=false)
     {
-    	global $_POST;
+		global $_POST, $_GET;
     	parent::__construct();
     	
     	/*if($page && !$showhidden)
@@ -55,9 +55,9 @@ class Showimage extends Template {
       	if($this->stringvars['page']!=0)
       	{
       		if($showhidden)
-      			$this->stringvars['returnpage']='pagedisplay.php?page='.$this->stringvars['page'];
+				$this->stringvars['returnpage']='pagedisplay.php'.makelinkparameters(array("page" => $this->stringvars['page']));
       		else
-      			$this->stringvars['returnpage']='index.php?page='.$this->stringvars['page'].'&sid='.$this->stringvars['sid'];
+				$this->stringvars['returnpage']='index.php'.makelinkparameters(array("page" => $this->stringvars['page']));
       		$this->stringvars['returnpagetitle']=getlang("image_viewthumbnails");
       	}
       	
@@ -81,27 +81,34 @@ class Showimage extends Template {
 
 		elseif($this->stringvars['page']!=0)
 		{
-  			// generate item array
+			// generate item array
 			$items=getgalleryimagefilenames($this->stringvars['page']);
-  			$item = array_search($_GET['image'], $items);
-  			if(!$item)
-  			{
-    			$item=0;
-  			}
-  			$previousitem = $item-1;
-  			$nextitem = $item+1;
+			$item = 0;
+			if(isset($_GET['image']))
+			{
+				$item = array_search($_GET['image'], $items);
+			}
+			$previousitem = $item-1;
+			$nextitem = $item+1;
 		}
 
+
+		$linkparams = array();
+		$linkparams["page"] = $this->stringvars['page'];
 
 		if(($this->stringvars['page']!=0 || $item!=0) && $previousitem >=0)
 		{
 			$this->stringvars['previous'] = $this->makeitemfields($items);
-			$this->stringvars['previousitem'] = "?item=".$previousitem."&page=".$this->stringvars['page'].'&sid='.$this->stringvars['sid'];
+
+			$linkparams["item"] = $previousitem;
+			$this->stringvars['previousitem'] = makelinkparameters($linkparams);
 		}
 		if(($this->stringvars['page']!=0 || $item!=0) && $nextitem >=0 && $nextitem  < count($items))
 		{
 			$this->stringvars['next'] = $this->makeitemfields($items);
-			$this->stringvars['nextitem'] = "?item=".$nextitem."&page=".$this->stringvars['page'].'&sid='.$this->stringvars['sid'];
+
+			$linkparams["item"] = $nextitem;
+			$this->stringvars['nextitem'] = makelinkparameters($linkparams);
 		}
 
 		// make image

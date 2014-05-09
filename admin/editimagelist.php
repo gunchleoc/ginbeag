@@ -371,14 +371,17 @@ elseif($action==="executedelete")
 			$displayeditform=true;
 			for($i=0;$i<count($pages);$i++)
 			{
-				$message.='<a href="admin.php?page='.$pages[$i].'" target="_blank">#'.$pages[$i].'</a>';
+				$message.='<a href="admin.php'.makelinkparameters(array("page" => $pages[$i])).'" target="_blank">#'.$pages[$i].'</a>';
 			}
 			$message.='<br />And in the following Newsitem(s): ';
 			for($i=0;$i<count($newsitems);$i++)
 			{
 				$newspage=getpagefornewsitem($newsitems[$i]);
-				$offset=getnewsitemoffset($newspage,1,$newsitems[$i],true);
-				$message.='<a href="admin.php?page='.$newspage.'&offset='.$offset.'&action=news" target="_blank">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
+				$linkparameters=array();
+				$linkparameters["page"] = $newspage;
+				$linkparameters["offset"] = getnewsitemoffset($newspage,1,$newsitems[$i],true);
+				$linkparameters["action"] = "news";
+				$message.='<a href="admin.php'.makelinkparameters($linkparameters).' target="_blank">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
 			}
 		}
 	}

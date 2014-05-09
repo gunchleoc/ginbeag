@@ -143,8 +143,8 @@ class NavigatorLink extends Template {
 
 		parent::__construct();
 
-		$linkparams="?sid=".$this->stringvars["sid"];
-		if(isset($_GET['m'])) $linkparams.="&m=on";
+		$linkparams = array();
+		if(isset($_GET['m'])) $linkparams["m"] = "on";
 		
 		// for special pages like, contact, guestbook etc
 		if($page==0)
@@ -153,7 +153,7 @@ class NavigatorLink extends Template {
 			{
 				$this->stringvars['linktooltip']=getlang("navigator_guestbook");
 				$this->stringvars['title']=getlang("navigator_guestbook");
-				$this->stringvars['link']=getprojectrootlinkpath()."guestbook.php".$linkparams;
+				$this->stringvars['link']=getprojectrootlinkpath()."guestbook.php".makelinkparameters($linkparams);
 				$this->stringvars['link_attributes']='';
 				if(basename($_SERVER['PHP_SELF'])==="guestbook.php")
 				{
@@ -164,7 +164,7 @@ class NavigatorLink extends Template {
 			{
 				$this->stringvars['linktooltip']=getlang("navigator_contact");
 				$this->stringvars['title']=getlang("navigator_contact");
-				$this->stringvars['link']=getprojectrootlinkpath()."contact.php".$linkparams;
+				$this->stringvars['link']=getprojectrootlinkpath()."contact.php".makelinkparameters($linkparams);
 				$this->stringvars['link_attributes']='';
 				if(basename($_SERVER['PHP_SELF'])==="contact.php")
 				{
@@ -175,7 +175,9 @@ class NavigatorLink extends Template {
 			{
 				$this->stringvars['linktooltip']=getlang("navigator_sitemap");
 				$this->stringvars['title']=getlang("navigator_sitemap");
-				$this->stringvars['link']=getprojectrootlinkpath()."index.php".$linkparams."&page=0&sitemap=on";
+				$linkparams["page"] = "0";
+				$linkparams["sitemap"] = "on";
+				$this->stringvars['link']=getprojectrootlinkpath()."index.php".makelinkparameters($linkparams);
 				$this->stringvars['link_attributes']='';
 				if(isset($_GET['sitemap']))
 				{
@@ -186,7 +188,7 @@ class NavigatorLink extends Template {
 			{
 				$this->stringvars['linktooltip']=getlang("navigator_home");
 				$this->stringvars['title']=getlang("navigator_home");
-				$this->stringvars['link']=getprojectrootlinkpath().$linkparams;
+				$this->stringvars['link']=getprojectrootlinkpath().makelinkparameters($linkparams);
 				$this->stringvars['link_attributes']='';
 			}
 			else
@@ -239,7 +241,8 @@ class NavigatorLink extends Template {
 			{
 				if($showhidden) $path=getprojectrootlinkpath()."admin/pagedisplay.php";
 				else $path=getprojectrootlinkpath()."index.php";
-				$this->stringvars['link']=$path.$linkparams.'&page='.$page;
+				$linkparams["page"] = $page;
+				$this->stringvars['link']=$path.makelinkparameters($linkparams);
 				$this->stringvars['link_attributes']="";
 			}
 			
@@ -276,15 +279,13 @@ class NavigatorBranch extends Template {
 
     function NavigatorBranch($page,$style="simple",$depth,$level=0,$speciallink="",$showhidden=false)
     {
-    	global $_GET;
-
         $this->style=$style;
         parent::__construct();
 
         if($level==0) $this->stringvars['wrapper_class'] = "navrootlinkwrapper";
         else $this->stringvars['wrapper_class'] = "navlinkwrapper";
         
-        if(hasaccesssession($this->stringvars["sid"], $page) || $showhidden)
+        if(hasaccesssession($page) || $showhidden)
         {
         	$this->listvars['link'][]= new NavigatorLink($page, $style, $level,$speciallink, $showhidden);
         }
@@ -336,10 +337,10 @@ class Navigator extends Template {
 	    $this->displaytype=$displaytype;
 	    parent::__construct();
 
-		$linkparams="?sid=".$this->stringvars["sid"];
+		$linkparams = "";
 		if(isset($_GET['m']))
 		{
-			$linkparams.="&m=on";
+			$linkparams = makelinkparameters(array("m" => "on"));
 			$this->displaytype="mobile";
 		}
 	    
@@ -652,8 +653,8 @@ class PageHeader extends Template {
 		global $projectroot;
 		$this->displaytype=$displaytype;
 		parent::__construct();
-		
-		$this->stringvars['logoutlink']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&logout=on";
+
+		$this->stringvars['logoutlink'] = makelinkparameters(array("page" => $this->stringvars['page'], "logout" => "on"));
 		
 		$this->stringvars['keywords']="";
 		if($page>0)
@@ -729,7 +730,7 @@ class PageFooter extends Template {
 		parent::__construct();
 		if(getproperty("Display Site Policy"))
 		{
-			$this->stringvars['site_policy_link']=getprojectrootlinkpath().'index.php?page=0&sitepolicy=on';
+			$this->stringvars['site_policy_link']=getprojectrootlinkpath().'index.php'.makelinkparameters(array("page" => 0, "sitepolicy" => "on"));
 			$title=getproperty("Site Policy Title");
 			if(strlen($title)>0)
 				$this->stringvars['site_policy_title']=title2html($title);
@@ -1081,7 +1082,7 @@ class Printview extends Template {
 			$this->vars['navigator'] = new Navigator($this->stringvars['page'],0,0,"printview",false);
 		}
 		
-		$this->stringvars['url']=getprojectrootlinkpath().$_SERVER['PHP_SELF']."?page=".$this->stringvars['page'];
+		$this->stringvars['url']=getprojectrootlinkpath().$_SERVER['PHP_SELF'].makelinkparameters(array("page" => $this->stringvars['page']));
 		
 		// footer
 		$this->vars['footer']= new HTMLFooter();

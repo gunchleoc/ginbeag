@@ -52,7 +52,10 @@ class ArticlePage extends Template {
     	$pagecontents=getarticlepagecontents($this->stringvars['page']);
     	$articlesections=getarticlesections($this->stringvars['page'],$articlepage);
     	
-    	$this->vars['printviewbutton']= new LinkButton('?sid='.$this->stringvars['sid'].'&printview=on&page='.$this->stringvars['page'],getlang("pagemenu_printview"),"img/printview.png");
+		$linkparams["printview"]="on";
+		$linkparams["page"]=$this->stringvars['page'];
+
+		$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
 
     	$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
 
@@ -150,10 +153,12 @@ class ArticleTOCItem extends Template {
 	function ArticleTOCItem($sectionid,$title,$offset)
   	{
 		parent::__construct();
-		$this->stringvars['link']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page']."&offset=".$offset."#section".$sectionid;
-    	//$this->stringvars['sectionid'] =$sectionid;
+
+		$linkparams["page"]=$this->stringvars['page'];
+		$linkparams["offset"]=$offset;
+		$this->stringvars['link']=makelinkparameters($linkparams)."#section".$sectionid;
+
     	$this->stringvars['title'] =title2html($title);
-    	//$this->stringvars['offset'] =$offset;
   	}
   
     // assigns templates

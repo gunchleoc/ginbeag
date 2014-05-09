@@ -156,7 +156,7 @@ if(!$message)
 // locked page
 else
 {
-	$editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
+	$editpage = pageBeingEditedNotice();
 	print($editpage->toHTML());
 }
 $db->closedb();

@@ -53,9 +53,7 @@ function getallarticleyears()
 //
 function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showhidden=false)
 {
-	global $db,$_GET;
-	if(isset($_GET['sid'])) $sid=$_GET['sid'];
-	else $sid="";
+	global $db;
 	$page=$db->setinteger($page);
 	$selectedcat=$db->setinteger($selectedcat);
 	$from=$db->setinteger($from);

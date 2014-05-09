@@ -20,7 +20,7 @@ class NewPageForm extends Template {
 	{
 		parent::__construct();
 
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page'];
+		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page']));
 		
 		$this->stringvars['page']=$parentpage;
 		$this->stringvars['parentname']=title2html(getpagetitle($parentpage)).' ('.getpagetype($parentpage).')';

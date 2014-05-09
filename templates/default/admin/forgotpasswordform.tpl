@@ -11,7 +11,7 @@
 						&nbsp;&nbsp;
 						<input type="submit"  value="Cancel" />
 					</form>
-				<p><a href="?superforgetful=on&user={USERNAME}">Help! I forgot my e-mail as well!</a></p>
+				<p><a href="{FORGETFULLINK}">Help! I forgot my e-mail as well!</a></p>
 			</div>
 		</div>
 	</div>

@@ -28,7 +28,7 @@ class RSSItem extends Template {
 	    }
 
 	    $this->stringvars['pubdate']=html2xml($pubdate);
-	    $this->stringvars['guid']=getprojectrootlinkpath()."?newsitem=".$newsitem;
+	    $this->stringvars['guid']=getprojectrootlinkpath().makelinkparameters(array("newsitem" => $newsitem));
 	}
 	
 	// assigns templates and list objects
@@ -53,7 +53,7 @@ class RSSPage extends Template {
     	$rootlink=getprojectrootlinkpath();
 		$sitename=getproperty("Site Name");
 		$this->stringvars['title']=html2xml(title2html($sitename.' - '.getnavtitle($page)));
-		$this->stringvars['link']=$rootlink.'index.php?page='.$page;
+		$this->stringvars['link']=$rootlink.'index.php'.makelinkparameters(array("page" => $page));
     	$this->stringvars['description']=html2xml(title2html(getpagetitle($page)));
 		$this->stringvars['language']=$defaultlanguage;
 	
@@ -87,7 +87,7 @@ class RSSPage extends Template {
 				$description.='<p>Source: '.title2html($contents['source']).'</p>';
 			}
 			$link=$contents['sourcelink'];
-			if(str_startswith($link,'?page='))
+			if(str_startswith($link,'?'))
 			{
 				$link=$rootlink.'index.php'.$link;
 			}

@@ -53,7 +53,7 @@ class ImageEditor extends Template {
     	}
     
 		$this->stringvars['elementtype']=$elementtype;
-		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters(array("page" => $this->stringvars['page']));
 		$this->vars['filenamepane'] = new ImageEditorFilenamePane($page,$elementid, $this->stringvars['image'],$elementtype);
 
 		if($elementtype=="link")

@@ -32,7 +32,7 @@ $message="";
 
 if($page<=0)
 {
-	$editpage = new DonePage("No Page Selected","&action=show","admin.php","Admin home");
+	$editpage = noPageSelectedNotice();
 	$message="Please select a page first";
 }
 elseif($action==="delete")
@@ -47,13 +47,13 @@ elseif(isset($_POST["executedelete"]))
 	$deletepage--;
 	unlockpage($page);
 	$message='Deleted the following page(s): "'.title2html($pagename).'"<br />'.$deletepage.' subpages were included in delete.';
-	$editpage = new DoneRedirect($parent,"Page Deleted","&action=show","admin.php","View parent page");
+	$editpage = new DoneRedirect($parent, "Page Deleted", array("action" => "show"), "admin.php", "View parent page");
 }
 elseif(isset($_POST["nodelete"]))
 {
 	unlockpage($page);
 	$message="Deleting aborted: ".title2html(getpagetitle($page));
-	$editpage = new DoneRedirect($page,"Delete Page Aborted","&action=show","admin.php","View the page");
+	$editpage = new DoneRedirect($page, "Delete Page Aborted", array("action" => "show"), "admin.php", "View the page");
 }
 
 $content = new AdminMain($page,"pagedelete",$message,$editpage);

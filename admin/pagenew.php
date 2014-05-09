@@ -57,7 +57,7 @@ if(isset($_POST['create']))
 			}
 			else $message="Created a new page as a main page";
 			
-			$redirect = new DoneRedirect($page,"Created a new page","&action=show","admin.php","Edit this page");
+			$redirect = editedRedirect($page,"Created a new page");
 			$content = new AdminMain($parent,"show",$message,$redirect);
 			print($content->toHTML());
 		}

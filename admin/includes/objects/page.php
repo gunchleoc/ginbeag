@@ -24,7 +24,7 @@ class DeletePageConfirmForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page'];
+		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page']));
 		
 		$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
 		
@@ -58,7 +58,7 @@ class FindNewParentForm extends Template {
 	function FindNewParentForm()
 	{
 		parent::__construct();
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=findnewparent";
+		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page'], "action" => "findnewparent"));
 	}
 	
 	// assigns templates
@@ -79,7 +79,7 @@ class SelectNewParentForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=newparent";
+		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page'], "action" => "newparent"));
 		$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
 		
 		$values=array();
@@ -123,8 +123,8 @@ class RestrictAccessForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=restrictaccess";
-		$this->stringvars['usersactionvars']= "?page=".$this->stringvars['page']."&action=restrictaccessusers";
+		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page'], "action" => "restrictaccess"));
+		$this->stringvars['usersactionvars']= makelinkparameters(array("page" => $this->stringvars['page'], "action" => "restrictaccessusers"));
 		
 		$accessrestricted=isthisexactpagerestricted($this->stringvars['page']);
 		
@@ -180,7 +180,7 @@ class PermissionsForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=setpermissions";
+		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page'], "action" => "setpermissions"));
 		
 		$this->stringvars['copyright']=input2html($permissions['copyright']);
 		$this->stringvars['image_copyright']=input2html($permissions['image_copyright']);
@@ -207,7 +207,7 @@ class RenamePageForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=rename";
+		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page'], "action" => "rename"));
 		$this->stringvars['navtitle']=input2html(getnavtitle($this->stringvars['page']));
 		$this->stringvars['pagetitle']=input2html(getpagetitle($this->stringvars['page']));
 		$this->vars['submitrow']= new SubmitRow("submit","Rename",true);
@@ -230,7 +230,7 @@ class SetPublishableForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=setpublishable";
+		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page'], "action" => "setpublishable"));
 		
 		$ispublishable=ispublishable($this->stringvars['page']);
 		$this->vars['publishable_yes']= new RadioButtonForm("","ispublishable","public","Public page",$ispublishable);
@@ -256,7 +256,7 @@ class ExternalForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=edit";
+		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page'], "action" => "edit"));
 		$this->stringvars['link']=getexternallink($this->stringvars['page']);
 	}
 	

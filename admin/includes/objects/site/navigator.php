@@ -19,8 +19,11 @@ class SiteAdminNavigatorLink extends Template {
     function SiteAdminNavigatorLink($linktitle,$action="")
     {
 		parent::__construct();
-		
-		$this->stringvars['link']=getprojectrootlinkpath().'admin/admin.php?page='.$this->stringvars['page'].'&action='.$action;
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = $action;
+
+		$this->stringvars['link']=getprojectrootlinkpath().'admin/admin.php'.makelinkparameters($linkparams);
 		$this->stringvars['linktitle']=$linktitle;
     }
 

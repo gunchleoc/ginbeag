@@ -1,9 +1,5 @@
 <?php
 
-// makelinkparameters($_GET,true);
-// todo site
-// todo separate list for admin?
-
 $LEGALVARS = array();
 $LEGALVARS["action"]=1;
 $LEGALVARS["all"]=1;

@@ -243,15 +243,15 @@ function publictimeout($sid)
 function checkpublicsession($page)
 {
 	global $db;
-	global $_GET;
-	$isvalid=isset($_GET["sid"]) && ispublicsessionvalid($db->setstring($_GET["sid"]));
+	global $_GET, $sid;
+	$isvalid=$sid && ispublicsessionvalid($db->setstring($sid));
 	//  $user=getpublicsiduser($_GET["sid"]);
-	if(!isset($_GET["sid"])) $hasaccess = false;
-	else $hasaccess =hasaccesssession($_GET["sid"], $page);
+	if(!$sid) $hasaccess = false;
+	else $hasaccess = hasaccesssession($page);
 
-	if(!$isvalid || publictimeout($_GET["sid"]) || !$hasaccess)
-	// todo: reinstate ip check
-	//if(!$isvalid || publictimeout($_GET["sid"]) || !checkpublicip($_GET["sid"]) || !hasaccesssession($_GET["sid"],$page))
+	if(!$isvalid || publictimeout($sid) || !$hasaccess)
+	// todo: replace ip check with browser agent check
+	//if(!$isvalid || publictimeout($sid) || !checkpublicip($sid) || !$hasaccess)
 	{
 		if(!$hasaccess) $message=getlang("restricted_nopermission");
 		else $message=getlang("restricted_expired");
@@ -269,24 +269,6 @@ function checkpublicsession($page)
 }
 
 
-//
-//
-//
-function checkpublicip($sid)
-{
-	global $db;
-	$sid=$db->setstring($sid);
-	
-	$clientip=getclientip();
-	if($clientip)
-	{
-		$sessionip=getdbelement("session_ip",PUBLICSESSIONS_TABLE, "session_id", $sid);
-		$clientprefix=(substr($clientip,0,6));
-		$sessionprefix=(substr($sessionip,0,6));
-		return($clientprefix===$sessionprefix);
-	}
-	else return false;
-}
 
 //
 // todo bug
@@ -331,9 +313,9 @@ function getpublicsiduser($sid)
 //
 function ispublicloggedin()
 {
-	global $_GET;
+	global $sid;
 	$result=false;
-	if(isset($_GET["sid"])) $result=getpublicsiduser($_GET["sid"]);
+	if(strlen($sid) > 0) $result=getpublicsiduser($sid);
 	return $result;
 }
 

@@ -11,7 +11,7 @@
 						&nbsp;&nbsp;
 						<input type="button" name="cancel" value="Cancel" onClick="self.location.href='admin.php'" >
 					</form>
-				<p><a href="?forgetful=on&user={USERNAME}">I forgot my password</a></p>
+				<p><a href="{FORGETFULLINK}">I forgot my password</a></p>
 			</div>
 		</div>
 	</div>

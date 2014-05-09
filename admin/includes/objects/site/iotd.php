@@ -17,8 +17,11 @@ class SiteRandomItems extends Template {
 	function SiteRandomItems()
   	{
   		parent::__construct();
-  		
-  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=siteiotd&postaction=savesite';
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["postaction"] = "savesite";
+		$linkparams["action"] = "siteiotd";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 
   		$properties=getproperties();
   		$this->stringvars['hiddenvars']='<input type="hidden" name="oldpotdcats" value="'.$properties["Picture of the Day Categories"].'">';

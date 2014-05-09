@@ -20,9 +20,12 @@ class SitePolicy extends Template {
   		parent::__construct("sitepolicy",array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
   		
   		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-  		
-  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&postaction=savesite&action=sitepolicy';
-  	
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["postaction"] = "savesite";
+		$linkparams["action"] = "sitepolicy";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
+
   		$properties=getproperties();
   		
   		$policytitle=$properties["Site Policy Title"];

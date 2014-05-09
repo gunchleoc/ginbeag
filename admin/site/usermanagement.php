@@ -55,12 +55,12 @@ elseif(isset($_GET['type']) && $_GET['type']==="public")
 	elseif(isset($_POST['deactivate']))
 	{
 		deactivatepublicuser($userid);
-		$message='User <i>'.getpublicusername($userid).'</i> deactivated.';
+		$message='User <i>'.title2html(getpublicusername($userid)).'</i> deactivated.';
 	}
 	elseif(isset($_POST['activate']))
 	{
 		activatepublicuser($userid);
-		$message='User <i>'.getpublicusername($userid).'</i> activated.';
+		$message='User <i>'.title2html(getpublicusername($userid)).'</i> activated.';
 	}
 }
 // webpage editors
@@ -117,15 +117,13 @@ else
 	}
 	elseif(isset($_POST['deactivate']))
 	{
-		$username=getusername($userid);
-		deactivateuser($username);
-		$message='User <i>'.getusername($userid).'</i> deactivated.';
+		deactivateuser($userid);
+		$message='User <i>'.title2html(getusername($userid)).'</i> deactivated.';
 	}
 	elseif(isset($_POST['activate']))
 	{
-		$username=getusername($userid);
-		activateuser($username);
-		$message='User <i>'.getusername($userid).'</i> activated.';
+		activateuser($userid);
+		$message='User <i>'.title2html(getusername($userid)).'</i> activated.';
 	}
 }
 if($userid>0)

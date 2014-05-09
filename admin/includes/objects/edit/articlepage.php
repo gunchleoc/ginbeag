@@ -21,8 +21,10 @@ class ArticlePageButton extends Template {
 	function ArticlePageButton($articlepage)
 	{
 		parent::__construct();
-		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&articlepage=".$articlepage."&action=editcontents";
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["articlepage"] = $this->stringvars['articlepage'];
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		$this->stringvars['articlepage']=$articlepage;
 	}
 	
@@ -87,8 +89,12 @@ class ArticleSectionForm extends Template {
 		
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editarticlepage.js");
-		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&articlepage=".$articlepage."&articlesection=".$articlesection."&action=editcontents#section".$articlesection;
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["articlepage"] = $articlepage;
+		$linkparams["articlesection"] = $articlesection;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams)."#section".$articlesection;
 		
 		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'articlesection" name="articlesection" value="'.$articlesection.'">';
 		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
@@ -131,8 +137,11 @@ class EditArticlePage extends Template {
 		parent::__construct($articlepage,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
 		
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&articlepage=".$articlepage."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["articlepage"] = $articlepage;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 		
 		$this->stringvars['articlepage']=$articlepage;
 		
@@ -180,8 +189,13 @@ class DeleteArticleSectionConfirm extends Template {
 	function DeleteArticleSectionConfirm($articlepage,$articlesection)
 	{
 		parent::__construct();
-		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&articlepage=".$articlepage."&articlesection=".$articlesection."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["articlepage"] = $this->stringvars['articlepage'];
+		$linkparams["articlesection"] = $this->stringvars['articlesection'];
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
+
 		$this->vars['section'] = new Articlesection($articlesection,$articlepage,true,true);
 	}
 

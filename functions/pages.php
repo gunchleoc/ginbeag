@@ -312,9 +312,9 @@ function isthisexactpagerestricted($page)
 //
 //
 //
-function hasaccesssession($sid, $page)
+function hasaccesssession($page)
 {
-	global $db;
+	global $db, $sid;
 	$result=true;
 
 	$masterpage=getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $page);

@@ -42,7 +42,7 @@ $pagetype=getpagetype($page);
 
 if(!$page)
 {
-	$editpage = new DonePage("No Page Selected","&action=show","admin.php","Admin home");
+	$editpage = noPageSelectedNotice();
 	$message="Please select a page first";
 }
 
@@ -63,7 +63,7 @@ elseif($action==="edit")
 	}
 	else
 	{
-		$editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
+		$editpage = new DonePage("This page is already being edited", "admin.php", "View this page");
 	}
 }
 elseif($action==="rename")
@@ -72,7 +72,7 @@ elseif($action==="rename")
 	updateeditdata($page);
 	unlockpage($page);
 	$message="Renamed page to:<br /> <em>".edittitle2html($_POST['navtitle'])."</br />".edittitle2html($_POST['title'])."</em>";
-	$editpage = new DoneRedirect($page,"Renamed page","&action=edit","","Edit this page");
+	$editpage = editedRedirect($page,"Renamed page");
 }
 elseif($action==="move")
 {
@@ -103,7 +103,7 @@ elseif($action==="move")
 	updateeditdata(getparent($page));
 	unlockpage($page);
 	
-	$editpage = new DoneRedirect($page,$title,"&action=edit","","Edit this page");
+	$editpage = editedRedirect($page,$title);
 }
 elseif($action==="findnewparent")
 {
@@ -125,21 +125,21 @@ elseif($action==="newparent")
 	$message.="<br />".movetonewparentpage($page,$newparent);
 	updateeditdata($newparent);
 	unlockpage($page);
-	$editpage = new DoneRedirect($page,"Moved page to a new parent page","&action=edit","","Edit this page");
+	$editpage = editedRedirect($page,"Moved page to a new parent page");
 }
 elseif($action==="publish")
 {
     publish($page);
     unlockpage($page);
     $message="You published the following page: ".title2html(getpagetitle($page));
- 	$editpage = new DoneRedirect($page,"Published a page","&action=edit","","Edit this page");
+	$editpage = editedRedirect($page,"Published a page");
 }
 elseif($action==="unpublish")
 {
     unpublish($page);
     unlockpage($page);
     $message="You removed the following page from public view: ".title2html(getpagetitle($page));
-	$editpage = new DoneRedirect($page,"Hid a page","&action=edit","","Edit this page");
+	$editpage = editedRedirect($page,"Hid a page");
 }
 elseif($action==="setpublishable")
 {
@@ -162,7 +162,7 @@ elseif($action==="setpublishable")
 		hide($page);
 	}
 	unlockpage($page);
-	$editpage = new DoneRedirect($page,$title,"&action=edit","","Edit this page");
+	$editpage = editedRedirect($page,$title);
 }
 elseif($action==="setpermissions")
 {

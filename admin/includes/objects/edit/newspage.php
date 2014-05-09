@@ -26,9 +26,16 @@ class NewsitemImagePropertiesForm extends Template {
 	{
 		global $offset;
 		parent::__construct();
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&imageid=".$imageid."&offset=".$offset."&newsitem=".$newsitem."&action=editcontents";
-		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters($linkparams);
 		
+		$linkparams["imageid"] = $imageid;
+		$linkparams["offset"] = $offset;
+		$linkparams["newsitem"] = $newsitem;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
+
 		$this->stringvars['imageid']=$imageid;
 		$this->stringvars['imagefilename']=$image;
 		
@@ -57,7 +64,11 @@ class NewsitemSynopsisForm extends Template {
 		global $offset;
 		parent::__construct();
 		
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&action=editcontents#synopsis";
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["offset"] = $offset;
+		$linkparams["newsitem"] = $newsitem;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams)."#synopsis";
 
 		$imageids = getnewsitemsynopsisimageids($newsitem);
 		if(count($imageids)==0) $this->stringvars["image"]="";
@@ -106,7 +117,12 @@ class NewsitemSectionForm extends Template {
 		elseif($contents['text']==="[unquote]") $this->stringvars['quoteend']="quoteend";
 		else
 		{
-	    	$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&newsitemsection=".$newsitemsection."&action=editcontents";
+			$linkparams["page"] = $this->stringvars['page'];
+			$linkparams["offset"] = $offset;
+			$linkparams["newsitem"] = $newsitem;
+			$linkparams["newsitemsection"] = $newsitemsection;
+			$linkparams["action"] = "editcontents";
+			$this->stringvars['actionvars']= makelinkparameters($linkparams);
 
 			$this->stringvars['notquote']="notquote";
 			$this->stringvars['newsitemsection']=$newsitemsection;
@@ -142,8 +158,12 @@ class InsertNewsItemSectionForm extends Template {
 	{
 		global $offset;
 		parent::__construct();
-		
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&newsitemsection=".$newsitemsection."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["newsitem"] = $newsitem;
+		$linkparams["newsitemsection"] = $newsitemsection;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 	}
 
 	// assigns templates
@@ -163,8 +183,12 @@ class DeleteNewsItemConfirm extends Template {
 	{
 		global $offset;
 		parent::__construct();
-		
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&action=editcontents";
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["offset"] = $offset;
+		$linkparams["newsitem"] = $newsitem;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
+
 		$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars["page"]));
 		$this->vars['item'] = new Newsitem($newsitem, $offset,true,true,false);
 	}
@@ -186,8 +210,13 @@ class DeleteNewsItemSectionConfirm extends Template {
 	{
 		global $offset;
 		parent::__construct();
-		
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&newsitemsection=".$newsitemsection."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["offset"] = $offset;
+		$linkparams["newsitem"] = $newsitem;
+		$linkparams["newsitemsection"] = $newsitemsection;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 
 		$contents=getnewsitemcontents($newsitem);
 		$this->stringvars['newsitemtitle']=title2html($contents['title']);
@@ -210,7 +239,10 @@ class NewsItemAddForm extends Template {
 	function NewsItemAddForm()
 	{
 		parent::__construct();
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 	}
 
 	// assigns templates
@@ -229,7 +261,10 @@ class NewsItemArchiveForm extends Template {
 	function NewsItemArchiveForm()
 	{
 		parent::__construct();
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 	}
 
 	// assigns templates
@@ -249,7 +284,9 @@ class NewsItemDisplayOrderForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcontents";
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		
 		if(displaynewestnewsitemfirst($this->stringvars['page'])) $this->stringvars['newestfirst'] = 'true';
 		elseif(!displaynewestnewsitemfirst($this->stringvars['page'])) $this->stringvars['oldestfirst'] = 'true';
@@ -271,7 +308,10 @@ class NewsItemSearchForm extends Template {
 	function NewsItemSearchForm()
 	{
 		parent::__construct();
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&action=editcontents";
+
+			$linkparams["page"] = $this->stringvars['page'];
+			$linkparams["action"] = "editcontents";
+			$this->stringvars['actionvars']= makelinkparameters($linkparams);
 	}
 
 	// assigns templates
@@ -290,8 +330,12 @@ class NewsItemSearchResults extends Template {
 	function NewsItemSearchResults($searchtitle)
 	{
 		parent::__construct();
-		
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&offset=0&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["offset"] = 0;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
+
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
 		$this->vars['searchform']= new NewsItemSearchForm();
 		$this->stringvars['searchtitle']=title2html($searchtitle);
@@ -327,8 +371,11 @@ class NewsItemSearchResult extends Template {
 	function NewsItemSearchResult($newsitem,$offset)
 	{
 		parent::__construct();
-		
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&offset=".$offset."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["offset"] = $offset;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 
 		$contents=getnewsitemcontents($newsitem);
 
@@ -362,8 +409,10 @@ class ArchiveNewsItemsForm extends Template {
 	function ArchiveNewsItemsForm()
 	{
 		parent::__construct();
-		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 
 		$oldestdate=getoldestnewsitemdate($this->stringvars['page']);
 		$date=getnewestnewsitemdate($this->stringvars['page']);
@@ -467,8 +516,13 @@ class NewsItemPublishForm extends Template {
 	function NewsItemPublishForm($newsitem, $permissions, $offset)
 	{
 		parent::__construct($newsitem);
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["offset"] = $offset;
+		$linkparams["newsitem"] = $newsitem;
+		$linkparams["action"] = "editcontents";
 		
-		$this->stringvars['previewlink']=getprojectrootlinkpath()."admin/includes/preview.php?page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&action=editcontents";
+		$this->stringvars['previewlink']=getprojectrootlinkpath()."admin/includes/preview.php".makelinkparameters($linkparams);
 
 		if(isnewsitempublished($newsitem))
 			$this->stringvars['buttontitle']="Hide Newsitem";
@@ -491,8 +545,12 @@ class NewsItemDeleteForm extends Template {
 	function NewsItemDeleteForm($newsitem, $offset)
 	{
 		parent::__construct();
-		
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&offset=".$offset."&newsitem=".$newsitem."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["offset"] = $offset;
+		$linkparams["newsitem"] = $newsitem;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 	}
 
 	// assigns templates
@@ -512,7 +570,11 @@ class EditNewsItemForms extends Template {
 	{
 		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
 		
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&offset=".$offset."&action=editcontents";
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["offset"] = $offset;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
+
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
 		$this->vars['newsitemaddform'] = new NewsItemAddForm();
 		
@@ -608,14 +670,18 @@ class EditNews extends Template {
   	
     	$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
 		$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",getpageintro($page));
-		$this->stringvars['actionvars']="?page=".$this->stringvars["page"]."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
+
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
 		$this->vars['newsitemarchiveform'] = new NewsItemArchiveForm();
 		$this->vars['newsitemdisplayorderform'] = new NewsItemDisplayOrderForm();
 		
 		if(hasrssfeed($page))
 		{
-			$this->stringvars['rssbutton']='<a href="'.getprojectrootlinkpath().'rss.php?page='.$page.'" target="_blank"><img src="'.getprojectrootlinkpath().'img/rss.gif"></a>';
+			$this->stringvars['rssbutton']='<a href="'.getprojectrootlinkpath().'rss.php'.makelinkparameters(array("page" => $page)).'" target="_blank"><img src="'.getprojectrootlinkpath().'img/rss.gif"></a>';
 			$this->stringvars['buttontext']='Disable RSS-Feed';
 			$this->stringvars['fieldname']='disablerss';
 		}

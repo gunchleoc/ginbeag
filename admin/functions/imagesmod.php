@@ -311,7 +311,7 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 	{
 		$query.=" AND images.image_filename LIKE '%".$filename."%'";
 	}
-	if($caption)
+	if(strlen($caption) > 0)
 	{
 		$query.=" AND caption LIKE '%".$caption."%'";
 	}
@@ -319,7 +319,7 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 	{
 		$query.=" AND source = ''";
 	}
-	elseif($source)
+	elseif(strlen($source) > 0)
 	{
 		$query.=" AND source LIKE '%".$source."%'";
 	}
@@ -327,11 +327,11 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 	{
 		$query.=" AND copyright = ''";
 	}
-	elseif($copyright)
+	elseif(strlen($copyright) >0)
 	{
 		$query.=" AND copyright LIKE '%".$copyright."%'";
 	}
-	if($uploader)
+	if($uploader > 0)
 	{
 		$query.=" AND editor_id = '".$uploader."'";
 	}

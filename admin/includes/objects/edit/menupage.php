@@ -97,7 +97,10 @@ class EditMenuSubpages extends Template {
 	{
    		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
   		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		$this->stringvars['actionvars']= "?page=".$page."&action=editcontents";
+
+		$linkparams["page"] = $page;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 
 		$subpageids=getallsubpageids($page);
 		if(count($subpageids)>0)

@@ -1,11 +1,40 @@
 <?php
 $projectroot=dirname(__FILE__)."/";
 
+include_once($projectroot."functions/db.php");
+include_once($projectroot."includes/functions.php");
+
+
+// anti bot nonsense links
+// ********************************* achtung - bot secure ist server-spezifisch!
+$testpath = "/".getproperty("Local Path");
+if(getproperty("Local Path") == "") $testpath = "";
+
+if(!((isset($_SERVER["ORIG_PATH_TRANSLATED"]) && $_SERVER["ORIG_PATH_TRANSLATED"] == $projectroot."contact.php") ||
+	$_SERVER["PHP_SELF"] == $testpath."/contact.php"))
+{
+//	print("test: ".$_SERVER["PHP_SELF"]);
+	header("HTTP/1.0 404 Not Found");
+	print("HTTP 404: Sorry, but this page does not exist.");
+	exit;
+}
+
+
 // check legal vars
 include_once($projectroot."includes/legalvars.php");
 include_once($projectroot."functions/email.php");
 include_once($projectroot."includes/objects/contact.php");
 
+if(isset($_GET['sid'])) $sid = $_GET['sid'];
+elseif(isset($_POST['sid'])) $sid = $_POST['sid'];
+else $sid="";
+
+if(strlen($sid) > 0 && ! ispublicloggedin())
+{
+	$sid="";
+	unset($_GET['sid']);
+	unset($_POST['sid']);
+}
 
 $email="";
 $subject="";

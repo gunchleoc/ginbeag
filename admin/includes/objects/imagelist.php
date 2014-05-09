@@ -194,7 +194,7 @@ class EditImageFormUsage extends Template {
 				$this->stringvars['pagelinks']="";
 				for($i=0;$i<count($pages);$i++)
 				{
-					$this->stringvars['pagelinks'].='<a href="admin.php?page='.$pages[$i].'" target="_blank" class="smalltext">#'.$pages[$i].'</a>. ';
+					$this->stringvars['pagelinks'].='<a href="admin.php'.makelinkparameters(array("page" => $pages[$i])).'" target="_blank" class="smalltext">#'.$pages[$i].'</a>. ';
 				}
 			}
 			if(count($newsitems)>0)
@@ -203,8 +203,12 @@ class EditImageFormUsage extends Template {
 				for($i=0;$i<count($newsitems);$i++)
 				{
 					$newspage=getpagefornewsitem($newsitems[$i]);
-					$offset=getnewsitemoffset($newspage,1,$newsitems[$i],true);
-					$this->stringvars['newsitemlinks'].='<a href="edit/newsedit.php?page='.$newspage.'&offset='.$offset.'&action=editcontents" target="_blank" class="smalltext">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
+
+					$linkparams = array();
+					$linkparams["page"] = $newspage;
+					$linkparams["offset"] = getnewsitemoffset($newspage,1,$newsitems[$i],true);
+					$linkparams["action"] = "editcontents";
+					$this->stringvars['newsitemlinks'].='<a href="edit/newsedit.php'.makelinkparameters($linkparams).'" target="_blank" class="smalltext">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
 				}
 			}
 		}
@@ -711,7 +715,7 @@ class AdminImagePage  extends Template {
 		$this->stringvars['headertitle']= title2html(getproperty("Site Name")).' - Webpage building';
 		$this->stringvars['scriptlinks']=$this->getjspaths();
 		
-		$this->stringvars['pageeditinglink']= "admin.php?page=".$this->stringvars['page'];
+		$this->stringvars['pageeditinglink']= "admin.php".makelinkparameters(array("page" => $this->stringvars['page']));
     
 		if(strlen($messagetitle)>0)
 		{

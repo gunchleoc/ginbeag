@@ -66,8 +66,11 @@ class Newsitem extends Template {
 		
 		if(!isset($_GET['printview']))
 		{
-			$this->vars['printviewbutton']= new LinkButton('?sid='.$this->stringvars['sid'].'&printview=on&page='.$this->stringvars['page'].'&newsitem='.$newsitem,getlang("pagemenu_printview"),"img/printview.png");
-			$this->vars['itemlink']= new LinkButton('?page='.$this->stringvars['page'].'&newsitem='.$newsitem,getlang("news_single_link"),'img/link.png');
+			$linkparams["page"]=$this->stringvars['page'];
+			$linkparams["newsitem"]=$newsitem;
+			$this->vars['itemlink']= new LinkButton(makelinkparameters($linkparams), getlang("news_single_link"), 'img/link.png');
+			$linkparams["printview"]="on";
+			$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
 		}
 		
 		$contents=getnewsitemcontents($newsitem);
@@ -193,10 +196,16 @@ class Newsitempage extends Template {
 		global $_GET;
 		
 		parent::__construct();
+
+		$linkparams["page"]=$this->stringvars['page'];
+		$this->stringvars['returnlink']= makelinkparameters($linkparams);
+		$this->stringvars["l_returnbutton"] = getlang("newsitem_returnbutton");
 		
 		if(!isset($_GET['printview']))
 		{
-			$this->vars['printviewbutton']= new LinkButton('?sid='.$this->stringvars['sid'].'&printview=on&page='.$this->stringvars['page'].'&newsitem='.$newsitem,getlang("pagemenu_printview"),"img/printview.png");
+			$linkparams["newsitem"]=$newsitem;
+			$linkparams["printview"]="on";
+			$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
 		}
 		$this->stringvars['l_single']=getlang('news_single_showing');
 		
@@ -205,9 +214,6 @@ class Newsitempage extends Template {
 		$contents=getnewsitemcontents($newsitem);
 		
 		$this->stringvars["l_topofthispage"] = getlang("pagemenu_topofthispage");
-		
-		$this->stringvars['returnlink']= "?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
-		$this->stringvars["l_returnbutton"] = getlang("newsitem_returnbutton");
     }
     
     // assigns templates
@@ -231,7 +237,7 @@ class NewsPage extends Template {
 		$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 		
-		$this->stringvars['actionvars']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['actionvars'] = makelinkparameters(array("page" => $this->stringvars['page']));
 		
 		$this->stringvars["hiddenvars"]= '<input type="hidden" name="page" value="'.$this->stringvars["page"].'" />';
 		$this->stringvars["hiddenvars"].= '<input type="hidden" name="sid" value="'.$this->stringvars["sid"].'" />';
@@ -279,7 +285,7 @@ class NewsPage extends Template {
 		// rss
 		if(hasrssfeed($this->stringvars['page']))
 		{
-			$this->vars['rss']= new LinkButton(getprojectrootlinkpath().'rss.php?page='.$this->stringvars['page'],getlang("news_rss_feed"),"img/rss.png");
+			$this->vars['rss']= new LinkButton(getprojectrootlinkpath().'rss.php'.makelinkparameters(array("page" => $this->stringvars['page'])),getlang("news_rss_feed"),"img/rss.png");
 		}
 
 		// jumpform & pagemenu

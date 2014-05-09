@@ -51,7 +51,7 @@ class SiteRestrictedPage extends Template {
   	{
   		parent::__construct();
   	
-  		$this->stringvars["linktopage"]=getprojectrootlinkpath()."admin/admin.php?page=".$page;
+		$this->stringvars["linktopage"]=getprojectrootlinkpath()."admin/admin.php".makelinkparameters(array("page" => $page));
       	
       	$this->stringvars["page"]=$page;
       	$this->stringvars["pagetype"]=getpagetype($page);
@@ -68,7 +68,12 @@ class SiteRestrictedPage extends Template {
       		for($j=0;$j<count($accessusers);$j++)
       		{
         		if($j>0) $this->stringvars["accessuserlist"].=' - ';
-        		$this->stringvars["accessuserlist"].='<a href="?userid='.$accessusers[$j].'&type=public&action=siteuserperm&page='.$this->stringvars['page'].'">'.getpublicusername($accessusers[$j]).'</a>';
+
+				$linkparams["page"] = $this->stringvars['page'];
+				$linkparams["userid"] = $accessusers[$j];
+				$linkparams["type"] = "public";
+				$linkparams["action"] = "siteuserperm";
+				$this->stringvars["accessuserlist"].='<a href="'.makelinkparameters($linkparams).'">'.getpublicusername($accessusers[$j]).'</a>';
       		}
       	}
   	}

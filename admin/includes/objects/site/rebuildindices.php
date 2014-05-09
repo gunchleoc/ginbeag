@@ -15,7 +15,11 @@ class SiteRebuildIndices extends Template {
 	function SiteRebuildIndices()
 	{
 		parent::__construct();
-		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&postaction=restrictedpages&action=siteind';
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["postaction"] = "restrictedpages";
+		$linkparams["action"] = "siteind";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 	}
 	
 	// assigns templates

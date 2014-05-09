@@ -17,8 +17,11 @@ class SiteIPBanIP extends Template {
 	{
 		parent::__construct();
 		
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "siteipban";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
+
 		$this->stringvars['ip']=$ip;
-		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=siteipban';
 		$this->stringvars['hiddenvars']='<input type="hidden" name="ip" value="'.$ip.'" />';
 	}
 	
@@ -40,8 +43,10 @@ class SiteIPBan extends Template {
 	function SiteIPBan()
 	{
 		parent::__construct();
-		
-		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=siteipban';
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "siteipban";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 		
 		$ips=getalladdbannedipforrestrictedpages();
 		$noofips=count($ips);

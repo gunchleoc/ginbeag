@@ -49,20 +49,14 @@ class SitemapLink extends Template {
 
 	function SitemapLink($page, $level=0, $class="navtitle", $speciallink="" ,$showhidden=false)
 	{
-		global $_GET;
-      
 		parent::__construct();
 		
-		if(isset($_GET['sid'])) $sid=$_GET['sid'];
-		else $sid="";
-		
-		$linkparams="?sid=".$sid;
-		if(isset($_GET['m'])) $linkparams.="&m=on";
+		$linkparams = array();
+		if(isset($_GET['m'])) $linkparams["m"] = "on";
 		
 		// layout parameters
 		$this->stringvars['link_class']=$class;
 		$this->stringvars['title_class']="";
-
 
 		// for special pages like, contact, guestbook etc
 		if($page==0)
@@ -71,7 +65,7 @@ class SitemapLink extends Template {
 			{
 				$this->stringvars['linktooltip']=getlang("navigator_guestbook");
 				$this->stringvars['title']=getlang("navigator_guestbook");
-				$this->stringvars['link']=getprojectrootlinkpath()."guestbook.php".$linkparams;
+				$this->stringvars['link']=getprojectrootlinkpath()."guestbook.php".makelinkparameters($linkparams);
 				$this->stringvars['link_attributes']='';
 				$this->stringvars['description']="";
 			}
@@ -79,7 +73,7 @@ class SitemapLink extends Template {
 			{
 				$this->stringvars['linktooltip']=getlang("navigator_contact");
 				$this->stringvars['title']=getlang("navigator_contact");
-				$this->stringvars['link']=getprojectrootlinkpath()."contact.php".$linkparams;
+				$this->stringvars['link']=getprojectrootlinkpath()."contact.php".makelinkparameters($linkparams);
 				$this->stringvars['link_attributes']='';
 				$this->stringvars['description']="";
 			}
@@ -87,7 +81,7 @@ class SitemapLink extends Template {
 			{
 				$this->stringvars['linktooltip']=getlang("navigator_notfound");
 				$this->stringvars['title']=getlang("navigator_notfound");
-				$this->stringvars['link']=$linkparams;
+				$this->stringvars['link']=makelinkparameters($linkparams);
 				$this->stringvars['link_class']=$class;
 				$this->stringvars['link_attributes']='';
 				$this->stringvars['description']="";
@@ -127,7 +121,8 @@ class SitemapLink extends Template {
 			{
 				if($showhidden) $path=getprojectrootlinkpath()."admin/pagedisplay.php";
 				else $path=getprojectrootlinkpath()."index.php";
-				$this->stringvars['link']=$path.$linkparams.'&page='.$page;
+				$linkparams["page"] = $page;
+				$this->stringvars['link']=$path.makelinkparameters($linkparams);
 				$this->stringvars['link_attributes']="";
 			}
 		} 
@@ -150,13 +145,8 @@ class SitemapBranch extends Template {
 
 	function SitemapBranch($page,$depth,$startwithroot=false,$level=0,$speciallink="",$showhidden=false)
     {
-		global $_GET;
-    	
     	parent::__construct();
-    	
-    	if(isset($_GET['sid'])) $sid=$_GET['sid'];
-    	else $sid="";
-    	
+
         if($startwithroot && $level==0)
         {
 			$class="contentnavtitle";
@@ -169,7 +159,7 @@ class SitemapBranch extends Template {
         }
         
 
-        if(hasaccesssession($sid, $page) || $showhidden)
+        if(hasaccesssession($page) || $showhidden)
         {
         	$this->listvars['link'][]= new SitemapLink($page, $level, $class,$speciallink, $showhidden);
         }

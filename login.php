@@ -49,7 +49,7 @@ if(isset($_POST['user']))
 		if(array_key_exists('sid',$login))
 		{
 			$_GET['sid']= $login['sid'];
-			$contenturl='index.php'.makelinkparameters($_GET,true);
+			$contenturl='index.php'.makelinkparameters($_GET);
 			$header = new HTMLHeader(getlang("login_pagetitle"),getlang("login_pagetitle"),$login['message'],$contenturl,getlang("login_enter"),true);
 			$footer = new HTMLFooter();
 		}

@@ -35,7 +35,7 @@ else
 	$sitename=getproperty("Site Name");
 	$title=title2html($sitename.' - '.getnavtitle($page));
 	$rootlink=getprojectrootlinkpath();
-	$link=$rootlink.'index.php?page='.$page;
+	$link=$rootlink.'index.php'.makelinkparameters($_GET);
 	print('HTTP 404: Sorry, but there is no RSS-Feed available for this page.<p class="highlight"><a href="'.$link.'">Return to '.$title.'</a></p>');
 }
 $db->closedb();

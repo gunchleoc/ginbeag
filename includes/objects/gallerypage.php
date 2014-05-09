@@ -18,8 +18,6 @@ class GalleryCaptionedImage extends Template {
 
     function GalleryCaptionedImage($filename,$width,$showhidden=false)
     {
-		global $projectroot, $_GET;
-    	
     	parent::__construct();
       
 		// Make the image

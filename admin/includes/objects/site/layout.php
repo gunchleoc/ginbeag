@@ -20,9 +20,12 @@ class SiteLayout extends Template {
 	{
 		global $projectroot;
 		parent::__construct();
-		
-		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitelayout&postaction=savesite';
-		
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["postaction"] = "savesite";
+		$linkparams["action"] = "sitelayout";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
+
 		$this->vars['submitrow']= new SubmitRow("submit","Submit",true);
 		
 		$properties=getproperties();
@@ -90,7 +93,7 @@ class SiteLayout extends Template {
 		  		}
 		  		else
 		  		{
-		    		$linksonsplashpagedisplay .= '<a href="../pagedisplay.php?page='.$rootpages[$i].'" target="_blank">';
+					$linksonsplashpagedisplay .= '<a href="../pagedisplay.php'.makelinkparameters(array("page" => $rootpages[$i])).'" target="_blank">';
 		  		}
 		  		$linksonsplashpagedisplay .= $rootpagetitles[$i].'</a> ';
 			}

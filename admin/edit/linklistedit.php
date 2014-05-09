@@ -69,7 +69,7 @@ if(!$message)
 }
 else
 {
-	$editpage = new DonePage("This page is already being edited","&action=show","admin.php","View this page");
+	$editpage = pageBeingEditedNotice();
 }
 
 $content = new AdminMain($page,"editcontents",$message,$editpage);

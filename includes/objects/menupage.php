@@ -19,7 +19,6 @@ class MenuPage extends Template {
 
 	function MenuPage($page,$showhidden=false)
 	{
-	    global $_GET;
 	    parent::__construct();
 	    
 	    $pagecontents=getmenucontents($page);
@@ -29,7 +28,7 @@ class MenuPage extends Template {
 	
 	    $this->pagetype=getpagetypearray($page);
     
-		$this->stringvars['actionvars']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['actionvars'] = makelinkparameters(array("page" => $this->stringvars['page']));
 	
 	    if($this->pagetype==="linklistmenu")
 	    {
@@ -124,7 +123,7 @@ class ArticleMenuPage extends Template {
 		
 		$this->pagetype=getpagetypearray($page);
 	    
-		$this->stringvars['actionvars']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+		$this->stringvars['actionvars'] = makelinkparameters(array("page" => $this->stringvars['page']));
 		
 	   	$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
@@ -287,7 +286,7 @@ class MenuLinkListLink extends Template {
 		
 		if(strlen($contents['link'])<=1)
 		{
-			$this->stringvars['link']="?sid=".$this->stringvars['sid']."&page=".$this->stringvars['page'];
+			$this->stringvars['link'] = makelinkparameters(array("page" => $this->stringvars['page']));
 		}
 		else
 		{
@@ -299,7 +298,7 @@ class MenuLinkListLink extends Template {
 		$paragraphs=explode ('<br />', $text);
 		$text=$paragraphs[0];
 		
-		if (array_key_exists(1, $paragraphs)) $text.=' <a href="index.php?sid='.$this->stringvars['sid'].'&page='.$contents['page_id'].'#link'.$link.'">[...]</a>';
+		if (array_key_exists(1, $paragraphs)) $text.=' <a href="index.php'.makelinkparameters(array("page" => $contents['page_id'])).'#link'.$link.'">[...]</a>';
 
       // todo: can this be stripped while keeping tags intact?
 /*      if(strlen($text)>0)
@@ -358,13 +357,7 @@ class MenuNavigatorLink extends Template {
 		global $_GET;
 		
 		parent::__construct();
-		
-		if(isset($_GET['sid'])) $sid=$_GET['sid'];
-		else $sid="";
-      
-		$linkparams="?sid=".$sid;
-		if(isset($_GET['m'])) $linkparams.="&m=on";
-		
+
 		// layout parameters		
         if($level==0) $this->stringvars['link_class']="contentnavtitle";
         else $this->stringvars['link_class']="contentnavlink";
@@ -420,7 +413,10 @@ class MenuNavigatorLink extends Template {
 			}
 			if($showhidden) $path=getprojectrootlinkpath()."admin/pagedisplay.php";
 			else $path=getprojectrootlinkpath()."index.php";
-			$this->stringvars['link']=$path.$linkparams.'&page='.$page;
+
+			$linkparams["page"]=$page;
+			if(isset($_GET['m'])) $linkparams["m"] = "on";
+			$this->stringvars['link']=$path.makelinkparameters($linkparams);
 			$this->stringvars['link_attributes']="";
 		} 
 	}
@@ -442,17 +438,12 @@ class MenuNavigatorBranch extends Template {
 
     function MenuNavigatorBranch($page,$depth,$level=0,$showhidden=false)
     {
-		global $_GET;
-    	
     	parent::__construct();
-    	
-    	if(isset($_GET['sid'])) $sid=$_GET['sid'];
-    	else $sid="";
     	
         if($level==0) $this->stringvars['wrapper_class'] = "contentnavrootlinkwrapper";
         else $this->stringvars['wrapper_class'] = "contentnavlinkwrapper";
          
-        if(hasaccesssession($sid, $page) || $showhidden)
+        if(hasaccesssession($page) || $showhidden)
         {
 			$this->listvars['link'][]= new MenuNavigatorLink($page, $level,$showhidden);
         }

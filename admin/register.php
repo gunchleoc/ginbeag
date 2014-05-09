@@ -80,7 +80,7 @@ function sendactivationemail($username,$activationkey)
 {
   $recipient=getproperty("Admin Email Address");
   $message="A new user has registered: ".$username;
-  $message.="\r\n\r\n".getprojectrootlinkpath().'admin/activate.php?user='.urlencode($username)."&key=".$activationkey;
+  $message.="\r\n\r\n".getprojectrootlinkpath().'admin/activate.php'.makelinkparameters(array("user" => urlencode($username), "key" => $activationkey));
 
   $subject="New web page user account";
   sendplainemail($subject,$message,$recipient);

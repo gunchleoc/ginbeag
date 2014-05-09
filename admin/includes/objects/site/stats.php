@@ -77,7 +77,7 @@ class SiteStatsEntry extends Template {
 		$this->stringvars['pagetype']=getpagetype($stats[0]);
 		$this->stringvars['page']=$stats[0];
 		$this->stringvars['pagetitle']=text2html(getpagetitle($stats[0]));
-		$this->stringvars['url']=getprojectrootlinkpath()."admin/admin.php?page=".$stats[0];
+		$this->stringvars['url']=getprojectrootlinkpath()."admin/admin.php".makelinkparameters(array("page" => $stats[0]));
 	}
 	
 	// assigns templates

@@ -442,31 +442,32 @@ function getprojectrootlinkpath()
 //
 //
 //
-function makelinkparameters($assoc_array, $showSID=false)
+function makelinkparameters($assoc_array)
 {
+	global $sid;
 	$params="";
-	$counter=0;
-	if(count($assoc_array>0))
+	$keys=array_keys($assoc_array);
+	$key = current($keys);
+	if($key)
 	{
-		$keys=array_keys($assoc_array);
-		$values=array_values($assoc_array);
-		if(!$showSID && array_key_exists(0, $keys) && ($keys[0]==="sid"))
+		$params.="?".$key."=".$assoc_array[$key];
+
+		while($key = next($keys))
 		{
-			$counter++;
-		}
-		if(array_key_exists($counter, $keys))
-		{
-			$params.="?".$keys[$counter]."=".$values[$counter];
-		}
-		$counter++;
-		for($i=$counter;$i<count($keys);$i++)
-		{
-			if($showSID || !($keys[$i]==="sid"))
+			if(!($key === "sid" && strlen($sid) > 0))
 			{
-				if(strlen($values[$i])>0)
-					$params.="&".$keys[$i]."=".$values[$i];
+				if(strlen($assoc_array[$key]) > 0)
+					$params.="&".$key."=".$assoc_array[$key];
 			}
 		}
+		if(strlen($sid) > 0)
+		{
+			$params.="&sid=".$sid;
+		}
+	}
+	elseif(strlen($sid) > 0)
+	{
+		$params.="?sid=".$sid;
 	}
 	return $params;
 }

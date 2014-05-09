@@ -62,8 +62,6 @@ class CaptionedImage extends Template {
 
     function CaptionedImage($filename, $imageautoshrink, $usethumbnail, $halign="left", $showhidden=false)
     {
-    	global $projectroot, $_GET;
-    	
     	parent::__construct();
 
       	// CSS stuff

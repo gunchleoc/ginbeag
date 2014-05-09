@@ -32,10 +32,11 @@ class MovePageForm extends Template {
 //
 class DoneButton extends Template {
 
-	function DoneButton($page,$params="&action=edit",$link="pageedit.php",$buttontext="Done",$class="mainoption")
+	function DoneButton($page,$params=array("action" => "edit"),$link="pageedit.php",$buttontext="Done",$class="mainoption")
 	{
 		parent::__construct();
-		$this->stringvars['link']=$link."?page=".$page.$params;
+		$params["page"] = $page;
+		$this->stringvars['link']=$link.makelinkparameters($params);
 		$this->stringvars['buttontext']=$buttontext;
 		$this->stringvars['class']=$class;
 		
@@ -58,10 +59,10 @@ class DoneButton extends Template {
 //
 class DonePage extends Template {
 
-	function DonePage($title,$params="&action=edit",$link="pageedit.php",$buttontext="Done")
+	function DonePage($title, $link="pageedit.php", $buttontext="Done")
 	{
 		parent::__construct();
-		$this->vars['donebutton'] = new DoneButton($this->stringvars['page'],$params,$link,$buttontext);
+		$this->vars['donebutton'] = new DoneButton($this->stringvars['page'], array("action" => "show"), $link, $buttontext);
 		$this->stringvars['title'] =$title;
 	}
 	
@@ -70,6 +71,17 @@ class DonePage extends Template {
 	{
 		$this->addTemplate("admin/donepage.tpl");
 	}
+}
+
+
+function pageBeingEditedNotice()
+{
+	return new DonePage("This page is already being edited", "admin.php", "View this page");
+}
+
+function noPageSelectedNotice()
+{
+	return new DonePage("No Page Selected", "admin.php", "Admin home");
 }
 
 
@@ -78,12 +90,13 @@ class DonePage extends Template {
 //
 class DoneRedirect extends Template {
 
-	function DoneRedirect($page,$title,$params="&action=edit",$link="pageedit.php",$buttontext="Done")
+	function DoneRedirect($page,$title,$params=array("action" => "edit"),$link="pageedit.php",$buttontext="Done")
 	{
 		parent::__construct();
 		
 		$this->vars['donebutton'] =new DoneButton($page,$params,$link,$buttontext,"mainoption");
-		$this->stringvars['url'] =$link.'?page='.$page.$params;
+		$params["page"] = $page;
+		$this->stringvars['url'] =$link.makelinkparameters($params);
 		$this->stringvars['title'] =$title;
 	}
 	
@@ -94,6 +107,10 @@ class DoneRedirect extends Template {
 	}
 }
 
+function editedRedirect($page, $title)
+{
+	return new DoneRedirect($page, $title, array("action" => "edit"), "", "Edit this page");
+}
 
 
 /**** Buttons for navigator when editing a page *******************************************/
@@ -202,7 +219,7 @@ class GeneralSettingsButton extends Template {
   	{
     	parent::__construct();
     	
-    	$this->vars['button']= new DoneButton($this->stringvars['page'],"&action=edit",getprojectrootlinkpath().'admin/pageedit.php',"General settings","liteoption");
+		$this->vars['button']= new DoneButton($this->stringvars['page'], array("action" => "edit"), getprojectrootlinkpath().'admin/pageedit.php', "General settings", "liteoption");
   	}
 
   	// assigns templates
@@ -234,7 +251,7 @@ class PageEditNavigationButtons extends Template {
     	else
     		$this->stringvars['secondbutton']= $secondbutton;
     	
-    	$this->vars['donebutton']= new DoneButton($this->stringvars['page'],"&action=show&unlock=on",getprojectrootlinkpath().'admin/admin.php');
+		$this->vars['donebutton']= new DoneButton($this->stringvars['page'], array("action" => "show", "unlock" => "on"), getprojectrootlinkpath().'admin/admin.php');
   	}
 
   	// assigns templates

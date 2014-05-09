@@ -171,7 +171,7 @@ function sendplainemail($subject,$message,$recipient)
   
   	$adminemail=getproperty("Admin Email Address");
 
-	$error='<p class="highlight">'.utf8_decode(getlang("email_errorsending")).sprintf(getlang("email_contactwebmaster"),'<a href="../contact.php?user=webmaster">','</a>').'</p>';
+	$error='<p class="highlight">'.utf8_decode(getlang("email_errorsending")).sprintf(utf8_decode(getlang("email_contactwebmaster")),'<a href="../contact.php'.makelinkparameters(array("user" => "webmaster")).'">','</a>').'</p>';
 
   	@mail($recipient,$subject,$message,"From: ".$adminemail)
       	or die($error);

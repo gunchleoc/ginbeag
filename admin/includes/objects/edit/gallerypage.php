@@ -17,8 +17,11 @@ class ShowAllImagesButton extends Template {
 	function ShowAllImagesButton($isshowall=true,$noofimages,$imagesperpage)
 	{
 		parent::__construct();
-		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&noofimages=".($noofimages)."&action=editcontents";
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["noofimages"] = $noofimages;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		
 		if($isshowall)
 		{
@@ -47,9 +50,16 @@ class GalleryImageForm extends Template {
 	function GalleryImageForm($imageid,$offset,$pageposition,$noofimages,$showall)
 	{
 		parent::__construct($imageid);
-		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".$pageposition."&noofimages=".$noofimages."&action=editcontents";
-		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters($linkparams);
+
+		$linkparams["noofimages"] = $noofimages;
+		$linkparams["offset"] = $offset;
+		$linkparams["pageposition"] = $pageposition;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
+
 		
 		$this->stringvars['imageid']=$imageid;
 		
@@ -86,9 +96,15 @@ class AddGalleryImageForm extends Template {
 	function AddGalleryImageForm($offset,$pageposition,$noofimages,$showall)
 	{
 		parent::__construct();
-		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&offset=".$offset."&pageposition=".($pageposition+1)."&noofimages=".($noofimages+1)."&action=editcontents";
-		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters($linkparams);
+
+		$linkparams["noofimages"] = $noofimages+1;
+		$linkparams["offset"] = $offset;
+		$linkparams["pageposition"] = $pageposition+1;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		
 		if($showall) $this->stringvars['hiddenvars']='<input type="hidden" name="showall" value="true">';
 		else $this->stringvars['hiddenvars']="";
@@ -110,7 +126,9 @@ class ReindexGalleryForm extends Template {
 	{
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcontents";
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		
 		if($showall)
 			$this->stringvars['hiddenvars']='<input type="hidden" name="showall" value="true" />';

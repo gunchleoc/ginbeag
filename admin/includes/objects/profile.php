@@ -18,15 +18,12 @@ class ProfilePage extends Template {
 
 	function ProfilePage($userid,$message="")
 	{
-		global $_GET;
-
 		parent::__construct();
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page'];
+		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page']));
 		$this->stringvars['username']=getusername($userid);
 		$this->stringvars['email']=getuseremail($userid);
 		$this->stringvars['contactfunction']=getcontactfunction($userid);
-		$this->stringvars['page']=$_GET['page'];
 		$this->vars['is_contact']= new CheckBoxForm("iscontact","Is Contact","",getiscontact($userid));
 	}
 	

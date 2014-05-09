@@ -18,8 +18,11 @@ class SiteAntispam extends Template {
 	{
 		global $projectroot;
 		parent::__construct();
-		
-		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&postaction=savesite&action=sitespam';
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["postaction"] = "savesite";
+		$linkparams["action"] = "sitespam";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		
 		$this->stringvars['hiddenvars']='<input type="hidden" name="postaction" value="savesite" />';
 		

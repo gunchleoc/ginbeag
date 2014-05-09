@@ -28,6 +28,18 @@ include_once($projectroot."includes/objects/page.php");
 include_once($projectroot."includes/objects/forms.php");
 include_once($projectroot."includes/objects/guestbook.php");
 
+if(isset($_GET['sid'])) $sid = $_GET['sid'];
+elseif(isset($_POST['sid'])) $sid = $_POST['sid'];
+else $sid="";
+
+if(strlen($sid) > 0 && ! ispublicloggedin())
+{
+	$sid="";
+	unset($_GET['sid']);
+	unset($_POST['sid']);
+}
+
+
 
 /// init variables for guestbook constructur
 $postername="";

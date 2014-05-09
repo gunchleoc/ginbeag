@@ -29,10 +29,4 @@ function issiteaction($action)
 
 	return $result;
 }
-
-function getsiteformlink($action,$postaction)
-{
-	global $page;
-	return "admin.php?page=".$page."&action=".$action."&postaction=".$postaction;
-}
 ?>

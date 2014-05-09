@@ -56,8 +56,11 @@ class AdminGuestbookEntry extends Template {
     function AdminGuestbookEntry($entryid, $showdeleteform=true)
     {
     	parent::__construct();
-    	
-    	$this->stringvars['deleteactionvars']='?page='.$this->stringvars['page'].'&action=siteguest';
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "siteguest";
+		$this->stringvars['deleteactionvars'] = makelinkparameters($linkparams);
+
     	$this->stringvars['hiddenvars']='<input type="hidden" name="messageid" value="'.$entryid.'" />';
     	
     	$contents=getguestbookentrycontents($entryid);
@@ -96,7 +99,10 @@ class AdminGuestbookDeleteConfirmForm extends Template {
     function AdminGuestbookDeleteConfirmForm($entryid)
     {
     	parent::__construct();
-    	$this->stringvars['deleteactionvars']='?page='.$this->stringvars['page'].'&action=siteguest';
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "siteguest";
+		$this->stringvars['deleteactionvars'] = makelinkparameters($linkparams);
+
     	$this->stringvars['hiddenvars']='<input type="hidden" name="messageid" value="'.$entryid.'" />';
     	$this->vars['entry']=new AdminGuestbookEntry($entryid, false);
  	}
@@ -120,8 +126,11 @@ class AdminGuestbookEnableForm extends Template {
     function AdminGuestbookEnableForm()
     {
     	parent::__construct();
-    	
-    	$this->stringvars['enableactionvars']='?page='.$this->stringvars['page'].'&postaction=saveproperties&action=siteguest';
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["postaction"] = "saveproperties";
+		$linkparams["action"] = "siteguest";
+		$this->stringvars['enableactionvars'] = makelinkparameters($linkparams);
 
     	$properties=getproperties();
 

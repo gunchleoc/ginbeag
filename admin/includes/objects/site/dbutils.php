@@ -16,8 +16,13 @@ class SiteDBUtilsBackupForm extends Template {
 	function SiteDBUtilsBackupForm()
 	{
 		parent::__construct();
-		$this->stringvars['backupactionvars']='?page='.$this->stringvars['page'].'&postaction=backup&action=sitedb';
-		$this->stringvars['cacheactionvars']='?page='.$this->stringvars['page'].'&postaction=cache&action=sitedb';
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["postaction"] = "backup";
+		$linkparams["action"] = "sitedb";
+		$this->stringvars['backupactionvars'] = makelinkparameters($linkparams);
+
+		$linkparams["postaction"] = "cache";
+		$this->stringvars['cacheactionvars'] = makelinkparameters($linkparams);
 	}
 	
 	// assigns templates

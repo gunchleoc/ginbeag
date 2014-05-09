@@ -45,7 +45,7 @@ class AdminNavigatorLink extends Template {
 		
 		$this->stringvars['description']="";
 		
-		$this->stringvars['link']=getprojectrootlinkpath().'admin/admin.php?page='.$page;
+		$this->stringvars['link']=getprojectrootlinkpath().'admin/admin.php'.makelinkparameters(array("page" => $page));
 		$this->stringvars['link_attributes']=' target="_top"';
 		
 		if(isset($_GET['page']) && $_GET['page']===$page)
@@ -105,8 +105,6 @@ class AdminNavigator extends Template {
 
 	function AdminNavigator($page)
 	{
-	    global $_GET;
-	    
 	    parent::__construct();
     
 		// navigator
@@ -217,7 +215,7 @@ class AdminNavigatorHeader extends Template {
 		parent::__construct();
 		
 		$this->vars['jumptopageform']= new JumpToPageForm(getprojectrootlinkpath()."admin/admin.php",array(),"left","_top");
-		$this->stringvars['pagelistlink']= getprojectrootlinkpath()."admin/includes/pagelist.php?page=".$this->stringvars['page'];
+		$this->stringvars['pagelistlink']= getprojectrootlinkpath()."admin/includes/pagelist.php".makelinkparameters(array("page" => $this->stringvars['page']));
 		
     }
 

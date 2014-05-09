@@ -196,20 +196,20 @@ function changecontactfunction($userid,$contactfunction)
 //
 //
 //
-function activateuser($username)
+function activateuser($userid)
 {
 	global $db;
-	$result = updatefield(USERS_TABLE,"user_active",1,"username = '".$db->setstring($username)."'");
-	$result = $result & updatefield(USERS_TABLE,"activationkey",'',"username = '".$db->setstring($username)."'");
+	return updatefield(USERS_TABLE,"user_active",1,"user_id = '".$db->setinteger($userid)."'");
+	$result = $result & updatefield(USERS_TABLE,"activationkey",'',"userid = '".$db->setinteger($userid)."'");
 }
 
 //
 //
 //
-function deactivateuser($username)
+function deactivateuser($userid)
 {
 	global $db;
-	return updatefield(USERS_TABLE,"user_active",0,"username = '".$db->setstring($username)."'");
+	return updatefield(USERS_TABLE,"user_active",0,"user_id = '".$db->setinteger($userid)."'");
 }
 
 //

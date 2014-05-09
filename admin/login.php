@@ -19,7 +19,8 @@ $message="";
 //print_r($_POST);
 
 $username="";
-if (isset($_POST['user'])) $username=$_POST['user'];
+if (isset($_POST['user'])) $username=urldecode($_POST['user']);
+elseif (isset($_GET['user'])) $username=urldecode($_GET['user']);
 
 if(!isset($_GET["referrer"]) && isset($_SERVER["HTTP_REFERER"]))
 {
@@ -119,13 +120,13 @@ elseif(isset($_POST['user']) &&isset($_POST['pass']))
 				$contenturl=$_GET["referrer"].'.php';
 				unset($_GET["referrer"]);
 				$_GET['sid']= $login['sid'];
-				$contenturl=$contenturl.makelinkparameters($_GET, true);
+				$contenturl=$contenturl.makelinkparameters($_GET);
 			}
 			else
 			{
 				unset($_GET["referrer"]);
 				$_GET['sid']= $login['sid'];
-				$contenturl='admin.php'.makelinkparameters($_GET, true);
+				$contenturl='admin.php'.makelinkparameters($_GET);
 			}
 			$header = new AdminLoginHeader("Login successful",true,$contenturl,"Enter");
 		}

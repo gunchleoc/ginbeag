@@ -16,9 +16,12 @@ class SiteTechnical extends Template {
 	function SiteTechnical()
   	{
   		parent::__construct();
-  		
-  		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&postaction=savesite&action=sitetech';
-  	
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["postaction"] = "savesite";
+		$linkparams["action"] = "sitetech";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
+
   		$properties=getproperties();
   		
   		$this->stringvars["googlekeywords"]=input2html($properties["Google Keywords"]);

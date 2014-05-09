@@ -16,9 +16,11 @@ class SiteReferrers extends Template {
 	function SiteReferrers()
 	{
 		parent::__construct();
-		
-		$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitereferrers';
-		
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "sitereferrers";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
+
 		$blockedrefs=getblockedreferrers();
 		
 		$noofrefs =count($blockedrefs);
@@ -45,21 +47,24 @@ class SiteReferrers extends Template {
 //
 class SiteReferrer extends Template {
 
-  function SiteReferrer($referrer)
-  {
-  	parent::__construct();
-  	
-  	$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitereferrers';
-  	$this->stringvars['hiddenvars']='<input type="hidden" name="referrer" value="'.$referrer.'" />';
-  	
-  	$this->stringvars["referrer"]=$referrer;
-  }
+	function SiteReferrer($referrer)
+	{
+		parent::__construct();
 
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/site/referrer.tpl");
-  }
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "sitereferrers";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
+
+		$this->stringvars['hiddenvars']='<input type="hidden" name="referrer" value="'.$referrer.'" />';
+
+		$this->stringvars["referrer"]=$referrer;
+	}
+
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/site/referrer.tpl");
+	}
 }
 
 
@@ -69,22 +74,24 @@ class SiteReferrer extends Template {
 //
 class SiteReferrerUnblockForm extends Template {
 
-  function SiteReferrerUnblockForm($referrer)
-  {
-  	parent::__construct();
-  	
-  	$this->stringvars['actionvars']='?page='.$this->stringvars['page'].'&action=sitereferrers';
-  	$this->stringvars['hiddenvars']='<input type="hidden" name="referrer" value="'.$referrer.'" />';
-  	
-  	$this->stringvars["referrer"]=$referrer;
-  	
-  	$this->vars["submitrow"]=new SubmitRow("confirmunblock","Yes, please unblock",false,true);
-  }
+	function SiteReferrerUnblockForm($referrer)
+	{
+		parent::__construct();
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "sitereferrers";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 
-  // assigns templates
-  function createTemplates()
-  {
-    $this->addTemplate("admin/site/referrerunblockform.tpl");
-  }
+		$this->stringvars['hiddenvars']='<input type="hidden" name="referrer" value="'.$referrer.'" />';
+  	
+		$this->stringvars["referrer"]=$referrer;
+  	
+		$this->vars["submitrow"]=new SubmitRow("confirmunblock","Yes, please unblock",false,true);
+	}
+
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/site/referrerunblockform.tpl");
+	}
 }
 ?>

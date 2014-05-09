@@ -25,13 +25,32 @@ class CategorylistLink extends Template {
 			if(displaynewestnewsitemfirst($page)) $order="DESC";
 			else $order="ASC";
 
-			$link = "?page=".$page."&selectedcat=".$category."&fromday=".$oldestdate["mday"]."&frommonth=".$oldestdate["mon"]."&fromyear=".$oldestdate["year"]."&today=".$newestdate["mday"]."&tomonth=".$newestdate["mon"]."&toyear=".$newestdate["year"]."&order=date&ascdesc=".$order."&filter=Go&sid=".$this->stringvars["sid"];
+			$linkparams["page"] = $this->stringvars['page'];
+			$linkparams["selectedcat"] = $category;
+			$linkparams["fromday"] = $oldestdate["mday"];
+			$linkparams["frommonth"] = $oldestdate["mon"];
+			$linkparams["fromyear"] = $oldestdate["year"];
+			$linkparams["today"] = $newestdate["mday"];
+			$linkparams["tomonth"] = $newestdate["mon"];
+			$linkparams["toyear"] = $newestdate["year"];
+			$linkparams["order"] = "date";
+			$linkparams["ascdesc"] = $order;
+			$linkparams["filter"] = "Go";
+			$this->stringvars['link'] = makelinkparameters($linkparams);
 		}
 		else
 		{
-			$link = "?page=".$page."&selectedcat=".$category."&from=all&to=all&order=title&ascdesc=asc&filter=go&sid=".$this->stringvars["sid"];
+			$linkparams["page"] = $this->stringvars['page'];
+			$linkparams["selectedcat"] = $category;
+			$linkparams["from"] = "all";
+			$linkparams["to"] = "all";
+			$linkparams["order"] = "title";
+			$linkparams["ascdesc"] = "asc";
+			$linkparams["filter"] = "Go";
+
+			$this->stringvars['link'] = makelinkparameters($linkparams);
 		}
-		$this->stringvars['link']=$link;
+
     }
 
     // assigns templates

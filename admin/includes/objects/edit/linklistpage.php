@@ -17,7 +17,9 @@ class AddLinklistLinkForm extends Template {
 	function AddLinklistLinkForm()
 	{
 		parent::__construct();
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcontents";
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 	}
 
 	// assigns templates
@@ -42,8 +44,12 @@ class EditLinkListLinkForm extends Template {
 		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'linkid" name="linkid" value="'.$linkid.'">';
 		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&link=".$linkid."&action=editcontents";
-		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
+		$linkparams["page"] = $this->stringvars['page'];
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters($linkparams);
+
+		$linkparams["link"] = $linkid;
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		
 		$this->stringvars['linkid']=$linkid;
 		
@@ -80,9 +86,12 @@ class EditLinklist extends Template {
 		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
 		
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters($linkparams);
 		
-		$this->stringvars['actionvars']= "?page=".$this->stringvars['page']."&action=editcontents";
-		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php?page=".$this->stringvars['page'];
+		$linkparams["action"] = "editcontents";
+		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		
 		$linkids=getlinklistitems($page);
 		if(count($linkids<1)) $this->stringvars['linkform']="";

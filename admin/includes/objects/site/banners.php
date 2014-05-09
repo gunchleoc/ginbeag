@@ -22,9 +22,17 @@ class SiteBannerEditForm extends Template {
 	{
 		parent::__construct($banner);
 		
-		$this->stringvars['moveactionvars']='?page='.$this->stringvars['page'].'&postaction=movebanner&action=sitebanner';
-		$this->stringvars['deleteactionvars']='?page='.$this->stringvars['page'].'&postaction=deletebanner&action=sitebanner';
-		$this->stringvars['editactionvars']='?page='.$this->stringvars['page'].'&postaction=editbanner&action=sitebanner';
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["postaction"] = "movebanner";
+		$linkparams["action"] = "sitebanner";
+		$this->stringvars['moveactionvars'] = makelinkparameters($linkparams);
+
+		$linkparams["postaction"] = "deletebanner";
+		$this->stringvars['deleteactionvars'] = makelinkparameters($linkparams);
+
+		$linkparams["postaction"] = "editbanner";
+		$this->stringvars['editactionvars'] = makelinkparameters($linkparams);
+
 		$this->stringvars['hiddenvars']='<input type="hidden" name="bannerid" value="'.$banner.'" />';
 		
 		$contents=getbannercontents($banner);
@@ -72,8 +80,14 @@ class SiteBanners extends Template {
 		parent::__construct();
 		
 		$this->stringvars['displayhiddenvars']='<input type="hidden" name="postaction" value="displaybanners" />';
-		$this->stringvars['displayactionvars']='?page='.$this->stringvars['page'].'&postaction=displaybanners&action=sitebanner';
-		$this->stringvars['addactionvars']='?page='.$this->stringvars['page'].'&postaction=addbanner&action=sitebanner';
+
+		$linkparams["page"] = $this->stringvars['page'];
+		$linkparams["postaction"] = "displaybanners";
+		$linkparams["action"] = "sitebanner";
+		$this->stringvars['displayactionvars'] = makelinkparameters($linkparams);
+
+		$linkparams["postaction"] = "addbanner";
+		$this->stringvars['addactionvars'] = makelinkparameters($linkparams);
 
 		$this->vars['displaybanners_yes'] = new RadioButtonForm($this->stringvars['jsid'], "toggledisplaybanners", 1, "Yes", getproperty('Display Banners'), "right");
 	    $this->vars['displaybanners_no'] = new RadioButtonForm($this->stringvars['jsid'], "toggledisplaybanners", 0, "No", !getproperty('Display Banners'), "right");
