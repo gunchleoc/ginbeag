@@ -4,7 +4,7 @@
 	<p class="highlight">{ERROR}</p><p>{TRYAGAIN}</p>
 	<br />
 	<!-- END switch ERROR -->
-	<form name="login" action="login.php{PARAMS}" method="post">
+	<form name="login" action="{PARAMS}" method="post">
 	<fieldset>
 		<legend class="highlight">{L_LEGEND_LOGIN}</legend>
 		<fieldset>

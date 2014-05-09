@@ -1,4 +1,4 @@
-<form name="addimageform" action="editimagelist.php{ACTIONVARS}" enctype="multipart/form-data" method="post">
+<form name="addimageform" action="{ACTIONVARS}" enctype="multipart/form-data" method="post">
 	<div class="imagecontentarea">
 		<div class="contentoutline">
 			<div class="contentheader">Add Image</div>

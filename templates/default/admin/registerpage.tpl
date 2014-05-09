@@ -14,7 +14,7 @@
 				<div id="contentarealogin">
 					<!-- BEGIN switch MESSAGE --><div class="inlinemessage">{MESSAGE}</div><!-- END switch MESSAGE -->
 					<!-- BEGIN switch SHOWFORM -->
-					<form name="register" action="register.php" method="post">
+					<form name="register" method="post">
 						<fieldset>
 							<legend class="highlight">Enter account data for registering</legend>
 							<label for="user">Username:</label>

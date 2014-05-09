@@ -71,7 +71,7 @@
 				<legend class="highlight">File Operations</legend>
 				<fieldset>
 					<legend>Image file</legend>
-					<form name="replaceimageform" action="editimagelist.php{ACTIONVARSREPLACE}" enctype="multipart/form-data" method="post">
+					<form name="replaceimageform" action="{ACTIONVARSREPLACE}" enctype="multipart/form-data" method="post">
 	      				{HIDDENVARS}
 						<label for="{JSID}replaceimagefile">Select a new image:</label></br>
 						<input id="{JSID}replaceimagefile" type="file" name="newfilename" size="30" maxlength="255" />

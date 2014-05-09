@@ -45,4 +45,4 @@
 		<input type="submit" name="contact" value="Submit" class="mainoption" />
 	</form>
 </div>
-<p><a href="admin.php{ACTIONVARS}" target="_self">Return to page editing</a></p>
+<p><a href="{RETURNVARS}" target="_self">Return to page editing</a></p>

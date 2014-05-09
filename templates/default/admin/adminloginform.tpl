@@ -1,5 +1,5 @@
 				<h1 class="headerpagetitle">Login</h1>
-					<form name="login" action="login.php{PARAMS}" method="post">
+					<form name="login" action="{PARAMS}" method="post">
 						<fieldset>
 							<legend class="highlight">Enter your login data</legend>
 							<label for="user">Username:</label>

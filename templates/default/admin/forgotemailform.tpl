@@ -1,5 +1,5 @@
 				<h1 class="headerpagetitle">Request a new password</h1>
-				<form name="forgotemailform" action="login.php" method="post">
+				<form name="forgotemailform" method="post">
 					<fieldset>
 						<legend class="highlight">Enter your login data</legend>
 						<label for="user">Username:</label>
@@ -7,7 +7,7 @@
 					</fieldset>
 					<input type="submit" name="requestemail" value="Request password" class="mainoption" />
 					&nbsp;&nbsp;
-					<input type="submit"  value="Cancel" />
+					<input type="button"  value="Cancel" onClick="self.location.href='admin.php'" />
 				</form>
 			</div>
 		</div>
