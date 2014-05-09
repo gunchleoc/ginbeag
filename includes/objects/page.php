@@ -409,7 +409,7 @@ class Navigator extends Template {
 				$potd=getpictureoftheday();
 				if($potd)
 				{
-					$this->vars['potd_image']=new Image($potd, true, true, "", $showhidden);
+					$this->vars['potd_image']=new Image($potd, true, true, array(), $showhidden);
 					$this->stringvars['l_potd']=getlang("navigator_potd");
 					$homelink=false;
 				}
@@ -629,7 +629,7 @@ class PageIntro extends Template {
 		$this->stringvars['pagetitle']=title2html($title);
 		$this->stringvars['text']=text2html($text);
 		if($image && strlen($image) > 0)
-			$this->vars['image'] = new CaptionedImage($image, $imageautoshrink, $usethumbnail, $imagealign, $showhidden);
+			$this->vars['image'] = new CaptionedImage($image, $imageautoshrink, $usethumbnail, $imagealign, array("page" => $this->stringvars['page']), $showhidden);
 	}
 	
 	// assigns templates

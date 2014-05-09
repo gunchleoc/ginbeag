@@ -17,8 +17,8 @@ class CaptionedImageAdmin extends Template {
 	function CaptionedImageAdmin($filename, $page)
   	{
     	parent::__construct();
-    	
-		$this->vars['image']= new CaptionedImage($filename, true, true, "left");
+
+		$this->vars['image']= new CaptionedImage($filename, true, true, "left", array("page" => $page), true);
     	$this->stringvars['imagelinkpath']=getimagelinkpath($filename, getimagesubpath(basename($filename)));
 
 		$linkparams["page"] = $page;

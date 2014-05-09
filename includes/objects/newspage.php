@@ -20,7 +20,7 @@ class Newsitemsection extends Template {
 	var $isquotestart=false;
     var $isquoteend=false;
 
-    function Newsitemsection($newsitemsection, $isquoted=false, $showhidden=false)
+    function Newsitemsection($newsitemsection, $newsitem, $isquoted=false, $showhidden=false)
     {
     	$this->stringvars['l_quote']=getlang("section_quote");
 
@@ -33,7 +33,7 @@ class Newsitemsection extends Template {
             $this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
 
           if(strlen($sectioncontents['sectionimage']) > 0)
-            $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'],$showhidden);
+            $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'], array("newsitem" => $newsitem), $showhidden);
           else $this->stringvars['image']="";
 		  
 		  $this->stringvars['text']=text2html($sectioncontents['text']);
@@ -127,7 +127,7 @@ class Newsitem extends Template {
 		{
 			if($noofimages==1)
 			{
-				$this->vars['image'] = new CaptionedImage($images[0],$contents['imageautoshrink'], $contents['usethumbnail'], "left",$showhidden);
+				$this->vars['image'] = new CaptionedImage($images[0],$contents['imageautoshrink'], $contents['usethumbnail'], "left", array("newsitem" => $newsitem), $showhidden);
 			}
 			else
 			{
@@ -135,7 +135,7 @@ class Newsitem extends Template {
 				$this->stringvars['multiple_images']="".$noofimages;
 				for($i=0;$i<$noofimages;$i++)
 				{
-					$image = new Image($images[$i],true, true, "", $showhidden);
+					$image = new Image($images[$i],true, true, array("newsitem" => $newsitem), $showhidden);
 					$this->listvars['image'][] = $image;
 
 					$thumbnail = getthumbnail($images[$i]);
@@ -169,7 +169,7 @@ class Newsitem extends Template {
 			$isquote=false;
 			for($i=0;$i<$noofsections;$i++)
 			{
-				$newsitemsection = new Newsitemsection($sections[$i], $isquote, $showhidden);
+				$newsitemsection = new Newsitemsection($sections[$i], $newsitem, $isquote, $showhidden);
 				$this->listvars['section'][] = $newsitemsection;
 				$isquote == $newsitemsection->isquotestart;
 			}

@@ -49,6 +49,7 @@ class JumpToPageForm  extends Template {
 
 //
 // todo: more templating for rtl?
+// todo: use makelinkparameters - makelinkparameters will need more work to accomodate a list of selectedcats
 //
 class PageMenu extends Template {
 
@@ -69,7 +70,7 @@ class PageMenu extends Template {
 		$result="";
 		$sidparam="";
 		
-		if($this->stringvars['sid']) $sidparam.='sid='.$this->stringvars['sid'].'&';
+		if($this->stringvars['sid'] && strlen($this->stringvars['sid']) > 0) $sidparam.='sid='.$this->stringvars['sid'].'&';
 		if($this->stringvars['page']>0) $sidparam.='page='.$this->stringvars['page'].'&';
 		if($params) $params.="&";
 

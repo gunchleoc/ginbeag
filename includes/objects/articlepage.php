@@ -26,7 +26,7 @@ class Articlesection extends Template {
 		}
 		
 		if(strlen($sectioncontents['sectionimage']) > 0)
-		$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'], $sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'],$showhidden);
+		$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'], $sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'], array("page" => $this->stringvars['page']), $showhidden);
 		else $this->stringvars['image']="";
 		
 		$this->stringvars['text']=text2html($sectioncontents['text']);
@@ -189,7 +189,7 @@ class ArticlesectionPrintview extends Template {
       	$this->stringvars['image']="";
       	
 		if(strlen($sectioncontents['sectionimage']) > 0)
-			$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'],$sectioncontents['imagealign'],false);
+			$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'], array("page" => $this->stringvars['page']), false);
       	else $this->stringvars['image']="";
 
       	$this->stringvars['text']=text2html($sectioncontents['text']);

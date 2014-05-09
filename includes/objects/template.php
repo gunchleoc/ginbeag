@@ -77,7 +77,9 @@ class Template {
     function Template($jsid="",$jspaths=array(),$jscripts=array())
     {
     	global $sid, $page;
-    	
+
+		if(DEBUG) print ("<br />".get_class($this)." ");
+
     	$this->stringvars['sid']=$sid;
     	$this->stringvars['page']=$page;
     	$this->stringvars['jsid']=$jsid;

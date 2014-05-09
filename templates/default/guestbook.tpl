@@ -62,7 +62,6 @@
 	<!-- END switch LEAVEMESSAGE -->					
 	
 	<!-- BEGIN switch GUESTBOOKFORM -->
-	<!--<p class="pagetitle">{GUESTBOOKFORMMESSAGE}</p> toto do I need this?//-->
 	{GUESTBOOKFORM}
 	<!-- END switch GUESTBOOKFORM -->
 	

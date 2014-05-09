@@ -87,7 +87,7 @@ class AdminTopFrame extends Template {
 			    {
 			        $this->vars['editpagelink']=new AdminTopFrameLink("edit/linklistedit.php", "Edit Page");
 			    }
-			    elseif($pagetype==="menu" || $pagetype==="articlemenu")
+			    elseif($pagetype==="menu" || $pagetype==="articlemenu" || $pagetype==="linklistmenu")
 			    {
 			        $this->vars['editpagelink']=new AdminTopFrameLink("edit/menuedit.php", "Edit Page");
 			    }

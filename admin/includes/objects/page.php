@@ -101,7 +101,7 @@ class SelectNewParentForm extends Template {
 		}
 		
 		$this->vars['targetform']= new OptionForm(0,$values,$descriptions,"parentnode","Move this page to:",20);
-		$this->stringvars['cancellocation']='?action=edit&page='.$this->stringvars['page'];
+		$this->stringvars['cancellocation']=makelinkparameters(array("page" => $this->stringvars['page'], "action" => "edit"));
 	}
 	
 	// assigns templates

@@ -220,7 +220,7 @@ class DeleteNewsItemSectionConfirm extends Template {
 
 		$contents=getnewsitemcontents($newsitem);
 		$this->stringvars['newsitemtitle']=title2html($contents['title']);
-		$this->vars['section'] = new Newsitemsection($newsitemsection, false, true, true);
+		$this->vars['section'] = new Newsitemsection($newsitemsection, $newsitem, false, true, true);
 	}
 
 	// assigns templates

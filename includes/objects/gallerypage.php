@@ -23,7 +23,7 @@ class GalleryCaptionedImage extends Template {
 		// Make the image
       	if(imageexists($filename))
       	{
-			$this->vars['image'] = new Image($filename, true, true, "&page=".$this->stringvars['page'],$showhidden);
+			$this->vars['image'] = new Image($filename, true, true, array("page" => $this->stringvars['page']), $showhidden);
 		}
 		else $this->stringvars['image']='<i>'.$filename.'</i>';
       

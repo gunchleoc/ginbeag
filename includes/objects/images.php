@@ -9,12 +9,14 @@ include_once($projectroot."includes/objects/template.php");
 //
 class Image extends Template {
 
-    function Image($filename, $imageautoshrink, $usethumbnail, $params="", $showhidden=false)
+    function Image($filename, $imageautoshrink, $usethumbnail, $params = array(), $showhidden=false)
     {
 		global $projectroot;
       
 		parent::__construct();
 		
+		$params["image"] = $filename;
+
 		$image="";
 		$alttext=title2html(getcaption($filename));
 		if(!$alttext) $alttext = $filename;
@@ -27,17 +29,17 @@ class Image extends Template {
 			{
 				$dimensions=getimagedimensions($thumbnailpath);
 				if($showhidden)
-					$image='<a href="'.getprojectrootlinkpath().'admin/showimage.php?image='.$filename.$params.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
+					$image='<a href="'.getprojectrootlinkpath().'admin/showimage.php'.makelinkparameters($params).'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
 				else
-					$image='<a href="'.getprojectrootlinkpath().'showimage.php?image='.$filename.'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
+					$image='<a href="'.getprojectrootlinkpath().'showimage.php'.makelinkparameters($params).'"><img src="'.getimagelinkpath($thumbnail,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
 			}
 			else
 			{
 				$dimensions=calculateimagedimensions($filepath, $imageautoshrink);
 				if($showhidden)
-					$image='<a href="'.getprojectrootlinkpath().'admin/showimage.php?image='.$filename.$params.'"><img src="'.getimagelinkpath($filename,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
+					$image='<a href="'.getprojectrootlinkpath().'admin/showimage.php'.makelinkparameters($params).'"><img src="'.getimagelinkpath($filename,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
 				else
-					$image='<a href="'.getprojectrootlinkpath().'showimage.php?image='.$filename.'&sid='.$this->stringvars['sid'].$params.'"><img src="'.getimagelinkpath($filepath,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
+					$image='<a href="'.getprojectrootlinkpath().'showimage.php'.makelinkparameters($params).'"><img src="'.getimagelinkpath($filepath,getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
 			}
 		}
 		else
@@ -60,7 +62,7 @@ class Image extends Template {
 //
 class CaptionedImage extends Template {
 
-    function CaptionedImage($filename, $imageautoshrink, $usethumbnail, $halign="left", $showhidden=false)
+    function CaptionedImage($filename, $imageautoshrink, $usethumbnail, $halign="left", $linkparams=array(), $showhidden=false)
     {
     	parent::__construct();
 
@@ -118,7 +120,7 @@ class CaptionedImage extends Template {
 		// make the image
       	if(imageexists($filename))
       	{
-			$this->vars['image'] = new Image($filename, $imageautoshrink, $usethumbnail, "&page=".$this->stringvars['page'], $showhidden);
+			$this->vars['image'] = new Image($filename, $imageautoshrink, $usethumbnail, $linkparams, $showhidden);
 		}
 		else $this->stringvars['image']='<i>'.$filename.'</i>';
 
