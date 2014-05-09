@@ -198,6 +198,7 @@ function deletenewsitem($newsitem)
 {
 	global $db;
   deleteentry(NEWSITEMS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
+  deleteentry(NEWSITEMSYNIMG_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
   deleteentry(NEWSITEMCATS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
   deleteentry(NEWSITEMSECTIONS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
 }

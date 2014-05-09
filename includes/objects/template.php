@@ -287,33 +287,6 @@ class Template {
   		}   		
   		return $result;
     }
-    
-
-
-    
-    //
-    // $vars must be an array. keys = varnames, values = varvalues
-    // sid and page are added automatically
-    // result = string to be added to template stringvars, starts with ?
-    //
-    function makeactionvars($vars)
-    {
-    	
-    	$result='?sid='.$this->stringvars["sid"];
-    	$result.='&page='.$this->stringvars["page"];
-    	
-    	$keys = array_keys($vars);
-    	while($key=current($keys))
-  		{
-  			//if(!array_key_exists($key,$vars) && array_key_exists($key,$LEGALVARS))
-    		if(!array_key_exists($key,$vars))
-    		{
-      			$result.= '&'.$key.'='.$vars[$key];
-    		}
-    		next($keys);
-  		} 
-  		return $result;
-    }    
 }
 
 /************************* non-object functions ****************************/

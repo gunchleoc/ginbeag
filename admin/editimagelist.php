@@ -221,7 +221,7 @@ elseif($action==="addthumb")
 		$extension=substr($thumbnail,strrpos($thumbnail,"."),strlen($thumbnail));
 		$imagename=substr($filename,0,strrpos($filename,"."));
 		$imageextension=substr($filename,strrpos($filename,"."),strlen($filename));
-		if($extension === $imageextension)
+		if(strtolower($extension) === strtolower($imageextension))
 		{
 			$newthumbname=$imagename.'_thn'.$extension;
 			$success=uploadfile($_FILES,getproperty("Image Upload Path").getimagesubpath($filename),"thumbnail",$newthumbname);
@@ -261,7 +261,7 @@ elseif($action==="replacethumb")
 		$thumbnailfilename=getthumbnail($filename);
 		$extension=substr($thumbnail,strrpos($thumbnail,"."),strlen($thumbnail));
 		$imageextension=substr($filename,strrpos($filename,"."),strlen($filename));
-		if($extension === $imageextension)
+		if(strtolower($extension) === strtolower($imageextension))
 		{
 			$success= replacefile($_FILES,getproperty("Image Upload Path").getimagesubpath($filename),"thumbnail",$thumbnailfilename);
 		}
@@ -381,8 +381,8 @@ elseif($action==="executedelete")
 				$linkparameters=array();
 				$linkparameters["page"] = $newspage;
 				$linkparameters["offset"] = getnewsitemoffset($newspage,1,$newsitems[$i],true);
-				$linkparameters["action"] = "news";
-				$message.='<a href="admin.php'.makelinkparameters($linkparameters).' target="_blank">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
+				$linkparameters["action"] = "editcontents";
+				$message.='<a href="edit/newsedit.php'.makelinkparameters($linkparameters).'" target="_blank">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
 			}
 		}
 	}
@@ -448,7 +448,7 @@ function checkextension($oldfile,$newfile)
 {
 	$oldextension=substr($oldfile,strrpos($oldfile,"."),strlen($oldfile));
 	$newextension=substr($newfile,strrpos($newfile,"."),strlen($newfile));
-	if($oldextension===$newextension)
+	if(strtolower($oldextension) === strtolower($newextension))
 	{
 		return true;
 	}
