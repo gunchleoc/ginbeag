@@ -119,7 +119,7 @@ class Showimage extends Template {
 			$this->stringvars['width'] = $dimensions["width"];
 			$this->stringvars['height'] = $dimensions["height"];
 			$this->stringvars['simplecaption'] = title2html($caption);
-			$this->vars['caption'] = new ImageCaption($image, $showhidden);
+			$this->vars['caption'] = new ImageCaption($image);
 
 		}
 		else

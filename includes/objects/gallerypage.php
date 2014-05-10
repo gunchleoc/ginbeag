@@ -28,7 +28,7 @@ class GalleryCaptionedImage extends Template {
 		else $this->stringvars['image']='<i>'.$filename.'</i>';
       
 		// Make the caption
-		$this->vars['caption'] = new ImageCaption($filename, $showhidden);
+		$this->vars['caption'] = new ImageCaption($filename);
       
 		// CS stuff
    		$this->stringvars['halign']="float:left; ";

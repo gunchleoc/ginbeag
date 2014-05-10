@@ -124,7 +124,7 @@ class CaptionedImage extends Template {
 		}
 		else $this->stringvars['image']='<i>'.$filename.'</i>';
 
-		$this->vars['caption'] = new ImageCaption($filename, $showhidden);
+		$this->vars['caption'] = new ImageCaption($filename);
 
     }
 
@@ -141,7 +141,7 @@ class CaptionedImage extends Template {
 //
 class ImageCaption extends Template {
 
-    function ImageCaption($filename, $showhidden=false)
+    function ImageCaption($filename)
     {
 		global $projectroot;
 		parent::__construct();
@@ -175,14 +175,14 @@ class ImageCaption extends Template {
 		{
 			$captiontitle=$caption;
 			if(strlen($caption) > 50)
-				$caption = substr($caption,0,50)."...";
+				$caption = substr(html_entity_decode($caption, ENT_QUOTES, 'UTF-8'), 0, 50)."...";
 			$result.='<span title="'.$captiontitle.'">'.$caption.'</span>';
 		}
 		if($source)
 		{
 			$sourcetitle=$source;
 			if(strlen($source) > 50)
-				$source = substr($source,0,50)."...";
+				$source = substr(html_entity_decode($source, ENT_QUOTES, 'UTF-8'), 0, 50)."...";
 			if($caption)
 			{
 				$result.='<br>';
@@ -203,7 +203,7 @@ class ImageCaption extends Template {
 		{
 			$copyrighttitle=$copyright;
 			if(strlen($copyright) > 50)
-			$copyright = substr($copyright,0,50)."...";
+			$copyright = substr(html_entity_decode($copyright, ENT_QUOTES, 'UTF-8'), 0, 50)."...";
 			
 			if($caption || $source)
 			{
