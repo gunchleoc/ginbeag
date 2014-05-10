@@ -32,8 +32,7 @@ class SiteBannerEditForm extends Template {
 
 		$linkparams["postaction"] = "editbanner";
 		$this->stringvars['editactionvars'] = makelinkparameters($linkparams);
-
-		$this->stringvars['hiddenvars']='<input type="hidden" name="bannerid" value="'.$banner.'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("bannerid" => $banner));
 		
 		$contents=getbannercontents($banner);
 		if($contents['header'])
@@ -78,8 +77,8 @@ class SiteBanners extends Template {
 	function SiteBanners()
 	{
 		parent::__construct();
-		
-		$this->stringvars['displayhiddenvars']='<input type="hidden" name="postaction" value="displaybanners" />';
+
+		$this->stringvars['displayhiddenvars'] = $this->makehiddenvars(array("postaction" => "displaybanners"));
 
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["postaction"] = "displaybanners";

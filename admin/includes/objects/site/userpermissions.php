@@ -53,7 +53,7 @@ class SiteUserLevelForm extends Template {
 		$linkparams["action"] = "siteuserperm";
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 
-		$this->stringvars['hiddenvars']='<input type="hidden" name="userid" value="'.$userid.'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
   		
 		$this->stringvars['username']=title2html(getusername($userid));
   		
@@ -157,8 +157,7 @@ class SitePublicUserAccessPageForm extends Template {
   	{
   		parent::__construct();
   		
-  		$this->stringvars['hiddenvars']='<input type="hidden" name="userid" value="'.$userid.'">';
-  		$this->stringvars['hiddenvars'].='<input type="hidden" name="pageid" value="'.$page.'">';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid, "pageid" => $page));
   		
 		$linkparams["page"] = $this->stringvars['page'];
 

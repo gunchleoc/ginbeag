@@ -24,8 +24,8 @@ class SiteRandomItems extends Template {
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 
   		$properties=getproperties();
-  		$this->stringvars['hiddenvars']='<input type="hidden" name="oldpotdcats" value="'.$properties["Picture of the Day Categories"].'">';
-  		
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("oldpotdcats" => $properties["Picture of the Day Categories"]));
+
   		$potdcats=explode(",",$properties["Picture of the Day Categories"]);
   		$potdcatnames=array();
   		if(!count($potdcats))
@@ -39,7 +39,7 @@ class SiteRandomItems extends Template {
 				array_push($potdcatnames,getcategoryname($potdcats[$j], CATEGORY_IMAGE));
     		}
     		sort($potdcatnames);
-    		$potdcatlistoutput=implode(", ",$potdcatnames);
+			$potdcatlistoutput=title2html(implode(", ",$potdcatnames));
   		}
 
 		$this->vars['displaypotd_yes'] = new RadioButtonForm($this->stringvars['jsid'], "displaypotd", 1, "Yes", $properties["Display Picture of the Day"], "right");

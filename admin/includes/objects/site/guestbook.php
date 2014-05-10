@@ -60,8 +60,7 @@ class AdminGuestbookEntry extends Template {
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["action"] = "siteguest";
 		$this->stringvars['deleteactionvars'] = makelinkparameters($linkparams);
-
-    	$this->stringvars['hiddenvars']='<input type="hidden" name="messageid" value="'.$entryid.'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("messageid" => $entryid));
     	
     	$contents=getguestbookentrycontents($entryid);
     	$this->stringvars['name']=title2html($contents["name"]);
@@ -102,8 +101,7 @@ class AdminGuestbookDeleteConfirmForm extends Template {
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["action"] = "siteguest";
 		$this->stringvars['deleteactionvars'] = makelinkparameters($linkparams);
-
-    	$this->stringvars['hiddenvars']='<input type="hidden" name="messageid" value="'.$entryid.'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("messageid" => $entryid));
     	$this->vars['entry']=new AdminGuestbookEntry($entryid, false);
  	}
 

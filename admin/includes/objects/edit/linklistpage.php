@@ -40,10 +40,9 @@ class EditLinkListLinkForm extends Template {
 		
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editlinklist.js");
-		
-		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'linkid" name="linkid" value="'.$linkid.'">';
-		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
-		
+
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("linkid" => $linkid));
+
 		$linkparams["page"] = $this->stringvars['page'];
 		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters($linkparams);
 

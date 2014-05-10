@@ -182,8 +182,7 @@ class ArticleMenuPage extends Template {
 		$this->stringvars["page"]= $page;
 		$this->vars["categoryselection"]= new CategorySelectionForm(false,"",CATEGORY_ARTICLE,1,array($selectedcat => $selectedcat));
 		
-		$this->stringvars["hiddenvars"]= '<input type="hidden" name="page" value="'.$this->stringvars["page"].'" />';
-		$this->stringvars["hiddenvars"].= '<input type="hidden" name="sid" value="'.$this->stringvars["sid"].'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
 		
 		$this->stringvars["l_timespan"]= getlang("menu_filter_timespan");
 		$allyears=getallarticleyears();

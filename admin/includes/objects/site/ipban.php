@@ -20,9 +20,8 @@ class SiteIPBanIP extends Template {
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["action"] = "siteipban";
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
-
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("ip" => $ip));
 		$this->stringvars['ip']=$ip;
-		$this->stringvars['hiddenvars']='<input type="hidden" name="ip" value="'.$ip.'" />';
 	}
 	
 	// assigns templates

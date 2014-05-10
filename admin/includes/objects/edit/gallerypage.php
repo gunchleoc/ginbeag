@@ -65,13 +65,11 @@ class GalleryImageForm extends Template {
 		
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editgallery.js");
-		
-		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'galleryitemid" name="galleryitemid" value="'.$imageid.'">';
-		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
-		
-		if($showall)
-			$this->stringvars['hiddenvars'].='<input type="hidden" name="showall" value="true" />';
-		
+
+		$hiddenvars["galleryitemid"] = $imageid;
+		if($showall) $hiddenvars["showall"] = "true";
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
+
 		$this->stringvars['imagefilename']=getgalleryimage($imageid);
 		$this->vars['image'] = new CaptionedImageAdmin($this->stringvars['imagefilename'], $this->stringvars['page']);
 		
@@ -105,9 +103,10 @@ class AddGalleryImageForm extends Template {
 		$linkparams["pageposition"] = $pageposition+1;
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
-		
-		if($showall) $this->stringvars['hiddenvars']='<input type="hidden" name="showall" value="true">';
-		else $this->stringvars['hiddenvars']="";
+
+		$hiddenvars = array();
+		if($showall) $hiddenvars["showall"] = "true";
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
 	}
 	
 	// assigns templates
@@ -130,10 +129,9 @@ class ReindexGalleryForm extends Template {
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		
-		if($showall)
-			$this->stringvars['hiddenvars']='<input type="hidden" name="showall" value="true" />';
-		else
-			$this->stringvars['hiddenvars']='';
+		$hiddenvars = array();
+		if($showall) $hiddenvars["showall"] = "true";
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
 	}
 	
 	// assigns templates

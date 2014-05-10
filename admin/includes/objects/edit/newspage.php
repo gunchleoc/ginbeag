@@ -107,9 +107,8 @@ class NewsitemSectionForm extends Template {
     
     	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
     	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editnewsitemsection.js");
-    	
-    	$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'newsitemsection" name="newsitemsection" value="'.$newsitemsection.'">';
-    	$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
+
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("newsitemsection" => $newsitemsection));
     
 		$contents=getnewsitemsectioncontents($newsitemsection);
 
@@ -642,9 +641,8 @@ class EditNewsItemForms extends Template {
 			$this->stringvars['newsitemtitle']="This page has no items";
 		}
 		
-		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars["jsid"].'newsitem" name="newsitem" value="'.$this->stringvars["newsitem"].'">';
-		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars["jsid"].'page" name="page" value="'.$this->stringvars["page"].'">';
-		
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("newsitem" => $this->stringvars["newsitem"]));
+
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
     	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editnewsitem.js");
 	}

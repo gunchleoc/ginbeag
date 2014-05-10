@@ -51,7 +51,7 @@ class MathCAPTCHA  extends Template {
 		$captcha=makemathcaptcha();
 		$this->stringvars['captcha_question']=$captcha["question"];
 		$this->stringvars['captchareplyvariable']=$emailvariables['Math CAPTCHA Reply Variable']['property_value'];
-		$this->stringvars['hiddenvars']='<input type="hidden" name="'.$emailvariables['Math CAPTCHA Answer Variable']['property_value'].'" value="'.$captcha["answer"].'"/>';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array($emailvariables['Math CAPTCHA Answer Variable']['property_value'] => $captcha["answer"]));
     }
 
     function createTemplates()

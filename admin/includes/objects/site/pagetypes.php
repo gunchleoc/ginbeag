@@ -49,8 +49,7 @@ class SitePageType extends Template {
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["action"] = "sitepagetype";
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
-
-		$this->stringvars['hiddenvars']='<input type="hidden" name="pagetype" value="'.$pagetype.'">';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("pagetype" => $pagetype));
 		
 		$this->stringvars['pagetype']=$pagetype;
 		$this->stringvars['description']=$description;

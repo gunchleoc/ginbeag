@@ -270,7 +270,7 @@ class Template {
     // sid and page are added automatically
     // result = string to be added to template stringvars
     //
-    function makehiddenvars($vars)
+    function makehiddenvars($vars = array())
     {
 		$result= "";
 		if(strlen($this->stringvars["sid"]) > 0)

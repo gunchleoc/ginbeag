@@ -22,19 +22,8 @@ class JumpToPageForm  extends Template {
 		if($target) $attributes.=' target="'.$target.'"';
 		$this->stringvars['attributes']=$attributes;
 		
-		$fields="";
-		if($this->stringvars['sid']) $fields.='<input type="hidden" name="sid" value="'.$this->stringvars['sid'].'" />';
+		$this->stringvars['fields'] = $this->makehiddenvars($params);
 
-		if(count($params)>0)
-		{
-			$keys=array_keys($params);
-			$values=array_values($params);
-			for($i=0;$i<count($keys);$i++)
-			{
-				$fields.='<input type="hidden" name="'.$keys[$i].'" value="'.$values[$i].'" />';
-			}
-		}
-		$this->stringvars['fields']=$fields;
 		$this->stringvars['align']=$align;
 		$this->stringvars['l_jumptopage']=getlang("pagemenu_jumptopage");
 		$this->stringvars['l_go']=getlang("pagemenu_go");

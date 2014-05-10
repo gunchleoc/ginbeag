@@ -54,9 +54,7 @@ class SiteReferrer extends Template {
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["action"] = "sitereferrers";
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
-
-		$this->stringvars['hiddenvars']='<input type="hidden" name="referrer" value="'.$referrer.'" />';
-
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("referrer" => $referrer));
 		$this->stringvars["referrer"]=$referrer;
 	}
 

@@ -16,8 +16,7 @@ class MovePageForm extends Template {
 	function MovePageForm($page,$moveid)
 	{
 		parent::__construct($moveid);
-		$this->stringvars['hiddenvars']='<input id="'.$this->stringvars['jsid'].'page" type="hidden" name="page" value="'.$this->stringvars['page'].'" />';
-		$this->stringvars['hiddenvars'].='<input id="'.$this->stringvars['jsid'].'moveid" type="hidden" name="moveid" value="'.$moveid.'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("moveid" => $moveid));
 	}
 	
 	// assigns templates
@@ -143,9 +142,7 @@ class EditPageIntroSettingsButton extends Template {
 		    $this->stringvars['buttontext']="Edit synopsis ...";
 		}
 		$this->stringvars['action']=getprojectrootlinkpath().'admin/edit/pageintrosettingsedit.php';
-		
-		$this->stringvars['hiddenvars']='<input type="hidden" id="page" name="page" value="'.$this->stringvars['page'].'">';
-		$this->stringvars['hiddenvars'].='<input type="hidden" name="action" value="editcontents" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("action" => "editcontents"));
 	}
 	
 	// assigns templates
@@ -196,10 +193,7 @@ class EditPageContentsButton extends Template {
 		    $this->stringvars['action']="pageedit.php";
 		    $this->stringvars['title']="Edit page elements ...";
 		}
-		
-		$this->stringvars['hiddenvars']='<input type="hidden" id="page" name="page" value="'.$this->stringvars['page'].'">';
-		$this->stringvars['hiddenvars'].='<input type="hidden" name="action" value="editcontents" />';
-
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("action" => "editcontents"));
 	}
 	
 	// assigns templates

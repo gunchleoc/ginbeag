@@ -267,8 +267,8 @@ class SiteAdminUserProfileForm extends Template {
 		$linkparams["action"] = "siteuserman";
 		$this->stringvars['contactactionvars'] = makelinkparameters($linkparams);
 
-  		$this->stringvars['hiddenvars']='<input type="hidden" name="userid" value="'.$userid.'" />';
-	
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
+
 		$this->stringvars['username'] = title2html(getusername($userid));
   		$this->stringvars['email']=getuseremail($userid);
   		$this->stringvars['contactfunction']=getcontactfunction($userid);
@@ -330,7 +330,7 @@ class SitePublicUserProfileForm extends Template {
 		$linkparams["action"] = "siteuserman";
 		$this->stringvars['activateactionvars'] = makelinkparameters($linkparams);
 
-  		$this->stringvars['hiddenvars']='<input type="hidden" name="userid" value="'.$userid.'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
   		
   		if(ispublicuseractive($userid)) $this->stringvars['isactive']="true";
   		else $this->stringvars['notactive']="true";

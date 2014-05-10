@@ -74,7 +74,7 @@ class DeleteImageConfirmForm extends Template {
 		$actionvars=array_merge($_GET, $_POST);
 		$actionvars["action"] = "executedelete";
 		$this->stringvars['actionvars']=makelinkparameters($actionvars);
-		$this->stringvars['hiddenvars']='<input type="hidden" name="filename" value="'.$filename.'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
 	}
 
 	// assigns templates
@@ -102,7 +102,7 @@ class DeleteThumbnailConfirmForm extends Template {
 		$actionvars=array_merge($_GET, $_POST);
 		$actionvars["action"] = "executethumbnaildelete";
 		$this->stringvars['actionvars']=makelinkparameters($actionvars);
-		$this->stringvars['hiddenvars']='<input type="hidden" name="filename" value="'.$filename.'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
 	}
 	
 	// assigns templates
@@ -124,7 +124,7 @@ class EditImageForm extends Template {
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editimageform.js");
 		
-		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'filename" name="filename" value="'.$filename.'">';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
 		
 		$actionvars=array_merge($_GET, $_POST);
 
@@ -136,8 +136,7 @@ class EditImageForm extends Template {
 		$this->stringvars['actionvarsdeletethumbnail'] = makelinkparameters(array_merge($actionvars, array("action" => "deletethumbnail")));
 		$this->stringvars['actionvarsdescription'] = makelinkparameters(array_merge($actionvars, array("action" => "description")));
 		$this->stringvars['actionvarspermission'] = makelinkparameters(array_merge($actionvars, array("action" => "permssion")));
-		//$this->stringvars['hiddenvars'] = '<input type="hidden" name="filename" value="'.$filename.'" />';
-	    $this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'filename" name="filename" value="'.$filename.'">';
+	    $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
 		
 		
 		$image=getimage($filename);
@@ -240,7 +239,7 @@ class UnknownImageForm extends Template {
 
 		$this->stringvars['actionvarsdeletefile'] = makelinkparameters(array_merge($actionvars, array("action" => "deletefile")));
 		$this->stringvars['actionvarsaddunknownfile'] = makelinkparameters(array_merge($actionvars, array("action" => "addunknownfile")));
-		$this->stringvars['hiddenvars'] = '<input type="hidden" name="filename" value="'.$filename.'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
 		$this->stringvars['filename']=$filename;
 		$this->vars['image']=new AdminImage($filename,0,0,"",false);
 

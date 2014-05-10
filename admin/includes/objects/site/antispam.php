@@ -23,8 +23,8 @@ class SiteAntispam extends Template {
 		$linkparams["postaction"] = "savesite";
 		$linkparams["action"] = "sitespam";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
-		
-		$this->stringvars['hiddenvars']='<input type="hidden" name="postaction" value="savesite" />';
+
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("postaction" => "savesite"));
 		
 		$variables=getmultiplefields(ANTISPAM_TABLE, "property_name", "1", array(0 => 'property_name', 1 => 'property_value'));
 

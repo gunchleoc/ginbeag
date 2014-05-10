@@ -238,9 +238,7 @@ class NewsPage extends Template {
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 		
 		$this->stringvars['actionvars'] = makelinkparameters(array("page" => $this->stringvars['page']));
-		
-		$this->stringvars["hiddenvars"]= '<input type="hidden" name="page" value="'.$this->stringvars["page"].'" />';
-		$this->stringvars["hiddenvars"].= '<input type="hidden" name="sid" value="'.$this->stringvars["sid"].'" />';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
 		
 		// searching & filtering
 		$filter=isset($_GET['filter']);

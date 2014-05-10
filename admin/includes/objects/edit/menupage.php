@@ -22,7 +22,7 @@ class EditMenuLevelsForm extends Template {
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editmenu.js");
 
-		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
 		
 		$this->vars['pagelevelsform']= new NumberOptionForm($pagelevel,1,10,false,$this->stringvars['jsid'],"pagelevels","pagelevels");
 		$this->vars['navigatorlevelsform']=new NumberOptionForm($navigatorlevel,1,10,false,$this->stringvars['jsid'],"navlevels","navlevels");
@@ -47,10 +47,10 @@ class MenuMovePageForm extends Template {
 		$this->stringvars['page']=$page;
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editmenumovepage.js");
-		
-		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'page" name="page" value="'.$this->stringvars['page'].'">';
-		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'position" name="position" value="'.$position.'" />';
-		$this->stringvars['hiddenvars'].='<input type="hidden" id="'.$this->stringvars['jsid'].'noofelements" name="noofelements" value="'.$noofelements.'" />';
+
+		$hiddenvars["position"] = $position;
+		$hiddenvars["noofelements"] = $noofelements;
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
 
 		$this->stringvars['title']=title2html($title);
 		$this->vars['movepageform']= $movepageform;
