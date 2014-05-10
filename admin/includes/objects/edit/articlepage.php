@@ -184,8 +184,8 @@ class DeleteArticleSectionConfirm extends Template {
 		parent::__construct();
 
 		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["articlepage"] = $this->stringvars['articlepage'];
-		$linkparams["articlesection"] = $this->stringvars['articlesection'];
+		$linkparams["articlepage"] = $articlepage;
+		$linkparams["articlesection"] = $articlesection;
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 

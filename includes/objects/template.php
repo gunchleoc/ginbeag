@@ -78,7 +78,7 @@ class Template {
     {
     	global $sid, $page;
 
-		if(DEBUG) print ("<br />".get_class($this)." ");
+		if(DEBUG) print ("<!-- ".get_class($this)." //-->\n");
 
     	$this->stringvars['sid']=$sid;
     	$this->stringvars['page']=$page;

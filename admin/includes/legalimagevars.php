@@ -1,5 +1,6 @@
 <?php
 $LEGALVARS = array();
+$LEGALVARS["addthumb"]=1;
 $LEGALVARS["action"]=1;
 $LEGALVARS["ascdesc"]=1;
 $LEGALVARS["caption"]=1;
@@ -7,6 +8,9 @@ $LEGALVARS["categoriesblank"]=1;
 $LEGALVARS["clear"]=1;
 $LEGALVARS["copyright"]=1;
 $LEGALVARS["copyrightblank"]=1;
+$LEGALVARS["delete"]=1;
+$LEGALVARS["deletethumb"]=1;
+$LEGALVARS["executethumbnaildelete"]=1;
 $LEGALVARS["filename"]=1;
 $LEGALVARS["filter"]=1;
 $LEGALVARS["image"]=1;
@@ -46,6 +50,7 @@ while($key=current($getkeys))
     {
 	    header("HTTP/1.0 404 Not Found");
 		print("HTTP 404: Sorry, but this page does not exist.");
+		if(DEBUG) print("<br />".$key." not registered with legaladminvars.");
 		exit;
 	}
 	next($getkeys);
