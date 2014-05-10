@@ -103,11 +103,8 @@ class NewsitemSectionForm extends Template {
 
 	function NewsitemSectionForm($newsitem,$newsitemsection, $offset)
 	{
-		parent::__construct($newsitemsection);
-    
-    	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-    	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editnewsitemsection.js");
-
+		parent::__construct($newsitemsection, array(), array(0 => "admin/includes/javascript/editnewsitemsection.js"));
+		$this->stringvars['javascript']=$this->getScripts();
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("newsitemsection" => $newsitemsection));
     
 		$contents=getnewsitemsectioncontents($newsitemsection);
@@ -567,7 +564,18 @@ class EditNewsItemForms extends Template {
 
 	function EditNewsItemForms($page, $offset)
 	{
-		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		$noofnewsitems=countnewsitems($page);
+		if($noofnewsitems>0)
+		{
+			$newsitems = getnewsitems($page,1,$offset);
+			$this->stringvars["newsitem"] = $newsitems[0];
+		}
+		else
+			$this->stringvars["newsitem"] = "";
+
+		parent::__construct($this->stringvars["newsitem"], array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
+		$this->stringvars['javascript']=$this->getScripts();
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("newsitem" => $this->stringvars["newsitem"]));
 		
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["offset"] = $offset;
@@ -577,30 +585,23 @@ class EditNewsItemForms extends Template {
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
 		$this->vars['newsitemaddform'] = new NewsItemAddForm();
 		
-		$noofnewsitems=countnewsitems($page);
 		$offset=getoffsetforjumppage($noofnewsitems,1,$offset);
 		if(!$offset)
 		{
 			$offset=0;
 		}
 
-		$newsitems=getnewsitems($page,1,$offset);
-
 		$this->vars['pagemenu']= new PageMenu($offset, 1, $noofnewsitems, array("action" => "editcontents"));
 
 		if($noofnewsitems>0)
 		{
-			$newsitem=$newsitems[0];
-			
-			$this->stringvars['jsid']=$newsitem;
-		
 			$this->stringvars['hasnewsitems']="true";
 			$this->vars['jumptopageform'] = new JumpToPageForm("",array("page" => $page, "action" => "editcontents"));
 			$this->vars['newsitemsearchform'] = new NewsItemSearchForm();
 
-			$contents=getnewsitemcontents($newsitem);
-			$permissions=getnewsitemcopyright($newsitem);
-			$this->stringvars['newsitem']=$newsitem;
+			$contents=getnewsitemcontents($this->stringvars["newsitem"]);
+			$permissions=getnewsitemcopyright($this->stringvars["newsitem"]);
+			$this->stringvars['newsitem']=$this->stringvars["newsitem"];
 
 			if($contents['title'])
 				$this->stringvars['newsitemtitle']=title2html($contents['title']);
@@ -610,41 +611,34 @@ class EditNewsItemForms extends Template {
 			$this->stringvars['authorname']=getusername($contents['editor_id']);
 			$this->stringvars['title']=input2html($contents['title']);		
 			
-			$this->vars['newsitemdeleteform']= new NewsItemDeleteForm($newsitem, $offset);
-			$this->vars['newsitempublishform']= new NewsItemPublishForm($newsitem, $permissions, $offset);
-			$this->vars['newsitempermissionsform']= new NewsItemPermissionsForm($newsitem, $permissions);
-			$this->vars['newsitemsynopsisform']= new NewsitemSynopsisForm($newsitem);
+			$this->vars['newsitemdeleteform']= new NewsItemDeleteForm($this->stringvars["newsitem"], $offset);
+			$this->vars['newsitempublishform']= new NewsItemPublishForm($this->stringvars["newsitem"], $permissions, $offset);
+			$this->vars['newsitempermissionsform']= new NewsItemPermissionsForm($this->stringvars["newsitem"], $permissions);
+			$this->vars['newsitemsynopsisform']= new NewsitemSynopsisForm($this->stringvars["newsitem"]);
 
 			// sections
-			$sections=getnewsitemsections($newsitem);
+			$sections=getnewsitemsections($this->stringvars["newsitem"]);
 			$noofsections=count($sections);
 			for($i=0;$i<$noofsections;$i++)
 			{
-				$this->listvars['newsitemsectionform'][] = new NewsitemSectionForm($newsitem,$sections[$i], $offset);
+				$this->listvars['newsitemsectionform'][] = new NewsitemSectionForm($this->stringvars["newsitem"],$sections[$i], $offset);
 			}
 			if($noofsections<1)
 			{
 				$this->stringvars['nosections']="true";
 				$this->stringvars['newsitemsectionform'] = "";
 			}
-			$this->vars['insertnewsitemsectionform']=new InsertNewsItemSectionForm($newsitem,0);
+			$this->vars['insertnewsitemsectionform']=new InsertNewsItemSectionForm($this->stringvars["newsitem"], 0);
 
-			$this->vars['newsitemsourceform'] = new NewsItemSourceForm($newsitem, $contents);
-			$this->vars['fakethedateform'] = new FakeTheDateForm($newsitem, $contents,$offset);
-			$this->vars['categorylist']=new Categorylist(getcategoriesfornewsitem($newsitem), CATEGORY_NEWS);
+			$this->vars['newsitemsourceform'] = new NewsItemSourceForm($this->stringvars["newsitem"], $contents);
+			$this->vars['fakethedateform'] = new FakeTheDateForm($this->stringvars["newsitem"], $contents, $offset);
+			$this->vars['categorylist']=new Categorylist(getcategoriesfornewsitem($this->stringvars["newsitem"]), CATEGORY_NEWS);
 			$this->vars['categoryselection']= new CategorySelectionForm(true,$this->stringvars['jsid'],CATEGORY_NEWS);
 		}
 		else
 		{
-			$this->stringvars['jsid']="";
-			$this->stringvars['newsitem']="";
 			$this->stringvars['newsitemtitle']="This page has no items";
 		}
-		
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("newsitem" => $this->stringvars["newsitem"]));
-
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-    	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editnewsitem.js");
 	}
 
 	// assigns templates
@@ -662,9 +656,8 @@ class EditNews extends Template {
 
 	function EditNews($page)
 	{
-		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-		
-	  	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		parent::__construct($page, array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
+		$this->stringvars['javascript']=$this->getScripts();
   	
     	$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
 		$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",getpageintro($page));
@@ -688,9 +681,6 @@ class EditNews extends Template {
 			$this->stringvars['buttontext']='Enable RSS-Feed';
 			$this->stringvars['fieldname']='enablerss';
 		}
-		
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-    	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editnewsitem.js");
 	}
 
 	// assigns templates

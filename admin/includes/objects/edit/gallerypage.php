@@ -49,7 +49,8 @@ class ShowAllImagesButton extends Template {
 class GalleryImageForm extends Template {
 	function GalleryImageForm($imageid,$offset,$pageposition,$noofimages,$showall)
 	{
-		parent::__construct($imageid);
+		parent::__construct($imageid, array(), array(0 => "admin/includes/javascript/editgallery.js"));
+		$this->stringvars['javascript']=$this->getScripts();
 
 		$linkparams["page"] = $this->stringvars['page'];
 		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters($linkparams);
@@ -59,12 +60,8 @@ class GalleryImageForm extends Template {
 		$linkparams["pageposition"] = $pageposition;
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
-
 		
 		$this->stringvars['imageid']=$imageid;
-		
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editgallery.js");
 
 		$hiddenvars["galleryitemid"] = $imageid;
 		if($showall) $hiddenvars["showall"] = "true";
@@ -151,8 +148,7 @@ class EditGallery extends Template {
 	function EditGallery($page,$offset,$imagesperpage,$showall)
 	{
 		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-		
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['javascript']=$this->getScripts();
 		
 		$imageids=getgalleryimages($page);
 		

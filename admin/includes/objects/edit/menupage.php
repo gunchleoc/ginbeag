@@ -18,10 +18,8 @@ include_once($projectroot."admin/includes/objects/imageeditor.php");
 class EditMenuLevelsForm extends Template {
 	function EditMenuLevelsForm($page,$sistersinnavigator,$pagelevel,$navigatorlevel)
 	{
-		parent::__construct($page);
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editmenu.js");
-
+		parent::__construct($page, array(), array(0 => "admin/includes/javascript/editmenu.js"));
+		$this->stringvars['javascript']=$this->getScripts();
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
 		
 		$this->vars['pagelevelsform']= new NumberOptionForm($pagelevel,1,10,false,$this->stringvars['jsid'],"pagelevels","pagelevels");
@@ -43,11 +41,10 @@ class EditMenuLevelsForm extends Template {
 class MenuMovePageForm extends Template {
 	function MenuMovePageForm ($page,$position,$noofelements,$title,$jsid,$movepageform)
 	{
-		parent::__construct($jsid);
-		$this->stringvars['page']=$page;
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editmenumovepage.js");
+		parent::__construct($jsid, array(), array(0 => "admin/includes/javascript/editmenumovepage.js"));
+		$this->stringvars['javascript']=$this->getScripts();
 
+		$this->stringvars['page']=$page;
 		$hiddenvars["position"] = $position;
 		$hiddenvars["noofelements"] = $noofelements;
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
@@ -96,7 +93,7 @@ class EditMenuSubpages extends Template {
 	function EditMenuSubpages($page)
 	{
    		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-  		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['javascript']=$this->getScripts();
 
 		$linkparams["page"] = $page;
 		$linkparams["action"] = "editcontents";
@@ -127,7 +124,7 @@ class EditMenu extends Template {
 	function EditMenu($page)
 	{
    		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-  		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['javascript']=$this->getScripts();
 
 		$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
 		$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",getpageintro($page));

@@ -17,7 +17,7 @@ class EditPageIntro extends Template {
 	function EditPageIntro($page)
 	{
 		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['javascript']=$this->getScripts();
 
 		$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
 		$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",getpageintro($page));

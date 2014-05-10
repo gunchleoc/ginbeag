@@ -18,9 +18,8 @@ class ImageEditor extends Template {
 
     function ImageEditor($page, $elementid, $elementtype, $contents)
     {
-    	parent::__construct($page.'-'.$elementid);
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/imageeditor.js");
+		parent::__construct($page.'-'.$elementid, array(), array(0 => "admin/includes/javascript/imageeditor.js"));
+		$this->stringvars['javascript']=$this->getScripts();
     	
     	$imagealign="left";
 		$autoshrink=1;

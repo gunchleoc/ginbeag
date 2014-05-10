@@ -23,9 +23,8 @@ class Editor extends Template {
 
     function Editor($page,$item, $elementtype, $title="Text", $iscollapsed=true)
     {
-    	parent::__construct($page.'-'.$item);
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		$this->stringvars['javascript']=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editor.js");
+		parent::__construct($page.'-'.$item, array(), array(0 => "admin/includes/javascript/editor.js"));
+		$this->stringvars['javascript']=$this->getScripts();
     
 		$this->stringvars['item']=$item;
 		$this->stringvars['elementtype']=$elementtype;

@@ -42,11 +42,8 @@ class ArticlePageButton extends Template {
 class EditArticle extends Template {
 	function EditArticle($page)
 	{
-		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-	  		
-	  	$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-	   	$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editarticle.js");
-	   	
+		parent::__construct($page, array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editarticle.js"));
+		$this->stringvars['javascript']=$this->getScripts();
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
 	
 	    $contents=getarticlepagecontents($page);
@@ -85,10 +82,8 @@ class EditArticle extends Template {
 class ArticleSectionForm extends Template {
 	function ArticleSectionForm($articlepage,$articlesection,$moveup="move section up",$movedown="move section down")
 	{
-		parent::__construct($articlesection);
-		
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editarticlepage.js");
+		parent::__construct($articlesection, array(), array(0 => "admin/includes/javascript/editarticlepage.js"));
+		$this->stringvars['javascript']=$this->getScripts();
 
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["articlepage"] = $articlepage;
@@ -134,8 +129,7 @@ class EditArticlePage extends Template {
 	function EditArticlePage($articlepage)
 	{
 		parent::__construct($articlepage,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-		
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['javascript']=$this->getScripts();
 
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["articlepage"] = $articlepage;

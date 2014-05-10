@@ -35,7 +35,7 @@ class AdminMain extends Template {
 			if(strlen($jspaths)>0)
 				$this->stringvars['scriptlinks']=$jspaths;
 				
-			$jscripts = $contentobject->getscripts();
+			$jscripts = $contentobject->getScripts();
 			if(strlen($jscripts)>0)
 				$this->stringvars['javascript']=$jscripts;
 		}

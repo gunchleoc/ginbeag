@@ -120,10 +120,8 @@ class EditImageForm extends Template {
 
 	function EditImageForm($filename)
 	{
-		parent::__construct(str_replace ( ".", "-", $filename));
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editimageform.js");
-		
+		parent::__construct(str_replace ( ".", "-", $filename), array(), array(0 => "admin/includes/javascript/editimageform.js"));
+		$this->stringvars['javascript']=$this->getScripts();
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
 		
 		$actionvars=array_merge($_GET, $_POST);

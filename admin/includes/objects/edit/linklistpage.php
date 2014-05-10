@@ -36,10 +36,8 @@ class AddLinklistLinkForm extends Template {
 class EditLinkListLinkForm extends Template {
 	function EditLinkListLinkForm($linkid)
 	{
-		parent::__construct($linkid);
-		
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
-		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editlinklist.js");
+		parent::__construct($linkid, array(), array(0 => "admin/includes/javascript/editlinklist.js"));
+		$this->stringvars['javascript']=$this->getScripts();
 
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("linkid" => $linkid));
 
@@ -82,9 +80,8 @@ class EditLinkListLinkForm extends Template {
 class EditLinklist extends Template {
 	function EditLinklist($page)
 	{
-		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-		
-		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		parent::__construct($page, array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		$this->stringvars['javascript']=$this->getScripts();
 
 		$linkparams["page"] = $this->stringvars['page'];
 		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters($linkparams);

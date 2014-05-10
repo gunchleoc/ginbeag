@@ -18,8 +18,7 @@ class SitePolicy extends Template {
 	function SitePolicy()
   	{
   		parent::__construct("sitepolicy",array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
-  		
-  		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
+		$this->stringvars['javascript']=$this->getScripts();
 
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["postaction"] = "savesite";

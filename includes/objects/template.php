@@ -126,17 +126,40 @@ class Template {
      *
      * @return string HTML with <script> tags and inline javascript that has the {JSID} replaced
      */
-	function getscripts()
+	function getScripts()
 	{
-		$result="";
+		$result = "&nbsp;".$this->prepareJavaScript("admin/includes/javascript/messageboxes.js");
 	
 		for($i=0;$i<count($this->jscripts);$i++)
 		{
-			$result.=prepareJavaScript($this->stringvars['jsid'], $this->jscripts[$i])." ";
+			$result .= $this->prepareJavaScript($this->jscripts[$i])." ";
 		}
 		return $result;
 	}
-	  
+
+
+	/**
+	 * Individualise javascripts with {JSID}s. Needed when the same javascript is inserted more than once into the same page.
+	 *
+	 * @return string HTML with <script> tags and inline javascript that has the {JSID} replaced
+	 */
+	function prepareJavaScript($scriptpath)
+	{
+		global $projectroot;
+		$result="";
+
+		$filename=$projectroot.$scriptpath;
+		if(file_exists($filename))
+		{
+			$result.= implode("", @file($filename));
+		}
+		elseif(DEBUG) print('<p class="highlight">Missing javascript file! '.$filename.'</p>');
+
+		// replace JSIDs
+		$result = '<script language="JavaScript">'.str_replace ("{JSID}", $this->stringvars["jsid"], $result).'</script>';
+		return $result;
+	}
+
 
 	/**
      * Adds a .tpl template to be parsed and added to the HTML output
@@ -293,33 +316,6 @@ class Template {
 }
 
 /************************* non-object functions ****************************/
-
-
-/**
- * Individualise javascripts with {JSID}s. Needed when the same javascript is inserted more than once into the same page.
- *
- * @return string HTML with <script> tags and inline javascript that has the {JSID} replaced
- */
-function prepareJavaScript($jsid, $scriptpath)
-{
-	global $projectroot;
-    $result="";
-
-    $filename=$projectroot.$scriptpath;
-    if(file_exists($filename))
-    {
-    	$result.= implode("", @file($filename));
-    }
-    elseif(DEBUG) print('<p class="highlight">Missing javascript file! '.$filename.'</p>');
-
-
-    // parse stringvars
-    $result='<script language="JavaScript">'.str_replace ("{JSID}", $jsid, $result).'</script>';
-    return $result;
-}
-
-
-
 
 /**
  * Helper function for testing
