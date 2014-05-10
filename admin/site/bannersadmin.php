@@ -37,12 +37,14 @@ if($postaction=='editbanner')
 			$filename=cleanupfilename($filename);
 			deletefile("img/banners",$_POST['oldimage']);
 			$success= replacefile($_FILES,"img/banners","image",$filename);
+			$message="Replaced banner image with: ".$filename;
 		}
 		else
 		{
 			$contents=getbannercontents($_POST['bannerid']);
 			$filename=$contents['image'];
 			$success=true;
+			$message="Replace banner contents";
 		}
 		if($success)
 		{
@@ -65,6 +67,7 @@ elseif($postaction=='addbanner')
 	{
 		$message='Added banner code <i>'.$_POST['header'].'</i>';
 		addbannercode(fixquotes($_POST['header']), $_POST['code']);
+		$message="Accedd a banner code";
 	}
 	else
 	{
@@ -80,6 +83,7 @@ elseif($postaction=='addbanner')
 			{
 				$message='This banner is not complete and will not be displayed! Please fill out all required fields.';
 			}
+			else $message="Added a banner";
 		}
 		else
 		{
@@ -117,6 +121,7 @@ elseif($postaction=='displaybanners')
 {
 	updateentries(SITEPROPERTIES_TABLE,array('Display Banners' =>$_POST['toggledisplaybanners']),"property_name","property_value");
 	$properties = getproperties(); // need to update global variable
+	$message="Changed banner display options";
 }
 
 unset($_POST['bannerid']);
