@@ -23,6 +23,7 @@ $LEGALVARS["offset"]=1;
 $LEGALVARS["order"]=1;
 $LEGALVARS["page"]=1;
 $LEGALVARS["permission"]=1;
+$LEGALVARS["replaceimage"]=1;
 $LEGALVARS["s_caption"]=1;
 $LEGALVARS["s_categoriesblank"]=1;
 $LEGALVARS["s_copyright"]=1;
@@ -50,7 +51,7 @@ while($key=current($getkeys))
     {
 	    header("HTTP/1.0 404 Not Found");
 		print("HTTP 404: Sorry, but this page does not exist.");
-		if(DEBUG) print("<br />".$key." not registered with legaladminvars.");
+		if(DEBUG) print("<br />'".$key."' not registered with legalimagevars.");
 		exit;
 	}
 	next($getkeys);
