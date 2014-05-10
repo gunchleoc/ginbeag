@@ -22,8 +22,8 @@ class CaptionedImageAdmin extends Template {
     	$this->stringvars['imagelinkpath']=getimagelinkpath($filename, getimagesubpath(basename($filename)));
 
 		$linkparams["page"] = $page;
-		$linkparams["filename"] = $filename;
-		$linkparams["filter"] = "Display+Selection";
+		$linkparams["s_filename"] = $filename;
+		$linkparams["filter"] = 1;
 		$this->stringvars['editimagelink']='<a href="'.getprojectrootlinkpath().'admin/editimagelist.php'.makelinkparameters($linkparams).'" target="_blank">Edit this image</a>';
   	}
 

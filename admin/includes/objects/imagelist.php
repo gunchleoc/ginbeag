@@ -286,7 +286,7 @@ class ImageList extends Template {
    			}
    		}
    		*/
-    	if($filter=="Display+Selection")
+		if($filter)
     	{
     		$tempfilenames=$this->getfilteredimagesfromgetvars();
     		//print("test!".$filter);
@@ -417,30 +417,27 @@ class ImageList extends Template {
 	function getfilteredimagesfromgetvars()
 	{
   		global $_GET, $order, $ascdesc;
-  
-  		if(isset($_GET["filename"])) $filename= $_GET["filename"];
-  		else $filename="";
 
-  		if(isset($_GET["caption"])) $caption= $_GET["caption"];
-  		else $caption="";
+		if(isset($_GET["s_filename"])) $filename= $_GET["s_filename"];
+		else $filename="";
 
-  		if(isset($_GET["source"])) $source= $_GET["source"];
-  		else $source="";
+		if(isset($_GET["s_caption"])) $caption= $_GET["s_caption"];
+		else $caption="";
 
-  		if(isset($_GET["selectedcat"])) $selectedcat= $_GET["selectedcat"];
-  		else $selectedcat=array();
+		if(isset($_GET["s_source"])) $source= $_GET["s_source"];
+		else $source="";
 
-  		if(isset($_GET["copyright"])) $copyright= $_GET["copyright"];
-  		else $copyright="";
+		if(isset($_GET["s_selectedcat"])) $selectedcat= $_GET["s_selectedcat"];
+		else $selectedcat=array();
 
-  		if(isset($_GET["uploader"])) $uploader= $_GET["uploader"];
-  		else $uploader=-1;
+		if(isset($_GET["s_copyright"])) $copyright= $_GET["s_copyright"];
+		else $copyright="";
 
-  		return getfilteredimages($filename,$caption,
-        	            	    $source,isset($_GET['sourceblank']),$uploader,
-            	            	$copyright,isset($_GET['copyrightblank']),
-                	        	$selectedcat,isset($_GET['categoriesblank']),
-                    	    	$order,$ascdesc);
+		if(isset($_GET["s_uploader"])) $uploader= $_GET["s_uploader"];
+		else $uploader=-1;
+
+		return getfilteredimages($filename, $caption, $source,isset($_GET['s_sourceblank']), $uploader,
+			$copyright, isset($_GET['s_copyrightblank']), $selectedcat, isset($_GET['s_categoriesblank']), $order, $ascdesc);
 		}
   
 
@@ -559,29 +556,28 @@ class ImageFilterForm extends Template {
 		$this->stringvars['message']=$message;
 		$this->stringvars['number']=$number;
 		
-		if(isset($_GET["filename"])) $this->stringvars['filename']= $_GET["filename"];
+		if(isset($_GET["s_filename"])) $this->stringvars['filename']= $_GET["s_filename"];
 		else $this->stringvars['filename']="";
 		
-		if(isset($_GET["caption"])) $this->stringvars['caption']= $_GET["caption"];
+		if(isset($_GET["s_caption"])) $this->stringvars['caption']= $_GET["s_caption"];
 		else $this->stringvars['caption']="";
 		
-		if(isset($_GET["source"])) $this->stringvars['source']= $_GET["source"];
+		if(isset($_GET["s_source"])) $this->stringvars['source']= $_GET["s_source"];
 		else $this->stringvars['source']="";
 		
-		if(isset($_GET["copyright"])) $this->stringvars['copyright']= $_GET["copyright"];
+		if(isset($_GET["s_copyright"])) $this->stringvars['copyright']= $_GET["s_copyright"];
 		else $this->stringvars['copyright']="";
 		
-		if(isset($_GET["uploader"])) $this->stringvars['uploader']= $_GET["uploader"];
+		if(isset($_GET["s_uploader"])) $this->stringvars['uploader']= $_GET["s_uploader"];
 		else $this->stringvars['uploader']=-1;
 		
 		// make hidden fields
-
-		if(isset($_GET["selectedcat"]) && is_array($_GET["selectedcat"])>0) $this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE,15,$_GET["selectedcat"]);
-		else $this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE);
+		if(isset($_GET["s_selectedcat"]) && is_array($_GET["s_selectedcat"])>0) $this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE,15,$_GET["s_selectedcat"], false, "s_selectedcat");
+		else $this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE, 15, array(), false, "s_selectedcat");
     
-		$this->vars['categoriesblankform'] =  new CheckboxForm("categoriesblank", "categoriesblank", "Search for images without categories", isset($_GET["categoriesblank"]), "right");
-		$this->vars['sourceblankform'] =  new CheckboxForm("sourceblank", "sourceblank", "Search for images with blank source", isset($_GET["sourceblank"]), "right");
-		$this->vars['copyrightblankform'] =  new CheckboxForm("copyrightblank", "copyrightblank", "Search for images with blank copyright", isset($_GET["copyrightblank"]), "right");
+		$this->vars['categoriesblankform'] =  new CheckboxForm("s_categoriesblank", 1, "Search for images without categories", isset($_GET["s_categoriesblank"]), "right");
+		$this->vars['sourceblankform'] =  new CheckboxForm("s_sourceblank", 1, "Search for images with blank source", isset($_GET["s_sourceblank"]), "right");
+		$this->vars['copyrightblankform'] =  new CheckboxForm("s_copyrightblank", 1, "Search for images with blank copyright", isset($_GET["s_copyrightblank"]), "right");
       
 		$this->vars['usersselectionform']= new ImageUsersSelectionForm($this->stringvars['uploader']);
 		$this->vars['imageorderselection']= new ImageOrderSelectionForm($order);
@@ -592,15 +588,15 @@ class ImageFilterForm extends Template {
 		$tempget = $_GET;
 
 		// reset previous searches
-		unset($_GET['selectedcat']);
-		unset($_GET['source']);
-		unset($_GET['caption']);
-		unset($_GET['filename']);
-		unset($_GET['sourceblank']);
-		unset($_GET['uploader']);
-		unset($_GET['copyright']);
-		unset($_GET['copyrightblank']);
-		unset($_GET['categoriesblank']);
+		unset($_GET['s_selectedcat']);
+		unset($_GET['s_source']);
+		unset($_GET['s_caption']);
+		unset($_GET['s_filename']);
+		unset($_GET['s_sourceblank']);
+		unset($_GET['s_uploader']);
+		unset($_GET['s_copyright']);
+		unset($_GET['s_copyrightblank']);
+		unset($_GET['s_categoriesblank']);
 		unset($_GET['offset']);
 		
 		$hiddenvars=$_GET;
@@ -672,15 +668,15 @@ class ImageUsersSelectionForm  extends Template {
     {
     	parent::__construct();
     	
-		$this->stringvars['optionform_name'] = "uploader";
-		$this->stringvars['optionform_id'] ="uploader";
+		$this->stringvars['optionform_name'] = "s_uploader";
+		$this->stringvars['optionform_id'] ="s_uploader";
 		$this->stringvars['optionform_label'] ="Uploader: ";
 		$this->listvars['option'][]= new OptionFormOption(0,$selecteduser==0,"Anybody");
 		
 		$users=getallusers();
 		for($i=0;$i<count($users);$i++)
 		{
-			$this->listvars['option'][]= new OptionFormOption($users[$i],$selecteduser==$users[$i],getusername($users[$i]));
+			$this->listvars['option'][]= new OptionFormOption($users[$i],$selecteduser==$users[$i],input2html(getusername($users[$i])));
 		}
     }
 

@@ -26,13 +26,17 @@ checksession();
 // clear filter
 if(isset($_GET['clear']))
 {
+	unset($_GET['clear']);
 	unset($_GET['filter']);
-	unset($_GET['filename']);
-	unset($_GET['caption']);
-	unset($_GET['source']);
-	unset($_GET['copyright']);
-	unset($_GET['uploader']);
-	unset($_GET['selectedcat']);
+	unset($_GET['s_caption']);
+	unset($_GET['s_categoriesblank']);
+	unset($_GET['s_copyright']);
+	unset($_GET['s_copyrightblank']);
+	unset($_GET['s_filename']);
+	unset($_GET['s_selectedcat']);
+	unset($_GET['s_source']);
+	unset($_GET['s_sourceblank']);
+	unset($_GET['s_uploader']);
 }
 $filter=false;
 if(isset($_GET['filter']))
@@ -88,7 +92,6 @@ if(isset($_POST['permission'])) $permission=$_POST['permission'];
 
 $selectedcats=array();
 if(isset($_POST['selectedcat'])) $selectedcats=$_POST['selectedcat'];
-//elseif(isset($GET['selectedcat'])) $selectedcats=$GET['selectedcat'];
 
 $form=false;
 $messagetitle="";

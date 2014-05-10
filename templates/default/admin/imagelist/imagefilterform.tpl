@@ -8,20 +8,20 @@
 					<fieldset>
 						<legend class="highlight">Image description and filename</legend>
 						<label for="filterfilename">Filename: </label>
-						<input id="filterfilename" type="text" maxlength="255" size="30" name="filename" value="{FILENAME}" />
+						<input id="filterfilename" type="text" maxlength="255" size="30" name="s_filename" value="{FILENAME}" />
 						<div class="formexplain">Search for text contained in a filename.</div>
 						
 						<br/><label for="filtercaption">Caption: </label>
-						<input id="filtercaption" type="text" maxlength="255" size="30" name="caption" value="{CAPTION}" />
+						<input id="filtercaption" type="text" maxlength="255" size="30" name="s_caption" value="{CAPTION}" />
 						<div class="formexplain">Search for text contained in a caption.</div>
 				
 						<br/><label for="filtersource">Source: </label>
-						<input id="filtersource" type="text" maxlength="255" size="30" name="source" value="{SOURCE}" />
+						<input id="filtersource" type="text" maxlength="255" size="30" name="s_source" value="{SOURCE}" />
 						<br />{SOURCEBLANKFORM}
 						<div class="formexplain">Search for text contained in a source.</div>
 						
 						<br/><label for="filtercopyright">Copyright Holder: </label>
-						<input id="filtercopyright" type="text" maxlength="255" size="30" name="copyright" value="{COPYRIGHT}" />
+						<input id="filtercopyright" type="text" maxlength="255" size="30" name="s_copyright" value="{COPYRIGHT}" />
 						<br />{COPYRIGHTBLANKFORM}
 						<div class="formexplain">Search for copyright holder.</div>
 					</fieldset>
