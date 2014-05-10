@@ -21,8 +21,6 @@ class AddImageForm extends Template {
 
 	function AddImageForm($filename="",$caption="",$source="",$sourcelink="",$copyright="",$permission="")
 	{
-		global $number;
-
 		parent::__construct();
 		
 		// parameters from last image
@@ -41,7 +39,7 @@ class AddImageForm extends Template {
 		$this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE,15,$selectedcats);
 		
 		// action vars
-		$actionvars=makeimagelistvarsfromget();
+		$actionvars=array_merge($_GET, $_POST);
 		$actionvars["action"]="addimage";
 		$this->stringvars['actionvars']=makelinkparameters($actionvars);
 		
@@ -73,7 +71,7 @@ class DeleteImageConfirmForm extends Template {
 		
 		$this->stringvars['filename']=$filename;
 		
-		$actionvars=makeimagelistvarsfromget();
+		$actionvars=array_merge($_GET, $_POST);
 		$actionvars["action"] = "executedelete";
 		$this->stringvars['actionvars']=makelinkparameters($actionvars);
 		$this->stringvars['hiddenvars']='<input type="hidden" name="filename" value="'.$filename.'" />';
@@ -101,7 +99,7 @@ class DeleteThumbnailConfirmForm extends Template {
 	
 	    $this->stringvars['filename']=$filename;
 
-		$actionvars=makeimagelistvarsfromget();
+		$actionvars=array_merge($_GET, $_POST);
 		$actionvars["action"] = "executethumbnaildelete";
 		$this->stringvars['actionvars']=makelinkparameters($actionvars);
 		$this->stringvars['hiddenvars']='<input type="hidden" name="filename" value="'.$filename.'" />';
@@ -122,15 +120,13 @@ class EditImageForm extends Template {
 
 	function EditImageForm($filename)
 	{
-		global $number;
 		parent::__construct(str_replace ( ".", "-", $filename));
 		$this->stringvars['javascript']="&nbsp;".prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/messageboxes.js");
 		$this->stringvars['javascript'].=prepareJavaScript($this->stringvars['jsid'], "admin/includes/javascript/editimageform.js");
 		
 		$this->stringvars['hiddenvars']='<input type="hidden" id="'.$this->stringvars['jsid'].'filename" name="filename" value="'.$filename.'">';
 		
-		$actionvars=makeimagelistvarsfromget();
-		$actionvars["number"]=$number;
+		$actionvars=array_merge($_GET, $_POST);
 
 		$this->stringvars['actionvarsreplace'] = makelinkparameters(array_merge($actionvars, array("action" => "replaceimage")));
 		$this->stringvars['actionvarsdelete'] = makelinkparameters(array_merge($actionvars, array("action" => "delete")));
@@ -235,11 +231,9 @@ class UnknownImageForm extends Template {
 
 	function UnknownImageForm($filename)
 	{
-		global $number;
 		parent::__construct();
 		
-		$actionvars=makeimagelistvarsfromget();
-		$actionvars["number"]=$number;
+		$actionvars=array_merge($_GET, $_POST);
 		$actionvars["filefilter"]="filefilter";
 		$actionvars=makelinkparameters($actionvars);
 		$actionvars["unknown"] = "Unknown+Image+Files";
@@ -612,10 +606,10 @@ class ImageFilterForm extends Template {
 		unset($_GET['categoriesblank']);
 		unset($_GET['offset']);
 		
-		$hiddenvars["number"]=$number;
-		$hiddenvars["order"]=$order;
-		$hiddenvars["ascdesc"]=$ascdesc;
-		$hiddenvars=makeimagelistvarsfromget();
+		$hiddenvars=$_GET;
+		unset($hiddenvars["number"]);
+		unset($hiddenvars["order"]);
+		unset($hiddenvars["ascdesc"]);
 		$this->stringvars['orderselectionhiddenfields']=$this->makehiddenvars($hiddenvars);
 		
 		/*
@@ -757,6 +751,8 @@ function getpagemenu($offset,$imagesperpage,$noofimages)
 	global $_GET, $order, $ascdesc, $filter;
 	
 	$params["number"] = $imagesperpage;
+	$params["order"] = $order;
+	$params["ascdesc"] = $ascdesc;
   	
   	/*
   	if(isset($_GET['unused']) ||
@@ -795,31 +791,8 @@ function getpagemenu($offset,$imagesperpage,$noofimages)
 			$params["selectedcat%5B%5D"][] = $selectedcats[$i];
 		}
 		if(isset($_GET["categoriesblank"])) $params["categoriesblank"] = 1;
-		$params["order"] = $order;
-		$params["ascdesc"] = $ascdesc;
   	}
   	return new PageMenu($offset, $imagesperpage, $noofimages, $params);
 }
-
-//
-// puts all legal vars that have been set into an array()
-//
-function makeimagelistvarsfromget()
-{
-	global $_GET, $LEGALVARS;
-	$result=array();
-	
-	$keys = array_keys($LEGALVARS);
-	while($key=current($keys))
-	{
-		if(isset($_GET[$key]))
-		{
-  			$result[$key]=$_GET[$key];
-		}
-		next($keys);
-	}
-	return $result;
-}
-
 
 ?>

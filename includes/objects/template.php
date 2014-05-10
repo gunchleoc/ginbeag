@@ -272,17 +272,20 @@ class Template {
     //
     function makehiddenvars($vars)
     {
-		$result='<input type="hidden" name="sid" value="'.$this->stringvars["sid"].'" />';
-		$result.='<input type="hidden" name="page" value="'.$this->stringvars["page"].'" />';
+		$result= "";
+		if(strlen($this->stringvars["sid"]) > 0)
+			$result .= '<input type="hidden" id="'.$this->stringvars["jsid"].'sid" name="sid" value="'.$this->stringvars["sid"].'" />';
+		if(strlen($this->stringvars["page"]) > 0 && $this->stringvars["page"] > 0)
+			$result .= '<input type="hidden" id="'.$this->stringvars["jsid"].'page" name="page" value="'.$this->stringvars["page"].'" />';
  		
   		// add extra vars
     	$keys = array_keys($vars);
     	while($key=current($keys))
   		{
-    		if(!array_key_exists($key,$vars))
-    		{
-      			$$result.= '<input type="hidden" name="'.$key.'" value="'.$vars[$key].'" />';
-    		}
+			if(strlen($vars[$key]) > 0)
+			{
+				$result.= '<input type="hidden" id="'.$this->stringvars["jsid"].$key.'" name="'.$key.'" value="'.$vars[$key].'" />';
+			}
     		next($keys);
   		}   		
   		return $result;

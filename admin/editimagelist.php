@@ -41,6 +41,8 @@ if(isset($_GET['filter']))
 	unset($_GET['filter']);
 }
 
+if(isset($_GET["doorder"])) unset($_GET["doorder"]);
+
 $offset=0;
 if(isset($_GET['offset']) && $_GET['offset'] > 0) $offset=$_GET['offset'];
 elseif(isset($_POST['offset']) && $_POST['offset'] > 0) $offset=$_POST['offset'];
