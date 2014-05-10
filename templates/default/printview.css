@@ -37,6 +37,16 @@
 	clear:both;
 }
 
+.newsitemcategories {
+	margin-top: 0.2em;
+	font-size:100%;
+}
+
+
+.categorylistlink {
+	margin-right:0.5em;
+	margin-left: 0.5em;
+}
 
 /* newsitemsectionquote */
 .newsquotetitle {

@@ -1082,10 +1082,7 @@ class Printview extends Template {
 			$this->vars['navigator'] = new Navigator($this->stringvars['page'],0,0,"printview",false);
 		}
 		
-		$this->stringvars['url']=getprojectrootlinkpath().$_SERVER['PHP_SELF'].makelinkparameters(array("page" => $this->stringvars['page']));
-		
-		// footer
-		$this->vars['footer']= new HTMLFooter();
+		$this->stringvars['url']=getprojectrootlinkpath().makelinkparameters(array("page" => $this->stringvars['page']));
 	}
 
 	//
@@ -1106,7 +1103,10 @@ class Printview extends Template {
 		{
 			$title="Page not found";
 		}
-		$this->vars['header'] = new HTMLHeader("",striptitletags($title),"","","",false,"printview.css");
+		$this->stringvars['site_name']=title2html(getproperty("Site Name"));
+		$this->stringvars['header_title']=getnavtitle($this->stringvars["page"]);
+		$this->stringvars['title'] =  striptitletags($title);
+		$this->stringvars['stylesheet'] = getCSSPath("printview.css");
 	}
 
 	//
