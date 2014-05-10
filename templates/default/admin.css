@@ -354,6 +354,7 @@ th.thTop,thHead	 { border-width: 1px 0px 1px 0px; }
 	border: 1px solid black;
 	margin-top:1em;
 	padding:5em;
+	background-color: white;
 }
 
 /************ Image Database ************/
