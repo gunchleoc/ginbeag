@@ -13,7 +13,8 @@ checkadmin();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-$message="";
+$message = "";
+$error = false;
 
 if(isset($_POST['banipallrestricted']))
 {
@@ -25,6 +26,7 @@ if(isset($_POST['banipallrestricted']))
 	else
 	{
 		$message='<i>'.$ip.'</i> is not a valid IP address.';
+		$error = true;
 	}
 }
 elseif(isset($_POST['unbanipallrestricted']))
@@ -34,7 +36,7 @@ elseif(isset($_POST['unbanipallrestricted']))
 }
 
 
-$content = new AdminMain($page,"siteipban",$message,new SiteIPBan());
+$content = new AdminMain($page, "siteipban", new AdminMessage($message, $error), new SiteIPBan());
 print($content->toHTML());
 
 $db->closedb();

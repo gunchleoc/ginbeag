@@ -17,26 +17,11 @@ $postaction="";
 if(isset($_GET['postaction'])) $postaction=$_GET['postaction'];
 unset($_GET['postaction']);
 
-$message="";
+$message = "";
+$error = false;
 
 if($postaction=='savesite')
 {
-  	$message=savesitefeatures();
-}
-
-$content = new AdminMain($page,"sitepolicy",$message,new SitePolicy());
-print($content->toHTML());
-$db->closedb();
-
-//
-//
-//
-function savesitefeatures()
-{
-	global $_POST, $db;
-	
-	$message="";
-	
 	$properties['Display Site Policy']=$db->setinteger($_POST['displaypolicy']);
 	$properties['Site Policy Title']=$db->setstring(fixquotes($_POST['policytitle']));
 	
@@ -44,13 +29,16 @@ function savesitefeatures()
 	
 	if($success="1")
 	{
-		$message="Site policy saved";
+		$message="Site policy settings saved";
 	}
 	else
 	{
 		$message="Failed to save site policy".$sql;
 	}
-	return $message;
 }
+
+$content = new AdminMain($page, "sitepolicy", new AdminMessage($message, $error), new SitePolicy());
+print($content->toHTML());
+$db->closedb();
 
 ?>

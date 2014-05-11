@@ -11,7 +11,7 @@ if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
 $pagelist = new PageList();
-$content = new AdminMain($page,"show","Please choose a page to return to the admin panel",$pagelist);
+$content = new AdminMain($page, "show", new AdminMessage ("", false), $pagelist);
 print($content->toHTML());
 //print($pagelist->toHTML());
 $db->closedb();

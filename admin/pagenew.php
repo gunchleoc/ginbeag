@@ -17,7 +17,8 @@ checksession();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-$message="";
+$message = "";
+$error = false;
 
 //print_r($_POST);
 //print_r($_GET);
@@ -58,7 +59,7 @@ if(isset($_POST['create']))
 			else $message="Created a new page as a main page";
 			
 			$redirect = editedRedirect($page,"Created a new page");
-			$content = new AdminMain($parent,"show",$message,$redirect);
+			$content = new AdminMain($parent, "show", new AdminMessage($message, $error), $redirect);
 			print($content->toHTML());
 		}
 		else
@@ -84,18 +85,20 @@ if(isset($_POST['create']))
 			{
 				$message.='</i>.<br />You tried to add a <i>'.$type.'</i> page as a main page.';
 			}
+			$error = true;
 		}
 	} // title && navtitle
 	else
 	{
 		$message.="Please specify the new page's title (long and short)";
+		$error = true;
 	}
-	$content = new AdminMain($page,"pagenew",$message,new NewPageForm($page,$title,$navtitle,$ispublishable,isset($_POST['root'])));
+	$content = new AdminMain($page, "pagenew", new AdminMessage($message, $error), new NewPageForm($page, $title, $navtitle, $ispublishable, isset($_POST['root'])));
 	print($content->toHTML());  
 }
 else
 {
-    $content = new AdminMain($page,"pagenew",$message,new NewPageForm($page,"","",true,false));
+    $content = new AdminMain($page, "pagenew", new AdminMessage($message, $error), new NewPageForm($page, "", "", true, false));
 	print($content->toHTML());  
 }
 $db->closedb();

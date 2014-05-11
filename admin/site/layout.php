@@ -17,24 +17,12 @@ $postaction="";
 if(isset($_GET['postaction'])) $postaction=$_GET['postaction'];
 unset($_GET['postaction']);
 
-$message="";
+$message = "";
+$error = false;
 
 
 if($postaction=='savesite' && isset($_POST['submit']))
 {
-  	$message=savesitelayout();
-}
-
-
-$content = new AdminMain($page,"sitelayout",$message,new SiteLayout());
-print($content->toHTML());
-$db->closedb();
-
-
-function savesitelayout()
-{
-	global $_POST, $db;
-	
 	$properties['Default Template']=$db->setstring(trim($_POST['defaulttemplate']));
 	
 	$properties['Site Name']=$db->setstring(fixquotes(trim($_POST['sitename'])));
@@ -95,14 +83,17 @@ function savesitelayout()
 	
 	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
 	
-	$result = "Layout properties saved";
+	$message = "Layout properties saved";
 	
 	if(!$success)
 	{
-		$result = "Failed to save layout properties: ".$sql;
+		$message = "Failed to save layout properties: ".$sql;
+		$error = true;
 	}
-
-	return $result;
 }
+
+$content = new AdminMain($page, "sitelayout", new AdminMessage($message, $error), new SiteLayout());
+print($content->toHTML());
+$db->closedb();
 
 ?>

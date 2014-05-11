@@ -14,6 +14,9 @@ checkadmin();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
+$message = "";
+$error = false;
+
 // print_r($_POST);
 // print_r($_GET);
 
@@ -37,7 +40,7 @@ else
 	$referrers= new SiteReferrers();
 }
 
-$content = new AdminMain($page,"sitereferrers","",$referrers);
+$content = new AdminMain($page, "sitereferrers", new AdminMessage($message, $error), $referrers);
 print($content->toHTML());
 
 $db->closedb();

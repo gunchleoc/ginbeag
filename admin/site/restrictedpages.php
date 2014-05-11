@@ -12,7 +12,7 @@ checksession();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-$content = new AdminMain($page,"sitepagerestrict","",new SiteRestrictedPages());
+$content = new AdminMain($page, "sitepagerestrict", new AdminMessage("", false), new SiteRestrictedPages());
 print($content->toHTML());
 
 $db->closedb();

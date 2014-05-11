@@ -20,7 +20,8 @@ $postaction="";
 if(isset($_GET['postaction'])) $postaction=$_GET['postaction'];
 unset($_GET['postaction']);
 
-$message="";
+$message = "";
+$error = false;
 
 if($postaction=='editbanner')
 {
@@ -52,12 +53,14 @@ if($postaction=='editbanner')
 			updatebanner($_POST['bannerid'], fixquotes($_POST['header']), $filename,fixquotes($_POST['description']),$_POST['link']);
 			if(!isbannercomplete($_POST['bannerid']))
 			{
-				$message='This banner is not complete and will not be displayed! Please fill out all required fields.';
+				$message = 'This banner is not complete and will not be displayed! Please fill out all required fields.';
+				$error = true;
 			}
 		}
 		else
 		{
 			$message='Failed to edit banner #'.$_POST['bannerid'].': error uploading image!';
+			$error = true;
 		}
 	}
 }
@@ -67,7 +70,6 @@ elseif($postaction=='addbanner')
 	{
 		$message='Added banner code <i>'.$_POST['header'].'</i>';
 		addbannercode(fixquotes($_POST['header']), $_POST['code']);
-		$message="Accedd a banner code";
 	}
 	else
 	{
@@ -81,13 +83,14 @@ elseif($postaction=='addbanner')
 			$message='Added banner <i>'.$_POST['header'].'</i>';
 			if(!isbannercomplete($banner))
 			{
-				$message='This banner is not complete and will not be displayed! Please fill out all required fields.';
+				$message .= ' This banner is not complete and will not be displayed! Please fill out all required fields.';
+				$error = true;
 			}
-			else $message="Added a banner";
 		}
 		else
 		{
 			$message='Failed to add banner: error uploading image!';
+			$error = true;
 		}
 	}
 }
@@ -113,20 +116,21 @@ elseif($postaction=='deletebanner')
 	}
 	else
 	{
-		$message='You have to check "Confirm delete" in order to delete banner #'.$_POST['bannerid'];
+		$message = 'You have to check "Confirm delete" in order to delete banner #'.$_POST['bannerid'];
+		$error = true;
 	}
 }
 
 elseif($postaction=='displaybanners')
 {
-	updateentries(SITEPROPERTIES_TABLE,array('Display Banners' =>$_POST['toggledisplaybanners']),"property_name","property_value");
+	updateentries(SITEPROPERTIES_TABLE, array('Display Banners' => $_POST['toggledisplaybanners']), "property_name", "property_value");
 	$properties = getproperties(); // need to update global variable
 	$message="Changed banner display options";
 }
 
 unset($_POST['bannerid']);
 
-$content = new AdminMain($page,"sitebanner",$message,new SiteBanners());
+$content = new AdminMain($page, "sitebanner", new AdminMessage($message, $error), new SiteBanners());
 print($content->toHTML());
 $db->closedb();
 ?>

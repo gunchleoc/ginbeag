@@ -62,7 +62,7 @@ unset($_GET['unlock']);
 if($action=="site")
 {
 	include_once($projectroot."admin/includes/objects/site/stats.php");
-	$admin = new AdminMain($page,$action,"", new SiteStatsTable(20,date("Y",strtotime('now')), date("m",strtotime('now')), "month"));
+	$admin = new AdminMain($page, $action, new AdminMessage("", false), new SiteStatsTable(20,date("Y",strtotime('now')), date("m",strtotime('now')), "month"));
 	print($admin->toHTML());
 }
 elseif($action=="sitestats")
@@ -148,7 +148,7 @@ elseif($action=="edit")
 }
 else
 {
-	$admin = new AdminMain($page,$action);
+	$admin = new AdminMain($page, $action, new AdminMessage("", false));
 	print($admin->toHTML());
 }
 ?>

@@ -25,10 +25,6 @@
 			<div id="navigatorfixed">{NAVIGATORFIXED}</div>
 			<div id="navigatorscroll">{NAVIGATORSCROLL}</div>
 		</div>
-		<div id="contentarea">
-			<!-- BEGIN switch MESSAGE --><div class="inlinemessage">{MESSAGE}</div><!-- END switch MESSAGE -->
-				<a name="top"></a>
-				{CONTENTS}
-		</div>
+		<div id="contentarea"><a name="top"></a>{MESSAGE}{CONTENTS}</div>
 	</div>
 </div>

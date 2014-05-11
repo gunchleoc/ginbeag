@@ -17,24 +17,12 @@ $postaction="";
 if(isset($_GET['postaction'])) $postaction=$_GET['postaction'];
 unset($_GET['postaction']);
 
-$message="";
+$message = "";
+$error = false;
 
 
 if($postaction=='savesite' && isset($_POST['submit']))
 {
-  	$message=savesiteproperties();
-}
-
-$content = new AdminMain($page,"sitetech",$message,new SiteTechnical());
-print($content->toHTML());
-$db->closedb();
-
-function savesiteproperties()
-{
-	global $_POST, $db;
-	
-	$message="";
-	
 	$properties['Google Keywords']=$db->setstring(trim($_POST['keywords']));
 	$properties['Domain Name']=$db->setstring(trim($_POST['domainname']));
 	$properties['Local Path']=$db->setstring(trim($_POST['localpath']));
@@ -55,8 +43,12 @@ function savesiteproperties()
 	}
 	else
 	{
-		$message="Failed to save technical setup".$sql;
+		$message = "Failed to save technical setup".$sql;
+		$error = true;
 	}
-	return $message;
 }
+
+$content = new AdminMain($page, "sitetech", new AdminMessage($message, $error), new SiteTechnical());
+print($content->toHTML());
+$db->closedb();
 ?>

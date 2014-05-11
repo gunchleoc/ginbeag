@@ -13,10 +13,11 @@ include_once($projectroot."admin/includes/actions.php");
 
 //
 // last parameter needs to be a Template or string when used
+//  $message needs to be ot type AdminMessage
 //
 class AdminMain extends Template {
 
-	function __construct($page,$action,$message="",$contentobject=NULL)
+	function __construct($page, $action, $message, $contentobject=NULL)
   	{
     	global $_GET, $projectroot;
     	parent::__construct();
@@ -66,10 +67,11 @@ class AdminMain extends Template {
 
 		/**************************** content **************************************/
 	
+		$this->vars['message'] = $message;
+
 		if(!is_null($contentobject))
 		{
-			if(strlen($message)>0) 
-				$this->stringvars['message'] =$message;
+
 				
 			if($contentobject instanceof Template)
 				$this->vars['contents']= $contentobject;
@@ -162,6 +164,27 @@ class AdminMain extends Template {
 	function createTemplates()
 	{
     	$this->addTemplate("admin/adminmain.tpl");
+	}
+}
+
+
+
+class AdminMessage extends Template {
+
+	function __construct($message, $iserror)
+	{
+		parent::__construct();
+		if(strlen($message) > 0)
+		{
+			if($iserror) $this->stringvars["message"] = '<span class="highlight">'.$message."</span>";
+			else $this->stringvars["message"] = $message;
+		}
+	}
+
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/adminmessage.tpl");
 	}
 }
 ?>

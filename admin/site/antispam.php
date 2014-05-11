@@ -18,25 +18,11 @@ unset($_GET['postaction']);
 
 //  print_r($_POST);
 
-$message="";
+$message = "";
+$error = false;
 
 if($postaction=='savesite')
 {
-  	$message = savesitefeatures();
-}
-
-
-$content = new AdminMain($page,"sitespam",$message,new SiteAntispam());
-print($content->toHTML());
-$db->closedb();
-
-
-function savesitefeatures()
-{
-	global $_POST, $db;
-	
-	$result = "";
-	
 	if(isset($_POST['renamevariables']))
 	{
 		$properties['Math CAPTCHA Reply Variable']=makerandomvariablename();
@@ -51,23 +37,28 @@ function savesitefeatures()
 	}
 	
 	$success=updateentries(ANTISPAM_TABLE,$properties,"property_name","property_value");
+	$error = !$success;
 	
 	if($success="1")
 	{
 		if(isset($_POST['renamevariables']))
-			$result = "Renamed Variables";
+			$message = "Renamed Variables";
 		else
-			$result = "Anti-Spam settings saved";
+			$message = "Anti-Spam settings saved";
 	}
 	else
 	{
 		if(isset($_POST['renamevariables']))
-			$result = "Failed to rename variables ".$sql;
+			$message = "Failed to rename variables ".$sql;
 		else
-			$result = "Failed to save Anti-Spam settings ".$sql;
+			$message = "Failed to save Anti-Spam settings ".$sql;
 	}
-	return $result;
 }
+
+
+$content = new AdminMain($page, "sitespam", new AdminMessage($message, $error), new SiteAntispam());
+print($content->toHTML());
+$db->closedb();
 
 
 function makerandomvariablename()

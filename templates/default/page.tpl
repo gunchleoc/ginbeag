@@ -1,9 +1,5 @@
 {HEADER}
-<!-- BEGIN switch MESSAGE -->
-    <hr>
-      {MESSAGE}
-    <hr>
-<!-- END switch MESSAGE -->
+<!-- BEGIN switch MESSAGE -->{MESSAGE}<!-- END switch MESSAGE -->
 
 <div class="invisible"><a href="#contentarea" accesskey="n" class="invisible">Skip navigation</a></div>
 

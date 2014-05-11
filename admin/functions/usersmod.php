@@ -46,7 +46,8 @@ function register($user,$pass,$email)
 function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
 {
 	global $db;
-	$result="Failed to change password";
+	$result["message"] = "Failed to change password";
+	$result["error"] = false;
 	if(checkpassword(getusername($userid),md5($oldpass)))
 	{
 		if(strlen($newpass)>7)
@@ -56,22 +57,25 @@ function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
 				$sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".$db->setinteger($userid)."'");
 				if($sql)
 				{
-					$result="Password changed successfully";
+					$result["message"] = "Password changed successfully";
 				}
 			}
 			else
 			{
-				$result="Passwords did not match";
+				$result["message"] = "Passwords did not match.";
+				$result["error"] = true;
 			}
 		}
 		else
 		{
-			$result="Your password must be at least 8 digits long";
+			$result["message"] = "Your password must be at least 8 digits long.";
+			$result["error"] = true;
 		}
 	}
 	else
 	{
-		$result="Wrong password";
+		$result["message"] = "Wrong password.";
+		$result["error"] = true;
 	}
 	return $result;
 }

@@ -18,24 +18,32 @@ else $page=0;
 // *************************** actions ************************************** //
 
 // page content actions
-
-$message = getpagelock($page);
-if(!$message)
+if(!$page)
 {
-	if(isset($_POST['sortsubpages']))
-	{
-		$message='Sorted subpages from A-Z';
-		sortsubpagesbyname($page);
-		updateeditdata($page);
-	}
-	$editpage = new EditMenuSubpages($page);
+	$editpage = noPageSelectedNotice();
+	$message = "Please select a page first";
+	$error = true;
 }
 else
 {
-	$editpage = pageBeingEditedNotice();
+	$message = getpagelock($page);
+	$error = false;
+	if(!$message)
+	{
+		if(isset($_POST['sortsubpages']))
+		{
+			$message = 'Sorted subpages from A-Z';
+			sortsubpagesbyname($page);
+			updateeditdata($page);
+		}
+		$editpage = new EditMenuSubpages($page);
+	}
+	else
+	{
+		$editpage = new pageBeingEditedNotice($message);
+	}
 }
-
-$content = new AdminMain($page,"editcontents",$message,$editpage);
+$content = new AdminMain($page, "editcontents", new AdminMessage($message, $error), $editpage);
 print($content->toHTML());
 $db->closedb();
 ?>

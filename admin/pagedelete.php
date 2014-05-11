@@ -26,14 +26,16 @@ unset($_POST['action']);
 
 // print_r($_POST);
 // print_r($_GET);
-$message="";
+$message = "";
+$error = false;
  
 // *************************** actions ************************************** //
 
 if($page<=0)
 {
 	$editpage = noPageSelectedNotice();
-	$message="Please select a page first";
+	$message = "Please select a page first";
+	$error = true;
 }
 elseif($action==="delete")
 {
@@ -56,7 +58,7 @@ elseif(isset($_POST["nodelete"]))
 	$editpage = new DoneRedirect($page, "Delete Page Aborted", array("action" => "show"), "admin.php", "View the page");
 }
 
-$content = new AdminMain($page,"pagedelete",$message,$editpage);
+$content = new AdminMain($page, "pagedelete", new AdminMessage($message, $error), $editpage);
 print($content->toHTML());  
 $db->closedb();
 ?>

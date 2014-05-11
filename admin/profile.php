@@ -31,7 +31,8 @@ else $email="";
 
 
 $userid=getsiduser();
-$message="";
+$message = "";
+$error = false;
 
 if(isset($_POST['contact']))
 {
@@ -51,14 +52,23 @@ else
 {
 	if($pass)
 	{
-		$message=changeuserpassword($userid,$oldpass,$pass,$passconf).' ';
-		$message='Changed password.';
+		$passresult = changeuserpassword($userid,$oldpass,$pass,$passconf);
+		if($passresult["error"])
+		{
+			$error = true;
+			$message = 'Failed to change password: '.$passresult["message"]." ";
+		}
+		else
+		{
+			$message = 'Changed password.';
+		}
 	}
 	if($email)
 	{
 		if(emailexists($email,$userid))
 		{
 			$message.=' E-mail <i>'.$email.'</i> already exists!';
+			$error = true;
 		}
 		else
 		{
@@ -68,7 +78,7 @@ else
 	}
 }
 
-$content = new AdminMain($page,"profile",$message,new ProfilePage($userid));
+$content = new AdminMain($page, "profile", new AdminMessage($message, $error), new ProfilePage($userid));
 
 print($content->toHTML());
 $db->closedb();

@@ -18,12 +18,11 @@ if(isset($_GET['postaction'])) $postaction=$_GET['postaction'];
 unset($_GET['postaction']);
 
 
-$message="";
+$message = "";
+$error = false;
 
 if($postaction ==='saveproperties')
 {
-	//$message="save properties now!";
-	
 	$guestbookproperties = array();
 	
 	$guestbookproperties['Enable Guestbook']=$db->setinteger($_POST['enableguestbook']);
@@ -40,7 +39,8 @@ if($postaction ==='saveproperties')
   	}
   	else
   	{
-    	$message="Failed to save Guestbook properties";
+		$message = "Failed to save Guestbook properties";
+		$error = true;
   	}
 }
 
@@ -64,7 +64,7 @@ if(!isset($_POST["deleteentry"]))
   	$contents = new AdminGuestbookEntryList($itemsperpage, $offset);
 }
 
-$content = new AdminMain($page,"siteguest",$message,$contents);
+$content = new AdminMain($page, "siteguest", new AdminMessage($message, $error), $contents);
 print($content->toHTML());
 $db->closedb();
 ?>

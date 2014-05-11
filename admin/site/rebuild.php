@@ -18,14 +18,15 @@ $postaction="";
 if(isset($_GET['postaction'])) $postaction=$_GET['postaction'];
 unset($_GET['postaction']);
 
-$message="";
+$message = "";
+$error = false;
 
 if($postaction==='restrictedpages')
 {
 	$message=rebuildaccessrestrictionindex();
 }
 
-$content = new AdminMain($page,"siteind",$message,new SiteRebuildIndices());
+$content = new AdminMain($page, "siteind", new AdminMessage($message, $error), new SiteRebuildIndices());
 print($content->toHTML());
 $db->closedb();
 ?>

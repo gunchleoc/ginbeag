@@ -18,7 +18,8 @@ else $page=0;
 // print_r($_POST);
 // print_r($_GET);
 
-$message="";
+$message = "";
+$error = false;
 $register=-1;
 
 if(isset($_POST['username'])) $username=fixquotes(trim($_POST['username']));
@@ -35,11 +36,13 @@ if($username && $pass===$passconf)
 {
 	if(publicuserexists($username))
 	{
-		$message='Username already exists!';
+		$message = 'Username already exists!';
+		$error = true;
 	}
 	elseif(!$pass)
 	{
-		$message='Please specify a password!';
+		$message = 'Please specify a password!';
+		$error = true;
 	}
 	else
 	{
@@ -52,16 +55,23 @@ if($username && $pass===$passconf)
 		}
 		else
 		{
-			$message='Error creating user';
+			$message = 'Error creating user';
+			$error = true;
 		}
 	}
 }
 elseif($username && $pass!=$passconf)
 {
-	$message='Passwords did not match!';
+	$message = 'Passwords did not match!';
+	$error = true;
+}
+else
+{
+	$message = 'Please specify a username';
+	$error = true;
 }
 
-$content = new AdminMain($page,"siteusercreate","",new SiteCreatePublicUser($username, $message, $register));
+$content = new AdminMain($page, "siteusercreate", new AdminMessage($message, $error), new SiteCreatePublicUser($username, $message, $register));
 print($content->toHTML());
 
 $db->closedb();

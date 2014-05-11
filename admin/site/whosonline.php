@@ -11,7 +11,7 @@ checksession();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-$content = new AdminMain($page,"siteonline","",new SiteWhosOnline());
+$content = new AdminMain($page, "siteonline", new AdminMessage("", false), new SiteWhosOnline());
 print($content->toHTML());
 $db->closedb();
 ?>

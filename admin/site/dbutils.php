@@ -15,7 +15,8 @@ checkadmin();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-$message="";
+$message = "";
+$error = false;
 
 
 //showtables();
@@ -38,7 +39,7 @@ elseif(isset($_POST['clearpagecache']))
 
 if(!(isset($_POST['display']) && $_POST['display']==="screen"))
 {
-	$content = new AdminMain($page,"sitedb",$message,new SiteDBUtilsBackupForm());
+	$content = new AdminMain($page, "sitedb", new AdminMessage($message, $error), new SiteDBUtilsBackupForm());
 	print($content->toHTML());
 }
 $db->closedb();
@@ -49,7 +50,7 @@ $db->closedb();
 //
 function backupdatabase($display,$structureonly=true)
 {
-	global $dbname,$table_prefix, $db,$page,$message;
+	global $dbname, $table_prefix, $db, $page, $message, $error;
 	
 	$sitename=title2html(getproperty("Site Name"));
 	
@@ -185,7 +186,7 @@ function backupdatabase($display,$structureonly=true)
 	}
 	if($display==="screen")
 	{
-		$content = new AdminMain($page,"sitedb",$message,new SiteDBUtilsDBDump($result));
+		$content = new AdminMain($page, "sitedb", new AdminMessage($message, $error), new SiteDBUtilsDBDump($result));
 		//$content = new SiteDBUtilsDBDump($result);
 		print($content->toHTML());
 	}

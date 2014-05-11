@@ -16,119 +16,123 @@ checksession();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-$message="";
-
 // *************************** actions ************************************** //
 
 // page content actions
-
-$message = getpagelock($page);
-if(!$message)
+if(!$page)
 {
-	$pagetype = getpagetype($page);
-	if($pagetype==="article")
+	$editpage = noPageSelectedNotice();
+	$message = "Please select a page first";
+	$error = true;
+}
+else
+{
+	$message = getpagelock($page);
+	$error = false;
+	if(!$message)
 	{
-		include_once($projectroot."admin/includes/objects/edit/articlepage.php");
-		$editpage = new EditArticle($page);
-	}
-	elseif($pagetype==="menu" || $pagetype==="articlemenu")
-	{
-		include_once($projectroot."admin/includes/objects/edit/menupage.php");
-		$editpage = new EditMenu($page);
-	}
-	elseif($pagetype==="news")
-	{
-		include_once($projectroot."admin/includes/objects/edit/newspage.php");
-		//archiving
-		if(isset($_POST['archivenewsitems']))
+		$pagetype = getpagetype($page);
+		if($pagetype === "article")
 		{
-			$editpage = new ArchiveNewsItemsForm();
+			include_once($projectroot."admin/includes/objects/edit/articlepage.php");
+			$editpage = new EditArticle($page);
 		}
-		elseif(isset($_POST['doarchivenewsitems']))
+		elseif($pagetype === "menu" || $pagetype === "articlemenu")
 		{
-			include_once($projectroot."admin/functions/pagescreate.php");
-			$message="";
-			$dateok=true;
-			if($_POST['year']==$_POST['oldestyear'])
+			include_once($projectroot."admin/includes/objects/edit/menupage.php");
+			$editpage = new EditMenu($page);
+		}
+		elseif($pagetype === "news")
+		{
+			include_once($projectroot."admin/includes/objects/edit/newspage.php");
+			//archiving
+			if(isset($_POST['archivenewsitems']))
 			{
-				if($_POST['month']<$_POST['oldestmonth'])
+				$editpage = new ArchiveNewsItemsForm();
+			}
+			elseif(isset($_POST['doarchivenewsitems']))
+			{
+				include_once($projectroot."admin/functions/pagescreate.php");
+				$dateok=true;
+				if($_POST['year'] == $_POST['oldestyear'])
 				{
-					$dateok=false;
-				}
-				elseif($_POST['month']==$_POST['oldestmonth'])
-				{
-					if($_POST['day']<$_POST['oldestday'])
+					if($_POST['month'] < $_POST['oldestmonth'])
 					{
 						$dateok=false;
 					}
+					elseif($_POST['month'] == $_POST['oldestmonth'])
+					{
+						if($_POST['day'] < $_POST['oldestday'])
+						{
+							$dateok=false;
+						}
+					}
 				}
-			}
-			if(!$dateok)
-			{
-				$message="The selected date must not be older than the start date!";
-			}
-			elseif(!checkdate ($_POST['month'],$_POST['day'],$_POST['year']))
-			{
-				$message="The selected date does not exist!";
-			}
-			else
-			{
-				// do the archiving
-				$moveditems=archivenewsitems($page,$_POST['day'],$_POST['month'],$_POST['year']);
-				if($moveditems>0)
+				if(!$dateok)
 				{
-					$message="Moved ".$moveditems." newsitem(s) to new page.";
+					$message = "The selected date must not be older than the start date!";
+					$error = true;
+				}
+				elseif(!checkdate($_POST['month'], $_POST['day'], $_POST['year']))
+				{
+					$message = "The selected date does not exist!";
+					$error = true;
 				}
 				else
 				{
-					$message="No newsitems to move.";
+					// do the archiving
+					$moveditems=archivenewsitems($page, $_POST['day'], $_POST['month'], $_POST['year']);
+					if($moveditems > 0)
+					{
+						$message = "Moved ".$moveditems." newsitem(s) to new page.";
+					}
+					else
+					{
+						$message = "No newsitems to move.";
+						$error = true;
+					}
 				}
+				$editpage = new ArchiveNewsItemsForm();
+				updateeditdata($page);
+			} // doarchivenewsitems
+			// rss
+			elseif(isset($_POST['enablerss']))
+			{
+				addrssfeed($page);
+				$message = "RSS enabled for this newspage";
+				$editpage = new EditNews($page);
 			}
-			$editpage = new ArchiveNewsItemsForm();
-			updateeditdata($page);
-		} // doarchivenewsitems
-		// rss
-		elseif(isset($_POST['enablerss']))
-		{
-			addrssfeed($page);
-			$message = "RSS enabled for this newspage";
-			$editpage = new EditNews($page);
-
-		}
-		elseif(isset($_POST['disablerss']))
-		{
-			removerssfeed($page);
-			$message = "RSS disabled for this newspage";
-			$editpage = new EditNews($page);
-		}
-		// display order
-		elseif(isset($_POST['setdisplayorder']))
-		{
-			setdisplaynewestnewsitemfirst($page, $_POST['displayorder']);
-			updateeditdata($page);
-			$editpage = new EditNews($page);
+			elseif(isset($_POST['disablerss']))
+			{
+				removerssfeed($page);
+				$message = "RSS disabled for this newspage";
+				$editpage = new EditNews($page);
+			}
+			// display order
+			elseif(isset($_POST['setdisplayorder']))
+			{
+				setdisplaynewestnewsitemfirst($page, $_POST['displayorder']);
+				updateeditdata($page);
+				$editpage = new EditNews($page);
+			}
+			else
+			{
+				$editpage = new EditNews($page);
+			}
 		}
 		else
 		{
-			$editpage = new EditNews($page);
+			include_once($projectroot."admin/includes/objects/edit/pageintro.php");
+			$editpage = new EditPageIntro($page);
 		}
-
 	}
+	// locked page
 	else
 	{
-		include_once($projectroot."admin/includes/objects/edit/pageintro.php");
-		$editpage = new EditPageIntro($page);
+		$editpage = new pageBeingEditedNotice($message);
 	}
-	
-	$content = new AdminMain($page,"editpageintro",$message,$editpage);
-	print($content->toHTML());
 }
-// locked page
-else
-{
-	$editpage = pageBeingEditedNotice();
-	print($editpage->toHTML());
-}
-
+$content = new AdminMain($page, "editpageintro", new AdminMessage($message, $error), $editpage);
+print($content->toHTML());
 $db->closedb();
 ?>

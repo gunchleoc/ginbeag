@@ -14,7 +14,8 @@ checkadmin();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-$message="";
+$message = "";
+$error = false;
 
 if(isset($_GET['userid'])) $userid=$_GET['userid'];
 elseif(isset($_POST['userid'])) $userid=$_POST['userid'];
@@ -36,7 +37,8 @@ elseif(isset($_POST['searchpublicuser']))
 }
 if((isset($_POST['searchuser']) || isset($_POST['searchpublicuser'])) && !$userid)
 {
-	$message='User <i>'.$_POST['username'].'</i> not found.';
+	$message = 'User <i>'.$_POST['username'].'</i> not found.';
+	$error = true;
 }
 // public users for restricted areas
 elseif(isset($_GET['changeaccess']) && $_GET['changeaccess']==="removepage")
@@ -78,7 +80,7 @@ else
 	$contents= new SiteSelectUserPermissionsForm($username);
 }
 
-$content = new AdminMain($page,"siteuserperm",$message,$contents);
+$content = new AdminMain($page, "siteuserperm", new AdminMessage($message, $error), $contents);
 print($content->toHTML());
 $db->closedb();
 ?>

@@ -12,16 +12,14 @@ checkadmin();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-$message="";
-
-$ref="";
 if(isset($_GET['ref'])) $ref=$_GET['ref'];
+else $ref="";
 
 // print_r($_POST);
 // print_r($_GET);
 
 
-$content = new AdminMain($page,"siteuserlist",$message,new SiteUserlist($ref));
+$content = new AdminMain($page, "siteuserlist", new AdminMessage("", false), new SiteUserlist($ref));
 print($content->toHTML());
 $db->closedb();
 ?>

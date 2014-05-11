@@ -12,7 +12,8 @@ checkadmin();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-$message="";
+$message = "";
+$error = false;
 
 // print_r($_POST);
 // print_r($_GET);
@@ -33,7 +34,7 @@ if(isset($_POST['pagetypesettings']))
 	$message=('Changed settings for <i>'.$_POST['pagetype'].'</i>');
 }
 
-$content = new AdminMain($page,"sitepagetype",$message,new SitePageTypes());
+$content = new AdminMain($page, "sitepagetype", new AdminMessage($message, $error), new SitePageTypes());
 print($content->toHTML());
 $db->closedb();
 ?>

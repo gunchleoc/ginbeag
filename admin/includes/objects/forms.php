@@ -73,14 +73,25 @@ class DonePage extends Template {
 }
 
 
-function pageBeingEditedNotice()
-{
-	return new DonePage("This page is already being edited", "admin.php", "View this page");
+class pageBeingEditedNotice extends Template {
+
+	function pageBeingEditedNotice($message="")
+	{
+		parent::__construct();
+		$this->vars['donebutton'] = new DoneButton($this->stringvars['page'], array("action" => "show"), "admin.php", "View this page");
+		$this->stringvars['message'] = $message;
+	}
+
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/pagebeingeditednotice.tpl");
+	}
 }
 
 function noPageSelectedNotice()
 {
-	return new DonePage("No Page Selected", "admin.php", "Admin home");
+	return new DonePage("No Page Selected", "includes/pagelist.php", "Select page from list");
 }
 
 

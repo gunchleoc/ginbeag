@@ -1,3 +1,4 @@
+<hr>
 <span class="highlight">Please link to this URL only in internal discussion!</span>
 &nbsp; — &nbsp;
 Public link: <a href="{PUBLICLINK}">{NAVTITLE}</a>
@@ -9,3 +10,4 @@ Public link: <a href="{PUBLICLINK}">{NAVTITLE}</a>
 <!-- END switch ISRESTRICTED -->
 
 <span class="highlight"><a href="{EDITLINK}">Edit this page</a></span>
+<hr>

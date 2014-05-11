@@ -20,103 +20,112 @@ else $articlepage=1;
 if(isset($_GET['articlesection'])) $articlesection=$_GET['articlesection'];
 else $articlesection=0;
 
-$message="";
-
 //print_r($_POST);
 //print_r($_GET);
 
 // *************************** actions ************************************** //
 
 // page content actions
-
-$message = getpagelock($page);
-if(!$message)
+if(!$page)
 {
-	if(isset($_POST['addarticlepage']))
-	{
-		$lastpage=numberofarticlepages($page);
-		if(getlastarticlesection($page,$lastpage))
-		{
-			addarticlepage($page);
-			$articlepage=$lastpage+1;
-		}
-		else
-		{
-			$articlepage=$lastpage;
-			$message="You cannot add a page after an empty page";
-		}
-		$editpage = new EditArticlePage($articlepage);
-	}
-	elseif(isset($_POST['addarticlesection']))
-	{
-		addarticlesection($page,$articlepage);
-		$editpage = new EditArticlePage($articlepage);
-		$message="Added section";
-	}
-	elseif(isset($_POST['deletesection']))
-	{
-		$editpage = new DeleteArticleSectionConfirm($articlepage, $articlesection);
-	}
-	elseif(isset($_POST['confirmdeletesection']))
-	{
-		deletearticlesection($articlesection);
-		updateeditdata($page);
-		$editpage = new EditArticlePage($articlepage);
-		$message="Deleted section";
-	}
-	elseif(isset($_POST['nodeletesection']))
-	{
-		$editpage = new EditArticlePage($articlepage);
-		$message="Deleting aborted";
-	}
-	elseif(isset($_POST['deletelastarticlepage']))
-	{
-		$noofpages=numberofarticlepages($page);
-		if($noofpages>1 )
-		{
-			if(!getlastarticlesection($page,$noofpages))
-			{
-				deletelastarticlepage($page);
-				updateeditdata($page);
-				$articlepage--;
-				$message = 'Deleted page #'.$articlepage.' of this article';
-			}
-			else
-			{
-				$message="Could not delete page because there are still some sections in it";
-			}
-		}
-		else
-		{
-			$articlepage=1;
-			$message="Could not delete page because there is only 1 page left";
-		}
-		$editpage = new EditArticlePage($articlepage);
-	}
-	elseif(isset($_POST['movesectionup']))
-	{
-		$articlepage=movearticlesection($_GET['articlesection'],$_GET['articlepage'], "up");
-		updateeditdata($page);
-		$editpage = new EditArticlePage($articlepage);
-		$message="Moved section up";
-	}
-	elseif(isset($_POST['movesectiondown']))
-	{
-		$articlepage=movearticlesection($_GET['articlesection'],$_GET['articlepage'], "down");
-		updateeditdata($page);
-		$editpage = new EditArticlePage($articlepage);
-		$message="Moved section down";
-	}
-	else
-	{
-		$editpage = new EditArticlePage($articlepage);
-	}
+	$editpage = noPageSelectedNotice();
+	$message = "Please select a page first";
+	$error = true;
 }
 else
 {
-	$editpage = pageBeingEditedNotice();
-	print($editpage->toHTML());
+	$message = getpagelock($page);
+	$error = false;
+	if(!$message)
+	{
+		if(isset($_POST['addarticlepage']))
+		{
+			$lastpage = numberofarticlepages($page);
+			if(getlastarticlesection($page, $lastpage))
+			{
+				addarticlepage($page);
+				$articlepage = $lastpage+1;
+			}
+			else
+			{
+				$articlepage = $lastpage;
+				$message = "You cannot add a page after an empty page";
+				$error = true;
+			}
+			$editpage = new EditArticlePage($articlepage);
+		}
+		elseif(isset($_POST['addarticlesection']))
+		{
+			addarticlesection($page, $articlepage);
+			$editpage = new EditArticlePage($articlepage);
+			$message = "Added section";
+		}
+		elseif(isset($_POST['deletesection']))
+		{
+			$editpage = new DeleteArticleSectionConfirm($articlepage, $articlesection);
+		}
+		elseif(isset($_POST['confirmdeletesection']))
+		{
+			deletearticlesection($articlesection);
+			updateeditdata($page);
+			$editpage = new EditArticlePage($articlepage);
+			$message = "Deleted section";
+		}
+		elseif(isset($_POST['nodeletesection']))
+		{
+			$editpage = new EditArticlePage($articlepage);
+			$message = "Deleting aborted";
+		}
+		elseif(isset($_POST['deletelastarticlepage']))
+		{
+			$noofpages = numberofarticlepages($page);
+			if($noofpages > 1)
+			{
+				if(!getlastarticlesection($page, $noofpages))
+				{
+					deletelastarticlepage($page);
+					updateeditdata($page);
+					$articlepage--;
+					$message = 'Deleted page #'.$articlepage.' of this article';
+				}
+				else
+				{
+					$message = "Could not delete page because there are still some sections in it";
+					$error = true;
+				}
+			}
+			else
+			{
+				$articlepage = 1;
+				$message = "Could not delete page because there is only 1 page left";
+				$error = true;
+			}
+			$editpage = new EditArticlePage($articlepage);
+		}
+		elseif(isset($_POST['movesectionup']))
+		{
+			$articlepage = movearticlesection($articlesection, $articlepage, "up");
+			updateeditdata($page);
+			$editpage = new EditArticlePage($articlepage);
+			$message = "Moved section up";
+		}
+		elseif(isset($_POST['movesectiondown']))
+		{
+			$articlepage = movearticlesection($articlesection, $articlepage, "down");
+			updateeditdata($page);
+			$editpage = new EditArticlePage($articlepage);
+			$message = "Moved section down";
+		}
+		else
+		{
+			$editpage = new EditArticlePage($articlepage);
+		}
+	}
+	else
+	{
+		$editpage = new pageBeingEditedNotice($message);
+	}
 }
-$content = new AdminMain($page,"editcontents",$message,$editpage);
+$content = new AdminMain($page, "editcontents", new AdminMessage($message, $error), $editpage);
 print($content->toHTML());
 ?>

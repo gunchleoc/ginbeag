@@ -16,46 +16,13 @@ $postaction="";
 if(isset($_GET['postaction'])) $postaction=$_GET['postaction'];
 unset($_GET['postaction']);
 
-$message="";
+$message = "";
+$error = false;
 
 //  print_r($_GET);
 
 if($postaction=='savesite')
 {
-  	$message=savesitefeatures();
-}
-
-
-
-$content = new AdminMain($page,"siteiotd",$message,new SiteRandomItems());
-print($content->toHTML());
-  
-$properties=getproperties();
-$potdcats=explode(",",$properties["Picture of the Day Categories"]);
-$potdcatnames=array();
-if(!count($potdcats))
-{
-	$potdcatlistoutput="All Categories";
-}
-else
-{
-	for($j=0;$j<count($potdcats);$j++)
-	{
-		array_push($potdcatnames,getcategoryname($potdcats[$j], CATEGORY_IMAGE));
-	}
-	sort($potdcatnames);
-	$potdcatlistoutput=implode(", ",$potdcatnames);
-}
- 
-$db->closedb();
-
-
-function savesitefeatures()
-{
-	global $_POST, $db;
-	
-	$message="";
-	
 	$properties['Display Picture of the Day']=$db->setinteger($_POST['displaypotd']);
 	if(isset($_POST['selectedcat']))
 	{
@@ -85,9 +52,12 @@ function savesitefeatures()
 	}
 	else
 	{
-		$message="Failed to save Random Items of the Day".$sql;
+		$message = "Failed to save Random Items of the Day".$sql;
+		$error = true;
 	}
-	return $message;
 }
 
+$content = new AdminMain($page, "siteiotd", new AdminMessage($message, $error), new SiteRandomItems());
+print($content->toHTML());
+$db->closedb();
 ?>

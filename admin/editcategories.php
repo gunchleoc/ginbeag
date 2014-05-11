@@ -25,8 +25,9 @@ if(isset($_GET['page']))
 }
 else $page="0";
 
-$message="";
-$title="";
+$message = "";
+$error = false;
+$title = "";
 
 if(isset($_POST['addsubtext'])) $addsubtext=fixquotes(trim($_POST['addsubtext']));
 else $addsubtext="";
@@ -48,11 +49,13 @@ if(isset($_POST['addsub']))
 	
 	if($selectedcat<0)
 	{
-		$message="Please select a parent category";
+		$message = "Please select a parent category";
+		$error = true;
 	}
 	elseif(strlen($addsubtext)<1)
 	{
-		$message="You cannot create a category that has no name";
+		$message = "You cannot create a category that has no name";
+		$error = true;
 	}
 	else
 	{
@@ -66,15 +69,18 @@ elseif(isset($_POST['editcat']))
 	
 	if($selectedcat<0)
 	{
-		$message="Please select a category for renaming";
+		$message = "Please select a category for renaming";
+		$error = true;
 	}
 	elseif(strlen($editcattext)<1)
 	{
-		$message="You cannot enter an empty name";
+		$message = "You cannot enter an empty name";
+		$error = true;
 	}
 	elseif(isroot($selectedcat, $cattype))
 	{
 		$message="You cannot rename the root category";
+		$error = true;
 	}
 	else
 	{
@@ -88,19 +94,23 @@ elseif(isset($_POST['delcat']))
 	$title="Deleting category";
 	if($selectedcat<0)
 	{
-		$message="Please select a category for deleting";
+		$message = "Please select a category for deleting";
+		$error = true;
 	}
 	if(!isset($_POST['delcatconfirm']))
 	{
-		$message="Please select 'Confirm delete' when deleting a category";
+		$message = "Please select 'Confirm delete' when deleting a category";
+		$error = true;
 	}
 	elseif(isroot($selectedcat, $cattype))
 	{
-		$message="You cannot delete the root category";
+		$message = "You cannot delete the root category";
+		$error = true;
 	}
 	elseif(getcategorychildren($selectedcat, $cattype))
 	{
-		$message="You cannot delete a category that still has subcategories";
+		$message = "You cannot delete a category that still has subcategories";
+		$error = true;
 	}
 	else
 	{
@@ -114,11 +124,13 @@ elseif(isset($_POST['movecat']))
 	$title="Moving Category";
 	if(!isset($_POST['movefrom']))
 	{
-		$message='Please select a category to move';
+		$message = 'Please select a category to move';
+		$error = true;
 	}
 	elseif(!isset($_POST['moveto']))
 	{
-		$message='Please select a destination category to move to';
+		$message = 'Please select a destination category to move to';
+		$error = true;
 	}
 	else
 	{
@@ -127,11 +139,13 @@ elseif(isset($_POST['movecat']))
 		
 		if(isdescendant($movefrom, $moveto, $cattype))
 		{
-			$message='You are not allowed to move "'.title2html(getcategoryname($movefrom, $cattype)).'" to "'.title2html(getcategoryname($moveto, $cattype)).'".';
+			$message = 'You are not allowed to move "'.title2html(getcategoryname($movefrom, $cattype)).'" to "'.title2html(getcategoryname($moveto, $cattype)).'".';
+			$error = true;
 		}
 		else if($movefrom == $moveto)
 		{
-			$message="You can't move a category into itself";
+			$message = "You can't move a category into itself";
+			$error = true;
 		}
 		else
 		{
@@ -142,7 +156,8 @@ elseif(isset($_POST['movecat']))
 	    	}
 	    	else
 	    	{
-				$message='Failed to move "'.title2html(getcategoryname($movefrom, $cattype)).'" to "'.title2html(getcategoryname($moveto, $cattype)).'".';
+				$message = 'Failed to move "'.title2html(getcategoryname($movefrom, $cattype)).'" to "'.title2html(getcategoryname($moveto, $cattype)).'".';
+				$error = true;
 	      	}
     	}
 	}
@@ -152,7 +167,7 @@ else
 	$title="Edit Categories";
 }
 
-$content = new AdminMain($page,"editcategories",$message,new AdminCategories($title,$addsubtext, $editcattext, $cattype));
+$content = new AdminMain($page, "editcategories", new AdminMessage($message, $error), new AdminCategories($title,$addsubtext, $editcattext, $cattype));
 print($content->toHTML());
 $db->closedb();
 ?>

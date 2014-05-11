@@ -17,7 +17,8 @@ checkadmin();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-$message="";
+$message = "";
+$error = false;
 
 if(isset($_GET['userid'])) $userid=$_GET['userid'];
 elseif(isset($_POST['userid'])) $userid=$_POST['userid'];
@@ -41,6 +42,7 @@ elseif(isset($_POST['searchpublicuser']))
 if((isset($_POST['searchuser']) || isset($_POST['searchpublicuser'])) && !$userid)
 {
 	$message='User <i>'.$_POST['username'].'</i> not found.';
+	$error = true;
 }
 // public users for restricted areas
 elseif(isset($_GET['type']) && $_GET['type']==="public")
@@ -76,7 +78,8 @@ else
 		{
 			if(emailexists($_POST['email'],$userid))
 			{
-				$message='E-mail <i>'.$_POST['email'].'</i> already exists!';
+				$message = 'E-mail <i>'.$_POST['email'].'</i> already exists!';
+				$error = true;
 			}
 			else
 			{
@@ -142,7 +145,7 @@ else
 	$contents = new SiteSelectUserForm($username);
 }
 
-$content = new AdminMain($page,"siteuserman",$message,$contents);
+$content = new AdminMain($page, "siteuserman", new AdminMessage($message, $error), $contents);
 print($content->toHTML());
 $db->closedb();
 ?>
