@@ -47,15 +47,15 @@
 							<input type="submit" name="s_missing" value="Missing Image Files" class="mainoption" />
 							&nbsp;&nbsp;&nbsp;<input type="submit" name="s_unknown" value="Unknown Image Files" class="mainoption" />
 						</fieldset>
+						<fieldset>
+							<legend>Database</legend>
+							<input type="submit" name="s_unused" value="Show Unused Images" class="mainoption" />
+						</fieldset>
+						<input type="submit" name="clear" value="Clear special searches" />
 					</fieldset>
 				</div>
 			</form>
 			    <!-- todo reinstate functions
-
-			          <p class="highlight">Webpage Status:</p>
-			          <input type="submit" name="unused" value="Show Unused Images" class="mainoption" />
-			          
-			          
 			      <p class="highlight">Thumbnail options:</p>
 			                <input type="submit" name="nothumb" value="Images without Thumbnails" class="mainoption" />
 			          <input type="submit" name="missingthumb" value="Missing Thumbnail Files" class="mainoption" />

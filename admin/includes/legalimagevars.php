@@ -37,6 +37,7 @@ $LEGALVARS["s_selectedcat"]=1;
 $LEGALVARS["s_source"]=1;
 $LEGALVARS["s_sourceblank"]=1;
 $LEGALVARS["s_unknown"]=1;
+$LEGALVARS["s_unused"]=1;
 $LEGALVARS["s_uploader"]=1;
 $LEGALVARS["selectedcat"]=1;
 $LEGALVARS["sid"]=1;

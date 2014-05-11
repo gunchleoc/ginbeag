@@ -43,6 +43,7 @@ if(isset($_GET['clear']))
 	unset($_GET['s_source']);
 	unset($_GET['s_sourceblank']);
 	unset($_GET['s_unknown']);
+	unset($_GET['s_unused']);
 	unset($_GET['s_uploader']);
 }
 
@@ -352,11 +353,6 @@ elseif($action==="deleteunknownfile")
 		$message = "File delete not confirmed!";
 		$error = true;
 	}
-/*	$filename = "";
-	$caption = "";
-	$source = "";
-	$copyright = "";
-	$permission = ""; */
 }
 elseif($action==="executedelete")
 {

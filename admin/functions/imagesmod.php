@@ -102,7 +102,7 @@ function savedescription($filename,$caption,$source,$sourcelink,$copyright,$perm
 // *************************** filtering functions ************************** //
 
 //
-// $allfiles: Images to be filtered
+// $files: Images to be filtered
 //
 function getmissingimages($order, $ascdesc, $files)
 {
@@ -173,29 +173,24 @@ function getunknownimageshelper($subpath)
 
 
 //
-// $filterimages: Images to be filtered. If this is empty, get all images
+// $files: Images to be filtered
 //
-function getunusedimages($order,$ascdesc,$filterimages=array())
+function getunusedimages($order,$ascdesc,$files)
 {
-	if(count($filterimages)>0)
-	{
-		$allfiles=$filterimages;
-	}
-	else
-	{
-		$allfiles=getallfilenames($order,$ascdesc);
-	}
+	global $projectroot;
 	$result=array();
-	
-	for($i=0;$i<count($allfiles);$i++)
+
+	$keys = array_keys($files);
+	while($key = next($keys))
 	{
-		if(!imageisused($allfiles[$i]))
+		if(!imageisused($files[$key]))
 		{
-			array_push($result,$allfiles[$i]);
+			array_push($result, $files[$key]);
 		}
 	}
 	return $result;
 }
+
 
 //
 // $filterimages: Images to be filtered. If this is empty, get all images
