@@ -227,23 +227,29 @@ class EditImageFormUsage extends Template {
 //
 class UnknownImageForm extends Template {
 
-	function UnknownImageForm($filename)
+	function UnknownImageForm($filename, $subpath)
 	{
+		global $_GET, $_POST, $projectroot;
 		parent::__construct();
 		
 		$actionvars=array_merge($_GET, $_POST);
-		$actionvars["filefilter"]="filefilter";
-		$actionvars=makelinkparameters($actionvars);
-		$actionvars["unknown"] = "Unknown+Image+Files";
+		$actionvars["s_unknown"] = 1;
 
-		$this->stringvars['actionvarsdeletefile'] = makelinkparameters(array_merge($actionvars, array("action" => "deletefile")));
+		$this->stringvars['actionvarsdeletefile'] = makelinkparameters(array_merge($actionvars, array("action" => "deleteunknownfile")));
 		$this->stringvars['actionvarsaddunknownfile'] = makelinkparameters(array_merge($actionvars, array("action" => "addunknownfile")));
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
-		$this->stringvars['filename']=$filename;
-		$this->vars['image']=new AdminImage($filename,0,0,"",false);
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename, "subpath" => $subpath));
+		$this->stringvars['filename'] = $filename;
+		$this->stringvars['image'] = getimagelinkpath($filename, $subpath);
+		$this->stringvars['imagepath'] = getproperty("Image Upload Path").$subpath.'/'.$filename;
+		$this->stringvars['imageproperties'] = imageproperties($projectroot.$this->stringvars['imagepath']);
 
-		$this->stringvars['permission_granted']=PERMISSION_GRANTED;
-		$this->stringvars['no_permission']=NO_PERMISSION;
+		$dimensions=calculateimagedimensions($projectroot.getproperty("Image Upload Path").$subpath.'/'.$filename, true);
+		$this->stringvars['width']=$dimensions["width"];
+		$this->stringvars['height']=$dimensions["height"];
+
+		// set permissions radio buttons
+		$this->vars['permission_granted'] = new RadioButtonForm("","permission",PERMISSION_GRANTED,"Permission granted",false,"right");
+		$this->vars['no_permission'] = new RadioButtonForm("","permission",NO_PERMISSION,"No permission",true,"right");
 		$this->vars['categoryselection']= new CategorySelectionForm(true,"",CATEGORY_IMAGE);
 		$this->vars['deletefileconfirmform']= new CheckboxForm("deletefileconfirm","deletefileconfirm","Confirm delete",false, "right");
 	}
@@ -274,25 +280,6 @@ class ImageList extends Template {
     	
     	// get filtered images
     	/*
-    	if(isset($_GET['unknown']))
-   		{
-   			$allfilenames=getunknownimages($projectroot.getproperty("Image Upload Path"));
-       		if(count($filenames))
-   			{
-   				$message='Found '.$noofimages.' unknown file(s) in filesystem';
-   			}
-   		   	else
-  			{
-       			$message='No unknown image files found';
-   			}
-   		}
-   		*/
-		if($filter)
-    	{
-    		$tempfilenames=$this->getfilteredimagesfromgetvars();
-    		//print("test!".$filter);
-    	}
-    	/*
    		if(isset($_GET['unused']))
    		{
        		$allfilenames=getunusedimages($_GET['order'],$_GET['ascdesc'],$tempfilenames);
@@ -304,19 +291,6 @@ class ImageList extends Template {
    		   	else
   			{
        			$message='No unused images';
-   			}
-   		}
-  		elseif(isset($_GET['missing']))
-   		{
-   			$allfilenames=getmissingimages($_GET['order'],$_GET['ascdesc'],$tempfilenames);
-
-       		if(count($filenames))
-   			{
-   				$message='Found '.$noofimages.' missing image file(s)';
-   			}
-   		   	else
-  			{
-       			$message='No missing image files';
    			}
    		}
    		elseif(isset($_GET['nothumb']))
@@ -344,62 +318,81 @@ class ImageList extends Template {
    			}
    		}
    		*/
-   		//else
-   		{
-   			$allfilenames=$tempfilenames;
-   			$noofimages = count($allfilenames);
-       		if($noofimages>0)
-   			{
-   				$message='Found '.$noofimages.' image(s)';
-   			}
-   		   	else
-  			{
-       			$message='No images found';
-   			}
-   		}
-   		/*
-   		if(isset($_GET['unused']) ||
-       		isset($_GET['missing']) ||
-       		isset($_GET['unknown']) ||
-       		isset($_GET['nothumb']) ||
-       		isset($_GET['missingthumb']) ||
-       		$filter)
-       	*/
-    	if($filter)
-       	{
-			for($i=$offset;$i<($offset+$number)&&$i<count($allfilenames);$i++)
-   			{
-      			$filenames[$i-$offset]=$allfilenames[$i];
-   			}
-   			$noofimages=count($allfilenames);
+
+		if(isset($_GET['s_missing']))
+		{
+			$allfilenames = $this->getfilteredimagesfromgetvars();
+			$allfilenames = getmissingimages($order, $ascdesc, $allfilenames);
+
+			$noofimages = count($allfilenames);
+			if($noofimages > 1)
+				$message = $noofimages.' images are missing!';
+			elseif($noofimages > 0)
+				$message = $noofimages.' image is missing!';
+			else
+				$message='No missing images';
+
+			for($i=$offset; $i < ($offset + $number) && $i < count($allfilenames); $i++)
+			{
+				$filenames[$i - $offset] = $allfilenames[$i];
+			}
 		}
-    	// unfiltered images
-    	else
-    	{
-      		$filenames=getsomefilenames($offset, $number, $order, $ascdesc);
-      		$noofimages=countimages();
-    	}
+		if(isset($_GET['s_unknown']))
+		{
+			$allfilenames=getunknownimages();
+
+			$noofimages = count($allfilenames);
+			if($noofimages > 1)
+				$message = $noofimages.' unknown images found in file system!';
+			elseif($noofimages > 0)
+				$message = $noofimages.' unknown image found in file system!';
+			else
+				$message='No unknown images found in file system.';
+
+			for($i = $offset; $i < ($offset + $number) && $i < count($allfilenames); $i++)
+			{
+				$filenames[$i - $offset] = $allfilenames[$i]["filename"];
+				$subpaths[$i - $offset] = $allfilenames[$i]["subpath"];
+			}
+		}
+		elseif($filter)
+		{
+			$allfilenames = $this->getfilteredimagesfromgetvars();
+
+			$noofimages = count($allfilenames);
+			if($noofimages > 1)
+				$message='Found '.$noofimages.' images';
+			elseif($noofimages > 0)
+				$message='Found '.$noofimages.' image';
+			else
+				$message='No images found';
+
+			for($i=$offset; $i < ($offset + $number) && $i < count($allfilenames); $i++)
+			{
+				$filenames[$i - $offset] = $allfilenames[$i];
+			}
+		}
+		else
+		{
+			$filenames = getsomefilenames($offset, $number, $order, $ascdesc);
+			$noofimages=countimages();
+		}
 
 		$nooffilenames = count($filenames);
-		
-   		// special edit form for unknown images
-   		/*
-   		if(isset($_GET['unknown']))
-   		{
-   			for($i=0;$i<$nooffilenames;$i++)
-   			{
-       			$this->listvars['imageform'][] = new UnknownImageForm($filenames[$i]);
-   			}
-   		}
-   		// edit form for images
-   		else
-   		*/
-   		{
-   			for($i=0;$i<$nooffilenames;$i++)
-   			{
-      			$this->listvars['imageform'][] = new EditImageForm($filenames[$i]);;
-   			}
-   		}
+		if(isset($_GET['s_unknown']))
+		{
+			for($i=0;$i<$nooffilenames;$i++)
+			{
+				$this->listvars['imageform'][] = new UnknownImageForm($filenames[$i], $subpaths[$i]);
+			}
+		}
+		else
+		{
+			for($i=0;$i<$nooffilenames;$i++)
+			{
+				$this->listvars['imageform'][] = new EditImageForm($filenames[$i]);;
+			}
+		}
    		
    		// get images per page
    		// todo make default value configurable?
@@ -466,7 +459,7 @@ class AdminImage extends Template {
 			$this->vars['caption']= new ImageCaption($filename);
 		}
 		
-		$filepath =	getimagepath($filename);
+		$filepath =	$projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename)).'/'.$filename;
 		
 		if(file_exists($filepath))
 		{
@@ -474,7 +467,7 @@ class AdminImage extends Template {
 			$this->stringvars['imagepath']=getimagelinkpath($filepath,getimagesubpath(basename($filepath)));
 			//print($this->stringvars['imagepath']."*".$filename);
 			
-			$imageproperties = $this->imageproperties($filepath, $uploaddate, $uploader);
+			$imageproperties = imageproperties($filepath, $uploaddate, $uploader);
 			if(strlen($imageproperties)>0)
 				$this->stringvars['imageproperties']=$imageproperties;
 			
@@ -499,7 +492,7 @@ class AdminImage extends Template {
 
 				$this->stringvars['width']=$dimensions["width"];
 				$this->stringvars['height']=$dimensions["height"];
-				$thumbnailproperties = $this->imageproperties($thumbnailpath);
+				$thumbnailproperties = imageproperties($thumbnailpath);
 				if(strlen($thumbnailproperties)>0)
 					$this->stringvars['thumbnailproperties']=$thumbnailproperties;
 			}
@@ -518,29 +511,7 @@ class AdminImage extends Template {
 		$this->addTemplate("admin/imagelist/adminimage.tpl");
 	}
   
-	//
-	// gets file dimensions and upload info as a string
-	//
-	function imageproperties($filename, $uploaddate="", $uploader="")
-	{
-		$result="";
-		if(file_exists($filename))
-		{
-			$dimensions = getimagedimensions($filename);
-			$result.=basename($filename);
-			$result.='&nbsp;- '.$dimensions["width"].'&nbsp;x&nbsp;'.$dimensions["height"].'&nbsp;pixel';
-			$result.='&nbsp;- '.filesize($filename).'&nbsp;bytes.';
-			if($uploaddate || $uploader)
-			{
-				$result.='<br />Uploaded&nbsp;'.$uploaddate.' by&nbsp;'.getusername($uploader).'.';
-			}
-		}
-		else
-		{
-			$result.='<p class="highlight">File <i>'.basename($filename).'</i> not found</p>';
-		}
-		return $result;
-	}
+
 }
 
 
@@ -605,15 +576,7 @@ class ImageFilterForm extends Template {
 		unset($hiddenvars["order"]);
 		unset($hiddenvars["ascdesc"]);
 		$this->stringvars['orderselectionhiddenfields']=$this->makehiddenvars($hiddenvars);
-		
-		/*
-		unset($_GET['missing']);
-		unset($_GET['unused']);
-		unset($_GET['unknown']);
-		unset($_GET['nothumb']);
-		unset($_GET['missingthumb']);
-		*/
-		
+
 		$hiddenvars["number"]=$number;
 		$hiddenvars["order"]=$order;
 		$hiddenvars["ascdesc"]=$ascdesc;
@@ -737,27 +700,14 @@ function getpagemenu($offset,$imagesperpage,$noofimages)
 	$params["number"] = $imagesperpage;
 	$params["order"] = $order;
 	$params["ascdesc"] = $ascdesc;
+
+	if(isset($_GET["s_missing"])) $params["s_missing"] = 1;
+	if(isset($_GET["s_unknown"])) $params["s_unknown"] = 1;
   	
-  	/*
-  	if(isset($_GET['unused']) ||
-       isset($_GET['missing']) ||
-       isset($_GET['unknown']) ||
-       isset($_GET['nothumb']) ||
-       isset($_GET['missingthumb']) ||
-       $filter)
-  	*/
   	if($filter)
   	{
 
 		$params["filter"] = 1;
-
-    	/*
-    	elseif(isset($_GET['unused'])) $params.="&unused=1";
-    	elseif(isset($_GET['missing'])) $params.="&missing=1";
-    	elseif(isset($_GET['unknown'])) $params.="&unknown=1";
-    	elseif(isset($_GET['nothumb'])) $params.="&nothumb=1";
-    	elseif(isset($_GET['missingthumb'])) $params.="&missingthumb=1";
-    	*/
 
 		if(isset($_GET["filename"]) && strlen($_GET["filename"]) > 0) $params["filename"] = urlencode($_GET["filename"]);
 		if(isset($_GET["caption"]) && strlen($_GET["caption"]) > 0) $params["caption"] = urlencode($_GET["caption"]);
@@ -779,4 +729,28 @@ function getpagemenu($offset,$imagesperpage,$noofimages)
   	return new PageMenu($offset, $imagesperpage, $noofimages, $params);
 }
 
+
+//
+// gets file dimensions and upload info as a string
+//
+function imageproperties($filename, $uploaddate="", $uploader="")
+{
+	$result="";
+	if(file_exists($filename))
+	{
+		$dimensions = getimagedimensions($filename);
+		$result.=basename($filename);
+		$result.='&nbsp;- '.$dimensions["width"].'&nbsp;x&nbsp;'.$dimensions["height"].'&nbsp;pixel';
+		$result.='&nbsp;- '.filesize($filename).'&nbsp;bytes.';
+		if($uploaddate || $uploader)
+		{
+			$result.='<br />Uploaded&nbsp;'.$uploaddate.' by&nbsp;'.getusername($uploader).'.';
+		}
+	}
+	else
+	{
+		$result.='<p class="highlight">File <i>'.basename($filename).'</i> not found</p>';
+	}
+	return $result;
+}
 ?>

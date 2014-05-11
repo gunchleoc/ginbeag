@@ -1,6 +1,7 @@
 <?php
 $LEGALVARS = array();
 $LEGALVARS["addthumb"]=1;
+$LEGALVARS["addunknownfile"]=1;
 $LEGALVARS["action"]=1;
 $LEGALVARS["ascdesc"]=1;
 $LEGALVARS["caption"]=1;
@@ -9,6 +10,7 @@ $LEGALVARS["clear"]=1;
 $LEGALVARS["copyright"]=1;
 $LEGALVARS["copyrightblank"]=1;
 $LEGALVARS["delete"]=1;
+$LEGALVARS["deletefile"]=1;
 $LEGALVARS["deletethumb"]=1;
 $LEGALVARS["executethumbnaildelete"]=1;
 $LEGALVARS["filename"]=1;
@@ -30,9 +32,11 @@ $LEGALVARS["s_categoriesblank"]=1;
 $LEGALVARS["s_copyright"]=1;
 $LEGALVARS["s_copyrightblank"]=1;
 $LEGALVARS["s_filename"]=1;
+$LEGALVARS["s_missing"]=1;
 $LEGALVARS["s_selectedcat"]=1;
 $LEGALVARS["s_source"]=1;
 $LEGALVARS["s_sourceblank"]=1;
+$LEGALVARS["s_unknown"]=1;
 $LEGALVARS["s_uploader"]=1;
 $LEGALVARS["selectedcat"]=1;
 $LEGALVARS["sid"]=1;

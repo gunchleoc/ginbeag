@@ -102,28 +102,19 @@ function savedescription($filename,$caption,$source,$sourcelink,$copyright,$perm
 // *************************** filtering functions ************************** //
 
 //
-// $filterimages: Images to be filtered. If this is empty, get all images
+// $allfiles: Images to be filtered
 //
-function getmissingimages($order,$ascdesc,$filterimages=array())
+function getmissingimages($order, $ascdesc, $files)
 {
 	global $projectroot;
-	$imagedir=$projectroot.getproperty("Image Upload Path");
-	if(count($filterimages)>0)
-	{
-		$allfiles=$filterimages;
-	}
-	else
-	{
-		$allfiles=getallfilenames($order,$ascdesc);
-	}
 	$result=array();
-	
-	for($i=0;$i<count($allfiles);$i++)
+
+	$keys = array_keys($files);
+	while($key = next($keys))
 	{
-		$path=$imagedir."/".$allfiles[$i];
-		if(!file_exists($path))
+		if(!file_exists($projectroot.getproperty("Image Upload Path").getimagesubpath($files[$key])."/".$files[$key]))
 		{
-			array_push($result,$allfiles[$i]);
+			array_push($result, $files[$key]);
 		}
 	}
 	return $result;
@@ -133,30 +124,53 @@ function getmissingimages($order,$ascdesc,$filterimages=array())
 //
 //
 //
-function getunknownimages($path)
+function getunknownimages()
 {
+	global $projectroot;
+	$result = getunknownimageshelper("");
+
+	$dir = new DirectoryIterator($projectroot.getproperty("Image Upload Path"));
+	foreach ($dir as $fileinfo)
+	{
+	    if ($fileinfo->isDir() && !$fileinfo->isDot())
+	    {
+	        $result = array_merge($result, getunknownimageshelper("/".$fileinfo->getFilename()));
+	    }
+    }
+	return $result;
+}
+
+
+//
+//
+//
+function getunknownimageshelper($subpath)
+{
+	global $projectroot;
 	$result=array();
-	//  echo "Folder: ".$path."<br/>";
+
 	//using the opendir function
-	$dir_handle = @opendir($path) or die("Unable to open path");
+	$dir_handle = @opendir($projectroot.getproperty("Image Upload Path").$subpath)
+		or die("Unable to open path");
 	
 	while($file = readdir($dir_handle))
 	{
 		if($file!="." && $file!=".." && !strpos(strtolower($file),".php") && !strpos(strtolower($file),".htm"))
 		{
 			$compareme=getdbelement("image_filename",IMAGES_TABLE, "image_filename", $file);
-			if(strlen($compareme)<1)
+			if(strlen($compareme) < 1)
 			{
 				$compareme=getdbelement("thumbnail_filename",THUMBNAILS_TABLE, "thumbnail_filename", $file);
 			}
-			if(strlen($compareme)<1)
+			if(strlen($compareme) < 1)
 			{
-				array_push($result,$file);
+				array_push($result, array("filename" => $file, "subpath" => $subpath));
 			}
 		}
 	}
 	return $result;
 }
+
 
 //
 // $filterimages: Images to be filtered. If this is empty, get all images

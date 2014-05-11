@@ -29,6 +29,8 @@
 						<legend class="highlight">Only images uploaded by:</legend>
 				        {USERSSELECTIONFORM}
 					</fieldset>
+					<input type="submit" name="filter" value="Display Selection" class="mainoption" />
+					<input type="submit" name="clear" value="Show all images" />
 				</div>
 				<div class="leftalign" style="width:31% !important; padding-right:2%;">
 					<fieldset>
@@ -37,28 +39,31 @@
 				        <br />{CATEGORIESBLANKFORM}
 					</fieldset>
 				</div>
-				<div class="newline"></div>
-				
-				<input type="submit" name="filter" value="Display Selection" class="mainoption" />
-				<input type="submit" name="clear" value="Show all images" />
-				
+				<div class="leftalign" style="width:31% !important; padding-right:2%;">
+					<fieldset>
+						<legend class="highlight">Special Searches</legend>
+						<fieldset>
+							<legend>File System</legend>
+							<input type="submit" name="s_missing" value="Missing Image Files" class="mainoption" />
+							&nbsp;&nbsp;&nbsp;<input type="submit" name="s_unknown" value="Unknown Image Files" class="mainoption" />
+						</fieldset>
+					</fieldset>
+				</div>
+			</form>
 			    <!-- todo reinstate functions
-			      <p class="highlight">Image options:</p>
-			
+
 			          <p class="highlight">Webpage Status:</p>
 			          <input type="submit" name="unused" value="Show Unused Images" class="mainoption" />
 			          
-			          <p class="highlight">File System:</p>
-			          <input type="submit" name="missing" value="Missing Image Files" class="mainoption" />
-			          &nbsp;&nbsp;&nbsp;<input type="submit" name="unknown" value="Unknown Image Files" class="mainoption" />
 			          
 			      <p class="highlight">Thumbnail options:</p>
 			                <input type="submit" name="nothumb" value="Images without Thumbnails" class="mainoption" />
 			          <input type="submit" name="missingthumb" value="Missing Thumbnail Files" class="mainoption" />
 			  //-->
-			</form>
+				<div class="newline"></div>
 			<!-- BEGIN switch MESSAGE -->
-			<span class="highlight">{MESSAGE}</span>
+			<div class="spacer">&nbsp;</div>
+			<div class="highlight">{MESSAGE}</div>
 			<!-- END switch MESSAGE -->
 		</div>
 	</div>

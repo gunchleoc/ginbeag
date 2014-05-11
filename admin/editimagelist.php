@@ -24,8 +24,9 @@ include_once($projectroot."admin/includes/objects/imagelist.php");
 checksession();
 
 // clear unused names of submit buttons
-if(isset($_GET['nodelete'])) unset($_GET['nodelete']);
-if(isset($_GET["doorder"])) unset($_GET["doorder"]);
+unset($_GET['nodelete']);
+unset($_GET["doorder"]);
+unset($_GET["addunknownfile"]);
 
 // clear filter
 if(isset($_GET['clear']))
@@ -37,9 +38,11 @@ if(isset($_GET['clear']))
 	unset($_GET['s_copyright']);
 	unset($_GET['s_copyrightblank']);
 	unset($_GET['s_filename']);
+	unset($_GET['s_missing']);
 	unset($_GET['s_selectedcat']);
 	unset($_GET['s_source']);
 	unset($_GET['s_sourceblank']);
+	unset($_GET['s_unknown']);
 	unset($_GET['s_uploader']);
 }
 
@@ -305,7 +308,7 @@ elseif($action==="addunknownfile")
 {
 	$displayeditform = true;
 	$filename=$_POST['filename'];
-	
+
 	if(imageexists($filename))
 	{
 		$message = "Image already exists: ".$filename;
@@ -313,8 +316,17 @@ elseif($action==="addunknownfile")
 	}
 	else
 	{
-		addimage($filename,$caption,$source,$sourcelink,$copyright,$permission);
-		addimagecategories($filename,$selectedcats);
+		if(isset($_POST['subpath'])) $subpath = $_POST['subpath'];
+		else $subpath = "";
+		addimage($filename, $subpath, $caption, $source, $sourcelink, $copyright, $permission);
+		addimagecategories($filename, $selectedcats);
+		$imagename = substr($filename, 0, strrpos($filename,"."));
+		$imageextension=substr($filename, strrpos($filename,"."), strlen($filename));
+		$thumbnail = $imagename."_thn".$imageextension;
+		if(file_exists($projectroot.getproperty("Image Upload Path").$subpath."/".$thumbnail))
+		{
+			addthumbnail($filename,$thumbnail);
+		}
 		$message="Added Image";
 	}
 }
@@ -326,19 +338,25 @@ elseif($action==="deletethumbnail")
 {
 	$form=new DeleteThumbnailConfirmForm($filename);
 }
-elseif($action==="deletefile")
+elseif($action==="deleteunknownfile")
 {
 	if(isset($_POST['deletefileconfirm']))
 	{
-		deletefile(getproperty("Image Upload Path").getimagesubpath(basename($filename)),$filename);
+		if(isset($_POST['subpath'])) $subpath = $_POST['subpath'];
+		else $subpath = "";
+		$success = deletefile(getproperty("Image Upload Path").$subpath, $filename);
 		$message="File <em>".$filename."</em> deleted.";
 	}
 	else
 	{
 		$message = "File delete not confirmed!";
 		$error = true;
-		$displayeditform = true;
 	}
+/*	$filename = "";
+	$caption = "";
+	$source = "";
+	$copyright = "";
+	$permission = ""; */
 }
 elseif($action==="executedelete")
 {
