@@ -45,22 +45,25 @@
 						<fieldset>
 							<legend>File System</legend>
 							<input type="submit" name="s_missing" value="Missing Image Files" class="mainoption" />
-							&nbsp;&nbsp;&nbsp;<input type="submit" name="s_missingthumb" value="Missing Thumbnail Files" class="mainoption" />
+							<div class="formexplain">Images that are in the database but missing from the file system.</div>
+							<br /><input type="submit" name="s_missingthumb" value="Missing Thumbnail Files" class="mainoption" />
+							<div class="formexplain">Image thumbnails that are in the database but missing from the file system.</div>
 							<br /><input type="submit" name="s_unknown" value="Unknown Image Files" class="mainoption" />
+							<div class="formexplain">Image files that aren't registered in the database.</div>
 						</fieldset>
 						<fieldset>
 							<legend>Database</legend>
-							<input type="submit" name="s_unused" value="Show Unused Images" class="mainoption" />
+							<input type="submit" name="s_unused" value="Unused Images" class="mainoption" />
+							<div class="formexplain">Images that have not been used in any page.<br /><span class="highlight">NOTE:</span> This does not search for images added to pages with the [img]-tag!</div>
+							<br /><input type="submit" name="s_nothumb" value="Images without Thumbnails" class="mainoption" />
+							<div class="formexplain">Images that have no thumbnail.</div>
 						</fieldset>
 						<input type="submit" name="clear" value="Clear special searches" />
+						<div class="formexplain">Make sure you hit this button in between searches.</div>
 					</fieldset>
 				</div>
 			</form>
-			    <!-- todo reinstate functions
-			      <p class="highlight">Thumbnail options:</p>
-			                <input type="submit" name="nothumb" value="Images without Thumbnails" class="mainoption" />
-			  //-->
-				<div class="newline"></div>
+			<div class="newline"></div>
 			<!-- BEGIN switch MESSAGE -->
 			<div class="spacer">&nbsp;</div>
 			<div class="highlight">{MESSAGE}</div>

@@ -40,6 +40,7 @@ if(isset($_GET['clear']))
 	unset($_GET['s_filename']);
 	unset($_GET['s_missing']);
 	unset($_GET['s_missingthumb']);
+	unset($_GET['s_nothumb']);
 	unset($_GET['s_selectedcat']);
 	unset($_GET['s_source']);
 	unset($_GET['s_sourceblank']);

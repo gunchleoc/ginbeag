@@ -273,35 +273,16 @@ class ImageList extends Template {
 
     	parent::__construct();
 
-    	$allfilenames=array();
+		$filteredfilenames=array();
     	$filenames=array();
     	$message="";
-    	$tempfilenames=array();
-    	
-    	// get filtered images
-    	/*
-
-   		elseif(isset($_GET['nothumb']))
-   		{
-    			$allfilenames=getimageswithoutthumbnails($_GET['order'],$_GET['ascdesc'],$tempfilenames);
-        		if(count($filenames))
-    			{
-      				$message='Found '.$noofimages.' image(s) without a thumbnail';
-      			}
-      		   	else
-    			{
-        			$message='No images without thumbnails';
-      			}
-   		}
-
-   		*/
 
 		if(isset($_GET['s_missing']))
 		{
-			$allfilenames = $this->getfilteredimagesfromgetvars();
-			$allfilenames = getmissingimages($order, $ascdesc, $allfilenames);
+			$filteredfilenames = $this->getfilteredimagesfromgetvars();
+			$filteredfilenames = getmissingimages($order, $ascdesc, $filteredfilenames);
 
-			$noofimages = count($allfilenames);
+			$noofimages = count($filteredfilenames);
 			if($noofimages > 1)
 				$message = $noofimages.' image files are missing!';
 			elseif($noofimages > 0)
@@ -309,17 +290,17 @@ class ImageList extends Template {
 			else
 				$message='No missing image files';
 
-			for($i=$offset; $i < ($offset + $number) && $i < count($allfilenames); $i++)
+			for($i=$offset; $i < ($offset + $number) && $i < count($filteredfilenames); $i++)
 			{
-				$filenames[$i - $offset] = $allfilenames[$i];
+				$filenames[$i - $offset] = $filteredfilenames[$i];
 			}
 		}
 		elseif(isset($_GET['s_missingthumb']))
 		{
-			$allfilenames = $this->getfilteredimagesfromgetvars();
-			$allfilenames = getmissingthumbnails($order, $ascdesc, $allfilenames);
+			$filteredfilenames = $this->getfilteredimagesfromgetvars();
+			$filteredfilenames = getmissingthumbnails($order, $ascdesc, $filteredfilenames);
 
-			$noofimages = count($allfilenames);
+			$noofimages = count($filteredfilenames);
 			if($noofimages > 1)
 				$message = $noofimages.' thumbnail files are missing!';
 			elseif($noofimages > 0)
@@ -327,16 +308,34 @@ class ImageList extends Template {
 			else
 				$message='No missing thumbnail files';
 
-			for($i=$offset; $i < ($offset + $number) && $i < count($allfilenames); $i++)
+			for($i=$offset; $i < ($offset + $number) && $i < count($filteredfilenames); $i++)
 			{
-				$filenames[$i - $offset] = $allfilenames[$i];
+				$filenames[$i - $offset] = $filteredfilenames[$i];
+			}
+		}
+		elseif(isset($_GET['s_nothumb']))
+		{
+			$filteredfilenames = $this->getfilteredimagesfromgetvars();
+			$filteredfilenames = getimageswithoutthumbnails($order, $ascdesc, $filteredfilenames);
+
+			$noofimages = count($filteredfilenames);
+			if($noofimages > 1)
+				$message = $noofimages.' images have no thumbnail!';
+			elseif($noofimages > 0)
+				$message = $noofimages.' image has no thumbnail!';
+			else
+				$message='There are no images without thumbhail';
+
+			for($i=$offset; $i < ($offset + $number) && $i < count($filteredfilenames); $i++)
+			{
+				$filenames[$i - $offset] = $filteredfilenames[$i];
 			}
 		}
 		elseif(isset($_GET['s_unknown']))
 		{
-			$allfilenames=getunknownimages();
+			$filteredfilenames=getunknownimages();
 
-			$noofimages = count($allfilenames);
+			$noofimages = count($filteredfilenames);
 			if($noofimages > 1)
 				$message = $noofimages.' unknown images found in file system!';
 			elseif($noofimages > 0)
@@ -344,18 +343,18 @@ class ImageList extends Template {
 			else
 				$message='No unknown images found in file system.';
 
-			for($i = $offset; $i < ($offset + $number) && $i < count($allfilenames); $i++)
+			for($i = $offset; $i < ($offset + $number) && $i < count($filteredfilenames); $i++)
 			{
-				$filenames[$i - $offset] = $allfilenames[$i]["filename"];
-				$subpaths[$i - $offset] = $allfilenames[$i]["subpath"];
+				$filenames[$i - $offset] = $filteredfilenames[$i]["filename"];
+				$subpaths[$i - $offset] = $filteredfilenames[$i]["subpath"];
 			}
 		}
 		elseif(isset($_GET['s_unused']))
 		{
-			$allfilenames = $this->getfilteredimagesfromgetvars();
-			$allfilenames = getunusedimages($order, $ascdesc, $allfilenames);
+			$filteredfilenames = $this->getfilteredimagesfromgetvars();
+			$filteredfilenames = getunusedimages($order, $ascdesc, $filteredfilenames);
 
-			$noofimages = count($allfilenames);
+			$noofimages = count($filteredfilenames);
 			if($noofimages > 1)
 				$message = $noofimages.' unused images found in database!';
 			elseif($noofimages > 0)
@@ -363,16 +362,16 @@ class ImageList extends Template {
 			else
 				$message='No unused images found in database.';
 
-			for($i = $offset; $i < ($offset + $number) && $i < count($allfilenames); $i++)
+			for($i = $offset; $i < ($offset + $number) && $i < count($filteredfilenames); $i++)
 			{
-				$filenames[$i - $offset] = $allfilenames[$i];
+				$filenames[$i - $offset] = $filteredfilenames[$i];
 			}
 		}
 		elseif($filter)
 		{
-			$allfilenames = $this->getfilteredimagesfromgetvars();
+			$filteredfilenames = $this->getfilteredimagesfromgetvars();
 
-			$noofimages = count($allfilenames);
+			$noofimages = count($filteredfilenames);
 			if($noofimages > 1)
 				$message='Found '.$noofimages.' images';
 			elseif($noofimages > 0)
@@ -380,9 +379,9 @@ class ImageList extends Template {
 			else
 				$message='No images found';
 
-			for($i=$offset; $i < ($offset + $number) && $i < count($allfilenames); $i++)
+			for($i=$offset; $i < ($offset + $number) && $i < count($filteredfilenames); $i++)
 			{
-				$filenames[$i - $offset] = $allfilenames[$i];
+				$filenames[$i - $offset] = $filteredfilenames[$i];
 			}
 		}
 		else
@@ -715,6 +714,7 @@ function getpagemenu($offset,$imagesperpage,$noofimages)
 
 	if(isset($_GET["s_missing"])) $params["s_missing"] = 1;
 	if(isset($_GET["s_missingthumb"])) $params["s_missingthumb"] = 1;
+	if(isset($_GET["s_nothumb"])) $params["s_nothumb"] = 1;
 	if(isset($_GET["s_unknown"])) $params["s_unknown"] = 1;
 	if(isset($_GET["s_unused"])) $params["s_unused"] = 1;
   	

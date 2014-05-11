@@ -213,27 +213,19 @@ function getmissingthumbnails($order, $ascdesc, $files)
 
 
 //
-// $filterimages: Images to be filtered. If this is empty, get all images
+// $files: Images to be filtered
 //
-function getimageswithoutthumbnails($order,$ascdesc,$filterimages=array())
+function getimageswithoutthumbnails($order, $ascdesc, $files)
 {
 	global $projectroot;
-	$imagedir=$projectroot.getproperty("Image Upload Path");
-	if(count($filterimages)>0)
-	{
-		$allfiles=$filterimages;
-	}
-	else
-	{
-		$allfiles=getallfilenames($order,$ascdesc);
-	}
 	$result=array();
-	
-	for($i=0;$i<count($allfiles);$i++)
+
+	$keys = array_keys($files);
+	while($key = next($keys))
 	{
-		if(!hasthumbnail($allfiles[$i]))
+		if(!hasthumbnail($files[$key]))
 		{
-			array_push($result,$allfiles[$i]);
+			array_push($result, $files[$key]);
 		}
 	}
 	return $result;
