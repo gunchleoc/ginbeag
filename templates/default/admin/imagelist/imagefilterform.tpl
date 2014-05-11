@@ -45,7 +45,8 @@
 						<fieldset>
 							<legend>File System</legend>
 							<input type="submit" name="s_missing" value="Missing Image Files" class="mainoption" />
-							&nbsp;&nbsp;&nbsp;<input type="submit" name="s_unknown" value="Unknown Image Files" class="mainoption" />
+							&nbsp;&nbsp;&nbsp;<input type="submit" name="s_missingthumb" value="Missing Thumbnail Files" class="mainoption" />
+							<br /><input type="submit" name="s_unknown" value="Unknown Image Files" class="mainoption" />
 						</fieldset>
 						<fieldset>
 							<legend>Database</legend>
@@ -58,7 +59,6 @@
 			    <!-- todo reinstate functions
 			      <p class="highlight">Thumbnail options:</p>
 			                <input type="submit" name="nothumb" value="Images without Thumbnails" class="mainoption" />
-			          <input type="submit" name="missingthumb" value="Missing Thumbnail Files" class="mainoption" />
 			  //-->
 				<div class="newline"></div>
 			<!-- BEGIN switch MESSAGE -->

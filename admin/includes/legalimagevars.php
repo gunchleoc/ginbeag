@@ -33,6 +33,7 @@ $LEGALVARS["s_copyright"]=1;
 $LEGALVARS["s_copyrightblank"]=1;
 $LEGALVARS["s_filename"]=1;
 $LEGALVARS["s_missing"]=1;
+$LEGALVARS["s_missingthumb"]=1;
 $LEGALVARS["s_selectedcat"]=1;
 $LEGALVARS["s_source"]=1;
 $LEGALVARS["s_sourceblank"]=1;

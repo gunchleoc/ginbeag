@@ -193,36 +193,24 @@ function getunusedimages($order,$ascdesc,$files)
 
 
 //
-// $filterimages: Images to be filtered. If this is empty, get all images
+// $files: Images to be filtered
 //
-function getmissingthumbnails($order,$ascdesc,$filterimages=array())
+function getmissingthumbnails($order, $ascdesc, $files)
 {
 	global $projectroot;
-	$imagedir=$projectroot.getproperty("Image Upload Path");
-	if(count($filterimages)>0)
-	{
-		$allfiles=$filterimages;
-	}
-	else
-	{
-		$allfiles=getallfilenames($order,$ascdesc);
-	}
 	$result=array();
-	
-	for($i=0;$i<count($allfiles);$i++)
+
+	$keys = array_keys($files);
+	while($key = next($keys))
 	{
-		if(hasthumbnail($allfiles[$i]))
+		if(hasthumbnail($files[$key]) && !file_exists($projectroot.getproperty("Image Upload Path").getimagesubpath($files[$key])."/".getthumbnail($files[$key])))
 		{
-			$path=$imagedir."/".getthumbnail($allfiles[$i]);
-			
-			if(!file_exists($path))
-			{
-				array_push($result,$allfiles[$i]);
-			}
+			array_push($result, $files[$key]);
 		}
 	}
 	return $result;
 }
+
 
 //
 // $filterimages: Images to be filtered. If this is empty, get all images

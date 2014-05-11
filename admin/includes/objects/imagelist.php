@@ -280,19 +280,7 @@ class ImageList extends Template {
     	
     	// get filtered images
     	/*
-   		if(isset($_GET['unused']))
-   		{
-       		$allfilenames=getunusedimages($_GET['order'],$_GET['ascdesc'],$tempfilenames);
 
-       		if(count($filenames))
-   			{
-   				$message='Found '.$noofimages.' unused image(s)';
-   			}
-   		   	else
-  			{
-       			$message='No unused images';
-   			}
-   		}
    		elseif(isset($_GET['nothumb']))
    		{
     			$allfilenames=getimageswithoutthumbnails($_GET['order'],$_GET['ascdesc'],$tempfilenames);
@@ -305,18 +293,7 @@ class ImageList extends Template {
         			$message='No images without thumbnails';
       			}
    		}
-   		elseif(isset($_GET['missingthumb']))
-   		{
-			$allfilenames=getmissingthumbnails($_GET['order'],$_GET['ascdesc'],$tempfilenames);
-       		if(count($filenames))
-   			{
-   				$message='Found '.$noofimages.' missing thumbnail file(s)';
-   			}
-   		   	else
-   			{
-       			$message='No missing thumbnail files';
-   			}
-   		}
+
    		*/
 
 		if(isset($_GET['s_missing']))
@@ -331,6 +308,24 @@ class ImageList extends Template {
 				$message = $noofimages.' image file is missing!';
 			else
 				$message='No missing image files';
+
+			for($i=$offset; $i < ($offset + $number) && $i < count($allfilenames); $i++)
+			{
+				$filenames[$i - $offset] = $allfilenames[$i];
+			}
+		}
+		elseif(isset($_GET['s_missingthumb']))
+		{
+			$allfilenames = $this->getfilteredimagesfromgetvars();
+			$allfilenames = getmissingthumbnails($order, $ascdesc, $allfilenames);
+
+			$noofimages = count($allfilenames);
+			if($noofimages > 1)
+				$message = $noofimages.' thumbnail files are missing!';
+			elseif($noofimages > 0)
+				$message = $noofimages.' thumbnail file is missing!';
+			else
+				$message='No missing thumbnail files';
 
 			for($i=$offset; $i < ($offset + $number) && $i < count($allfilenames); $i++)
 			{
@@ -483,7 +478,6 @@ class AdminImage extends Template {
 		{
 			$this->stringvars['image']="image";
 			$this->stringvars['imagepath']=getimagelinkpath($filepath,getimagesubpath(basename($filepath)));
-			//print($this->stringvars['imagepath']."*".$filename);
 			
 			$imageproperties = imageproperties($filepath, $uploaddate, $uploader);
 			if(strlen($imageproperties)>0)
@@ -720,6 +714,7 @@ function getpagemenu($offset,$imagesperpage,$noofimages)
 	$params["ascdesc"] = $ascdesc;
 
 	if(isset($_GET["s_missing"])) $params["s_missing"] = 1;
+	if(isset($_GET["s_missingthumb"])) $params["s_missingthumb"] = 1;
 	if(isset($_GET["s_unknown"])) $params["s_unknown"] = 1;
 	if(isset($_GET["s_unused"])) $params["s_unused"] = 1;
   	
