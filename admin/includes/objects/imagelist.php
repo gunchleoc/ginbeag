@@ -6,6 +6,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."functions/pages.php");
 include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
+include_once($projectroot."admin/includes/objects/messages.php");
 include_once($projectroot."functions/pagecontent/newspages.php");
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/includes.php");
@@ -693,11 +694,11 @@ class ImageUsersSelectionForm  extends Template {
 //
 class AdminImagePage  extends Template {
 
-	function AdminImagePage($messagetitle,$message,$filename,$addimageform,$form,$displayeditform=false)
+	function AdminImagePage($filename, $form, $message, $addimageform = NULL, $displayeditform = false)
 	{
 		global $number;
 		
-		parent::__construct($filename,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		parent::__construct($filename, array(0 => "includes/javascript/jquery.js"));
 
     	$this->stringvars['stylesheet']=getCSSPath("main.css");
 		$this->stringvars['adminstylesheet']=getCSSPath("admin.css");
@@ -706,19 +707,9 @@ class AdminImagePage  extends Template {
 		
 		$this->stringvars['pageeditinglink']= "admin.php".makelinkparameters(array("page" => $this->stringvars['page']));
     
-		if(strlen($messagetitle)>0)
-		{
-			$this->stringvars['messagetitle'] = $messagetitle;
-		}
-		if(strlen($message)>0)
-		{
-			$this->stringvars['message'] = $message;
-			if(strlen($filename)>0)
-			{
-				$this->vars['editimageform'] = new EditImageForm($filename);
-			}
-		}
-		if($addimageform)
+		$this->vars['message'] = $message;
+
+		if($addimageform != NULL)
 			$this->vars['addimageform']=$addimageform;
 		
 		if($displayeditform)

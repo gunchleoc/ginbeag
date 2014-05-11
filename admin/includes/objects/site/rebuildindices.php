@@ -12,7 +12,7 @@ include_once($projectroot."includes/objects/elements.php");
 //
 class SiteRebuildIndices extends Template {
 
-	function SiteRebuildIndices()
+	function SiteRebuildIndices($message="")
 	{
 		parent::__construct();
 
@@ -20,6 +20,8 @@ class SiteRebuildIndices extends Template {
 		$linkparams["postaction"] = "restrictedpages";
 		$linkparams["action"] = "siteind";
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
+
+		if(strlen($message) > 0) $this->stringvars['message'] = $message;
 	}
 	
 	// assigns templates

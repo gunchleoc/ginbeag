@@ -18,16 +18,7 @@
 			<div class="maintitle">Webpage Building - Image Database</div>
 			<div id="main">
 				<div>
-					<!-- BEGIN switch MESSAGE -->
-					<div class="imagecontentarea">
-						<div class="contentoutline">
-							<div class="contentheader"><!-- BEGIN switch MESSAGETITLE -->{MESSAGETITLE}<!-- END switch MESSAGETITLE --></div>
-							<div class="contentsection">
-								<p class="highlight">{MESSAGE}</p>
-							</div>
-						</div>
-					</div>
-					<!-- END switch MESSAGE -->
+					{MESSAGE}
 					<!-- BEGIN switch EDITIMAGEFORM -->
 					{EDITIMAGEFORM}
 					<!-- END switch EDITIMAGEFORM -->

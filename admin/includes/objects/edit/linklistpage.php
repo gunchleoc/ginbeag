@@ -80,7 +80,7 @@ class EditLinkListLinkForm extends Template {
 class EditLinklist extends Template {
 	function EditLinklist($page)
 	{
-		parent::__construct($page, array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		parent::__construct($page, array(0 => "includes/javascript/jcaret.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 
 		$linkparams["page"] = $this->stringvars['page'];

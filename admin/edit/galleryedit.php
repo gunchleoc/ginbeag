@@ -102,7 +102,7 @@ else
 
 			if($offset > $_GET['noofimages'])
 			{
-				$offset= floor($noofimages / $imagesperpage) $imagesperpage;
+				$offset= floor($noofimages / $imagesperpage) * $imagesperpage;
 			}
 			updateeditdata($page);
 		}

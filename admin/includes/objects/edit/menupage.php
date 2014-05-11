@@ -92,7 +92,7 @@ class MenuMovePageFormContainer extends Template {
 class EditMenuSubpages extends Template {
 	function EditMenuSubpages($page)
 	{
-   		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		parent::__construct($page,array(0 => "includes/javascript/jcaret.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 
 		$linkparams["page"] = $page;
@@ -123,7 +123,7 @@ class EditMenuSubpages extends Template {
 class EditMenu extends Template {
 	function EditMenu($page)
 	{
-   		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		parent::__construct($page,array(0 => "includes/javascript/jcaret.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 
 		$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");

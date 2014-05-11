@@ -575,7 +575,7 @@ class EditNewsItemForms extends Template {
 		else
 			$this->stringvars["newsitem"] = "";
 
-		parent::__construct($this->stringvars["newsitem"], array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
+		parent::__construct($this->stringvars["newsitem"], array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("newsitem" => $this->stringvars["newsitem"]));
 		
@@ -658,7 +658,7 @@ class EditNews extends Template {
 
 	function EditNews($page)
 	{
-		parent::__construct($page, array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
+		parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
 		$this->stringvars['javascript']=$this->getScripts();
   	
     	$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");

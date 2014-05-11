@@ -42,7 +42,7 @@ class ArticlePageButton extends Template {
 class EditArticle extends Template {
 	function EditArticle($page)
 	{
-		parent::__construct($page, array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editarticle.js"));
+		parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editarticle.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
 	
@@ -128,7 +128,7 @@ class ArticleSectionForm extends Template {
 class EditArticlePage extends Template {
 	function EditArticlePage($articlepage)
 	{
-		parent::__construct($articlepage,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		parent::__construct($articlepage,array(0 => "includes/javascript/jcaret.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 
 		$linkparams["page"] = $this->stringvars['page'];

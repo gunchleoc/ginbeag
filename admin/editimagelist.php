@@ -23,6 +23,10 @@ include_once($projectroot."admin/includes/objects/imagelist.php");
 
 checksession();
 
+// clear unused names of submit buttons
+if(isset($_GET['nodelete'])) unset($_GET['nodelete']);
+if(isset($_GET["doorder"])) unset($_GET["doorder"]);
+
 // clear filter
 if(isset($_GET['clear']))
 {
@@ -38,14 +42,13 @@ if(isset($_GET['clear']))
 	unset($_GET['s_sourceblank']);
 	unset($_GET['s_uploader']);
 }
+
 $filter=false;
 if(isset($_GET['filter']))
 {
 	$filter=true;
 	unset($_GET['filter']);
 }
-
-if(isset($_GET["doorder"])) unset($_GET["doorder"]);
 
 $offset=0;
 if(isset($_GET['offset']) && $_GET['offset'] > 0) $offset=$_GET['offset'];
@@ -94,8 +97,8 @@ $selectedcats=array();
 if(isset($_POST['selectedcat'])) $selectedcats=$_POST['selectedcat'];
 
 $form=false;
-$messagetitle="";
 $message="";
+$error = false;
 $displayeditform=false;
 $success=false;
 
@@ -105,10 +108,10 @@ if(isset($_POST["addimage"]))
 	$filename=$_FILES['filename']['name'];
   	$thumbnail=$_FILES['thumbnail']['name'];
 
-  	$messagetitle="Adding image";
   	if(!$filename)
   	{
-		$message='Please select an image for upload';
+		$message = 'Please select an image for upload';
+		$error = true;
   	}
   	else
   	{
@@ -129,8 +132,8 @@ if(isset($_POST["addimage"]))
 	    $copyindexsuccess = $copyindexsuccess & @copy($projectroot.getproperty("Image Upload Path")."/index.php", $imagedir."/index.php");
 	    if(!$copyindexsuccess )
 	    {
-	    	$messagetitle.=" - SECURITY WARNING";
-	    	$message.='<div class="highlight">WARNING: unable to create index files in '.$imagedir.'. Please use FTP to copy these files from <em>'.$projectroot.getproperty("Image Upload Path").'</em> for security reasons!</div>';
+			$message .= 'SECURITY WARNING: unable to create index files in '.$imagedir.'. Please use FTP to copy these files from <em>'.$projectroot.getproperty("Image Upload Path").'</em> for security reasons!';
+			$error = true;
 	    }
 	    if(strlen($newname)>0)
 	    {
@@ -143,7 +146,8 @@ if(isset($_POST["addimage"]))
 	
 	    if(imageexists($filename))
 	    {
-			$message.='Image already exists: '.$filename.'';
+			$message .= 'Image already exists: '.$filename.'';
+			$error = true;
 	    }
 	    else
 	    {
@@ -171,7 +175,8 @@ if(isset($_POST["addimage"]))
 				}
 				else
 				{
-					$message.="<br />Failed to upload thumbnail";
+					$message .= "<br />Failed to upload thumbnail";
+					$error = true;
 				}
 			}
 	    }
@@ -182,22 +187,25 @@ if(isset($_POST["addimage"]))
 	    }
 	    else
 	    {
-			$message.="<br />Failed to upload image";
+			$message .= "<br />Failed to upload image";
+			$error = true;
 	    }
 	}
 }
 elseif($action==="replaceimage")
 {
+	$displayeditform = true;
 	$newfilename=$_FILES['newfilename']['name'];
-	$messagetitle="Replacing image";
 
 	if(!$newfilename)
 	{
-		$message="Please select an image for upload";
+		$message = "Please select an image for upload";
+		$error = true;
 	}
 	elseif(!imageexists($filename))
 	{
-		$message="The image you wish to replace does not exist: ".$filename;
+		$message = "The image you wish to replace does not exist: ".$filename;
+		$error = true;
 	}
 	else
 	{
@@ -213,14 +221,16 @@ elseif($action==="replaceimage")
 		}
 		else
 		{
-			$message="failed to upload image";
+			$message = "failed to upload image";
+			$error = true;
 		}
 	}
 }
 elseif($action==="addthumb")
 {
+	$displayeditform = true;
 	$thumbnail=$_FILES['thumbnail']['name'];
-	$messagetitle="Adding thumbnail";
+
 	if($thumbnail)
 	{
 		$extension=substr($thumbnail,strrpos($thumbnail,"."),strlen($thumbnail));
@@ -234,7 +244,8 @@ elseif($action==="addthumb")
 		}
 		else
 		{
-			$message.="Wrong file extension <em>".$extension."</em>. The thumbnail file must be of type <em>".$imageextension."</em>. ";
+			$message .= "Wrong file extension <em>".$extension."</em>. The thumbnail file must be of type <em>".$imageextension."</em>. ";
+			$error = true;
 		}
 		
 		if($success)
@@ -243,22 +254,25 @@ elseif($action==="addthumb")
 		}
 		else
 		{
-			$message.="Failed to upload thumbnail";
+			$message .= "Failed to upload thumbnail";
+			$error = true;
 		}
 	}
 	else
 	{
-		$message="Please select a file before upload";
+		$message = "Please select a file before upload";
+		$error = true;
 	}
-	$displayeditform=true;
 }
 elseif($action==="replacethumb")
 {
+	$displayeditform = true;
 	$thumbnail=$_FILES['thumbnail']['name'];
-	$messagetitle="Replacing thumbnail";
+
 	if(!$thumbnail)
 	{
-		$message="Please select an image for upload";
+		$message = "Please select an image for upload";
+		$error = true;
 	}
 	else
 	{
@@ -272,7 +286,8 @@ elseif($action==="replacethumb")
 		}
 		else
 		{
-			$message.="Wrong file extension <em>".$extension."</em>. The thumbnail file must be of type <em>".$imageextension."</em>. ";
+			$message .= "Wrong file extension <em>".$extension."</em>. The thumbnail file must be of type <em>".$imageextension."</em>. ";
+			$error = true;
 		}
 
 		if($success)
@@ -281,19 +296,20 @@ elseif($action==="replacethumb")
 		}
 		else
 		{
-			$message.="Failed to upload thumbnail";
+			$message .= "Failed to upload thumbnail";
+			$error = true;
 		}
 	}
-	$displayeditform=true;
 }
 elseif($action==="addunknownfile")
 {
+	$displayeditform = true;
 	$filename=$_POST['filename'];
-	$messagetitle="Adding existing image";
 	
 	if(imageexists($filename))
 	{
-		$message="Image already exists: ".$filename;
+		$message = "Image already exists: ".$filename;
+		$error = true;
 	}
 	else
 	{
@@ -301,7 +317,6 @@ elseif($action==="addunknownfile")
 		addimagecategories($filename,$selectedcats);
 		$message="Added Image";
 	}
-	$displayeditform=true;
 }
 elseif($action==="delete")
 {
@@ -313,22 +328,22 @@ elseif($action==="deletethumbnail")
 }
 elseif($action==="deletefile")
 {
-	$messagetitle="Deleting file <i>".$filename."</i>";
 	if(isset($_POST['deletefileconfirm']))
 	{
 		deletefile(getproperty("Image Upload Path").getimagesubpath(basename($filename)),$filename);
-		$message="File deleted.";
+		$message="File <em>".$filename."</em> deleted.";
 	}
 	else
 	{
-		$message="File delete not confirmed!";
+		$message = "File delete not confirmed!";
+		$error = true;
+		$displayeditform = true;
 	}
 }
 elseif($action==="executedelete")
 {
 	if(isset($_POST['delete']))
 	{
-	    $messagetitle="Deleting image <i>".$filename."</i></i>";
 	    $imagedir = getproperty("Image Upload Path").getimagesubpath(basename($filename));
 	    $pages=pagesforimage($filename);
 	    $newsitems=newsitemsforimage($filename);
@@ -344,17 +359,20 @@ elseif($action==="executedelete")
 					if(!file_exists($filename))
 					{
 						deleteimage($filename);
+						$message = "Deleted image <em>".$filename."</em>";
 					}
 					else
 					{
-						$message="Failed to delete image file <em>".$filename."</em> from dir <em>".$imagedir."</em>";
-						$displayeditform=true;
+						$message = "Failed to delete image file <em>".$filename."</em> from dir <em>".$imagedir."</em>";
+						$displayeditform = true;
+						$error = true;
 					}
 				}
 				else
 				{
-					$message="Failed to delete  thumbnail file <em>".$thumbnail."</em> from dir <em>".$imagedir."</em>";
-					$displayeditform=true;
+					$message = "Failed to delete  thumbnail file <em>".$thumbnail."</em> from dir <em>".$imagedir."</em>";
+					$displayeditform = true;
+					$error = true;
 				}
 			}
 			else
@@ -363,11 +381,13 @@ elseif($action==="executedelete")
 				if(!file_exists($filename))
 				{
 					deleteimage($filename);
+					$message = "Deleted image <em>".$filename."</em>";
 				}
 				else
 				{
-					$message="Failed to delete image file <em>".$filename."</em> from dir <em>".$imagedir."</em>";
-					$displayeditform=true;
+					$message = "Failed to delete image file <em>".$filename."</em> from dir <em>".$imagedir."</em>";
+					$displayeditform = true;
+					$error = true;
 				}
 			}
 	    }
@@ -389,6 +409,7 @@ elseif($action==="executedelete")
 				$linkparameters["action"] = "editcontents";
 				$message.='<a href="edit/newsedit.php'.makelinkparameters($linkparameters).'" target="_blank">#'.$newsitems[$i].' on page #'.$newspage.'</a>. ';
 			}
+			$error = true;
 		}
 	}
 	else
@@ -399,9 +420,9 @@ elseif($action==="executedelete")
 }
 elseif($action==="executethumbnaildelete")
 {
+	$displayeditform = true;
 	if(isset($_POST['delete']))
   	{
-    	$messagetitle="Deleting thumbnail for image <em>".$filename."</em>";
     	$imagedir = getproperty("Image Upload Path").getimagesubpath(basename($filename));
     	if(hasthumbnail($filename))
     	{
@@ -414,12 +435,14 @@ elseif($action==="executethumbnaildelete")
       		}
       		else
       		{
-        		$message="Failed to delete thumbnail file <em>".$thumbnail."</em> from dir <em>".$imagedir."</em>";
+				$message = "Failed to delete thumbnail file <em>".$thumbnail."</em> from dir <em>".$imagedir."</em>";
+				$error = true;
       		}
     	}
     	else
     	{
-      		$message="No thumbnail found!";
+			$message = "No thumbnail found!";
+			$error = true;
     	}
   	}
   	else
@@ -428,18 +451,17 @@ elseif($action==="executethumbnaildelete")
   	}
   	unset($_GET['action']);
 	unset($_POST['action']);
-  	$displayeditform=true;
 }
 
 if($form)
 {
-	$adminimagepage = new AdminImagePage($messagetitle,$message,$filename,false,$form);
+	$adminimagepage = new AdminImagePage($filename, $form, new AdminMessage($message, $error));
 }
 else
 {
     $addimageform = new AddImageForm($filename,$caption,$source,$sourcelink,$copyright,$permission);
 	$form = new ImageList($offset);
-	$adminimagepage = new AdminImagePage($messagetitle,$message,$filename,$addimageform,$form,$displayeditform);
+	$adminimagepage = new AdminImagePage($filename, $form, new AdminMessage($message, $error), $addimageform, $displayeditform);
 }
 
 print($adminimagepage->toHTML());

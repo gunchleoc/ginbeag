@@ -275,9 +275,7 @@ class EditPage extends Template {
 
 	function EditPage($page)
 	{
-		$jslibraries = array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js");
-		$jscripts = array(0=>"admin/includes/javascript/messageboxes.js", 1=>"admin/includes/javascript/editpage.js");
-		parent::__construct($page,$jslibraries,$jscripts);
+		parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editpage.js"));
     
 		$pagetype=getpagetype($page);
 		$permissions=getcopyright($page);

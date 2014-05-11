@@ -9,6 +9,7 @@ include_once($projectroot."admin/functions/pagesmod.php");
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/page.php");
 include_once($projectroot."admin/includes/objects/admintopframe.php");
+include_once($projectroot."admin/includes/objects/messages.php");
 include_once($projectroot."admin/includes/actions.php");
 
 //
@@ -33,8 +34,9 @@ class AdminMain extends Template {
 		if($contentobject instanceof Template)
 		{
 			$jspaths = $contentobject->getjspaths();
+			$this->stringvars['scriptlinks']='<script type="text/javascript" src="'.getprojectrootlinkpath().'includes/javascript/jquery.js"></script>';
 			if(strlen($jspaths)>0)
-				$this->stringvars['scriptlinks']=$jspaths;
+				$this->stringvars['scriptlinks'] .= $jspaths;
 				
 			$jscripts = $contentobject->getScripts();
 			if(strlen($jscripts)>0)
@@ -167,24 +169,4 @@ class AdminMain extends Template {
 	}
 }
 
-
-
-class AdminMessage extends Template {
-
-	function __construct($message, $iserror)
-	{
-		parent::__construct();
-		if(strlen($message) > 0)
-		{
-			if($iserror) $this->stringvars["message"] = '<span class="highlight">'.$message."</span>";
-			else $this->stringvars["message"] = $message;
-		}
-	}
-
-	// assigns templates
-	function createTemplates()
-	{
-		$this->addTemplate("admin/adminmessage.tpl");
-	}
-}
 ?>

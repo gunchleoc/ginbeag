@@ -16,7 +16,7 @@ include_once($projectroot."admin/includes/objects/imageeditor.php");
 class EditPageIntro extends Template {
 	function EditPageIntro($page)
 	{
-		parent::__construct($page,array(0=>"includes/javascript/jquery.js", 1=>"includes/javascript/jcaret.js"));
+		parent::__construct($page,array(0 => "includes/javascript/jcaret.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 
 		$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");

@@ -475,7 +475,6 @@ function rebuildaccessrestrictionindex()
 	
 	$result="";
 	
-	$result.='<p class="highlight">Rebuilt index of restricted pages:</p>';
 	// get masterpages from access table
 	$masterpages=getcolumn("page_id",RESTRICTEDPAGESACCESS_TABLE, "1");
 	$masterpages2=getdistinctorderedcolumn("masterpage", RESTRICTEDPAGES_TABLE,"1", "masterpage","ASC");
@@ -511,7 +510,6 @@ function rebuildaccessrestrictionindex()
 			}
 		}
 	}
-	//$result.='<span class="highlight"> ... done!</span>';
 	return $result;
 }
 
