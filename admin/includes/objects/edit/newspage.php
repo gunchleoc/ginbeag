@@ -413,9 +413,11 @@ class ArchiveNewsItemsForm extends Template {
 		$oldestdate=getoldestnewsitemdate($this->stringvars['page']);
 		$date=getnewestnewsitemdate($this->stringvars['page']);
 
-		$this->stringvars['day']=$oldestdate['mday'];
-		$this->stringvars['month']=$oldestdate['month'];
-		$this->stringvars['year']=$oldestdate['year'];
+		$hiddenvars['oldestday']=$oldestdate['mday'];
+		$hiddenvars['oldestmonth']=$oldestdate['month'];
+		$hiddenvars['oldestyear']=$oldestdate['year'];
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
+		$this->stringvars['olddate'] = makearticledate($oldestdate['mday'],$oldestdate['mon'],$oldestdate['year']);
 
 		$this->vars['dayform']= new DayOptionForm($oldestdate['mday']);
 		$this->vars['monthform']= new MonthOptionForm($oldestdate['mon']);
