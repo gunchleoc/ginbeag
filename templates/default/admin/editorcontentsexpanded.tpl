@@ -12,7 +12,9 @@
 				
 				<div class="leftalign editorlineleft"><input id="{JSID}img" type="button" class="button" accesskey="p" name="img" value="Image" style="width: 50px"  /></div>
 				<div class="leftalign editorcodebutton"><input id="{JSID}url" type="button" class="button" accesskey="w" name="url" value="Link" style="text-decoration: underline; width: 40px" /></div>
-				
+
+				<div class="leftalign editorlineleft"><input id="{JSID}table" type="button" class="button" accesskey="t" name="table" value="Table" style="width: 50px"  /></div>
+
 				<div class="leftalign editorlineleft">{STYLEFORM}</div>
 			</div>
 			<div class="newline">

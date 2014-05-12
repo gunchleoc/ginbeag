@@ -364,6 +364,55 @@ function doGetCaretPosition (ctrl) {
 		  	settextisedited();
 		});	// url
 		
+
+		/* table */
+		$("#{JSID}table").click(function() {
+			var caretstart =getcaretstart($("#{JSID}edittext"));
+			var rows = "NaN";
+			var promptlabel = "Table rows:";
+			while (rows != null && isNaN(rows))
+			{
+				rows = prompt(promptlabel, "");
+				if(isNaN(rows)) promptlabel = "'" + rows + "' is not a number! Please enter the number of rows for the table:";
+			}
+			if (rows != null && rows != "")
+			{
+				var cols = "NaN";
+				var promptlabel = "Table columns:";
+				while (cols != null && isNaN(cols))
+				{
+					cols = prompt(promptlabel, "");
+					if(isNaN(cols)) promptlabel = "'" + cols + "' is not a number! Please enter the number of columns for the table:";
+				}
+				if (cols != null && cols != "")
+				{
+					var sourcetext = $("#{JSID}edittext").val();
+					var text = sourcetext.substring(0, caretstart);
+					var tag = "\n[table]\n\t[caption]CAPTION[/caption]\n\t[tr]";
+					for(var i = 0; i < cols; i++)
+					{
+						tag += "\n\t\t[th]HEADER"+(i+1)+"[/th]";
+					}
+					tag += "\n\t[/tr]";
+					for(i = 0; i < rows; i++)
+					{
+						tag += "\n\t[tr]";
+						for(var j = 0; j < cols; j++)
+						{
+						tag += "\n\t\t[td]CELL"+(i+1)+(j+1)+"[/td]";
+						}
+						tag += "\n\t[/tr]";
+					}
+					tag += "\n[/table]\n";
+					text = text + tag;
+					text = text + sourcetext.substring(caretstart);
+					$("#{JSID}edittext").val(text);
+					setcaret($("#{JSID}edittext"),caretstart + 19);
+				}
+			}
+			settextisedited();
+		});	// table
+
 		/* styleform */
 		$("#{JSID}styleform").children().each(function(index) {
 			$(this).on("click", function() {
