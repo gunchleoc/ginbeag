@@ -172,8 +172,7 @@ class EditGallery extends Template {
 		}
 		else
 		{
-			$this->stringvars['imageform']="";
-			$message .='There are no images in this gallery';
+			$this->stringvars['imageform']="There are no images in this gallery";
 		}
 		
 		$this->vars['addform'] = new AddGalleryImageForm($offset,$noofimages,$noofimages,$showall);

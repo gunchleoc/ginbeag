@@ -40,10 +40,12 @@ function changegalleryimage($galleryitem, $filename)
 //
 //
 //
-function removegalleryimage($galleryitem)
+function removegalleryimage($galleryitem, $page)
 {
 	global $db;
-	return deleteentry(GALLERYITEMS_TABLE,"galleryitem_id='".$db->setinteger($galleryitem)."'");
+	$success= deleteentry(GALLERYITEMS_TABLE,"galleryitem_id='".$db->setinteger($galleryitem)."'");
+	if($success) reindexgallerypositions($page);
+	return $success;
 }
 
 

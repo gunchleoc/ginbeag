@@ -63,7 +63,7 @@ else
 				$error = true;
 			}
 			$noofimages = countgalleryimages($page);
-			$offset = floor(($noofimages - 1) / $imagesperpage) * $imagesperpage;
+			$offset = (ceil($noofimages / $imagesperpage) - 1) * $imagesperpage;
 
 		}
 		elseif(isset($_POST['removegalleryimage']))
@@ -71,12 +71,12 @@ else
 			$message = 'Removed image <i>'.getgalleryimage($_POST['galleryitemid']).'</i>';
 			if(isset($_POST['removeconfirm']))
 			{
-				removegalleryimage($_POST['galleryitemid']);
+				removegalleryimage($_POST['galleryitemid'], $page);
 				updateeditdata($page);
 				$noofimages = countgalleryimages($page);
 				if($offset >= $noofimages)
 				{
-					$offset = floor(($noofimages - 1) / $imagesperpage) * $imagesperpage;
+					$offset = (ceil($noofimages / $imagesperpage) - 1) * $imagesperpage;
 				}
 			}
 			else
@@ -89,21 +89,14 @@ else
 		{
 			$message = 'Moved image <i>'.$_POST['imagefilename'].'</i> up';
 			movegalleryimage($_POST['galleryitemid'], "up", $_POST['positions']);
-			$offset = floor(($_GET['pageposition'] - $_POST['positions']) / $imagesperpage) * $imagesperpage - $imagesperpage;
-			if($offset < 0) $offset=0;
+			$offset = (ceil(getgalleryimageposition($_POST['galleryitemid']) / $imagesperpage) - 1) * $imagesperpage;
 			updateeditdata($page);
 		}
 		elseif(isset($_POST['moveimagedown']))
 		{
 			$message = 'Moved image <i>'.$_POST['imagefilename'].'</i> down';
 			movegalleryimage($_POST['galleryitemid'], "down", $_POST['positions']);
-
-			$offset=floor(($_GET['pageposition'] + $_POST['positions']) / $imagesperpage) * $imagesperpage;
-
-			if($offset > $_GET['noofimages'])
-			{
-				$offset= floor($noofimages / $imagesperpage) * $imagesperpage;
-			}
+			$offset = (ceil(getgalleryimageposition($_POST['galleryitemid']) / $imagesperpage) - 1) * $imagesperpage;
 			updateeditdata($page);
 		}
 		elseif(isset($_POST['reindex']))
