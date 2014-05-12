@@ -169,10 +169,9 @@ class EditGallery extends Template {
 		
 		if($noofimages > 0)
 		{
-			$keys = array_keys($imageids);
-			while($key = next($keys))
+			for($i = 0; $i < count($imageids); $i++)
 			{
-				$this->listvars['imageform'][] = new GalleryImageForm($imageids[$key], $offset, $noofimages, $showall);
+				$this->listvars['imageform'][] = new GalleryImageForm($imageids[$i], $offset, $noofimages, $showall);
 			}
 		}
 		else
