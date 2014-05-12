@@ -13,6 +13,9 @@ include_once($projectroot."admin/includes/objects/adminmain.php");
 
 checksession();
 
+//print_r($_POST);
+//print_r($_GET);
+
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
@@ -23,9 +26,6 @@ if(isset($_GET['showall']) || isset($_POST['showall'])) $showall=true;
 else $showall=false;
 
 $imagesperpage=6;
-
-//print_r($_POST);
-//print_r($_GET);
 
 // *************************** actions ************************************** //
 
@@ -64,7 +64,6 @@ else
 			}
 			$noofimages = countgalleryimages($page);
 			$offset = (ceil($noofimages / $imagesperpage) - 1) * $imagesperpage;
-
 		}
 		elseif(isset($_POST['removegalleryimage']))
 		{
