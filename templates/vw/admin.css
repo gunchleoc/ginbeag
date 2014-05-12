@@ -222,66 +222,13 @@ a.admintopframelink {
 	font-size:110%;
 }
 
-
 /************ tables ************/
-
-
-table {
-	font-size:100%;
-	margin-top: 2em;
-	margin-bottom: 2em;
-	box-shadow:4px 4px 3px #006666;
-	border-collapse:collapse;
-	border-spacing:0;
-   	width:70%;
-    margin-left:15%;
-    margin-right:15%;
-    border: #398EB9;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-}
 
 table.userlist {
 	width:96%!important;
 	margin-left:2%!important;
 	margin-right:0em!important;
 }
-
-caption {
-	text-align: center;
-	border: #398EB9;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	font-size: 110%;
-	background-color: #D4ECFB;
-	color : #FFFF00;
-	font-weight: bold;
-	padding:0.5em;
-	background-image: url(img/navigator.gif);
-	height: 26px;
-	box-shadow:-1px -1px 3px 1px #006666 inset;
-}
-th {
-	text-align: center;
-	border: #398EB9;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	font-size: 110%;
-	background-color: #006378;
-	color : #FFFF00;
-	font-weight: bold;
-	padding:0.5em;
-}
-
-td {
-	border: #398EB9;
-	border-style: solid;
-	border-width: 1px 1px 1px 1px;
-	padding:0.5em;
-	background-color: #002927;
-	color: white;
-}
-
 
 /************ menuedit ************/
 

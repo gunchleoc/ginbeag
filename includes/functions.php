@@ -170,7 +170,6 @@ function text2html($text)
   
   
 	// parsing nested lists
-  
 	while(preg_match("/\[list\](.*?)\[\/list\]/si",$text) || preg_match("/\[list=(.*?)\](.*?)\[\/list\]/si",$text))
 	{
     	$patterns = array(
@@ -187,6 +186,64 @@ function text2html($text)
 	}
   
 
+	// tables
+	$patterns = array(
+		"/\[tr\](\s+?)\[/si",
+		"/\[\/tr\](\s+?)\[/si",
+
+		"/\[td\](\s+?)\[/si",
+		"/\[\/td\](\s+?)\[/si",
+
+		"/\[th\](\s+?)\[/si",
+		"/\[\/th\](\s+?)\[/si",
+
+		"/\[caption\](\s+?)\[/si",
+		"/\[\/caption\](\s+?)\[/si",
+
+		"/\[table\](\s+?)\[/si",
+		"/\](\s+?)\[\/table\]/si",
+	);
+	$replacements = array(
+		"[tr][",
+		"[/tr][",
+
+		"[td][",
+		"[/td][",
+
+		"[th][",
+		"[/th][",
+
+		"[caption][",
+		"[/caption][",
+
+		"[table][",
+		"][/table]",
+	);
+	$text = preg_replace($patterns,$replacements, $text);
+
+	while(preg_match("/\[table(.*?)\](.*?)\[tr\](.*?)\[td(.*?)\](.*?)\[\/td\](.*?)\[\/tr\](.*?)\[\/table\]/si",$text))
+	{
+		$patterns = array(
+			"/\[table(.*?)\](.*?)\[tr\](.*?)\[td(.*?)\](.*?)\[\/td\](.*?)\[\/tr\](.*?)\[\/table\]/si",
+		);
+		$replacements = array(
+			"[table\\1]\\2[tr]\\3<td\\4>\\5</td>\\6[/tr]\\7[/table]",
+		);
+		$text = preg_replace($patterns,$replacements, $text);
+	}
+	$patterns = array(
+		"/\[tr\](.*?)\[\/tr\]/si",
+		"/\[th\](.*?)\[\/th\]/si",
+		"/\[caption\](.*?)\[\/caption\]/si",
+		"/\[table(.*?)\](.*?)\[\/table\]/si",
+	);
+	$replacements = array(
+		"<tr>\\1</tr>",
+		"<th>\\1</th>",
+		"<caption>\\1</caption>",
+		"<table\\1>\\2</table>",
+	);
+	$text = preg_replace($patterns,$replacements, $text);
 
 	// adam at releod dot com
 	// auto URL
@@ -230,6 +287,11 @@ function text2html($text)
 	array_push($preserve,'em');
 	array_push($preserve,'strong');
 	array_push($preserve,'pre');
+	array_push($preserve,'td');
+	array_push($preserve,'tr');
+	array_push($preserve,'table');
+	array_push($preserve,'th');
+	array_push($preserve,'caption');
 	array_push($preserve,'ul');
 	array_push($preserve,'ol');
 	array_push($preserve,'li');

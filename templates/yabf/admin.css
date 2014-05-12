@@ -199,66 +199,13 @@ a.admintopframelink {
 	font-size:110%;
 }
 
-
 /************ tables ************/
-
-
-table {
-	font-size:100%;
-	margin-top: 2em;
-	margin-bottom: 2em;
-	box-shadow:4px 4px 3px #305360;
-	border-collapse:collapse;
-	border-spacing:0;
-   	width:70%;
-    margin-left:15%;
-    margin-right:15%;
-    border: #89CAC8;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-    
-}
 
 table.userlist {
 	width:96%!important;
 	margin-left:2%!important;
 	margin-right:0em!important;
 }
-
-caption {
-	text-align: center;
-	border: #89CAC8;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	font-size: 110%;
-	background-color: #eeeeee;
-	color : #D75876;
-	font-weight: bold;
-	padding:0.5em;
-	box-shadow:-1px -1px 20px 10px #cccccc inset;
-	height: 26px;
-}
-th {
-	text-align: center;
-	border: #89CAC8;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	font-size: 110%;
-	background-color: #dddddd;
-	color : #3067F2;
-	font-weight: bold;
-	padding:0.5em;
-}
-
-td {
-	border: #89CAC8;
-	border-style: solid;
-	border-width: 1px 1px 1px 1px;
-	padding:0.5em;
-	background-color: #ffffff;
-	color: #000000;
-}
-
 
 /************ menuedit ************/
 
