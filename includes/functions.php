@@ -233,13 +233,13 @@ function text2html($text)
 	}
 	$patterns = array(
 		"/\[tr\](.*?)\[\/tr\]/si",
-		"/\[th\](.*?)\[\/th\]/si",
+		"/\[th(.*?)\](.*?)\[\/th\]/si",
 		"/\[caption\](.*?)\[\/caption\]/si",
 		"/\[table(.*?)\](.*?)\[\/table\]/si",
 	);
 	$replacements = array(
 		"<tr>\\1</tr>",
-		"<th>\\1</th>",
+		"<th\\1>\\2</th>",
 		"<caption>\\1</caption>",
 		"<table\\1>\\2</table>",
 	);
