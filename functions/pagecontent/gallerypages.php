@@ -23,6 +23,16 @@ function getgalleryimages($page)
 	return getorderedcolumn("galleryitem_id",GALLERYITEMS_TABLE, "page_id='".$db->setinteger($page)."'", "position", "ASC");
 }
 
+
+//
+//
+//
+function getgalleryimageslimit($page, $offset, $number)
+{
+	global $db;
+	return getorderedcolumnlimit("galleryitem_id",GALLERYITEMS_TABLE, "page_id='".$db->setinteger($page)."'", "position", $db->setinteger($offset), $db->setinteger($number), "ASC");
+}
+
 //
 //
 //

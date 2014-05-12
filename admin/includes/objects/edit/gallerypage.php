@@ -47,7 +47,7 @@ class ShowAllImagesButton extends Template {
 //
 //
 class GalleryImageForm extends Template {
-	function GalleryImageForm($imageid,$offset,$pageposition,$noofimages,$showall)
+	function GalleryImageForm($imageid,$offset, $noofimages, $showall)
 	{
 		parent::__construct($imageid, array(), array(0 => "admin/includes/javascript/editgallery.js"));
 		$this->stringvars['javascript']=$this->getScripts();
@@ -57,7 +57,6 @@ class GalleryImageForm extends Template {
 
 		$linkparams["noofimages"] = $noofimages;
 		$linkparams["offset"] = $offset;
-		$linkparams["pageposition"] = $pageposition;
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		
@@ -88,7 +87,7 @@ class GalleryImageForm extends Template {
 //
 //
 class AddGalleryImageForm extends Template {
-	function AddGalleryImageForm($offset,$pageposition,$noofimages,$showall)
+	function AddGalleryImageForm($offset, $noofimages, $showall)
 	{
 		parent::__construct();
 
@@ -97,12 +96,11 @@ class AddGalleryImageForm extends Template {
 
 		$linkparams["noofimages"] = $noofimages+1;
 		$linkparams["offset"] = $offset;
-		$linkparams["pageposition"] = $pageposition+1;
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 
 		$hiddenvars = array();
-		if($showall) $hiddenvars["showall"] = "true";
+		if($showall) $hiddenvars["showall"] = 1;
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
 	}
 	
@@ -145,29 +143,36 @@ class ReindexGalleryForm extends Template {
 //
 class EditGallery extends Template {
 
-	function EditGallery($page,$offset,$imagesperpage,$showall)
+	function EditGallery($page, $offset, $imagesperpage, $showall)
 	{
 		parent::__construct($page,array(0 => "includes/javascript/jcaret.js"));
 		$this->stringvars['javascript']=$this->getScripts();
-		
-		$imageids=getgalleryimages($page);
-		
-		$noofimages=count($imageids);
-		if(!$offset) $offset=0;
-			$noofdisplayedimages=$imagesperpage;
+
+		$noofimages = countgalleryimages($page);
+		$imageids = array();
 		
 		if ($showall)
-			$noofdisplayedimages=$noofimages;
+		{
+			$offset = 0;
+			$noofdisplayedimages = $noofimages;
+			$imageids = getgalleryimages($page);
+		}
+		else
+		{
+			if(!$offset) $offset=0;
+			$noofdisplayedimages = $imagesperpage;
+			$imageids = getgalleryimageslimit($page, $offset, $noofdisplayedimages);
+		}
 
 		$this->vars['showallbutton'] = new ShowAllImagesButton(!$showall,$noofimages,$imagesperpage);
 		$this->vars['pagemenu'] = new PageMenu($offset,$noofdisplayedimages,$noofimages);
 		
 		if($noofimages > 0)
 		{
-			for($i=$offset;$i<($offset+$noofdisplayedimages)&&$i<$noofimages;$i++)
+			$keys = array_keys($imageids);
+			while($key = next($keys))
 			{
-				$pageposition = getgalleryimageposition($imageids[$i]);
-				$this->listvars['imageform'][] = new GalleryImageForm($imageids[$i],$offset,$pageposition,$noofimages,$showall);
+				$this->listvars['imageform'][] = new GalleryImageForm($imageids[$key], $offset, $noofimages, $showall);
 			}
 		}
 		else
@@ -175,7 +180,7 @@ class EditGallery extends Template {
 			$this->stringvars['imageform']="There are no images in this gallery";
 		}
 		
-		$this->vars['addform'] = new AddGalleryImageForm($offset,$noofimages,$noofimages,$showall);
+		$this->vars['addform'] = new AddGalleryImageForm($offset, $noofimages, $showall);
 		$this->vars['reindexform'] = new ReindexGalleryForm($showall);
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
 	}
