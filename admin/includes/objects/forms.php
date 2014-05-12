@@ -119,7 +119,7 @@ class DoneRedirect extends Template {
 
 function editedRedirect($page, $title)
 {
-	return new DoneRedirect($page, $title, array("action" => "edit"), "", "Edit this page");
+	return new DoneRedirect($page, $title, array("action" => "edit"), "pageedit.php", "Edit this page");
 }
 
 
