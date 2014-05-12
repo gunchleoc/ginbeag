@@ -275,32 +275,34 @@ function text2html($text)
 	// restore HTML tags
 	// todo: allowtags in site properties
 	$preserve=array();
-	array_push($preserve,'b');
-	array_push($preserve,'i');
 	array_push($preserve,'a');
-	array_push($preserve,'img');
-	array_push($preserve,'span');
-	array_push($preserve,'p');
+	array_push($preserve,'b');
 	array_push($preserve,'br');
-	array_push($preserve,'div');
-	array_push($preserve,'center');
-	array_push($preserve,'em');
-	array_push($preserve,'strong');
-	array_push($preserve,'pre');
-	array_push($preserve,'td');
-	array_push($preserve,'tr');
-	array_push($preserve,'table');
-	array_push($preserve,'th');
 	array_push($preserve,'caption');
-	array_push($preserve,'ul');
-	array_push($preserve,'ol');
-	array_push($preserve,'li');
+	array_push($preserve,'center');
+	array_push($preserve,'dd');
+	array_push($preserve,'div');
 	array_push($preserve,'dl');
 	array_push($preserve,'dt');
-	array_push($preserve,'dd');
-	array_push($preserve,'hr');
+	array_push($preserve,'em');
 	array_push($preserve,'embed');
+	array_push($preserve,'hr');
+	array_push($preserve,'i');
+	array_push($preserve,'img');
+	array_push($preserve,'li');
 	array_push($preserve,'object');
+	array_push($preserve,'ol');
+	array_push($preserve,'p');
+	array_push($preserve,'pre');
+	array_push($preserve,'span');
+	array_push($preserve,'strong');
+	array_push($preserve,'sub');
+	array_push($preserve,'sup');
+	array_push($preserve,'table');
+	array_push($preserve,'td');
+	array_push($preserve,'th');
+	array_push($preserve,'tr');
+	array_push($preserve,'ul');
 
 	for($i=0;$i<count($preserve);$i++)
 	{
