@@ -147,6 +147,7 @@ function text2html($text)
 	$patterns = array(
 		"/\[link\](.*?)\[\/link\]/i",
 		"/\[url\](.*?)\[\/url\]/i",
+		'/\[url="(.*?)"\](.*?)\[\/url\]/i',
 		"/\[url=(.*?)\](.*?)\[\/url\]/i",
 		
 		"/\[style=(.*?)\](.*?)\[\/style\]/si",
@@ -158,8 +159,9 @@ function text2html($text)
 	$replacements = array(
 		"<a href=\"\\1\" target=\"_blank\">\\1</a>",
 		"<a href=\"\\1\" target=\"_blank\">\\1</a>",
+		"<a href=\\1 target=\"_blank\">\\2</a>",
 		"<a href=\"\\1\" target=\"_blank\">\\2</a>",
-		
+
 		"<span class=\"\\1\">\\2</span>",
 		"<img src=\"\\1\">",
 		"<b>\\1</b>",
