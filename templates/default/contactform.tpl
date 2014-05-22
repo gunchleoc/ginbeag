@@ -31,5 +31,6 @@
 	</fieldset>
 	<!-- END switch CAPTCHA -->
 	<input type="submit" value="{L_SENDEMAIL}"  class="mainoption" />
+	<input type="hidden" name ="token" value="{TOKEN}"  class="mainoption" />
 </fieldset>
 </form>

@@ -195,6 +195,7 @@ $lang["guestbook_cancel"]="Sguir dheth";
 
 $lang["guestbook_disabled"]="Chaidh leabhar nan aoighean a chur à comas.";
 $lang["guestbook_needname"]="Feuch ri d' ainm a chur a-steach";
+$lang["guestbook_invalidtoken"]="MEARACHD: Tòcan mì-dhligheach. Cha deach an teachdaireachd agad a chur ris. Faodaidh tu feuchainn ris a cur a-null a-rithist.";
 
 $lang["guestbook_messageadded"]="Chaidh an teachdaireachd agad a chur ri leabhar nan aoighean.";
 
@@ -240,6 +241,7 @@ $lang["email_errorsending"]="Thachair mearachd teignigeach a' cur a' phost-d aga
 $lang["email_tryagain"]="Chan eil am fiosrachadh a chur thu a-steach ceart. Am feuch thu ris a-rithist?";
 // %s = open and close link to contact page for webmaster
 $lang["email_contactwebmaster"]="! Feuch ri fios a chur gun %swebmaster%s";
+$lang["email_invalidtoken"]="MEARACHD: Tòcan mì-dhligheach. Cha deach am post-d agad a chur. Faodaidh tu feuchainn ris a chur a-null a-rithist.";
 
 // messages
 $lang["email_enteredmessage"]="Chuir thu a-steach an teachdaireachd a leanas";

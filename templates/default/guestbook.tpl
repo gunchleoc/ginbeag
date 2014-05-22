@@ -23,7 +23,6 @@
 	<!-- END switch MESSAGE -->
 	
 	<!-- BEGIN switch ERROR -->
-	<!-- desired <div class="highlight">{ ERROR}</div> //-->
 	{ERROR}
 	<!-- END switch ERROR -->
 

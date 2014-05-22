@@ -13,7 +13,7 @@ include_once($projectroot."functions/email.php");
 //
 class ContactPage extends Template {
     
-    function ContactPage($email,$subject,$messagetext, $sendcopy, $userid,$errormessage="", $sendmail=false)
+    function ContactPage($email, $subject, $messagetext, $sendcopy, $userid, $token, $errormessage="", $sendmail=false)
     {
     	parent::__construct();
     	// header, footer and navigator
@@ -36,7 +36,7 @@ class ContactPage extends Template {
 			$this->stringvars['errormessage']=$errormessage;
 			$this->vars['emailinfo']= new EmailInfo($email,$subject,$messagetext,$sendcopy);
 			$this->stringvars['l_tryagain']=getlang("email_tryagain");
-			$this->vars['contactform']=new ContactForm($email,$subject,$messagetext,$sendcopy,$userid);
+			$this->vars['contactform']=new ContactForm($email, $subject, $messagetext, $sendcopy, $userid, $token);
 		}
 		elseif($sendmail)
 		{
@@ -48,7 +48,7 @@ class ContactPage extends Template {
 		{
 			$this->stringvars['blankform']="true";
 			$this->stringvars['l_pageintro']=getlang("pageintro_contact");
-			$this->vars['contactform']=new ContactForm("","","",true,$userid);		
+			$this->vars['contactform']=new ContactForm("", "", "", true, $userid, $token);
 		}
  	}
 
@@ -69,7 +69,7 @@ class ContactPage extends Template {
 //
 class ContactForm extends Template {
 
-    function ContactForm($email,$subject,$message,$sendcopy,$userid)
+    function ContactForm($email, $subject, $message, $sendcopy, $userid, $token)
     {
     	global $emailvariables;
     	parent::__construct();
@@ -113,7 +113,7 @@ class ContactForm extends Template {
     	}
     	
     	$this->stringvars['l_sendemail']=getlang("email_sendemail");
-
+		$this->stringvars['token'] = $token;
  	}
 
     // assigns templates

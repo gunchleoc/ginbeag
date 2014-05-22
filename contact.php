@@ -23,6 +23,7 @@ if(!((isset($_SERVER["ORIG_PATH_TRANSLATED"]) && $_SERVER["ORIG_PATH_TRANSLATED"
 // check legal vars
 include_once($projectroot."includes/legalvars.php");
 include_once($projectroot."functions/email.php");
+include_once($projectroot."functions/antispam.php");
 include_once($projectroot."includes/objects/contact.php");
 
 if(isset($_GET['sid'])) $sid = $_GET['sid'];
@@ -35,6 +36,9 @@ if(strlen($sid) > 0 && ! ispublicloggedin())
 	unset($_GET['sid']);
 	unset($_POST['sid']);
 }
+
+if(isset($_POST['token'])) $token = $_POST['token'];
+else $token = "";
 
 $email="";
 $subject="";
@@ -69,24 +73,32 @@ else
 // check data and send e-mail
 if(isset($_POST[$emailvariables['E-Mail Address Variable']['property_value']]))
 {
-	// get vars
-	$email=trim($_POST[$emailvariables['E-Mail Address Variable']['property_value']]);
-  
-//  print("test".$email);
-	$subject=trim($_POST[$emailvariables['Subject Line Variable']['property_value']]);
-  	$messagetext=trim(stripslashes($_POST[$emailvariables['Message Text Variable']['property_value']]));
-  	$sendcopy=isset($_POST['sendcopy']) && $_POST['sendcopy'];
+	if($token && checktoken($token))
+	{
+		// get vars
+		$email=trim($_POST[$emailvariables['E-Mail Address Variable']['property_value']]);
+		$subject=trim($_POST[$emailvariables['Subject Line Variable']['property_value']]);
+		$messagetext=trim(stripslashes($_POST[$emailvariables['Message Text Variable']['property_value']]));
+		$sendcopy=isset($_POST['sendcopy']) && $_POST['sendcopy'];
 
-  	$errormessage=emailerror($email,$subject,$messagetext,$sendcopy);
+		$errormessage = emailerror($email,$subject,$messagetext,$sendcopy);
 
-  	if($errormessage=="")
-  	{
-    	$sendmail=true;
-    	sendemail($email,$subject,$messagetext,$sendcopy,$recipient);
-  	}
+		if($errormessage=="")
+		{
+			$sendmail=true;
+			sendemail($email,$subject,$messagetext,$sendcopy,$recipient);
+		}
+	}
+	else
+	{
+		$errormessage = errormessage("email_invalidtoken");
+		$token = createtoken();
+	}
 }
 
-$contactpage = new ContactPage($email,$subject,$messagetext, $sendcopy, $userid, $errormessage, $sendmail);
+if(!$token) $token = createtoken();
+
+$contactpage = new ContactPage($email, $subject, $messagetext, $sendcopy, $userid, $token, $errormessage, $sendmail);
 print($contactpage->toHTML());
 
 

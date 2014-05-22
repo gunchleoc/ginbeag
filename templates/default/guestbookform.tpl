@@ -32,5 +32,6 @@
 	<!-- END switch CAPTCHA -->
 	<input type="submit" name="submitpost" value="{L_SUBMIT}"  class="mainoption" />
       &nbsp;&nbsp;<input type="submit" name="cancel" value="{L_CANCEL}" />
+	<input type="hidden" name ="token" value="{TOKEN}"  class="mainoption" />
 </fieldset>
 </form>

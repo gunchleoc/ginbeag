@@ -201,6 +201,7 @@ $lang["guestbook_cancel"]="Cancel";
 
 $lang["guestbook_disabled"]="The Guestbook has been disabled.";
 $lang["guestbook_needname"]="Please fill out a name";
+$lang["guestbook_invalidtoken"]="ERROR: Invalid token. Your message has not been added. You can try submitting it again.";
 
 $lang["guestbook_messageadded"]="Your message has been added to the Guestbook.";
 
@@ -247,6 +248,7 @@ $lang["email_errorsending"]="Error sending e-mail";
 $lang["email_tryagain"]="The data you entered is not correct. Please try again!";
 // %s = open and close link to contact page for webmaster
 $lang["email_contactwebmaster"]="! Please contact the %swebmaster%s";
+$lang["email_invalidtoken"]="ERROR: Invalid token. Your email has not been sent. You can try submitting it again.";
 
 // messages
 $lang["email_enteredmessage"]="You entered the following message";

@@ -5,6 +5,7 @@ define('DATETIMEFORMAT','Y-m-d H:i:s');
 
 // Table names
 define('ANTISPAM_TABLE', $table_prefix.'antispam');
+define('ANTISPAM_TOKENS_TABLE', $table_prefix.'antispamtokens');
 define('ARTICLECATS_TABLE', $table_prefix.'pages_categories');
 define('ARTICLEOFTHEDAY_TABLE', $table_prefix.'articleoftheday');
 define('ARTICLES_TABLE', $table_prefix.'articles');

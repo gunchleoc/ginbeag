@@ -23,6 +23,7 @@ if(!((isset($_SERVER["ORIG_PATH_TRANSLATED"]) && $_SERVER["ORIG_PATH_TRANSLATED"
 include_once($projectroot."includes/legalvars.php");
 
 include_once($projectroot."functions/email.php");
+include_once($projectroot."functions/antispam.php");
 include_once($projectroot."functions/guestbook.php");
 include_once($projectroot."includes/objects/page.php");
 include_once($projectroot."includes/objects/forms.php");
@@ -40,6 +41,8 @@ if(strlen($sid) > 0 && ! ispublicloggedin())
 }
 
 
+if(isset($_POST['token'])) $token = $_POST['token'];
+else $token = "";
 
 /// init variables for guestbook constructur
 $postername="";
@@ -69,37 +72,43 @@ if(isset($_POST['post']))
 // submit an entry to the guestbook
 elseif(isset($_POST['submitpost']))
 {
+	if($token && checktoken($token))
+	{
+		$showguestbookform = true;
+		$listtitle = getlang("guestbook_latestentries");
+		$showleavemessagebutton = false;
+		$showpost = true;
 
-	$showguestbookform=true;
-	$listtitle=getlang("guestbook_latestentries");
-	$showleavemessagebutton=false;
-	$showpost=true;
+		$postername = trim($_POST['postername']);
+		$postername = fixquotes($postername);
+		$addy = trim($_POST[$emailvariables['E-Mail Address Variable']['property_value']]);
+		$subject = trim($_POST[$emailvariables['Subject Line Variable']['property_value']]);
+		$subject = fixquotes($subject);
+		$messagetext = trim(stripslashes($_POST[$emailvariables['Message Text Variable']['property_value']]));
+		$messagetext = fixquotes($messagetext);
 
-  	$postername=trim($_POST['postername']);
-  	$postername=fixquotes($postername);
-  	$addy=trim($_POST[$emailvariables['E-Mail Address Variable']['property_value']]);
-  	$subject=trim($_POST[$emailvariables['Subject Line Variable']['property_value']]);
-  	$subject=fixquotes($subject);
-  	$messagetext=trim(stripslashes($_POST[$emailvariables['Message Text Variable']['property_value']]));
-  	$messagetext=fixquotes($messagetext);
-  
-  	$error=emailerror($addy,utf8_decode($subject),utf8_decode($messagetext),0);
-  	if(strlen($postername)<1)
-  	{
-  		// todo why is formatting needed?
-    	$error.='<p class="highlight">'.getlang("guestbook_needname").'</p>'.$error;
-    	//$error.=getlang("guestbook_needname").$error;
-  	}
-	if(!$error)
-  	{
-  		$showguestbookform=false;
-  		$postadded=true;
-  		$offset=0;
-    	addguestbookentry($postername,$addy,$subject,$messagetext);
-		sendemail($addy,$subject,$messagetext,1,getproperty("Admin Email Address"),true);
-  	}
-
-  	
+		$error = emailerror($addy, utf8_decode($subject), utf8_decode($messagetext), 0);
+		if(strlen($postername) < 1)
+		{
+			$error = errormessage("guestbook_needname").$error;
+		}
+		if(!$error)
+		{
+			$showguestbookform = false;
+			$postadded = true;
+			$offset = 0;
+			addguestbookentry($postername, $addy, $subject, $messagetext);
+			sendemail($addy, $subject, $messagetext, 1, getproperty("Admin Email Address"), true);
+		}
+	}
+	else
+	{
+		$showguestbookform = true;
+		$postadded = false;
+		$showleavemessagebutton = false;
+		$error = errormessage("guestbook_invalidtoken");
+		$token = createtoken();
+	}
 }
 // display entries
 else
@@ -112,8 +121,10 @@ else
 $postername=utf8_decode($postername);
 $subject=utf8_decode($subject);
 $messagetext=utf8_decode($messagetext);
+
+if(!$token) $token = createtoken();
  
-$guestbook = new Guestbook($postername,$addy,$subject,$messagetext, $offset, $showguestbookform, $showpost, $showleavemessagebutton, $itemsperpage, $title, $listtitle, $message, $error,$postadded); 
+$guestbook = new Guestbook($postername, $addy, $subject, $messagetext, $token, $offset, $showguestbookform, $showpost, $showleavemessagebutton, $itemsperpage, $title, $listtitle, $message, $error, $postadded); 
 print($guestbook->toHTML());
 
 $db->closedb();

@@ -17,7 +17,7 @@ class Guestbook extends Template {
     //var $vars=array();
 
 
-    function Guestbook($postername,$email,$subject,$emailmessage, $offset=0, $showguestbookform=false, $showpost=false, $showleavemessagebutton=true, $itemsperpage=10, $title="", $listtitle="", $message="", $error="", $postadded=false)
+    function Guestbook($postername,$email,$subject,$emailmessage,  $token, $offset=0, $showguestbookform=false, $showpost=false, $showleavemessagebutton=true, $itemsperpage=10, $title="", $listtitle="", $message="", $error="", $postadded=false)
     {
     	parent::__construct();
     	// header, footer and navigator
@@ -53,7 +53,7 @@ class Guestbook extends Template {
 				$this->vars['entries']= new GuestbookEntryList($itemsperpage, $offset,$listtitle);
 			
 				if($showguestbookform)
-					$this->vars['guestbookform'] = new GuestbookForm($postername,$email,$subject,$emailmessage);
+					$this->vars['guestbookform'] = new GuestbookForm($postername, $email, $subject, $emailmessage, $token);
 
 				if($showleavemessagebutton)
 					$this->stringvars['leavemessage'] = getlang("guestbook_leavemessage");
@@ -187,7 +187,7 @@ class GuestbookPost extends Template {
 //
 class GuestbookForm extends Template {
 
-    function GuestbookForm($postername,$email,$subject,$message)
+    function GuestbookForm($postername, $email, $subject, $message, $token)
     {
     	global $emailvariables;
     	
@@ -221,6 +221,7 @@ class GuestbookForm extends Template {
     	
     	$this->stringvars['l_submit']=getlang("guestbook_submit");
     	$this->stringvars['l_cancel']=getlang("guestbook_cancel");
+		$this->stringvars['token'] = $token;
  	}
 
     // assigns templates
