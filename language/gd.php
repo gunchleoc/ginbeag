@@ -262,7 +262,7 @@ $lang["antispam_legend_captcha"]="An dearbhaich thu nach e inneal-rannsachaidh a
 /* show image *************************************************/
 /**************************************************************/
 
-$lang["image_viewing"]="A' sealltainn air dealbh";
+$lang["image_viewing"]="A' coimhead air dealbh";
 $lang["image_viewthumbnails"]="Till dhan duilleag shlàn";
 
 
