@@ -248,8 +248,7 @@ function getpictureoftheday()
 	$potd=getdbelement("potd_filename",PICTUREOFTHEDAY_TABLE, "potd_date", $date);
 	if(!hasthumbnail($potd) || !imageisused($potd))
 	{
-		$query="DELETE FROM ".PICTUREOFTHEDAY_TABLE." where potd_date= '".$date."';";
-		$sql=$db->singlequery($query);
+		deleteentry(PICTUREOFTHEDAY_TABLE, "potd_date= '".$date."';");
 		$potd=0;
 	}
 	if(!$potd)
@@ -281,8 +280,8 @@ function getpictureoftheday()
 		$query.=" AND cats.category in(".$cats.")";
 	
 		//    print($query);
-		$sql=$db->singlequery($query);
-		$images=array();
+		$sql = $db->singlequery($query);
+		$images = array();
 		if($sql)
 		{
 			// get column
@@ -300,13 +299,10 @@ function getpictureoftheday()
 		else $potd=false;
 		if($potd)
 		{
-			$query="insert into ";
-			$query.=(PICTUREOFTHEDAY_TABLE." values(");
-			$query.="'".$date."',";
-			$query.="'".$potd."'";
-			$query.=");";
-			//    print($query);
-			$sql=$db->singlequery($query);
+			$values = array();
+			$values[] = $date;
+			$values[] = $potd;
+			insertentry(PICTUREOFTHEDAY_TABLE, $values);
 		}
 	}
 	return $potd;

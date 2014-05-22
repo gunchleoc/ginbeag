@@ -37,9 +37,7 @@ function getcachedpage($page, $parameters)
 	{
 		if(!iscachedpagedatecurrent($page, $pagefields[$page]["lastmodified"]))
 		{
-			//      print("old page!");
-			$query="DELETE FROM ".PAGECACHE_TABLE." where ".$condition.";";
-			$sql=$db->singlequery($query);
+			deleteentry(PAGECACHE_TABLE, $condition);
 		}
 		else
 		{
@@ -63,7 +61,7 @@ function makecachedpage($page, $parameters, $content_html)
 	$page = $db->setinteger($page);
 	$parameters = $db->setstring($parameters);
 	$content_html = $db->setstring($content_html);
-	$key=$page.$parameters;
+	$key = $page.$parameters;
   
 	if(strlen($key)<=255)
 	{
@@ -85,15 +83,16 @@ function makecachedpage($page, $parameters, $content_html)
 		
 		if($dbentry == $page)
 		{
-			$queries = array();
-			$queries[]="UPDATE ".PAGECACHE_TABLE." SET content_html='".($content_html)."' WHERE cache_id='".$key."';";
-			$queries[]="UPDATE ".PAGECACHE_TABLE." SET lastmodified='".($now)."' WHERE cache_id='".$key."';";
-			$sql=$db->query($query);
+			updatefields(PAGECACHE_TABLE, array(0 => "content_html", 1 => "lastmodified"), array(0 => $content_html, 1 => $now), "cache_id", $key)
 		}
 		else
 		{
-			$query="INSERT INTO ".PAGECACHE_TABLE." values('".$key."','".$page."','".$content_html."','".$now."')";
-			$sql=$db->singlequery($query);
+			$values = array();
+			$values[] = $key;
+			$values[] = $page;
+			$values[] = $content_html;
+			$values[] = $now;
+			insertentry(PAGECACHE_TABLE, $values);
 		}
 	}
 }
@@ -108,11 +107,6 @@ function iscachedpagedatecurrent($page, $date)
 	global $db;
 	$result=false;
 	$pagedate=getdbelement("editdate", PAGES_TABLE, 'page_id', $db->setinteger($page));
-	/*  print ($pagedate <= $date && $date > date(DATETIMEFORMAT, strtotime('-1 day')));
-	print('<p>cachedate:'.$date.'</p>');
-	print('<p>pagedate:'.$pagedate.'</p>');
-	print('<p>now - 1 day:'.date(DATETIMEFORMAT, strtotime('-1 day')).'</p>');
-	print ($pagedate <= $date && $date > date(DATETIMEFORMAT, strtotime('-1 day')));*/
 	return $pagedate <= $date && $date > date(DATETIMEFORMAT, strtotime('-1 day'));
 }
 

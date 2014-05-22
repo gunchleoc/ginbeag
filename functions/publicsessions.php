@@ -87,10 +87,7 @@ function checkpublicpassword($username,$md5password)
 function deletesession($sid)
 {
 	global $db;
-	$query="DELETE FROM ".PUBLICSESSIONS_TABLE;
-	$query.=" where session_id='".$db->setstring($sid)."';";
-	//  print($query.'<p>');
-	return $db->singlequery($query);
+	return deleteentry(PUBLICSESSIONS_TABLE, "session_id= '".$db->setstring($sid)."';");
 }
 
 //
@@ -190,10 +187,7 @@ function createpublicsession($user,$ip,$session_valid)
 function clearpublicsessions()
 {
 	global $db;
-	$time=strtotime('-1 hours');
-	$query="DELETE FROM ".PUBLICSESSIONS_TABLE;
-	$query.=" where session_time < '".date(DATETIMEFORMAT, $time)."'";
-	$db->singlequery($query);
+	$db->singlequery("DELETE FROM ".PUBLICSESSIONS_TABLE." where session_time < '".date(DATETIMEFORMAT, strtotime('-1 hours'))."'");
 }
 
 //

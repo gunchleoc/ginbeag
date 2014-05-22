@@ -3,7 +3,7 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."includes/constants.php");
-include_once($projectroot."admin/functions/dbmod.php");
+include_once($projectroot."functions/db.php");
 include_once($projectroot."functions/categories.php");
 
 ################################################################################

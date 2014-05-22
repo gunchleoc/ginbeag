@@ -23,18 +23,7 @@ function addguestbookentry($postername,$addy,$subject,$messagetext)
 	$values[3]=$db->setstring($subject);
 	$values[4]=$db->setstring($messagetext);
 	$values[5]=date(DATETIMEFORMAT, strtotime('now'));
-	
-	$query="insert into ";
-	$query.=GUESTBOOK_TABLE." values(";
-	for($i=0;$i<count($values)-1;$i++)
-	{
-		$query.="'".$values[$i]."', ";
-	}
-	$query.="'".$values[count($values)-1]."');";
-	//  print('<p>'.$query);
-	
-	$sql=$db->singlequery($query);
-	return $sql;
+	return $newpage = insertentry(GUESTBOOK_TABLE, $values);
 }
 
 //

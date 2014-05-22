@@ -2,7 +2,7 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-include_once($projectroot."admin/functions/dbmod.php");
+include_once($projectroot."functions/db.php");
 include_once($projectroot."admin/functions/pagesmod.php");
 include_once($projectroot."functions/users.php");
 include_once($projectroot."includes/includes.php");
@@ -131,11 +131,7 @@ function makecookiepath()
 //
 function clearoldpagecacheentries()
 {
-	global $db;
-	// create date
-	$adayago=date(DATETIMEFORMAT, strtotime('-1 day'));
-	$query="DELETE FROM ".PAGECACHE_TABLE." where lastmodified < '".$adayago."';";
-	$sql=$db->singlequery($query);
+	deleteentry(SESSIONS_TABLE,"lastmodified < '".date(DATETIMEFORMAT, strtotime('-1 day'))."'");
 }
 
 //
@@ -216,12 +212,7 @@ function createsession($user)
 //
 function clearsessions()
 {
-	$result=false;
-	$time=strtotime('-1 hours');
-	
-	$sql=deleteentry(SESSIONS_TABLE,"session_time<'".date(DATETIMEFORMAT, $time)."'");
-	
-	return $result;
+	deleteentry(SESSIONS_TABLE,"session_time<'".date(DATETIMEFORMAT, strtotime('-1 hours'))."'");
 }
 
 //

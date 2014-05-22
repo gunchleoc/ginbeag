@@ -24,7 +24,7 @@ function getarticleoftheday()
 	if(!ispublished($aotd) || ispagerestricted($aotd))
 	{
 		$query="DELETE FROM ".ARTICLEOFTHEDAY_TABLE." where aotd_date= '".$date."';";
-		$sql=$db->singlequery($query);
+		deleteentry(ARTICLEOFTHEDAY_TABLE, "aotd_date= '".$date."';");
 		$aotd=0;
 	}
 	if(!$aotd)
@@ -76,12 +76,10 @@ function getarticleoftheday()
 				$aotd=$pagesforselection[$random];
 				if($aotd)
 				{
-					$query="insert into ";
-					$query.=(ARTICLEOFTHEDAY_TABLE." values(");
-					$query.="'".$date."',";
-					$query.="'".$aotd."'";
-					$query.=");";
-					$sql=$db->singlequery($query);
+					$values = array();
+					$values[] = $date;
+					$values[] = $aotd;
+					insertentry(ARTICLEOFTHEDAY_TABLE, $values);
 				}
 			}
 		}
@@ -390,14 +388,18 @@ function updatepagestats($page)
 		}
 		if(count($stats))
 		{
-			$query="UPDATE ".MONTHLYPAGESTATS_TABLE." SET viewcount='".($stats[0][1]+1)."' WHERE stats_id='".$stats[0][0]."'";
+			updatefield(MONTHLYPAGESTATS_TABLE, "viewcount" ,$stats[0][1] + 1, "stats_id='".$stats[0][0]."'");
 		}
 		else
 		{
-			$query="INSERT INTO ".MONTHLYPAGESTATS_TABLE." values('0','".$db->setinteger($page)."','1','".$month."','".$year."')";
+			$values = array();
+			$values[] = 0;
+			$values[] = $db->setinteger($page);
+			$values[] = 1;
+			$values[] = $month;
+			$values[] = $year;
+			insertentry(MONTHLYPAGESTATS_TABLE, $values);
 		}
-		//  print($query);
-		$sql=$db->singlequery($query);
 	}
 }
 ?>
