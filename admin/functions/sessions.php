@@ -131,7 +131,7 @@ function makecookiepath()
 //
 function clearoldpagecacheentries()
 {
-	deleteentry(SESSIONS_TABLE,"lastmodified < '".date(DATETIMEFORMAT, strtotime('-1 day'))."'");
+	deleteentry(PAGECACHE_TABLE,"lastmodified < '".date(DATETIMEFORMAT, strtotime('-1 day'))."'");
 }
 
 //
