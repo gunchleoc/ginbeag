@@ -66,8 +66,7 @@ function deletefile($subdir,$filename)
 	$delete = @unlink($filename);
 	if (@file_exists($filename))
 	{
-		// todo deprecated eregi_replace() (use preg_replace() with the 'i' modifier instead) 
-		$filesys = eregi_replace("/",chr(92),$filename);
+		$filesys = str_replace("/", chr(92) ,$filename);
 		$delete = @system("del $filesys");
 		if (@file_exists($filename))
 		{
