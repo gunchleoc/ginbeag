@@ -29,12 +29,16 @@
 			<input id="imagepath" type="text" name="imagepath" size="50" maxlength="255" value="{IMAGEPATH}" />
 			<div class="formexplain">The folder where images are stored. Relative to Local Path.</div>
 			<br />
+			<label for="imagesperpage">Images per page:</label>
+			<input id="imagesperpage" type="text" name="imagesperpage" size="2" maxlength="2" value="{IMAGESPERPAGE}" />
+			<div class="formexplain">The number of images displayed to editors on each page in the image database.</div>
+			<br />
 			<label for="thumbnailsize">Thumbnail Size:</label>
-			<input id="thumbnailsize" type="text" name="thumbnailsize" size="25" maxlength="255" value="{THUMBNAILSIZE}" />
+			<input id="thumbnailsize" type="text" name="thumbnailsize" size="2" maxlength="255" value="{THUMBNAILSIZE}" />
 			<div class="formexplain">The size thumbnails should be at. Shown to webpage editors when they upload images.</div>
 			<br />
 			<label for="mobilethumbnailsize">Mobile Thumbnail Size:</label>
-			<input id="mobilethumbnailsize" type="text" name="mobilethumbnailsize" size="25" maxlength="255" value="{MOBILETHUMBNAILSIZE}" />
+			<input id="mobilethumbnailsize" type="text" name="mobilethumbnailsize" size="2" maxlength="255" value="{MOBILETHUMBNAILSIZE}" />
 			<div class="formexplain">The size for mobile thumbnails. For future implementation; ignore this for now.</div>
 		</fieldset>
 		<fieldset>

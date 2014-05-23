@@ -405,14 +405,9 @@ class ImageList extends Template {
 				$this->listvars['imageform'][] = new EditImageForm($filenames[$i]);;
 			}
 		}
-   		
-   		// get images per page
-   		// todo make default value configurable?
-   		if(isset($_GET['imagesperpage'])) $imagesperpage = $_GET['imagesperpage'];
-   		else $imagesperpage = 5;
 
-    	$this->vars['filterform'] = new ImageFilterForm($offset,$imagesperpage,$noofimages,$message);
-    	$this->vars['pagemenu'] = getpagemenu($offset,$number,$noofimages);
+		$this->vars['filterform'] = new ImageFilterForm($offset, $number, $noofimages, $message);
+		$this->vars['pagemenu'] = getpagemenu($offset, $number, $noofimages);
 	}
   
   

@@ -17,7 +17,7 @@ header('Content-type: text/xml;	charset=utf-8');
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 $errormessage = getpagelock($_POST['page']);
-$message="test";
+$message="";
 
 if(!$errormessage)
 {
@@ -70,17 +70,10 @@ if(!$errormessage)
 			$errormessage = "You can't change the size of images for links in a linklist";
 	 	}
 	}
-  	
-
-
-//print_r($_POST);
-
 }
 
-//print "hallo";
 if($errormessage)
 {
-// todo saving does not work, messages are empty
 	print('<message error="1">');
 	print("error ".$errormessage);
 }
@@ -91,6 +84,5 @@ else
 	print("success ".$message);
 }
 print("</message>");
-
 
 ?>

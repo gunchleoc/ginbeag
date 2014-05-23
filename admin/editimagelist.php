@@ -60,9 +60,8 @@ $offset=0;
 if(isset($_GET['offset']) && $_GET['offset'] > 0) $offset=$_GET['offset'];
 elseif(isset($_POST['offset']) && $_POST['offset'] > 0) $offset=$_POST['offset'];
 
-$number=5;
-if(isset($_GET['number']) && $_GET['number']>0)
-  $number=$_GET['number'];
+if(isset($_GET['number']) && $_GET['number']>0) $number=$_GET['number'];
+else $number = getproperty('Imagelist Images Per Page');
 
 $page=0;
 if(isset($_GET['page'])) $page=$_GET['page'];

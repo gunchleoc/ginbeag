@@ -11,7 +11,6 @@ include_once($projectroot."includes/objects/forms.php");
 
 //
 // Templating for Categories Admin
-// TODO split for category types
 //
 class CategoryMoveForm extends Template {
 	function CategoryMoveForm($cattype)

@@ -35,6 +35,7 @@ class SiteTechnical extends Template {
   		$this->stringvars["dateformat"]=$properties["Date Format"];
   		$this->stringvars["thumbnailsize"]=$properties["Thumbnail Size"];
   		$this->stringvars["mobilethumbnailsize"]=$properties["Mobile Thumbnail Size"];
+		$this->stringvars["imagesperpage"]=$properties['Imagelist Images Per Page'];
   		
   		$this->vars['submitrow']= new SubmitRow("submit","Submit",true);
   	}

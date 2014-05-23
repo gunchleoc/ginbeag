@@ -11,9 +11,6 @@ include_once($projectroot."admin/functions/sessions.php");
 
 checksession();
 
-
-// todo check if image exists
-
 header('Content-type: text/xml;	charset=utf-8');
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 
