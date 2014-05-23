@@ -297,21 +297,8 @@ class MenuLinkListLink extends Template {
 		$paragraphs=explode ('<br />', $text);
 		$text=$paragraphs[0];
 		
-		if (array_key_exists(1, $paragraphs)) $text.=' <a href="index.php'.makelinkparameters(array("page" => $contents['page_id'])).'#link'.$link.'">[...]</a>';
+		if (array_key_exists(1, $paragraphs)) $text.=' <a href="'.makelinkparameters(array("page" => $contents['page_id'])).'#link'.$link.'">[...]</a>';
 
-      // todo: can this be stripped while keeping tags intact?
-/*      if(strlen($text)>0)
-      {
-        if(strlen($text)>200)
-        {
-          $text=substr($text,0,200);
-          $position=strrpos($text," ");
-          if($position) $text=substr($text,0,$position);
-        }
-        //$text="- ".$text;
-        if(strlen($text)<strlen($paragraphs[0])) $text.=" ...";
-      }
-*/
 		$this->stringvars['description']=$text;
     }
 
