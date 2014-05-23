@@ -20,8 +20,7 @@ class Guestbook extends Template {
     function Guestbook($postername,$email,$subject,$emailmessage,  $token, $offset=0, $showguestbookform=false, $showpost=false, $showleavemessagebutton=true, $itemsperpage=10, $title="", $listtitle="", $message="", $error="", $postadded=false)
     {
     	parent::__construct();
-    	// header, footer and navigator
-		// todo why encoding?
+
 		$this->vars['header'] = new PageHeader(0,utf8_decode(getlang("pagetitle_guestbook")));
 		$this->vars['footer'] = new PageFooter();
 		

@@ -9,15 +9,14 @@ include_once($projectroot."functions/email.php");
 
 
 //
-// Contact master - todo
+//
 //
 class ContactPage extends Template {
     
     function ContactPage($email, $subject, $messagetext, $sendcopy, $userid, $token, $errormessage="", $sendmail=false)
     {
     	parent::__construct();
-    	// header, footer and navigator
-		// todo why encoding?
+
 		$this->vars['header'] = new PageHeader(0,utf8_decode(getlang("pagetitle_contact")));
 		$this->vars['footer'] = new PageFooter();
 		$this->vars['navigator'] = new Navigator(0,1,0,false,false);

@@ -43,7 +43,6 @@ class Sitemap extends Template {
 
 //
 // Templating for Navigator
-// todo remove parameter $isroot
 //
 class SitemapLink extends Template {
 
