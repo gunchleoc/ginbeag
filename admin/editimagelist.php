@@ -383,12 +383,12 @@ elseif($action==="createthumbnail")
 	}
 	$extension = substr($filename, strrpos($filename, "."), strlen($filename));
 	$imagename = substr($filename, 0, strrpos($filename, "."));
-	$newthumbname = $imagename.'_thn'.$extension;
 
 	$thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").getimagesubpath($filename), $filename);
+
 	if($thsuccess)
 	{
-		addthumbnail($filename, $imagename.'_thn.jpg');
+		addthumbnail($filename, $imagename.'_thn'.$extension);
 		$message .= "Thumbnail for <em>".$filename."</em> created successfully.";
 	}
 	else

@@ -102,6 +102,7 @@
       				<!-- END switch THUMBNAIL -->
 						<!-- BEGIN switch ACTIONVARSCREATETHUMBNAIL -->
 						<form name="createthumbnailform" action="{ACTIONVARSCREATETHUMBNAIL}" enctype="multipart/form-data" method="post">
+							{HIDDENVARS}
 							<input type="submit" name="createthumbnail" value="Generate Thumbnail Automatically" class="mainoption" />
 							<div class="formexplain">Autogenerate a new thumbnail.</div>
 						<!-- END switch ACTIONVARSCREATETHUMBNAIL -->

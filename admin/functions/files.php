@@ -11,7 +11,7 @@ if(!($_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/ad
 //
 // security: exif_imagetype() to make sure it's an image
 //
-if (!function_exists( 'exif_imagetype' ))
+if (!function_exists('exif_imagetype'))
 {
 	function exif_imagetype($filename)
 	{
@@ -136,49 +136,49 @@ function createthumbnail($path, $filename)
 
 		$imagetype = exif_imagetype($path."/".$filename);
 
-		if($imagetype == IMAGETYPE_GIF)
+		if($imagetype == IMAGETYPE_GIF && function_exists('imagecreatefromgif'))
 		{
-			$image = imagecreatefromgif($path."/".$filename);
+			$image = @imagecreatefromgif($path."/".$filename);
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = imagegif($image , $path."/".$thumbname, 100);
+				$success = @imagegif($image , $path."/".$thumbname);
 			}
 		}
-		elseif($imagetype == IMAGETYPE_JPEG)
+		elseif($imagetype == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg'))
 		{
-			$image = imagecreatefromjpeg($path."/".$filename);
+			$image = @imagecreatefromjpeg($path."/".$filename);
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = imagejpeg($image , $path."/".$thumbname, 100);
+				$success = @imagejpeg($image , $path."/".$thumbname, 100);
 			}
 		}
-		elseif($imagetype == IMAGETYPE_PNG)
+		elseif($imagetype == IMAGETYPE_PNG && function_exists('imagecreatefrompng'))
 		{
-			$image = imagecreatefrompng($path."/".$filename);
+			$image = @imagecreatefrompng($path."/".$filename);
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = imagepng($image , $path."/".$thumbname, 100);
+				$success = @imagepng($image , $path."/".$thumbname, 9);
 			}
 		}
-		elseif($imagetype == IMAGETYPE_WBMP)
+		elseif($imagetype == IMAGETYPE_WBMP && function_exists('imagecreatefromwbmp'))
 		{
-			$image = imagecreatefromwbmp($path."/".$filename);
+			$image = @imagecreatefromwbmp($path."/".$filename);
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = imagewbmp($image , $path."/".$thumbname, 100);
+				$success = @imagewbmp($image , $path."/".$thumbname);
 			}
 		}
-		elseif($imagetype == IMAGETYPE_XBM)
+		elseif($imagetype == IMAGETYPE_XBM && function_exists('imagecreatefromxbm'))
 		{
-			$image = imagecreatefromxbm($path."/".$filename);
+			$image = @imagecreatefromxbm($path."/".$filename);
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = imagexbm($image , $path."/".$thumbname, 100);
+				$success = @imagexbm($image , $path."/".$thumbname);
 			}
 		}
 	}
@@ -192,7 +192,7 @@ function createthumbnail($path, $filename)
 function scalethumbnail($path, $filename, $image)
 {
 	$dimensions = calculateimagedimensions($path."/".$filename, true);
-	return imagescale($image, $dimensions["width"], $dimensions["height"]);
+	return @imagescale($image, $dimensions["width"], $dimensions["height"]);
 }
 ?>
 

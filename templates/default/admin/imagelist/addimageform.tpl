@@ -18,7 +18,10 @@
 						<legend class="highlight">Thumbnail</legend>
 						<!-- BEGIN switch CREATETHUMBNAILFORM -->
 							{CREATETHUMBNAILFORM}
-							<div class="formexplain">Optional. If this is checked, a thumbnail for the newly uploaded image will be created automatically.</div>
+							<div class="formexplain">
+								Optional. If this is checked, a thumbnail for the newly uploaded image will be created automatically.
+								<br />Supported filetypes: <em>gif</em>, <em>jpeg</em>,<em>png</em>, <em>wbmp</em>, <em>xbm</em>.
+							</div>
 							<br /><div class="highlight">- or-</div><br />
 						<!-- END switch CREATETHUMBNAILFORM -->
 						<label for="addimagethumbnail">Thumbnail file: </label>
