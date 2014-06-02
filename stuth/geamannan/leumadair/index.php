@@ -103,6 +103,7 @@ $db->closedb();
 		</td>
 	</tr>
 </table>
+<br />
 <hr>
 <h4>Briog air dealbh gus ìre airson geama ùr a thaghadh</h4>
 <div id="games"></div>

@@ -28,6 +28,27 @@ include_once($projectroot."includes/objects/page.php");
 	padding-bottom:1em;
 	opacity: 0;
 }
+
+table {
+	border-style: none;
+	margin: 0px;
+	box-shadow: none;
+	font-size: 120%;
+}
+
+caption {
+	border-style: none;
+	box-shadow: none;
+}
+
+th {
+	border-style: none;
+}
+
+td {
+	border-style: none;
+	font-size: 110%;
+}
 </style>
 
 <SCRIPT LANGUAGE="JavaScript">
@@ -250,7 +271,7 @@ function answerit()
 			theirpoints=eval(trim(document.getElementById("points").innerHTML));
 			if (theiranswer==null || theiranswer=="")
 			{
-				showmessage('Cuir an fhreagairt agad sa bhogsa ri taobh clì a\' phutain "Cuir an fhreagairt ann"!');
+				showmessage('Cuir an fhreagairt agad sa bhogsa air barr a\' phutain "Cuir an fhreagairt a-null"!');
 				document.math.answer.select();
 			}
 			else
@@ -489,8 +510,8 @@ $db->closedb();
       	</td>
     </tr>
     <tr>
-      	<td align="left" valign="top"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">A' dèanamh:</span></td>
-      	<td colspan="2" valign="top"><input type="text" ID="answer" name="answer" size="40" style="font-size: 100%;" onKeyPress="return disableEnterKey(event)"> <input type="button" id="answerit" name="answerit" value="Cuir an fhreagairt ann" style="font-size: 90%;"></td>
+      	<td align="left" valign="top"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">A'&nbsp;dèanamh:</span></td>
+      	<td colspan="2" valign="top"><input type="text" ID="answer" name="answer" size="40" style="font-size: 100%;" onKeyPress="return disableEnterKey(event)"> <input type="button" id="answerit" name="answerit" value="Cuir an fhreagairt a-null" style="font-size: 90%;"></td>
     </tr>
     <tr>
 		<td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:green;">Puingean:</span></td>

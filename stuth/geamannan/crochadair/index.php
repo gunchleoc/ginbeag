@@ -12,6 +12,7 @@ include_once($projectroot."includes/objects/page.php");
 	<title>Fòram na Gàidhlig - An Crochadair</title>
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
 	<link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
+	<link rel="stylesheet" href="crochadair.css" type="text/css">
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="crochadair.js"></script>
 	<script language="JavaScript">
@@ -95,14 +96,12 @@ $db->closedb();
 			<td valign="top">
 				<img NAME="status" id="status" src="gungheama.gif" style="padding:2px; border:1px solid #021a40; background-color:sienna;"/>
 
-				<P><INPUT TYPE="BUTTON" id="restart" NAME="restart" style="font-size:80%" VALUE="Tòisich air geama ùr"></p>
+				<P><INPUT TYPE="BUTTON" id="restart" NAME="restart" VALUE="Tòisich air geama ùr"></p>
   				<P>Tagh stòr-dàta:
-					<span style="font-size:80%">
 	  					<br />
 	  					<input type="radio" id="beag" name="stordata" value="beag" checked="checked" /> Na faclan beaga<br>
 	    				<input type="radio" id="iomlan" name="stordata" value="iomlan" /> Liosta mòr de dh'fhaclan<br>
 	    				<input type="radio" id="àiteachan" name="stordata" value="àiteachan" /> Ainmean-àite<br>
-    				</span>
   				</p>
 			</td>
 			<td>&nbsp;</td>

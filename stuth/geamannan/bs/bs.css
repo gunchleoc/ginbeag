@@ -1,6 +1,7 @@
 table.grid {
 	border:	black	1px	solid;
 	margin:0;
+	box-shadow: none;
 }
 
 .solved {

@@ -1,5 +1,16 @@
+table {
+	border-style: none;
+	margin: 0px;
+	box-shadow: none;
+	font-size: 125%;
+	padding: 0px;
+}
+
 table.frame	{
 	border: 5px #333333 solid;
+	margin: 0px;
+	box-shadow: none;
+	font-size: 100%
 }
 
 img.master	{
@@ -19,7 +30,15 @@ td.frame	{
 	background-repeat:no-repeat;
 	width: 75px;
 	height: 75px;
-	margin:0px;
+	margin: 0px;
+	padding: 0px;
+	font-size: 100%
+}
+
+td {
+	border-style: none;
+	font-size: 110%;
+	padding: 0px;
 }
 
 img.thumb {

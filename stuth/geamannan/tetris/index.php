@@ -18,7 +18,7 @@ include_once($projectroot."includes/objects/page.php");
 	html, body { height: 100%; }
 	#tetris	{ margin: 0	auto; }
 	</style>
-	<link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
+	<link rel="stylesheet" href="main.css" type="text/css">
 
 	<script language="JavaScript">
 

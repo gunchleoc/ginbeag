@@ -12,7 +12,6 @@ include_once($projectroot."includes/objects/page.php");
 	<title>Fòram na Gàidhlig - Longan-cogaidh</title>
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
 	<link href="longan.css"	rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
 	<script language="JavaScript">
 
 // special treatment for IE
