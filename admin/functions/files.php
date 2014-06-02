@@ -150,7 +150,7 @@ function createthumbnail($path, $filename)
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = @imagejpeg($image , $path."/".$thumbname, 100);
+				$success = @imagejpeg($image , $path."/".$thumbname, 90);
 			}
 		}
 		elseif($imagetype == IMAGETYPE_PNG && function_exists('imagecreatefrompng'))
