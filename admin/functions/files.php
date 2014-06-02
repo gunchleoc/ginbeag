@@ -64,7 +64,7 @@ function replacefile($subdir, $paramname, $filename)
 {
 	global $projectroot, $_FILES;
 	$success = false;
-	
+
 	if(file_exists($filename))
 	{
 		$success = deletefile($subdir, $filename);
@@ -83,10 +83,10 @@ function replacefile($subdir, $paramname, $filename)
 function deletefile($subdir,$filename)
 {
 	global $projectroot;
-	
+
 	//http://www.morrowland.com/apron/tutorials/web/php/writetextfile/index.php
 	$filename = $projectroot.$subdir.'/'.basename($filename);
-	
+
 	$delete = @unlink($filename);
 	if (@file_exists($filename))
 	{
@@ -121,5 +121,78 @@ function fileerrors($errorno)
 	return $errorcodes[$errorno];
 }
 
+
+//
+// creates a thumbnail for the file
+//
+function createthumbnail($path, $filename)
+{
+	$success = false;
+	if (extension_loaded('gd') && function_exists('gd_info'))
+	{
+		$extension=substr($filename,strrpos($filename,"."),strlen($filename));
+		$imagename=substr($filename,0,strrpos($filename,"."));
+		$thumbname=$imagename.'_thn'.$extension;
+
+		$imagetype = exif_imagetype($path."/".$filename);
+
+		if($imagetype == IMAGETYPE_GIF)
+		{
+			$image = imagecreatefromgif($path."/".$filename);
+			if($image)
+			{
+				$image = scalethumbnail($path, $filename, $image);
+				$success = imagegif($image , $path."/".$thumbname, 100);
+			}
+		}
+		elseif($imagetype == IMAGETYPE_JPEG)
+		{
+			$image = imagecreatefromjpeg($path."/".$filename);
+			if($image)
+			{
+				$image = scalethumbnail($path, $filename, $image);
+				$success = imagejpeg($image , $path."/".$thumbname, 100);
+			}
+		}
+		elseif($imagetype == IMAGETYPE_PNG)
+		{
+			$image = imagecreatefrompng($path."/".$filename);
+			if($image)
+			{
+				$image = scalethumbnail($path, $filename, $image);
+				$success = imagepng($image , $path."/".$thumbname, 100);
+			}
+		}
+		elseif($imagetype == IMAGETYPE_WBMP)
+		{
+			$image = imagecreatefromwbmp($path."/".$filename);
+			if($image)
+			{
+				$image = scalethumbnail($path, $filename, $image);
+				$success = imagewbmp($image , $path."/".$thumbname, 100);
+			}
+		}
+		elseif($imagetype == IMAGETYPE_XBM)
+		{
+			$image = imagecreatefromxbm($path."/".$filename);
+			if($image)
+			{
+				$image = scalethumbnail($path, $filename, $image);
+				$success = imagexbm($image , $path."/".$thumbname, 100);
+			}
+		}
+	}
+	else print("No GD extension found");
+	return $success;
+}
+
+//
+// Scales a gd library image down to thumbnail size
+//
+function scalethumbnail($path, $filename, $image)
+{
+	$dimensions = calculateimagedimensions($path."/".$filename, true);
+	return imagescale($image, $dimensions["width"], $dimensions["height"]);
+}
 ?>
 

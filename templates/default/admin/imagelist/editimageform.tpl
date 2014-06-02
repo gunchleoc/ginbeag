@@ -17,26 +17,26 @@
 						<label for="{JSID}caption">Caption: </label>
 						<input id="{JSID}caption" type="text" name="caption" value="{CAPTION}" size="30" />
 						<div class="formexplain">Describe what's on the image.</div>
-				
+
 						<br /><label for="{JSID}source">Source Name: </label>
 						<input id="{JSID}source" type="text" name="source" value="{SOURCE}" size="30" maxlength="255" />
 						<div class="formexplain">Name of the website or other source you got the image from.</div>
-				
+
 						<br /><label for="{JSID}sourcelink">Source URL: </label>
 						<input id="{JSID}sourcelink" type="text" name="sourcelink" value="{SOURCELINK}" size="30" maxlength="255" />
 						<div class="formexplain">Link to the website you got the image from, starting with the protocol, e.g. <em>http://</em>.</div>
-				
+
 						<br /><label for="{JSID}copyright">Copyright Holder: </label>
 						<input id="{JSID}copyright" type="text" name="copyright" value="{COPYRIGHT}" size="30" maxlength="255" />
 						<div class="formexplain">Name of the person or organization who owns this image.</div>
 					</fieldset>
-					
+
 					<fieldset>
 						<legend>Permissions</legend>
 						<span id="{JSID}permission">{PERMISSION_GRANTED} {NO_PERMISSION}</span>
 						<div class="formexplain">Did the copyright owner give us permission to use this image?</div>
 					</fieldset>
-		
+
 					<input type="button" id="{JSID}savedescriptionbutton" name="savebutton" value="Save Image Description" class="mainoption" />
 					&nbsp;&nbsp;
 					<input type="reset" id="{JSID}resetdescriptionbutton" name="reset" value="Reset" />
@@ -76,7 +76,7 @@
 						<label for="{JSID}replaceimagefile">Select a new image:</label></br>
 						<input id="{JSID}replaceimagefile" type="file" name="newfilename" size="30" maxlength="255" />
 						<div class="formexplain">Replace this image with a new file.</div>
-	      			
+
 	      				<input type="submit" name="replaceimage" value="Replace Image File" class="mainoption">
 	    			</form>
 	      		</fieldset>
@@ -87,8 +87,8 @@
 	      				{HIDDENVARS}
 						<label for="{JSID}addthumbnailfile">Select a new thumbnail:</label></br>
            				<input id="{JSID}addthumbnailfile" type="file" name="thumbnail" size="30" maxlength="255" />
-						<div class="formexplain">Add a thumbnail to this image.</div>
 	      				<input type="submit" name="addthumb" value="Add Thumbnail" class="mainoption" />
+							<div class="formexplain">Add a thumbnail to this image.</div>
 	     			</form>
   					<!-- END switch NO_THUMBNAIL -->
   					<!-- BEGIN switch THUMBNAIL -->
@@ -96,21 +96,27 @@
 	      				{HIDDENVARS}
 						<label for="{JSID}replacethumbnailfile">Select a new thumbnail:</label></br>
            				<input id="{JSID}replacethumbnailfile" type="file" name="thumbnail" size="30" maxlength="255" />
-						<div class="formexplain">Replace the thumbnail for this image with a new file.</div>
 	      				<input type="submit" name="replacethumb" value="Replace Thumbnail File" class="mainoption" />
+							<div class="formexplain">Replace the thumbnail for this image with a new file.</div>
   					</form>
       				<!-- END switch THUMBNAIL -->
+						<!-- BEGIN switch ACTIONVARSCREATETHUMBNAIL -->
+						<form name="createthumbnailform" action="{ACTIONVARSCREATETHUMBNAIL}" enctype="multipart/form-data" method="post">
+							<input type="submit" name="createthumbnail" value="Generate Thumbnail Automatically" class="mainoption" />
+							<div class="formexplain">Autogenerate a new thumbnail.</div>
+						<!-- END switch ACTIONVARSCREATETHUMBNAIL -->
+						</form>
       			</fieldset>
       			<fieldset>
 					<legend>Deleting</legend>
 					<form name="deleteform" action="{ACTIONVARSDELETE}" method="post">
 	        			{HIDDENVARS}
-	        			<input type="submit" name="delete" value="Delete this image from database and file system" />
+	        			<input type="submit" name="delete" value="Delete this image from database and file system" class="mainoption" />
 	      			</form>
 	      			<!-- BEGIN switch THUMBNAIL -->
             		<form name="deletethumbform" action="{ACTIONVARSDELETETHUMBNAIL}" method="post">
               			{HIDDENVARS}
-              			<input type="submit" name="deletethumb" value="Delete Thumbnail File" />
+              			<input type="submit" name="deletethumb" value="Delete Thumbnail File" class="mainoption" />
             		</form>
 	        		<!-- END switch THUMBNAIL -->
 				</fieldset>

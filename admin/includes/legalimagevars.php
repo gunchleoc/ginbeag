@@ -9,6 +9,7 @@ $LEGALVARS["categoriesblank"]=1;
 $LEGALVARS["clear"]=1;
 $LEGALVARS["copyright"]=1;
 $LEGALVARS["copyrightblank"]=1;
+$LEGALVARS["createthumbnail"]=1;
 $LEGALVARS["delete"]=1;
 $LEGALVARS["deletefile"]=1;
 $LEGALVARS["deletethumb"]=1;

@@ -65,7 +65,7 @@ else $number = getproperty('Imagelist Images Per Page');
 
 $page=0;
 if(isset($_GET['page'])) $page=$_GET['page'];
-  
+
 $action="";
 if(isset($_GET['action'])) $action=$_GET['action'];
 elseif(isset($_POST['action'])) $action=$_POST['action'];
@@ -121,12 +121,12 @@ if(isset($_POST["addimage"]))
   	else
   	{
 	    $newname=$_POST['newname'];
-    
+
 	    // make new path for each month to avoid directory that is too full
 	    $date = getdate();
 	  	if ($date["mon"]<10) $date["mon"]="0".$date["mon"];
 	    $subpath ="/".$date["year"].$date["mon"];
-	
+
 	    // create path in file system if necessary and set permissions
 	    $imagedir=$projectroot.getproperty("Image Upload Path").$subpath;
 	    if(!file_exists($imagedir))
@@ -148,7 +148,7 @@ if(isset($_POST["addimage"]))
 	    }
 	    $filename=cleanupfilename($filename);
 	    $filename=str_replace("_thn.",".",$filename);
-	
+
 	    if(imageexists($filename))
 	    {
 			$message .= 'Image already exists: '.$filename.'';
@@ -173,12 +173,31 @@ if(isset($_POST["addimage"]))
 			addimage($filename,$subpath,$caption,$source,$sourcelink,$copyright,$permission);
 			addimagecategories($filename,$selectedcats);
 			$filename=basename($filename);
-			
-			if($thumbnail)
+
+			if(isset($_POST["createthumbnail"]))
+			{
+				$extension=substr($filename,strrpos($filename,"."),strlen($filename));
+				$imagename=substr($filename,0,strrpos($filename,"."));
+
+				$thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").$subpath, $filename);
+
+				if($thsuccess)
+				{
+					addthumbnail($filename, $imagename.'_thn'.$extension);
+					$message="Thumbnail for <em>".$filename."</em> created successfully.";
+				}
+				else
+				{
+					$message .= "<br />Failed to create thumbnail. ";
+					$error = true;
+				}
+			}
+			elseif($thumbnail)
 			{
 				$extension=substr($thumbnail,strrpos($thumbnail,"."),strlen($thumbnail));
 				$imagename=substr($filename,0,strrpos($filename,"."));
 				$newthumbname=$imagename.'_thn'.$extension;
+
 				$errorcode = uploadfile(getproperty("Image Upload Path").$subpath, "thumbnail", $newthumbname);
 				if($errorcode == UPLOAD_ERR_OK)
 				{
@@ -190,12 +209,10 @@ if(isset($_POST["addimage"]))
 					$thsuccess = false;
 					$error = true;
 				}
-				$thumbnail=$newthumbname;
-				
+
 				if($thsuccess)
 				{
-					addthumbnail($filename,$thumbnail);
-					$thumbnail=basename($thumbnail);
+					addthumbnail($filename, $newthumbname);
 					$message="Thumbnail for <em>".$filename."</em> uploaded successfully.";
 				}
 				else
@@ -292,10 +309,10 @@ elseif($action==="addthumb")
 			$message .= "Wrong file extension <em>".$extension."</em>. The thumbnail file must be of type <em>".$imageextension."</em>. ";
 			$error = true;
 		}
-		
+
 		if($success)
 		{
-			addthumbnail($filename,$newthumbname);
+			addthumbnail($filename, $newthumbname);
 		}
 		else
 		{
@@ -321,7 +338,7 @@ elseif($action==="replacethumb")
 	}
 	else
 	{
-		
+
 		$thumbnailfilename=getthumbnail($filename);
 		$extension=substr($thumbnail,strrpos($thumbnail,"."),strlen($thumbnail));
 		$imageextension=substr($filename,strrpos($filename,"."),strlen($filename));
@@ -354,6 +371,30 @@ elseif($action==="replacethumb")
 			$message .= "Failed to upload thumbnail. ";
 			$error = true;
 		}
+	}
+}
+elseif($action==="createthumbnail")
+{
+	$displayeditform = true;
+
+	if(hasthumbnail($filename))
+	{
+		deletethumbnail($filename);
+	}
+	$extension = substr($filename, strrpos($filename, "."), strlen($filename));
+	$imagename = substr($filename, 0, strrpos($filename, "."));
+	$newthumbname = $imagename.'_thn'.$extension;
+
+	$thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").getimagesubpath($filename), $filename);
+	if($thsuccess)
+	{
+		addthumbnail($filename, $imagename.'_thn.jpg');
+		$message .= "Thumbnail for <em>".$filename."</em> created successfully.";
+	}
+	else
+	{
+		$message .= "<br />Failed to create thumbnail. ";
+		$error = true;
 	}
 }
 elseif($action==="addunknownfile")
@@ -524,7 +565,7 @@ if($form)
 }
 else
 {
-    $addimageform = new AddImageForm($filename,$caption,$source,$sourcelink,$copyright,$permission);
+    $addimageform = new AddImageForm($filename, $caption, $source, $sourcelink ,$copyright, $permission, isset($_POST["createthumbnail"]));
 	$form = new ImageList($offset);
 	$adminimagepage = new AdminImagePage($filename, $form, new AdminMessage($message, $error), $addimageform, $displayeditform);
 }
@@ -552,3 +593,4 @@ function checkextension($oldfile,$newfile)
 }
 
 ?>
+

@@ -23,7 +23,7 @@ unset($_GET['postaction']);
 $message = "";
 $error = false;
 
-print_r($_POST);
+//print_r($_POST);
 
 if($postaction=='editbanner')
 {
