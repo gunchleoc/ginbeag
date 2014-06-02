@@ -58,6 +58,9 @@ define('CATEGORY_ARTICLE', 0);
 define('CATEGORY_IMAGE', 1);
 define('CATEGORY_NEWS', 2);
 
+// error codes for image upload
+define('WRONG_MIME_TYPE_NO_IMAGE', -1);
+
 // todo replace site property? Hack for gallery pages CSS
 define('IMAGECAPTIONLINEHEIGHT',8);
 

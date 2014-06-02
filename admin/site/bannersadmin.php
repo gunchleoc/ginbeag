@@ -23,11 +23,13 @@ unset($_GET['postaction']);
 $message = "";
 $error = false;
 
+print_r($_POST);
+
 if($postaction=='editbanner')
 {
 	if(strlen($_POST['code'])>0)
 	{
-		$message='Edited banner #'.$_POST['bannerid'].'code <i>'.$_POST['header'].'</i>';
+		$message .= 'Edited banner #'.$_POST['bannerid'].'code <i>'.$_POST['header'].'</i>';
 		updatebannercode($_POST['bannerid'], fixquotes($_POST['header']), $_POST['code']);
 	}
 	else
@@ -36,16 +38,27 @@ if($postaction=='editbanner')
 		if(strlen($filename)>0)
 		{
 			$filename=cleanupfilename($filename);
-			deletefile("img/banners",$_POST['oldimage']);
-			$success= replacefile($_FILES,"img/banners","image",$filename);
-			$message="Replaced banner image with: ".$filename;
+			$contents = getbannercontents($_POST['bannerid']);
+			deletefile("img/banners", $contents['image']);
+			$errorcode = replacefile("img/banners", "image", $filename);
+			if($errorcode == UPLOAD_ERR_OK)
+			{
+				$success = true;
+				$message .= "Replaced banner image with: ".$filename;
+			}
+			else
+			{
+				$message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
+				$success = false;
+				$error = true;
+			}
 		}
 		else
 		{
 			$contents=getbannercontents($_POST['bannerid']);
 			$filename=$contents['image'];
 			$success=true;
-			$message="Replace banner contents";
+			$message .= "Replace banner contents";
 		}
 		if($success)
 		{
@@ -53,13 +66,13 @@ if($postaction=='editbanner')
 			updatebanner($_POST['bannerid'], fixquotes($_POST['header']), $filename,fixquotes($_POST['description']),$_POST['link']);
 			if(!isbannercomplete($_POST['bannerid']))
 			{
-				$message = 'This banner is not complete and will not be displayed! Please fill out all required fields.';
+				$message .= 'This banner is not complete and will not be displayed! Please fill out all required fields.';
 				$error = true;
 			}
 		}
 		else
 		{
-			$message='Failed to edit banner #'.$_POST['bannerid'].': error uploading image!';
+			$message .= 'Failed to edit banner #'.$_POST['bannerid'].': error uploading image!';
 			$error = true;
 		}
 	}
@@ -68,15 +81,24 @@ elseif($postaction=='addbanner')
 {
 	if(strlen($_POST['code'])>0)
 	{
-		$message='Added banner code <i>'.$_POST['header'].'</i>';
+		$message .= 'Added banner code <i>'.$_POST['header'].'</i>';
 		addbannercode(fixquotes($_POST['header']), $_POST['code']);
 	}
 	else
 	{
 		$filename=$_FILES['image']['name'];
 		$filename=cleanupfilename($filename);
-		$success= replacefile($_FILES,"img/banners","image",$filename);
-		
+		$errorcode = replacefile("img/banners", "image", $filename);
+		if($errorcode == UPLOAD_ERR_OK)
+		{
+			$success = true;
+		}
+		else
+		{
+			$message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
+			$success = false;
+			$error = true;
+		}
 		if($success)
 		{
 			$banner=addbanner(fixquotes($_POST['header']), $filename ,fixquotes($_POST['description']),$_POST['link']);
@@ -89,7 +111,7 @@ elseif($postaction=='addbanner')
 		}
 		else
 		{
-			$message='Failed to add banner: error uploading image!';
+			$message .= 'Failed to add banner: error uploading image!';
 			$error = true;
 		}
 	}
@@ -125,7 +147,7 @@ elseif($postaction=='displaybanners')
 {
 	updateentries(SITEPROPERTIES_TABLE, array('Display Banners' => $_POST['toggledisplaybanners']), "property_name", "property_value");
 	$properties = getproperties(); // need to update global variable
-	$message="Changed banner display options";
+	$message .= "Changed banner display options";
 }
 
 unset($_POST['bannerid']);

@@ -9,15 +9,30 @@ if(!($_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/ad
 
 
 //
+// security: exif_imagetype() to make sure it's an image
 //
-//
-function uploadfile($_FILES,$subdir,$paramname,$newname="")
+if (!function_exists( 'exif_imagetype' ))
 {
-	global $projectroot;
-	$result=false;
+	function exif_imagetype($filename)
+	{
+		if ((list($width, $height, $type, $attr) = getimagesize( $filename )) !== false) return $type;
+		return false;
+	}
+}
+
+
+//
+//
+//
+function uploadfile($subdir, $paramname, $newname="")
+{
+	global $projectroot, $_FILES;
+	$success = false;
 	//print_r($_FILES);
-	
-	if (isset($_FILES[$paramname]) and ! $_FILES[$paramname]['error'] and $_FILES[$paramname]['size'])
+
+	if (isset($_FILES[$paramname])
+		 && isset($_FILES[$paramname]['error']) && $_FILES[$paramname]['error'] == UPLOAD_ERR_OK
+		 && isset($_FILES[$paramname]['size']) && $_FILES[$paramname]['size'] > 0)
 	{
 		if(strlen($newname)>4)
 		{
@@ -27,30 +42,39 @@ function uploadfile($_FILES,$subdir,$paramname,$newname="")
 		{
 			$filename=$projectroot.$subdir.'/'.$_FILES[$paramname]['name'];
 		}
-		$result=move_uploaded_file($_FILES[$paramname]['tmp_name'], $filename);
-		if($result) chmod($filename,0644);
+		if(exif_imagetype($_FILES[$paramname]['tmp_name']) > 0)
+		{
+			$success = move_uploaded_file($_FILES[$paramname]['tmp_name'], $filename);
+		}
+		else
+		{
+			$success = false;
+			return WRONG_MIME_TYPE_NO_IMAGE;
+		}
+		if($success) chmod($filename,0644);
 	}
-	return $result;
+	return $_FILES[$paramname]['error'];
 }
+
 
 //
 //
 //
-function replacefile($_FILES,$subdir,$paramname,$filename)
+function replacefile($subdir, $paramname, $filename)
 {
-	global $projectroot;
-	$result=false;
+	global $projectroot, $_FILES;
+	$success = false;
 	
 	if(file_exists($filename))
 	{
-		$success=deletefile($subdir,$filename);
+		$success = deletefile($subdir, $filename);
 	}
-	else $success=true;
+	else $success = true;
 	if($success)
 	{
-		$success=uploadfile($_FILES,$subdir,$paramname,$filename);
+		$errorcode = uploadfile($subdir, $paramname, $filename);
 	}
-	return $success;
+	return $errorcode;
 }
 
 //
@@ -77,5 +101,25 @@ function deletefile($subdir,$filename)
 	}
 	return $delete;
 }
- ?>
+
+
+//
+//
+//
+function fileerrors($errorno)
+{
+	global $_FILES;
+	$errorcodes[UPLOAD_ERR_OK] = "";
+	$errorcodes[UPLOAD_ERR_INI_SIZE] = "The uploaded file exceeds the upload_max_filesize directive in php.ini.";
+	$errorcodes[UPLOAD_ERR_FORM_SIZE] = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.";
+	$errorcodes[UPLOAD_ERR_PARTIAL] = "The uploaded file was only partially uploaded.";
+	$errorcodes[UPLOAD_ERR_NO_FILE] = "No file was uploaded.";
+	$errorcodes[UPLOAD_ERR_NO_TMP_DIR] = "Missing a temporary folder.";
+	$errorcodes[UPLOAD_ERR_CANT_WRITE] = "Failed to write file to disk.";
+	$errorcodes[UPLOAD_ERR_EXTENSION] = "A PHP extension stopped the file upload.";
+	$errorcodes[WRONG_MIME_TYPE_NO_IMAGE] = "The file is not an image file.";
+	return $errorcodes[$errorno];
+}
+
+?>
 

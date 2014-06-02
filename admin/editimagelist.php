@@ -156,7 +156,17 @@ if(isset($_POST["addimage"]))
 	    }
 	    else
 	    {
-			$success= uploadfile($_FILES,getproperty("Image Upload Path").$subpath,"filename",$filename);
+			$errorcode = uploadfile(getproperty("Image Upload Path").$subpath, "filename", $filename);
+			if($errorcode == UPLOAD_ERR_OK)
+			{
+				$success = true;
+			}
+			else
+			{
+				$message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
+				$success = false;
+				$error = true;
+			}
 	    }
 	    if($success)
 	    {
@@ -169,7 +179,17 @@ if(isset($_POST["addimage"]))
 				$extension=substr($thumbnail,strrpos($thumbnail,"."),strlen($thumbnail));
 				$imagename=substr($filename,0,strrpos($filename,"."));
 				$newthumbname=$imagename.'_thn'.$extension;
-				$thsuccess=uploadfile($_FILES,getproperty("Image Upload Path").$subpath,"thumbnail",$newthumbname);
+				$errorcode = uploadfile(getproperty("Image Upload Path").$subpath, "thumbnail", $newthumbname);
+				if($errorcode == UPLOAD_ERR_OK)
+				{
+					$thsuccess = true;
+				}
+				else
+				{
+					$message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
+					$thsuccess = false;
+					$error = true;
+				}
 				$thumbnail=$newthumbname;
 				
 				if($thsuccess)
@@ -180,7 +200,7 @@ if(isset($_POST["addimage"]))
 				}
 				else
 				{
-					$message .= "<br />Failed to upload thumbnail";
+					$message .= "<br />Failed to upload thumbnail. ";
 					$error = true;
 				}
 			}
@@ -192,7 +212,7 @@ if(isset($_POST["addimage"]))
 	    }
 	    else
 	    {
-			$message .= "<br />Failed to upload image";
+			$message .= "<br />Failed to upload image. ";
 			$error = true;
 	    }
 	}
@@ -217,7 +237,17 @@ elseif($action==="replaceimage")
 		$success=checkextension($filename,$newfilename);
 		if($success)
 		{
-			$success= replacefile($_FILES,getproperty("Image Upload Path").getimagesubpath($filename),"newfilename",$filename);
+			$errorcode = replacefile(getproperty("Image Upload Path").getimagesubpath($filename), "newfilename", $filename);
+			if($errorcode == UPLOAD_ERR_OK)
+			{
+				$success = true;
+			}
+			else
+			{
+				$message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
+				$success = false;
+				$error = true;
+			}
 		}
 		if($success)
 		{
@@ -226,7 +256,7 @@ elseif($action==="replaceimage")
 		}
 		else
 		{
-			$message = "failed to upload image";
+			$message .= "Failed to replace the image file.";
 			$error = true;
 		}
 	}
@@ -244,8 +274,18 @@ elseif($action==="addthumb")
 		if(strtolower($extension) === strtolower($imageextension))
 		{
 			$newthumbname=$imagename.'_thn'.$extension;
-			$success=uploadfile($_FILES,getproperty("Image Upload Path").getimagesubpath($filename),"thumbnail",$newthumbname);
+			$errorcode = uploadfile(getproperty("Image Upload Path").getimagesubpath($filename), "thumbnail", $newthumbname);
 			$thumbnail=$newthumbname;
+			if($errorcode == UPLOAD_ERR_OK)
+			{
+				$success = true;
+			}
+			else
+			{
+				$message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
+				$success = false;
+				$error = true;
+			}
 		}
 		else
 		{
@@ -259,7 +299,7 @@ elseif($action==="addthumb")
 		}
 		else
 		{
-			$message .= "Failed to upload thumbnail";
+			$message .= "Failed to upload thumbnail. ";
 			$error = true;
 		}
 	}
@@ -287,7 +327,17 @@ elseif($action==="replacethumb")
 		$imageextension=substr($filename,strrpos($filename,"."),strlen($filename));
 		if(strtolower($extension) === strtolower($imageextension))
 		{
-			$success= replacefile($_FILES,getproperty("Image Upload Path").getimagesubpath($filename),"thumbnail",$thumbnailfilename);
+			$errorcode = replacefile(getproperty("Image Upload Path").getimagesubpath($filename), "thumbnail", $thumbnailfilename);
+			if($errorcode == UPLOAD_ERR_OK)
+			{
+				$success = true;
+			}
+			else
+			{
+				$message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
+				$success = false;
+				$error = true;
+			}
 		}
 		else
 		{
@@ -301,7 +351,7 @@ elseif($action==="replacethumb")
 		}
 		else
 		{
-			$message .= "Failed to upload thumbnail";
+			$message .= "Failed to upload thumbnail. ";
 			$error = true;
 		}
 	}

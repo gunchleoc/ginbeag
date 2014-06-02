@@ -12,6 +12,6 @@ $defaultlanguage ='chartest';
 date_default_timezone_set ('Europe/London');
 
 // Debug Level
-//define('DEBUG', 1); // Debugging on
-define('DEBUG', 0); // Debugging off
+define('DEBUG', 1); // Debugging on
+//define('DEBUG', 0); // Debugging off
 ?>
