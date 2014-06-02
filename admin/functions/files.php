@@ -141,7 +141,7 @@ function createthumbnail($path, $filename)
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = @imagegif($image , $path."/".$thumbname);
+				if($image) $success = @imagegif($image , $path."/".$thumbname);
 			}
 		}
 		elseif($imagetype == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg'))
@@ -150,7 +150,7 @@ function createthumbnail($path, $filename)
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = @imagejpeg($image , $path."/".$thumbname, 90);
+				if($image) $success = @imagejpeg($image , $path."/".$thumbname, 90);
 			}
 		}
 		elseif($imagetype == IMAGETYPE_PNG && function_exists('imagecreatefrompng'))
@@ -159,7 +159,7 @@ function createthumbnail($path, $filename)
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = @imagepng($image , $path."/".$thumbname, 9);
+				if($image) $success = @imagepng($image , $path."/".$thumbname, 9);
 			}
 		}
 		elseif($imagetype == IMAGETYPE_WBMP && function_exists('imagecreatefromwbmp'))
@@ -168,7 +168,7 @@ function createthumbnail($path, $filename)
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = @imagewbmp($image , $path."/".$thumbname);
+				if($image) $success = @imagewbmp($image , $path."/".$thumbname);
 			}
 		}
 		elseif($imagetype == IMAGETYPE_XBM && function_exists('imagecreatefromxbm'))
@@ -177,7 +177,7 @@ function createthumbnail($path, $filename)
 			if($image)
 			{
 				$image = scalethumbnail($path, $filename, $image);
-				$success = @imagexbm($image , $path."/".$thumbname);
+				if($image) $success = @imagexbm($image , $path."/".$thumbname);
 			}
 		}
 	}
@@ -191,7 +191,10 @@ function createthumbnail($path, $filename)
 function scalethumbnail($path, $filename, $image)
 {
 	$dimensions = calculateimagedimensions($path."/".$filename, true);
-	return @imagescale($image, $dimensions["width"], $dimensions["height"]);
+	$result = imagecreate($dimensions["width"], $dimensions["height"]);
+	$success = @imagecopyresampled($result, $image, 0, 0, 0, 0, $dimensions["width"], $dimensions["height"], imagesx($image), imagesy($image));
+	if($success) return $result;
+	else return false;
 }
 ?>
 
