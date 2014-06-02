@@ -18,17 +18,17 @@ class Articlesection extends Template {
     	parent::__construct();
 
 		$sectioncontents=getarticlesectioncontents($articlesection);
-		
+
 		if(strlen($sectioncontents['sectiontitle'])>0)
 		{
 			$this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
 			$this->stringvars['sectionid'] =$articlesection;
 		}
-		
+
 		if(strlen($sectioncontents['sectionimage']) > 0)
 		$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'], $sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'], array("page" => $this->stringvars['page']), $showhidden);
 		else $this->stringvars['image']="";
-		
+
 		$this->stringvars['text']=text2html($sectioncontents['text']);
     }
 
@@ -51,7 +51,7 @@ class ArticlePage extends Template {
 
     	$pagecontents=getarticlepagecontents($this->stringvars['page']);
     	$articlesections=getarticlesections($this->stringvars['page'],$articlepage);
-    	
+
 		$linkparams["printview"]="on";
 		$linkparams["page"]=$this->stringvars['page'];
 
@@ -81,22 +81,22 @@ class ArticlePage extends Template {
 
 
     	$pageintro = getpageintro($this->stringvars['page']);
-    	
+
     	if($articlepage==1)
 			$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 		else $this->stringvars['pageintro'] = "";
-    	
+
     	$noofarticlepages=numberofarticlepages($this->stringvars['page']);
-    
+
     	// pagemenu
     	if($noofarticlepages>1)
 			$this->vars['pagemenu'] = new Pagemenu($articlepage-1,1,$noofarticlepages);
-      		
+
 		if($pagecontents['use_toc'])
     		$this->vars['toc']=new ArticleTOC();
     	else
     		$this->stringvars['toc']="";
-    
+
 
     	// get items
     	for($i=0;$i<count($articlesections);$i++)
@@ -106,7 +106,7 @@ class ArticlePage extends Template {
 
     	$this->vars['editdata']= new Editdata($showhidden);
   	}
-  
+
     // assigns templates
     function createTemplates()
     {
@@ -123,7 +123,7 @@ class ArticleTOC extends Template {
   	{
 		parent::__construct();
   		$this->stringvars['l_toc'] =getlang('article_page_toc');
-  		
+
   		$noofarticlepages=numberofarticlepages($this->stringvars['page']);
   		for($i=1;$i<=$noofarticlepages;$i++)
   		{
@@ -137,7 +137,7 @@ class ArticleTOC extends Template {
 		    }
 		}
   	}
-  
+
     // assigns templates
     function createTemplates()
     {
@@ -160,7 +160,7 @@ class ArticleTOCItem extends Template {
 
     	$this->stringvars['title'] =title2html($title);
   	}
-  
+
     // assigns templates
     function createTemplates()
     {
@@ -180,14 +180,14 @@ class ArticlesectionPrintview extends Template {
 	function ArticlesectionPrintview($articlesection)
 	{
 		parent::__construct();
-	
+
 		$sectioncontents=getarticlesectioncontents($articlesection);
 
 		if(strlen($sectioncontents['sectiontitle'])>0)
         	$this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
 
       	$this->stringvars['image']="";
-      	
+
 		if(strlen($sectioncontents['sectionimage']) > 0)
 			$this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'], array("page" => $this->stringvars['page']), false);
       	else $this->stringvars['image']="";
@@ -215,7 +215,7 @@ class ArticlePagePrintview extends Template {
 
     	$pagecontents=getarticlepagecontents($this->stringvars['page']);
     	$articlesections=getallarticlesections($this->stringvars['page']);
-    
+
 
     	$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
 
@@ -236,7 +236,7 @@ class ArticlePagePrintview extends Template {
       		$this->stringvars['source']=title2html($pagecontents['source']);
       		$this->stringvars['l_source']=getlang("article_page_source");
      	}
-    	
+
 		$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign']);
 

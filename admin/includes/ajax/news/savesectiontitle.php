@@ -25,7 +25,7 @@ if($message)
 }
 else {
 	$success = updatenewsitemsectionttitle($_POST['newsitemsection'],fixquotes($_POST['sectiontitle']));
-	
+
 	if($success >=0)
 	{
 		print('<message error="0">');

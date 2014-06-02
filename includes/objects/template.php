@@ -8,7 +8,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 include_once($projectroot."includes/includes.php");
 include_once($projectroot."language/languages.php");
 
-
 /**
  * Page template superclass
  *
@@ -47,12 +46,12 @@ class Template {
 	 * Arrays of content variables of class Template
 	 */
     var $listvars=array();
-    
+
 	/**
 	 * Links to javascript library files
 	 */
     var $jspaths=array();
-    
+
 	/**
 	 * Javascript to be loaded inline. Contains {JSID}s that need replacing
 	 */
@@ -87,7 +86,7 @@ class Template {
     	$this->jscripts=$jscripts;
     	$this->createTemplates();
     }
-    
+
 
     /**
      * Overwrite this function to add .tpl file to represent your object as HTML
@@ -99,7 +98,7 @@ class Template {
     function createTemplates()
     {
     }
-    
+
 
 	/**
      * Get an array of links to javascript files already prepared as string for includion in HTML header
@@ -109,12 +108,12 @@ class Template {
 	function getjspaths()
 	{
 		$result="";
-	  
+
 	  	for($i=0;$i<count($this->jspaths);$i++)
 	  	{
 	  		$result.='<script type="text/javascript" src="'.getprojectrootlinkpath().$this->jspaths[$i].'"></script>';
 	  	}
-	  
+
 	  	return $result;
 	}
 
@@ -129,7 +128,7 @@ class Template {
 	function getScripts()
 	{
 		$result = "&nbsp;".$this->prepareJavaScript("admin/includes/javascript/messageboxes.js");
-	
+
 		for($i=0;$i<count($this->jscripts);$i++)
 		{
 			$result .= $this->prepareJavaScript($this->jscripts[$i])." ";
@@ -207,9 +206,9 @@ class Template {
 					$result.= implode("", @file($filename));
 				}
 				elseif(DEBUG) print('<p class="highlight">Missing template file! '.$filename.'</p>');
-			}        
+			}
 		}
-      
+
 		// handle switches
 		$keys=array_keys($this->vars);
 		$keys=array_merge($keys,array_keys($this->stringvars));
@@ -219,7 +218,7 @@ class Template {
 			if(count($listkey)) $keys[]=$listkey;
 			next($listkeys);
 		}
-      
+
 		preg_match_all("/<!--\s*BEGIN\s*switch\s*(\w*)\s*-->/", $result, $matches);
 
 		for($i=0;$i<count($matches[1]);$i++)
@@ -270,8 +269,8 @@ class Template {
 			// replace with concatenated string
 			$result=str_replace ("{".strtoupper($listkeys[$i])."}", $temp, $result);
 		}
-	
-	
+
+
 		// parse stringvars
 		$keys=array_keys($this->stringvars);
 		if(count($keys))
@@ -282,11 +281,11 @@ class Template {
 				next($keys);
 			}
 		}
-	      
+
 		return $result;
 	}
-    
-    
+
+
 
     //
     // $vars must be an array. keys = varnames, values = varvalues
@@ -300,7 +299,7 @@ class Template {
 			$result .= '<input type="hidden" id="'.$this->stringvars["jsid"].'sid" name="sid" value="'.$this->stringvars["sid"].'" />';
 		if(strlen($this->stringvars["page"]) > 0 && $this->stringvars["page"] > 0)
 			$result .= '<input type="hidden" id="'.$this->stringvars["jsid"].'page" name="page" value="'.$this->stringvars["page"].'" />';
- 		
+
   		// add extra vars
     	$keys = array_keys($vars);
     	while($key=current($keys))
@@ -310,7 +309,7 @@ class Template {
 				$result.= '<input type="hidden" id="'.$this->stringvars["jsid"].$key.'" name="'.$key.'" value="'.$vars[$key].'" />';
 			}
     		next($keys);
-  		}   		
+  		}
   		return $result;
     }
 }

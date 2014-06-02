@@ -1,6 +1,5 @@
 /* Stylesheet for Print View */
 
-
 /* Image + caption text */
 .captionedimage	{
 	padding: 1em;
@@ -63,7 +62,7 @@ div.newsquote {
 	padding: 1em;
 	border: #000000;
 	border-style: solid;
-	border-width: 1px 1px 1px 1px;	
+	border-width: 1px 1px 1px 1px;
 }
 
 /* Source info for articles and newsitems */
@@ -125,7 +124,7 @@ div.newsquote {
 .editdata {
 	margin-top:1.5em;
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;	
+	border-width: 1px 0px 0px 0px;
 	padding-top: 0.5em;
 }
 
@@ -188,6 +187,6 @@ div.newsquote {
 
 .contentnavlinkwrapper {
 	margin-top:1.75ex;
-	line-height: 1.5em; 
+	line-height: 1.5em;
 }
 

@@ -16,7 +16,7 @@
 	<div class="leftalign">
 		<span id="{JSID}newsitemtitleheader" class="sectiontitle">{NEWSITEMTITLE}</span>
 		<form>
-			<input id="{JSID}title" type="text" name="title" size="25" maxlength="255" value="{TITLE}" /> 
+			<input id="{JSID}title" type="text" name="title" size="25" maxlength="255" value="{TITLE}" />
 			<input type="button" id="{JSID}savetitlebutton" name="savetitlebutton" value="Save Title" class="mainoption" />
 			&nbsp;&nbsp;
 			<input id="{JSID}savetitlereset" type="reset" value="Reset" />

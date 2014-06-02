@@ -11,7 +11,7 @@
   		<!-- END switch MANAGELINK -->
 	</td>
   	<td>{EMAIL}</td>
-  	<td align="center">{ISCONTACT}</td>  
+  	<td align="center">{ISCONTACT}</td>
   	<td>{CONTACTFUNCTION}</td>
 	<td align="center">{ISACTIVE}</td>
 	<td>{USERLEVEL}</td>

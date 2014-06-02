@@ -5,7 +5,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"functions"));
 
 include_once($projectroot."functions/db.php");
 
-
 //
 //
 //
@@ -73,7 +72,7 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showh
 			$pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat, CATEGORY_ARTICLE));
 		}
 	}
-  
+
 	$query="SELECT DISTINCTROW art.page_id FROM ";
 	$query.=ARTICLES_TABLE." AS art, ";
 	$query.=PAGES_TABLE." AS page";
@@ -115,12 +114,12 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showh
 	}
 
 		$query.=" page.page_id = art.page_id AND ";
-  
+
 	if(!$showhidden)
 	{
 		$query.=" page.ispublished = '1' AND ";
 	}
-    
+
 	// get pages to search
 	$pages=getsubpagesforpagetype($page, "articlemenu");
 
@@ -131,7 +130,7 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showh
 	}
 	$query=substr($query,0,strlen($query)-1);
 	$query.=")";
-  
+
 	if($order)
 	{
 		$query.=" ORDER BY ";
@@ -228,7 +227,7 @@ function searcharticles($search,$page,$all,$showhidden=false)
       array_push($result,$row[0]);
     }
   }
-  
+
 // doto: endless loop?
   // from the search result, kick out entries that don't match all words
 /*  if($all)
@@ -269,7 +268,7 @@ function searcharticles($search,$page,$all,$showhidden=false)
         $row=mysql_fetch_row($sql);
         $concat.=$row[0];
       }
-      
+
       // search concatenated string for all terms
       $concat=strtolower(text2html($concat));
       $keys=explode(" ",$search);
@@ -294,8 +293,8 @@ function searcharticles($search,$page,$all,$showhidden=false)
 //  else
    return $result;
 
-  
-  
+
+
 //  print('<p>'.count($result));
 //  return $result;
 }

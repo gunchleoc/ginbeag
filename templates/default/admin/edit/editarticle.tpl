@@ -23,9 +23,9 @@
 			<br />{DAYFORM} &nbsp;&nbsp; {MONTHFORM} &nbsp;&nbsp;
 			<label for="{JSID}year">Year (4-digit):</label><!-- todo: yearform for consistency -->
 			<input id="{JSID}year" type="text" name="year" size="5" maxlength="4" value="{YEAR}" />
-		
+
 		</fieldset>
-		
+
 		<fieldset>
 			<legend class="highlight">Table of Contents</legend>
 			<label for="{JSID}author">Display Table of Contents:</label>
@@ -40,7 +40,7 @@
 <div class="contentheader">Categories</div>
 <div class="contentsection">
 	<span id="{JSID}categorylist">{CATEGORYLIST}</span>
-	
+
 	<p>
 		{CATEGORYSELECTION}
 		<br>&nbsp;<br><input type="button" id="{JSID}addcatbutton" name="addcatbutton" value="Add Categories" class="mainoption" />

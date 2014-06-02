@@ -4,7 +4,7 @@
 	<div class="contentsection">
 		<form name="blockform" action="{ACTIONVARS}" method="post">
 		<fieldset>
-			<legend class="highlight">Add a site to be blocked</legend>	
+			<legend class="highlight">Add a site to be blocked</legend>
 			<label for="referrer">The site to be blocked: </label>
         	<input id="referrer" type="text" name="referrer" value="" />
         	<input type="submit" name="block" value="Block this site" class="mainoption" />

@@ -4,12 +4,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"functions"));
 
 include_once($projectroot."functions/db.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
 //
 //
 //
@@ -85,14 +79,14 @@ function getsomefilenames($offset,$number, $order="filename", $ascdesc="ASC")
 	global $db;
 	if(strtolower($ascdesc)=="desc") $ascdesc="DESC";
 	else $ascdesc="ASC";
-	
+
 	if($order=="uploader") $order="editor_id";
 	elseif($order=="caption") $order="caption";
 	elseif($order=="source") $order="source";
 	elseif($order=="uploaddate") $order="uploaddate";
 	elseif($order=="copyright") $order="copyright";
 	else $order="image_filename";
-	
+
   	return getorderedcolumnlimit("image_filename", IMAGES_TABLE, "1", $order, $db->setinteger($offset), $db->setinteger($number),$ascdesc);
 }
 
@@ -215,7 +209,7 @@ function pagesforimage($filename)
 {
 	global $db;
 	$filename=$db->setstring($filename);
-	
+
 	$pageintros=getorderedcolumn("page_id",PAGES_TABLE, "introimage = '".$filename."'", "page_id");
 	$articlesections=getorderedcolumn("article_id",ARTICLESECTIONS_TABLE, "sectionimage = '".$filename."'", "article_id");
 	$galleryitems=getorderedcolumn("page_id",GALLERYITEMS_TABLE, "image_filename = '".$filename."'", "page_id");
@@ -244,7 +238,7 @@ function getpictureoftheday()
 	global $db;
 	$date=date("Y-m-d",strtotime('now'));
 	//  print($date);
-	
+
 	$potd=getdbelement("potd_filename",PICTUREOFTHEDAY_TABLE, "potd_date", $date);
 	if(!hasthumbnail($potd) || !imageisused($potd))
 	{
@@ -254,7 +248,7 @@ function getpictureoftheday()
 	if(!$potd)
 	{
 		$cats=explode(",",getproperty('Picture of the Day Categories'));
-		
+
 		// get all category children
 		$categories=array();
 		for($i=0;$i<count($cats);$i++)
@@ -270,7 +264,7 @@ function getpictureoftheday()
 		if(count($categories)==0) $categories=array(0 => 0);
 		$cats=implode("','",$categories);
 		if(count($categories)>1) $cats="'".$cats."'";
-		
+
 		$query="select thumbs.image_filename from ";
 		$query.=THUMBNAILS_TABLE." as thumbs, ";
 		$query.=IMAGES_TABLE." as images, ";
@@ -278,7 +272,7 @@ function getpictureoftheday()
 		$query.=" thumbs.image_filename = cats.image_filename";
 		$query.=" AND thumbs.image_filename = images.image_filename";
 		$query.=" AND cats.category in(".$cats.")";
-	
+
 		//    print($query);
 		$sql = $db->singlequery($query);
 		$images = array();
@@ -290,11 +284,11 @@ function getpictureoftheday()
 				array_push($images,$row[0]);
 			}
 		}
-	
+
 		list($usec, $sec) = explode(' ', microtime());
 		if($images) $random= ((float) $sec + ((float) $usec * 100000)) % count($images);
 		else $random = 0;
-		
+
 		if (isset($images[$random])) $potd=$images[$random];
 		else $potd=false;
 		if($potd)

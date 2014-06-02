@@ -6,7 +6,6 @@ include_once($projectroot."functions/pagecontent/gallerypages.php");
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/page.php");
 
-
 //
 // Showimage main class
 //
@@ -16,7 +15,7 @@ class Showimage extends Template {
     {
 		global $_POST, $_GET;
     	parent::__construct();
-    	
+
     	/*if($page && !$showhidden)
 		{
 			if(ispagerestrictedarray($page))
@@ -26,9 +25,9 @@ class Showimage extends Template {
 		}
     	*/
     	$this->stringvars['site_description']=title2html(getproperty("Site Description"));
-    	
+
     	$pagetitle=utf8_decode(getlang("image_viewing"));
-    	
+
  		$caption=getcaption($image);
 
 		if($caption)
@@ -41,16 +40,16 @@ class Showimage extends Template {
 		$this->vars['header']= new PageHeader($this->stringvars['page'],$pagetitle);
 
 		$this->vars['navigator'] = new Navigator($this->stringvars['page'],false,1,"page",$showhidden);
-		
+
 		if(getproperty('Display Banners'))
 		{
   			$this->vars['banners'] = new BannerList();
 		}
 
    		$this->vars['editdata']= new ImageEditdata($image, $showhidden);
-      	
+
       	$this->vars['footer'] = new PageFooter();
-      	
+
       	// link to gallery page
       	if($this->stringvars['page']!=0)
       	{
@@ -60,12 +59,12 @@ class Showimage extends Template {
 				$this->stringvars['returnpage']='index.php'.makelinkparameters(array("page" => $this->stringvars['page']));
       		$this->stringvars['returnpagetitle']=getlang("image_viewthumbnails");
       	}
-      	
-      	
+
+
       	// collect items for navigation through images
-      	
+
   		$previousitem = -1;
-  		$nextitem = -1;      	
+  		$nextitem = -1;
 
 		if($item!=0)
 		{
@@ -127,7 +126,7 @@ class Showimage extends Template {
    			$this->stringvars['noimage'] = "No image";
    		}
  	}
-  
+
 
 	//
 	// generates hidden fields from item array for form
@@ -160,7 +159,7 @@ class ImageEditdata extends Template {
     	parent::__construct();
     	$editdate= getuploaddate($image);
       	$editor=  getusername(getuploader($image));
-      	
+
       	if($showhidden)
       	{
       		$this->stringvars['footerlastedited']=sprintf(getlang("footer_imageuploadedauthor"),formatdatetime($editdate),$editor);
@@ -169,7 +168,7 @@ class ImageEditdata extends Template {
       	{
 			$this->stringvars['footerlastedited']=sprintf(getlang("footer_imageuploaded"),formatdatetime($editdate));
       	}
-     	
+
      	$this->stringvars['topofthispage']=getlang("pagemenu_topofthispage");
     }
 

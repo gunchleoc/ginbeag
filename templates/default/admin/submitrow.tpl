@@ -9,6 +9,6 @@
 	<!-- END switch NO_CANCELLOCATION -->
 	<!-- BEGIN switch CANCELLOCATION -->
 	&nbsp;&nbsp;<input id="{JSID}cancel" type="button" name="cancel" value="Cancel" onClick="self.location.href='{CANCELLOCATION}'" />
-	<!-- END switch CANCELLOCATION --> 
+	<!-- END switch CANCELLOCATION -->
 	<!-- END switch SHOW_CANCEL -->
 </div>

@@ -7,7 +7,6 @@ include_once($projectroot."includes/objects/page.php");
 include_once($projectroot."includes/objects/email.php");
 include_once($projectroot."functions/guestbook.php");
 
-
 //
 // Guestbook master
 //
@@ -23,7 +22,7 @@ class Guestbook extends Template {
 
 		$this->vars['header'] = new PageHeader(0,utf8_decode(getlang("pagetitle_guestbook")));
 		$this->vars['footer'] = new PageFooter();
-		
+
 		$this->stringvars['title'] = $title;
 
 
@@ -50,7 +49,7 @@ class Guestbook extends Template {
 			else
 			{
 				$this->vars['entries']= new GuestbookEntryList($itemsperpage, $offset,$listtitle);
-			
+
 				if($showguestbookform)
 					$this->vars['guestbookform'] = new GuestbookForm($postername, $email, $subject, $emailmessage, $token);
 
@@ -94,10 +93,10 @@ class GuestbookEntryList extends Template {
 		}
 
   		$entries=getguestbookentries($number,$offset);
-  
+
   		$this->vars['pagemenu']=new PageMenu($offset, $number, countguestbookentries());
-  
-  
+
+
   		if(count($entries)==0)
   		{
     		$this->stringvars['no_entries']= getlang("guestbook_nomessages");
@@ -134,7 +133,7 @@ class GuestbookEntry extends Template {
     	$this->stringvars['date']=formatdatetime($contents["date"]);
     	$this->stringvars['subject']=title2html($contents["subject"]);
     	$this->stringvars['message']=text2html($contents["message"]);
-    	
+
     	$this->stringvars['l_toppage']=getlang("pagemenu_topofthispage");
     	$this->stringvars['l_name']=getlang("guestbook_name");
     	$this->stringvars['l_date']=getlang("guestbook_date");
@@ -163,7 +162,7 @@ class GuestbookPost extends Template {
     	$this->stringvars['email']=title2html($email);
     	$this->stringvars['subject']=title2html($subject);
     	$this->stringvars['message']=text2html($message);
-    	
+
     	$this->stringvars['l_yourentry']=getlang("guestbook_yourentry");
     	$this->stringvars['l_name']=getlang("guestbook_name");
     	$this->stringvars['l_email']=getlang("guestbook_email");
@@ -189,35 +188,35 @@ class GuestbookForm extends Template {
     function GuestbookForm($postername, $email, $subject, $message, $token)
     {
     	global $emailvariables;
-    	
+
     	parent::__construct();
-    	
+
     	$this->stringvars['name']=title2html($postername);
     	$this->stringvars['email']=title2html($email);
     	$this->stringvars['subject']=title2html($subject);
     	$this->stringvars['message']=text2html($message);
-    	
+
     	$this->stringvars['emailvariable']=$emailvariables['E-Mail Address Variable']['property_value'];
     	$this->stringvars['subjectvariable']=$emailvariables['Subject Line Variable']['property_value'];
     	$this->stringvars['messagevariable']=$emailvariables['Message Text Variable']['property_value'];
-    	
-    	
-    	
+
+
+
     	$this->stringvars['l_name']=getlang("guestbook_yourname");
     	$this->stringvars['l_email']=getlang("guestbook_youremail");
     	$this->stringvars['l_message']=getlang("guestbook_yourmessage");
     	$this->stringvars['l_subject']=getlang("guestbook_yoursubject");
-    	
+
 		$this->stringvars['l_legend_yourmessage']=getlang("guestbook_legend_yourmessage");
     	$this->stringvars['l_legend_yourmessagetous']=getlang("guestbook_legend_yourmessagetous");
 
-    	
+
   		if($emailvariables['Use Math CAPTCHA']['property_value'])
   		{
     		$this->vars['captcha']= new MathCAPTCHA();
     		$this->stringvars['l_legend_captcha']=getlang("antispam_legend_captcha");
     	}
-    	
+
     	$this->stringvars['l_submit']=getlang("guestbook_submit");
     	$this->stringvars['l_cancel']=getlang("guestbook_cancel");
 		$this->stringvars['token'] = $token;

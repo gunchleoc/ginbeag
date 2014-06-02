@@ -2,13 +2,12 @@
 
 include_once("config.php");
 
-
 if(isset($_GET['mode']))
 {
 	if($_GET['mode']=="placenames")
 	{
 		makeXML("aiteachan", PLACENAMES_TABLE, 'id');
-		
+
 	}
 	elseif($_GET['mode']=="words")
 	{
@@ -20,8 +19,6 @@ if(isset($_GET['mode']))
 		makeXML("faclanbeag", WORDS_SMALL_TABLE, 'id');
 	}
 }
-
-
 
 
 //
@@ -53,19 +50,19 @@ function makeXML($wrapper,$dbtable,$key)
     		}
   		}
   	}
-  	
+
 	$xml = "<".$wrapper.">";
 	$xml .= "<entry>";
-	
+
 	if($wrapper =="aiteachan")
 	{
 		$keys=array_keys($row);
 		$noofkeys = count($keys);
-	
+
 		for ($j=0; $j<$noofkeys; $j++)
 		{
 			$key=strtolower($keys[$j]);
-	
+
 			$element=$row[$keys[$j]];
 			$xml .= "<$key>".utf8_encode($element)."</$key>";
 		}
@@ -76,12 +73,12 @@ function makeXML($wrapper,$dbtable,$key)
 		$element=$row[$key];
 		$xml .= "<$key>".utf8_encode($element)."</$key>";
 	}
-	
+
 	$xml .= "</entry>";
-	
+
 	header('Content-type: text/xml;	charset=utf-8');
  	echo '<?xml version="1.0" encoding="UTF-8"?>';
-	
+
 	$xml .= "</".$wrapper.">";
 	echo $xml;
 }
@@ -97,18 +94,18 @@ function makeXMLSmallDB($wrapper,$dbtable,$key)
 
 	list($usec, $sec) = explode(' ', microtime());
     $random= ((float) $sec + ((float) $usec * 100000)) % $noofelements;
-    
+
 	$row= getrowbykey($dbtable, $key, $columnkeys[$random]);
-	
+
 	$keys=array_keys($row);
-	
+
 	$xml = "<".$wrapper.">";
-	
+
 	$noofkeys = count($keys);
 
 	$xml .= "<noofentries>1</noofentries>";
 	$xml .= "<entry>";
-	
+
 	for ($j=0; $j<$noofkeys; $j++)
 	{
 		$key=strtolower($keys[$j]);
@@ -118,10 +115,10 @@ function makeXMLSmallDB($wrapper,$dbtable,$key)
 		$xml .= "<$key>".utf8_encode($element)."</$key>";
 	}
 	$xml .= "</entry>";
-	
+
 	header('Content-type: text/xml;	charset=utf-8');
  	echo '<?xml version="1.0" encoding="UTF-8"?>';
-	
+
 	$xml .= "</".$wrapper.">";
 	echo $xml;
 }
@@ -177,7 +174,7 @@ function getcolumn($fieldname, $table, $condition)
 //  print('cond: '.$condition.'<p>');
 
   $result=array();
-  
+
   $query="select ".$fieldname." from ".$table." where ".$condition;
 //  print($query);
   $sql=singlequery($query);
@@ -202,7 +199,7 @@ function singlequery($query)
   global $dbname,$dbhost,$dbuser,$dbpasswd;
 
   $result=$query;
-  
+
     $db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
       or die("Can't connect to database. Please try again later.");
 
@@ -211,7 +208,7 @@ function singlequery($query)
 
     $result=@mysql_query($query)
       or die("Can't get data from database. Please notify the admin.");
-  
+
   if(preg_match ("/insert/i",$query))
   {
     $result= mysql_insert_id($db);

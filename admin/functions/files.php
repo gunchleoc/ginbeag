@@ -7,7 +7,6 @@ if(!($_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/ad
 	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/editimagelist.php")))
 	die;
 
-
 //
 // security: exif_imagetype() to make sure it's an image
 //

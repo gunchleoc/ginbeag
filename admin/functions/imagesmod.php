@@ -7,12 +7,6 @@ include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."functions/users.php");
 include_once($projectroot."functions/images.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
 //
 // returns false if image already exists
 //
@@ -20,7 +14,7 @@ function addimage($filename,$subpath,$caption,$source,$sourcelink,$copyright,$pe
 {
 	global $db;
   	$now=date(DATETIMEFORMAT, strtotime('now'));
-  
+
   	$result=true;
   	if(imageexists($filename))
   	{
@@ -88,7 +82,7 @@ function deleteimage($filename)
 function savedescription($filename,$caption,$source,$sourcelink,$copyright,$permission)
 {
 	global $db;
-	
+
 	$result = true;
   	$result = $result & updatefield(IMAGES_TABLE,"caption",$db->setstring($caption),"image_filename = '".$db->setstring($filename)."'");
   	$result = $result & updatefield(IMAGES_TABLE,"source",$db->setstring($source),"image_filename = '".$db->setstring($filename)."'");
@@ -152,7 +146,7 @@ function getunknownimageshelper($subpath)
 	//using the opendir function
 	$dir_handle = @opendir($projectroot.getproperty("Image Upload Path").$subpath)
 		or die("Unable to open path");
-	
+
 	while($file = readdir($dir_handle))
 	{
 		if($file!="." && $file!=".." && !strpos(strtolower($file),".php") && !strpos(strtolower($file),".htm"))
@@ -244,9 +238,9 @@ function getfilteredimages($filename,$caption,$source,$sourceblank,$uploader,$co
 	$copyright=trim($db->setstring($copyright));
 	$order=$db->setstring($order);
 	$ascdesc=$db->setstring($ascdesc);
-	
+
 	$result=array();
-	
+
 	// get all category children
 	if(count($selectedcats)>0 && !$categoriesblank)
 	{
@@ -282,7 +276,7 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 			$pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat, CATEGORY_IMAGE));
 		}
 	}
-	
+
 	$query="SELECT DISTINCTROW images.image_filename FROM ";
 	$query.=IMAGES_TABLE." as images";
 

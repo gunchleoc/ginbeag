@@ -7,15 +7,15 @@
 			<!-- BEGIN switch INCOMPLETE -->
 			<p class="highlight">This banner is not complete and will not be displayed! Please fill out all required fields.</p>
 			<!-- END switch INCOMPLETE -->
-	
+
 			<fieldset>
-				<legend class="highlight">Header (optional)</legend>	
+				<legend class="highlight">Header (optional)</legend>
 				<input id="{JSID}header" type="text" name="header" size="50" maxlength="255" value="{HEADER}" />
 				<div class="formexplain">Optional title for the banner.</div>
 			</fieldset>
 			<span class="highlight">- For the content, specify either image, description and link, or enter the banner code manually. -</span>
 			<fieldset>
-				<legend class="highlight">Banner Content</legend>	
+				<legend class="highlight">Banner Content</legend>
 				<!-- BEGIN switch IMAGE -->
 				<label for="{JSID}oldimage">Image:</label>
 				<input class="highlight" id="{JSID}oldimage" type="text" name="oldimage" value="{IMAGE}" style=" border:0px;" disabled />
@@ -33,14 +33,14 @@
 			</fieldset>
 			<span class="highlight">- or -</span>
 			<fieldset>
-				<legend class="highlight">Banner Code</legend>	
+				<legend class="highlight">Banner Code</legend>
 				<label for="{JSID}code">Code (HTML):</label>
 				<textarea id="{JSID}code" name="code" cols="50" rows="5">{CODE}</textarea>
 				<div class="formexplain">Enter the banner code manually. If you use this, leave Image, Description and Link blank.</div>
 			</fieldset>
 			{SUBMITROW}
 		</form>
-	
+
 		<hr>
 		<form name="movebanner" action="{MOVEACTIONVARS}" method="post">
 			{HIDDENVARS}

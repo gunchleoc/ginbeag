@@ -91,7 +91,7 @@ else
 	elseif(isset($_POST['contact']) || isset($_GET['contact']))
 	{
 		$message= 'Changed contact page options';
-		
+
 		if(isset($_POST['iscontact']))
 		{
 			changeiscontact($userid,1);
@@ -107,9 +107,9 @@ else
 	{
 		$email=getuseremail($userid);
 		$message='Generated new password for <i>'.getusername($userid).'</i>';
-		
+
 		$newpassword=makepassword($userid);
-		
+
 		$message="The Administrator has generated a new password for you.";
 		$message.="\r\n\r\nYour new password is";
 		$message.="\r\n\r\n".$newpassword;

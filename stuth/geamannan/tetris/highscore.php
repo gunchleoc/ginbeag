@@ -17,8 +17,6 @@ elseif (isset($_GET['print'])) {
 }
 
 
-
-
 //
 // 1 if eligible for high score list, 0 otherwise
 //
@@ -26,7 +24,7 @@ function mayaddscore($score)
 {
 	header('Content-type: text/xml;	charset=utf-8');
  	echo '<?xml version="1.0" encoding="UTF-8"?>';
-	
+
 	print("<mayaddscore>");
 
 	if(getmin("score", DBTABLE, '1') < $score || countelements("score", DBTABLE)  < HIGHSCORES_NUMBER)
@@ -50,16 +48,16 @@ function savescore($score, $name, $cookie)
 //	global $_COOKIE;
 	header('Content-type: text/xml;	charset=utf-8');
  	echo '<?xml version="1.0" encoding="UTF-8"?>';
-	
+
 	print("<mayaddscore>");
 		print('saving: '.$name.$score.' with cookie:'.$cookie);
 //		print_r($_COOKIE):
-	print("</mayaddscore>");		
+	print("</mayaddscore>");
 //	if($score==$cookie)
 	{
 //	print('saving now!');
 		insertentry(DBTABLE,array(0=> 0, 1=> setinteger($score), 2 => utf8_decode(setstring($name))));
-		
+
 		// delete superfluous highscores from database
 		$scores= getmultiplefields(DBTABLE, 'key', '1', array(0 => '*'), $orderby="score", $ascdesc="DESC");
 		$entries = array_values($scores);
@@ -85,44 +83,44 @@ function printscore()
 	$entries = array_values($scores);
 	$count = count($entries);
 	$i=0;
-	
+
 	$xml="";
-	
+
 	header('Content-type: text/xml;	charset=utf-8');
  	echo '<?xml version="1.0" encoding="UTF-8"?>';
-	
+
 	$xml .= "<highscores>";
 	$xml .= "<noofentries>".$count."</noofentries>";
-	
-	
+
+
 	// display predefined number of highscores
 	for(;$i<HIGHSCORES_NUMBER && $i<$count;$i++)
 	{
 		$j=$i+1;
 		$name=utf8_encode($entries[$i]['name']);
-		
-		
+
+
 		$name=str_replace("/", "" , $name);
-		
+
 //		"   &quot;
 //'   &apos;
 //<   &lt;
 //>   &gt;
 //&   &amp;
-		
-		
+
+
 		$xml .= "<entry>";
 		$xml .= "<id>".$j."</id>";
 		$xml .= "<name>".$name."</name>";
 		$xml .= "<score>".$entries[$i]['score']."</score>";
-		
+
 		$xml .= "</entry>";
 	}
 
 	$xml .= "</highscores>";
 	echo $xml;
-	
-	
+
+
 	for(;$i<$count;$i++)
 	{
 		$entry=$entries[$i];
@@ -252,7 +250,7 @@ function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 =
   if($sql)
   {
     $fields=mysql_num_fields($sql);
-    
+
     // get index for field name
     $found=false;
     for($field=0;!$found && $field<$fields;$field++)
@@ -289,7 +287,7 @@ function singlequery($query)
   global $dbname,$dbhost,$dbuser,$dbpasswd;
 
   $result=$query;
-  
+
     $db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
       or die("Can't connect to database. Please try again later.");
 
@@ -298,7 +296,7 @@ function singlequery($query)
 
     $result=@mysql_query($query)
       or die("Can't get data from database. Please notify the admin.");
-  
+
   if(preg_match ("/insert/i",$query))
   {
     $result= mysql_insert_id($db);

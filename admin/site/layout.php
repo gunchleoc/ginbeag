@@ -24,19 +24,19 @@ $error = false;
 if($postaction=='savesite' && isset($_POST['submit']))
 {
 	$properties['Default Template']=$db->setstring(trim($_POST['defaulttemplate']));
-	
+
 	$properties['Site Name']=$db->setstring(fixquotes(trim($_POST['sitename'])));
 	$properties['Site Description']=$db->setstring(fixquotes(trim($_POST['sitedescription'])));
 	$properties['Left Header Image']=$db->setstring(trim($_POST['leftimage']));
 	$properties['Left Header Link']=$db->setstring(trim($_POST['leftlink']));
 	$properties['Right Header Image']=$db->setstring(trim($_POST['rightimage']));
 	$properties['Right Header Link']=$db->setstring(trim($_POST['rightlink']));
-	
+
 	$properties['Footer Message']=$db->setstring(fixquotes(trim($_POST['footermessage'])));
-	
+
 	$properties['News Items Per Page']=$db->setinteger(trim($_POST['newsperpage']));
 	$properties['Gallery Images Per Page']=$db->setinteger(trim($_POST['galleryimagesperpage']));
-	
+
 	if(isset($_POST['linksonsplashpage']))
 		$properties['Links on Splash Page']= implode(",",$_POST['linksonsplashpage']);
 
@@ -62,7 +62,7 @@ if($postaction=='savesite' && isset($_POST['submit']))
 		$properties['Splash Page Text 1 - 1']= $sptext;
 		$properties['Splash Page Text 1 - 2']= "";
 	}
-	
+
 	$sptext= $db->setstring(fixquotes(trim($_POST['sptext2'])));
 	if(strlen($sptext)>255)
 	{
@@ -80,11 +80,11 @@ if($postaction=='savesite' && isset($_POST['submit']))
 		$properties['Splash Page Text 2 - 1']= $sptext;
 		$properties['Splash Page Text 2 - 2']= "";
 	}
-	
+
 	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
-	
+
 	$message = "Layout properties saved";
-	
+
 	if(!$success)
 	{
 		$message = "Failed to save layout properties: ".$sql;

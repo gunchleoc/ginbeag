@@ -17,7 +17,7 @@
 			<input id="download" type="radio" name="display" value="download">
 			<label for="full">Download uncompressed</label>
 			<input id="gzip" type="radio" name="display" value="gzip" checked>
-			<label for="gzip">Download gzip</label>	  							
+			<label for="gzip">Download gzip</label>
 			<div class="formexplain">Display the backup on screen or download uncompressed for small databases or structure backup.<br />For big databases, download as <em>gzip</em>.</div>
 		</fieldset>
 		<input type="submit" name="backup" value="Backup Database" class="mainoption" />

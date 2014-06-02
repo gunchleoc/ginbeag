@@ -20,7 +20,6 @@ unset($_GET['postaction']);
 $message = "";
 $error = false;
 
-
 if($postaction=='savesite' && isset($_POST['submit']))
 {
 	$properties['Google Keywords']=$db->setstring(trim($_POST['keywords']));
@@ -35,9 +34,9 @@ if($postaction=='savesite' && isset($_POST['submit']))
 	$properties['Thumbnail Size']=$db->setinteger(trim($_POST['thumbnailsize']));
 	$properties['Mobile Thumbnail Size']=$db->setinteger(trim($_POST['mobilethumbnailsize']));
 	$properties['Imagelist Images Per Page']=$db->setinteger(trim($_POST['imagesperpage']));
-	
+
 	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
-	
+
 	if($success="1")
 	{
 		$message="Technical setup saved";

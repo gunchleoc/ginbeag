@@ -8,13 +8,6 @@ include_once($projectroot."functions/publicsessions.php");
 include_once($projectroot."functions/treefunctions.php");
 include_once($projectroot ."config.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
-
 //
 //
 //
@@ -28,9 +21,9 @@ function getcachedpage($page, $parameters)
 	$fields[]='page_id';
 	$fields[]='content_html';
 	$fields[]='lastmodified';
-	
+
 	$condition="cache_key = '".$page.$parameters."'";
-	
+
 	$pagefields=getmultiplefields(PAGECACHE_TABLE, "page_id",$condition, $fields, $orderby="page_id, cache_key");
 	//  print_r($pagefields);
 	if(array_key_exists("page_id",$pagefields[$page]))
@@ -57,30 +50,30 @@ function makecachedpage($page, $parameters, $content_html)
 	global $db;
 	// create date
 	$now=date(DATETIMEFORMAT, strtotime('now'));
-	
+
 	$page = $db->setinteger($page);
 	$parameters = $db->setstring($parameters);
 	$content_html = $db->setstring($content_html);
 	$key = $page.$parameters;
-  
+
 	if(strlen($key)<=255)
 	{
-	
+
 		// insert or update entries
 		$dbentry="";
-		
+
 		$query="select page_id from ".PAGECACHE_TABLE." where ";
 		$query.="cache_key = '".$key."'";
-		
+
 		//  print($query.'<br>');
 		$sql=$db->singlequery($query);
-		
+
 		if($sql)
 		{
 			$row=mysql_fetch_row($sql);
 			$dbentry=$row[0];
 		}
-		
+
 		if($dbentry == $page)
 		{
 			updatefields(PAGECACHE_TABLE, array(0 => "content_html", 1 => "lastmodified"), array(0 => $content_html, 1 => $now), "cache_id", $key)

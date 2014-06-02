@@ -12,7 +12,7 @@ include_once($projectroot."includes/objects/page.php");
 	<title>Fòram na Gàidhlig - Geama matamataigs</title>
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
 	<link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
-	<script type="text/javascript" src="jquery.js"></script>     
+	<script type="text/javascript" src="jquery.js"></script>
 	<style type="text/css">
 #messagebox {
 	position: absolute;
@@ -31,18 +31,18 @@ include_once($projectroot."includes/objects/page.php");
 </style>
 
 <SCRIPT LANGUAGE="JavaScript">
- 
+
 function disableEnterKey(e)
  {
-      var key;      
+      var key;
      if(window.event)
            key = window.event.keyCode; //IE
       else
-           key = e.which; //firefox      
+           key = e.which; //firefox
 
      return (key != 13);
  }
- 
+
 
 
 <!--START OF TIMER SCRIPT-->
@@ -84,7 +84,7 @@ function CountDown() {
 		document.getElementById("operator").innerHTML = "Deireadh a' gheama";
 		document.getElementById("firstnum").innerHTML = "";
 		document.getElementById("secondnum").innerHTML = "";
-		
+
 	}
 }
 <!--END OF TIMER SCRIPT-->
@@ -93,12 +93,12 @@ function CountDown() {
 function trim(str, chars) {
 	return ltrim(rtrim(str, chars), chars);
 }
- 
+
 function ltrim(str, chars) {
 	chars = chars || "\\s";
 	return str.replace(new RegExp("^[" + chars + "]+", "g"), "");
 }
- 
+
 function rtrim(str, chars) {
 	chars = chars || "\\s";
 	return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
@@ -191,15 +191,15 @@ function getProb()
 {
 	var choose1=0;
 	var choose2=0;
-	
+
 	choose=randnum(1,4);
 	if (choose=="1")
 	{
 		document.getElementById("operator").innerHTML = " cuir ris ";
-		
+
 		choose1=randnum(0,50);
 		choose2=randnum(0,50);
-		
+
 		rightanswer=choose1 + choose2;
 	}
 	if (choose=="2")
@@ -207,7 +207,7 @@ function getProb()
 		document.getElementById("operator").innerHTML = " thoirt air falbh ";
 		choose2=randnum(0,50);
 		choose1=randnum(choose2,50);
-		
+
 		rightanswer=choose1 -  choose2;
 	}
 	if (choose=="3")
@@ -222,7 +222,7 @@ function getProb()
 		document.getElementById("operator").innerHTML = " roinn le ";
 		choose2=randnum(1,10);
 		choose1=choose2 * randnum(0,10);
-		
+
 		rightanswer=choose1 /  choose2;
 	}
 	document.getElementById("firstnum").innerHTML = mapnumbers[choose1]+" ";
@@ -278,7 +278,7 @@ function answerit()
 		}
 	}
 	document.math.answer.value="";
-	
+
 	document.math.answer.focus();
 }
 
@@ -310,9 +310,9 @@ $("#start").click(function(e){
 	startgame();
 	document.math.answer.focus();
 
-});       	
-    
-		
+});
+
+
 $("#answerit").click(function(e){
 	answerit();
 });
@@ -322,18 +322,18 @@ $("#answer").keyup(function(e) {
 	if(e.keyCode == 13) {
 		var test=trim(document.math.answer.value);
 		if(test.length>0)
-		{	
+		{
 			jQuery(this).blur();
 			jQuery('#submit').focus().click();
 			answerit();
 		}
 	}
 });
-     
+
 
 $("#togglesystem").click(function(e){
 	togglesystem();
-});     
+});
 
 
 
@@ -345,7 +345,7 @@ $("#togglesystem").click(function(e){
 
 
 
-// special treatment for IE	
+// special treatment for IE
 if(navigator.appName =="Microsoft Internet Explorer")
 {
 	document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
@@ -388,10 +388,10 @@ function placeOnBottom(element)
 		height = height.substring(0, temp);
 	}
 	else height=0;
-	
+
 	var windowheight = document.body.clientHeight;
 	var top = windowheight-height*2-10;
-	
+
 	// Internet Exploder
 	if(element.css("position")=="static")
 	{
@@ -399,7 +399,7 @@ function placeOnBottom(element)
 		top = top+document.body.scrollTop;
 	}
 	top = top-25;
-		
+
 	top = top+"px";
 	element.css("top",top);
 }
@@ -444,13 +444,13 @@ $(document).ready(function() {
 		</div>
 		<div id="headercenter">
 		    <h1 class="maintitle">Fòram na Gàidhlig</h1>
-		    
+
 		    <div id="sitedescription">Coimhearsneachd airson ionnsachadh is leasachadh na Gàidhlig</div>
-		    
+
 		</div>
 		<div id="headerright">
-			
-	      	
+
+
 		</div>
 		<h1 id="headerpagetitle" class="headerpagetitle newline">Geama Matamataigs</h1>
 
@@ -469,14 +469,14 @@ $db->closedb();
 ?>
 		</div>
 		<div id="contentarea" style="height: 950px;" title="Susbaint">
-<!--  Game HTML starts here  -->  
+<!--  Game HTML starts here  -->
 				<h2 class="pagetitle">Geama Matamataigs</h2>
 
 <table align="center" cellpadding="5">
 <form name="math" >
 	<tr>
   		<td align="left" rowspan="6"><img src="matamataigslogo.png" /></td>
-      
+
     </tr>
     <tr>
       	<td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">Fuasgail: </span></td>
@@ -495,7 +495,7 @@ $db->closedb();
     <tr>
 		<td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:green;">Puingean:</span></td>
 		<td><span name="points" id="points" style="font-weight:bold; color:green;"> </span></td>
-		<td align="right"><font face="Arial, Helvetica, Sans Serif">Ùine air fhàgail: </font><span name="timer" id="timer" style="font-weight:bold;"> </span></td>    
+		<td align="right"><font face="Arial, Helvetica, Sans Serif">Ùine air fhàgail: </font><span name="timer" id="timer" style="font-weight:bold;"> </span></td>
     </tr>
 </form>
 	<tr>

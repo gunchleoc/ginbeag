@@ -4,7 +4,6 @@ $projectroot=dirname(__FILE__)."/";
 include_once($projectroot."functions/db.php");
 include_once($projectroot."includes/functions.php");
 
-
 // anti bot nonsense links
 // ********************************* achtung - bot secure ist server-spezifisch!
 $testpath = "/".getproperty("Local Path");

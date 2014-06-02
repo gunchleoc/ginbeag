@@ -5,13 +5,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"functions"));
 include_once($projectroot."functions/db.php");
 include_once($projectroot."functions/images.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
-
 //
 //
 //
@@ -54,7 +47,7 @@ function getarticleoftheday()
 			}
 			$query=substr($query,0,strlen($query)-1);
 			$query.=") AND page.ispublished = '1'";
-		
+
 			$sql=$db->singlequery($query);
 			$pagesforselection=array();
 			if($sql)
@@ -72,7 +65,7 @@ function getarticleoftheday()
 			{
 				list($usec, $sec) = explode(' ', microtime());
 				$random= ((float) $sec + ((float) $usec * 100000)) % count($pagesforselection);
-				
+
 				$aotd=$pagesforselection[$random];
 				if($aotd)
 				{
@@ -96,7 +89,7 @@ function getarticleoftheday()
 function getpagetypes()
 {
 	$result=array();
-	
+
 	$keys=getorderedcolumn("type_key",PAGETYPES_TABLE, "1", "type_key", "ASC");
 	$values=getorderedcolumn("type_description",PAGETYPES_TABLE, "1", "type_key", "ASC");
 	for($i=0;$i<count($keys);$i++)
@@ -316,12 +309,12 @@ function hasaccesssession($page)
 	$result=true;
 
 	$masterpage=getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $page);
-  
+
 	if($masterpage)
 	{
 		$user_id=getdbelement("session_user_id",PUBLICSESSIONS_TABLE, "session_id", $db->setstring($sid));
 		$page=$db->setinteger($page);
-		
+
 		$query="select publicuser_id from ".RESTRICTEDPAGESACCESS_TABLE." where publicuser_id = '".$user_id."' AND page_id = '".$masterpage."';";
 		$result = getdbresultsingle($query);
 	}
@@ -371,10 +364,10 @@ function updatepagestats($page)
 	{
 		$year=date("Y",strtotime('now'));
 		$month=date("m",strtotime('now'));
-		
+
 		$query="SELECT stats_id, viewcount FROM ".MONTHLYPAGESTATS_TABLE." WHERE ";
 		$query.="year='".$year."' AND month='".$month."' AND page_id='".$db->setinteger($page)."'";
-		
+
 		//  print($query);
 		$sql=$db->singlequery($query);
 		$stats=array();

@@ -5,8 +5,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."language/languages.php");
 
-
-
 //
 //
 //
@@ -69,19 +67,19 @@ class CategorylistLinks extends Template {
     function CategorylistLinks($categories,$page, $cattype)
     {
     	parent::__construct();
-    	
+
 		$noofcategories = count($categories);
-		
+
 		if($noofcategories)
 		{
-		
+
 			for($i=0;$i<count($categories);$i++)
 			{
 				$this->listvars['catlist'][]=new CategorylistLink($categories[$i],$page, $cattype);
 				$this->stringvars['l_categories']=getlang("categorylist_categories");
 			}
 		}
-  		else 
+  		else
   		{
   			$this->stringvars['catlist']="";
   			$this->stringvars['l_categories']="";

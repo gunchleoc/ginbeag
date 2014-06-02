@@ -5,7 +5,7 @@
 	<div class="contentsection">
 		<fieldset>
 			<legend class="highlight">Generate new variable names</legend>
-			<label for="renamevariables">Rename Variables:</label>	
+			<label for="renamevariables">Rename Variables:</label>
 			<input id="renamevariables" type="submit" name="renamevariables" value="Rename Variables" />
 			<div class="formexplain">Creates new random variable names to confuse spambots.</div>
 		</fieldset>
@@ -15,7 +15,7 @@
 	<div class="contentsection">
 		<fieldset>
 			<legend class="highlight">Math CAPTCHA</legend>
-			<label for="usemathcaptcha">Use Math CAPTCHA:</label>	
+			<label for="usemathcaptcha">Use Math CAPTCHA:</label>
 			{USEMATHCAPTCHA_YES} {USEMATHCAPTCHA_NO}
 			<div class="formexplain">Spam protection - people have to solve a simple addition problem on random before sending an e-mail or making an entry in the Guestbook.</div>
 			{SUBMITROW}

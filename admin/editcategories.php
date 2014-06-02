@@ -14,10 +14,8 @@ include_once($projectroot."includes/functions.php");
 
 checksession();
 
-
 //print_r($_GET);
 //print_r($_POST);
-
 
 if(isset($_GET['page']))
 {
@@ -46,7 +44,7 @@ else $cattype=CATEGORY_ARTICLE;
 if(isset($_POST['addsub']))
 {
 	$title="Added category";
-	
+
 	if($selectedcat<0)
 	{
 		$message = "Please select a parent category";
@@ -66,7 +64,7 @@ if(isset($_POST['addsub']))
 elseif(isset($_POST['editcat']))
 {
 	$title="Modified category";
-	
+
 	if($selectedcat<0)
 	{
 		$message = "Please select a category for renaming";
@@ -136,7 +134,7 @@ elseif(isset($_POST['movecat']))
 	{
 		$movefrom=$_POST['movefrom'];
 		$moveto=$_POST['moveto'];
-		
+
 		if(isdescendant($movefrom, $moveto, $cattype))
 		{
 			$message = 'You are not allowed to move "'.title2html(getcategoryname($movefrom, $cattype)).'" to "'.title2html(getcategoryname($moveto, $cattype)).'".';

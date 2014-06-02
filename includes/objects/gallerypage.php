@@ -2,14 +2,12 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 
-//include_once($projectroot."functions/pages.php");
 include_once($projectroot."functions/pagecontent/gallerypages.php");
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/elements.php");
 include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/objects/page.php");
 include_once($projectroot."includes/includes.php");
-
 
 //
 //
@@ -19,17 +17,17 @@ class GalleryCaptionedImage extends Template {
     function GalleryCaptionedImage($filename,$width,$showhidden=false)
     {
     	parent::__construct();
-      
+
 		// Make the image
       	if(imageexists($filename))
       	{
 			$this->vars['image'] = new Image($filename, true, true, array("page" => $this->stringvars['page']), $showhidden);
 		}
 		else $this->stringvars['image']='<i>'.$filename.'</i>';
-      
+
 		// Make the caption
 		$this->vars['caption'] = new ImageCaption($filename);
-      
+
 		// CS stuff
    		$this->stringvars['halign']="float:left; ";
 		$this->stringvars['width'] = "".$width."px";
@@ -51,7 +49,7 @@ class GalleryImage extends Template {
 	function GalleryImage($filename,$width=300,$height=350,$showhidden=false)
 	{
 		parent::__construct();
-		
+
 		$params='&page='.$this->stringvars['page'];
 		if($this->stringvars['sid'])
 		{
@@ -60,10 +58,10 @@ class GalleryImage extends Template {
 		$this->stringvars["height"]="".$height."px";
 
 		$this->vars['image'] = new GalleryCaptionedImage($filename,$width,$showhidden);
-		
+
 		$filename;
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -83,23 +81,23 @@ class GalleryPage extends Template {
 	function GalleryPage($offset=0,$showhidden=false)
 	{
 		global $projectroot;
-	
+
 		parent::__construct();
-		
+
 		$imagesperpage=getproperty("Gallery Images Per Page");
 		$images=getgalleryimagefilenames($this->stringvars['page']);
 		$noofimages=count($images);
 		if(!$offset) $offset=0;
-		
+
 		$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
-		
+
 		//pagemenu
 		$this->vars['pagemenu']= new PageMenu($offset, $imagesperpage, $noofimages);
-		
+
 		$startindex = $offset;
 		$endindex =($offset+$imagesperpage);
-		
+
 
 		// determine image dimensions
 		$width=getproperty("Thumbnail Size");
@@ -109,7 +107,7 @@ class GalleryPage extends Template {
 			$thumbnail = getthumbnail($images[$i]);
 			$filepath = getimagepath($images[$i]);
 			$thumbnailpath = getthumbnailpath($images[$i], $thumbnail);
-			
+
 			if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
 			{
 				$dimensions = getimagedimensions($thumbnailpath);
@@ -144,16 +142,16 @@ class GalleryPage extends Template {
 		if (!$width) $width=getproperty("Thumbnail Size");
 		$width = $width + IMAGECAPTIONLINEHEIGHT;
 		if (!$height) $height=getproperty("Thumbnail Size")+150;
-		
+
 		// create images
 		for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
 		{
 			$this->listvars['galleryimage'][]= new GalleryImage($images[$i],$width,$height,$showhidden);
-		} 
-		
+		}
+
 		$this->vars['editdata']= new Editdata($showhidden);
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{

@@ -51,9 +51,9 @@ $db->closedb();
 function backupdatabase($display,$structureonly=true)
 {
 	global $dbname, $table_prefix, $db, $page, $message, $error;
-	
+
 	$sitename=title2html(getproperty("Site Name"));
-	
+
 	if($display==="screen")
 	{
 		$cr="&nbsp;<br />";
@@ -62,7 +62,7 @@ function backupdatabase($display,$structureonly=true)
 	{
 		$cr="\r\n";
 	}
-	
+
 	$result="#".$cr."# ".$sitename." Webpage Building database backup".$cr."#".$cr;
 	$result.="# ".date(DATETIMEFORMAT, strtotime('now')).$cr;
 	$result.="#".$cr."# Database: ".$dbname.$cr."#".$cr;
@@ -74,29 +74,29 @@ function backupdatabase($display,$structureonly=true)
 	{
 		$result.="# Full backup".$cr."#".$cr;
 	}
-  
+
 	//get table names
 	$query="SHOW TABLES LIKE '".$table_prefix."%';";
-	
+
 	//  print($query.'<p>');
-	
+
 	$tables=$db->singlequery($query);
 	while($tablerow = mysql_fetch_row($tables))
 	{
 		$tablename=$tablerow[0];
-		
+
 		$result.=$cr."# ------------------------------------------------";
 		$result.=$cr."#".$cr."# Table: ".$tablename.$cr."#";
 		$result.=$cr."# ------------------------------------------------".$cr.$cr;
 		$result.="DROP TABLE IF EXISTS `".$tablename."`;".$cr;
 		$result.="CREATE TABLE `".$tablename."` (".$cr;
-		
+
 		// get fields
 		$query="SHOW COLUMNS FROM ".$tablename;
 		$columns=$db->singlequery($query);
-		
+
 		$numfields=mysql_num_fields($columns);
-		
+
 		while($column = mysql_fetch_row($columns))
 		{
 			// way around time limit?
@@ -108,7 +108,7 @@ function backupdatabase($display,$structureonly=true)
 			if(strlen($column[5])>0) $result.=" ".$column[5];
 			$result.=",".$cr;
 		}
-    
+
 		// get keys
 		$query="SHOW INDEX FROM ".$tablename;
 		$keys=$db->singlequery($query);
@@ -158,9 +158,9 @@ function backupdatabase($display,$structureonly=true)
 		if(!$structureonly)
 		{
 			$query="SELECT * from ".$tablename.";";
-			
+
 			$data=$db->singlequery($query);
-			
+
 			if(mysql_num_rows($data))
 			{
 				while($element = mysql_fetch_row($data))
@@ -208,7 +208,7 @@ function backupdatabase($display,$structureonly=true)
 		$name.=".sql.gz";
 			header("Content-Type: application/x-gzip; name=\"".$name."\"");
 			header("Content-disposition: attachment; filename=".$name."");
-		
+
 		print(@gzencode($result));
 	}
 	set_time_limit(30);
@@ -220,22 +220,22 @@ function backupdatabase($display,$structureonly=true)
 function showtables()
 {
 	global $table_prefix, $db;
-	
+
 	//get table names
 	$query="SHOW TABLES LIKE '".$table_prefix."%';";
-	
+
 	//  print($query.'<p>');
-	
+
 	$tables=$db->singlequery($query);
 	while($tablerow = mysql_fetch_row($tables))
 	{
 		$tablename=$tablerow[0];
 		print('<p>'.$tablename.'<br>');
-		
+
 		// get fields
 		$query="SHOW COLUMNS FROM ".$tablename;
 		$columns=$db->singlequery($query);
-		
+
 		$numfields=mysql_num_fields($columns);
 		print('<table class="bodyline"><tr>');
 		for($i=0;$i<$numfields;$i++)
@@ -256,12 +256,12 @@ function showtables()
 			print('</tr>');
 		}
 		print('</tr></table>');
-    
-    
+
+
 		// show keys
 		$query="SHOW INDEX FROM ".$tablename;
 		$keys=$db->singlequery($query);
-		
+
 		$numfields=mysql_num_fields($keys);
 		print('<p>Keys:<br><table class="bodyline"><tr>');
 		for($i=0;$i<$numfields;$i++)

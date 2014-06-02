@@ -4,13 +4,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"functions"));
 
 include_once($projectroot."functions/db.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
-
 function getallcategorieswithname($cattype)
 {
 	if($cattype==CATEGORY_NEWS) $table = CATEGORIES_NEWS_TABLE;

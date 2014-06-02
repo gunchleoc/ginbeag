@@ -5,14 +5,13 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."language/languages.php");
 
-
 //
 // get adjusted offset for page jumped to
 //
 function getoffsetforjumppage($noofitems,$itemsperpage,$offset)
 {
 	global $_GET;
-	
+
 	if(isset($_GET['jumppage']) && $_GET['jumppage']>0
 		&& $noofitems && $_GET['jumppage']<=ceil($noofitems/$itemsperpage))
 	{
@@ -21,8 +20,6 @@ function getoffsetforjumppage($noofitems,$itemsperpage,$offset)
 	}
 	return $offset;
 }
-
-
 
 
 //

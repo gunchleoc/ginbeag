@@ -17,7 +17,7 @@ include_once($projectroot."includes/objects/page.php");
 	<script type="text/javascript" src="leumadair.js"></script>
 	<script language="JavaScript">
 
-// special treatment for IE	
+// special treatment for IE
 if(navigator.appName =="Microsoft Internet Explorer")
 {
 	document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
@@ -62,13 +62,13 @@ $(document).ready(function() {
 		</div>
 		<div id="headercenter">
 		    <h1 class="maintitle">Fòram na Gàidhlig</h1>
-		    
+
 		    <div id="sitedescription">Coimhearsneachd airson ionnsachadh is leasachadh na Gàidhlig</div>
-		    
+
 		</div>
 		<div id="headerright">
-			
-	      	
+
+
 		</div>
 		<h1 id="headerpagetitle" class="headerpagetitle newline">Leumadairean</h1>
 
@@ -87,7 +87,7 @@ $db->closedb();
 ?>
 		</div>
 		<div id="contentarea" style="height: 950px;" title="Susbaint">
-<!--  Game HTML starts here  -->  
+<!--  Game HTML starts here  -->
 				<h2 class="pagetitle">Leumadairean</h2>
 
 <table cellspacing="20"  align="center">

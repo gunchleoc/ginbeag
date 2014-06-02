@@ -7,16 +7,8 @@ include_once($projectroot."functions/pages.php");
 include_once($projectroot."functions/publicsessions.php");
 include_once($projectroot ."config.php");
 
-
 if(isset($_GET["sid"])) $user=getpublicsiduser($_GET["sid"]);
 else $user=0;
-
-
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
 
 $fields=array();
 $fields[]='page_id';
@@ -31,8 +23,6 @@ $allpages=getmultiplefields(PAGES_TABLE, "page_id","1", $fields, $orderby="paren
 
 $allrestrictedpages=getmultiplefields(RESTRICTEDPAGES_TABLE, "page_id","1", array(0 => "page_id", 1 => "masterpage"), $orderby="page_id");
 $directrestrictedpagesaccess=getmultiplefields(RESTRICTEDPAGESACCESS_TABLE, "page_id","publicuser_id = '".$user."'", array(0 => "page_id"), $orderby="page_id");
-
-//print_r($allpages[5]);
 
 //
 //

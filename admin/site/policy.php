@@ -24,9 +24,9 @@ if($postaction=='savesite')
 {
 	$properties['Display Site Policy']=$db->setinteger($_POST['displaypolicy']);
 	$properties['Site Policy Title']=$db->setstring(fixquotes($_POST['policytitle']));
-	
+
 	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
-	
+
 	if($success="1")
 	{
 		$message="Site policy settings saved";

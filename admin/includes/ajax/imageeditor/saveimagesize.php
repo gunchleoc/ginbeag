@@ -1,5 +1,4 @@
 <?php
-
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"imageeditor"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"ajax"));
@@ -27,10 +26,10 @@ if(!$errormessage)
 	if(!isset($_POST['elementtype'])) $errormessage .= " :elementtype not defined";
 	if(!isset($_POST['autoshrink'])) $errormessage .= " :autoshrink not defined";
 	if(!isset($_POST['usethumbnail'])) $errormessage .= " :usethumbnail not defined";
-	
+
 	if(!$errormessage)
 	{
-	
+
 		$page=$_POST['page'];
 		$item=$_POST['item'];
 		if($_POST['autoshrink'] === "on")
@@ -40,9 +39,9 @@ if(!$errormessage)
 			$usethumbnail=1;
 		else $usethumbnail= 0;
 		$elementtype=$_POST['elementtype'];
-	
+
 		$success=false;
-	
+
 		if($elementtype=="pageintro")
 		{
 
@@ -50,7 +49,7 @@ if(!$errormessage)
 			if($success) $message.= "Saved synopsis image size: autoshrink ".$autoshrink." - use thumbnail ".$usethumbnail;
 			else $errormessage = "Error saving synopsis image size: autoshrink ".$autoshrink." - use thumbnail ".$usethumbnail." for page ".$page;
 		}
-	
+
 		elseif($elementtype=="articlesection")
 		{
 			include_once($projectroot."admin/functions/pagecontent/articlepagesmod.php");

@@ -8,7 +8,7 @@
 			<input id="{JSID}year" type="text" name="year" size="5" maxlength="4" value="{YEAR}" />
 			&nbsp;&nbsp;{HOURSFORM}
 			&nbsp;&nbsp;{MINUTESFORM}
-			&nbsp;&nbsp;{SECONDSFORM} <br>			
+			&nbsp;&nbsp;{SECONDSFORM} <br>
 		</fieldset>
 		<input type="button" id="{JSID}savedatebutton" name="savedatebutton" value="Fake the Date!" class="mainoption" />
 		<input id="{JSID}savedatereset" type="reset" value="Reset" />

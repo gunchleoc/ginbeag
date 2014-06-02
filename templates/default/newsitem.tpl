@@ -24,9 +24,9 @@
     	<!-- BEGIN switch CONTRIBUTOR -->
     	<div class="articlesource"> {L_CONTRIBUTOR} {CONTRIBUTOR}</div>
     	<!-- END switch CONTRIBUTOR -->
-    	
+
     	<div class="newsitemcategories">{CATEGORYLIST}</div>
-    	
+
     	<!-- BEGIN switch SYNOPSIS_IMAGE -->
 		<div class="newsitemsynopsis">
 			<!-- BEGIN switch MULTIPLE_IMAGES -->

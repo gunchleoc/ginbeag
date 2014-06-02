@@ -7,7 +7,6 @@ for(var i=0;i<8;i++) {
 
 var imgWon =  new Image();
 imgWon.src = "bhuannaich.gif";
-	
 
 
 $(document).ready(function() {
@@ -16,7 +15,7 @@ $(document).ready(function() {
 	/* ******************** init ************************************** */
 
 	//hideButtons();
-	
+
 	var	guesses = 0;
  	var	max = 7;
  	var	guessed = "&nbsp;";
@@ -25,7 +24,7 @@ $(document).ready(function() {
  	var gamestarted=false;
 
 	var winmessage = "";
-	
+
 	hideButtons();
 
 	function startGame() {
@@ -36,25 +35,25 @@ $(document).ready(function() {
  		displayHangmanTransition();
  		displayToGuess();
  		displayGuessed();
- 		
+
  		if(document.getElementById("beag").checked)
 		{
 			hideButton(document.getElementById("-"));
 			hideButton(document.getElementById("asgair"));
 			guess(toGuess.charAt(Math.floor((Math.random()*(toGuess.length-1))+0)));
 		}
- 		
+
  		document.getElementById("messages").innerHTML="<span style='font-size:80%'><span style='color:green; font-weight:bold;'>Geama air tòiseachadh.</span> Feuch am faigh tu a-mach dè am facal a th' ann.</span>";
 	}
 
 	function displayHangmanTransition() {
  		document.getElementById("status").src=imgTransition[guesses].src;
-	}	
-	
+	}
+
 	function resetButtons() {
 
 		var buttons = new Array();
-		
+
 		buttons[0]=document.getElementById("a");
 		buttons[1]=document.getElementById("b");
 		buttons[2]=document.getElementById("c");
@@ -80,14 +79,14 @@ $(document).ready(function() {
 		buttons[22]=document.getElementById("ù");
 		buttons[23]=document.getElementById("-");
 		buttons[24]=document.getElementById("asgair");
-		
+
 		for(var i=0;i<=24;i++)
 		{
 			enableButton(buttons[i]);
-			
+
 		}
 	}
-	
+
 	function enableButton(button)
 	{
 		button.style.borderStyle="outset";
@@ -113,7 +112,7 @@ $(document).ready(function() {
 	function hideButtons()
 	{
 		var buttons = new Array();
-		
+
 		buttons[0]=document.getElementById("a");
 		buttons[1]=document.getElementById("b");
 		buttons[2]=document.getElementById("c");
@@ -139,13 +138,13 @@ $(document).ready(function() {
 		buttons[22]=document.getElementById("ù");
 		buttons[23]=document.getElementById("-");
 		buttons[24]=document.getElementById("asgair");
-			
+
 		for(var i=0;i<=24;i++)
 		{
 			hideButton(buttons[i]);
 		}
 	}
-	
+
 	function hideButton(button)
 	{
 		button.style.borderStyle="groove";
@@ -170,7 +169,7 @@ $(document).ready(function() {
  		}
  		document.game.toGuess.value=pattern;
 	}
-	
+
 
 	/* ********** guesses ****************************************** */
 
@@ -183,7 +182,7 @@ $(document).ready(function() {
  		return false;
 	}
 
-	
+
 	function winner() {
  		for(i=0;i<toGuess.length;++i) {
   			if(guessed.indexOf(toGuess.charAt(i)) == -1) return false;
@@ -191,8 +190,8 @@ $(document).ready(function() {
   		if (toGuess.length <2) return false;
  		return true;
  	}
- 	
- 	
+
+
  	/* ***************** main control flow ************************* */
 
 
@@ -205,8 +204,8 @@ $(document).ready(function() {
  				guessed = guessed + s + ' ';
  			}
  			var messagetemp ="</br>"+document.getElementById("messages").innerHTML;
- 			
- 			if(s=="'") 
+
+ 			if(s=="'")
  			{
  				var buttonElement =document.getElementById("asgair");
  			}
@@ -214,13 +213,13 @@ $(document).ready(function() {
  			{
  				var buttonElement =document.getElementById(s.toLowerCase());
  			}
- 			
+
  			if(badGuess(s))
  			{
  				++guesses;
- 				
+
  				disableButton(buttonElement);
- 				
+
  				buttonElement.style.backgroundColor="#F7E3E3";
  				buttonElement.style.color="grey";
 
@@ -253,29 +252,29 @@ $(document).ready(function() {
  			document.getElementById("messages").innerHTML="<span style='color: red; font-weight:bold;'>Bhuannaich thu!</span><br />"+ winmessage;
 
  		}
-	}	
+	}
 
 
 	/* *************** listeners ******************************* */
-   
+
    	// Get word from database
    	$("#restart").click(function(e){
-    	
+
     	document.getElementById("status").style.backgroundColor="sienna";
      	document.getElementById("status").src="geamaur.gif";
      	document.getElementById("messages").innerHTML="<span style='font-size:80%'>A' tòiseachadh air geama ùr...</span>";
-     
+
      	// send request
      	if(document.getElementById("àiteachan").checked)
      	{
      		$.post("getword.php?mode=placenames", {list: $(this).html()}, function(xml) {
-     	
+
        			word=$(xml).find('gaidhlig').text();
        			var aaa=$(xml).find('aaa').text();
        			var imt=$(xml).find('imt').text();
-	       		
+
  				toGuess = word.toUpperCase();
- 			
+
  				winmessage = "<span style='font-size:80%'><br /><b>Àite:</b> "+ word;
 
  				if(imt==1)
@@ -286,46 +285,46 @@ $(document).ready(function() {
  				{
  					winmessage+="<br />&nbsp;<br /><a href='http://www.gaelicplacenames.org/databasedetails.php?id="+ aaa+"&lan=ga'>"+word+" air làrach Ainmean-àite na h-Alba</a>";
  				}
- 					
+
  				winmessage+="</span>";
-				startGame();      
-       		
+				startGame();
+
     	   	});
        	} // àiteachan
        	else if($("#iomlan").checked)
        	{
        		$.post("getword.php?mode=words", {list: $(this).html()}, function(xml) {
-     	
+
        			word=$(xml).find('facal').text();
-       			
+
  				toGuess = word.toUpperCase();
-       			 			
+
  				winmessage = "<span style='font-size:80%'><br /><b>Facal:</b> "+ word+ "<br />&nbsp;<br /><a href='http://www.faclair.com/?txtSearch="+ encodeURI(word)+"'>Lorg '"+word+"' san Fhaclair Bheag</a></span>";
- 				
- 				
-				startGame();      
-       		
+
+
+				startGame();
+
     	   	});
        	} // iomlan
       	else
        	{
        		$.post("getword.php?mode=wordssmall", {list: $(this).html()}, function(xml) {
-     	
+
        			word=$(xml).find('faclanbeag').text();
-       			
+
  				toGuess = word.toUpperCase();
- 			
+
  				winmessage = "<span style='font-size:80%'><br /><b>Facal:</b> "+ word+ "<br />&nbsp;<br /><a href='http://www.faclair.com/?txtSearch="+ encodeURI(word)+"'>Lorg '"+word+"' san Fhaclair Bheag</a></span>";
- 				
- 				
-				startGame();      
-       		
+
+
+				startGame();
+
     	   	});
        	} // liosta beag
-       	
-	});       	
-    
-    // react on guesses   	
+
+	});
+
+    // react on guesses
    	$("#a").click(function(e){ guess('A'); });
    	$("#à").click(function(e){ guess('À'); });
    	$("#e").click(function(e){ guess('E'); });

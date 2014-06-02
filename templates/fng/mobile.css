@@ -1,40 +1,3 @@
-/* Stylesheet for Fòram na Gàidhlig */
-
-/*
-:link = für Verweise zu noch nicht besuchten Seiten
-:visited = für Verweise zu bereits besuchten Seiten
-:focus = für Elemente, die den Fokus erhalten, z.B. durch "Durchsteppen" mit der Tabulator-Taste (CSS 2.0)
-:hover = für Elemente, whrend der Anwender mit der Maus darber fhrt (CSS 2.0)
-:active = für gerade angeklickte Elemente
-*/
-
-
-/**********************/
-/**********************/
-/* Styles for Gaidhlig */
-/* color: #003366 */
-/* title color: #0066CC */
-/*
-link     { color : #0066CC}
-visited  { color : #005BB5;}
-focus	 { color : #623D87;}
-hover	 { color : #3333CC;}
-active	 { color : blue;}
-*/
-/* Styles for English */
-/* color: #660033 */
-/* title color: #FF1751 */
-/*
-link	 { color : #4E009E;}
-visited	 { color : #623D87;}
-focus	 { color : red;}
-hover	 { color : #CC3399;}
-active	 { color : #FF1751;}
-*/
-/**********************/
-/**********************/
-
-
 /************ General element styles ************/
 html body {
 	font-size : 75%;
@@ -286,7 +249,7 @@ input.mainoption {
 	padding-bottom: 0.35em;
 	margin-top: 8em;
 	font-size: 160%;
-	font-family: Arial, Helvetica, sans-serif; 
+	font-family: Arial, Helvetica, sans-serif;
 	color: #002373;
 }
 
@@ -334,7 +297,7 @@ input.mainoption {
 
 /* Fos newsitemsections */
 .sectionsubtitle	{
-	font-size: 175%; 
+	font-size: 175%;
 	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
@@ -376,7 +339,7 @@ input.mainoption {
 	margin-top:1.5em;
 	width: 100%;
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;	
+	border-width: 1px 0px 0px 0px;
 	padding-top: 0.5em;
 }
 
@@ -405,7 +368,7 @@ input.mainoption {
 
 .contentnavlinkwrapper {
 	margin-top:1.75ex;
-	line-height: 1.5em; 
+	line-height: 1.5em;
 	text-align: justify;
 }
 
@@ -429,7 +392,7 @@ input.mainoption {
 .newsfilterform {
 	margin-top:1.5em;
 	border-style: solid;
-	border-width: 1px 0px 1px 0px;	
+	border-width: 1px 0px 1px 0px;
 }
 
 /* Newsitem: wrapper */
@@ -456,7 +419,7 @@ div.newsquote {
 	padding: 1em;
 	font-style: italic;
 	text-align: justify;
-	background-color: #F2F1ED; 
+	background-color: #F2F1ED;
 }
 
 /* Newsitem and article: Source info */
@@ -484,7 +447,7 @@ div.newsquote {
     height: 350px;
     overflow:hidden;
     display:table-cell;
-	font-size:90%;    
+	font-size:90%;
 }
 
 .gallerycontents {
@@ -505,7 +468,7 @@ div.newsquote {
 .linklistlink {
 	margin-top:1em;
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;	
+	border-width: 1px 0px 0px 0px;
 }
 
 .linkedimage {

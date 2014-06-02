@@ -8,14 +8,11 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."admin/functions/imagesmod.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/functions/sessions.php");
-//include_once($projectroot."admin/functions/categoriesmod.php");
-//include_once($projectroot."admin/functions/usersmod.php");
 
 //print_r($_POST);
 //print_r($_GET);
 
 checksession();
-
 
 $filename="";
 if(isset($_POST['filename'])) $filename=$_POST['filename'];

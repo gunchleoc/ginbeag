@@ -4,13 +4,13 @@
 
 	<form name="banipallrestricted" action="{ACTIONVARS}" method="post">
 		<fieldset>
-			<legend class="highlight">Ban IP address from all pages with Restricted Access</legend>	
+			<legend class="highlight">Ban IP address from all pages with Restricted Access</legend>
 			<label for="ip">IP address:</label>
 			<input id="ip" type="text" name="ip" value="" width="15" maxlength="15" class="post" />
 			<input type="submit" name="banipallrestricted" value="Ban this IP address" class="mainoption" />
 			<div class="formexplain">Enter the IP address as 4 numbers between 0 and 255, separated by full stops. The pattern looks like this: <em>111.111.111.111 </em></div>
 		</fieldset>
-		
+
 	</form>
 
 	<!-- BEGIN switch IPS -->

@@ -13,7 +13,7 @@
 
 	<script language="JavaScript">
 
-// special treatment for IE	
+// special treatment for IE
 if(navigator.appName =="Microsoft Internet Explorer")
 {
 	document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');

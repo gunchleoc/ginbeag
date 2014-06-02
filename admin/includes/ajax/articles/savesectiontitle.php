@@ -27,10 +27,10 @@ else {
 	$articlesection=$_POST['articlesection'];
 	$page=$_POST['page'];
 	$sectiontitle=fixquotes($_POST['sectiontitle']);
-	
+
 	$success = updatearticlesectiontitle($articlesection,$sectiontitle);
-	
-	
+
+
 	if($success >=0)
 	{
 		print('<message error="0">');

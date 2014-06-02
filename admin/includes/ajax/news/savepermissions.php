@@ -24,7 +24,7 @@ if($message)
 }
 else {
 	$success=updatenewsitemcopyright($_POST['newsitem'],fixquotes($_POST['copyright']),fixquotes($_POST['imagecopyright']),$_POST['permission']);
-	
+
 	if($success >=0)
 	{
 		print('<message error="0">');

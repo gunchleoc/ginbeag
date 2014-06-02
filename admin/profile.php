@@ -37,7 +37,7 @@ $error = false;
 if(isset($_POST['contact']))
 {
 	$message='Changed contact page options';
-	
+
 	if(isset($_POST['iscontact']))
 	{
 		changeiscontact($userid,1);

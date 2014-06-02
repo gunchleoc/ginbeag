@@ -9,61 +9,60 @@ for(var i=0;i<5;i++) {
    		imgSquareUp[i][j].src = "up"+i+"_"+j+".png";
    		imgSquareDown[i][j]= new Image();
    		imgSquareDown[i][j].src = "down"+i+"_"+j+".png";
-	}	
+	}
 }
 var imgSea = new Image();
 imgSea.src = "water.png";
-	
 
 $(document).ready(function() {
 
 	// init game vars
 	var gamerunning = false;
-	
+
 	var explanation="<p></p><p>Thoir air a h-uile leumadair leum!</p><p>Brùth air leumadair. Sguiridh esan is an fheadhainn ri gach taobh dhe na tha iad a' dèanamh.</p>"
 	var loading= "<p>A' luchdadh geama ùr ...</p>";
 	var won= "<p class='highlight' style='font-size:110%;'>Rinn thu a' chùis air!</p><p>Bruth air dealbh gu h-ìosal gus geama ùr a thòiseachadh.</p>";
-	
+
 	$("#messages").html(loading);
-	
+
 	// size of image when won
 	var winStyle="width:300px; height:300px;";
 	var imgWon = new Image();
 
 
 	var gamesize=4;
-	
+
 	var square=new Array();
-	
+
 	for(var i=0;i<gamesize;i++) {
 		square[i]=new Array();
 	}
-	
+
 
 	var gameslinks = "";
-	
+
 	var levels=5;
 
 	for(var i = 1; i<=levels;i++) {
 		gameslinks += '<img id="game'+i+'" src="level'+i+'.gif" title="Ìre '+i+'"  alt=" Ìre '+i+'" class="thumb" />';
 	}
-	
+
 	$("#games").html(gameslinks);
-	
+
 	for(var i = 1; i<=levels;i++) {
-	
+
 		$("#game"+i).click(function() {
 			var index=eval($(this).attr("id").substring(4));
     		startGame(index);
 		});
 	}
-	
 
-	
+
+
 	/* init new gane
 	*/
 	function startGame(level) {
-		
+
 		// set levels
 		if(level==3 || level==4) {
 			gamesize=5;
@@ -77,14 +76,14 @@ $(document).ready(function() {
 			gamesize=4;
 			winStyle="width:300px; height:300px;";
 		}
-		
+
 		var iterations=level;
 		if(level==1) iterations=3;
 		else if(level==2) iterations=30;
 		else if(level==3) iterations=6;
 		else if(level==4) iterations=50;
 		else if(level==5) iterations=20;
-		
+
 		imgWon.src = "won"+level+".png"
 
 		// set messages
@@ -102,8 +101,8 @@ $(document).ready(function() {
 				square[i][j]=true;
 			}
 		}
-		
-				
+
+
 		// randomise array
 		var prevx=-1;
 		var prevy=-1;
@@ -111,11 +110,11 @@ $(document).ready(function() {
 		var prevy2=-1;
 		var prevx3=-1;
 		var prevy3=-1;
-		
+
 		for(var i=0;i<iterations;i++) {
 			var posx = Math.floor(Math.random()*gamesize);
 			var posy = Math.floor(Math.random()*gamesize);
-			
+
 			//prevent selecting same tile twice in a row
 			while((prevx == posx && prevy == posy) || (prevx2 == posx && prevy2 == posy) || (prevx3 == posx && prevy3 == posy)) {
 				posx = Math.floor(Math.random()*gamesize);
@@ -127,19 +126,19 @@ $(document).ready(function() {
 			prevy2 = prevy;
 			prevx = posx;
 			prevy = posy;
-		
+
 			swap (posx, posy);
 		}
-		
+
 		// start gane
 		initimages();
 		setimages();
 		addListeners();
-		
+
 		gamerunning = true;
 		$("#messages").html(explanation);
 	}
-	
+
 	/* set images from square state
 	*/
 	function initimages() {
@@ -152,16 +151,16 @@ $(document).ready(function() {
 				gamesquare+="</tr>";
 			}
 		$("#square").html(gamesquare);
-	}	
-	
+	}
+
 	/* set images from square state
 	*/
 	function setimages() {
 		$("#sea").attr("src",imgSea.src);
-	 
+
 		for(var i=0;i<gamesize;i++) {
 			for(var j=0;j<gamesize;j++) {
-		
+
 				if(square[i][j]) {
 					$("#"+i+"_"+j).attr("src",imgSquareUp[i][j].src);
 					$("#"+i+"_"+j).attr("title","a' leum");
@@ -175,14 +174,14 @@ $(document).ready(function() {
 			}
 		}
 	}
-	
-	
+
+
 	/* moves empty from a to b and image from b to a
 	*/
 	function swap (posx, posy) {
 
 		square[posx][posy] = !square[posx][posy];
-		
+
 		// move up
 		if(posx > 0) {
 			square[posx-1][posy]=!square[posx-1][posy];
@@ -201,17 +200,17 @@ $(document).ready(function() {
 		}
 
 	}
-	
+
 	function addListeners()
 	{
-	
-	
+
+
 	/* shift tiles
 	*/
-	
+
 		for(var i=0;i<gamesize;i++) {
 			for(var j=0;j<gamesize;j++) {
-		
+
 				$("#"+i+"_"+j).click(function() {
 					if(gamerunning) {
 						//swap tile states
@@ -231,25 +230,25 @@ $(document).ready(function() {
 							}
 						}
 						if(gamewon) {
-							gamerunning = false;    			
+							gamerunning = false;
 							$("#messages").html(won);
-						
+
 							var gamesquare="";
 							gamesquare+="<tr>";
 							gamesquare+='<td class="frame"><img id="imgwon" src="" style="'+winStyle+'" /></td>';
 							gamesquare+="</tr>";
 							$("#square").html(gamesquare);
 							$("#imgwon").attr("src",imgWon.src);
-							
+
 						}
 					}
 				});
 
 			}
 		}
-		
+
 	}
-	
+
 
 	// game start
 	startGame(1);

@@ -17,7 +17,7 @@
 
 	{EDITDESCRIPTION}
 	{IMAGEEDITOR}
-	
+
 	<form name="movelink" action="{ACTIONVARS}" method="post">
 		<p>
 			<input type="submit" name="movelinkup" value="move link up" />

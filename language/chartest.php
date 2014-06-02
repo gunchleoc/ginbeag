@@ -13,10 +13,10 @@ $lang["title_content"] = "Sùsbaint";
 /**************************************************************/
 
 //s1 = date
-$lang["footer_lastedited"]="An dèasachadh mu dheireadh: %s"; 
+$lang["footer_lastedited"]="An dèasachadh mu dheireadh: %s";
 
 //s1 = date, s2 = author
-$lang["footer_lasteditedauthor"]="An dèasachadh mu dheireadh: %1s le %2s"; 
+$lang["footer_lasteditedauthor"]="An dèasachadh mu dheireadh: %1s le %2s";
 
 // s1 = page_textcopyright, s2 = page_imagecopyright, s3 = page_bypermission
 $lang["footer_copyright"]="%s %s %s";

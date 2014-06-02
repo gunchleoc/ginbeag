@@ -4,7 +4,7 @@
 		<form name="confirmunblockform" action="{ACTIONVARS}" method="post">
 			{HIDDENVARS}
 			<fieldset>
-				<legend class="highlight">Are you sure you want to unblock this referrer?</legend>	
+				<legend class="highlight">Are you sure you want to unblock this referrer?</legend>
 				{REFERRER}
 				{SUBMITROW}
 			</fieldset>

@@ -16,7 +16,7 @@ function addlink($page,$linktitle,$link,$imagefilename,$description)
 	global $db;
 	$page=$db->setinteger($page);
 	$lastposition=getlastlinkposition($page);
-	
+
 	$values=array();
 	$values[]=0;
 	$values[]=$page;
@@ -104,12 +104,12 @@ function movelink($link, $direction, $positions=1)
 			$swap=array();
 			$currentid=$sisterids[$idposition+$positions];
 			$navpos=getdbelement("position",LINKS_TABLE, "link_id", $currentid);
-			
+
 			for($i=$idposition+$positions;$i>$idposition;$i--)
 			{
 				$otherid=$sisterids[$i-1];
 				$othernavpos=getdbelement("position",LINKS_TABLE, "link_id", $otherid);
-				
+
 				$swap[$currentid]=$othernavpos;
 				$swap[$otherid]=$navpos;
 				$currentid=$otherid;

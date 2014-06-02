@@ -24,7 +24,7 @@ if($message)
 else {
 
 	$success = updatearticlesource($_POST['page'],fixquotes($_POST['author']),fixquotes($_POST['location']),$_POST['day'],$_POST['month'],$_POST['year'],fixquotes($_POST['source']),$_POST['sourcelink'],$_POST['toc']);
-	
+
 	if($success >=0)
 	{
 		print('<message error="0">');

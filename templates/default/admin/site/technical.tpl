@@ -2,7 +2,7 @@
 <div class="contentheader">Global Technical Setup</div>
 <div class="contentsection">
 	<form name="site" action="{ACTIONVARS}" method="post">
-	
+
 		<fieldset>
 			<legend class="highlight">Search Engines</legend>
 			<label for="keywords">Google Keywords:</label>

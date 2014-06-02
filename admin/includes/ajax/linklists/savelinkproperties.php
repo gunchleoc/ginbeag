@@ -23,7 +23,7 @@ if($message)
 }
 else {
 	$success=updatelinkproperties($_POST['linkid'],fixquotes($_POST['title']),$_POST['link']);
-	
+
 	if($success >=0)
 	{
 		print('<message error="0">');

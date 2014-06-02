@@ -5,13 +5,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."functions/db.php");
 include_once($projectroot."functions/publicusers.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
-
 //
 //
 //
@@ -23,7 +16,7 @@ function addpublicuser($user,$pass)
 	$values[]=1;
 	$values[]=$db->setstring($user);
 	$values[]=md5($pass);
-	
+
 	return insertentry(PUBLICUSERS_TABLE,$values);
 }
 
@@ -35,7 +28,7 @@ function changepublicuserpasswordadmin($userid,$newpass,$confirmpass)
 {
 	global $db;
 	$result="Failed to change password";
-	
+
 	if(isadmin())
 	{
 		if(strlen($newpass)>7)

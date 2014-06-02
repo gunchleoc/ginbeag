@@ -1,7 +1,6 @@
 <?php
 $lang=array();
 
-
 /**************************************************************/
 /* screen reader titles ***************************************/
 /**************************************************************/
@@ -15,10 +14,10 @@ $lang["title_content"] = "Content";
 /**************************************************************/
 
 //s1 = date
-$lang["footer_lastedited"]="Last edited: %s"; 
+$lang["footer_lastedited"]="Last edited: %s";
 
 //s1 = date, s2 = author
-$lang["footer_lasteditedauthor"]="Last edited: %1s by %2s"; 
+$lang["footer_lasteditedauthor"]="Last edited: %1s by %2s";
 
 // s1 = page_textcopyright, s2 = page_imagecopyright, s3 = page_bypermission
 $lang["footer_copyright"]="%s %s %s";

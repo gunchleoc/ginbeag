@@ -11,22 +11,22 @@ include_once($projectroot."functions/db.php");
 function createpage($parent, $title, $navtitle, $pagetype, $user, $ispublishable)
 {
 	global $db;
-	
+
 	$parent=$db->setinteger($parent);
 	$title=$db->setstring($title);
 	$navtitle=$db->setstring($navtitle);
 	$pagetype=$db->setstring($pagetype);
 	$user=$db->setinteger($user);
 	$ispublishable=$db->setinteger($ispublishable);
-	
+
 	if(!$parent)
 	{
 		$parent=0;
 	}
 	$lastnavposition=1+create_getlastnavposition($parent);
-	
+
 	$date=date(DATETIMEFORMAT);
-	
+
 	$values=array();
 	$values[]=0;
 	$values[]=$parent;
@@ -47,12 +47,12 @@ function createpage($parent, $title, $navtitle, $pagetype, $user, $ispublishable
 	$values[]=0;
 	$values[]=$ispublishable;
 	$values[]=0;
-  
+
 	$newpage = insertentry(PAGES_TABLE,$values);
 	if($newpage)
 	{
 		$page=getdbelement("page_id",PAGES_TABLE, "editdate", $date);
-		
+
 		if($pagetype==="article")
 		{
 			createemptyarticle($page);
@@ -70,7 +70,7 @@ function createpage($parent, $title, $navtitle, $pagetype, $user, $ispublishable
 			createemptynewspage($page);
 		}
 	}
-	
+
 	$parentrestricted=getdbelement("page_id",RESTRICTEDPAGES_TABLE, "page_id", $parent);
 	if($parentrestricted==$parent && $parent!=0)
 	{
@@ -95,7 +95,7 @@ function createemptyarticle($page)
 {
 	global $db;
 	$now=getdate(strtotime('now'));
-	
+
 	$values=array();
 	$values[]=$db->setinteger($page);
 	$values[]=''; // author
@@ -107,7 +107,7 @@ function createemptyarticle($page)
 	$values[]=$now['year']; // year
 	$values[]=1; // noofpages
 	$values[]=0; // use Table of contents
-	
+
 	return insertentry(ARTICLES_TABLE,$values);
 }
 
@@ -132,7 +132,7 @@ function createemptymenu($page)
 	$values[]='1'; // navigatordepth
 	$values[]='2'; // displaydepth
 	$values[]='1'; // sistersinnavigator
-	
+
 	return insertentry(MENUS_TABLE,$values);
 }
 
@@ -146,7 +146,7 @@ function createemptynewspage($page)
 	$values=array();
 	$values[]=$db->setinteger($page);
 	$values[]='1';
-	
+
 	return insertentry(NEWS_TABLE,$values);
 }
 ?>

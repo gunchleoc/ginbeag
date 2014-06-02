@@ -15,8 +15,8 @@
 	<!-- END switch LOGINLINK -->
 	<!-- BEGIN switch LOGOUTLINK -->
 	<table  style="width:100%!important; margin:0em!important"><tr><td class="admintoplinks" width="50%">
-	
-		| Pages | 
+
+		| Pages |
 		<!-- BEGIN switch SHOWEDITLINKS -->
 			&nbsp; {NEWPAGELINK} &nbsp; — &nbsp;
 			<!-- BEGIN switch EDITPAGELINK -->

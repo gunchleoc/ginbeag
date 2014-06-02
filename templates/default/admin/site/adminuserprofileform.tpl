@@ -11,7 +11,7 @@
 			<div class="formexplain">Type a new e-mail address if you wish to change it.</div>
 		</fieldset>
 		<fieldset>
-			<legend class="highlight">{USERNAME}'s Password</legend>	
+			<legend class="highlight">{USERNAME}'s Password</legend>
 			<div class="leftalign">
 				<label for="pass">New Password:</label>
 				<input id="pass" type="password" name="pass" size="20" maxlength="32" />
@@ -25,7 +25,7 @@
 		</fieldset>
 			<div class="newline">
 				<br />
-				
+
 				<input type="submit" name="profile" value="Change Password / E-mail" class="mainoption" />
 				<input type="reset" value="Reset Forms" />
 			</div>
@@ -45,7 +45,7 @@
 		<input type="submit" name="activate" value="Activate {USERNAME}'s account" class="mainoption">
 		<!-- END switch NOTACTIVE -->
 	</form>
-	
+
 </div>
 <div class="contentheader">Profile for: {USERNAME}</div>
 <div class="contentsection">

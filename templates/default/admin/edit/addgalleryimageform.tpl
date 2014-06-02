@@ -10,5 +10,4 @@
 			<br /><input type="submit" name="addgalleryimage" value="Add Image" class="mainoption" />
 		</fieldset>
 	</form>
-
 </div>

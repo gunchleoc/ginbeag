@@ -19,7 +19,5 @@ if(strlen($contents['sectiontitle'])>0)
 else
 	$sectionheader="Section ID ".$_POST['newsitemsection'];
 
-
-//print_r($contents);
 print($sectionheader);
 ?>

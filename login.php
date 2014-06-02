@@ -36,7 +36,7 @@ if(isset($_POST['user']))
 {
 	$user=trim($_POST['user']);
 	$userid=getpublicuserid($user);
-	
+
 	if(!$userid)
 	{
 		$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));

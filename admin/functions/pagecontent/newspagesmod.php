@@ -212,7 +212,7 @@ function archivenewsitems($page,$day,$month,$year)
 {
 	global $db;
   $page = $db->setinteger($page);
-  
+
   $maxpagetitlelength=200;
   $maxnavtitlelength=30;
   $months[1]='January';
@@ -230,21 +230,21 @@ function archivenewsitems($page,$day,$month,$year)
 
   $date=$day." ".$months[$month]." ".$year." 23:59:59";
   $comparedate=date(DATETIMEFORMAT, strtotime($date));
-  
+
   $moveids=getcolumn("newsitem_id",NEWSITEMS_TABLE,"page_id = ".$page." AND date <= '".$comparedate."'");
   $noofitems=count($moveids);
-  
+
   if($noofitems>0)
   {
-  
+
     $oldestdate=getoldestnewsitemdate($page);
-  
+
     $from=makearticledate($oldestdate['mday'],$oldestdate['mon'],$oldestdate['year']);
     $from2=$oldestdate['mday']." ".substr($months[$oldestdate['mon']],0,3)." ".$oldestdate['year'];
-  
+
     $to=makearticledate($day,$month,$year);
     $to2=$day." ".substr($months[$month],0,3)." ".$year;
-  
+
     if($from!=$to)
     {
       $interval=" (".$from." - ".$to.")";
@@ -261,7 +261,7 @@ function archivenewsitems($page,$day,$month,$year)
       $pagetitle=substr($pagetitle,0,strrpos($pagetitle," "));
     }
     $pagetitle.=$interval;
-  
+
     if($from2!=$to2)
     {
       $interval2=" (".$from2." - ".$to2.")";
@@ -314,7 +314,7 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
 	global $db;
   $newsitem=$db->setinteger($newsitem);
   $newsitemsection=$db->setinteger($newsitemsection);
-  
+
   if(!$newsitemsection)
   {
     $sections=getnewsitemsections($newsitem);
@@ -325,7 +325,7 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
     else $newsitemsection=0;
   }
   $sectionnumber=getnewsitemsectionnumber($newsitemsection);
-  
+
   if($isquote)
   {
     $offset=3;
@@ -356,7 +356,7 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
   }
 
   $newsectionnumber=$sectionnumber+1;
-  
+
   if($isquote)
   {
     $values=array();
@@ -386,7 +386,7 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
   $values[]=1;
 
   $result=insertentry(NEWSITEMSECTIONS_TABLE,$values);
-  
+
   if($isquote)
   {
     $newsectionnumber=$newsectionnumber+1;

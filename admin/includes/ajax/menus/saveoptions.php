@@ -24,13 +24,13 @@ if($message)
 else {
 	$success=false;
 	$message ="";
-	
+
 	//$sisters=$_POST['sisters'];
 	if(isset($_POST['sisters'])) $sistersinnavigator=1;
 	else $sistersinnavigator=0;
-	
+
 	$success = updatemenunavigation($_POST['page'],$_POST['navlevels'],$_POST['pagelevels'],$sistersinnavigator);
-	
+
 	if($success >=0)
 	{
 		print('<message error="0">');

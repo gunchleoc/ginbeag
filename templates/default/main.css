@@ -261,7 +261,7 @@ input.mainoption {
 
 /* Fos newsitemsections */
 .sectionsubtitle	{
-	font-size: 175%; 
+	font-size: 175%;
 	margin-top: 0.5em;
 	margin-bottom: 0.75em;
 	margin-top: 1em;
@@ -298,7 +298,7 @@ input.mainoption {
 	margin-top:1.5em;
 	width: 100%;
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;	
+	border-width: 1px 0px 0px 0px;
 	padding-top: 0.5em;
 }
 
@@ -322,7 +322,7 @@ input.mainoption {
 
 .contentnavlinkwrapper {
 	margin-top:1.75ex;
-	line-height: 1.5em; 
+	line-height: 1.5em;
 	text-align: justify;
 }
 
@@ -362,7 +362,7 @@ input.mainoption {
 .newsfilterform {
 	margin-top:1.5em;
 	border-style: solid;
-	border-width: 1px 0px 1px 0px;	
+	border-width: 1px 0px 1px 0px;
 }
 
 /* Newsitem: wrapper */
@@ -415,7 +415,7 @@ div.newsquote {
 	margin:1em;
     overflow:hidden;
     display:table-cell;
-	font-size:90%;    
+	font-size:90%;
 }
 
 .gallerycontents {
@@ -436,7 +436,7 @@ div.newsquote {
 .linklistlink {
 	margin-top:1em;
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;	
+	border-width: 1px 0px 0px 0px;
 }
 
 .linkedimage {

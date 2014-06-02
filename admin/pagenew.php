@@ -43,7 +43,7 @@ if(isset($_POST['create']))
 		}
 		if($root || !$page): $parent=0; else: $parent=$page;endif;
 		$parentpagetype=getpagetype($parent);
-		
+
 		$createpage=islegalparentpage($type, $parent);
 
 		if($createpage)
@@ -57,7 +57,7 @@ if(isset($_POST['create']))
 				$message="Created a new page under page: <em>".title2html($title)."</em> (".getpagetype($parent).")";
 			}
 			else $message="Created a new page as a main page";
-			
+
 			$redirect = editedRedirect($page,"Created a new page");
 			$content = new AdminMain($parent, "show", new AdminMessage($message, $error), $redirect);
 			print($content->toHTML());
@@ -94,12 +94,12 @@ if(isset($_POST['create']))
 		$error = true;
 	}
 	$content = new AdminMain($page, "pagenew", new AdminMessage($message, $error), new NewPageForm($page, $title, $navtitle, $ispublishable, isset($_POST['root'])));
-	print($content->toHTML());  
+	print($content->toHTML());
 }
 else
 {
     $content = new AdminMain($page, "pagenew", new AdminMessage($message, $error), new NewPageForm($page, "", "", true, false));
-	print($content->toHTML());  
+	print($content->toHTML());
 }
 $db->closedb();
 ?>

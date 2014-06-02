@@ -15,7 +15,7 @@
 				<legend class="highlight">Public users with access to this page</legend>
 				<p>
 
-					
+
 					{SELECTUSERS}
 				</p>
 				<p>
@@ -23,7 +23,7 @@
 				</p>
 				<input type="submit" name="addpublicusers" value="Add Users" class="mainoption" />
 				&nbsp;&nbsp;&nbsp;<input type="submit" name="removepublicusers" value="Remove" class="mainoption" />
-			</fieldset>	  
+			</fieldset>
 		</form>
 		<!-- END switch ACCESSRESTRICTED -->
 	</div>

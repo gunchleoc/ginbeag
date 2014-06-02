@@ -5,8 +5,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"ajax"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-//include_once($projectroot."admin/functions/pagecontent/linklistpagesmod.php");
-
 include_once($projectroot."admin/functions/sessions.php");
 
 checksession();
@@ -28,7 +26,7 @@ else {
 	$elementtype=$_POST['elementtype'];
 
 	$success=false;
-	
+
 	if(!($imagefilename==="" || imageexists($imagefilename)))
 	{
 		$errormessage = "Error saving image ".$imagefilename." - we don't have this image!";
@@ -82,7 +80,7 @@ else {
 		}
 		else $errormessage = 'Error saving image: unknown element type "'.$elementtype.'"';
 	}
-	  	
+
 	if($errormessage)
 	{
 		print('<message error="1">');

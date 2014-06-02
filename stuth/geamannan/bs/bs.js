@@ -36,33 +36,33 @@ function placeOnCenter(element)
 	else if(temp<0) temp = height.length;
 	else widthunit = "%";
 	height = height.substring(0, temp);
-	
+
 	var windowheight = document.body.clientHeight;
 	var top = (windowheight-height)/2;
-	
+
 	// Internet Exploder
 	if(element.css("position")=="static")
 	{
 		element.css("position","absolute");
 		top = top+document.body.scrollTop;
 	}
-		
+
 	top = top+"px";
 	element.css("top",top);
-	
+
 	var widthunit = "px";
 	var width = element.css("width");
 	if(!width) width="33%";
 	var temp = width.indexOf("px");
 	if(width<0)	temp = width.indexOf("%");
-	else if(width<0) temp = width.length;	
+	else if(width<0) temp = width.length;
 	else widthunit = "%";
 	width = width.substring(0, temp);
-	
+
 	var windowwidth = document.body.clientWidth;
 	var left = (windowwidth-width)/2;
-	left = left+"px";	
-	
+	left = left+"px";
+
 	element.css("left",left);
 }
 
@@ -86,8 +86,8 @@ $(document).ready(function() {
 	var diag2 = 0;
 
 	getwords();
-	
-	
+
+
 	// reset and start a new game
 	$("#startgame").click(function(e){
 		words = new Array();
@@ -104,8 +104,8 @@ $(document).ready(function() {
 		col5 = 0;
 		diag1 = 0;
 		diag2 = 0;
-		
-		
+
+
 		getwords();
 		for (var i = 0; i<25; i++)
 		{
@@ -115,8 +115,8 @@ $(document).ready(function() {
 			$("#word"+i).removeClass("bingo");
 		}
 	});
-	
-	
+
+
 	// print view
 	$("#printgame").click(function(e){
 		var text = '<div align="center"><h1>Bullshit Bingo</h1>';
@@ -228,7 +228,7 @@ $(document).ready(function() {
 		}
 
 	});
-	
+
 
 	// event handlers
 	for(var i = 0; i<25; i++)
@@ -236,7 +236,7 @@ $(document).ready(function() {
 		// mouse over cell
 		$("#word"+i+"cell").mouseover(function(e){
 			var index= this.id.substring(4,this.id.indexOf("cell"));
-			if(!selectedcells[index]) 
+			if(!selectedcells[index])
 			$("#word"+index).addClass("mouseover");
 		});
 		// mouse out cell
@@ -251,7 +251,7 @@ $(document).ready(function() {
 			handleselection(index);
 		});
 	}
-	
+
 
 	/*
 	 * 0  1  2  3  4
@@ -259,7 +259,7 @@ $(document).ready(function() {
 	 * 10 11 12 13 14
 	 * 15 16 17 18 19
 	 * 20 21 22 23 24
-	*/	
+	*/
 	function handleselection(index)
 	{
 		//alert(index);
@@ -321,7 +321,7 @@ $(document).ready(function() {
 					$("#word13").addClass("bingo");
 					$("#word14").addClass("bingo");
 					bullshitcounter++;
-				}				
+				}
 			}
 			else if(index >=15 && index <=19)
 			{
@@ -339,7 +339,7 @@ $(document).ready(function() {
 					$("#word18").addClass("bingo");
 					$("#word19").addClass("bingo");
 					bullshitcounter++;
-				}				
+				}
 			}
 			else if(index >=20 && index <=24)
 			{
@@ -357,9 +357,9 @@ $(document).ready(function() {
 					$("#word23").addClass("bingo");
 					$("#word24").addClass("bingo");
 					bullshitcounter++;
-				}				
+				}
 			}
-			
+
 			if(index==0 || index==5 || index==10 || index==15 || index==20)
 			{
 				col1++;
@@ -392,7 +392,7 @@ $(document).ready(function() {
 					$("#word6").addClass("bingo");
 					$("#word11").addClass("bingo");
 					$("#word16").addClass("bingo");
-					$("#word21").addClass("bingo");					
+					$("#word21").addClass("bingo");
 					bullshitcounter++;
 				}
 
@@ -411,12 +411,12 @@ $(document).ready(function() {
 					$("#word7").addClass("bingo");
 					$("#word12").addClass("bingo");
 					$("#word17").addClass("bingo");
-					$("#word22").addClass("bingo");					
+					$("#word22").addClass("bingo");
 					bullshitcounter++;
 				}
-				
+
 			}
-	
+
 			else if(index==3 || index==8 || index==13 || index==18 || index==23)
 			{
 				col4++;
@@ -431,10 +431,10 @@ $(document).ready(function() {
 					$("#word8").addClass("bingo");
 					$("#word13").addClass("bingo");
 					$("#word18").addClass("bingo");
-					$("#word23").addClass("bingo");					
+					$("#word23").addClass("bingo");
 					bullshitcounter++;
 				}
-								
+
 			}
 			else if(index==4 || index==9 || index==14 || index==19 || index==24)
 			{
@@ -450,12 +450,12 @@ $(document).ready(function() {
 					$("#word9").addClass("bingo");
 					$("#word14").addClass("bingo");
 					$("#word19").addClass("bingo");
-					$("#word24").addClass("bingo");					
+					$("#word24").addClass("bingo");
 					bullshitcounter++;
 				}
-								
+
 			}
-			
+
 			if(index==0 || index==6 || index==12 || index==18 || index==24)
 			{
 				diag1++;
@@ -470,10 +470,10 @@ $(document).ready(function() {
 					$("#word6").addClass("bingo");
 					$("#word12").addClass("bingo");
 					$("#word18").addClass("bingo");
-					$("#word24").addClass("bingo");					
+					$("#word24").addClass("bingo");
 					bullshitcounter++;
 				}
-								
+
 			}
 			if(index==20 || index==16 || index==12 || index==8 || index==4)
 			{
@@ -489,17 +489,17 @@ $(document).ready(function() {
 					$("#word16").addClass("bingo");
 					$("#word12").addClass("bingo");
 					$("#word8").addClass("bingo");
-					$("#word4").addClass("bingo");					
+					$("#word4").addClass("bingo");
 					bullshitcounter++;
 				}
-								
+
 			}
-			
+
 			if(row1==5 && row2==5 && row3==5 && row4==5 && row5==5 && col1==5 && col2==5 && col3==5 && col4==5 && col5==5 && diag1== 5 && diag2==5)
 			{
 				showmessage("Seo am bullshit as miosa a chuala mi riamh!")
 			}
-			
+
 			else if(bullshitcounter == 1)
 			{
 				showmessage("Abair bullshit!")
@@ -513,24 +513,24 @@ $(document).ready(function() {
 				showmessage("Seo am bullshit as miosa a chuala mi riamh!")
 			}
 		}
-		
+
 	}
-	
-	
-		
-	
+
+
+
+
 	/**
  	 *  gets words from server
  	 */
 	function getwords()
 	{
 		$.post("bs.php", {list: $(this).html()}, function(xml) {
-     	
+
 			$(xml).find('facal').each(function(){
 				words.push($(this).text());
 			});
-			
-		
+
+
 			for(var i=0; i<25; i++)
 			{
 				document.getElementById("word"+i).innerHTML=words[i];
@@ -538,6 +538,6 @@ $(document).ready(function() {
 
 			document.getElementById("iomlan").innerHTML=$(xml).find('iomlan').text();
 		});
-		
+
 	}
 });

@@ -6,12 +6,6 @@ include_once($projectroot."includes/constants.php");
 include_once($projectroot."functions/db.php");
 include_once($projectroot."functions/categories.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
 //
 //
 //
@@ -37,7 +31,7 @@ function renamecategory($catid, $name, $cattype)
 	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
 	else  $table = CATEGORIES_IMAGES_TABLE;
 	$result=false;
-	
+
 	if(!isroot($catid, $cattype))
 	{
 		$result = updatefield($table,"name",$db->setstring($name),"category_id = '".$db->setinteger($catid)."'");
@@ -55,7 +49,7 @@ function movecategory($catid,$newparent, $cattype)
 	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
 	else  $table = CATEGORIES_IMAGES_TABLE;
 	$result=false;
-	
+
 	if(!isroot($catid, $cattype) && !isdescendant($catid,$newparent, $cattype))
 	{
 		$result=updatefield($table,"parent_id",$db->setinteger($newparent),"category_id = '".$db->setinteger($catid)."'");
@@ -93,7 +87,7 @@ function deletecategory($catid, $cattype)
 {
 	global $db;
 	$result=true;
-	
+
 	if($cattype==CATEGORY_NEWS)
 	{
 		$table = CATEGORIES_NEWS_TABLE;

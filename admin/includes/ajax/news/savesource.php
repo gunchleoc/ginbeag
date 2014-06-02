@@ -25,7 +25,7 @@ if($message)
 }
 else {
 	$success = updatenewsitemsource($_POST['newsitem'],fixquotes($_POST['source']),$_POST['sourcelink'],fixquotes($_POST['location']),fixquotes($_POST['contributor']));
-	
+
 	if($success >=0)
 	{
 		print('<message error="0">');

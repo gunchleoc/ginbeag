@@ -2,7 +2,6 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-
 include_once($projectroot."functions/db.php");
 include_once($projectroot."includes/objects/images.php");
 

@@ -17,7 +17,7 @@ include_once($projectroot."includes/objects/page.php");
 	<link rel="stylesheet" href="bs.css" type="text/css">
 	<script language="JavaScript">
 
-// special treatment for IE	
+// special treatment for IE
 if(navigator.appName =="Microsoft Internet Explorer")
 {
 	document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
@@ -62,13 +62,13 @@ $(document).ready(function() {
 		</div>
 		<div id="headercenter">
 		    <h1 class="maintitle">Fòram na Gàidhlig</h1>
-		    
+
 		    <div id="sitedescription">Coimhearsneachd airson ionnsachadh is leasachadh na Gàidhlig</div>
-		    
+
 		</div>
 		<div id="headerright">
-			
-	      	
+
+
 		</div>
 		<h1 id="headerpagetitle" class="headerpagetitle newline">Bullshit Bingo</h1>
 
@@ -87,7 +87,7 @@ $db->closedb();
 ?>
 		</div>
 		<div id="contentarea" style="height: 950px;" title="Susbaint">
-<!--  Game HTML starts here  -->  
+<!--  Game HTML starts here  -->
 				<h2 class="pagetitle">Bullshit Bingo</h2>
 				<p>A bheil thu air do shàrachadh le coinneamhan fada? Seo beagan spòrs dhut ach an tèid iad seachad ann an dòigh nas tlachdmhoire.
 				</p><p>Mas urrain dhut laptop a thoirt leat is coltas neochiontach ort fhathast, cluich air loidhne e is briog air na faclan.
@@ -179,7 +179,7 @@ $db->closedb();
 						<td id="word24cell" class="word">
 							<div id="word24" name="word24"> </div>
 						</td>
-					</tr>					
+					</tr>
 				</table>
 
 			<p><input type="button" id="startgame" name="startgame" value ="Dèan cairt ùr" style="font-weight:bold; font-size:100%" />

@@ -2,7 +2,6 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 
-//include_once($projectroot."functions/pages.php");
 include_once($projectroot."functions/pagecontent/newspages.php");
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/elements.php");
@@ -10,7 +9,6 @@ include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/objects/forms.php");
 include_once($projectroot."includes/includes.php");
 include_once($projectroot."includes/objects/categories.php");
-
 
 //
 // Templating for Newsitemsections
@@ -35,7 +33,7 @@ class Newsitemsection extends Template {
           if(strlen($sectioncontents['sectionimage']) > 0)
             $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'],$sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'], array("newsitem" => $newsitem), $showhidden);
           else $this->stringvars['image']="";
-		  
+
 		  $this->stringvars['text']=text2html($sectioncontents['text']);
         }
 		parent::__construct();
@@ -59,11 +57,11 @@ class Newsitem extends Template {
     function Newsitem($newsitem,$offset,$showhidden=false,$showtoplink=true)
     {
 		global $_GET, $projectroot;
-      
+
 		parent::__construct();
-		
+
 		//print("<br>newsitem: ".$this->stringvars['page']." - ".$newsitem." - ".$offset);
-		
+
 		if(!isset($_GET['printview']))
 		{
 			$linkparams["page"]=$this->stringvars['page'];
@@ -72,26 +70,26 @@ class Newsitem extends Template {
 			$linkparams["printview"]="on";
 			$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
 		}
-		
+
 		$contents=getnewsitemcontents($newsitem);
-		
+
 		$this->stringvars['title'] =title2html($contents['title']);
-		
+
 		if(strlen($contents['title'])>0)
 			$this->stringvars['title'] =title2html($contents['title']);
 		else
 			$this->stringvars['title'] = sprintf(getlang("news_title_default"),formatdate($contents['date']));
-		
+
 		if(strlen($contents['date'])>0 || strlen($contents['location'])>0)
 			$this->stringvars['location_date'] ="locationdate";
-		
+
 		$this->stringvars['date'] =formatdatetime($contents['date']);
 		$this->stringvars['location'] =title2html($contents['location']);
-      
-      
+
+
 		if(strlen($contents['sourcelink'])>0)
 			$this->stringvars['source_link'] =$contents['sourcelink'];
-		
+
 		if(strlen($contents['source'])>0)
 		{
 			$this->stringvars['source'] =title2html($contents['source']);
@@ -105,23 +103,23 @@ class Newsitem extends Template {
 		}
 
 		$this->vars['categorylist']=new CategorylistLinks(getcategoriesfornewsitem($newsitem),$this->stringvars["page"],CATEGORY_NEWS);
-		
+
 		if(strlen($contents['synopsis'])>0)
 			$this->stringvars['synopsis_image']="synopsis_image";
-		
+
 		$this->stringvars['text']=text2html($contents['synopsis']);
 		$this->stringvars['copyright']=makecopyright($contents);
-		
+
 		if($showhidden)
 			$this->stringvars['editor']=title2html(getusername($contents['editor_id']));
-		
+
 		if($showtoplink) $this->stringvars["show_toplink"]="showtoplink";
 
 		// synopsis
 		$images=getnewsitemsynopsisimages($newsitem);
-		
+
 		$noofimages=count($images);
-		
+
 		$this->listvars['image']= array();
 		if($noofimages)
 		{
@@ -158,7 +156,7 @@ class Newsitem extends Template {
 			}
 			$this->stringvars['synopsis_image']="synopsis_image";
 		}
-      
+
 		// sections
 		$sections=getnewsitemsections($newsitem);
 		//print_r($sections);
@@ -176,7 +174,7 @@ class Newsitem extends Template {
 		}
 		$this->stringvars["l_topofthispage"] = getlang("pagemenu_topofthispage");
     }
-    
+
     // assigns templates
     function createTemplates()
     {
@@ -194,13 +192,13 @@ class Newsitempage extends Template {
     function Newsitempage($newsitem,$page,$offset,$showhidden=false,$showtoplink=true)
     {
 		global $_GET;
-		
+
 		parent::__construct();
 
 		$linkparams["page"]=$this->stringvars['page'];
 		$this->stringvars['returnlink']= makelinkparameters($linkparams);
 		$this->stringvars["l_returnbutton"] = getlang("newsitem_returnbutton");
-		
+
 		if(!isset($_GET['printview']))
 		{
 			$linkparams["newsitem"]=$newsitem;
@@ -208,14 +206,14 @@ class Newsitempage extends Template {
 			$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
 		}
 		$this->stringvars['l_single']=getlang('news_single_showing');
-		
+
 		$this->vars['newsitem']= new Newsitem($newsitem,$offset,$showhidden,false);
-		
+
 		$contents=getnewsitemcontents($newsitem);
-		
+
 		$this->stringvars["l_topofthispage"] = getlang("pagemenu_topofthispage");
     }
-    
+
     // assigns templates
     function createTemplates()
     {
@@ -231,15 +229,15 @@ class NewsPage extends Template {
 	function NewsPage($page,$offset,$showhidden)
 	{
 		global $_GET;
-		
+
 		parent::__construct();
-		
+
 		$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
-		
+
 		$this->stringvars['actionvars'] = makelinkparameters(array("page" => $this->stringvars['page']));
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
-		
+
 		// searching & filtering
 		$filter=isset($_GET['filter']);
 		$filterpage=isset($_GET['filterpage']);
@@ -253,10 +251,10 @@ class NewsPage extends Template {
 			$ascdesc=$_GET['ascdesc'];
 			$newsitemsperpage=getproperty("News Items Per Page");
 			$noofnewsitems=count(getfilterednewsitems($this->stringvars['page'],$selectedcat,$from,$to,$order,$ascdesc,0,0));
-			
+
 			if(!$filterpage) $offset=0;
 			else $offset=getoffsetforjumppage($noofnewsitems,$newsitemsperpage,$offset);
-			
+
 			$newsitems=getfilterednewsitems($this->stringvars['page'],$selectedcat,$from,$to,$order,$ascdesc,$newsitemsperpage,$offset);
 		}
 		elseif($search)
@@ -271,15 +269,15 @@ class NewsPage extends Template {
 		{
 			$newsitemsperpage=getproperty("News Items Per Page");
 			if(!($newsitemsperpage>0)) $newsitemsperpage = 5;
-			
+
 			$noofnewsitems=countpublishednewsitems($this->stringvars['page']);
 			$offset=getoffsetforjumppage($noofnewsitems,$newsitemsperpage,$offset);
-			
+
 			$newsitems=getpublishednewsitems($this->stringvars['page'],$newsitemsperpage,$offset);
 		}
 		// end searching and filtering
-    
-    
+
+
 		// rss
 		if(hasrssfeed($this->stringvars['page']))
 		{
@@ -357,13 +355,13 @@ class NewsPage extends Template {
 		}
 		$this->vars['editdata']= new Editdata($showhidden);
 	}
-  
+
     // assigns templates
     function createTemplates()
     {
 		$this->addTemplate("newspage.tpl");
     }
-    
+
     function makenewsfilterform($page,$selectedcat="",$from=array(),$to=array(),$order="date",$ascdesc="desc")
     {
 		$oldestdate=getoldestnewsitemdate($page);
@@ -380,7 +378,7 @@ class NewsPage extends Template {
 			$to["month"]=$newestdate["mon"];
 			$to["year"]=$newestdate["year"];
 		}
-		
+
 		$this->stringvars["page"]= $page;
 		$this->vars["categoryselection"]= new CategorySelectionForm(false,"",CATEGORY_NEWS,1,array($selectedcat => $selectedcat));
 		$this->vars["from_day"]= new DayOptionForm($from["day"],true,"","fromday",getlang("news_filter_fromday"));

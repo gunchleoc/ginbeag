@@ -4,15 +4,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."functions/db.php");
 include_once($projectroot."functions/referrers.php");
-//include_once($projectroot."functions/pages.php");
-
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
-
 
 //
 //

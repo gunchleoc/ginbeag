@@ -24,7 +24,7 @@ function issiteaction($action)
 	$actions["siteusercreate"]=1;
 	$actions["siteipban"]=1;
 	$actions["siteonline"]=1;
-	
+
     if(array_key_exists($action,$actions)) $result=true;
 
 	return $result;

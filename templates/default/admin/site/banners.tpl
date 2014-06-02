@@ -4,7 +4,7 @@
 	<div class="contentheader">General Banner Settings</div>
 	<div class="contentsection">
 		<fieldset>
-			<legend class="highlight">Display banners?</legend>	
+			<legend class="highlight">Display banners?</legend>
 			{DISPLAYBANNERS_YES} {DISPLAYBANNERS_NO}
 			<div class="formexplain">Turn all banners on or off.</div>
 		</fieldset>
@@ -21,13 +21,13 @@
 	<div class="contentheader">Add Banner</div>
 	<div class="contentsection">
 		<fieldset>
-			<legend class="highlight">Header (optional)</legend>	
+			<legend class="highlight">Header (optional)</legend>
 			<input type="text" name="header" size="50" maxlength="255" value="" />
 			<div class="formexplain">Optional title for the banner.</div>
 		</fieldset>
 		<span class="highlight">- For the content, specify either image, description and link, or enter the banner code manually. -</span>
 		<fieldset>
-			<legend class="highlight">Banner Content</legend>	
+			<legend class="highlight">Banner Content</legend>
 			<label for="image">Image:</label>
 			<input id="image" type="file" name="image" size="40" maxlength="255" />
 			<br /><label for="description">Description:</label>
@@ -38,7 +38,7 @@
 		</fieldset>
 		<span class="highlight">- or -</span>
 		<fieldset>
-			<legend class="highlight">Banner Code</legend>	
+			<legend class="highlight">Banner Code</legend>
 			<label for="code">Code (HTML):</label>
 			<textarea id="code" name="code" cols="50" rows="5"></textarea>
 			<div class="formexplain">Enter the banner code manually. If you use this, leave Image, Description and Link blank.</div>

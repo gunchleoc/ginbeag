@@ -16,7 +16,7 @@ include_once($projectroot."includes/objects/page.php");
 	<script type="text/javascript" src="crochadair.js"></script>
 	<script language="JavaScript">
 
-// special treatment for IE	
+// special treatment for IE
 if(navigator.appName =="Microsoft Internet Explorer")
 {
 	document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
@@ -61,13 +61,13 @@ $(document).ready(function() {
 		</div>
 		<div id="headercenter">
 		    <h1 class="maintitle">Fòram na Gàidhlig</h1>
-		    
+
 		    <div id="sitedescription">Coimhearsneachd airson ionnsachadh is leasachadh na Gàidhlig</div>
-		    
+
 		</div>
 		<div id="headerright">
-			
-	      	
+
+
 		</div>
 		<h1 id="headerpagetitle" class="headerpagetitle newline">An Crochadair</h1>
 
@@ -86,8 +86,8 @@ $db->closedb();
 ?>
 		</div>
 		<div id="contentarea" style="height: 950px;" title="Susbaint">
-<!--  Game HTML starts here  -->  
-				<h2 class="pagetitle">An Crochadair</h2>                                                              
+<!--  Game HTML starts here  -->
+				<h2 class="pagetitle">An Crochadair</h2>
 
 <FORM NAME="game">
 	<table>
@@ -111,7 +111,7 @@ $db->closedb();
 				<P style="border:4px double sienna;background-color:#F7F7F7;" >
 					<INPUT TYPE="TEXT" size="45" NAME="toGuess"  style="background-color:#F7F7F7;font-size:120%; font-weight=bold; border:0px; padding:0.3em; " />
 				</p>
-				
+
 				<P>Tagh litir.</P>
 				<p>
 					<INPUT id="a" TYPE="BUTTON" VALUE="A">
@@ -143,7 +143,7 @@ $db->closedb();
 					<INPUT id="s" TYPE="BUTTON" VALUE="S">
 					<INPUT id="t" TYPE="BUTTON" VALUE="T">
 				</p>
-				
+
 				<p>
 					Na litrichean a chleachd thu gu ruige seo:
 					<br />&nbsp;<br /><span id="guessed" NAME="guessed" style="font-size:110%; font-weight=bold; border:4px groove sienna; background-color:#F7F7F7; padding:0.3em; font-family:monospace;"/>&nbsp;</span><span style="font-size:80%">&nbsp;</span>
@@ -152,7 +152,7 @@ $db->closedb();
 			</td>
 		</tr>
 	</table>
- 
+
 </FORM>
 
 <hr>

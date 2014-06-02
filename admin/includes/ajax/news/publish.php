@@ -23,7 +23,7 @@ if($message)
 }
 else {
 	$success = publishnewsitem($_POST['newsitem']);
-	
+
 	if($success >=0)
 	{
 		print('<message error="0">');

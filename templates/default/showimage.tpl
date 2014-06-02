@@ -11,14 +11,14 @@
 <div id="contentarea">
 
 	{PAGEINTRO}
-	
+
 	<div class="leftalign">
 		<!-- BEGIN switch PREVIOUS -->
 		<form name="prevform" action="{PREVIOUSITEM}" method="post">
 			{PREVIOUS}
 			<input type="submit" name="prev" value="<" class="mainoption">
 		</form>
-		<!-- END switch PREVIOUS -->	
+		<!-- END switch PREVIOUS -->
 	</div>
 
 	<div class="rightalign">
@@ -27,37 +27,37 @@
 			{NEXT}
 			<input type="submit" name="next" value=">" class="mainoption">
 		</form>
-		<!-- END switch NEXT -->  	
+		<!-- END switch NEXT -->
 	</div>
-	
-	<!-- BEGIN switch RETURNPAGE --> 
+
+	<!-- BEGIN switch RETURNPAGE -->
 	<div class="centeralign">
 		<form name="returnpageform" action="{RETURNPAGE}" method="post">
 			<input type="submit" name="next" value="{RETURNPAGETITLE}" />
-		</form>	
+		</form>
 	</div>
-	<!-- END switch RETURNPAGE --> 
-	
+	<!-- END switch RETURNPAGE -->
+
 	<div align="center">
 		<!-- BEGIN switch IMAGEPATH -->
 		<div class="captionedimage" align="center">
 			<img src="{IMAGEPATH}" alt="{SIMPLECAPTION}" width="{WIDTH}" height="{HEIGHT}" />
 			<div class="imagecaption">{CAPTION}</div>
-		</div>	
-		<!-- END switch IMAGEPATH -->	
+		</div>
+		<!-- END switch IMAGEPATH -->
 		<!-- BEGIN switch NOIMAGE -->
 		<span class="highlight"><i>{NOIMAGE}</i></span>
-		<!-- END switch NOIMAGE -->	
+		<!-- END switch NOIMAGE -->
 	</div>
-	
-	
+
+
 	<div class="leftalign">
 		<!-- BEGIN switch PREVIOUS -->
 		<form name="prevform" action="{PREVIOUSITEM}" method="post">
 			{PREVIOUS}
 			<input type="submit" name="prev" value="<" class="mainoption">
 		</form>
-		<!-- END switch PREVIOUS -->	
+		<!-- END switch PREVIOUS -->
 	</div>
 
 	<div class="rightalign">
@@ -66,17 +66,17 @@
 			{NEXT}
 			<input type="submit" name="next" value=">" class="mainoption">
 		</form>
-		<!-- END switch NEXT -->  	
+		<!-- END switch NEXT -->
 	</div>
-	
-	<!-- BEGIN switch RETURNPAGE --> 
+
+	<!-- BEGIN switch RETURNPAGE -->
 	<div class="centeralign">
 		<form name="returnpageform" action="{RETURNPAGE}" method="post">
 			<input type="submit" name="next" value="{RETURNPAGETITLE}" />
-		</form>	
+		</form>
 	</div>
-	<!-- END switch RETURNPAGE --> 
-	
+	<!-- END switch RETURNPAGE -->
+
 	{EDITDATA}
 </div>
 {FOOTER}

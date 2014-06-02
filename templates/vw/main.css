@@ -1,6 +1,3 @@
-/* Stylesheet for Viggo-Works */
-
-
 /************ General element styles ************/
 html body {
 	font-size : 75%;
@@ -8,7 +5,6 @@ html body {
 	color:#FFFFFF;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
-
 
 li { margin-left: 1em;}
 
@@ -116,7 +112,7 @@ input.mainoption {
 	width: 20%;
 	text-align: right;
 	float:right;
-}	
+}
 
 #navigator {
 	width: 19.5%;
@@ -279,7 +275,7 @@ a.navlink:active { text-decoration:none; color:yellow; }
 	padding-right:0.5em;
 
 	font-size: 160%;
-	font-family: Arial, Helvetica, sans-serif; 
+	font-family: Arial, Helvetica, sans-serif;
 	color: yellow;
 	background-color: #006378;
 	color : #FFFF00;
@@ -331,7 +327,7 @@ a.footer:hover { color: yellow; text-decoration: underline;}
 
 /* Fos newsitemsections */
 .sectionsubtitle	{
-	font-size: 175%; 
+	font-size: 175%;
 	font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
 	margin-top: 0.5em;
 	margin-bottom: 0.75em;
@@ -372,7 +368,7 @@ a.footer:hover { color: yellow; text-decoration: underline;}
 	margin-top:1.5em;
 	width: 100%;
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;	
+	border-width: 1px 0px 0px 0px;
 	padding-top: 0.5em;
 	border-color: #00AEED;
 }
@@ -400,7 +396,7 @@ a.contentnavtitle:hover{ text-decoration: underline; color : yellow; }
 
 .contentnavlinkwrapper {
 	margin-top:1.75ex;
-	line-height: 1.5em; 
+	line-height: 1.5em;
 	text-align: justify;
 }
 
@@ -482,7 +478,7 @@ div.newsquote {
 	padding: 1em;
 	text-align: justify;
 	background-color: #003B39;
-	color : #FFFFFF; 
+	color : #FFFFFF;
 }
 
 
@@ -511,7 +507,7 @@ div.newsquote {
 	margin:1em;
     overflow:hidden;
     display:table-cell;
-	font-size:90%;    
+	font-size:90%;
 }
 
 .gallerycontents {
@@ -537,7 +533,7 @@ a.linktitle:active { text-decoration:underline; color:yellow; }
 .linklistlink {
 	margin-top:1em;
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;	
+	border-width: 1px 0px 0px 0px;
 }
 
 .linkedimage {

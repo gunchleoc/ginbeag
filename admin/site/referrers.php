@@ -20,7 +20,6 @@ $error = false;
 // print_r($_POST);
 // print_r($_GET);
 
-
 if(isset($_POST['unblock']))
 {
 	$referrers= new SiteReferrerUnblockForm($_POST['referrer']);

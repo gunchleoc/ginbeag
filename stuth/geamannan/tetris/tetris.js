@@ -212,24 +212,24 @@ function Tetris()
 		self.puzzle.stop();
 		document.getElementById("tetris-nextpuzzle").style.display = "none";
 		document.getElementById("tetris-gameover").style.display = "block";
-		
+
 		// if may add, display input promt, get name and save
-		
+
 		var score=this.stats.getScore();
-		
+
 		$.post("highscore.php?checkscore="+score, {list: $(this).html()}, function(xml) {
-     	
+
        		var mayadd=$(xml).find('mayaddscore').text();
 
 			if(mayadd=="1")
 			{
 				document.getElementById("tetris-highscores-content").innerHTML="<p>A' sàbhaladh an sgòr agad ...</p>";
-			
+
 				helpwindow.close();
 				highscores.activate();
-			
+
 				var name = prompt("Meal do naidheachd! Gheibh thu air liosta nan sgòran àrda!\nCuir d’ ainm ann:", "");
-				
+
 				while(!name.match(/^[\w|\s|!|?|:|à|À|è|È|ì|Ì|ò|Ò|ù|Ù|á|Á|é|É|í|Í|ó|Ó|ú|Ù|ü|ä|ö|Ü|Ä|Ö|â|ê|î|ô|û|ç|Ç|º|ª|ã|Ã|õ|Õ|ß|æ|Æ|ø|Ø|å|Å|']+$/))
 				{
 					name = prompt("An cuir thu ainm eile ann?\nChan eil ach litrichean, àireamhan, beàrnan, ! ? ' agus : ceadaichte:", "");
@@ -238,13 +238,13 @@ function Tetris()
 				//cookie to prevent adding highscores hacking by calling the PHP script directly
 				var cookie = new Cookie();
 				cookie.set("tetris-maysavehighscore", encodeURIComponent(score), 3600*24*1000);
-				
+
 				// save score
 				$.post('highscore.php?savescore=true&score='+score+'&name='+encodeURIComponent(name), {list: $(this).html()}, function(xml) {
 					cookie.del("tetris-maysavehighscore");
-					showHighscores();	
+					showHighscores();
 				});
-			}  		
+			}
 		});
 	};
 
@@ -336,12 +336,12 @@ function Tetris()
 	// highscores
 	$("#tetris-menu-highscores").click(function(e){
 		helpwindow.close();
-		highscores.activate();	
+		highscores.activate();
 		showHighscores();
-			 
+
 	});
-		
-	
+
+
 	document.getElementById("tetris-highscores-close").onclick = highscores.close;
 
 	// keyboard - buttons
@@ -1291,7 +1291,7 @@ function Tetris()
 	{
 		return Math.floor(Math.random() * i);
 	}
-	
+
 
 	/**
 	 * Gets highscores from database via PHP
@@ -1301,18 +1301,18 @@ function Tetris()
 	function showHighscores()
 	{
 		document.getElementById("tetris-highscores-content").innerHTML="<p>A' faighinn nan sgòran as àirde ...</p>";
-				 
+
 		$.post("highscore.php?print=true", {list: $(this).html()}, function(xml) {
-		
+
 			var scores='<table cellspacing="0" cellpadding="2"><tr><th></th><th style="font-size: 11px; color: #002373; font-weight : bold;" align="left">Ainm</th><th style="font-size: 11px; color: #002373; font-weight : bold;" align="left">Sgòr</th></tr>';
-     	
+
        		$(xml).find('entry').each(function(){
        			scores+='<tr><td align="right" valign="top">'+$(this).find('id').text()+'.</td><td>'+$(this).find('name').text()+'</td><td align="right" valign="top">'+$(this).find('score').text()+'</td></tr>';
 			});
 			scores+='</table>';
 			document.getElementById("tetris-highscores-content").innerHTML=scores;
     	});
-	}	
+	}
 
 	/**
 	 * Managing cookies.

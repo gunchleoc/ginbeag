@@ -11,17 +11,17 @@
 <div id="contentarea">
 
 <h2 class="pagetitle">{TITLE}</h2>
-				
+
 <!-- BEGIN switch DISABLED -->
 <p class="highlight">{DISABLED}</p>
 <!-- END switch DISABLED -->
 
 <!-- BEGIN switch ENABLED -->
-				
+
 	<!-- BEGIN switch MESSAGE -->
 	<p class="highlight">{MESSAGE}</p>
 	<!-- END switch MESSAGE -->
-	
+
 	<!-- BEGIN switch ERROR -->
 	{ERROR}
 	<!-- END switch ERROR -->
@@ -30,48 +30,48 @@
 	<p align="left">{ERREMAILERROROR}</p>
 	<p>{L_TRYAGAIN}<p>
 	<!-- END switch EMAILERROR -->
-	
+
 	<!-- BEGIN switch EMAILINFO -->
 	{EMAILINFO}
-	<!-- END switch EMAILINFO -->				
-	
+	<!-- END switch EMAILINFO -->
+
 	<!-- BEGIN switch POST -->
-	{POST}				
+	{POST}
 	<!-- END switch POST -->
-	
+
 	<!-- BEGIN switch POSTADDED -->
 	<p class="highlight">{POSTADDED}</p>
-	
+
 	<form name="postform" method="post">
 		<input type="submit" value="OK" class="mainoption" />
-	</form>    			
+	</form>
 	<!-- END switch POSTADDED -->
-	
+
 	<!-- BEGIN switch RETURN -->
 	<form name="returnform" method="get">
 		<input type="submit" value="{RETURN}" class="mainoption" />
-	</form>   			
+	</form>
 	<!-- END switch RETURN -->
-	
-	
+
+
 	<!-- BEGIN switch LEAVEMESSAGE -->
 	<form name="postform" method="post">
 		<input type="submit" name="post" value="{LEAVEMESSAGE}" class="mainoption" />
-	</form>			
-	<!-- END switch LEAVEMESSAGE -->					
-	
+	</form>
+	<!-- END switch LEAVEMESSAGE -->
+
 	<!-- BEGIN switch GUESTBOOKFORM -->
 	{GUESTBOOKFORM}
 	<!-- END switch GUESTBOOKFORM -->
-	
+
 	<!-- BEGIN switch GUESTBOOKEMAILFORM -->
 	{GUESTBOOKEMAILFORM}
 	<!-- END switch GUESTBOOKEMAILFORM -->
-	
+
 	<!-- BEGIN switch ENTRIES -->
 	{ENTRIES}
 	<!-- END switch ENTRIES -->
-<!-- END switch ENABLED -->					
+<!-- END switch ENABLED -->
 
 </div>
 

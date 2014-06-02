@@ -8,8 +8,6 @@ include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."functions/users.php");
 include_once($projectroot."functions/pages.php");
 
-
-
 //
 //
 //
@@ -17,9 +15,9 @@ function addgalleryimage($page,$filename)
 {
 	global $db;
 	$page=$db->setinteger($page);
-	
+
 	$lastposition=getlastgalleryimageposition($page);
-	
+
 	$values=array();
 	$values[]=0;
 	$values[]=$page;
@@ -56,7 +54,7 @@ function movegalleryimage($galleryitem, $direction, $positions=1)
 {
 	global $db;
 	$result=false;
-	
+
 	if($positions>0)
 	{
 		$page=getdbelement("page_id",GALLERYITEMS_TABLE, "galleryitem_id", $db->setinteger($galleryitem));
@@ -87,12 +85,12 @@ function movegalleryimage($galleryitem, $direction, $positions=1)
 			$swap=array();
 			$currentid=$sisterids[$idposition+$positions];
 			$navpos=getdbelement("position",GALLERYITEMS_TABLE, "galleryitem_id", $currentid);
-		
+
 			for($i=$idposition+$positions;$i>$idposition;$i--)
 			{
 				$otherid=$sisterids[$i-1];
 				$othernavpos=getdbelement("position",GALLERYITEMS_TABLE, "galleryitem_id", $otherid);
-				
+
 				$swap[$currentid]=$othernavpos;
 				$swap[$otherid]=$navpos;
 				$currentid=$otherid;
@@ -107,7 +105,7 @@ function reindexgallerypositions($page)
 {
 	global $db;
 	$items=array();
-	
+
 	$query="select galleryitem_id, position from ".GALLERYITEMS_TABLE." where page_id = ".$db->setinteger($page)." order by position ASC;";
 	//  print($query.'<br>');
 	$sql=$db->singlequery($query);

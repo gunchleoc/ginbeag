@@ -13,9 +13,9 @@ function updatemenunavigation($page, $navigatordepth , $displaydepth , $sistersi
 {
 	global $db;
 	$page=$db->setinteger($page);
-	
+
 	$sql=updatefield(MENUS_TABLE,"navigatordepth",$db->setinteger($navigatordepth) ,"page_id='".$page."'");
-	
+
 	if($sql)
 	{
 		$sql= updatefield(MENUS_TABLE,"displaydepth ",$db->setinteger($displaydepth) ,"page_id='".$page."'");

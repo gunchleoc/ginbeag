@@ -4,9 +4,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."functions/db.php");
 include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
-//include_once($projectroot."admin/functions/sessions.php");
-//include_once($projectroot."functions/users.php");
-//include_once($projectroot."functions/pages.php");
 
 //
 // todo: reorganize position_navigator with page locking
@@ -39,7 +36,7 @@ function deletepage($page)
 		deleteentry(RESTRICTEDPAGESACCESS_TABLE,"page_id ='".$db->setinteger($deleteids[$i])."'");
 		removerssfeed($deleteids[$i]);
 		deleteentry(PAGECACHE_TABLE,"page_id='".$deleteids[$i]."'");
-		
+
 		if($pagetype==="article")
 		{
 			deleteentry(ARTICLECATS_TABLE,"page_id ='".$deleteids[$i]."'");

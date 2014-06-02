@@ -16,19 +16,19 @@ class JumpToPageForm  extends Template {
 	function JumpToPageForm($file="",$params=array(),$align="right", $target="")
 	{
 		parent::__construct();
-		
+
 		$attributes="";
 		if($file) $attributes.=' action="'.$file.'"';
 		if($target) $attributes.=' target="'.$target.'"';
 		$this->stringvars['attributes']=$attributes;
-		
+
 		$this->stringvars['fields'] = $this->makehiddenvars($params);
 
 		$this->stringvars['align']=$align;
 		$this->stringvars['l_jumptopage']=getlang("pagemenu_jumptopage");
 		$this->stringvars['l_go']=getlang("pagemenu_go");
 	}
-	
+
 	function createTemplates()
 	{
 		$this->addTemplate("jumptopageform.tpl");
@@ -52,7 +52,7 @@ class PageMenu extends Template {
     {
 		$this->addTemplate("pagemenu.tpl");
     }
-    
+
     function makelinks($offset, $number, $last, $params = array())
     {
 		$result="";
@@ -65,11 +65,11 @@ class PageMenu extends Template {
 		$previous=$offset-$number;
 		if($previous<0) $previous=0;
 		$last=$number*(ceil($last/$number)-1);
-		
+
 		if($last>0)
 		{
 			$result.=getlang("pagemenu_goto");
-			
+
 			if($offset>0)
 			{
 				// "Previous"
@@ -89,14 +89,14 @@ class PageMenu extends Template {
 				$params["offset"] = $previous;
 				$result.='<a href="'.makelinkparameters($params).'">'.(1+$previous/$number).'</a>, ';
 			}
-		
+
 			// current number
 			$result.='<b>'.(1+$offset/$number).'</b>';
 			if($offset<$last)
 			{
 				$result.=', ';
 			}
-		
+
 			// next number
 			if($offset<$last)
 			{
@@ -132,7 +132,7 @@ class CategorySelectionForm  extends Template {
     {
 		$this->stringvars['jsid'] =$jsid;
 		parent::__construct($jsid);
-      
+
 		if($multiple) $this->stringvars['optionform_name'] =$optionformname."[]";
 		else $this->stringvars['optionform_name'] =$optionformname;
 
@@ -140,19 +140,19 @@ class CategorySelectionForm  extends Template {
 		$this->stringvars['optionform_id'] =$optionformname;
 		$this->stringvars['optionform_size'] =$size;
 		if ($size>1) $this->stringvars['bigbox'] ='bigbox';
-		
+
 		$attributes="";
 		if($jsfunction) $attributes.=' onChange="'.$jsfunction.'"';
 		if($multiple) $attributes.=' multiple';
 		$this->stringvars['optionform_attributes'] =$attributes;
-		
+
 		$allcategories=getallcategorieswithname($cattype);
-		
+
 		$this->listvars['option'][]= new OptionFormOption(1,"",getlang("form_cat_allcats"));
-		
+
 		$this->makecategoryoption($allcategories,1,$selectedcats=array_flip($selectedcat));
     }
-    
+
     //
     // recursive collecting of categoryoptions to be put in option listvar
     //
@@ -160,7 +160,7 @@ class CategorySelectionForm  extends Template {
     {
 		$remaining=array();
 		$currentcats=array();
-		
+
 		while($category=current($categories))
 		{
 			if($category['parent_id']==$parent) array_push($currentcats,$category);
@@ -173,17 +173,17 @@ class CategorySelectionForm  extends Template {
 			$optionvalue=$category["category_id"];
 			$optionisselected="";
 			$optiontext="";
-			
+
 			if(array_key_exists($category["category_id"],$selectedcat)) $optionisselected=' selected';
 			for($i=0;$i<$level+1;$i++)
 			{
 				$optiontext.="&nbsp;&nbsp;&nbsp;&nbsp;";
 			}
-			
+
 			$optiontext.=input2html($category["name"]);
-			
+
 			$this->listvars['option'][]= new OptionFormOption($optionvalue,$optionisselected,$optiontext);
-			
+
 			$this->makecategoryoption($remaining, $category["category_id"],$selectedcat,$level+1);
 			next($currentcats);
 		}
@@ -200,19 +200,19 @@ class CategorySelectionForm  extends Template {
 // Templating for a ascending/descending selection form
 //
 class AscDescSelectionForm  extends Template {
-    
+
     function AscDescSelectionForm($isascselected=true)
     {
     	parent::__construct();
-    
+
     	$this->stringvars['l_ascending']=getlang("form_ascdesc_ascending");
     	$this->stringvars['l_descending']=getlang("form_ascdesc_descending");
     	$this->stringvars['l_label']=getlang("form_ascdesc_label");
-    	
+
       	if($isascselected) $this->stringvars['asc_selected']=" selected";
       	else $this->stringvars['desc_selected']=" selected";
     }
-    
+
     function createTemplates()
     {
       	$this->addTemplate("ascdescselection.tpl");
@@ -255,7 +255,7 @@ class OptionForm extends Template {
     function OptionForm($selected,$values=array(),$descriptions=array(),$name="option", $label="", $size=1, $attributes="")
     {
 		parent::__construct();
-		
+
 		if($size>1) $label=$label."<br />";
 
         $this->stringvars['optionform_name'] =strtolower(str_replace(" ","",$name));
@@ -396,18 +396,18 @@ class CheckboxForm extends Template {
 		$this->stringvars['name']=$name;
 		$this->stringvars['value']=$value;
 		$this->stringvars['title']=$title;
-		
+
 		if($ischecked)
 			$this->stringvars['checked']='checked="checked"';
 		else
 			$this->stringvars['checked']="";
-		
+
 		if($labelpos=="left")
 			$this->stringvars['label_left']="left";
 		else
 			$this->stringvars['label_right']="right";
     }
-    
+
     // assigns templates and list objects
     function createTemplates()
     {
@@ -435,7 +435,7 @@ class RadioButtonForm extends Template {
 		else
 			$this->stringvars['label_right']="right";
 	}
-	
+
 	// assigns templates and list objects
 	function createTemplates()
 	{
@@ -453,7 +453,7 @@ class LinkButton extends Template {
 	{
 		global $projectroot;
 		parent::__construct();
-		
+
 		$this->stringvars['link']=$link;
 		$this->stringvars['title']=$title;
 		$this->stringvars['imgsrc']=getCSSPath($image);

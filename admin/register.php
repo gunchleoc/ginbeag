@@ -10,7 +10,6 @@ include_once($projectroot."admin/functions/usersmod.php");
 include_once($projectroot."functions/email.php");
 include_once($projectroot."admin/includes/objects/profile.php");
 
-
 // all HTTP-vars used in this file
 $user="";
 if(isset($_POST['user'])) $user=trim($_POST['user']);
@@ -50,7 +49,7 @@ if($user && $pass===$passconf)
 	else
 	{
 		$register=register($user,$pass,$email);
-		
+
 		if($register)
 		{
 			$message='Registering successful.';

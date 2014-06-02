@@ -35,10 +35,10 @@ if($postaction=='savesite')
 	{
 		$properties['Use Math CAPTCHA']=$db->setinteger($_POST['usemathcaptcha']);
 	}
-	
+
 	$success=updateentries(ANTISPAM_TABLE,$properties,"property_name","property_value");
 	$error = !$success;
-	
+
 	if($success="1")
 	{
 		if(isset($_POST['renamevariables']))
@@ -65,10 +65,10 @@ function makerandomvariablename()
 {
 	$result="";
 	$letters="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ";
-	
+
 	list($usec, $sec) = explode(' ', microtime());
 	$randomlength= (((float) $sec + ((float) $usec * 100000)) % 25)+6;
-	
+
 	for($i=0;$i<$randomlength;$i++)
 	{
 		list($usec, $sec) = explode(' ', microtime());

@@ -12,12 +12,12 @@ include_once($projectroot."includes/includes.php");
 // main class for sitemap
 //
 class Sitemap extends Template {
-	
+
 	function Sitemap($showhidden=false)
 	{
 		parent::__construct();
 		$this->vars['pageintro'] = new PageIntro(utf8_decode(getlang("pagetitle_sitemap")),"");
-		  
+
 		$roots=getrootpages();
 		for($i=0;$i<count($roots);$i++)
 		{
@@ -32,7 +32,7 @@ class Sitemap extends Template {
 
 		$this->listvars['subpages'][]=new SitemapBranch(0,0,true,0,"contact",$showhidden);
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -49,10 +49,10 @@ class SitemapLink extends Template {
 	function SitemapLink($page, $level=0, $class="navtitle", $speciallink="" ,$showhidden=false)
 	{
 		parent::__construct();
-		
+
 		$linkparams = array();
 		if(isset($_GET['m'])) $linkparams["m"] = "on";
-		
+
 		// layout parameters
 		$this->stringvars['link_class']=$class;
 		$this->stringvars['title_class']="";
@@ -90,18 +90,18 @@ class SitemapLink extends Template {
 		else
 		{
 			$this->pagetype=getpagetypearray($page);
-			
+
 			$this->stringvars['title']=title2html(getpagetitlearray($page));
 			$this->stringvars['linktooltip']=striptitletags(getpagetitlearray($page));
 			$this->stringvars['description']="";
 			$this->stringvars['title_class']="";
-        
+
 			if($showhidden)
 			{
 				if(isthisexactpagerestricted($page)) $this->stringvars['title']=$this->stringvars['title'].' (R)';
 				if(!ispublished($page)) $this->stringvars['title']='<i>'.$this->stringvars['title'].'</i>';
 			}
-			
+
 			if($this->pagetype==="external")
 			{
 				$this->stringvars['link']=getexternallink($page);
@@ -124,7 +124,7 @@ class SitemapLink extends Template {
 				$this->stringvars['link']=$path.makelinkparameters($linkparams);
 				$this->stringvars['link_attributes']="";
 			}
-		} 
+		}
 	}
 
     // assigns templates
@@ -156,7 +156,7 @@ class SitemapBranch extends Template {
 			$class="contentnavlink";
 			$this->stringvars['wrapper_class'] = "contentnavlinkwrapper";
         }
-        
+
 
         if(hasaccesssession($page) || $showhidden)
         {

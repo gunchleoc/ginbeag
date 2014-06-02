@@ -22,7 +22,7 @@
 				<div class="formexplain">Type the same password again.</div>
 			</div>
 
-	
+
 			</fieldset>
 		{SUBMITROW}
 

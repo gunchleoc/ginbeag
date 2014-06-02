@@ -15,7 +15,6 @@ if(isset($_GET['action']))
 }
 else $action="";
 unset($_GET['action']);
-//unset($_POST['action']);
 
 include_once($projectroot."admin/includes/objects/adminmain.php");
 
@@ -141,7 +140,7 @@ elseif($action=="siteonline")
 {
 	include_once($projectroot."admin/site/whosonline.php");
 }
-/**************** edit *******************/ 
+/**************** edit *******************/
 elseif($action=="edit")
 {
 	include_once($projectroot."admin/pageedit.php");

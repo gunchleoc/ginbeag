@@ -5,13 +5,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."functions/db.php");
 include_once($projectroot."functions/guestbook.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
-
 //
 //
 //

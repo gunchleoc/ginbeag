@@ -14,7 +14,7 @@ function striptitletags($title)
 {
 	//$title=stripslashes($title);
 	$title=stripslashes(utf8_encode($title));
-	
+
 	//$title=preg_replace("/&amp;#(.*);/U","&#\\1;",$title); // restore unicode characters
 	//$title=str_replace("&amp;nbsp;","&nbsp;",$title); // restore &nbsp;
 	//$title=str_replace('"',"&quot;",$title); // quotes
@@ -49,10 +49,10 @@ function striptitletags($title)
 function title2html($title)
 {
   	$title=stripslashes(utf8_encode($title));
-  
+
     $title=str_replace('<','&lt;', $title);
   	$title=str_replace('>','&gt;', $title);
-  	
+
   //$title=preg_replace("/&amp;#(.*);/U","&#\\1;",$title); // restore unicode characters
   //$title=str_replace("&amp;nbsp;","&nbsp;",$title); // restore &nbsp;
   //$title=str_replace('"',"&quot;",$title); // quotes
@@ -70,7 +70,7 @@ function title2html($title)
 		"<span class=\"\\1\">\\2</span>"
 	);
 	$title = preg_replace($patterns,$replacements, $title);
-  
+
 	// copyright
 	$title = str_replace('((C))','&copy;', $title);
 	return $title;
@@ -84,7 +84,7 @@ function title2html($title)
 function edittitle2html($title)
 {
   	$title=stripslashes($title);
-  
+
     $title=str_replace('<','&lt;', $title);
   	$title=str_replace('>','&gt;', $title);
 	// bbcode to html
@@ -101,7 +101,7 @@ function edittitle2html($title)
 		"<span class=\"\\1\">\\2</span>"
 	);
 	$title = preg_replace($patterns,$replacements, $title);
-  
+
 	// copyright
 	$title = str_replace('((C))','&copy;', $title);
 	return $title;
@@ -117,7 +117,7 @@ function input2html($text)
   	// lt and gt
   	$text=str_replace('<','&lt;', $text);
   	$text=str_replace('>','&gt;', $text);
-  
+
 	return $text;
 }
 
@@ -137,7 +137,7 @@ function text2html($text)
 
 	//info at atjeff dot co dot nz
 	// http://de.php.net/manual/en/function.preg-replace.php
-	
+
 
 	// strip color tags for print view
 	if(isset($_GET['printview'])) $text = preg_replace("/\[color=(.*?)\](.*?)\[\/color\]/si", "\\2", $text);
@@ -149,7 +149,7 @@ function text2html($text)
 		"/\[url\](.*?)\[\/url\]/i",
 		'/\[url="(.*?)"\](.*?)\[\/url\]/i',
 		"/\[url=(.*?)\](.*?)\[\/url\]/i",
-		
+
 		"/\[style=(.*?)\](.*?)\[\/style\]/si",
 		"/\[img\](.*?)\[\/img\]/i",
 		"/\[b\](.*?)\[\/b\]/si",
@@ -169,8 +169,8 @@ function text2html($text)
 		"<i>\\1</i>"
 	);
 	$text = preg_replace($patterns,$replacements, $text);
-  
-  
+
+
 	// parsing nested lists
 	while(preg_match("/\[list\](.*?)\[\/list\]/si",$text) || preg_match("/\[list=(.*?)\](.*?)\[\/list\]/si",$text))
 	{
@@ -186,7 +186,7 @@ function text2html($text)
 		);
 		$text = preg_replace($patterns,$replacements, $text);
 	}
-  
+
 
 	// tables
 	$patterns = array(
@@ -251,7 +251,7 @@ function text2html($text)
 	// auto URL
 	$text = preg_replace("/(http:\/\/(.*)\/)[\s]/", "<a href=\\1>\\1</a> ", $text);
 	//$text = preg_replace("/(http:\/\/([w|\/|\.]*)[\W])/", "dummy", $text);
-	
+
 	//remove sid from local links
 	$patterns = array(
 		"/http:(.*?)".getproperty("Domain Name")."(.*?)(sid=)(\w*?)(&)/",
@@ -264,7 +264,7 @@ function text2html($text)
 		"\\4"
 	);
 	$text = preg_replace($patterns,$replacements, $text);
-  
+
 	// remove target="_blank" from internal links
 	$patterns = array(
 		"/(\")(\?)(.*)(target=\"_blank\")/"
@@ -316,7 +316,7 @@ function text2html($text)
 
 	// line break
 	$text=nl2br($text);
-  
+
 	// copyright
 	$text = str_replace('((C))','&copy;', $text);
 	return $text;

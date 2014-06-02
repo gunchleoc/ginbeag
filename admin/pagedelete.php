@@ -28,7 +28,7 @@ unset($_POST['action']);
 // print_r($_GET);
 $message = "";
 $error = false;
- 
+
 // *************************** actions ************************************** //
 
 if($page<=0)
@@ -59,6 +59,6 @@ elseif(isset($_POST["nodelete"]))
 }
 
 $content = new AdminMain($page, "pagedelete", new AdminMessage($message, $error), $editpage);
-print($content->toHTML());  
+print($content->toHTML());
 $db->closedb();
 ?>

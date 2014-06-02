@@ -12,7 +12,7 @@
 
 // to be generated - word with punctum delens, word without punctum delens, hint, x coordinate, y coordinate, bool issolved
 var vertical=new Array();
- 	
+
 var horizontal = new Array();
 
 var dimension = 0;
@@ -21,9 +21,9 @@ var unsolved = 0;
 var wronganswers=0;
 
 
- 	
 
-// getter 	
+
+// getter
 function getWord(wordArray) { return wordArray[0]; }
 
 function getSolution(wordArray) { return wordArray[1]; }
@@ -59,11 +59,11 @@ function solveGame()
 	for (var i=0; i<horizontal.length;i++)
 	{
 		setSolved(i, true);
-		
+
 		var xpos = getXPos(horizontal[i]);
 		var ypos = getYPos(horizontal[i]);
 		var word = getWord(horizontal[i]);
-	
+
 		for (var j=0; j<word.length;j++)
 		{
 				document.getElementById("letter"+xpos+"_"+(ypos+j)).innerHTML=word.charAt(j);
@@ -72,11 +72,11 @@ function solveGame()
 	for (var i=0; i<vertical.length;i++)
 	{
 		setSolved(i, false);
-		
+
 		var xpos = getXPos(vertical[i]);
 		var ypos = getYPos(vertical[i]);
 		var word = getWord(vertical[i]);
-	
+
 		for (var j=0; j<word.length;j++)
 		{
 				document.getElementById("letter"+(xpos+j)+"_"+ypos).innerHTML=word.charAt(j);
@@ -92,7 +92,7 @@ function paintVertical(vword, vstyle)
 	var xpos = getXPos(vword);
 	var ypos = getYPos(vword);
 	var word = getWord(vword);
-	
+
 	for (var i=0; i<word.length;i++)
 	{
 		document.getElementById("element"+(xpos+i)+"_"+ypos).className = vstyle;
@@ -112,7 +112,7 @@ function paintHorizontal(hword, hstyle)
 	var xpos = getXPos(hword);
 	var ypos = getYPos(hword);
 	var word = getWord(hword);
-	
+
 	for (var i=0; i<word.length;i++)
 	{
 		document.getElementById("element"+xpos+"_"+(ypos+i)).className = hstyle;
@@ -129,13 +129,13 @@ function showWinMessage()
 {
 	var noofwords= horizontal.length + vertical.length;
 	var winmessage = "Meal do naidheachd!\nRinn thu a' chùis air a' gheama.\n\nFhuair thu a-mach mu "+noofwords;
-	
+
 	if (noofwords ==1 || noofwords == 2) winmessage +=" fhacal";
 	else if (noofwords == 0 || noofwords ==20 || noofwords >= 40) winmessage +=" facal";
 	else winmessage +=" faclan";
-	
+
 	winmessage+=" agus chuir thu a-steach "+wronganswers;
-	
+
 	if (wronganswers ==1 || wronganswers == 2) winmessage +=" fhreagairt cheàrr.";
 	else if (wronganswers == 0 || wronganswers ==20 || wronganswers >= 40) winmessage +=" freagairt ceàrr.";
 	else winmessage +=" freagairtean ceàrr.";
@@ -146,7 +146,7 @@ function showWinMessage()
 function promptForAnswer(wordid, isHorizontal)
 {
 	var word ="";
-	
+
 	if(isHorizontal)
 	{
 		word = prompt("Cuir a-steach facal airson còmhnard "+(1+wordid)+"\n"+getClue(horizontal[wordid])+":", "");
@@ -213,7 +213,7 @@ function promptForAnswer(wordid, isHorizontal)
 $(document).ready(function() {
 
 
- 
+
 	/**
 	 *  gets words from server
  	*/
@@ -228,16 +228,16 @@ $(document).ready(function() {
 		vertical[4]=new Array("UĊD","UCHD","Tha anail nam ...",6,5,false);
 		vertical[5]=new Array("MAR","MAR","Coltach ri",6,3,false);
 		vertical[6]=new Array("ÒL","ÒL","A' gabhail deoch",7,1,false);
- 	
+
 		horizontal = new Array();
 		horizontal[0]=new Array("CARBADAN","CARBADAN","Rudan air an siubhlas tu",2,1,false);
 		horizontal[1]=new Array("ÀLAINN","ÀLAINN","Brèagha",4,0,false);
 		horizontal[2]=new Array("EÒLAIĊEAN","EÒLAICHEAN","Daoine ghlice",7,0,false);
 		horizontal[3]=new Array("ACA","ACA","Aig feadhainn",0,4,false);
-	
+
 		unsolved=horizontal.length + vertical.length;
 	}
-	
+
 
 	/**
 	 *  paint grid, fill in words and define interactions
@@ -245,17 +245,17 @@ $(document).ready(function() {
 	function startGame()
 	{
 	 	// initialise empty grid
- 		var grid=new Array();	
+ 		var grid=new Array();
 		for (var i=0; i<dimension;i++)
 		{
 			grid[i]=new Array();
-		
+
 			for (var j=0; j<dimension;j++)
 			{
 				grid[i][j]="";
 			}
 		}
-	
+
 
 		// display initial grid table
 		var gridtable='<table class="grid" cellspacing="0">';
@@ -271,18 +271,18 @@ $(document).ready(function() {
 		}
 		gridtable +="</table>";
 		document.getElementById("grid").innerHTML=gridtable;
-	
+
 		// paint word background
 		for (var i=0; i<horizontal.length;i++)
 		{
 			paintHorizontal(horizontal[i], "new");
 		}
-	
+
 		for (var i=0; i<vertical.length;i++)
 		{
 			paintVertical(vertical[i], "new");
 		}
-	
+
 		// display numbers
 		for (var i=0; i<horizontal.length;i++)
 		{
@@ -292,7 +292,7 @@ $(document).ready(function() {
 		{
 			document.getElementById("vertical"+getXPos(vertical[i])+"_"+getYPos(vertical[i])).innerHTML=i+1;
 		}
- 	
+
 		// show clues
 		var horizontalhtml='<ol>';
 		for (var i=0; i<horizontal.length;i++)
@@ -301,7 +301,7 @@ $(document).ready(function() {
 		}
 		horizontalhtml+="</ol>";
 		document.getElementById("horizontal").innerHTML=horizontalhtml;
-	
+
 		var verticalhtml='<ol>';
 		for (var i=0; i<vertical.length;i++)
 		{
@@ -309,35 +309,35 @@ $(document).ready(function() {
 		}
 		verticalhtml+="</ol>";
 		document.getElementById("vertical").innerHTML=verticalhtml;
-	
+
 		// Clue interaction - horizontal
 		for (var i=0; i<dimension;i++)
 		{
 			// enter anwer on mouse click
 			$('#cluehorizontal'+i).click(function() {
 				var wordid=eval($(this).attr("id").substring(14));
-		
+
 				if(!isSolved(horizontal[wordid]))
 				{
 					promptForAnswer(wordid, true);
 				}
 			});
-		
+
 			// colour in on mouseover
 			$('#cluehorizontal'+i).mouseover(function() {
 				var wordid=eval($(this).attr("id").substring(14));
-		
+
 				if(!isSolved(horizontal[wordid]))
 				{
 					paintHorizontal(horizontal[wordid], "markedletter");
 					document.getElementById($(this).attr("id")).className = "markedclue";
 				}
 			});
-		
+
 			// reset colour on mouseout
 			$('#cluehorizontal'+i).mouseout(function() {
 				var wordid=eval($(this).attr("id").substring(14));
-		
+
 				if(!isSolved(horizontal[wordid]))
 				{
 					paintHorizontal(horizontal[wordid], "new");
@@ -345,7 +345,7 @@ $(document).ready(function() {
 				}
 			});
 		}
-	
+
 		// Clue interaction - vertical
 		for (var i=0; i<dimension;i++)
 		{
@@ -357,23 +357,23 @@ $(document).ready(function() {
 					promptForAnswer(wordid, false);
 				}
 			});
-		
-		
+
+
 			// colour in on mouseover
 			$('#cluevertical'+i).mouseover(function() {
 				var wordid=eval($(this).attr("id").substring(12));
-		
+
 				if(!isSolved(vertical[wordid]))
 				{
 					paintVertical(vertical[wordid], "markedletter");
 					document.getElementById($(this).attr("id")).className = "markedclue";
 				}
 			});
-		
+
 			// reset colour on mouseout
 			$('#cluevertical'+i).mouseout(function() {
 				var wordid=eval($(this).attr("id").substring(12));
-			
+
 				if(!isSolved(vertical[wordid]))
 				{
 					paintVertical(vertical[wordid], "new");
@@ -381,14 +381,14 @@ $(document).ready(function() {
 				}
 			});
 		}
-	
+
 
 		// enter answer if click on grid start element - horizontal
 		for (var i=0; i<horizontal.length;i++)
 		{
 			var xpos = getXPos(horizontal[i]);
 			var ypos = getYPos(horizontal[i]);
-	
+
 			// prompt for anwer on click
 			$('#horizontal'+xpos+"_"+ypos).click(function() {
 				var wordid = eval($(this).text());
@@ -397,24 +397,24 @@ $(document).ready(function() {
 					promptForAnswer(wordid-1, true);
 				}
 			});
-		
+
 			// colour in on mouseover
 			$('#horizontal'+xpos+"_"+ypos).mouseover(function() {
 				var wordid = eval($(this).text())-1;
 				if(!isSolved(horizontal[wordid]))
 				{
-					document.getElementById('cluehorizontal'+wordid).className = "markedclue";				
+					document.getElementById('cluehorizontal'+wordid).className = "markedclue";
 					paintHorizontal(horizontal[wordid], "markedletter");
 				}
 			});
-		
+
 			// reset colour on mouseout
 			$('#element'+xpos+"_"+ypos).mouseout(function() {
 				var wordid = document.getElementById("horizontal"+$(this).attr("id").substring(7)).innerHTML;
 
 				if(!isSolved(horizontal[wordid-1]))
 				{
-					document.getElementById('cluehorizontal'+(wordid-1)).className = "clue";				
+					document.getElementById('cluehorizontal'+(wordid-1)).className = "clue";
 					paintHorizontal(horizontal[wordid-1], "new");
 				}
 			});
@@ -426,7 +426,7 @@ $(document).ready(function() {
 		{
 			var xpos = getXPos(vertical[i]);
 			var ypos = getYPos(vertical[i]);
-	
+
 			// prompt for anwer on click
 			$('#vertical'+xpos+"_"+ypos).click(function() {
 				var wordid = eval($(this).text());
@@ -435,7 +435,7 @@ $(document).ready(function() {
 					promptForAnswer(wordid-1, false);
 				}
 			});
-		
+
 			// colour in on mouseover
 			$('#vertical'+xpos+"_"+ypos).mouseover(function() {
 				var wordid = eval($(this).text())-1;
@@ -445,8 +445,8 @@ $(document).ready(function() {
 					paintVertical(vertical[wordid], "markedletter");
 				}
 			});
-			
-		
+
+
 			// reset colour on mouseout
 			$('#element'+xpos+"_"+ypos).mouseout(function() {
 				var wordid = document.getElementById("vertical"+$(this).attr("id").substring(7)).innerHTML;
@@ -462,12 +462,12 @@ $(document).ready(function() {
 
 	// start new game
 	$('#startgame').click(function() {
-	
+
 		document.getElementById("grid").innerHTML="<p>Starting game...</p>";
 		// todo: parameter
 		dimension=9;
 		wronganswers=0;
-		
+
 		getwords();
 		startGame();
 	});
@@ -478,8 +478,8 @@ $(document).ready(function() {
 	$('#solvegame').click(function() {
 		solveGame();
 	});
-	
-	
+
+
 	/**
 	 *  display mockup game on page reload
 	 *  "fàilte dhan tòimhseachan tarsainn - am feuch thusa e"
@@ -489,10 +489,10 @@ $(document).ready(function() {
 		// init and define words
 		dimension=11;
 		wronganswers=0;
-		
+
 		vertical=new Array();
 		horizontal = new Array();
-		
+
 		vertical[0]=new Array("FÀILTE","FÀILTE","Nuair a chòrdas e do dhaoine gu bheil thu air tighinn, cuiridh iad seo ort",1,3,false);
 		horizontal[0]=new Array("ḊAN","DHAN","'dha' agus an t-alt",7,0,false);
 		horizontal[1]=new Array("TÒIṀSEAĊAN", "TÒIMHSEACHAN","'S e ... tarsainn a tha seo",3,1,false);
@@ -501,12 +501,12 @@ $(document).ready(function() {
 		horizontal[2]=new Array("FEUĊ","FEUCH","Briog air seo agus cuir 'feuch' a-steach",1,3,false);
 		vertical[3]=new Array("ṪUSA","THUSA","Cha mhì!",0,9,false);
  		horizontal[3]=new Array("E","E","An còigeamh litir san aibidil",6,3,false);
-		
+
 		unsolved=horizontal.length + vertical.length;
-		
+
 		// start game
 		startGame();
-		
+
 		// paint backgrounds
 		paintVertical(vertical[0], "new");
 		paintHorizontal(horizontal[0], "new");
@@ -533,7 +533,7 @@ $(document).ready(function() {
 		setSolved(1, false);
 		paintVerticalWithTimeout(vertical[1], "solved",2000);
 		unsolved--;
-		
+
 		/*
 		setSolved(2, false);
 		paintVerticalWithTimeout(vertical[2], "solved", 5000);
@@ -546,12 +546,12 @@ $(document).ready(function() {
 		setSolved(3, false);
 		paintVerticalWithTimeout(vertical[3], "solved",7000);
 		unsolved--;
-	
+
 		setSolved(3, true);
 		paintHorizontalWithTimeout(horizontal[3], "solved", 8000);
 		unsolved--;
 		*/
-			
+
 
 		/**
 	 	 *  display pre-solved word
@@ -562,11 +562,11 @@ $(document).ready(function() {
 			var xpos = getXPos(vword);
 			var ypos = getYPos(vword);
 			var word = getWord(vword);
-	
+
 			for (var i=0; i<word.length;i++)
 			{
 				document.getElementById("element"+(xpos+i)+"_"+ypos).className = vstyle;
-		
+
 				if(isSolved(vword))
 				{
 					setTimeout((function(k,l,m,n,o) {return function() {
@@ -575,8 +575,8 @@ $(document).ready(function() {
 				}
 			}
 		}
-	
-	
+
+
 		/**
 	 	 *  display pre-solved word
 	 	 *  with time delay for the mockup
@@ -586,7 +586,7 @@ $(document).ready(function() {
 			var xpos = getXPos(hword);
 			var ypos = getYPos(hword);
 			var word = getWord(hword);
-	
+
 			for (var i=0; i<word.length;i++)
 			{
 				document.getElementById("element"+xpos+"_"+(ypos+i)).className = hstyle;
@@ -616,8 +616,8 @@ $(document).ready(function() {
 		}
 
 	}
-	
+
 	// on page reload
 	welcomePuzzle();
-	
+
 });

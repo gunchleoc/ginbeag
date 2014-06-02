@@ -10,13 +10,6 @@ include_once($projectroot."includes/includes.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."includes/objects/elements.php");
 
-
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
 //
 // returns array with sid and message
 // todo check if retires are created properly
@@ -27,14 +20,14 @@ function publiclogin($username,$password)
 	$username=$db->setstring($username);
 	$password=md5($password);
 	$ip=getclientip();
-	
+
 	if(!ispublicuseripbanned($ip))
 	{
 		$user=getpublicuserid($username);
 		$result=array();
 		$proceed=true;
 		$retries=getpublicretries($user,$ip);
-		
+
 		if($retries>=3)
 		{
 			$time=date(DATETIMEFORMAT, strtotime('-15 minutes'));
@@ -72,10 +65,10 @@ function checkpublicpassword($username,$md5password)
 	global $db;
 	$username=$db->setstring($username);
 	$md5password=$db->setstring($md5password);
-	
+
 	$result=false;
 	$dbpassword=getdbelement("password",PUBLICUSERS_TABLE, "username", $username);
-	
+
 	if($dbpassword===$md5password) $result=true;
 	return $result;
 }
@@ -105,11 +98,11 @@ function updatepubliclogindate($user,$ip)
 {
 	global $db;
 	$user=$db->setinteger($user);
-	
+
 	$now=strtotime('now');
-	
+
 	$sid=getsidforpublicuser($user,$ip);
-	
+
 	if($sid)
 	{
 		$query=("update ");
@@ -119,9 +112,9 @@ function updatepubliclogindate($user,$ip)
 		$query.=" where session_id = '".$sid."';";
 		//  print($query.'<p>');
 		$sql=$db->singlequery($query);
-		
+
 		$retries=getpublicretries($user,$ip);
-		
+
 		$query=("update ");
 		$query.=(PUBLICSESSIONS_TABLE." set ");
 		$query.="retries=";
@@ -145,23 +138,23 @@ function createpublicsession($user,$ip,$session_valid)
 	global $db;
 	$user=$db->setinteger($user);
 	$session_valid=$db->setinteger($session_valid);
-	
+
 	$result="";
-	
+
 	$now=strtotime('now');
-	
+
 	mt_srand(make_seed());
 	$sid = md5("".mt_rand());
-	
+
 	clearpublicsessions();
-	
+
 	$lastsession=getsidforpublicuser($user,$ip);
-	
+
 	if($lastsession)
 	{
 		deletesession($lastsession);
 	}
-	
+
 	$values=array();
 	$values[]=$sid;
 	$values[]=$user;
@@ -169,7 +162,7 @@ function createpublicsession($user,$ip,$session_valid)
 	$values[]=$ip;
 	$values[]=$session_valid;
 	$values[]=0;
-	
+
 	$query="insert into ".PUBLICSESSIONS_TABLE." values(";
 	for($i=0;$i<count($values)-1;$i++)
 	{
@@ -197,11 +190,11 @@ function publictimeout($sid)
 {
 	global $db;
 	$sid=$db->setstring($sid);
-	
+
 	$result=false;
-	
+
 	$sessiontime=getdbelement("session_time",PUBLICSESSIONS_TABLE, "session_id", $sid);
-	
+
 	if(!$sessiontime)
 	{
 		$result=true;
@@ -209,7 +202,7 @@ function publictimeout($sid)
 	else
 	{
 		$time=date(DATETIMEFORMAT, strtotime('-1 hours'));
-		
+
 		if($sessiontime<$time)
 		{
 			deletesession($sid);
@@ -218,7 +211,7 @@ function publictimeout($sid)
 		else
 		{
 			$now=date(DATETIMEFORMAT, strtotime('now'));
-			
+
 			$query=("update ");
 			$query.=(PUBLICSESSIONS_TABLE." set ");
 			$query.="session_time=";
@@ -254,7 +247,7 @@ function checkpublicsession($page)
 	    $title=getlang("restricted_pagetitle");
 	    $header = new HTMLHeader($title,$title,$message,$contenturl,getlang("restricted_pleaselogin"),true);
 	    print($header->toHTML());
-	
+
 	    $footer = new HTMLFooter();
 	    print($footer->toHTML());
 	    $db->closedb();

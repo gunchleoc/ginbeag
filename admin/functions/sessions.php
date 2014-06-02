@@ -9,12 +9,6 @@ include_once($projectroot."includes/includes.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."includes/objects/elements.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
 //
 // returns array with sid and message
 //
@@ -23,16 +17,16 @@ function login($username,$password)
 	global $db;
 	$username=$db->setstring($username);
 	$password=md5($password);
-	
+
 	$user=getuserid($username);
-	
+
 	$result=array();
 	$proceed=true;
 	$retries=getretries($user);
-	
+
 	if($retries>=3)
 	{
-	
+
 		$time=date(DATETIMEFORMAT, strtotime('-15 minutes'));
 		$lastlogin=getlastlogin($user);
 		if($lastlogin>=$time)
@@ -40,9 +34,9 @@ function login($username,$password)
 			$result['message']="You have entered the wrong password too often, so your account is locked for now. Please try again later.";
 			$proceed=false;
 		}
-	
+
 	}
-	
+
 	if($proceed)
 	{
 		if(checkpassword($username,$password))
@@ -75,9 +69,9 @@ function checkpassword($username,$md5password)
 	global $db;
 	$username=$db->setstring($username);
 	$md5password=$db->setstring($md5password);
-	
+
 	$result=false;
-	
+
 	$dbpassword=getdbelement("password",USERS_TABLE, "username", $username);
 	if($dbpassword===$md5password)
 	{
@@ -93,16 +87,16 @@ function checkpassword($username,$md5password)
 function logout()
 {
 	global $db;
-	
+
 	$cookieprefix = getproperty("Cookie Prefix");
 	$cookiedomain = getproperty("Domain Name");
 	$localpath =makecookiepath();
 
-		
+
 	setcookie($cookieprefix."sid", "",1, $localpath, $cookiedomain, 0, 1);
 	setcookie($cookieprefix."userid", "", 1, $localpath, $cookiedomain, 0, 1);
 	setcookie($cookieprefix."clientip", "", 1, $localpath, $cookiedomain, 0, 1);
-	
+
 	unlockuserpages();
   	optimizetable(LOCKS_TABLE);
   	optimizetable(NEWSITEMSECTIONS_TABLE);
@@ -141,11 +135,11 @@ function updatelogindate($username,$increasecount=false)
 {
 	global $db;
 	$username=$db->setstring($username);
-	
+
 	$now=strtotime('now');
-	
+
 	updatefield(USERS_TABLE,"last_login",date(DATETIMEFORMAT, $now),"username = '".$username."'");
-	
+
 	if($increasecount)
 	{
 		$retries=getdbelement("retries",USERS_TABLE, "username", $username);
@@ -165,8 +159,8 @@ function updatelogindate($username,$increasecount=false)
 function createsession($user)
 {
 	global $db;
-	
-	
+
+
   	$user=$db->setinteger($user);
 
   	$result="";
@@ -178,7 +172,7 @@ function createsession($user)
   	$sid = md5("".mt_rand());
 
   	clearsessions();
-  
+
   	$lastsession=getdbelement("session_id",SESSIONS_TABLE, "session_user_id", $user);
   	if($lastsession)
   	{
@@ -192,11 +186,11 @@ function createsession($user)
 	$values[]=substr($_SERVER["HTTP_USER_AGENT"], 0, 255);
 
   	$sql=insertentry(SESSIONS_TABLE,$values);
-  	
+
   	$cookieprefix = getproperty("Cookie Prefix");
   	$cookiedomain = getproperty("Domain Name");
 	$localpath =makecookiepath();
-  	
+
 	setcookie($cookieprefix."userid", $user,0, $localpath, $cookiedomain, 0, 1);
 	setcookie($cookieprefix."sid", $sid,0, $localpath, $cookiedomain, 0, 1);
 	setcookie($cookieprefix."clientip", $ip,0, $localpath, $cookiedomain, 0, 1);
@@ -222,11 +216,11 @@ function timeout($sid)
 {
 	global $db;
 	$sid=$db->setstring($sid);
-	
+
 	$result=false;
-	
+
 	$sessiontime=getdbelement("session_time",SESSIONS_TABLE, "session_id", $sid);
-	
+
 	if(!$sessiontime)
 	{
 		$result=true;
@@ -234,7 +228,7 @@ function timeout($sid)
 	else
 	{
 		$time=date(DATETIMEFORMAT, strtotime('-1 hours'));
-		
+
 		if($sessiontime<$time)
 		{
 			deleteentry(SESSIONS_TABLE,"session_id = '".$sid."'");
@@ -259,12 +253,12 @@ function checksession()
 	{
 		$header = new HTMLHeader("Access restricted","Webpage Building","",getprojectrootlinkpath().'admin/login.php'.makelinkparameters($_GET),'Click or tap here to log in',false);
 		print($header->toHTML());
-		
+
 		$footer = new HTMLFooter();
 		print($footer->toHTML());
-		
+
 		$db->closedb();
-		
+
 		exit;
 	}
 }
@@ -275,11 +269,11 @@ function checksession()
 function isloggedin()
 {
 	global $_COOKIE, $_SERVER;
-	
+
 	$cookieprefix = getproperty("Cookie Prefix");
 	if(isset($_COOKIE[$cookieprefix."sid"])) $sid = $_COOKIE[$cookieprefix."sid"];
 	else return false;
-	
+
 	$userid=getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $sid);
 	if(!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) return false;
 
@@ -287,7 +281,7 @@ function isloggedin()
 	if(!isset($_COOKIE[$cookieprefix."clientip"]) || substr($_COOKIE[$cookieprefix."clientip"],0,6)!=substr($clientip,0,6)) return false;
 
 	if(timeout($sid)) return false;
-	
+
 	if(!checkagent($sid, $userid, $_SERVER["HTTP_USER_AGENT"])) return false;
 
 	return true;
@@ -301,7 +295,7 @@ function isloggedin()
 function getsid()
 {
 	global $_COOKIE;
-	
+
 	$cookieprefix = getproperty("Cookie Prefix");
 	if(isset($_COOKIE[$cookieprefix."sid"])) return $_COOKIE[$cookieprefix."sid"];
 	else return "";

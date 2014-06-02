@@ -11,7 +11,7 @@
 		</fieldset>
 		<fieldset>
 			<legend class="highlight">Title for the Site Policy</legend>
-			<label for="policytitle">Title:</label>	
+			<label for="policytitle">Title:</label>
 			<input id="policytitle" type="text" name="policytitle" size="50" maxlength="255" value="{POLICYTITLE}" />
 			<div class="formexplain">Used to display a link to the Site Policy, and as the title of the Site Policy page.</div>
 		</fieldset>

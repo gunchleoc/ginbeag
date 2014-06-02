@@ -7,12 +7,11 @@ include_once($projectroot."includes/objects/page.php");
 include_once($projectroot."includes/objects/email.php");
 include_once($projectroot."functions/email.php");
 
-
 //
 //
 //
 class ContactPage extends Template {
-    
+
     function ContactPage($email, $subject, $messagetext, $sendcopy, $userid, $token, $errormessage="", $sendmail=false)
     {
     	parent::__construct();
@@ -26,7 +25,7 @@ class ContactPage extends Template {
   			$this->vars['banners'] = new BannerList();
 		}
 		else $this->stringvars['banners']="";
-		
+
 
 		// switches
 		if($errormessage!="")
@@ -90,7 +89,7 @@ class ContactForm extends Template {
     	$this->stringvars['l_legend_youremailtous']=getlang("email_legend_youremailtous");
 
     	$this->vars['contacts']= new OptionForm($userid,$contacts,$descriptions,"userid", getlang("email_to"), 1);
-    	
+
     	$this->stringvars['l_emailadress']=getlang("email_address");
     	$this->stringvars['emailvariable']=$emailvariables['E-Mail Address Variable']['property_value'];
     	$this->stringvars['address']=$email;
@@ -106,11 +105,11 @@ class ContactForm extends Template {
     	$this->stringvars['l_emailsendcopy']=getlang("email_sendcopy");
   		if($emailvariables['Use Math CAPTCHA']['property_value'])
   		{
-  			
+
     		$this->vars['captcha']= new MathCAPTCHA();
     		$this->stringvars['l_legend_captcha']=getlang("antispam_legend_captcha");
     	}
-    	
+
     	$this->stringvars['l_sendemail']=getlang("email_sendemail");
 		$this->stringvars['token'] = $token;
  	}

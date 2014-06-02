@@ -13,7 +13,7 @@ class EmailInfo  extends Template {
     function EmailInfo($email,$subject,$messagetext,$sendcopy)
     {
     	parent::__construct();
-    
+
     	$this->stringvars['l_email_enteredmessage']=getlang("email_enteredmessage");
     	$this->stringvars['l_email']=getlang("email_email");
     	$this->stringvars['email']=$email;
@@ -47,7 +47,7 @@ class MathCAPTCHA  extends Template {
     {
     	global $emailvariables;
     	parent::__construct();
-    
+
 		$captcha=makemathcaptcha();
 		$this->stringvars['captcha_question']=$captcha["question"];
 		$this->stringvars['captchareplyvariable']=$emailvariables['Math CAPTCHA Reply Variable']['property_value'];

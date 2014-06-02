@@ -280,7 +280,7 @@ a.navlink:hover, a.navtitle:hover {color : #FFABCB;}
 
 /* Fos newsitemsections */
 .sectionsubtitle	{
-	font-size: 175%; 
+	font-size: 175%;
 	font-family: "Comic Sans MS",Verdana, Arial, Helvetica, sans-serif;
 	margin-top: 0.5em;
 	margin-bottom: 0.75em;
@@ -321,7 +321,7 @@ a.navlink:hover, a.navtitle:hover {color : #FFABCB;}
 	margin-top:1.5em;
 	width: 100%;
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;	
+	border-width: 1px 0px 0px 0px;
 	padding-top: 0.5em;
 	border-color: #9DA2CF;
 }
@@ -347,7 +347,7 @@ a.navlink:hover, a.navtitle:hover {color : #FFABCB;}
 
 .contentnavlinkwrapper {
 	margin-top:1.75ex;
-	line-height: 1.5em; 
+	line-height: 1.5em;
 	text-align: justify;
 }
 
@@ -392,7 +392,7 @@ a.navlink:hover, a.navtitle:hover {color : #FFABCB;}
 .newsfilterform {
 	margin-top:1.5em;
 	border-style: solid;
-	border-width: 1px 0px 1px 0px;	
+	border-width: 1px 0px 1px 0px;
 }
 
 /* Newsitem: wrapper */
@@ -420,7 +420,7 @@ div.newsquote {
 	padding: 1em;
 	font-style: italic;
 	text-align: justify;
-	background-color: #203640; 
+	background-color: #203640;
 }
 
 /* Newsitem and article: Source info */
@@ -452,7 +452,7 @@ div.newsquote {
 	margin:1em;
     overflow:hidden;
     display:table-cell;
-	font-size:90%;    
+	font-size:90%;
 }
 
 .gallerycontents {
@@ -474,7 +474,7 @@ div.newsquote {
 	margin-top:1em;
 	border-style: solid;
 	border-width: 1px 0px 0px 0px;
-	color: #ABCFFF:	
+	color: #ABCFFF:
 }
 
 .linkedimage {

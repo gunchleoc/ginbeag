@@ -12,9 +12,9 @@ class Image extends Template {
     function Image($filename, $imageautoshrink, $usethumbnail, $params = array(), $showhidden=false)
     {
 		global $projectroot;
-      
+
 		parent::__construct();
-		
+
 		$params["image"] = $filename;
 
 		$image="";
@@ -48,7 +48,7 @@ class Image extends Template {
 		}
 		$this->stringvars['image']=$image;
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -67,7 +67,7 @@ class CaptionedImage extends Template {
     	parent::__construct();
 
       	// CSS stuff
-      	
+
       	if ($halign == "right")
       	{
       		$this->stringvars['halign']="float:right; ";
@@ -85,14 +85,14 @@ class CaptionedImage extends Template {
       	{
       		$this->stringvars['halign']=$halign;
       	}
-      	
+
 		// determine image dimensions
 		$width=getproperty("Thumbnail Size");
 
 		$filepath=getimagepath($filename);
 		$thumbnail = getthumbnail($filename);
 		$thumbnailpath=getthumbnailpath($filename, $thumbnail);
-		
+
 		if($usethumbnail)
 		{
 			if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
@@ -146,11 +146,11 @@ class ImageCaption extends Template {
 		global $projectroot;
 		parent::__construct();
 		$result="";
-		
+
 		$captionfontsize=10;
-		
+
 		$image=getimage($filename);
-		
+
 		if(array_key_exists("caption",$image)) $caption=$image['caption'];
 		else $caption="";
 
@@ -165,7 +165,7 @@ class ImageCaption extends Template {
 
 		if(array_key_exists("permission",$image)) $permission=$image['permission'];
 		else $permission=NO_PERMISSION;
-		
+
 		$caption=title2html($caption);
 		$source=title2html($source);
 		$copyright=title2html($copyright);
@@ -204,7 +204,7 @@ class ImageCaption extends Template {
 			$copyrighttitle=$copyright;
 			if(strlen($copyright) > 50)
 			$copyright = substr(html_entity_decode($copyright, ENT_QUOTES, 'UTF-8'), 0, 50)."...";
-			
+
 			if($caption || $source)
 			{
 				$result.='.<br>';
@@ -212,7 +212,7 @@ class ImageCaption extends Template {
 			$result.='<span title="&copy; '.$copyrighttitle.'">&copy; '.$copyright.'.</span>';
 		}
 		if($permission==PERMISSION_GRANTED) $result.=getlang("image_bypermission");
-		
+
 		$this->stringvars['caption']=$result;
     }
 

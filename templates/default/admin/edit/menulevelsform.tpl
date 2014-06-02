@@ -14,7 +14,7 @@
 		<fieldset>
 			<legend>Numbers of levels to display in navigator</legend>
 			{NAVIGATORLEVELSFORM}
-		</fieldset>		
+		</fieldset>
 		<input type="button" id="{JSID}saveoptionsbutton" name="saveoptionsbutton" value="Save Levels" class="mainoption" />
 		&nbsp;&nbsp;
 		<input type="reset" id="{JSID}saveoptionsreset" name="saveoptionsreset" value="Reset" />

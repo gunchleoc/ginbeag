@@ -4,7 +4,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 
 include_once($projectroot."includes/objects/template.php");
 
-
 //
 // a general header
 //
@@ -21,7 +20,7 @@ class HTMLHeader extends Template {
 		if(strlen($isredirect)>0) $this->stringvars['is_redirect']="redirect";
 		if(strlen($redirecturl)>0) $this->stringvars['url']=$redirecturl;
 		$this->stringvars['url_text']=$urltext;
-		
+
 		if (count($scriptpaths))
 		{
 			$this->stringvars['script']="";

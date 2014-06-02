@@ -7,8 +7,6 @@ include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."functions/users.php");
 include_once($projectroot."functions/pages.php");
 
-
-
 // *************************** edit ***************************************** //
 
 //
@@ -72,7 +70,7 @@ function movepage($page, $direction, $positions=1)
 	global $db;
 	$page=$db->setinteger($page);
 	$result = true;
-	
+
 	if($direction==="top")
 	{
 		$minpos=getmin("position_navigator",PAGES_TABLE, "parent_id='".getparent($page)."'");
@@ -113,7 +111,7 @@ function movepage($page, $direction, $positions=1)
 				$idposition=$i;
 			}
 		}
-		
+
 		if($found)
 		{
 			if($idposition+$positions>=count($sisterids))
@@ -123,12 +121,12 @@ function movepage($page, $direction, $positions=1)
 			$swap=array();
 			$currentid=$sisterids[$idposition+$positions];
 			$navpos=getnavposition($currentid);
-		
+
 			for($i=$idposition+$positions;$i>$idposition;$i--)
 			{
 				$otherid=$sisterids[$i-1];
 				$othernavpos=getnavposition($otherid);
-				
+
 				$swap[$currentid]=$othernavpos;
 				$swap[$otherid]=$navpos;
 				$currentid=$otherid;
@@ -193,16 +191,16 @@ function movetonewparentpage($page,$newparent)
 {
 	global $db;
 	$result="";
-	
+
 	$newparent=$db->setinteger($newparent);
 	$page=$db->setinteger($page);
-	
+
 	$navposition=getlastnavposition($newparent)+1;
 	updatefield(PAGES_TABLE,"position_navigator",$navposition,"page_id='".$page."'");
 	updatefield(PAGES_TABLE,"parent_id",$newparent,"page_id='".$page."'");
-	
+
 	$parentrestricted=getdbelement("page_id",RESTRICTEDPAGES_TABLE, "page_id", $newparent);
-	
+
 	if(!isthisexactpagerestricted($page))
 	{
 		if($parentrestricted==$newparent && $newparent!=0)
@@ -234,18 +232,18 @@ function getmovetargets($page)
 	global $db;
 	$parent=getparent($page);
 	$pagetype=getpagetype($db->setinteger($page));
-	
+
 	$legaltypes=getlegalparentpagetypes($pagetype);
-	
+
 	$allpages=getallpages(array(0 => 'page_id', 1 => 'pagetype'));
-	
-	
+
+
 	$result=array();
 	if($legaltypes['root'])
 	{
 		$result=array(0 => 0);
 	}
-	
+
 	while($currentpage=current($allpages))
 	{
 		if(array_key_exists($currentpage['pagetype'],$legaltypes) && $currentpage['page_id']!=$page && $currentpage['page_id']!=$parent)
@@ -280,7 +278,7 @@ function getlegalparentpagetypes($pagetype)
 	{
 		$result[$pagetype] = true;
 	}
-	
+
 	// special menu types
 	if($pagetype==="article")
 	{
@@ -306,7 +304,7 @@ function islegalparentpage($pagetype, $parentpage)
 {
 	global $db;
 	$result=false;
-	
+
 	if($parentpage==0)
 	{
 		$parentpagetype="root";
@@ -316,7 +314,7 @@ function islegalparentpage($pagetype, $parentpage)
 		$parentpagetype=getpagetype($db->setinteger($parentpage));
 	}
 	$legaltypes=getlegalparentpagetypes($pagetype);
-	
+
 	if(array_key_exists($parentpagetype,$legaltypes)) $result=true;
 	return $result;
 }
@@ -472,14 +470,14 @@ function removeaccessrestriction($page)
 function rebuildaccessrestrictionindex()
 {
 	global $db;
-	
+
 	$result="";
-	
+
 	// get masterpages from access table
 	$masterpages=getcolumn("page_id",RESTRICTEDPAGESACCESS_TABLE, "1");
 	$masterpages2=getdistinctorderedcolumn("masterpage", RESTRICTEDPAGES_TABLE,"1", "masterpage","ASC");
 	$masterpages=array_unique(array_merge($masterpages,$masterpages2));
-	
+
 	// clear masterpages
 	$sql = "truncate table ".RESTRICTEDPAGES_TABLE;
 	$db->singlequery($sql);
@@ -489,15 +487,15 @@ function rebuildaccessrestrictionindex()
 	{
 		$result.=' '.$masterpage;
 		insertentry(RESTRICTEDPAGES_TABLE,array(0=>$masterpage, 1=>$masterpage));
-		
+
 		next($masterpages);
 	}
-  
+
 	// iterate through subpages
 	while(count($masterpages))
 	{
 		$masterpage=array_pop($masterpages);
-		
+
 		$children = getchildren($masterpage);
 		while(count($children)>0)
 		{
@@ -580,7 +578,7 @@ function getpagelock($page)
     	}
     	else
     	{
-    	
+
 	      $result="This page has been locked by <i>";
 	      $result.=getusername($lock['user_id']);
 	      $result.="</i> on ";
@@ -603,10 +601,10 @@ function lockpage($user, $page)
 {
 	global $db;
 	$now=date(DATETIMEFORMAT, strtotime('now'));
-	
+
 	$page=$db->setinteger($page);
 	$user=$db->setinteger($user);
-	
+
 	$lockuserid=getdbelement("user_id",LOCKS_TABLE, "page_id", $page);
 	if($lockuserid)
 	{
@@ -650,7 +648,7 @@ function getlock($page, $user=false)
 	// clear old locks
 	$time=date(DATETIMEFORMAT, strtotime('-30 minutes'));
 	deleteentry(LOCKS_TABLE,"locktime<'".$time."'");
-	
+
 	$result['user_id']= getdbelement("user_id",LOCKS_TABLE, "page_id",$db->setinteger($page));
 	if($result['user_id'])
 	{

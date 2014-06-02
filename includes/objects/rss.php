@@ -30,7 +30,7 @@ class RSSItem extends Template {
 	    $this->stringvars['pubdate']=html2xml($pubdate);
 	    $this->stringvars['guid']=getprojectrootlinkpath().makelinkparameters(array("newsitem" => $newsitem));
 	}
-	
+
 	// assigns templates and list objects
 	function createTemplates()
 	{
@@ -47,31 +47,31 @@ class RSSPage extends Template {
     function RSSPage($page)
     {
     	global $defaultlanguage;
-    	
+
     	parent::__construct();
-    	
+
     	$rootlink=getprojectrootlinkpath();
 		$sitename=getproperty("Site Name");
 		$this->stringvars['title']=html2xml(title2html($sitename.' - '.getnavtitle($page)));
 		$this->stringvars['link']=$rootlink.'index.php'.makelinkparameters(array("page" => $page));
     	$this->stringvars['description']=html2xml(title2html(getpagetitle($page)));
 		$this->stringvars['language']=$defaultlanguage;
-	
+
 		$permissions=getcopyright($page);
 		$this->stringvars['copyright']=html2xml(title2html($permissions['copyright']));
-	
+
 		$imageurl=getproperty("Left Header Image");
 		if(!$imageurl) $imageurl=getproperty("Right Header Image");
 		$this->stringvars['imageurl']=$rootlink.'img/'.$imageurl;
 		$this->stringvars['imagetitle']=html2xml(title2html($sitename));
 		$this->stringvars['imagelink']=$rootlink;
-	
-	
+
+
 		// get newsitems, needed here for pubdate
 		$newsitemsperpage=getproperty("News Items Per Page");
 		if(!($newsitemsperpage>0)) $newsitemsperpage = 5;
 		$newsitems=getpublishednewsitems($page,$newsitemsperpage,0);
-	
+
 		$contents=getnewsitemcontents($newsitems[0]);
 		$this->stringvars['pubdate']=@date("r", strtotime($contents['date']));
 		$this->stringvars['lastbuilddate']=@date("r", strtotime(geteditdate($page)));
@@ -92,12 +92,12 @@ class RSSPage extends Template {
 				$link=$rootlink.'index.php'.$link;
 			}
 			$pubdate=@date("r", strtotime($contents['date']));
-			
+
 			$this->listvars['item'][]= new RSSItem($newsitems[$i],title2html($contents['title']),$description,$link,$contents['source'],$pubdate);
       	}
-		
+
 	}
-	
+
 	// assigns templates and list objects
 	function createTemplates()
 	{

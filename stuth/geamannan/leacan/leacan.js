@@ -7,8 +7,8 @@ $(document).ready(function() {
  		var tmp, rand;
  		for(var i =0; i < this.length; i++){
 			rand = Math.floor(Math.random() * this.length);
-			tmp = this[i]; 
-			this[i] = this[rand]; 
+			tmp = this[i];
+			this[i] = this[rand];
 			this[rand] =tmp;
 		}
 	}
@@ -16,7 +16,7 @@ $(document).ready(function() {
 
 	// init game vars
 //alert(square.join (" | "));
-	
+
 	var images = new Array();
 	var emptyimage ="";
 	var gamerunning = false;
@@ -24,7 +24,7 @@ $(document).ready(function() {
 	var explanation="<p>Cuir na leacan san òrdugh mar bu chòir.</p><p>Brùth air leac ri taobh an fhir fhalaimh gus an leac a ghluasad.</p>"
 	var loading= "<p>A' luchdadh geama ùr ...</p>";
 	var won= "<p class='highlight' style='font-size:110%;'>Rinn thu a' chùis air!</p><p>Bruth air dealbh gu h-ìosal gus geama ùr a thaghadh.</p>";
-	
+
 	// init tilesets
 	var tilesets = new Array();
 	tilesets[0] = new Array("Loch Lìobhainn","liobhann", ".jpg");
@@ -36,18 +36,18 @@ $(document).ready(function() {
 	tilesets[6] = new Array("Caora mì-mhodhail","caora", ".jpg");
 	tilesets[7] = new Array("Fiadh","fiadh", ".jpg");
 	tilesets[8] = new Array("Flùr","flur", ".jpg");
-	
-	
+
+
 	var gameslinks = "";
 
 	for(var i = 0; i<tilesets.length;i++) {
 		gameslinks += '<img id="game'+i+'" src="'+tilesets[i][1]+'/thumb.jpg" title="'+tilesets[i][0]+'"  alt="'+tilesets[i][0]+'" class="thumb" />';
 	}
-	
+
 	$("#games").html(gameslinks);
-	
+
 	for(var i = 0; i<tilesets.length;i++) {
-	
+
 		$("#game"+i).click(function() {
 			var index=eval($(this).attr("id").substring(4));
     		startGame(index);
@@ -55,20 +55,20 @@ $(document).ready(function() {
 	}
 
 
-	
+
 	/* init arrays with images, imgextension as variable? todo
 	*/
 	function startGame(index) {
-	
+
 
 		$("#messages").html(loading);
 		$("#gametitle").html(tilesets[index][0]);
 
 		var imgpath = tilesets[index][1]+"/";
 		var imgextension =".jpg";
-	
+
 		$("#master").attr("src",imgpath+"master"+imgextension);
-		
+
 		emptyimage = imgpath+"empty"+imgextension;
 
 		// use this array for check if won
@@ -98,17 +98,17 @@ $(document).ready(function() {
 		square[3][1]=images[13];
 		square[3][2]=images[14];
 		square[3][3]=images[15];
-		
+
 		// create random empty tile
-		
+
 		var emptyposx = Math.floor(Math.random()*4);
 		var emptyposy = Math.floor(Math.random()*4);
-		
+
 		square[emptyposx][emptyposy] = emptyimage;
-		
-		
+
+
 		// randomise array
-		
+
 		for(var i=0;i<200;i++) {
 			var direction = Math.floor(Math.random()*4);
 			var temp = "";
@@ -145,30 +145,30 @@ $(document).ready(function() {
 				i--;
 			}
 		}
-		
 
-		$("#0_0").attr("src",square[0][0]);	
-		$("#0_1").attr("src",square[0][1]);	
-		$("#0_2").attr("src",square[0][2]);	
-		$("#0_3").attr("src",square[0][3]);	
-		$("#1_0").attr("src",square[1][0]);	
-		$("#1_1").attr("src",square[1][1]);	
-		$("#1_2").attr("src",square[1][2]);	
-		$("#1_3").attr("src",square[1][3]);	
-		$("#2_0").attr("src",square[2][0]);	
-		$("#2_1").attr("src",square[2][1]);	
-		$("#2_2").attr("src",square[2][2]);	
-		$("#2_3").attr("src",square[2][3]);	
-		$("#3_0").attr("src",square[3][0]);	
-		$("#3_1").attr("src",square[3][1]);	
-		$("#3_2").attr("src",square[3][2]);	
-		$("#3_3").attr("src",square[3][3]);	
+
+		$("#0_0").attr("src",square[0][0]);
+		$("#0_1").attr("src",square[0][1]);
+		$("#0_2").attr("src",square[0][2]);
+		$("#0_3").attr("src",square[0][3]);
+		$("#1_0").attr("src",square[1][0]);
+		$("#1_1").attr("src",square[1][1]);
+		$("#1_2").attr("src",square[1][2]);
+		$("#1_3").attr("src",square[1][3]);
+		$("#2_0").attr("src",square[2][0]);
+		$("#2_1").attr("src",square[2][1]);
+		$("#2_2").attr("src",square[2][2]);
+		$("#2_3").attr("src",square[2][3]);
+		$("#3_0").attr("src",square[3][0]);
+		$("#3_1").attr("src",square[3][1]);
+		$("#3_2").attr("src",square[3][2]);
+		$("#3_3").attr("src",square[3][3]);
 
 		gamerunning = true;
 		$("#messages").html(explanation);
 	}
-	
-	
+
+
 	/* moves empty from a to b and image from b to a
 	* then check if game has been won
 	*/
@@ -183,8 +183,8 @@ $(document).ready(function() {
         		// Animation complete
       		});
       		});
-			
-    		
+
+
     		// check if won
 	   		if($("#0_0").attr("src") == images[0] || $("#0_0").attr("src") == emptyimage) {
    			if($("#0_1").attr("src") == images[1] || $("#0_1").attr("src") == emptyimage) {
@@ -203,8 +203,8 @@ $(document).ready(function() {
    			if($("#3_2").attr("src") == images[14] || $("#3_2").attr("src") == emptyimage) {
    			if($("#3_3").attr("src") == images[15] || $("#3_3").attr("src") == emptyimage) {
     			gamerunning = false;
-    			
-    			$("#0_0").attr("src",images[0]);	
+
+    			$("#0_0").attr("src",images[0]);
 				$("#0_1").attr("src",images[1]);
 				$("#0_2").attr("src",images[2]);
 				$("#0_3").attr("src",images[3]);
@@ -224,11 +224,11 @@ $(document).ready(function() {
     		}}}}}}}}}}}}}}}}
     	}
 	}
-	
-	
+
+
 	/* shift tiles
 	*/
-	
+
 	// row 0
 	$("#0_0").click(function() {
        	if($("#0_1").attr("src") == emptyimage) {
@@ -271,7 +271,7 @@ $(document).ready(function() {
     		swap("#1_3","#0_3");
     	}
 	});
-	
+
 	// row 1
 	$("#1_0").click(function() {
        	if($("#1_1").attr("src") == emptyimage) {

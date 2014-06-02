@@ -4,7 +4,6 @@
 <div class="pagemenu">{PAGEMENU}</div>
 <!-- END switch PAGEMENU -->
 
-
 <!-- start filterform -->
 <br />
 <form name="articlefilterform" method="get">

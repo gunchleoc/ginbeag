@@ -17,7 +17,7 @@ class LoginForm extends Template {
 		parent::__construct();
 		$this->stringvars['params']=makelinkparameters($_GET);
 		$this->stringvars['username']=title2html($username);
-		
+
 		$this->stringvars['l_legend_login']=getlang("login_legend_login");
 		$this->stringvars['l_legend_login_data']=getlang("login_legend_logindata");
 		$this->stringvars['l_username']=getlang("login_username");
@@ -26,7 +26,7 @@ class LoginForm extends Template {
 		$this->stringvars['l_cancel']=getlang("login_cancel");
 		$this->stringvars['l_home']=getlang("navigator_home");
 		$this->stringvars['homelink']=getprojectrootlinkpath();
-		
+
 		if(strlen($error)>0)
 		{
 			$this->stringvars['error']=$error;

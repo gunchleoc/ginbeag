@@ -18,7 +18,6 @@ else $ref="";
 // print_r($_POST);
 // print_r($_GET);
 
-
 $content = new AdminMain($page, "siteuserlist", new AdminMessage("", false), new SiteUserlist($ref));
 print($content->toHTML());
 $db->closedb();

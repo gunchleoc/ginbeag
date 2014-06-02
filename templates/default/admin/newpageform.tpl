@@ -1,7 +1,6 @@
 <div class="contentheader">Create a new Page under: {PARENTNAME}</div>
 <div class="contentsection">
 	<form name="newpageform" action="{ACTIONVARS}" method="post">
-	
 		<fieldset>
 			<legend class="highlight">Publishing</legend>
 			{IS_PUBLISHABLE_YES} {IS_PUBLISHABLE_NO}
@@ -17,7 +16,6 @@
 			{TYPESELECTION}
 			<div class="formexplain">Different page types have different properties as to which content you can add.</div>
 		</fieldset>
-
 		<fieldset>
 			<legend class="highlight">Page Title</legend>
 			<label for="navtitle">Page title (short):</label>
@@ -27,7 +25,6 @@
 			<input id="title" type="text" name="title" size="60" maxlength="200" value="{PAGETITLE}" />
 			<div class="formexplain">This title will be displayed on the page itself.</div>
 		</fieldset>
-
 		<input type="submit" name="create" value="Create" class="mainoption" />
 		&nbsp;&nbsp;<input type="reset" value="Cancel" />
 	</form>

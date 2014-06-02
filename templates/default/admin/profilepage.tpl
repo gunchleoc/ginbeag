@@ -2,7 +2,6 @@
 <div class="contentheader">Password and e-mail address</div>
 <div class="contentsection">
 	<form name="profile" action="{ACTIONVARS}" method="post">
-
 		<fieldset>
 			<legend class="highlight">Password</legend>
 			<label for="oldpass">Old Password:</label>
@@ -27,7 +26,7 @@
 <div class="contentheader">Contact page options</div>
 <div class="contentsection">
 	<form name="contactsettingsform" action="{ACTIONVARS}" method="post">
-	        
+
 		<fieldset>
 			<legend class="highlight">Contact page options</legend>
 			<div class="leftalign">
@@ -41,7 +40,7 @@
 				<div class="formexplain">The areas people should select you for when they contact the site.</div>
 			</div>
 			<div class="newline"></div>
-		</fieldset>	        
+		</fieldset>
 		<input type="submit" name="contact" value="Submit" class="mainoption" />
 	</form>
 </div>

@@ -6,7 +6,7 @@
 		<div class="contentsection">
 			<div id="{JSID}previewarea" class="editorpreviewarea">{PREVIEWTEXT}</div>
 			<div id="{JSID}status" name="status" class="highlight"></div>
-			<div id="{JSID}editorcontents">{EDITORCONTENTS}</div>	
+			<div id="{JSID}editorcontents">{EDITORCONTENTS}</div>
 		</div>
 	</div>
 </form>

@@ -4,7 +4,7 @@
 	<form name="profile" action="{PROFILEACTIONVARS}" method="post">
 		{HIDDENVARS}
 		<fieldset>
-			<legend class="highlight">{USERNAME}'s Password</legend>	
+			<legend class="highlight">{USERNAME}'s Password</legend>
 			<div class="leftalign">
 				<label for="pass">New Password:</label>
 				<input id="pass" type="password" name="pass" size="20" maxlength="32" />

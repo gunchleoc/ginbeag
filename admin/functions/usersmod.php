@@ -5,13 +5,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."functions/db.php");
 include_once($projectroot."functions/users.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
-
 //
 //
 //
@@ -21,7 +14,7 @@ function register($user,$pass,$email)
 	list($usec, $sec) = explode(' ', microtime());
 	$activationkey= (float) $sec + ((float) $usec * 100000);
 	$activationkey=md5($activationkey);
-	
+
 	$values=array();
 	$values[]=0;
 	$values[]=0;
@@ -34,7 +27,7 @@ function register($user,$pass,$email)
 	$values[]=$activationkey;
 	$values[]=date(DATETIMEFORMAT, strtotime('now'));
 	$values[]=0;
-	
+
 	$success = insertentry(USERS_TABLE,$values);
 	if($success) return $activationkey;
 	else return false;
@@ -135,17 +128,17 @@ function makepassword($userid)
 	51=>"Q",52=>"R",53=>"S",54=>"T",55=>"U",56=>"V",57=>"W",58=>"X",
 	59=>"Y",60=>"Z",
 	);
-	
+
 	list($usec, $sec) = explode(' ', microtime());
 	$seed = (float) $sec + ((float) $usec * 100000);
 	srand($seed);
-	
+
 	$newpass="";
 	for($i=0;$i<8;$i++)
 	{
 		$newpass.=$letters[rand(0,60)];
 	}
-	
+
 	$sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".$db->setinteger($userid)."'");
 	return $newpass;
 }

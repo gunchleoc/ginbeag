@@ -5,11 +5,11 @@
 				<div class="leftalign editorcodebutton"><input id="{JSID}bold" type="button" class="button" accesskey="b" name="bold" value=" B " style="font-weight:bold; width: 30px" /></div>
 				<div class="leftalign editorcodebutton"><input id="{JSID}italic" type="button" class="button" accesskey="i" name="italic" value=" i " style="font-style:italic; width: 30px" /></div>
 				<div class="leftalign editorcodebutton"><input id="{JSID}underline" type="button" class="button" accesskey="u" name="underline" value=" u " style="text-decoration: underline; width: 30px" /></div>
-				
+
 				<div class="leftalign editorlineleft"><input id="{JSID}ul" type="button" class="button" accesskey="l" name="ul" value="List" style="width: 40px" /></div>
 				<div class="leftalign editorcodebutton"><input id="{JSID}ol" type="button" class="button" accesskey="o" name="ol" value="List=" style="width: 40px" /></div>
 				<div class="leftalign editorcodebutton"><input id="{JSID}li" type="button" class="button" accesskey="e" name="li" value="*" style="width: 20px" /></div>
-				
+
 				<div class="leftalign editorlineleft"><input id="{JSID}img" type="button" class="button" accesskey="p" name="img" value="Image" style="width: 50px"  /></div>
 				<div class="leftalign editorcodebutton"><input id="{JSID}url" type="button" class="button" accesskey="w" name="url" value="Link" style="text-decoration: underline; width: 40px" /></div>
 

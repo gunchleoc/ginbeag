@@ -23,9 +23,9 @@ if($message)
 }
 else {
 	$selectedcats=$_POST['selectedcat'];
-	
+
 	$success = removenewsitemcategories($_POST['newsitem'],$selectedcats);
-	
+
 	if($success >=0)
 	{
 		print('<message error="0">');

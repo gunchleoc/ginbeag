@@ -257,7 +257,7 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
 	$order=$db->setstring($order);
 	$ascdesc=$db->setstring($ascdesc);
 	$offset=$db->setinteger($offset);
-	
+
 	$months[1]='January';
 	$months[2]='February';
 	$months[3]='March';
@@ -270,13 +270,13 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
 	$months[10]='October';
 	$months[11]='November';
 	$months[12]='December';
-	
+
 	$date=$from["day"]." ".$months[$from["month"]]." ".$from["year"];
 	$fromdate=date(DATETIMEFORMAT, strtotime($date));
-	
+
 	$date=$to["day"]." ".$months[$to["month"]]." ".$to["year"]." 23:59:59";
 	$todate=date(DATETIMEFORMAT, strtotime($date));
-	
+
 	// get all category children
 	$categories=array();
 	if($selectedcat!=1)
@@ -289,7 +289,7 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
 			$pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat, CATEGORY_NEWS));
 		}
 	}
-  
+
 	$query="SELECT DISTINCTROW items.newsitem_id FROM ";
 	$query.=NEWSITEMS_TABLE." AS items ";
 	// all parameters
@@ -317,7 +317,7 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
 	// get pages to search
 	$query.="items.page_id ='".$page."'";
 	$query.=" AND items.ispublished = '1'";
-	
+
 	if($order)
 	{
 		$query.=" ORDER BY ";
@@ -342,7 +342,7 @@ function searchnewsitemtitles($search,$page,$showhidden=false)
 	$query="SELECT DISTINCTROW newsitem_id FROM ".NEWSITEMS_TABLE;
 	$query.=" WHERE page_id = '".$db->setinteger($page)."'";
 	$query.=" AND title like '%".$db->setstring(trim($search))."%'";
-	
+
 	//  $query.=" AND MATCH(title) AGAINST('".str_replace(" ",",",trim($db->setstring($search)))."'))";
 	return getdbresultcolumn($query);
 }
@@ -354,14 +354,14 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 {
 	global $db;
 	$page=$db->setinteger($page);
-	
+
 	$result=array();
-	
+
 	// search all subpages as well
 	$pagestosearch=array();
-	
+
 	$newspages=getsubpagesforpagetype($page, "news");
-	
+
 	// get pages to search
 	$query="SELECT DISTINCTROW page.page_id FROM ";
 	$query.=PAGES_TABLE." AS page WHERE ";
@@ -372,7 +372,7 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 	}
 	$query=substr($query,0,strlen($query)-1);
 	$query.=")";
-	
+
 	$sql=$db->singlequery($query);
 	if($sql)
 	{
@@ -388,7 +388,7 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 	$query.=NEWSITEMS_TABLE." AS items, ";
 	$query.=NEWSITEMSECTIONS_TABLE." AS sec, ";
 	$query.=PAGES_TABLE." AS page WHERE ";
-	
+
 	$query.="page.page_id IN (";
 	for($i=0;$i<count($pagestosearch);$i++)
 	{
@@ -396,11 +396,11 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 	}
 	$query=substr($query,0,strlen($query)-1);
 	$query.=")";
-	
+
 	$query.=" AND page.ispublished = '1'";
 	$query.=" AND items.ispublished = '1'";
 	$query.=" AND page.page_id = items.page_id";
-	
+
 	// search sections
 	$query.=" AND ((items.newsitem_id = sec.newsitem_id";
 	$query.=" AND MATCH(sec.text) AGAINST('".str_replace(" ",",",trim($search))."'))";
@@ -419,7 +419,7 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 			array_push($result,$row[0]);
 		}
 	}
-  
+
   // from the search result, kick out entries that don't match all words
 	if($all)
 	{
@@ -430,7 +430,7 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 			$query="SELECT sec.text FROM ";
 			$query.=NEWSITEMSECTIONS_TABLE." AS sec WHERE ";
 			$query.="sec.newsitem_id ='".$result[$i]."'";
-			
+
 			$sql=$db->singlequery($query);
 			$entry=array();
 			if($sql)
@@ -442,13 +442,13 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 				}
 			}
 			$concat=implode(" ",$entry);
-			
+
 			$query="SELECT CONCAT(items.synopsis, items.title) FROM ";
 			$query.=NEWSITEMS_TABLE." AS items WHERE ";
 			$query.="items.newsitem_id ='".$result[$i]."'";
-		
+
 			//      print('<p>'.$query.'<p>');
-			
+
 			$sql=$db->singlequery($query);
 			if($sql)
 			{
@@ -456,7 +456,7 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 				$row=mysql_fetch_row($sql);
 				$concat.=$row[0];
 			}
-			
+
 			// search concatenated string for all terms
 			$concat=strtolower(text2html($concat));
 			$concat=str_replace("[quote]","",$concat);

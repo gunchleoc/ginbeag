@@ -9,7 +9,6 @@ include_once($projectroot."language/languages.php");
 $emailvariables=getmultiplefields(ANTISPAM_TABLE, "property_name", "1",
 	array(0 => 'property_name', 1 => 'property_value'));
 
-
 // check data
 // returns error message
 // returns "" on success
@@ -18,8 +17,8 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 {
 	global $_POST, $emailvariables;
 	$result="";
-	
-	
+
+
 	// check e-mail addy
 	if($addy=="")
 	{
@@ -74,7 +73,7 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 	{
 		$result.=errormessage("email_emptymessage");
 	}
-	
+
 	// test captcha
 	if($emailvariables['Use Math CAPTCHA']['property_value'])
 	{
@@ -92,18 +91,18 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 function printemailinfo($addy,$subject,$messagetext,$sendcopy)
 {
 	print('<p class="pagetitle">'.getlang("email_enteredmessage").':</p><p><hr><p><div>');
-	
+
 	// display e-mail
 	print("<p><b>".getlang("email_email")."</b> ".$addy."<br>");
 	// display subject
 	$subject=stripslashes($subject);
 	print("<p><b>".getlang("email_subject").":</b> ".$subject."<p>");
-	
+
 	// display message
 	$message_display=$messagetext;
 	$message_display=stripslashes(nl2br($message_display));
 	print("<p><b>".getlang("email_message").":</b><br>".$message_display);
-	
+
 	// display copy info
 	if($sendcopy)
 	{
@@ -123,7 +122,7 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
 {
 	$subject= utf8_decode($subject);
 	$messagetext= utf8_decode($messagetext);
-	
+
 	if($isguestbookentry)
 	{
 		$message_intro=getlang("email_yourguestbookentry").' @ '. html_entity_decode(getproperty("Site Name"))."\n";
@@ -133,15 +132,15 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
 		$message_intro=getlang("email_from").": ".$addy."\n".getlang("email_to").": ".$recipient."\n";
 	}
 	$message_intro.="________________________________________________________________\n\n";
-	
+
 	$messagetext=stripslashes($messagetext);
 	$messagetext=str_replace("\n","\r\n",$messagetext);
-	
+
 	$messagetext.="\n\n________________________________________________________________\n\n";
 	$messagetext.=getproperty("Email Signature");
-	
+
 	$subject=stripslashes($subject);
-	
+
 	if($isguestbookentry)
 	{
 		@mail($recipient,getlang("email_guestbooksubject"). html_entity_decode(getproperty("Site Name"))." - ".$subject,getlang("email_guestbooksubject"). html_entity_decode(getproperty("Site Name"))."\n\n".$messagetext,"From: ".$recipient);
@@ -168,7 +167,7 @@ function sendplainemail($subject,$message,$recipient)
 {
 	$subject= utf8_decode($subject);
 	$message= utf8_decode($message);
-  
+
   	$adminemail=getproperty("Admin Email Address");
 
 	$error='<p class="highlight">'.utf8_decode(getlang("email_errorsending")).sprintf(utf8_decode(getlang("email_contactwebmaster")),'<a href="../contact.php'.makelinkparameters(array("user" => "webmaster")).'">','</a>').'</p>';

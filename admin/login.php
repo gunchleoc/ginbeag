@@ -28,7 +28,7 @@ if(!isset($_GET["referrer"]) && isset($_SERVER["HTTP_REFERER"]))
 	$referrer=substr($referrer,0,strpos($referrer,".php"));
 	$referrer=substr($referrer,strpos($referrer,"/")+1);
 	$_GET["referrer"]=$referrer;
-	
+
 	$action=substr($_SERVER["HTTP_REFERER"],strpos($_SERVER["HTTP_REFERER"],"action"));
 	if(strpos($action,"http://")<0)
 	{
@@ -44,7 +44,7 @@ if(!isset($_GET["referrer"]) && isset($_SERVER["HTTP_REFERER"]))
 	{
 		$_GET["contents"]=substr($referrer,strpos($referrer,"/")+1);
 	}
-	
+
 	$params=substr($_SERVER["HTTP_REFERER"],strpos($_SERVER["HTTP_REFERER"],"?"));
 	if(strpos($params,"http://")<0)
 	{
@@ -104,7 +104,7 @@ elseif(isset($_POST['requestpassword']))
 elseif(isset($_POST['user']) &&isset($_POST['pass']))
 {
 	$userid= getuserid($username);
-	
+
 	if(!$userid)
 	{
 		$header = new AdminLoginHeader("Wrong username or password");

@@ -14,10 +14,10 @@ $lang["title_content"] = "Susbaint";
 /**************************************************************/
 
 //s1 = date
-$lang["footer_lastedited"]="An deasachadh mu dheireadh: %s"; 
+$lang["footer_lastedited"]="An deasachadh mu dheireadh: %s";
 
 //s1 = date, s2 = author
-$lang["footer_lasteditedauthor"]="An deasachadh mu dheireadh: %1s le %2s"; 
+$lang["footer_lasteditedauthor"]="An deasachadh mu dheireadh: %1s le %2s";
 
 // s1 = page_textcopyright, s2 = page_imagecopyright, s3 = page_bypermission
 $lang["footer_copyright"]="%s %s %s";

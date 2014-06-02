@@ -24,7 +24,7 @@ if($message)
 }
 else {
 	$success = fakethedate($_POST['newsitem'],$_POST['day'],$_POST['month'],$_POST['year'],$_POST['hours'],$_POST['minutes'],$_POST['seconds']);
-	
+
 	if($success >=0)
 	{
 		print('<message error="0">');

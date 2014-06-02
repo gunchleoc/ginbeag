@@ -4,13 +4,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"functions"));
 
 include_once($projectroot."functions/db.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
-
 //
 //
 //
@@ -58,7 +51,7 @@ function getguestbookentrycontents($message)
 	$result['subject']= getdbelement("subject",GUESTBOOK_TABLE, "message_id", $message);
 	$result['message']= getdbelement("message",GUESTBOOK_TABLE, "message_id", $message);
 	$result['date']= getdbelement("date",GUESTBOOK_TABLE, "message_id", $message);
-	
+
 	return $result;
 }
 ?>

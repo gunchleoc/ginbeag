@@ -17,7 +17,6 @@ include_once($projectroot."includes/objects/elements.php");
 include_once($projectroot."includes/objects/categories.php");
 include_once($projectroot."includes/objects/images.php");
 
-
 //
 // container for editdata
 //
@@ -26,7 +25,7 @@ class Editdata extends Template {
     function Editdata($showhidden=false)
     {
     	parent::__construct();
-    	
+
 		$editdate= geteditdate($this->stringvars['page']);
 		$editor=  getusername(getpageeditor($this->stringvars['page']));
 		$permissions=getcopyright($this->stringvars['page']);
@@ -78,7 +77,7 @@ class Banner extends Template {
 			$this->stringvars['description']=title2html($contents['description']);
 		}
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -145,7 +144,7 @@ class NavigatorLink extends Template {
 
 		$linkparams = array();
 		if(isset($_GET['m'])) $linkparams["m"] = "on";
-		
+
 		// for special pages like, contact, guestbook etc
 		if($page==0)
 		{
@@ -209,20 +208,20 @@ class NavigatorLink extends Template {
 
 			if($this->style=="splashpage") $this->stringvars['title']= title2html(str_replace(" ","&nbsp;",getnavtitlearray($page)));
 			else $this->stringvars['title']=title2html(getnavtitlearray($page));
-			
-			
-			
+
+
+
 			if(isset($_GET['m']))
 			{
 				$this->stringvars['title']="&#x25BA; ".$this->stringvars['title'];
 			}
-			
+
 			if($showhidden)
 			{
 				if(isthisexactpagerestricted($page)) $this->stringvars['title']=$this->stringvars['title'].' (R)';
 				if(!ispublished($page)) $this->stringvars['title']='<i>'.$this->stringvars['title'].'</i>';
 			}
-			
+
 			if($this->pagetype==="external")
 			{
 				$this->stringvars['link']=getexternallink($page);
@@ -245,11 +244,11 @@ class NavigatorLink extends Template {
 				$this->stringvars['link']=$path.makelinkparameters($linkparams);
 				$this->stringvars['link_attributes']="";
 			}
-			
+
 			if(isset($_GET['page']) && $_GET['page']==$page) $this->stringvars['title_class']="navhighlight";
 			else $this->stringvars['title_class']="";
-		} 
-      
+		}
+
 		//$this->stringvars['title']= "XXXXXXXXXXX test".$level." ------ ".$this->stringvars['title'];
 	}
 
@@ -284,7 +283,7 @@ class NavigatorBranch extends Template {
 
         if($level==0) $this->stringvars['wrapper_class'] = "navrootlinkwrapper";
         else $this->stringvars['wrapper_class'] = "navlinkwrapper";
-        
+
         if(hasaccesssession($page) || $showhidden)
         {
         	$this->listvars['link'][]= new NavigatorLink($page, $style, $level,$speciallink, $showhidden);
@@ -333,7 +332,7 @@ class Navigator extends Template {
 	function Navigator($page,$sistersinnavigator,$depth,$displaytype="page",$showhidden=false)
 	{
 	    global $_GET;
-	    
+
 	    $this->displaytype=$displaytype;
 	    parent::__construct();
 
@@ -343,7 +342,7 @@ class Navigator extends Template {
 			$linkparams = makelinkparameters(array("m" => "on"));
 			$this->displaytype="mobile";
 		}
-	    
+
 	    if($displaytype=="splashpage" || $displaytype=="splashpagemobile")
 	    {
 
@@ -401,7 +400,7 @@ class Navigator extends Template {
 	      	{
 	      		$style="simple";
 	      	}
-	
+
 			// items of the day
 			$homelink=true;
 			if(getproperty('Display Picture of the Day'))
@@ -430,8 +429,8 @@ class Navigator extends Template {
 				$this->stringvars['home_link']=getprojectrootlinkpath().'index.php'.$linkparams;
 				$this->stringvars['l_home']=getlang("navigator_home");
 			}
-			
-			
+
+
 			// mobile navigator
 			if($displaytype=="mobile")
 	    	{
@@ -449,7 +448,7 @@ class Navigator extends Template {
 						$currentpage=$parent;
 						$level++;
 					}
-					
+
 					// display parent chain
 					$navdepth=count($parentpages); // for closing table tags
 					//$this->stringvars['chainlink'] =count($parentpages);
@@ -493,7 +492,7 @@ class Navigator extends Template {
 				}
 				else
 				{
-				
+
 					if(isrootpagearray($page))
 					{
 						$roots=getrootpages();
@@ -541,7 +540,7 @@ class Navigator extends Template {
 						{
 							$this->listvars['link'][]=new NavigatorBranch($currentroot,$style,0,0,"",$showhidden);
 						}
-	
+
 						// display parent chain
 						$navdepth=count($parentpages); // for closing table tags
 						for($i=0;$i<$navdepth;$i++)
@@ -567,7 +566,7 @@ class Navigator extends Template {
 							}
 							// display page
 							$this->listvars['link'][]=new NavigatorBranch($page,$style,$depth,$level,"",$showhidden);
-							
+
 							// display lower sister pages
 							while(count($sisterids))
 							{
@@ -596,13 +595,13 @@ class Navigator extends Template {
 				// special links
 				if(getproperty("Enable Guestbook"))
 					$this->listvars['link'][]=new NavigatorBranch(0,$style,0,0,"guestbook",$showhidden);
-				
+
 				$this->listvars['link'][]=new NavigatorBranch(0,$style,0,0,"contact",$showhidden);
 				$this->listvars['link'][]=new NavigatorBranch(0,$style,0,0,"sitemap",$showhidden);
 			}
 		}
 	}
-  
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -632,7 +631,7 @@ class PageIntro extends Template {
 		if($image && strlen($image) > 0)
 			$this->vars['image'] = new CaptionedImage($image, $imageautoshrink, $usethumbnail, $imagealign, array("page" => $this->stringvars['page']), $showhidden);
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -656,7 +655,7 @@ class PageHeader extends Template {
 		parent::__construct();
 
 		$this->stringvars['logoutlink'] = makelinkparameters(array("page" => $this->stringvars['page'], "logout" => "on"));
-		
+
 		$this->stringvars['keywords']="";
 		if($page>0)
 		{
@@ -667,17 +666,17 @@ class PageHeader extends Template {
 			}
 		}
 		$this->stringvars['keywords'].=title2html(getproperty('Google Keywords'));
-		
+
 		$this->stringvars['stylesheet']= getCSSPath("main.css");
 		$this->stringvars['sitename']=title2html(getproperty("Site Name"));
 		$this->stringvars['browsertitle']=striptitletags($title);
 		$this->stringvars['title']=title2html($title);
-		
+
 		if($displaytype!="splashpage")
 			$this->stringvars['site_description']=title2html(getproperty("Site Description"));
 		elseif(getproperty("Display Site Description on Splash Page"))
 			$this->stringvars['site_description']=title2html(getproperty("Site Description"));
-		
+
 		$image=getproperty("Left Header Image");
 		if(strlen($image)>0)
 		{
@@ -686,7 +685,7 @@ class PageHeader extends Template {
 			$this->stringvars['left_width'] = $dimensions["width"];
 			$this->stringvars['left_height'] = $dimensions["height"];
 		}
-		
+
 		$image=getproperty("Right Header Image");
 		if(strlen($image)>0)
 		{
@@ -695,19 +694,19 @@ class PageHeader extends Template {
 			$this->stringvars['right_width'] = $dimensions["width"];
 			$this->stringvars['right_height'] = $dimensions["height"];
 		}
-		
+
 		$link=getproperty("Left Header Link");
 		if(strlen($link)>0)
 			$this->stringvars['left_link']=getprojectrootlinkpath().$link;
-		
+
 		$link=getproperty("Right Header Link");
 		if(strlen($link)>0)
 			$this->stringvars['right_link']=getprojectrootlinkpath().$link;
-		
+
 		if(ispublicloggedin())
 			$this->stringvars['logged_in']="logged in";
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -736,10 +735,10 @@ class PageFooter extends Template {
 			if(strlen($title)>0)
 				$this->stringvars['site_policy_title']=title2html($title);
 		}
-		
+
 		$this->stringvars['footer_message']=text2html(getproperty("Footer Message"));
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -758,13 +757,13 @@ class Page extends Template {
 	function Page($displaytype="page",$showhidden=false)
 	{
 	    global $_SERVER, $_GET, $projectroot;
-	    
+
 	    $this->displaytype=$displaytype;
 	    parent::__construct();
-	    
+
 	    // header
 	    $this->makeheader($this->stringvars['page'], $showhidden);
-	
+
 
 		if(isset($_SERVER['HTTP_REFERER']) && isreferrerblocked($_SERVER['HTTP_REFERER']))
 		{
@@ -778,7 +777,7 @@ class Page extends Template {
 		else
 		{
 			$pagetype=getpagetype($this->stringvars['page']);
-			
+
 			if(!$showhidden)
 			{
 				if(ispagerestrictedarray($this->stringvars['page']))
@@ -787,19 +786,19 @@ class Page extends Template {
 				}
 				updatepagestats($this->stringvars['page']);
 			}
-      
+
 			// contents
 			if(isset($_GET['newsitem']))
 			{
 				include_once($projectroot."includes/objects/newspage.php");
 				$this->vars['contents'] = new Newsitempage($_GET['newsitem'],$this->stringvars['page'],0,false);
-				//print($newsitem->toHTML()); 
+				//print($newsitem->toHTML());
 			}
 			else
 			{
 				$this->makecontents($this->stringvars['page'], $pagetype, $showhidden);
 			}
-      
+
 			// banners
 			if(getproperty('Display Banners'))
 			{
@@ -809,7 +808,7 @@ class Page extends Template {
 			{
 				$this->stringvars['banners']="";
 			}
-			
+
 			// navigator
 			if($pagetype==="menu" || $pagetype==="articlemenu" || $pagetype=="linklistmenu")
 			{
@@ -823,15 +822,15 @@ class Page extends Template {
 			}
 			$this->vars['navigator'] = new Navigator($this->stringvars['page'],$displaysisters,$navigatordepth-1,$displaytype,$showhidden);
 	    }
-	    
+
 	    // area labels for screen readers
 	    $this->stringvars['l_navigator']=getlang("title_navigator");
 		$this->stringvars['l_content']=getlang("title_content");
-	
+
 	    // footer
 	    $this->vars['footer']= new PageFooter();
 	}
-  
+
 	//
 	//
 	//
@@ -864,26 +863,26 @@ class Page extends Template {
 			else
 			{
 				$title="Displaying ".getpagetype($page)." page#".$page." - ".$this->getmaintitle($page);
-			
+
 				if(getpagetype($page)==="external")
 					$url=getexternallink($page);
 				else
 					$url=getprojectrootlinkpath()."index.php".makelinkparameters($_GET);
-				
+
 				$this->vars['message'] = new AdminPageDisplayMessage();
 			}
 		}
 		$this->vars['header'] = new PageHeader($page, $title,$this->displaytype);
 
 	}
-  
+
 	//
 	//
 	//
 	function makecontents($page, $pagetype, $showhidden)
 	{
 		global $_GET, $offset, $projectroot;
-    
+
 		// init
 		if(isset($_GET['articlepage']))
 			$articlepage=$_GET['articlepage'];
@@ -917,7 +916,7 @@ class Page extends Template {
 			elseif(getproperty("Splash Page Font")==="bold") $contents.='</b>';
 			$contents = text2html($contents);
 			$this->stringvars['contents']=$contents;
-			
+
 			// bottom links
 			$this->listvars['bottomlink'][]=new NavigatorBranch(0,"splashpage",0,0,"sitemap",$showhidden);
 			if(getproperty("Enable Guestbook"))
@@ -946,7 +945,7 @@ class Page extends Template {
 			{
 				if(isset($_GET['offset'])) $offset=$_GET['offset'];
 				else $offset=0;
-				
+
 				if($pagetype==="article")
 				{
 					include_once($projectroot."includes/objects/articlepage.php");
@@ -1051,10 +1050,10 @@ class Printview extends Template {
 	{
 		global $_SERVER, $_GET;
 		parent::__construct();
-		
+
 		// header
 		$this->makeheader($this->stringvars['page']);
-		
+
 		if(isset($_SERVER['HTTP_REFERER']) && isreferrerblocked($_SERVER['HTTP_REFERER']))
 		{
 			// todo: simple header class
@@ -1067,7 +1066,7 @@ class Printview extends Template {
 		else
 		{
 			$pagetype=getpagetype($this->stringvars['page']);
-		
+
 			if(!$showhidden)
 			{
 				if(ispagerestrictedarray($this->stringvars['page']))
@@ -1075,14 +1074,14 @@ class Printview extends Template {
 					checkpublicsession($this->stringvars['page']);
 				}
 			}
-		
+
 			// contents
 			$this->makecontents($this->stringvars['page'], $pagetype, $showhidden);
-			
+
 			// navigator
 			$this->vars['navigator'] = new Navigator($this->stringvars['page'],0,0,"printview",false);
 		}
-		
+
 		$this->stringvars['url']=getprojectrootlinkpath().makelinkparameters(array("page" => $this->stringvars['page']));
 	}
 
@@ -1116,7 +1115,7 @@ class Printview extends Template {
 	function makecontents($page, $pagetype)
 	{
 		global $projectroot,$_GET        ;
-		
+
 		if(ispublished($page))
 		{
 			if($pagetype==="article")
@@ -1140,7 +1139,7 @@ class Printview extends Template {
 			$this->vars['contents']  = new PageIntro("Page not found","Could not find page ".$page.".");
 		}
 	}
-	
+
 	//
 	//
 	//
@@ -1185,9 +1184,9 @@ class AdminPageDisplayMessage extends Template {
     {
     	global $_GET;
     	parent::__construct();
-    	
+
     	if(isset($_GET["show"])) unset($_GET["show"]);
-    	
+
     	if(getpagetype($this->stringvars['page'])==="external")
         {
           $this->stringvars['publiclink']=getexternallink($this->stringvars['page']);
@@ -1196,10 +1195,10 @@ class AdminPageDisplayMessage extends Template {
         {
           $this->stringvars['publiclink']=getprojectrootlinkpath()."index.php".makelinkparameters($_GET);
         }
-        
+
         $this->stringvars['navtitle']= title2html(getnavtitle($this->stringvars['page']));
         $this->stringvars['editlink']=getprojectrootlinkpath()."admin/pageedit.php".makelinkparameters($_GET).'&page='.$this->stringvars['page'].'&action=edit';
-      
+
         if(ispagerestrictedarray($this->stringvars['page']))
         {
         	$this->stringvars['isrestricted']="true";

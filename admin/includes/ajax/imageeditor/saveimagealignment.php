@@ -5,8 +5,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"ajax"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-//include_once($projectroot."admin/functions/pagecontent/linklistpagesmod.php");
-//include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
 include_once($projectroot."admin/functions/sessions.php");
 
 checksession();
@@ -59,7 +57,7 @@ else {
 		$errormessage = "You can't change the alignment of images for links in a linklist";
  	}
 	else $errormessage = 'Error saving image align: unknown element type "'.$elementtype.'"';
-  	
+
 	if($errormessage)
 	{
 		print('<message error="1">');

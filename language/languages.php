@@ -2,7 +2,6 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"language"));
 
-
 include_once($projectroot."includes/functions.php");
 
 if(isset($defaultlanguage) && file_exists($projectroot."language/".$defaultlanguage.".php")) include_once($projectroot."language/".$defaultlanguage.".php");

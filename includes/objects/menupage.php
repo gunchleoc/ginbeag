@@ -9,7 +9,6 @@ include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/objects/page.php");
 include_once($projectroot."includes/includes.php");
 
-
 //
 // main class for menu pages
 //
@@ -20,16 +19,16 @@ class MenuPage extends Template {
 	function MenuPage($page,$showhidden=false)
 	{
 	    parent::__construct();
-	    
+
 	    $pagecontents=getmenucontents($page);
 
 		$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
-	
+
 	    $this->pagetype=getpagetypearray($page);
-    
+
 		$this->stringvars['actionvars'] = makelinkparameters(array("page" => $this->stringvars['page']));
-	
+
 	    if($this->pagetype==="linklistmenu")
 	    {
 			$children=getchildren($page,"ASC");
@@ -40,7 +39,7 @@ class MenuPage extends Template {
 					$this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i],$pagecontents['displaydepth']-1,0,$showhidden);
 				}
 			}
-	
+
 	    }
 	    else
 	    {
@@ -55,7 +54,7 @@ class MenuPage extends Template {
 	    }
 	    $this->vars['editdata']= new Editdata($showhidden);
 	}
-  
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -76,7 +75,7 @@ class ArticleInfo extends Template {
     	parent::__construct();
 
 		$contents= getarticlepageoverview($article);
-		
+
 		$articleinfo="";
 		if($contents['article_author'])
 		{
@@ -93,7 +92,7 @@ class ArticleInfo extends Template {
 			if($articleinfo) $articleinfo.=', ';
 			$articleinfo.=$date;
 		}
-		
+
 		$this->stringvars['articleinfo']=$articleinfo;
 		$this->vars['categorylist']=new CategorylistLinks(getcategoriesforpage($article),$page,CATEGORY_ARTICLE);
 	}
@@ -118,23 +117,23 @@ class ArticleMenuPage extends Template {
 	{
 		global $_GET;
 		parent::__construct();
-		
+
 		$pagecontents=getmenucontents($page);
-		
+
 		$this->pagetype=getpagetypearray($page);
-	    
+
 		$this->stringvars['actionvars'] = makelinkparameters(array("page" => $this->stringvars['page']));
-		
+
 	   	$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
-		
+
 		$this->stringvars['l_displayoptions']=getlang("menu_filter_displayoptions");
 		$this->stringvars['l_categories']=getlang("menu_filter_categories");
 		$this->stringvars['l_from']=getlang("menu_filter_from");
 		$this->stringvars['l_to']=getlang("menu_filter_to");
 		$this->stringvars['l_go']=getlang("menu_filter_go");
 		$this->stringvars['l_orderby']=getlang("menu_filter_orderby");
-	
+
 		$filter=isset($_GET['filter']);
 		if($filter)
 		{
@@ -145,7 +144,7 @@ class ArticleMenuPage extends Template {
 			$ascdesc=$_GET['ascdesc'];
 			if (isset($_GET['subpages'])) $subpages=$_GET['subpages'];
 			else $subpages=false;
-			
+
 			$this->makearticlefilterform($page,$selectedcat,$from,$to,$order,$ascdesc,$subpages);
 			$children=$this->getfilteredarticles($page,$showhidden);
 			$this->stringvars['l_showall']=getlang("article_filter_showall");
@@ -162,10 +161,10 @@ class ArticleMenuPage extends Template {
 				$this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i],$pagecontents['displaydepth']-1,0,$showhidden);
 			}
 		}
-	
+
 	    $this->vars['editdata']= new Editdata($showhidden);
 	}
-	  
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -178,12 +177,12 @@ class ArticleMenuPage extends Template {
 	//
 	function makearticlefilterform($page,$selectedcat="",$from="",$to="",$order="",$ascdesc="",$subpages=false)
 	{
-	
+
 		$this->stringvars["page"]= $page;
 		$this->vars["categoryselection"]= new CategorySelectionForm(false,"",CATEGORY_ARTICLE,1,array($selectedcat => $selectedcat));
-		
+
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
-		
+
 		$this->stringvars["l_timespan"]= getlang("menu_filter_timespan");
 		$allyears=getallarticleyears();
 		if($allyears[0]=="0000") array_shift($allyears);
@@ -196,7 +195,7 @@ class ArticleMenuPage extends Template {
 		}
 		$this->vars["from_year"]=new OptionForm($from,$values,$descriptions,"from",getlang("menu_filter_from"));
 		$this->vars["to_year"]=new OptionForm($to,$values,$descriptions,"to",getlang("menu_filter_to"));
-		
+
 		$this->vars["order"]= new ArticlemenuOrderSelectionForm($order);
 		$this->vars["ascdesc"]= new AscDescSelectionForm($ascdesc!=="desc");
 	}
@@ -209,17 +208,17 @@ class ArticleMenuPage extends Template {
 	{
 		global $_GET;
 		$result=array();
-		
+
 		$this->stringvars['search_result']="search result";
-		
+
 		$this->stringvars['l_clearsearch']=getlang("menu_filter_clearsearch");
-		
+
 		$selectedcat=$_GET['selectedcat'];
 		$from=$_GET['from'];
 		$to=$_GET['to'];
 		$order=$_GET['order'];
 		$ascdesc=$_GET['ascdesc'];
-		
+
 		if($from>$to)
 		{
 			$this->stringvars['message']=getlang("menu_filter_badyearselection");
@@ -251,7 +250,7 @@ class ArticlemenuOrderSelectionForm  extends Template {
     function ArticlemenuOrderSelectionForm($order="")
     {
     	parent::__construct();
-    	
+
         $this->stringvars['optionform_name'] = "order";
         $this->stringvars['optionform_label'] = getlang("menu_filter_property");
         $this->stringvars['optionform_id'] ="order";
@@ -282,21 +281,21 @@ class MenuLinkListLink extends Template {
 		parent::__construct();
 
 		$contents=getlinkcontents($link);
-		
+
 		if(strlen($contents['link'])<=1)
 		{
 			$this->stringvars['link'] = makelinkparameters(array("page" => $this->stringvars['page']));
 		}
 		else
 		{
-			$this->stringvars['link']=$contents['link'];   	
+			$this->stringvars['link']=$contents['link'];
 		}
 		$this->stringvars['title']=title2html($contents['title']);
-		
+
 		$text=text2html($contents['description']);
 		$paragraphs=explode ('<br />', $text);
 		$text=$paragraphs[0];
-		
+
 		if (array_key_exists(1, $paragraphs)) $text.=' <a href="'.makelinkparameters(array("page" => $contents['page_id'])).'#link'.$link.'">[...]</a>';
 
 		$this->stringvars['description']=$text;
@@ -341,16 +340,16 @@ class MenuNavigatorLink extends Template {
 	function MenuNavigatorLink($page, $level=0, $showhidden=false)
 	{
 		global $_GET;
-		
+
 		parent::__construct();
 
-		// layout parameters		
+		// layout parameters
         if($level==0) $this->stringvars['link_class']="contentnavtitle";
         else $this->stringvars['link_class']="contentnavlink";
-	
+
 		$this->stringvars['title']=title2html(getpagetitlearray($page));
         $this->stringvars['linktooltip']=striptitletags(getpagetitlearray($page));
-        
+
         if($showhidden)
         {
 			if(isthisexactpagerestricted($page)) $this->stringvars['title']=$this->stringvars['title'].' (R)';
@@ -404,7 +403,7 @@ class MenuNavigatorLink extends Template {
 			if(isset($_GET['m'])) $linkparams["m"] = "on";
 			$this->stringvars['link']=$path.makelinkparameters($linkparams);
 			$this->stringvars['link_attributes']="";
-		} 
+		}
 	}
 
 	// assigns templates
@@ -425,10 +424,10 @@ class MenuNavigatorBranch extends Template {
     function MenuNavigatorBranch($page,$depth,$level=0,$showhidden=false)
     {
     	parent::__construct();
-    	
+
         if($level==0) $this->stringvars['wrapper_class'] = "contentnavrootlinkwrapper";
         else $this->stringvars['wrapper_class'] = "contentnavlinkwrapper";
-         
+
         if(hasaccesssession($page) || $showhidden)
         {
 			$this->listvars['link'][]= new MenuNavigatorLink($page, $level,$showhidden);

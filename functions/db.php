@@ -101,12 +101,8 @@ if(!in_array($_SERVER["SCRIPT_FILENAME"],$allowedscripts)) die;
 
 // *************************** basic db functions *************************** //
 
-
 $db = new Database();
-
-
 $properties = getproperties();
-
 
 /*
  * Use Database object to limit number of connections
@@ -119,7 +115,7 @@ class Database {
 	function Database()
   	{
     	global $dbname,$dbhost,$dbuser,$dbpasswd;
-    	
+
 		if(DEBUG)
   		{
 			$this->db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
@@ -137,7 +133,7 @@ class Database {
 				or die("Can't find database. Please try again later.");
 		}
 	}
-	
+
 
 	// executes a single query
 	// $query a string with a mysql command
@@ -161,7 +157,7 @@ class Database {
 		{
 			$result= mysql_insert_id($this->db);
 		}
-		
+
 		return $result;
 	}
 
@@ -172,7 +168,7 @@ class Database {
 	function multiquery($queries)
 	{
 		$result[0]="";
-  
+
 		if(DEBUG)
 		{
 
@@ -191,11 +187,11 @@ class Database {
 					or die("Can't get data from database. Please notify the admin.");
 			}
 		}
-  
-		return $result;	
+
+		return $result;
 	}
-	
-	
+
+
 	//
 	// security, use with all user input
 	//
@@ -214,8 +210,8 @@ class Database {
   		$result= @mysql_real_escape_string($var);
 		return utf8_decode($result);
 	}
-	
-	
+
+
 	/*
 	 * close DB at end of script
 	 */
@@ -234,7 +230,7 @@ class Database {
 function getdbresultsingle($query)
 {
 	global $db;
-	
+
 	$sql=$db->singlequery($query);
 	if($sql)
 	{
@@ -251,7 +247,7 @@ function getdbresultsingle($query)
 function getdbresultcolumn($query)
 {
 	global $db;
-	
+
 	$result=array();
 	$sql=$db->singlequery($query);
 	if($sql)
@@ -274,7 +270,7 @@ function getrowbykey($table, $keyname, $value, $fieldnames = array(0 => '*'))
 {
 	global $db;
 	$result=array();
-	
+
 	$query="select ";
 	$nooffields=count($fieldnames);
 	for($i=0; $i<$nooffields-1;$i++)
@@ -283,13 +279,13 @@ function getrowbykey($table, $keyname, $value, $fieldnames = array(0 => '*'))
 	}
 	$query.=$fieldnames[$nooffields-1];
 	$query.=" from ".$table." where ".$keyname." = '".$value."'";
-	
+
 	//  print($query);
 	$sql=$db->singlequery($query);
 	if($sql)
 	{
 		$fields=mysql_num_fields($sql);
-		
+
 		// get row
 		if($row=mysql_fetch_row($sql))
 		{
@@ -313,7 +309,7 @@ function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 =
 {
 	global $db;
 	$result=array();
-	
+
 	$query="select ";
 	$nooffields=count($fieldnames);
 	for($i=0; $i<$nooffields-1;$i++)
@@ -331,7 +327,7 @@ function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 =
 	if($sql)
 	{
 		$fields=mysql_num_fields($sql);
-		
+
 		// get index for field name
 		$found=false;
 		for($field=0;!$found && $field<$fields;$field++)
@@ -342,7 +338,7 @@ function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 =
 				$found=true;
 			}
 		}
-	
+
 		// get column
 		for($i=0;$row=mysql_fetch_row($sql);$i++)
 		{

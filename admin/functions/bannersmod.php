@@ -5,13 +5,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."functions/db.php");
 include_once($projectroot."functions/banners.php");
 
-################################################################################
-##                                                                            ##
-##        Functions                                                           ##
-##                                                                            ##
-################################################################################
-
-
 //
 // fngt an zu spinnen, wenn keine image da ist,
 // oder bereits ein Datensatz mit leerem image vorhanden ist
@@ -23,9 +16,9 @@ function addbanner($header, $imagefilename,$description,$link)
 	$imagefilename=$db->setstring(basename($imagefilename));
 	$description=$db->setstring($description);
 	$link=$db->setstring($link);
-	
+
 	$lastposition=getmax("position", BANNERS_TABLE,1);
-	
+
 	$values=array();
 	$values[]=0;
 	$values[]=$header;
@@ -34,7 +27,7 @@ function addbanner($header, $imagefilename,$description,$link)
 	$values[]=$link;
 	$values[]="";
 	$values[]=$lastposition+1;
-	
+
 	return insertentry(BANNERS_TABLE,$values);
 }
 
@@ -49,9 +42,9 @@ function addbannercode($header, $code)
 	global $db;
 	$header=$db->setstring($header);
 	$code=$db->setstring($code);
-	
+
 	$lastposition=getmax("position", BANNERS_TABLE,1);
-	
+
 	$values=array();
 	$values[]=0;
 	$values[]=$header;
@@ -60,7 +53,7 @@ function addbannercode($header, $code)
 	$values[]="";
 	$values[]=$code;
 	$values[]=$lastposition+1;
-	
+
 	return insertentry(BANNERS_TABLE,$values);
 }
 
@@ -72,7 +65,7 @@ function updatebanner($banner, $header, $imagefilename,$description,$link)
 	global $db;
 	$banner=$db->setinteger($banner);
 	$result = true;
-	
+
 	$result = $result & updatefield(BANNERS_TABLE,"header",$db->setstring($header),"banner_id='".$banner."'");
 	$result = $result & updatefield(BANNERS_TABLE,"image",$db->setstring(basename($imagefilename)),"banner_id='".$banner."'");
 	$result = $result & updatefield(BANNERS_TABLE,"description",$db->setstring($description),"banner_id='".$banner."'");
@@ -150,12 +143,12 @@ function movebanner($banner, $direction, $positions=1)
 			$swap=array();
 			$currentid=$sisterids[$idposition+$positions];
 			$navpos=getdbelement("position",BANNERS_TABLE, "banner_id", $currentid);
-			
+
 			for($i=$idposition+$positions;$i>$idposition;$i--)
 			{
 				$otherid=$sisterids[$i-1];
 				$othernavpos=getdbelement("position",BANNERS_TABLE, "banner_id", $otherid);
-				
+
 				$swap[$currentid]=$othernavpos;
 				$swap[$otherid]=$navpos;
 				$currentid=$otherid;

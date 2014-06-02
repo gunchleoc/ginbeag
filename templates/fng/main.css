@@ -244,7 +244,7 @@ input.mainoption {
 	padding-top: 0.35em;
 	padding-bottom: 0.35em;
 	font-size: 160%;
-	font-family: Arial, Helvetica, sans-serif; 
+	font-family: Arial, Helvetica, sans-serif;
 	color: #002373;
 }
 
@@ -292,7 +292,7 @@ input.mainoption {
 
 /* Fos newsitemsections */
 .sectionsubtitle	{
-	font-size: 175%; 
+	font-size: 175%;
 	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
 	margin-top: 0.5em;
 	margin-bottom: 0.75em;
@@ -337,7 +337,7 @@ input.mainoption {
 	margin-top:1.5em;
 	width: 100%;
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;	
+	border-width: 1px 0px 0px 0px;
 	padding-top: 0.5em;
 }
 
@@ -366,7 +366,7 @@ input.mainoption {
 
 .contentnavlinkwrapper {
 	margin-top:1.75ex;
-	line-height: 1.5em; 
+	line-height: 1.5em;
 	text-align: justify;
 }
 
@@ -406,7 +406,7 @@ input.mainoption {
 .newsfilterform {
 	margin-top:1.5em;
 	border-style: solid;
-	border-width: 1px 0px 1px 0px;	
+	border-width: 1px 0px 1px 0px;
 }
 
 /* Newsitem: wrapper */
@@ -433,7 +433,7 @@ div.newsquote {
 	padding: 1em;
 	font-style: italic;
 	text-align: justify;
-	background-color: #F2F1ED; 
+	background-color: #F2F1ED;
 }
 
 /* Newsitem and article: Source info */
@@ -460,7 +460,7 @@ div.newsquote {
 	margin:1em;
     overflow:hidden;
     display:table-cell;
-	font-size:90%;    
+	font-size:90%;
 }
 
 .gallerycontents {
@@ -481,7 +481,7 @@ div.newsquote {
 .linklistlink {
 	margin-top:1em;
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;	
+	border-width: 1px 0px 0px 0px;
 }
 
 .linkedimage {

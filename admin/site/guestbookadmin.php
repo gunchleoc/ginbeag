@@ -24,7 +24,7 @@ $error = false;
 if($postaction ==='saveproperties')
 {
 	$guestbookproperties = array();
-	
+
 	$guestbookproperties['Enable Guestbook']=$db->setinteger($_POST['enableguestbook']);
   	$guestbookproperties['Guestbook Entries Per Page']=$db->setinteger($_POST['guestbookperpage']);
 
@@ -60,7 +60,7 @@ if(!isset($_POST["deleteentry"]))
 {
   	if(isset($_GET['offset'])) $offset=$_GET['offset'];
   	else $offset=0;
-  
+
   	$contents = new AdminGuestbookEntryList($itemsperpage, $offset);
 }
 

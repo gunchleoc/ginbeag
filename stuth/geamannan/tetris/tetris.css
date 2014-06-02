@@ -115,7 +115,7 @@ body, table, input {
 	padding-bottom: 0px;
 	margin-left: 24px;
 	font-size: 11px;
-	line-height: 1.6em;	
+	line-height: 1.6em;
 	font-weight:bold;
 	box-shadow: 1px 2px 3px 2px #996935 inset;
 }
@@ -152,7 +152,7 @@ body, table, input {
 	left: 25px;
 	top: 135px;
 	font-size: 11px;
-	line-height: 1.2em;	
+	line-height: 1.2em;
 }
 #tetris div.h5 { margin-bottom: 0.5em; display: block; font-weight: bold; }
 #tetris-keys td { padding-right: 1px; padding-bottom: 1px; font-size: 11px; color: #002373;}

@@ -14,7 +14,6 @@ checkadmin();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-
 // print_r($_POST);
 // print_r($_GET);
 
@@ -47,7 +46,7 @@ if($username && $pass===$passconf)
 	else
 	{
 		$register=addpublicuser($username,$pass);
-		
+
 		if($register)
 		{
 			$message='Created user <em>'.$username.'</em> successfully';

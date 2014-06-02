@@ -10,7 +10,7 @@
 	</div>
 	<div class="leftalign">
 		<form name="articlepages" action="{ACTIONVARS}" method="post">
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
         	<input type="submit" name="addarticlesection" value="Add a Section on the bottom of this Page"/>
       	</form>
 	</div>

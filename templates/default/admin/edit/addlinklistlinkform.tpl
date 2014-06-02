@@ -1,7 +1,6 @@
 <div class="contentheader">Add new link</div>
 <div class="contentsection">
 	<form name="addlink" action="{ACTIONVARS}" method="post">
-
 		<fieldset>
 			<legend class="highlight">Enter properties for the new link</legend>
 			<label for="addlinktitle">Title:</label>
@@ -15,6 +14,5 @@
 		</fieldset>
 		<p><input type="submit" name="addlink" value="Submit" class="mainoption">
 		&nbsp;&nbsp;<input type="reset" value="Reset">
-
 	</form>
 </div>

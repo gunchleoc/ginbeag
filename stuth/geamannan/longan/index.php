@@ -15,7 +15,7 @@ include_once($projectroot."includes/objects/page.php");
 	<link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
 	<script language="JavaScript">
 
-// special treatment for IE	
+// special treatment for IE
 if(navigator.appName =="Microsoft Internet Explorer")
 {
 	document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
@@ -60,13 +60,13 @@ $(document).ready(function() {
 		</div>
 		<div id="headercenter">
 		    <h1 class="maintitle">Fòram na Gàidhlig</h1>
-		    
+
 		    <div id="sitedescription">Coimhearsneachd airson ionnsachadh is leasachadh na Gàidhlig</div>
-		    
+
 		</div>
 		<div id="headerright">
-			
-	      	
+
+
 		</div>
 		<h1 id="headerpagetitle" class="headerpagetitle newline">Longan-cogaidh</h1>
 
@@ -85,7 +85,7 @@ $db->closedb();
 ?>
 		</div>
 		<div id="contentarea" style="height: 950px;" title="Susbaint">
-<!--  Game HTML starts here  -->  
+<!--  Game HTML starts here  -->
 				<h2 class="pagetitle">Longan-cogaidh</h2>
 
 
@@ -119,36 +119,36 @@ var playerlives = 0, computerlives = 0, playflag=true, statusmsg="";
 */
 
 function missedMessage() {
-	var missedmessages = 
+	var missedmessages =
 	[
- 		"Chaidh an urchair againn dhan uisge", 
- 		"Tha na gunnachan againn air fàs meirgeach", 
- 		"Cha do rinn sinn bualadh air dad", 
- 		"Chaill sinn an t-amas", 
- 		"Cha tàinig sinn faisg air an nàmhaid", 
- 		"Tha an criutha a' call an dùr-aire", 
+ 		"Chaidh an urchair againn dhan uisge",
+ 		"Tha na gunnachan againn air fàs meirgeach",
+ 		"Cha do rinn sinn bualadh air dad",
+ 		"Chaill sinn an t-amas",
+ 		"Cha tàinig sinn faisg air an nàmhaid",
+ 		"Tha an criutha a' call an dùr-aire",
  		"Tha na gealtairean am falach fhathast",
- 		"Chaidh an losgadh seachad air an targaid", 
- 		"Bha agam ris an sairdseant gunnaireachd ìsleachadh", 
- 		"Bha an droch-shealbh leinn", 
- 		"Cha deach leinn bualadh air an nàbhaid", 
- 		"Tha eòlaiche airm-tilgidh a dhìth oirnn", 
+ 		"Chaidh an losgadh seachad air an targaid",
+ 		"Bha agam ris an sairdseant gunnaireachd ìsleachadh",
+ 		"Bha an droch-shealbh leinn",
+ 		"Cha deach leinn bualadh air an nàbhaid",
+ 		"Tha eòlaiche airm-tilgidh a dhìth oirnn",
  		"Cha robh Dia leinn"
 	];
-	
+
 	return missedmessages[Math.floor(Math.random()*missedmessages.length)];
 }
 
 function missedMessageComp() {
-	var missedmessages = 
+	var missedmessages =
 	[
- 		"Chuala sinn spreadhadh", 
- 		"Chunnaic sinn losgadh gunna-mhòir", 
- 		"Chaidh peilear dhan uisge faisg oirnn", 
- 		"Chunnaic sinn fuaran àrd", 
- 		"Cha do mharbh an nàmhaid ach èisg", 
- 		"Rinn an nàmhaid toll ùr sa ghrunnd", 
- 		"Cha tàinig oirnn ach fliuchadh", 
+ 		"Chuala sinn spreadhadh",
+ 		"Chunnaic sinn losgadh gunna-mhòir",
+ 		"Chaidh peilear dhan uisge faisg oirnn",
+ 		"Chunnaic sinn fuaran àrd",
+ 		"Cha do mharbh an nàmhaid ach èisg",
+ 		"Rinn an nàmhaid toll ùr sa ghrunnd",
+ 		"Cha tàinig oirnn ach fliuchadh",
  		"Rinn an nàmhaid oidhirp eile",
  		"Cha do shoirbhich leis an nàbhaid",
  		"Cha do dh'èirich gu math dhan nàmhaid",
@@ -156,7 +156,7 @@ function missedMessageComp() {
  		"Tha an nàmhaid cho dall ri dallaig",
  		"Bhuail an nàmhaid air teas-mheadhain a' chuain"
 	];
-	
+
 	return missedmessages[Math.floor(Math.random()*missedmessages.length)];
 }
 
@@ -439,7 +439,7 @@ function getDateTimeString() {
 
 	if (minutes < 10)
 		minutes = "0" + minutes;
-  
+
 	if (seconds < 10)
 		seconds = "0" + seconds;
 

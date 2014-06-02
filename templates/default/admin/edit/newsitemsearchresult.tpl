@@ -8,7 +8,7 @@
 	<div>
 		<span class="articlelocation">Location: {LOCATION}</span>
 	</div>
-	<!-- END switch LOCATION -->      
+	<!-- END switch LOCATION -->
 
 	<span class="articlesource">
 		Source: <!-- BEGIN switch SOURCELINK -->

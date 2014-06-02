@@ -4,7 +4,6 @@ $projectroot=dirname(__FILE__)."/";
 include_once($projectroot."functions/db.php");
 include_once($projectroot."includes/functions.php");
 
-
 // anti bot nonsense links
 // ********************************* achtung - bot secure ist server-spezifisch!
 $testpath = "/".getproperty("Local Path");
@@ -57,7 +56,7 @@ $itemsperpage=getproperty('Guestbook Entries Per Page');
 $title="";
 $listtitle="";
 $message="";
-$error=""; 
+$error="";
 $postadded=false;
 
 
@@ -117,14 +116,14 @@ else
 	if(isset($_GET["offset"])) $offset=$_GET["offset"];
 	else $offset=0;
 }
-  	
+
 $postername=utf8_decode($postername);
 $subject=utf8_decode($subject);
 $messagetext=utf8_decode($messagetext);
 
 if(!$token) $token = createtoken();
- 
-$guestbook = new Guestbook($postername, $addy, $subject, $messagetext, $token, $offset, $showguestbookform, $showpost, $showleavemessagebutton, $itemsperpage, $title, $listtitle, $message, $error, $postadded); 
+
+$guestbook = new Guestbook($postername, $addy, $subject, $messagetext, $token, $offset, $showguestbookform, $showpost, $showleavemessagebutton, $itemsperpage, $title, $listtitle, $message, $error, $postadded);
 print($guestbook->toHTML());
 
 $db->closedb();

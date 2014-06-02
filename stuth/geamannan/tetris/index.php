@@ -22,7 +22,7 @@ include_once($projectroot."includes/objects/page.php");
 
 	<script language="JavaScript">
 
-// special treatment for IE	
+// special treatment for IE
 if(navigator.appName =="Microsoft Internet Explorer")
 {
 	document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
@@ -67,13 +67,13 @@ $(document).ready(function() {
 		</div>
 		<div id="headercenter">
 		    <h1 class="maintitle">Fòram na Gàidhlig</h1>
-		    
+
 		    <div id="sitedescription">Coimhearsneachd airson ionnsachadh is leasachadh na Gàidhlig</div>
-		    
+
 		</div>
 		<div id="headerright">
-			
-	      	
+
+
 		</div>
 		<h1 id="headerpagetitle" class="headerpagetitle newline">Tetris</h1>
 
@@ -88,7 +88,7 @@ $db->closedb();
 		</div>
 		<div id="contentarea" style="height: 500px;" title="Susbaint">
 			<div style="height:40px"></div>
-<!--  Game HTML starts here  -->  
+<!--  Game HTML starts here  -->
 	<div id="tetris">
 		<div class="left">
 			<h1><a href="http://code.google.com/p/js-tetris/">Js	Tetris 1.19</a></h1>

@@ -12,10 +12,10 @@ function updatearticlesource($page,$author,$location,$day,$month,$year,$source,$
 {
 	global $db;
 	$page=$db->setinteger($page);
-	
+
 	if($toc=="true") $toc=1;
 	else $toc=0;
-	
+
 	if(strlen($year)!=4) $year="0000";
 	updatefield(ARTICLES_TABLE,"article_author",$db->setstring($author),"page_id='".$page."'");
 	updatefield(ARTICLES_TABLE,"location",$db->setstring($location),"page_id='".$page."'");
@@ -50,7 +50,7 @@ function deletelastarticlepage($page)
 	global $db;
 	$page=$db->setinteger($page);
 	$numberofpages=numberofarticlepages($db->setinteger($page));
-	
+
 	if(!getlastarticlesection($page,$numberofpages))
 	{
 		return updatefield(ARTICLES_TABLE,"numberofpages",$numberofpages-1,"page_id='".$page."'");
@@ -66,9 +66,9 @@ function addarticlesection($page,$pagenumber)
 	global $db;
 	$page=$db->setinteger($page);
 	$pagenumber=$db->setinteger($pagenumber);
-	
+
 	$lastsection=getlastarticlesection($page,$pagenumber);
-	
+
 	$values=array();
 	$values[]=0;
 	$values[]=$page;
@@ -153,9 +153,9 @@ function movearticlesection($articlesection,$pagenumber,$direction)
 	$page=getdbelement("article_id",ARTICLESECTIONS_TABLE, "articlesection_id", $articlesection);
 	$pagenumber=$db->setinteger($pagenumber);
 	$navpos=getarticlesectionnumber($articlesection);
-	
+
 	$result=$pagenumber;
-  
+
 	// move section to next articlepage
 	if($direction==="down" && $navpos==getlastarticlesection($page,$pagenumber))
 	{
@@ -163,7 +163,7 @@ function movearticlesection($articlesection,$pagenumber,$direction)
 		$noofpages=numberofarticlepages($page);
 		$newpage=$pagenumber+1;
 		$result=$newpage;
-		
+
 		if($noofpages<$newpage)
 		{
 			addarticlepage($page);
@@ -187,12 +187,12 @@ function movearticlesection($articlesection,$pagenumber,$direction)
 	{
 		$newpage=$pagenumber-1;
 		$result=$newpage;
-		
+
 		$newnav=getlastarticlesection($page,$newpage);
 		$newnav++;
 		updatefield(ARTICLESECTIONS_TABLE,"pagenumber",$newpage,"articlesection_id='".$articlesection."'");
 		updatefield(ARTICLESECTIONS_TABLE,"sectionnumber",$newnav,"articlesection_id='".$articlesection."'");
-		
+
 		// fill space
 		$sisterids=getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, "article_id='".$page."' AND pagenumber='".$pagenumber."'", "sectionnumber", "ASC");
 		for($i=0;$i<count($sisterids);$i++)
@@ -227,7 +227,7 @@ function movearticlesection($articlesection,$pagenumber,$direction)
 			$otherid=$sisterids[$idposition+1];
 			$navpos=getarticlesectionnumber($articlesection);
 			$othernavpos=getarticlesectionnumber($otherid);
-			
+
 			$swap[$articlesection]=$othernavpos;
 			$swap[$otherid]=$navpos;
 			updateentries(ARTICLESECTIONS_TABLE,$swap,"articlesection_id","sectionnumber");

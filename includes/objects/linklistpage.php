@@ -7,7 +7,6 @@ include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/includes.php");
 
-
 //
 // a link in a linklist
 //
@@ -21,7 +20,7 @@ class LinklistLink extends Template {
 		$this->stringvars['title'] = title2html($title);
 		$this->stringvars['link'] = $link;
 		$this->stringvars['linkid'] = $linkid;
-		
+
 		if($hasimage)
 			$this->vars['image'] = new LinkedImage($image,$link, $this->stringvars['title']);
 
@@ -44,9 +43,9 @@ class LinkedImage extends Template {
     function LinkedImage($filename,$linkurl, $linkname)
     {
 		global $projectroot;
-		
+
 		parent::__construct();
-		
+
 		$image="";
 		$this->stringvars['halign']="float: left;";
 		$alttext=title2html($linkname);
@@ -74,7 +73,7 @@ class LinkedImage extends Template {
 
 		$this->stringvars['image']=$image;
     }
-    
+
     // assigns templates
     function createTemplates()
     {
@@ -105,17 +104,17 @@ class LinklistPage extends Template {
 
 		$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
-		
+
 		// links
 		for($i=$offset;$i<($noofids)&&$i<$noofids;$i++)
 		{
 			$contents=getlinkcontents($linkids[$i]);
 			$this->listvars['link'][]= new LinkListLink($linkids[$i],$contents['title'],$contents['image'],$contents['description'],$contents['link']);
 		}
-		
+
 		$this->vars['editdata']= new Editdata($showhidden);
 	}
-  
+
     // assigns templates
     function createTemplates()
     {
@@ -136,18 +135,18 @@ class LinklistPagePrintview extends Template {
 		parent::__construct();
 		$linkids=getlinklistitems($this->stringvars['page']);
 		$noofids=count($linkids);
-		
+
 		$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro("",$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
-		
+
 		$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
-		
+
 		for($i=0;$i<$noofids;$i++)
 		{
 			$contents=getlinkcontents($linkids[$i]);
 			$this->listvars['link'][]= new LinkListLink($linkids[$i],$contents['title'],$contents['image'],$contents['description'],$contents['link'],false,false);
 		}
-		
+
 		$this->vars['editdata']= new Editdata($showhidden);
 	}
 
