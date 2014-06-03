@@ -124,77 +124,126 @@ function fileerrors($errorno)
 //
 // creates a thumbnail for the file
 //
-function createthumbnail($path, $filename)
+function createthumbnail($path, $filename, $ismobile = false)
+{
+	$extension=substr($filename,strrpos($filename,"."),strlen($filename));
+	$imagename=substr($filename,0,strrpos($filename,"."));
+	$thumbname=$imagename.'_thn'.$extension;
+
+	if($ismobile)
+	{
+		return false; // TODO create folder and whatnot
+		//return createresizedimage($path."/".$filename, $path."/".$thumbname, getproperty("Mobile Thumbnail Size"), false);
+	}
+	else
+	{
+		return createresizedimage($path."/".$filename, $path."/".$thumbname, getproperty("Thumbnail Size"), false);
+	}
+}
+
+//
+// resizes the width of an image down to the default width
+//
+function resizeimagewidth($path, $filename)
+{
+	return createresizedimage($path."/".$filename, $path."/".$filename, getproperty("Image Width"), true);
+}
+
+
+//
+// scales the image size in $oldfile down to $pixelsand saves it to $newfile
+//
+function createresizedimage($oldfile, $newfile, $pixels, $widthonly = false)
 {
 	$success = false;
 	if (extension_loaded('gd') && function_exists('gd_info'))
 	{
-		$extension=substr($filename,strrpos($filename,"."),strlen($filename));
-		$imagename=substr($filename,0,strrpos($filename,"."));
-		$thumbname=$imagename.'_thn'.$extension;
+		if(file_exists($oldfile))
+		{
+			$imagetype = exif_imagetype($oldfile);
 
-		$imagetype = exif_imagetype($path."/".$filename);
-
-		if($imagetype == IMAGETYPE_GIF && function_exists('imagecreatefromgif'))
-		{
-			$image = @imagecreatefromgif($path."/".$filename);
-			if($image)
+			if($imagetype == IMAGETYPE_GIF && function_exists('imagecreatefromgif'))
 			{
-				$image = scalethumbnail($path, $filename, $image);
-				if($image) $success = @imagegif($image , $path."/".$thumbname);
+				$image = @imagecreatefromgif($oldfile);
+				if($image)
+				{
+					$image = scaleimage($image, $pixels, $widthonly);
+					if($image) $success = @imagegif($image , $newfile);
+				}
+			}
+			elseif($imagetype == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg'))
+			{
+				$image = @imagecreatefromjpeg($oldfile);
+				if($image)
+				{
+					$image = scaleimage($image, $pixels, $widthonly);
+					if($image) $success = @imagejpeg($image , $newfile, 90);
+				}
+			}
+			elseif($imagetype == IMAGETYPE_PNG && function_exists('imagecreatefrompng'))
+			{
+				$image = @imagecreatefrompng($oldfile);
+				if($image)
+				{
+					$image = scaleimage($image, $pixels, $widthonly);
+					if($image) $success = @imagepng($image , $newfile, 9);
+				}
+			}
+			elseif($imagetype == IMAGETYPE_WBMP && function_exists('imagecreatefromwbmp'))
+			{
+				$image = @imagecreatefromwbmp($oldfile);
+				if($image)
+				{
+					$image = scaleimage($image, $pixels, $widthonly);
+					if($image) $success = @imagewbmp($image , $newfile);
+				}
+			}
+			elseif($imagetype == IMAGETYPE_XBM && function_exists('imagecreatefromxbm'))
+			{
+				$image = @imagecreatefromxbm($oldfile);
+				if($image)
+				{
+					$image = scaleimage($image, $pixels, $widthonly);
+					if($image) $success = @imagexbm($image , $newfile);
+				}
 			}
 		}
-		elseif($imagetype == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg'))
-		{
-			$image = @imagecreatefromjpeg($path."/".$filename);
-			if($image)
-			{
-				$image = scalethumbnail($path, $filename, $image);
-				if($image) $success = @imagejpeg($image , $path."/".$thumbname, 90);
-			}
-		}
-		elseif($imagetype == IMAGETYPE_PNG && function_exists('imagecreatefrompng'))
-		{
-			$image = @imagecreatefrompng($path."/".$filename);
-			if($image)
-			{
-				$image = scalethumbnail($path, $filename, $image);
-				if($image) $success = @imagepng($image , $path."/".$thumbname, 9);
-			}
-		}
-		elseif($imagetype == IMAGETYPE_WBMP && function_exists('imagecreatefromwbmp'))
-		{
-			$image = @imagecreatefromwbmp($path."/".$filename);
-			if($image)
-			{
-				$image = scalethumbnail($path, $filename, $image);
-				if($image) $success = @imagewbmp($image , $path."/".$thumbname);
-			}
-		}
-		elseif($imagetype == IMAGETYPE_XBM && function_exists('imagecreatefromxbm'))
-		{
-			$image = @imagecreatefromxbm($path."/".$filename);
-			if($image)
-			{
-				$image = scalethumbnail($path, $filename, $image);
-				if($image) $success = @imagexbm($image , $path."/".$thumbname);
-			}
-		}
+		else print("File not found: ".basename($oldfile));
 	}
 	else print("No GD extension found");
 	return $success;
 }
 
+
 //
-// Scales a gd library image down to thumbnail size
+// Scales a gd library image down to $pixels size
 //
-function scalethumbnail($path, $filename, $image)
+function scaleimage($image, $pixels, $widthonly = false)
 {
-	$dimensions = calculateimagedimensions($path."/".$filename, true);
-	$result = imagecreate($dimensions["width"], $dimensions["height"]);
+	$dimensions = array("width" => imagesx($image), "height" => imagesy($image), "resized" => false);
+
+	if($dimensions["width"] > $pixels)
+	{
+		$dimensions["resized"] = true;
+		$factor = ceil($dimensions["width"] / $pixels); // add a little more because captioned images are framed
+		$dimensions["width"] = floor($dimensions["width"] / $factor);
+		$dimensions["height"] = floor($dimensions["height"] / $factor);
+	}
+	if(!$widthonly && $dimensions["height"] > $pixels)
+	{
+		$dimensions["resized"] = true;
+		$factor = ceil($dimensions["height"] / $pixels);
+		$dimensions["width"] = floor($dimensions["width"] / $factor);
+		$dimensions["height"] = floor($dimensions["height"] / $factor);
+	}
+
+	if(!$dimensions["resized"]) return $image;
+
+	$result = imagecreatetruecolor($dimensions["width"], $dimensions["height"]);
 	$success = @imagecopyresampled($result, $image, 0, 0, 0, 0, $dimensions["width"], $dimensions["height"], imagesx($image), imagesy($image));
+
 	if($success) return $result;
 	else return false;
 }
-?>
 
+?>

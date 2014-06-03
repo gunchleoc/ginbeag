@@ -20,7 +20,7 @@ include_once($projectroot."includes/objects/categories.php");
 //
 class AddImageForm extends Template {
 
-	function AddImageForm($filename="",$caption="",$source="",$sourcelink="",$copyright="",$permission="", $createthumbnail = false)
+	function AddImageForm($filename="",$caption="",$source="",$sourcelink="",$copyright="",$permission="", $createthumbnail = false, $resizeimage = false)
 	{
 		parent::__construct();
 
@@ -32,7 +32,11 @@ class AddImageForm extends Template {
 		$this->stringvars['permission']=$permission;
 
 		if (extension_loaded('gd') && function_exists('gd_info'))
-			$this->vars['createthumbnailform']= new CheckboxForm("createthumbnail", "createthumbnail", "Generate thumbnail automatically", $createthumbnail, "right");
+		{
+			$this->vars['createthumbnailform'] = new CheckboxForm("createthumbnail", "createthumbnail", "Generate thumbnail automatically", $createthumbnail, "right");
+			$this->vars['resizeimageform'] = new CheckboxForm("resizeimage", "resizeimage", "Resize Automatically", $resizeimage, "right");
+			$this->stringvars["defaultimagewidth"] = getproperty("Image Width");
+		}
 
 		// set permissions radio buttons
 		$this->vars['permission_granted'] = new RadioButtonForm("","permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
@@ -124,6 +128,8 @@ class EditImageForm extends Template {
 
 	function EditImageForm($filename)
 	{
+		global $projectroot;
+
 		parent::__construct(str_replace ( ".", "-", $filename), array(), array(0 => "admin/includes/javascript/editimageform.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
@@ -140,6 +146,12 @@ class EditImageForm extends Template {
 		if (extension_loaded('gd') && function_exists('gd_info'))
 		{
 			$this->stringvars['actionvarscreatethumbnail'] = makelinkparameters(array_merge($actionvars, array("action" => "createthumbnail")));
+			$dimensions = getimagedimensions($projectroot.getproperty("Image Upload Path").getimagesubpath($filename)."/".$filename);
+			if($dimensions["width"] > getproperty("Image Width"))
+			{
+				$this->stringvars['actionvarsresizeimage'] = makelinkparameters(array_merge($actionvars, array("action" => "resizeimage")));
+				$this->stringvars["defaultimagewidth"] = getproperty("Image Width");
+			}
 		}
 
 		$this->stringvars['actionvarsreplace'] = makelinkparameters(array_merge($actionvars, array("action" => "replaceimage")));

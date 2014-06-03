@@ -31,6 +31,7 @@ if($postaction=='savesite' && isset($_POST['submit']))
 	$properties['Email Signature']= $db->setstring(fixquotes(trim($_POST['signature'])));
 	$properties['Date Time Format']=$db->setstring(trim($_POST['datetime']));
 	$properties['Date Format']=$db->setstring(trim($_POST['date']));
+	$properties['Image Width']=$db->setinteger(trim($_POST['imagewidth']));
 	$properties['Thumbnail Size']=$db->setinteger(trim($_POST['thumbnailsize']));
 	$properties['Mobile Thumbnail Size']=$db->setinteger(trim($_POST['mobilethumbnailsize']));
 	$properties['Imagelist Images Per Page']=$db->setinteger(trim($_POST['imagesperpage']));

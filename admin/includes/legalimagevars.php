@@ -29,6 +29,7 @@ $LEGALVARS["page"]=1;
 $LEGALVARS["permission"]=1;
 $LEGALVARS["replaceimage"]=1;
 $LEGALVARS["replacethumb"]=1;
+$LEGALVARS["resizeimage"]=1;
 $LEGALVARS["s_caption"]=1;
 $LEGALVARS["s_categoriesblank"]=1;
 $LEGALVARS["s_copyright"]=1;

@@ -23,7 +23,7 @@ class SiteTechnical extends Template {
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 
   		$properties=getproperties();
-  		
+
   		$this->stringvars["googlekeywords"]=input2html($properties["Google Keywords"]);
   		$this->stringvars["domainname"]=$properties["Domain Name"];
   		$this->stringvars["localpath"]=$properties["Local Path"];
@@ -33,10 +33,11 @@ class SiteTechnical extends Template {
   		$this->stringvars["emailsig"]=input2html($properties["Email Signature"]);
   		$this->stringvars["datetimeformat"]=$properties["Date Time Format"];
   		$this->stringvars["dateformat"]=$properties["Date Format"];
+  		$this->stringvars["imagewidth"]=$properties["Image Width"];
   		$this->stringvars["thumbnailsize"]=$properties["Thumbnail Size"];
   		$this->stringvars["mobilethumbnailsize"]=$properties["Mobile Thumbnail Size"];
 		$this->stringvars["imagesperpage"]=$properties['Imagelist Images Per Page'];
-  		
+
   		$this->vars['submitrow']= new SubmitRow("submit","Submit",true);
   	}
 

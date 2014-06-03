@@ -31,15 +31,19 @@
 			<br />
 			<label for="imagesperpage">Images per page:</label>
 			<input id="imagesperpage" type="text" name="imagesperpage" size="2" maxlength="2" value="{IMAGESPERPAGE}" />
-			<div class="formexplain">The number of images displayed to editors on each page in the image database.</div>
+			<div class="formexplain">The default number of images displayed to editors on each page in the image database.</div>
+			<br />
+			<label for="imagewidth">Image Width:</label>
+			<input id="imagewidth" type="text" name="imagewidth" size="2" maxlength="3" value="{IMAGEWIDTH}" />
+			<div class="formexplain">The default maximum width for images. Images can be resized automatically if your webserver has GD support.</div>
 			<br />
 			<label for="thumbnailsize">Thumbnail Size:</label>
-			<input id="thumbnailsize" type="text" name="thumbnailsize" size="2" maxlength="255" value="{THUMBNAILSIZE}" />
-			<div class="formexplain">The size thumbnails should be at. Shown to webpage editors when they upload images.</div>
+			<input id="thumbnailsize" type="text" name="thumbnailsize" size="2" maxlength="3" value="{THUMBNAILSIZE}" />
+			<div class="formexplain">The size thumbnails should be at. Shown to webpage editors when they upload images, and used for automatic thumbnail generation.</div>
 			<br />
 			<label for="mobilethumbnailsize">Mobile Thumbnail Size:</label>
-			<input id="mobilethumbnailsize" type="text" name="mobilethumbnailsize" size="2" maxlength="255" value="{MOBILETHUMBNAILSIZE}" />
-			<div class="formexplain">The size for mobile thumbnails. For future implementation; ignore this for now.</div>
+			<input id="mobilethumbnailsize" type="text" name="mobilethumbnailsize" size="2" maxlength="2" value="{MOBILETHUMBNAILSIZE}" />
+			<div class="formexplain">The size for mobile thumbnails. 72 is a good value, because it will still fit a thumb. These thumbnails are created automatically if your webserver has GD support.</div>
 		</fieldset>
 		<fieldset>
 			<legend class="highlight">E-Mail</legend>

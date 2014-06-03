@@ -65,20 +65,27 @@
 			</form>
 		</div>
 
-
 		<div class="leftalign" style="width:31% !important;">
 			<fieldset>
 				<legend class="highlight">File Operations</legend>
 				<fieldset>
 					<legend>Image file</legend>
 					<form name="replaceimageform" action="{ACTIONVARSREPLACE}" enctype="multipart/form-data" method="post">
-	      				{HIDDENVARS}
+	      			{HIDDENVARS}
 						<label for="{JSID}replaceimagefile">Select a new image:</label></br>
 						<input id="{JSID}replaceimagefile" type="file" name="newfilename" size="30" maxlength="255" />
+      				<input type="submit" name="replaceimage" value="Replace Image File" class="mainoption">
 						<div class="formexplain">Replace this image with a new file.</div>
-
-	      				<input type="submit" name="replaceimage" value="Replace Image File" class="mainoption">
 	    			</form>
+	    			<!-- BEGIN switch ACTIONVARSRESIZEIMAGE -->
+						<form name="resizeimageform" action="{ACTIONVARSRESIZEIMAGE}" enctype="multipart/form-data" method="post">
+							{HIDDENVARS}
+							<input type="submit" name="resizeimage" value="Resize Image Width" class="mainoption" />
+							<div class="formexplain">
+								Scale the image down to fit the default width of {DEFAULTIMAGEWIDTH} pixels.
+								<br />Supported filetypes: <em>gif</em>, <em>jpeg</em>,<em>png</em>, <em>wbmp</em>, <em>xbm</em>.
+							</div>
+					<!-- END switch ACTIONVARSRESIZEIMAGE -->
 	      		</fieldset>
 	      		<fieldset>
 					<legend>Thumbnail file</legend>
@@ -103,8 +110,11 @@
 						<!-- BEGIN switch ACTIONVARSCREATETHUMBNAIL -->
 						<form name="createthumbnailform" action="{ACTIONVARSCREATETHUMBNAIL}" enctype="multipart/form-data" method="post">
 							{HIDDENVARS}
-							<input type="submit" name="createthumbnail" value="Generate Thumbnail Automatically" class="mainoption" />
-							<div class="formexplain">Autogenerate a new thumbnail.</div>
+							<input type="submit" name="createthumbnail" value="Generate Thumbnail" class="mainoption" />
+							<div class="formexplain">
+								Autogenerate a new thumbnail.
+								<br />Supported filetypes: <em>gif</em>, <em>jpeg</em>,<em>png</em>, <em>wbmp</em>, <em>xbm</em>.
+							</div>
 						<!-- END switch ACTIONVARSCREATETHUMBNAIL -->
 						</form>
       			</fieldset>

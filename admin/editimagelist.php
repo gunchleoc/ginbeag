@@ -174,6 +174,20 @@ if(isset($_POST["addimage"]))
 			addimagecategories($filename,$selectedcats);
 			$filename=basename($filename);
 
+			if(isset($_POST["resizeimage"]))
+			{
+				$resizesuccess = resizeimagewidth($projectroot.getproperty("Image Upload Path").$subpath, $filename);
+
+				if($resizesuccess)
+				{
+					$message .= "Image <em>".$filename."</em> resized successfully.";
+				}
+				else
+				{
+					$message .= "<br />Failed to resize image. ";
+					$error = true;
+				}
+			}
 			if(isset($_POST["createthumbnail"]))
 			{
 				$extension=substr($filename,strrpos($filename,"."),strlen($filename));
@@ -184,7 +198,7 @@ if(isset($_POST["addimage"]))
 				if($thsuccess)
 				{
 					addthumbnail($filename, $imagename.'_thn'.$extension);
-					$message="Thumbnail for <em>".$filename."</em> created successfully.";
+					$message .= "Thumbnail for <em>".$filename."</em> created successfully.";
 				}
 				else
 				{
@@ -276,6 +290,21 @@ elseif($action==="replaceimage")
 			$message .= "Failed to replace the image file.";
 			$error = true;
 		}
+	}
+}
+elseif($action==="resizeimage")
+{
+	$displayeditform = true;
+	$resizesuccess = resizeimagewidth($projectroot.getproperty("Image Upload Path").getimagesubpath($filename), $filename);
+
+	if($resizesuccess)
+	{
+		$message .= "Image <em>".$filename."</em> resized successfully.";
+	}
+	else
+	{
+		$message .= "<br />Failed to resize image. ";
+		$error = true;
 	}
 }
 elseif($action==="addthumb")
@@ -565,7 +594,7 @@ if($form)
 }
 else
 {
-    $addimageform = new AddImageForm($filename, $caption, $source, $sourcelink ,$copyright, $permission, isset($_POST["createthumbnail"]));
+    $addimageform = new AddImageForm($filename, $caption, $source, $sourcelink ,$copyright, $permission, isset($_POST["createthumbnail"]),  isset($_POST["resizeimage"]));
 	$form = new ImageList($offset);
 	$adminimagepage = new AdminImagePage($filename, $form, new AdminMessage($message, $error), $addimageform, $displayeditform);
 }
