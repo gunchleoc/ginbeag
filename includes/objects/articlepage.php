@@ -35,7 +35,7 @@ class Articlesection extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("articlesection.tpl");
+		$this->addTemplate("pages/article/articlesection.tpl");
     }
 }
 
@@ -110,7 +110,7 @@ class ArticlePage extends Template {
     // assigns templates
     function createTemplates()
     {
-      	$this->addTemplate("articlepage.tpl");
+      	$this->addTemplate("pages/article/articlepage.tpl");
     }
 }
 
@@ -141,7 +141,7 @@ class ArticleTOC extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("articletoc.tpl");
+		$this->addTemplate("pages/article/articletoc.tpl");
     }
 }
 
@@ -164,7 +164,7 @@ class ArticleTOCItem extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("articletocitem.tpl");
+		$this->addTemplate("pages/article/articletocitem.tpl");
     }
 }
 
@@ -198,7 +198,7 @@ class ArticlesectionPrintview extends Template {
     // assigns templates
     function createTemplates()
     {
-      	$this->addTemplate("articlesection.tpl");
+      	$this->addTemplate("pages/article/articlesection.tpl");
     }
 }
 
@@ -259,7 +259,7 @@ class ArticlePagePrintview extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("articlepage.tpl");
+		$this->addTemplate("pages/article/articlepage.tpl");
 	}
 }
 

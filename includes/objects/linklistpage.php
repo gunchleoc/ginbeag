@@ -30,7 +30,7 @@ class LinklistLink extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("linklistlink.tpl");
+		$this->addTemplate("pages/linklist/linklistlink.tpl");
     }
 }
 
@@ -77,7 +77,7 @@ class LinkedImage extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("image.tpl");
+		$this->addTemplate("images/image.tpl");
     }
 }
 
@@ -118,7 +118,7 @@ class LinklistPage extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("linklistpage.tpl");
+		$this->addTemplate("pages/linklist/linklistpage.tpl");
     }
 }
 
@@ -153,7 +153,7 @@ class LinklistPagePrintview extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("linklistpage.tpl");
+		$this->addTemplate("pages/linklist/linklistpage.tpl");
     }
 }
 

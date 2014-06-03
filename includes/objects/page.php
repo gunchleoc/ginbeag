@@ -42,7 +42,7 @@ class Editdata extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("editdata.tpl");
+		$this->addTemplate("pages/editdata.tpl");
     }
 }
 
@@ -256,15 +256,15 @@ class NavigatorLink extends Template {
     function createTemplates()
     {
 		if($this->style=="splashpage")
-			$this->addTemplate("navigatorlinksplashpage.tpl");
+			$this->addTemplate("navigator/navigatorlinksplashpage.tpl");
 		elseif($this->style=="mobile")
 			$this->addTemplate("mobile/navigatorlink.tpl");
 		elseif($this->style=="printview")
-			$this->addTemplate("navigatorlinkprintview.tpl");
+			$this->addTemplate("navigator/navigatorlinkprintview.tpl");
 		elseif($this->stringvars['title_class']=="navhighlight")
-			$this->addTemplate("navigatornolink.tpl");
+			$this->addTemplate("navigator/navigatornolink.tpl");
 		else
-			$this->addTemplate("navigatorlink.tpl");
+			$this->addTemplate("navigator/navigatorlink.tpl");
     }
 }
 
@@ -308,13 +308,13 @@ class NavigatorBranch extends Template {
     function createTemplates()
     {
 		if($this->style=="splashpage")
-			$this->addTemplate("navigatorbranchsplashpage.tpl");
+			$this->addTemplate("navigator/navigatorbranchsplashpage.tpl");
 		elseif($this->style=="mobile")
 			$this->addTemplate("mobile/navigatorbranch.tpl");
 		elseif($this->style=="printview")
-			$this->addTemplate("navigatorbranchprintview.tpl");
+			$this->addTemplate("navigator/navigatorbranchprintview.tpl");
 		else
-			$this->addTemplate("navigatorbranch.tpl");
+			$this->addTemplate("navigator/navigatorbranch.tpl");
     }
 }
 
@@ -606,15 +606,15 @@ class Navigator extends Template {
 	function createTemplates()
 	{
 		if($this->displaytype==="splashpage")
-		  $this->addTemplate("navigatorsplashpage.tpl");
+		  $this->addTemplate("navigator/navigatorsplashpage.tpl");
 		elseif($this->displaytype==="splashpagemobile")
 		  $this->addTemplate("mobile/navigatorsplashpage.tpl");
 		elseif($this->displaytype==="printview")
-		  $this->addTemplate("navigatorprintview.tpl");
+		  $this->addTemplate("navigator/navigatorprintview.tpl");
 		elseif($this->displaytype==="mobile")
 		  $this->addTemplate("mobile/navigator.tpl");
 		else
-		  $this->addTemplate("navigator.tpl");
+		  $this->addTemplate("navigator/navigator.tpl");
 	}
 }
 
@@ -635,7 +635,7 @@ class PageIntro extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("pageintro.tpl");
+		$this->addTemplate("pages/pageintro.tpl");
 	}
 }
 
@@ -711,11 +711,11 @@ class PageHeader extends Template {
 	function createTemplates()
 	{
 		if($this->displaytype=="splashpage" || $this->displaytype=="splashpagemobile")
-			$this->addTemplate("splashpageheader.tpl");
+			$this->addTemplate("pages/splashpageheader.tpl");
 		elseif($this->displaytype=="mobile")
 			$this->addTemplate("mobile/pageheader.tpl");
 		else
-			$this->addTemplate("pageheader.tpl");
+			$this->addTemplate("pages/pageheader.tpl");
 	}
 }
 
@@ -742,7 +742,7 @@ class PageFooter extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("pagefooter.tpl");
+		$this->addTemplate("pages/pagefooter.tpl");
 	}
 }
 
@@ -1028,13 +1028,13 @@ class Page extends Template {
 	function createTemplates()
 	{
 		if($this->displaytype=="splashpage")
-			$this->addTemplate("splashpage.tpl");
+			$this->addTemplate("pages/splashpage.tpl");
 		elseif($this->displaytype=="splashpagemobile")
-			$this->addTemplate("splashpage.tpl");
+			$this->addTemplate("pages/splashpage.tpl");
 		elseif($this->displaytype=="mobile")
 			$this->addTemplate("mobile/page.tpl");
 		else
-			$this->addTemplate("page.tpl");
+			$this->addTemplate("pages/page.tpl");
 	}
 }
 

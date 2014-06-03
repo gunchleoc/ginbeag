@@ -144,7 +144,7 @@ class Showimage extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("showimage.tpl");
+		$this->addTemplate("images/showimage.tpl");
     }
 }
 
@@ -175,7 +175,7 @@ class ImageEditdata extends Template {
     // assigns templates
     function createTemplates()
     {
-      	$this->addTemplate("imageeditdata.tpl");
+      	$this->addTemplate("images/imageeditdata.tpl");
     }
 }
 

@@ -65,7 +65,7 @@ class Image extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("image.tpl");
+		$this->addTemplate("images/image.tpl");
 	}
 }
 
@@ -144,7 +144,7 @@ class CaptionedImage extends Template {
     // assigns templates
     function createTemplates()
     {
-      	$this->addTemplate("captionedimage.tpl");
+      	$this->addTemplate("images/captionedimage.tpl");
     }
 }
 
@@ -232,7 +232,7 @@ class ImageCaption extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("imagecaption.tpl");
+		$this->addTemplate("images/imagecaption.tpl");
     }
 }
 

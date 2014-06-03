@@ -73,7 +73,7 @@ class Guestbook extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("guestbook.tpl");
+		$this->addTemplate("pages/guestbook/guestbook.tpl");
     }
 
 }
@@ -113,7 +113,7 @@ class GuestbookEntryList extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("guestbookentrylist.tpl");
+		$this->addTemplate("pages/guestbook/guestbookentrylist.tpl");
     }
 
 }
@@ -143,7 +143,7 @@ class GuestbookEntry extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("guestbookentry.tpl");
+		$this->addTemplate("pages/guestbook/guestbookentry.tpl");
     }
 
 }
@@ -173,7 +173,7 @@ class GuestbookPost extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("guestbookpost.tpl");
+		$this->addTemplate("pages/guestbook/guestbookpost.tpl");
     }
 
 }
@@ -225,7 +225,7 @@ class GuestbookForm extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("guestbookform.tpl");
+		$this->addTemplate("pages/guestbook/guestbookform.tpl");
     }
 
 }

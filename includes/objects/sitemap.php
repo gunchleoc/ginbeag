@@ -130,7 +130,7 @@ class SitemapLink extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("navigatorlink.tpl");
+		$this->addTemplate("navigator/navigatorlink.tpl");
     }
 }
 
@@ -181,7 +181,7 @@ class SitemapBranch extends Template {
     // assigns templates
     function createTemplates()
     {
-        $this->addTemplate("navigatorbranch.tpl");
+        $this->addTemplate("navigator/navigatorbranch.tpl");
     }
 }
 ?>

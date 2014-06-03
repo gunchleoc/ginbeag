@@ -36,7 +36,7 @@ class GalleryCaptionedImage extends Template {
     // assigns templates
     function createTemplates()
     {
-      	$this->addTemplate("captionedimage.tpl");
+      	$this->addTemplate("images/captionedimage.tpl");
     }
 }
 
@@ -65,7 +65,7 @@ class GalleryImage extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("galleryimage.tpl");
+		$this->addTemplate("pages/gallery/galleryimage.tpl");
 	}
 
 }
@@ -155,7 +155,7 @@ class GalleryPage extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("gallerypage.tpl");
+		$this->addTemplate("pages/gallery/gallerypage.tpl");
 	}
 }
 

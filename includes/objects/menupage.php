@@ -58,7 +58,7 @@ class MenuPage extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("menupage.tpl");
+		$this->addTemplate("pages/menu/menupage.tpl");
 	}
 }
 
@@ -100,7 +100,7 @@ class ArticleInfo extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("articleinfo.tpl");
+		$this->addTemplate("pages/menu/articleinfo.tpl");
     }
 }
 
@@ -168,7 +168,7 @@ class ArticleMenuPage extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("articlemenupage.tpl");
+		$this->addTemplate("pages/menu/articlemenupage.tpl");
 	}
 
 
@@ -265,7 +265,7 @@ class ArticlemenuOrderSelectionForm  extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("optionform.tpl");
+      $this->addTemplate("forms/optionform.tpl");
     }
 }
 
@@ -304,7 +304,7 @@ class MenuLinkListLink extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("menulinklistlink.tpl");
+		$this->addTemplate("pages/menu/menulinklistlink.tpl");
     }
 }
 
@@ -326,7 +326,7 @@ class MenuLinkListBranch extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("menulinklistbranch.tpl");
+		$this->addTemplate("pages/menu/menulinklistbranch.tpl");
 	}
 }
 
@@ -409,7 +409,7 @@ class MenuNavigatorLink extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("menunavigatorlink.tpl");
+		$this->addTemplate("pages/menu/menunavigatorlink.tpl");
 	}
 }
 
@@ -451,7 +451,7 @@ class MenuNavigatorBranch extends Template {
     // assigns templates
     function createTemplates()
     {
-        $this->addTemplate("menunavigatorbranch.tpl");
+        $this->addTemplate("pages/menu/menunavigatorbranch.tpl");
     }
 }
 ?>

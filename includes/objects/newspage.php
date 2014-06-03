@@ -42,9 +42,9 @@ class Newsitemsection extends Template {
     // assigns templates
     function createTemplates()
     {
-		if($this->isquotestart) $this->addTemplate("newsitemsectionquotestart.tpl");
-		elseif($this->isquoteend) $this->addTemplate("newsitemsectionquoteend.tpl");
-		else $this->addTemplate("newsitemsection.tpl");
+		if($this->isquotestart) $this->addTemplate("pages/news/newsitemsectionquotestart.tpl");
+		elseif($this->isquoteend) $this->addTemplate("pages/news/newsitemsectionquoteend.tpl");
+		else $this->addTemplate("pages/news/newsitemsection.tpl");
     }
 }
 
@@ -178,7 +178,7 @@ class Newsitem extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("newsitem.tpl");
+		$this->addTemplate("pages/news/newsitem.tpl");
     }
 }
 
@@ -217,7 +217,7 @@ class Newsitempage extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("newsitempage.tpl");
+		$this->addTemplate("pages/news/newsitempage.tpl");
     }
 
 }
@@ -359,7 +359,7 @@ class NewsPage extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("newspage.tpl");
+		$this->addTemplate("pages/news/newspage.tpl");
     }
 
     function makenewsfilterform($page,$selectedcat="",$from=array(),$to=array(),$order="date",$ascdesc="desc")
@@ -416,7 +416,7 @@ class NewsOrderSelectionForm  extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("optionform.tpl");
+		$this->addTemplate("forms/optionform.tpl");
     }
 }
 

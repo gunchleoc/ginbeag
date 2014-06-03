@@ -53,7 +53,7 @@ class ContactPage extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("contactpage.tpl");
+		$this->addTemplate("pages/contact/contactpage.tpl");
     }
 }
 
@@ -117,7 +117,7 @@ class ContactForm extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("contactform.tpl");
+		$this->addTemplate("pages/contact/contactform.tpl");
     }
 
 }

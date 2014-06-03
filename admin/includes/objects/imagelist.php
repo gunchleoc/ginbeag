@@ -646,7 +646,7 @@ class ImageOrderSelectionForm  extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("optionform.tpl");
+		$this->addTemplate("forms/optionform.tpl");
     }
 }
 
@@ -675,7 +675,7 @@ class ImageUsersSelectionForm  extends Template {
     // assigns templates
     function createTemplates()
     {
-      $this->addTemplate("optionform.tpl");
+      $this->addTemplate("forms/optionform.tpl");
     }
 }
 

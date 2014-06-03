@@ -31,7 +31,7 @@ class JumpToPageForm  extends Template {
 
 	function createTemplates()
 	{
-		$this->addTemplate("jumptopageform.tpl");
+		$this->addTemplate("forms/jumptopageform.tpl");
 	}
 }
 
@@ -50,7 +50,7 @@ class PageMenu extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("pagemenu.tpl");
+		$this->addTemplate("forms/pagemenu.tpl");
     }
 
     function makelinks($offset, $number, $last, $params = array())
@@ -191,7 +191,7 @@ class CategorySelectionForm  extends Template {
 
     function createTemplates()
     {
-		$this->addTemplate("optionform.tpl");
+		$this->addTemplate("forms/optionform.tpl");
     }
 }
 
@@ -215,7 +215,7 @@ class AscDescSelectionForm  extends Template {
 
     function createTemplates()
     {
-      	$this->addTemplate("ascdescselection.tpl");
+      	$this->addTemplate("forms/ascdescselection.tpl");
     }
 }
 
@@ -239,7 +239,7 @@ class OptionFormOption  extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("optionformoption.tpl");
+		$this->addTemplate("forms/optionformoption.tpl");
     }
 }
 
@@ -273,7 +273,7 @@ class OptionForm extends Template {
     // assigns templates and list objects
     function createTemplates()
     {
-		$this->addTemplate("optionform.tpl");
+		$this->addTemplate("forms/optionform.tpl");
     }
 }
 
@@ -304,7 +304,7 @@ class OptionFormMultiple extends Template {
     // assigns templates and list objects
     function createTemplates()
     {
-		$this->addTemplate("optionform.tpl");
+		$this->addTemplate("forms/optionform.tpl");
     }
 }
 
@@ -342,7 +342,7 @@ class NumberOptionForm  extends Template {
     // assigns templates and list objects
     function createTemplates()
     {
-		$this->addTemplate("optionform.tpl");
+		$this->addTemplate("forms/optionform.tpl");
     }
 }
 
@@ -411,7 +411,7 @@ class CheckboxForm extends Template {
     // assigns templates and list objects
     function createTemplates()
     {
-		$this->addTemplate("checkboxform.tpl");
+		$this->addTemplate("forms/checkboxform.tpl");
     }
 }
 
@@ -439,7 +439,7 @@ class RadioButtonForm extends Template {
 	// assigns templates and list objects
 	function createTemplates()
 	{
-		$this->addTemplate("radiobuttonform.tpl");
+		$this->addTemplate("forms/radiobuttonform.tpl");
 	}
 }
 
@@ -466,7 +466,7 @@ class LinkButton extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("linkbutton.tpl");
+		$this->addTemplate("forms/linkbutton.tpl");
 	}
 }
 ?>
