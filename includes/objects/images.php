@@ -47,6 +47,19 @@ class Image extends Template {
 			$image='<span class="smalltext">Image <i>'.$filename.'</i></span>';
 		}
 		$this->stringvars['image']=$image;
+
+		// make sure a mobile thumbnail exists
+		if (extension_loaded('gd') && function_exists('gd_info'))
+		{
+			$extension = substr($filename, strrpos($filename,"."), strlen($filename));
+			$thumbname = substr($filename, 0, strrpos($filename,".")).'_thn'.$extension;
+			$path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename));
+			if(!file_exists($path."/mobile/".$thumbname))
+			{
+				include_once($projectroot."functions/imagefiles.php");
+				createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
+			}
+		}
 	}
 
 	// assigns templates

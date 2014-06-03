@@ -111,51 +111,61 @@ if(isset($_POST["addimage"]))
 {
 	unset($_POST["addimage"]);
 	$filename=$_FILES['filename']['name'];
-  	$thumbnail=$_FILES['thumbnail']['name'];
+	$thumbnail=$_FILES['thumbnail']['name'];
 
-  	if(!$filename)
-  	{
+	if(!$filename)
+	{
 		$message = 'Please select an image for upload';
 		$error = true;
-  	}
+	}
   	else
   	{
-	    $newname=$_POST['newname'];
+		$newname=$_POST['newname'];
 
-	    // make new path for each month to avoid directory that is too full
-	    $date = getdate();
-	  	if ($date["mon"]<10) $date["mon"]="0".$date["mon"];
-	    $subpath ="/".$date["year"].$date["mon"];
+		// make new path for each month to avoid directory that is too full
+		$date = getdate();
+		if ($date["mon"]<10) $date["mon"]="0".$date["mon"];
+		$subpath ="/".$date["year"].$date["mon"];
 
-	    // create path in file system if necessary and set permissions
-	    $imagedir=$projectroot.getproperty("Image Upload Path").$subpath;
-	    if(!file_exists($imagedir))
-	    {
-	    	mkdir($imagedir, 0757);
-	    }
-	    $copyindexsuccess = @copy($projectroot.getproperty("Image Upload Path")."/index.html", $imagedir."/index.html");
-	    $copyindexsuccess = $copyindexsuccess & @copy($projectroot.getproperty("Image Upload Path")."/index.php", $imagedir."/index.php");
-	    if(!$copyindexsuccess )
-	    {
+		// create path in file system if necessary and set permissions
+		$imagedir=$projectroot.getproperty("Image Upload Path").$subpath;
+		if(!file_exists($imagedir))
+		{
+			mkdir($imagedir, 0757);
+		}
+		$copyindexsuccess = @copy($projectroot.getproperty("Image Upload Path")."/index.html", $imagedir."/index.html");
+		$copyindexsuccess = $copyindexsuccess & @copy($projectroot.getproperty("Image Upload Path")."/index.php", $imagedir."/index.php");
+		if(!$copyindexsuccess )
+		{
 			$message .= 'SECURITY WARNING: unable to create index files in '.$imagedir.'. Please use FTP to copy these files from <em>'.$projectroot.getproperty("Image Upload Path").'</em> for security reasons!';
 			$error = true;
-	    }
-	    if(strlen($newname)>0)
-	    {
+		}
+		if(strlen($newname)>0)
+		{
 			$extension=substr($filename,strrpos($filename,"."),strlen($filename));
 			$newname.=$extension;
 			$filename=$newname;
-	    }
-	    $filename=cleanupfilename($filename);
-	    $filename=str_replace("_thn.",".",$filename);
+		}
+		$filename=cleanupfilename($filename);
+		$filename=str_replace("_thn.",".",$filename);
 
-	    if(imageexists($filename))
-	    {
+		$extension = substr($filename,strrpos($filename,"."),strlen($filename));
+		$imagename = substr($filename,0,strrpos($filename,"."));
+		if(strlen($filename) > 40)
+		{
+			$imagename = substr($imagename,0,40);
+			$filename = $imagename.$extension;
+			if(isset($_POST['filename'])) $_POST['filename'] = $filename;
+			if(isset($_GET['filename'])) $_GET['filename'] = $filename;
+		}
+
+		if(imageexists($filename))
+		{
 			$message .= 'Image already exists: '.$filename.'';
 			$error = true;
-	    }
-	    else
-	    {
+		}
+		else
+		{
 			$errorcode = uploadfile(getproperty("Image Upload Path").$subpath, "filename", $filename);
 			if($errorcode == UPLOAD_ERR_OK)
 			{
@@ -167,13 +177,27 @@ if(isset($_POST["addimage"]))
 				$success = false;
 				$error = true;
 			}
-	    }
-	    if($success)
-	    {
+		}
+		if($success)
+		{
 			addimage($filename,$subpath,$caption,$source,$sourcelink,$copyright,$permission);
 			addimagecategories($filename,$selectedcats);
 			$filename=basename($filename);
 
+			// always create thumbnail for mobile style
+			if (extension_loaded('gd') && function_exists('gd_info'))
+			{
+				$thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").$subpath, $filename, true);
+				if($thsuccess)
+				{
+					$message .= "Mobile thumbnail for <em>".$filename."</em> created successfully.";
+				}
+				else
+				{
+					$message .= "<br />Failed to create mobile thumbnail. ";
+					$error = true;
+				}
+			}
 			if(isset($_POST["resizeimage"]))
 			{
 				$resizesuccess = resizeimagewidth($projectroot.getproperty("Image Upload Path").$subpath, $filename);
@@ -190,9 +214,6 @@ if(isset($_POST["addimage"]))
 			}
 			if(isset($_POST["createthumbnail"]))
 			{
-				$extension=substr($filename,strrpos($filename,"."),strlen($filename));
-				$imagename=substr($filename,0,strrpos($filename,"."));
-
 				$thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").$subpath, $filename);
 
 				if($thsuccess)
@@ -208,8 +229,6 @@ if(isset($_POST["addimage"]))
 			}
 			elseif($thumbnail)
 			{
-				$extension=substr($thumbnail,strrpos($thumbnail,"."),strlen($thumbnail));
-				$imagename=substr($filename,0,strrpos($filename,"."));
 				$newthumbname=$imagename.'_thn'.$extension;
 
 				$errorcode = uploadfile(getproperty("Image Upload Path").$subpath, "thumbnail", $newthumbname);
@@ -235,17 +254,17 @@ if(isset($_POST["addimage"]))
 					$error = true;
 				}
 			}
-	    }
-	    if($success)
-	    {
+		}
+		if($success)
+		{
 			$message.="Added Image";
 			$displayeditform=true;
-	    }
-	    else
-	    {
+		}
+		else
+		{
 			$message .= "<br />Failed to upload image. ";
 			$error = true;
-	    }
+		}
 	}
 }
 elseif($action==="replaceimage")
@@ -484,13 +503,22 @@ elseif($action==="executedelete")
 	    $newsitems=newsitemsforimage($filename);
 	    if(!((count($pages)>0) || (count($newsitems)>0)))
 	    {
+			// delete mobile thumbnail
+			$extension=substr($filename,strrpos($filename,"."),strlen($filename));
+			$imagename=substr($filename,0,strrpos($filename,"."));
+			$thumbname=$imagename.'_thn'.$extension;
+
+			deletefile($imagedir."/mobile", $thumbname);
+
 			if(hasthumbnail($filename))
 			{
 				$thumbnail=getthumbnail($filename);
-				$success=deletefile($imagedir,$thumbnail);
+				if(!file_exists($projectroot."/".$imagedir."/".$thumbnail)) $success = true;
+				else $success = deletefile($imagedir,$thumbnail);
+
 				if($success)
 				{
-					$success = deletefile($imagedir,$filename);
+					deletefile($imagedir,$filename);
 					if(!file_exists($filename))
 					{
 						deleteimage($filename);

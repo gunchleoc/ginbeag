@@ -347,7 +347,7 @@ function fixquotes($text)
 //
 function cleanupfilename($filename)
 {
-	return preg_replace("/[^\.A-Z0-9_-]/i","_",stripslashes($filename));
+	return strtolower(preg_replace("/[^\.A-Z0-9_-]/i","_",stripslashes($filename)));
 }
 
 
