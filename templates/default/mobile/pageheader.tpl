@@ -8,6 +8,11 @@
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<link rel="stylesheet" href="{STYLESHEET}" type="text/css">
 	<title>{SITENAME} - {BROWSERTITLE}</title>
+	<style>
+html body {
+	font-size: 250%;
+}
+	</style>
 	<script type="text/javascript" src="includes/javascript/jquery.js"></script>
 	<script language="JavaScript">
 
@@ -99,7 +104,7 @@ $(document).ready(function() {
 	</script>
 </head>
 <body>
-	<div id="wrapper">
+	<div>
 		<div id="header">
 			<div id="headerleft">
 				<!-- BEGIN switch LEFT_IMAGE -->
@@ -129,7 +134,6 @@ $(document).ready(function() {
 			<div class="leftalign" style="font-size:80%; margin-left:0.2em; margin-right:1em;">
 				<input id="menubutton" type="button" name="menubutton" value="Menu" class="buttonlink" />
 			</div>
-			<div class="leftalign">{TITLE}</div>
 			<div class="rightalign" style="font-size:80%; margin-top:0.25em; margin-left:1em; margin-right:0.2em;">
 				<a href="{DISPLAYTYPELINK}" class="buttonlink">{L_DISPLAYTYPELINK}</a>
 			</div>
