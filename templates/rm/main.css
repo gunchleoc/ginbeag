@@ -103,7 +103,7 @@ input.mainoption {
 
 
 #headercenter {
-	width: 56.5%;
+	width: 60%;
 	text-align: center;
 	display: block;
     margin: 0 auto;
@@ -288,6 +288,39 @@ a.navlink:active { text-decoration:none; color: #CCCCFF; }
 	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
 	margin:0.25em;
 	color : #FFCCCC;
+}
+
+/**************** button *****************/
+
+.buttonlink {
+	text-align: right;
+	text-decoration: none;
+	border: #CCF 1px solid;
+	color: #FFC;
+	background-color: #0B2A3A;
+	padding: 0.2em;
+	padding-left: 0.3em;
+	padding-right: 0.3em;
+	font-weight: normal;
+	border-radius: 0.4em;
+	font-family: Arial, Helvetica, sans-serif;
+
+	background: -moz-linear-gradient(top, rgba(35,61,105,1) 0%, rgba(107,128,164,1) 44%, rgba(15,56,77,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(35,61,105,1)), color-stop(44%,rgba(107,128,164,1)), color-stop(100%,rgba(15,56,77,1)));
+	background: -webkit-linear-gradient(top, rgba(35,61,105,1) 0%,rgba(107,128,164,1) 44%,rgba(15,56,77,1) 100%);
+	background: -o-linear-gradient(top, rgba(35,61,105,1) 0%,rgba(107,128,164,1) 44%,rgba(15,56,77,1) 100%);
+	background: -ms-linear-gradient(top, rgba(35,61,105,1) 0%,rgba(107,128,164,1) 44%,rgba(15,56,77,1) 100%);
+	background: linear-gradient(to bottom, rgba(35,61,105,1) 0%,rgba(107,128,164,1) 44%,rgba(15,56,77,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#233d69', endColorstr='#0f384d',GradientType=0 );
+}
+
+a.buttonlink {
+	color: #FFC;
+	text-decoration: none;
+}
+
+a.buttonlink:hover {
+	text-decoration: none;
 }
 
 

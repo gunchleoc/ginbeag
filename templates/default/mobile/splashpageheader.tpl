@@ -19,7 +19,10 @@ if(navigator.appName =="Microsoft Internet Explorer")
 <body>
 	<div id="wrapper">
 		<div id="headerleft">
-			<a href="{DISPLAYTYPELINK}" class="logoutlink">{L_DISPLAYTYPELINK}</a>
+			<!-- BEGIN switch LOGGED_IN -->
+			 <a href="{LOGOUTLINK}">Log out</a>
+			<!-- END switch LOGGED_IN -->
+			<a href="{DISPLAYTYPELINK}" class="buttonlink">{L_DISPLAYTYPELINK}</a>
 		</div>
 		<div id="headercenter" class="splashpageheaderspacer">
 			<span class="maintitle">{SITENAME}</span>
@@ -28,9 +31,5 @@ if(navigator.appName =="Microsoft Internet Explorer")
 			<!-- END switch SITE_DESCRIPTION -->
 		</div>
 		<div id="headerright">
-			&nbsp;
-			<!-- BEGIN switch LOGGED_IN -->
-			 <a href="{LOGOUTLINK}">Log out</a>
-			<!-- END switch LOGGED_IN -->
 		</div>
 		<div class="newline"></div>

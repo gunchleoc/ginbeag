@@ -14,11 +14,15 @@ class ContactPage extends Template {
 
     function ContactPage($email, $subject, $messagetext, $sendcopy, $userid, $token, $errormessage="", $sendmail=false)
     {
+		global $_GET;
     	parent::__construct();
 
-		$this->vars['header'] = new PageHeader(0,utf8_decode(getlang("pagetitle_contact")));
+		if(isset($_GET["m"])) $displaytype = "mobile";
+		else $displaytype = "page";
+
+		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_contact")), $displaytype);
 		$this->vars['footer'] = new PageFooter();
-		$this->vars['navigator'] = new Navigator(0,1,0,false,false);
+		$this->vars['navigator'] = new Navigator(0, 1, 0, $displaytype, false);
 
 		if(getproperty('Display Banners'))
 		{
@@ -34,7 +38,7 @@ class ContactPage extends Template {
 			$this->stringvars['errormessage']=$errormessage;
 			$this->vars['emailinfo']= new EmailInfo($email,$subject,$messagetext,$sendcopy);
 			$this->stringvars['l_tryagain']=getlang("email_tryagain");
-			$this->vars['contactform']=new ContactForm($email, $subject, $messagetext, $sendcopy, $userid, $token);
+			$this->vars['contactform']=new ContactForm($email, $subject, $messagetext, $sendcopy, $userid, $token, $displaytype);
 		}
 		elseif($sendmail)
 		{
@@ -46,7 +50,7 @@ class ContactPage extends Template {
 		{
 			$this->stringvars['blankform']="true";
 			$this->stringvars['l_pageintro']=getlang("pageintro_contact");
-			$this->vars['contactform']=new ContactForm("", "", "", true, $userid, $token);
+			$this->vars['contactform']=new ContactForm("", "", "", true, $userid, $token, $displaytype);
 		}
  	}
 
@@ -66,10 +70,12 @@ class ContactPage extends Template {
 // Form for sending an e-mail to site owners
 //
 class ContactForm extends Template {
+	var $displaytype;
 
-    function ContactForm($email, $subject, $message, $sendcopy, $userid, $token)
+    function ContactForm($email, $subject, $message, $sendcopy, $userid, $token, $displaytype)
     {
     	global $emailvariables;
+    	$this->displaytype = $displaytype;
     	parent::__construct();
 
     	$contacts=getallcontacts();
@@ -117,7 +123,10 @@ class ContactForm extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("pages/contact/contactform.tpl");
+		if($this->displaytype == "mobile")
+			$this->addTemplate("mobile/contactform.tpl");
+		else
+			$this->addTemplate("pages/contact/contactform.tpl");
     }
 
 }

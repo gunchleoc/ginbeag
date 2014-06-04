@@ -4,14 +4,12 @@ Gallery: move reindex gallery to synopsis etc.
 redesign todos
 _____________________________________________________________
 
-working on mobile style
-
-while I'm at it, menu page / navigator levels overhaul
+menu page / navigator levels overhaul
 
 =============================================================
 
-<link rel="icon" 
-      type="image/png" 
+<link rel="icon"
+      type="image/png"
       href="http://example.com/myicon.png">
 
 The format of the image must be one of PNG (a W3C standard), GIF, or ICO.
@@ -37,10 +35,6 @@ AJAX for image forms - all done except for newsitem synopsis images
 
 #############################################################
 
-mobile style: image generation needed!
-
-#############################################################
-
 
 Desired new public features:
 =====================
@@ -55,8 +49,6 @@ Desired new admin features:
 =====================
 - AJAX editor: get styles + colors from database, then make color button
 - present internal links in preview with the correct link target? AJAX editor + Preview
-- imagelist: unknownimageform group images with thumbnails.
-- editimagelist: missing/unused etc. neu programmieren. in imagefilterform.tpl auskommentiert. unused, unknown, missing, nothumb, missingthumb
 - editimagelist: cat search option to exclude subcats
 - checkexternal/internal links
 - admin - register link not accessible - keep it hidden. Make new site function to send register link.

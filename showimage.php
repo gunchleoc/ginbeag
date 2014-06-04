@@ -48,7 +48,11 @@ if(isset($_GET['item']))
 {
 	$item=$_GET['item'];
 	// get image from item array
-	$image=$_POST[$_GET['item']];
+	if(isset($_POST[$_GET['item']]))
+	{
+		$image = $_POST[$_GET['item']];
+		$_GET['image'] = $image;
+	}
 }
 
 $showimage = new Showimage($page,$image,$item,false);

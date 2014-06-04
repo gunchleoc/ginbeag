@@ -1,1 +1,1 @@
-<a href="{LINK}" class="navlink"{LINK_ATTRIBUTES}><span class="{TITLE_CLASS}">{TITLE}</span></a>
+<a href="{LINK}" class="navtitle"{LINK_ATTRIBUTES}>{TITLE}</a>

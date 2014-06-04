@@ -8,6 +8,14 @@ $lang=array();
 $lang["title_navigator"] = "Navigator";
 $lang["title_content"] = "Content";
 
+/**************************************************************/
+/* page header ************************************************/
+/**************************************************************/
+
+$lang["header_mobilestyle"]="Mobile Style";
+$lang["header_desktopstyle"]="Desktop Style";
+$lang["header_showmenu"]="Menu ▼";
+$lang["header_hidemenu"]="Menu ▲";
 
 /**************************************************************/
 /* page footer ************************************************/

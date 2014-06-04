@@ -11,22 +11,21 @@ include_once($projectroot."functions/guestbook.php");
 // Guestbook master
 //
 class Guestbook extends Template {
-    // vars that are simple strings
-    var $stringvars=array();
-    //var $vars=array();
-
 
     function Guestbook($postername,$email,$subject,$emailmessage,  $token, $offset=0, $showguestbookform=false, $showpost=false, $showleavemessagebutton=true, $itemsperpage=10, $title="", $listtitle="", $message="", $error="", $postadded=false)
     {
+		global $_GET;
     	parent::__construct();
 
-		$this->vars['header'] = new PageHeader(0,utf8_decode(getlang("pagetitle_guestbook")));
+		$this->stringvars['title'] = $title;
+		if(isset($_GET["m"])) $displaytype = "mobile";
+		else $displaytype = "page";
+
+		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_guestbook")), $displaytype);
 		$this->vars['footer'] = new PageFooter();
 
-		$this->stringvars['title'] = $title;
 
-
-		$this->vars['navigator'] = new Navigator(0,1,0,false,false);
+		$this->vars['navigator'] = new Navigator(0, 1, 0, $displaytype, false);
 
 
 		if(getproperty('Display Banners'))

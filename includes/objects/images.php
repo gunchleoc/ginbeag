@@ -11,11 +11,12 @@ class Image extends Template {
 
     function Image($filename, $imageautoshrink, $usethumbnail, $params = array(), $showhidden=false)
     {
-		global $projectroot;
+		global $projectroot, $_GET;
 
 		parent::__construct();
 
 		$params["image"] = $filename;
+		if(isset($_GET["m"])) $params["m"] = "on";
 
 		$image="";
 		$alttext=title2html(getcaption($filename));

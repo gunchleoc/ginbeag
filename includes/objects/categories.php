@@ -11,9 +11,10 @@ include_once($projectroot."language/languages.php");
 class CategorylistLink extends Template {
 
 
-    function CategorylistLink($category,$page, $cattype)
-    {
-    	parent::__construct();
+	 function CategorylistLink($category,$page, $cattype)
+	 {
+		global $_GET;
+		parent::__construct();
 		$this->stringvars['title']=title2html(getcategoryname($category, $cattype));
 		if(getpagetype($page) == "news")
 		{
@@ -34,6 +35,7 @@ class CategorylistLink extends Template {
 			$linkparams["order"] = "date";
 			$linkparams["ascdesc"] = $order;
 			$linkparams["filter"] = "Go";
+			if(isset($_GET["m"])) $linkparams["m"] = "on";
 			$this->stringvars['link'] = makelinkparameters($linkparams);
 		}
 		else
@@ -45,17 +47,16 @@ class CategorylistLink extends Template {
 			$linkparams["order"] = "title";
 			$linkparams["ascdesc"] = "asc";
 			$linkparams["filter"] = "Go";
-
+			if(isset($_GET["m"])) $linkparams["m"] = "on";
 			$this->stringvars['link'] = makelinkparameters($linkparams);
 		}
+	}
 
-    }
-
-    // assigns templates
-    function createTemplates()
-    {
+	// assigns templates
+	function createTemplates()
+	{
 		$this->addTemplate("categories/categorylistlink.tpl");
-    }
+	}
 }
 
 

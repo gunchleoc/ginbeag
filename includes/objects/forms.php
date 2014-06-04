@@ -15,7 +15,10 @@ class JumpToPageForm  extends Template {
 
 	function JumpToPageForm($file="",$params=array(),$align="right", $target="")
 	{
+		global $_GET;
 		parent::__construct();
+
+		if(isset($_GET["m"])) $params["m"] = "on";
 
 		$attributes="";
 		if($file) $attributes.=' action="'.$file.'"';
@@ -43,7 +46,9 @@ class PageMenu extends Template {
 
     function PageMenu($offset, $number, $last, $params = array())
     {
-    	parent::__construct();
+		global $_GET;
+		parent::__construct();
+		if(isset($_GET["m"])) $params["m"] = "on";
 		$this->stringvars['pagemenu']=$this->makelinks($offset, $number, $last, $params, $this->stringvars['page']);
     }
 

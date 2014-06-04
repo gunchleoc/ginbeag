@@ -8,6 +8,14 @@ $lang=array();
 $lang["title_navigator"] = "Clàr-taice";
 $lang["title_content"] = "Susbaint";
 
+/**************************************************************/
+/* page header ************************************************/
+/**************************************************************/
+
+$lang["header_mobilestyle"]="Inneal-làimhe";
+$lang["header_desktopstyle"]="Deasg";
+$lang["header_showmenu"]="Clàr-taice ▼";
+$lang["header_hidemenu"]="Clàr-taice ▲";
 
 /**************************************************************/
 /* page footer ************************************************/

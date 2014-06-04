@@ -1,1 +1,1 @@
-<div class="headerpagetitle newline">{LINK}</div>
+<div class="headerpagetitle newline" style="text-align:left; width:initial;">{LINK}</div>

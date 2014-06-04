@@ -37,9 +37,11 @@ class Showimage extends Template {
 			$pagetitle = $pagetitle." - ".$caption;
 		}
 		$this->vars['pageintro'] = new PageIntro($pagetitle,"");
-		$this->vars['header']= new PageHeader($this->stringvars['page'],$pagetitle);
 
-		$this->vars['navigator'] = new Navigator($this->stringvars['page'],false,1,"page",$showhidden);
+		if(isset($_GET["m"])) $displaytype = "mobile";
+		else $displaytype = "page";
+		$this->vars['header']= new PageHeader($this->stringvars['page'], $pagetitle, $displaytype);
+		$this->vars['navigator'] = new Navigator($this->stringvars['page'], false, 1, $displaytype, $showhidden);
 
 		if(getproperty('Display Banners'))
 		{
@@ -50,13 +52,16 @@ class Showimage extends Template {
 
       	$this->vars['footer'] = new PageFooter();
 
+			$linkparams = array("page" => $this->stringvars['page']);
+			if(isset($_GET["m"])) $linkparams["m"] = "on";
+
       	// link to gallery page
       	if($this->stringvars['page']!=0)
       	{
       		if($showhidden)
-				$this->stringvars['returnpage']='pagedisplay.php'.makelinkparameters(array("page" => $this->stringvars['page']));
+				$this->stringvars['returnpage']='pagedisplay.php'.makelinkparameters($linkparams);
       		else
-				$this->stringvars['returnpage']='index.php'.makelinkparameters(array("page" => $this->stringvars['page']));
+				$this->stringvars['returnpage']='index.php'.makelinkparameters($linkparams);
       		$this->stringvars['returnpagetitle']=getlang("image_viewthumbnails");
       	}
 
@@ -66,7 +71,7 @@ class Showimage extends Template {
   		$previousitem = -1;
   		$nextitem = -1;
 
-		if($item!=0)
+		if($item!=0 && isset($_POST[0]))
 		{
   			// generate item array from http_post_vars
   			$items=array();
@@ -90,10 +95,6 @@ class Showimage extends Template {
 			$previousitem = $item-1;
 			$nextitem = $item+1;
 		}
-
-
-		$linkparams = array();
-		$linkparams["page"] = $this->stringvars['page'];
 
 		if(($this->stringvars['page']!=0 || $item!=0) && $previousitem >=0)
 		{

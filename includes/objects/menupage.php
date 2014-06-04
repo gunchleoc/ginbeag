@@ -122,9 +122,12 @@ class ArticleMenuPage extends Template {
 
 		$this->pagetype=getpagetypearray($page);
 
-		$this->stringvars['actionvars'] = makelinkparameters(array("page" => $this->stringvars['page']));
+		$linkparams = array("page" => $this->stringvars['page']);
+		if(isset($_GET["m"])) $linkparams["m"] = "on";
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars($linkparams);
 
-	   	$pageintro = getpageintro($this->stringvars['page']);
+	   $pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 
 		$this->stringvars['l_displayoptions']=getlang("menu_filter_displayoptions");
@@ -177,11 +180,7 @@ class ArticleMenuPage extends Template {
 	//
 	function makearticlefilterform($page,$selectedcat="",$from="",$to="",$order="",$ascdesc="",$subpages=false)
 	{
-
-		$this->stringvars["page"]= $page;
 		$this->vars["categoryselection"]= new CategorySelectionForm(false,"",CATEGORY_ARTICLE,1,array($selectedcat => $selectedcat));
-
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
 
 		$this->stringvars["l_timespan"]= getlang("menu_filter_timespan");
 		$allyears=getallarticleyears();

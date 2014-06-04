@@ -48,6 +48,7 @@ class SitemapLink extends Template {
 
 	function SitemapLink($page, $level=0, $class="navtitle", $speciallink="" ,$showhidden=false)
 	{
+		global $_GET;
 		parent::__construct();
 
 		$linkparams = array();

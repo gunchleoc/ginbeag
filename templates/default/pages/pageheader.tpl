@@ -62,6 +62,7 @@ $(document).ready(function() {
 		        </a>
 		      <!-- END switch LEFT_LINK -->
 		      <!-- END switch LEFT_IMAGE -->
+				<div><a href="{DISPLAYTYPELINK}" class="logoutlink">{L_DISPLAYTYPELINK}</a></div>
 			</div>
 			<div id="headercenter">
 			    <h1 class="maintitle">{SITENAME}</h1>

@@ -101,7 +101,7 @@ input.mainoption {
 
 
 #headercenter {
-	width: 56.5%;
+	width: 60%;
 	text-align: center;
 	display: block;
     margin: 0 auto;
@@ -292,6 +292,38 @@ a.navlink:active { text-decoration:none; color:yellow; }
 	color : #77CEED;
 }
 
+/**************** button *****************/
+
+.buttonlink {
+	text-align: right;
+	text-decoration: none;
+	border: #00AEED 1px solid;
+	color: #D4ECFB;
+	background-color: #003B39;
+	padding: 0.2em;
+	padding-left: 0.3em;
+	padding-right: 0.3em;
+	font-weight: normal;
+	border-radius: 0.4em;
+	font-family: Arial, Helvetica, sans-serif;
+
+	background: -moz-linear-gradient(top, rgba(0,84,81,1) 0%, rgba(0,106,102,1) 44%, rgba(0,41,39,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,84,81,1)), color-stop(44%,rgba(0,106,102,1)), color-stop(100%,rgba(0,41,39,1)));
+	background: -webkit-linear-gradient(top, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
+	background: -o-linear-gradient(top, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
+	background: -ms-linear-gradient(top, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
+	background: linear-gradient(to bottom, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#005451', endColorstr='#002927',GradientType=0 );
+}
+
+a.buttonlink {
+	color: #D4ECFB;
+	text-decoration: none;
+}
+
+a.buttonlink:hover {
+	text-decoration: none;
+}
 
 /************ Footer elements ************/
 
