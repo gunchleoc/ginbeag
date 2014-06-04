@@ -6,6 +6,7 @@ include_once($projectroot."language/languages.php");
 include_once($projectroot."functions/categories.php");
 include_once($projectroot."functions/pages.php");
 include_once($projectroot."includes/objects/template.php");
+include_once($projectroot."includes/functions.php");
 include_once($projectroot."includes/includes.php");
 
 //
@@ -15,10 +16,9 @@ class JumpToPageForm  extends Template {
 
 	function JumpToPageForm($file="",$params=array(),$align="right", $target="")
 	{
-		global $_GET;
 		parent::__construct();
 
-		if(isset($_GET["m"])) $params["m"] = "on";
+		if(ismobile()) $params["m"] = "on";
 
 		$attributes="";
 		if($file) $attributes.=' action="'.$file.'"';
@@ -46,9 +46,8 @@ class PageMenu extends Template {
 
     function PageMenu($offset, $number, $last, $params = array())
     {
-		global $_GET;
 		parent::__construct();
-		if(isset($_GET["m"])) $params["m"] = "on";
+		if(ismobile()) $params["m"] = "on";
 		$this->stringvars['pagemenu']=$this->makelinks($offset, $number, $last, $params, $this->stringvars['page']);
     }
 

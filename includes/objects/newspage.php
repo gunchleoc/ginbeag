@@ -4,11 +4,12 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 
 include_once($projectroot."functions/pagecontent/newspages.php");
 include_once($projectroot."includes/objects/template.php");
+include_once($projectroot."includes/objects/categories.php");
 include_once($projectroot."includes/objects/elements.php");
 include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/objects/forms.php");
+include_once($projectroot."includes/functions.php");
 include_once($projectroot."includes/includes.php");
-include_once($projectroot."includes/objects/categories.php");
 
 //
 // Templating for Newsitemsections
@@ -66,7 +67,7 @@ class Newsitem extends Template {
 		{
 			$linkparams["page"]=$this->stringvars['page'];
 			$linkparams["newsitem"]=$newsitem;
-			if(isset($_GET["m"])) $linkparams["m"] = "on";
+			if(ismobile()) $linkparams["m"] = "on";
 			$this->vars['itemlink']= new LinkButton(makelinkparameters($linkparams), getlang("news_single_link"), 'img/link.png');
 			$linkparams["printview"]="on";
 			$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
@@ -140,6 +141,20 @@ class Newsitem extends Template {
 					$thumbnail = getthumbnail($images[$i]);
 					$filepath = getimagepath($images[$i]);
 					$thumbnailpath = getthumbnailpath($images[$i], $thumbnail);
+
+					if(ismobile())
+					{
+						$usethumbnail = true;
+						$extension = substr($images[$i], strrpos($images[$i],"."), strlen($images[$i]));
+						$thumbname = substr($images[$i], 0, strrpos($images[$i],".")).'_thn'.$extension;
+						$path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($images[$i]))."/mobile/".$thumbname;
+
+						if(file_exists($path))
+						{
+							$thumbnailpath = $path;
+							$thumbnail = $thumbname;
+						}
+					}
 
 					if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
 					{
@@ -237,7 +252,7 @@ class NewsPage extends Template {
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
 
 		$linkparams = array("page" => $this->stringvars['page']);
-		if(isset($_GET["m"])) $linkparams["m"] = "on";
+		if(ismobile()) $linkparams["m"] = "on";
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars($linkparams);
 

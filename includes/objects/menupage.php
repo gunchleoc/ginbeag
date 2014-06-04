@@ -7,6 +7,7 @@ include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/elements.php");
 include_once($projectroot."includes/objects/images.php");
 include_once($projectroot."includes/objects/page.php");
+include_once($projectroot."includes/functions.php");
 include_once($projectroot."includes/includes.php");
 
 //
@@ -123,7 +124,7 @@ class ArticleMenuPage extends Template {
 		$this->pagetype=getpagetypearray($page);
 
 		$linkparams = array("page" => $this->stringvars['page']);
-		if(isset($_GET["m"])) $linkparams["m"] = "on";
+		if(ismobile()) $linkparams["m"] = "on";
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars($linkparams);
 
@@ -399,7 +400,7 @@ class MenuNavigatorLink extends Template {
 			else $path=getprojectrootlinkpath()."index.php";
 
 			$linkparams["page"]=$page;
-			if(isset($_GET['m'])) $linkparams["m"] = "on";
+			if(ismobile()) $linkparams["m"] = "on";
 			$this->stringvars['link']=$path.makelinkparameters($linkparams);
 			$this->stringvars['link_attributes']="";
 		}

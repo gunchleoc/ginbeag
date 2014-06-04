@@ -38,7 +38,7 @@ class Showimage extends Template {
 		}
 		$this->vars['pageintro'] = new PageIntro($pagetitle,"");
 
-		if(isset($_GET["m"])) $displaytype = "mobile";
+		if(ismobile()) $displaytype = "mobile";
 		else $displaytype = "page";
 		$this->vars['header']= new PageHeader($this->stringvars['page'], $pagetitle, $displaytype);
 		$this->vars['navigator'] = new Navigator($this->stringvars['page'], false, 1, $displaytype, $showhidden);
@@ -53,7 +53,7 @@ class Showimage extends Template {
       	$this->vars['footer'] = new PageFooter();
 
 			$linkparams = array("page" => $this->stringvars['page']);
-			if(isset($_GET["m"])) $linkparams["m"] = "on";
+			if(ismobile()) $linkparams["m"] = "on";
 
       	// link to gallery page
       	if($this->stringvars['page']!=0)

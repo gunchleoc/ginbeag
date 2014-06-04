@@ -3,6 +3,7 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 
 include_once($projectroot."includes/objects/template.php");
+include_once($projectroot."includes/functions.php");
 
 //
 // Image with thumbhail & link to showimage.php
@@ -11,21 +12,47 @@ class Image extends Template {
 
     function Image($filename, $imageautoshrink, $usethumbnail, $params = array(), $showhidden=false)
     {
-		global $projectroot, $_GET;
+		global $projectroot;
 
 		parent::__construct();
 
 		$params["image"] = $filename;
-		if(isset($_GET["m"])) $params["m"] = "on";
+		if(ismobile()) $params["m"] = "on";
 
 		$image="";
 		$alttext=title2html(getcaption($filename));
 		if(!$alttext) $alttext = $filename;
+
 		$thumbnail=getthumbnail($filename);
 		$filepath=getimagepath($filename);
 		$thumbnailpath = getthumbnailpath($filename, $thumbnail);
 		if(file_exists($filepath) && !is_dir($filepath))
 		{
+			if(ismobile())
+			{
+				$usethumbnail = true;
+				$extension = substr($filename, strrpos($filename,"."), strlen($filename));
+				$thumbname = substr($filename, 0, strrpos($filename,".")).'_thn'.$extension;
+				$path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename));
+
+				// make sure a mobile thumbnail exists
+				if (extension_loaded('gd') && function_exists('gd_info'))
+				{
+					if(!file_exists($path."/mobile/".$thumbname))
+					{
+						include_once($projectroot."functions/imagefiles.php");
+						createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
+					}
+				}
+
+				$path = $path."/mobile/".$thumbname;
+				if(file_exists($path))
+				{
+					$thumbnailpath = $path;
+					$thumbnail = $thumbname;
+				}
+			}
+
 			if($usethumbnail && $thumbnail && file_exists($thumbnailpath))
 			{
 				$dimensions=getimagedimensions($thumbnailpath);
@@ -48,19 +75,6 @@ class Image extends Template {
 			$image='<span class="smalltext">Image <i>'.$filename.'</i></span>';
 		}
 		$this->stringvars['image']=$image;
-
-		// make sure a mobile thumbnail exists
-		if (extension_loaded('gd') && function_exists('gd_info'))
-		{
-			$extension = substr($filename, strrpos($filename,"."), strlen($filename));
-			$thumbname = substr($filename, 0, strrpos($filename,".")).'_thn'.$extension;
-			$path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename));
-			if(!file_exists($path."/mobile/".$thumbname))
-			{
-				include_once($projectroot."functions/imagefiles.php");
-				createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
-			}
-		}
 	}
 
 	// assigns templates
@@ -78,6 +92,7 @@ class CaptionedImage extends Template {
 
     function CaptionedImage($filename, $imageautoshrink, $usethumbnail, $halign="left", $linkparams=array(), $showhidden=false)
     {
+		global $projectroot;
     	parent::__construct();
 
       	// CSS stuff
@@ -106,6 +121,31 @@ class CaptionedImage extends Template {
 		$filepath=getimagepath($filename);
 		$thumbnail = getthumbnail($filename);
 		$thumbnailpath=getthumbnailpath($filename, $thumbnail);
+
+		if(ismobile())
+		{
+			$usethumbnail = true;
+			$extension = substr($filename, strrpos($filename,"."), strlen($filename));
+			$thumbname = substr($filename, 0, strrpos($filename,".")).'_thn'.$extension;
+			$path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename));
+
+			// make sure a mobile thumbnail exists
+			if (extension_loaded('gd') && function_exists('gd_info'))
+			{
+				if(!file_exists($path."/mobile/".$thumbname))
+				{
+					include_once($projectroot."functions/imagefiles.php");
+					createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
+				}
+			}
+
+			$path = $path."/mobile/".$thumbname;
+			if(file_exists($path))
+			{
+				$thumbnailpath = $path;
+				$thumbnail = $thumbname;
+			}
+		}
 
 		if($usethumbnail)
 		{
@@ -162,6 +202,8 @@ class ImageCaption extends Template {
 		$result="";
 
 		$captionfontsize=10;
+		$maxchars = 50;
+		if(ismobile()) $maxchars = 20;
 
 		$image=getimage($filename);
 
@@ -188,15 +230,15 @@ class ImageCaption extends Template {
 		if($caption)
 		{
 			$captiontitle=$caption;
-			if(strlen($caption) > 50)
-				$caption = substr(html_entity_decode($caption, ENT_QUOTES, 'UTF-8'), 0, 50)."...";
+			if(strlen($caption) > $maxchars)
+				$caption = substr(html_entity_decode($caption, ENT_QUOTES, 'UTF-8'), 0, $maxchars)."...";
 			$result.='<span title="'.$captiontitle.'">'.$caption.'</span>';
 		}
 		if($source)
 		{
 			$sourcetitle=$source;
-			if(strlen($source) > 50)
-				$source = substr(html_entity_decode($source, ENT_QUOTES, 'UTF-8'), 0, 50)."...";
+			if(strlen($source) > $maxchars)
+				$source = substr(html_entity_decode($source, ENT_QUOTES, 'UTF-8'), 0, $maxchars)."...";
 			if($caption)
 			{
 				$result.='<br>';
@@ -216,8 +258,8 @@ class ImageCaption extends Template {
 		if($copyright)
 		{
 			$copyrighttitle=$copyright;
-			if(strlen($copyright) > 50)
-			$copyright = substr(html_entity_decode($copyright, ENT_QUOTES, 'UTF-8'), 0, 50)."...";
+			if(strlen($copyright) > $maxchars)
+			$copyright = substr(html_entity_decode($copyright, ENT_QUOTES, 'UTF-8'), 0, $maxchars)."...";
 
 			if($caption || $source)
 			{

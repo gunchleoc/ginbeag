@@ -10,6 +10,7 @@ include_once($projectroot."functions/referrers.php");
 include_once($projectroot."functions/banners.php");
 include_once($projectroot."functions/treefunctions.php");
 include_once($projectroot."includes/objects/template.php");
+include_once($projectroot."includes/functions.php");
 include_once($projectroot."includes/includes.php");
 
 include_once($projectroot."includes/objects/forms.php");
@@ -143,7 +144,7 @@ class NavigatorLink extends Template {
 		parent::__construct();
 
 		$linkparams = array();
-		if(isset($_GET['m'])) $linkparams["m"] = "on";
+		if(ismobile()) $linkparams["m"] = "on";
 
 		// for special pages like, contact, guestbook etc
 		if($page==0)
@@ -324,13 +325,11 @@ class Navigator extends Template {
 
 	function Navigator($page,$sistersinnavigator,$depth,$displaytype="page",$showhidden=false)
 	{
-	    global $_GET;
-
 	    $this->displaytype=$displaytype;
 	    parent::__construct();
 
 		$linkparams = "";
-		if(isset($_GET['m']))
+		if(ismobile())
 		{
 			$linkparams = makelinkparameters(array("m" => "on"));
 		}
@@ -718,12 +717,11 @@ class PageFooter extends Template {
 
 	function PageFooter()
 	{
-		global $_GET;
 		parent::__construct();
 		if(getproperty("Display Site Policy"))
 		{
 			$linkparams = array("page" => 0, "sitepolicy" => "on");
-			if(isset($_GET["m"])) $linkparams["m"] = "on";
+			if(ismobile()) $linkparams["m"] = "on";
 			$this->stringvars['site_policy_link']=getprojectrootlinkpath().'index.php'.makelinkparameters($linkparams);
 			$title=getproperty("Site Policy Title");
 			if(strlen($title)>0)

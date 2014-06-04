@@ -50,11 +50,39 @@ class LinkedImage extends Template {
 		$this->stringvars['halign']="float: left;";
 		$alttext=title2html($linkname);
 
-		$width=getproperty("Thumbnail Size");
 
 		$filepath = getimagepath($filename);
 		$thumbnail = getthumbnail($filename);
 		$thumbnailpath = getthumbnailpath($filename, $thumbnail);
+		if(ismobile())
+		{
+			$usethumbnail = true;
+			$extension = substr($filename, strrpos($filename,"."), strlen($filename));
+			$thumbname = substr($filename, 0, strrpos($filename,".")).'_thn'.$extension;
+			$path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename));
+
+			// make sure a mobile thumbnail exists
+			if (extension_loaded('gd') && function_exists('gd_info'))
+			{
+				if(!file_exists($path."/mobile/".$thumbname))
+				{
+					include_once($projectroot."functions/imagefiles.php");
+					createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
+				}
+			}
+
+			$path = $path."/mobile/".$thumbname;
+			if(file_exists($path))
+			{
+				$thumbnailpath = $path;
+				$thumbnail = $thumbname;
+			}
+			$width=getproperty("Mobile Thumbnail Size");
+		}
+		else
+		{
+			$width=getproperty("Thumbnail Size");
+		}
 
 		if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
 		{

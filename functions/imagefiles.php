@@ -33,7 +33,7 @@ function createthumbnail($path, $filename, $ismobile = false)
 			@copy($projectroot.getproperty("Image Upload Path")."/index.html", $path."/mobile/index.html");
 			@copy($projectroot.getproperty("Image Upload Path")."/index.php", $path."/mobile/index.php");
 		}
-		return createresizedimage($path."/".$filename, $path."/mobile/".$thumbname, getproperty("Mobile Thumbnail Size"), false);
+		return createresizedimage($path."/".$filename, $path."/mobile/".$thumbname, getproperty("Mobile Thumbnail Size"), true);
 	}
 	else
 	{

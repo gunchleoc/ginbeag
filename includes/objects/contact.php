@@ -5,6 +5,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/page.php");
 include_once($projectroot."includes/objects/email.php");
+include_once($projectroot."includes/functions.php");
 include_once($projectroot."functions/email.php");
 
 //
@@ -14,10 +15,9 @@ class ContactPage extends Template {
 
     function ContactPage($email, $subject, $messagetext, $sendcopy, $userid, $token, $errormessage="", $sendmail=false)
     {
-		global $_GET;
     	parent::__construct();
 
-		if(isset($_GET["m"])) $displaytype = "mobile";
+		if(ismobile())) $displaytype = "mobile";
 		else $displaytype = "page";
 
 		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_contact")), $displaytype);

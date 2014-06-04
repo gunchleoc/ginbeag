@@ -5,6 +5,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/page.php");
 include_once($projectroot."includes/objects/email.php");
+include_once($projectroot."includes/functions.php");
 include_once($projectroot."functions/guestbook.php");
 
 //
@@ -14,11 +15,10 @@ class Guestbook extends Template {
 
     function Guestbook($postername,$email,$subject,$emailmessage,  $token, $offset=0, $showguestbookform=false, $showpost=false, $showleavemessagebutton=true, $itemsperpage=10, $title="", $listtitle="", $message="", $error="", $postadded=false)
     {
-		global $_GET;
     	parent::__construct();
 
 		$this->stringvars['title'] = $title;
-		if(isset($_GET["m"])) $displaytype = "mobile";
+		if(ismobile()) $displaytype = "mobile";
 		else $displaytype = "page";
 
 		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_guestbook")), $displaytype);

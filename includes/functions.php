@@ -593,4 +593,13 @@ function microtime_float()
 		return microtime(true);
 	}
 }
+
+//
+//
+//
+function ismobile()
+{
+	global $_GET;
+	return isset($_GET["m"]);
+}
 ?>

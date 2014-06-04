@@ -48,11 +48,10 @@ class SitemapLink extends Template {
 
 	function SitemapLink($page, $level=0, $class="navtitle", $speciallink="" ,$showhidden=false)
 	{
-		global $_GET;
 		parent::__construct();
 
 		$linkparams = array();
-		if(isset($_GET['m'])) $linkparams["m"] = "on";
+		if(ismobile()) $linkparams["m"] = "on";
 
 		// layout parameters
 		$this->stringvars['link_class']=$class;

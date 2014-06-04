@@ -42,6 +42,81 @@ class GalleryCaptionedImage extends Template {
 
 
 //
+//
+//
+class GalleryMobileCaptionedImage extends Template {
+
+    function GalleryMobileCaptionedImage($filename, $showhidden=false)
+    {
+		global $projectroot;
+		parent::__construct();
+
+		// determine image dimensions
+		$width=getproperty("Thumbnail Size");
+
+		$filepath=getimagepath($filename);
+		$thumbnail = getthumbnail($filename);
+		$thumbnailpath=getthumbnailpath($filename, $thumbnail);
+
+		if(ismobile())
+		{
+			$extension = substr($filename, strrpos($filename,"."), strlen($filename));
+			$thumbname = substr($filename, 0, strrpos($filename,".")).'_thn'.$extension;
+			$path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename));
+
+			// make sure a mobile thumbnail exists
+			if (extension_loaded('gd') && function_exists('gd_info'))
+			{
+				if(!file_exists($path."/mobile/".$thumbname))
+				{
+					include_once($projectroot."functions/imagefiles.php");
+					createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
+				}
+			}
+
+			$path = $path."/mobile/".$thumbname;
+			if(file_exists($path))
+			{
+				$thumbnailpath = $path;
+				$thumbnail = $thumbname;
+			}
+		}
+
+		if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
+		{
+			$dimensions = getimagedimensions($thumbnailpath);
+			$width = $dimensions["width"];
+
+		}
+		else if(imageexists($filename) && file_exists($filepath) && !is_dir($filepath))
+		{
+			$dimensions = getimagedimensions($filepath);
+			$width = $dimensions["width"];
+		}
+
+		$width = $width + IMAGECAPTIONLINEHEIGHT;
+		$this->stringvars["width"] = $width;
+		$this->stringvars["halign"] = "text-align:left;";
+
+		// make the image
+		if(imageexists($filename))
+		{
+			$this->vars['image'] = new Image($filename, true, true, array("page" => $this->stringvars['page']), $showhidden);
+		}
+		else $this->stringvars['image']='<i>'.$filename.'</i>';
+
+		$this->vars['caption'] = new ImageCaption($filename);
+    }
+
+    // assigns templates
+    function createTemplates()
+    {
+		$this->addTemplate("images/captionedimage.tpl");
+    }
+}
+
+
+//
 // a row of images in a gallery page
 //
 class GalleryImage extends Template {
@@ -98,57 +173,67 @@ class GalleryPage extends Template {
 		$startindex = $offset;
 		$endindex =($offset+$imagesperpage);
 
-
-		// determine image dimensions
-		$width=getproperty("Thumbnail Size");
-		$height=getproperty("Thumbnail Size");
-		for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
+		if(ismobile())
 		{
-			$thumbnail = getthumbnail($images[$i]);
-			$filepath = getimagepath($images[$i]);
-			$thumbnailpath = getthumbnailpath($images[$i], $thumbnail);
-
-			if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
+			// create images
+			for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
 			{
-				$dimensions = getimagedimensions($thumbnailpath);
-				if ($width < $dimensions["width"]) $width = $dimensions["width"];
-				if ($height < $dimensions["height"]) $height = $dimensions["height"];
+				$this->listvars['galleryimage'][]= new GalleryMobileCaptionedImage($images[$i], $showhidden);
 			}
-			else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath))
-			{
-				$dimensions=calculateimagedimensions($images[$i]);
-				if ($width < $dimensions["width"]) $width=$dimensions["width"];
-				if ($height < $dimensions["height"]) $height=$dimensions["height"];
-			}
-
-			$image=getimage($images[$i]);
-			if(strlen($image['caption']))
-			{
-				$height = $height + IMAGECAPTIONLINEHEIGHT;
-				if(strlen($image['caption']) > $width/10) $height = $height + IMAGECAPTIONLINEHEIGHT;
-			}
-			if(strlen($image['source']))
-			{
-				$height = $height + IMAGECAPTIONLINEHEIGHT;
-				if(strlen($image['source']) > $width/10) $height = $height + IMAGECAPTIONLINEHEIGHT;
-			}
-			if(strlen($image['copyright']))
-			{
-				$height = $height + IMAGECAPTIONLINEHEIGHT;
-				if(strlen($image['copyright']) > $width/10) $height = $height + IMAGECAPTIONLINEHEIGHT;
-			}
-			if($image['permission']==PERMISSION_GRANTED) $height = $height + IMAGECAPTIONLINEHEIGHT;
 		}
-		if (!$width) $width=getproperty("Thumbnail Size");
-		$width = $width + IMAGECAPTIONLINEHEIGHT;
-		if (!$height) $height=getproperty("Thumbnail Size")+150;
-
-		// create images
-		for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
+		else
 		{
-			$this->listvars['galleryimage'][]= new GalleryImage($images[$i],$width,$height,$showhidden);
-		}
 
+			// determine image dimensions
+			$width=getproperty("Thumbnail Size");
+			$height=getproperty("Thumbnail Size");
+			for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
+			{
+				$thumbnail = getthumbnail($images[$i]);
+				$filepath = getimagepath($images[$i]);
+				$thumbnailpath = getthumbnailpath($images[$i], $thumbnail);
+
+				if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath))
+				{
+					$dimensions = getimagedimensions($thumbnailpath);
+					if ($width < $dimensions["width"]) $width = $dimensions["width"];
+					if ($height < $dimensions["height"]) $height = $dimensions["height"];
+				}
+				else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath))
+				{
+					$dimensions=calculateimagedimensions($images[$i]);
+					if ($width < $dimensions["width"]) $width=$dimensions["width"];
+					if ($height < $dimensions["height"]) $height=$dimensions["height"];
+				}
+
+				$image=getimage($images[$i]);
+				if(strlen($image['caption']))
+				{
+					$height = $height + IMAGECAPTIONLINEHEIGHT;
+					if(strlen($image['caption']) > $width/10) $height = $height + IMAGECAPTIONLINEHEIGHT;
+				}
+				if(strlen($image['source']))
+				{
+					$height = $height + IMAGECAPTIONLINEHEIGHT;
+					if(strlen($image['source']) > $width/10) $height = $height + IMAGECAPTIONLINEHEIGHT;
+				}
+				if(strlen($image['copyright']))
+				{
+					$height = $height + IMAGECAPTIONLINEHEIGHT;
+					if(strlen($image['copyright']) > $width/10) $height = $height + IMAGECAPTIONLINEHEIGHT;
+				}
+				if($image['permission']==PERMISSION_GRANTED) $height = $height + IMAGECAPTIONLINEHEIGHT;
+			}
+			if (!$width) $width=getproperty("Thumbnail Size");
+			$width = $width + IMAGECAPTIONLINEHEIGHT;
+			if (!$height) $height=getproperty("Thumbnail Size")+150;
+
+			// create images
+			for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
+			{
+				$this->listvars['galleryimage'][]= new GalleryImage($images[$i],$width,$height,$showhidden);
+			}
+		}
 		$this->vars['editdata']= new Editdata($showhidden);
 	}
 

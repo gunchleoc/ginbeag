@@ -3,6 +3,7 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 
 include_once($projectroot."includes/objects/template.php");
+include_once($projectroot."includes/functions.php");
 include_once($projectroot."language/languages.php");
 
 //
@@ -13,7 +14,6 @@ class CategorylistLink extends Template {
 
 	 function CategorylistLink($category,$page, $cattype)
 	 {
-		global $_GET;
 		parent::__construct();
 		$this->stringvars['title']=title2html(getcategoryname($category, $cattype));
 		if(getpagetype($page) == "news")
@@ -35,7 +35,7 @@ class CategorylistLink extends Template {
 			$linkparams["order"] = "date";
 			$linkparams["ascdesc"] = $order;
 			$linkparams["filter"] = "Go";
-			if(isset($_GET["m"])) $linkparams["m"] = "on";
+			if(ismobile()) $linkparams["m"] = "on";
 			$this->stringvars['link'] = makelinkparameters($linkparams);
 		}
 		else
@@ -47,7 +47,7 @@ class CategorylistLink extends Template {
 			$linkparams["order"] = "title";
 			$linkparams["ascdesc"] = "asc";
 			$linkparams["filter"] = "Go";
-			if(isset($_GET["m"])) $linkparams["m"] = "on";
+			if(ismobile()) $linkparams["m"] = "on";
 			$this->stringvars['link'] = makelinkparameters($linkparams);
 		}
 	}
