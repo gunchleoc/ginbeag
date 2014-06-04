@@ -17,7 +17,7 @@ class ContactPage extends Template {
     {
     	parent::__construct();
 
-		if(ismobile())) $displaytype = "mobile";
+		if(ismobile()) $displaytype = "mobile";
 		else $displaytype = "page";
 
 		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_contact")), $displaytype);
