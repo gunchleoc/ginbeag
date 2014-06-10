@@ -26,6 +26,7 @@ class AdminMain extends Template {
 		/**************************** header ***************************************/
 	
 		$this->stringvars['stylesheet']=getCSSPath("main.css");
+		$this->stringvars['stylesheetcolors']= getCSSPath("colors.css");
 		$this->stringvars['adminstylesheet']=getCSSPath("admin.css");
 		$this->stringvars['headertitle']= title2html(getproperty("Site Name")).' - Webpage building';
 		

@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
 	<meta http-equiv="Content-Style-Type" content="text/css">
+	<link rel="stylesheet" href="{STYLESHEETCOLORS}" type="text/css">
   	<link rel="stylesheet" href="{STYLESHEET}" type="text/css">
   	<link rel="stylesheet" href="{ADMINSTYLESHEET}" type="text/css">
   <!-- BEGIN switch IS_REDIRECT -->

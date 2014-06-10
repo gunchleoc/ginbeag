@@ -653,6 +653,7 @@ class PageHeader extends Template {
 		$this->stringvars['keywords'].=title2html(getproperty('Google Keywords'));
 
 		$this->stringvars['stylesheet']= getCSSPath("main.css");
+		$this->stringvars['stylesheetcolors']= getCSSPath("colors.css");
 		$this->stringvars['sitename']=title2html(getproperty("Site Name"));
 		$this->stringvars['browsertitle']=striptitletags($title);
 		$this->stringvars['title']=title2html($title);

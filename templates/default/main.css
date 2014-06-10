@@ -1,62 +1,46 @@
 /************ General element styles ************/
 html body {
-	font-size : 75%;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: black;
+	font-size: 75%;
 }
 
-li { margin-left: 1em; }
-
-
-a:link	 { text-decoration: none;}
-a:visited	 {text-decoration: none;}
-a:focus	 {text-decoration: underline;}
-a:hover	 { text-decoration: underline;}
-a:active	 {text-decoration: underline;}
-
+li {
+	margin-left: 1em;
+}
 
 /* General text sizes */
-.medtext, div.medtext, span.medtext { font-size : 90%; }
-.smalltext, div.smalltext, span.smalltext { font-size : 80%; letter-spacing: -0.25px;}
+.medtext, div.medtext, span.medtext {
+	font-size: 90%;
+}
+
+.smalltext, div.smalltext, span.smalltext {
+	font-size: 80%;
+	letter-spacing: -0.25px;
+}
 
 
-/* Highlighted text */
-.highlight	{font-weight: bold;}
-a.highlight 	{  text-decoration: none;}
-a.highlight:hover{ text-decoration: underline;}
-a.highlight:active { text-decoration:none;}
-
-
-/* Form elements */
+/**************** Form elements *****************/
 
 fieldset {
-	border: 1px solid black;
-	padding:1em;
-	margin-bottom:1em;
-	margin-top:1em;
+	padding: 1em;
+	margin-bottom: 1em;
+	margin-top: 1em;
 }
 
-legend {
-	font-weight: bold;
-}
-
-/*
-input, button, textarea, select {
-	font: normal 90%
-	Arial, Helvetica, sans-serif;
-}
-*/
-
-input, button { text-indent : 2px; }
+input {
+	text-indent: 2px;
+ }
 
 /* Separate properties for buttons; not supported by IE */
 input[type=button], input[type=submit], input[type=reset], .button  {
-	font-size:95%;
+	font-size: 95%;
 }
 
-/* The main submit button option */
-input.mainoption {
-	font-weight : bold;
+.buttonlink {
+	text-align: right;
+	padding: 0.2em;
+	padding-left: 0.3em;
+	padding-right: 0.3em;
+	border-radius: 0.4em;
 }
 
 
@@ -75,36 +59,36 @@ input.mainoption {
 .centeralign {
 	text-align: center;
 }
+
 /* to prevent floating for new sections after image */
 .newline {
 	clear:both;
 }
 
 
-/************ main layout containers ************/
+/************ Main layout containers ************/
 
 #header {
-	padding-bottom:2em;
+	padding-bottom: 2em;
 }
 
 #headerleft {
 	width: 20%;
-	float:left;
+	float: left;
 }
 
-
 #headercenter {
-	width: 56.5%;
+	width: 60%;
 	text-align: center;
 	display: block;
     margin: 0 auto;
-	float:left;
+	float: left;
 }
 
 #headerright {
 	width: 20%;
 	text-align: right;
-	float:right;
+	float: right;
 }
 
 #navigator {
@@ -119,8 +103,6 @@ input.mainoption {
 	width: 95%;
 	margin-top: 2em;
 	font-size: 75%;
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
 	padding-top: 0.35em;
 	padding-bottom: 0.35em;
 }
@@ -129,21 +111,18 @@ input.mainoption {
 	z-index: 100;
 	min-width: 1px;
 	width: 77%;
-	border: 1px solid black;
 	padding: 1em;
 	padding-top: 0em;
 	margin-left: 21%;
 	margin-top: 1.5em;
-	padding-bottom:3em;
-	background-color: white;
+	padding-bottom: 3em;
 }
 
-/* formerly bodyline */
+/* Border around everything else */
 #wrapper {
-	border: 1px black solid;
 	padding: 1em;
-	background-color: lightgrey;
 }
+
 
 /************ Navigator elements ************/
 
@@ -151,24 +130,22 @@ input.mainoption {
 .invisible {
 	width: 0px;
 	height: 0px;
-	margin:0px;
-	padding:0px;
-	border:0px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
 	overflow: hidden;
 	font-size: 0px;
-	float:left;
+	float: left;
 }
 
 /* "Home" link on navigator*/
 #navhomelink {
-	margin-top:0.5em;
-	font-weight: bold;
+	margin-top: 0.5em;
 }
 
 .potdcaption {
 	width: 98%;
 	padding-top: 0.5em;
-	font-weight: bold;
 	font-size: 65%;
 	text-align: left;
 	margin-bottom: 2em;
@@ -177,96 +154,62 @@ input.mainoption {
 .aotd {
 	width: 98%;
 	margin-bottom: 2em;
-	font-weight: bold;
 	font-size: 75%;
 	text-align: left;
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
 	padding-bottom: 0.35em;
 	padding-top: 0.35em;
 }
 
 /* Navigator - selected item */
-.navhighlight	{ font-size: 100%;}
+.navhighlight {
+	font-size: 100%;
+}
 
-/* Navigator - links */
-.navtitle, a.navtitle	{}
 
 /* Navigator link for the lower levels */
-.navlink, a.navlink		{ font-weight: bold; font-size: 70%;}
+.navlink {
+	font-size: 70%;
+}
 
 .navrootlinkwrapper {
-	margin-top:1em;
+	margin-top: 1em;
 }
 
 .navlinkwrapper {
-	margin-top:0.4em;
-	margin-bottom:0.4em;
+	margin-top: 0.4em;
+	margin-bottom: 0.4em;
 }
+
 
 /************ header elements ************/
 
 #sitedescription {
-	font-style: italic;
 	padding-top: 0.75em;
 	padding-bottom: 0.75em;
 }
 
 .logoutlink {
 	text-align: right;
-	text-decoration: underline;
 	margin-top: 100px;
 }
 
-/* formerly thTop - page title in header and navigator elements on splashpage */
+/* Page title in header and navigator elements on splashpage */
 .headerpagetitle {
-	width: 100%;
+	width: 98.5%;
 	text-align: center;
-	border: black;
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
-	padding-top: 0.35em;
+	padding-top: 0.4em;
 	padding-bottom: 0.35em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
 	font-size: 160%;
 }
 
 /* Site name */
-.maintitle	{
-	font-weight: bold;
+.maintitle {
 	font-size: 350%;
-	margin:0.25em;
+	margin: 0.25em;
 }
 
-/**************** button *****************/
-
-.buttonlink {
-	text-align: right;
-	text-decoration: none;
-	border: #999999 1px solid;
-	background-color: white;
-	padding: 0.2em;
-	padding-left: 0.3em;
-	padding-right: 0.3em;
-	font-weight: normal;
-	border-radius: 0.4em;
-	font-family: Arial, Helvetica, sans-serif;
-
-	background: -moz-linear-gradient(top, rgba(255,255,255,1) 1%, rgba(229,229,229,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1)));
-	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	background: -o-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	background: -ms-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	background: linear-gradient(to bottom, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 );
-}
-
-a.buttonlink {
-	color: #333333;
-}
-
-a.buttonlink:hover {
-	text-decoration: none;
-}
 
 /************ Footer elements ************/
 
@@ -277,26 +220,26 @@ a.buttonlink:hover {
 
 /************ Content titles ************/
 
-/* The text used for individual page's titles */
-.pagetitle	{
-	font-weight: bold;
+/* The text used for individual pages' titles */
+.pagetitle {
 	font-size: 250%;
-	line-height : 160%;
+	line-height: 160%;
 }
 
 /* Titles for newsitemsections, articlesections */
-.sectiontitle	{
+.sectiontitle {
 	font-size: 220%;
 	margin-bottom: 0.75em;
 }
 
-/* Fos newsitemsections */
-.sectionsubtitle	{
+/* For newsitemsections */
+.sectionsubtitle {
 	font-size: 175%;
 	margin-top: 0.5em;
 	margin-bottom: 0.75em;
 	margin-top: 1em;
 }
+
 
 /************ Content elements ************/
 
@@ -307,9 +250,8 @@ a.buttonlink:hover {
 }
 
 /* Synopsis for page intros formerly articlesynopsis */
-.introtext	{
+.introtext {
 	padding-top: 0.75em;
-	font-weight: bold;
 	text-align: justify;
 }
 
@@ -326,60 +268,57 @@ a.buttonlink:hover {
 }
 
 .editdata {
-	margin-top:1.5em;
+	margin-top: 1.5em;
 	width: 100%;
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
 	padding-top: 0.5em;
 }
 
 
 /************ Menu pages ************/
 
-/* content links - linklistmenu, vormerly "nav"*/
-.contentnavlink {
-	font-weight: bold;
-}
-
 /* content - linklistmenu pagetitles */
-.contentnavtitle, a.contentnavtitle	{
-	font-size: 200%;
+.contentnavtitle, a.contentnavtitle {
+	font-size: 180%;
 }
 
 .contentnavrootlinkwrapper {
-	margin-top:5ex;
-	margin-bottom:1ex;
+	margin-top: 5ex;
+	margin-bottom: 1ex;
 }
 
 .contentnavlinkwrapper {
-	margin-top:1.75ex;
+	margin-top: 1.75ex;
 	line-height: 1.5em;
 	text-align: justify;
 }
 
 /* for articlemenu */
-.articleinfo {}
+.articleinfo {
+	margin-top: 0.05em;
+}
+
 
 /* for menu pages */
 .subpages {
-	margin-left:3em;
+	margin-left: 3em;
 }
+
 
 /************ Newsitems and articles ************/
 
 /* Clickable categories */
 .articleinfocategories {
 	margin-top: 0.2em;
-	font-size:80%;
+	font-size: 80%;
 }
 
 .newsitemcategories {
 	margin-top: 0.2em;
-	font-size:100%;
+	font-size: 100%;
 }
 
 .categorylistlink {
-	margin-right:0.5em;
+	margin-right: 0.5em;
 	margin-left: 0.5em;
 }
 
@@ -391,22 +330,23 @@ a.buttonlink:hover {
 
 /* News: filter form wrapper */
 .newsfilterform {
-	margin-top:1.5em;
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
+	margin-top: 1.5em;
 }
 
 /* Newsitem: wrapper */
 .newsitem {
-	margin-top:1.5em;
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+	margin-top: 1.5em;
 	padding-top: 0.5em;
 }
 
+/* section text all over the place */
+.newsitemsynopsis {
+	padding-top: 1em;
+}
+
+
 /* Newsitem: Label for section with quoted text */
 .newsquotetitle {
-	font-weight: bold;
 	margin-left: 2em;
 	padding-top: 2em;
 	margin-bottom: 1em;
@@ -418,88 +358,78 @@ div.newsquote {
 	margin-right: 2em;
 	width: *;
 	padding: 1em;
-	font-style: italic;
 	text-align: justify;
 }
 
-/* Newsitem and article: Source info */
-.articlesource	{}
-.articleauthor	{font-weight: bold;	font-style: italic;}
-.articlelocation	{}
-.articledate	{font-style: italic;}
-
 /* Article: Table of Contents */
 .articletoc {
-	margin-top:1.5em;
+	margin-top: 1.5em;
 	padding-bottom:0.5em;
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
 	padding-top: 0.5em;
 }
+
 
 /************ Gallery ************/
 
 .galleryimage {
-	float:left;
-	text-decoration:none;
-	padding:1em;
-	margin:1em;
-    overflow:hidden;
-    display:table-cell;
-	font-size:90%;
+	float: left;
+	padding: 1em;
+	margin: 1em;
+    overflow: hidden;
+    display: table-cell;
+	font-size: 90%;
 }
 
 .gallerycontents {
-	float:left;
-	width:100%;
-	padding:1em;
-	margin:1em;
-	display:inline;
-    overflow:hidden;
-    display:table-cell;
+	float: left;
+	width: 100%;
+	padding: 1em;
+	margin: 1em;
+	display: inline;
+    overflow: hidden;
+    display: table-cell;
 }
+
 
 /************ Linklist ************/
 
 /* Linklist link */
-.linktitle	{ font-size: 135%;}
+.linktitle {
+	font-size: 135%;
+}
 
 .linklistlink {
-	margin-top:1em;
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+	margin-top: 1em;
 }
 
 .linkedimage {
-	border: 10px solid transparent;
-	float:left;
+	float: left;
 }
+
 
 /************ Images and image captions ************/
 
 /* Image + caption text */
-.captionedimage	{
+.captionedimage {
 	padding: 0.75em;
 	margin: 1em;
 	text-align: center;
-	border-style: solid;
-	border-width: 1px;
 }
+
 .imagecaption {
 	padding-left: 0.75em;
 	padding-right: 0.75em;
 	padding-top: 0.5em;
-	font-weight: bold;
 	font-size: 100%;
 	text-align: center;
-	font-style:normal;
 }
+
 
 /************ Splashpage ************/
 
 .splashpageheaderspacer {
-	padding-top:3.5em;
-	padding-bottom:3em;
+	padding-top: 3.5em;
+	padding-bottom: 3em;
 }
 
 #splashpagecontentarea {
@@ -512,19 +442,18 @@ div.newsquote {
 }
 
 .splashpagelink {
-	padding-left: 0.75em;
-	padding-right: 0.75em;
+	padding-left: 0.3em;
+	padding-right: 0.3em;
 }
 
 
 /************ Guestbook ************/
 
 .guestbookentry {
-	margin-top:1.5em;
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+	margin-top: 1.5em;
 	padding-top: 0.5em;
 }
+
 
 /************ tables ************/
 
@@ -532,41 +461,29 @@ table {
 	font-size:100%;
 	margin-top: 2em;
 	margin-bottom: 2em;
-	box-shadow:4px 4px 3px darkgrey;
-	border-collapse:collapse;
-	border-spacing:0;
-	width:70%;
-	margin-left:15%;
-	margin-right:15%;
-	border: black;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 70%;
+	margin-left: 15%;
+	margin-right: 15%;
 }
 
 caption {
 	text-align: center;
-	border: black;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	font-size: 120%;
-	font-weight: bold;
-	padding:0.5em;
-	box-shadow:-1px -1px 20px 10px lightgrey inset;
+	padding-top: 0.4em;
+	padding-bottom: 0.35em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	font-size: 125%;
+	height: 26px;
 }
 
 th {
 	text-align: center;
-	border: black;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
 	font-size: 110%;
-	font-weight: bold;
-	padding:0.5em;
+	padding: 0.5em;
 }
 
 td {
-	border: black;
-	border-style: solid;
-	border-width: 1px 1px 1px 1px;
-	padding:0.5em;
+	padding: 0.5em;
 }

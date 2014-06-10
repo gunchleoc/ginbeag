@@ -1,0 +1,489 @@
+/************ General element styles ************/
+
+html body {
+	background-color: #01172E;
+	color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+a:link {
+	text-decoration: underline;
+	color: #DECB97;
+}
+
+a:visited {
+	text-decoration: underline;
+	color: #DECB97;
+}
+
+a:focus {
+	text-decoration: underline;
+	color: #DECB97;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: #DEA479;
+}
+
+a:active {
+	text-decoration: underline;
+	color: #DEA479;
+}
+
+/* Highlighted text */
+.highlight {
+	font-weight: bold;
+	color: #DEA479;
+}
+
+a.highlight {
+	text-decoration: underline;
+	color: #DECB97;
+}
+
+a.highlight:hover {
+	text-decoration: underline;
+	color: #DEA479;
+}
+
+a.highlight:active {
+	text-decoration: none;
+	color: #DEA479;
+}
+
+
+/**************** Form elements *****************/
+
+fieldset {
+	border: 1px solid #89CAC8;
+}
+
+legend {
+	font-weight: bold;
+	color: #DECB97;
+}
+
+textarea, select {
+	color: #FFFFFF;
+	border-color: #89CAC8;
+	background-color: #0D2A43;
+}
+
+input {
+	color: #FFFFFF;
+	border-color: #89CAC8;
+ 	background-color: #0D2A43;
+ }
+
+/* The main submit button option */
+input.mainoption {
+	font-weight: bold;
+	font-family: "Helvetica Narrow", "Arial Narrow", Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.buttonlink {
+	text-decoration: none;
+	border: #999999 1px solid;
+	color: #DECB97;
+	font-weight: normal;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #0D2A43;
+	background: -moz-linear-gradient(top, rgba(21,72,116,1) 0%, rgba(80,103,117,1) 44%, rgba(15,44,69,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(21,72,116,1)), color-stop(44%,rgba(80,103,117,1)), color-stop(100%,rgba(15,44,69,1)));
+	background: -webkit-linear-gradient(top, rgba(21,72,116,1) 0%,rgba(80,103,117,1) 44%,rgba(15,44,69,1) 100%);
+	background: -o-linear-gradient(top, rgba(21,72,116,1) 0%,rgba(80,103,117,1) 44%,rgba(15,44,69,1) 100%);
+	background: -ms-linear-gradient(top, rgba(21,72,116,1) 0%,rgba(80,103,117,1) 44%,rgba(15,44,69,1) 100%);
+	background: linear-gradient(to bottom, rgba(21,72,116,1) 0%,rgba(80,103,117,1) 44%,rgba(15,44,69,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#154874', endColorstr='#0f2c45',GradientType=0 );
+}
+
+a.buttonlink {
+	color: #DECB97;
+	text-decoration: none;
+}
+
+a.buttonlink:hover {
+	text-decoration: none;
+}
+
+
+/************ Main layout containers ************/
+
+#navigator {
+	background-color: #0D2A43;
+}
+
+#banners {
+	background-color: #0D2A43;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+}
+
+#contentarea {
+	background-color: #01172E;
+}
+
+/* Border around everything else */
+#wrapper {
+	background-color: #0D2A43;
+	border: 1px #89CAC8 solid;
+}
+
+
+/************ Navigator elements ************/
+
+/* "Home" link on navigator*/
+#navhomelink {
+	font-weight: bold;
+}
+
+.potdcaption {
+	font-weight: bold;
+	color: #DECB97;
+}
+
+.aotd {
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	border-color: #89CAC8;
+	font-weight: bold;
+}
+
+/* Navigator - selected item */
+.navhighlight {
+	color: #DEA479;
+}
+
+/* Navigator - links */
+.navtitle {
+	color: #DECB97;
+}
+
+a.navtitle {
+	text-decoration: none;
+	color: #DECB97;
+}
+
+a.navtitle:hover {
+	text-decoration: underline;
+	color: #DEA479;
+}
+
+a.navtitle:active {
+	text-decoration: none;
+	color: #DEA479;
+}
+
+
+/* Navigator link for the lower levels */
+.navlink {
+	font-weight: bold;
+	color: #DECB97;
+}
+
+a.navlink {
+	text-decoration: none;
+	color: #DECB97;
+}
+
+a.navlink:hover {
+	text-decoration: underline;
+	color: #DEA479;
+}
+
+a.navlink:active {
+	text-decoration: none;
+	color: #DEA479;
+}
+
+
+/************ Header elements ************/
+
+#sitedescription {
+	font-style: italic;
+}
+
+.logoutlink {
+	text-decoration: underline;
+}
+
+/* Page title in header and navigator elements on splashpage */
+.headerpagetitle {
+	border-color: #5B8585;
+	border-style: solid;
+	border-width: 1px 0px 2px 0px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #DEA479;
+	background-color: #5B8585;
+	background-image: url(img/navigator.gif);
+	background-repeat: repeat-x;
+}
+
+/* Site name */
+.maintitle {
+	font-weight: bold;
+	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #DECB97;
+}
+
+
+/************ Footer elements ************/
+
+.footer {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #FFFFFF;
+}
+
+a.footer {
+	color: #00AEED;
+	text-decoration: none;
+}
+
+a.footer:hover {
+	color: #DEA479;
+	text-decoration: underline;
+}
+
+
+/************ Content titles ************/
+
+/* The text used for individual pages' titles */
+.pagetitle {
+	font-weight: bold;
+	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #DECB97;
+}
+
+
+/* Titles for newsitemsections, articlesections */
+.sectiontitle {
+	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #DECB97;
+}
+
+/* For newsitemsections */
+.sectionsubtitle {
+	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #DECB97;
+}
+
+
+/************ Content elements ************/
+
+/* Synopsis / page intros */
+.introtext {
+	font-weight: bold;
+	color: #DECB97;
+}
+
+/* Copyright info */
+.copyright {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.editdata {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+}
+
+
+/************ Menu pages ************/
+
+/* content links - linklistmenu */
+.contentnavlink {
+	font-weight: bold;
+}
+
+/* content - linklistmenu pagetitles */
+.contentnavtitle, a.contentnavtitle {
+	color: #DECB97;
+}
+
+a.contentnavtitle:hover {
+	text-decoration: underline;
+	color: #DEA479;
+}
+
+
+/************ Newsitems and articles ************/
+
+.newsitemcategories {
+	color: #DECB97;
+}
+
+/* News: filter form wrapper */
+.newsfilterform {
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+}
+
+/* Newsitem: wrapper */
+.newsitem {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+}
+
+/* Newsitem: Label for section with quoted text */
+.newsquotetitle {
+	font-weight: bold;
+}
+
+/* Newsitem: Section with quoted text */
+div.newsquote {
+	font-style: italic;
+	background-color: #002443;
+	color: #FFFFFF;
+}
+
+/* Newsitem and article: Source info */
+.articlesource {
+	color: #DECB97;
+}
+
+.articleauthor {
+	font-weight: bold;
+	font-style: italic;
+	color: #DECB97;
+}
+
+.articlelocation {
+	color: #DECB97;
+}
+
+.articledate {
+	font-style: italic;
+	color: #DECB97;
+}
+
+/* Article: Table of Contents */
+.articletoc {
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	border-color: #89CAC8;
+}
+
+.articletoc li {
+	color: #DEA479;
+}
+
+
+/************ Gallery ************/
+
+.galleryimage {
+	text-decoration: none;
+}
+
+
+/************ Linklist ************/
+
+/* Linklist link */
+.linktitle {
+	text-decoration: none;
+	color: #DECB97;
+}
+a.linktitle {
+	text-decoration: none;
+	color: #DECB97;
+}
+
+a.linktitle:visited {
+	text-decoration: none;
+	color: #DECB97;
+}
+
+a.linktitle:hover {
+	text-decoration: underline;
+	color: #DEA479;
+}
+
+a.linktitle:active {
+	text-decoration:underline;
+	color: #DEA479;
+}
+
+.linklistlink {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+}
+
+.linkedimage {
+	border: 10px solid transparent;
+}
+
+
+/************ Images and image captions ************/
+
+/* Image + caption text */
+.captionedimage {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #89CAC8;
+	background-color: #01172E;
+}
+
+.imagecaption {
+	font-weight: bold;
+	color: #DECB97;
+	font-style: normal;
+}
+
+.imagecaption a {
+	text-decoration: underline;
+	color: #DEA479;
+}
+
+.imagecaption a:hover {
+	text-decoration: underline;
+	color: #DECB97;
+}
+
+
+/************ Guestbook ************/
+
+.guestbookentry {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+}
+
+
+/************ Tables ************/
+
+table {
+	box-shadow: 4px 4px 3px #305360;
+	border: #89CAC8;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+}
+
+caption {
+	border: #89CAC8;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	background-color: #D4ECFB;
+	color: #DEA479;
+	font-weight: bold;
+	background-image: url(img/navigator.gif);
+}
+
+th {
+	border: #89CAC8;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	background-color: #305360;
+	color: #DEA479;
+	font-weight: bold;
+}
+
+td {
+	border: #89CAC8;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	background-color: #01172E;
+	color: white;
+}

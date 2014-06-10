@@ -1,0 +1,491 @@
+/************ General element styles ************/
+
+html body {
+	background-color: #0B2A3A;
+	color: #ffffcc;
+	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+}
+
+a:link {
+	text-decoration: underline;
+	color: #CCCCFF;
+}
+
+a:visited {
+	text-decoration: underline;
+	color: #CCCCFF;
+}
+
+a:focus {
+	text-decoration: underline;
+	color: #CCCCFF;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: #FFCCCC;
+}
+
+a:active {
+	text-decoration: underline;
+	color: #FFFFCC;
+}
+
+/* Highlighted text */
+.highlight {
+	font-weight: bold;
+	color: #FFCCCC;
+}
+
+a.highlight {
+	text-decoration: underline;
+	color: #CCCCFF;
+}
+
+a.highlight:hover {
+	text-decoration: underline;
+	color: #FFFFCC;
+}
+
+a.highlight:active {
+	text-decoration: none;
+	color: #CCCCFF;
+}
+
+
+/**************** Form elements *****************/
+
+fieldset {
+	border: 1px solid #89CAC8;
+}
+
+legend {
+	font-weight: bold;
+	color: #DECB97;
+}
+
+
+textarea, select {
+	color: #FFFFFF;
+	border-color: #89CAC8;
+	background-color: #0B2A3A;
+}
+
+
+input {
+	color: #FFFFFF;
+	border-color: #89CAC8;
+ 	background-color: #0B2A3A;
+ }
+
+
+/* The main submit button option */
+input.mainoption {
+	font-weight: bold;
+	font-family: "Helvetica Narrow", "Arial Narrow", Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.buttonlink {
+	text-decoration: none;
+	border: #CCF 1px solid;
+	color: #FFC;
+	font-weight: normal;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #0B2A3A;
+	background: -moz-linear-gradient(top, rgba(35,61,105,1) 0%, rgba(107,128,164,1) 44%, rgba(15,56,77,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(35,61,105,1)), color-stop(44%,rgba(107,128,164,1)), color-stop(100%,rgba(15,56,77,1)));
+	background: -webkit-linear-gradient(top, rgba(35,61,105,1) 0%,rgba(107,128,164,1) 44%,rgba(15,56,77,1) 100%);
+	background: -o-linear-gradient(top, rgba(35,61,105,1) 0%,rgba(107,128,164,1) 44%,rgba(15,56,77,1) 100%);
+	background: -ms-linear-gradient(top, rgba(35,61,105,1) 0%,rgba(107,128,164,1) 44%,rgba(15,56,77,1) 100%);
+	background: linear-gradient(to bottom, rgba(35,61,105,1) 0%,rgba(107,128,164,1) 44%,rgba(15,56,77,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#233d69', endColorstr='#0f384d',GradientType=0 );
+}
+
+a.buttonlink {
+	color: #FFC;
+	text-decoration: none;
+}
+
+a.buttonlink:hover {
+	text-decoration: none;
+}
+
+
+/************ Main layout containers ************/
+
+#banners {
+	background-color: #0F384D;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+}
+
+#contentarea {
+	background-color: #0F384D;
+}
+
+/* Border around everything else */
+#wrapper {
+	background-color: #0F384D;
+	background-image: url(img/bg.gif);
+	background-repeat: no-repeat;
+	border: 1px #CCCCFF solid;
+}
+
+
+/************ Navigator elements ************/
+
+/* "Home" link on navigator*/
+#navhomelink {
+	font-weight: bold;
+}
+
+.potdcaption {
+	font-weight: bold;
+	color: #FFCCCC;
+}
+
+.aotd {
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	border-color: #89CAC8;
+}
+
+/* Navigator - selected item */
+.navhighlight {
+	color: #FFCCCC;
+}
+
+/* Navigator - links */
+.navtitle {
+	color: #CCCCFF;
+}
+
+a.navtitle {
+	text-decoration: none;
+	color: #CCCCFF;
+}
+
+a.navtitle:hover {
+	text-decoration: underline;
+	color: #FFCCCC;
+}
+
+a.navtitle:active {
+	text-decoration: none;
+	color: #CCCCFF;
+}
+
+
+/* Navigator link for the lower levels */
+.navlink {
+	font-weight: bold;
+	color: #CCCCFF;
+}
+
+a.navlink {
+	text-decoration: none;
+	color: #CCCCFF;
+}
+
+a.navlink:hover {
+	text-decoration: underline;
+	color: #FFCCCC;
+}
+
+a.navlink:active {
+	text-decoration: none;
+	color: #CCCCFF;
+}
+
+
+/************ Header elements ************/
+
+#sitedescription {
+	font-style: italic;
+}
+
+.logoutlink {
+	text-decoration: underline;
+}
+
+/* Page title in header and navigator elements on splashpage */
+.headerpagetitle {
+	border-color: #CCCCFF;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	font-weight: bold;
+	color: #FFFFCC;
+	background-color: #0F384D;
+	background-image: url(img/title.gif);
+}
+
+/* Site name */
+.maintitle {
+	font-weight: bold;
+	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	color: #FFCCCC;
+}
+
+
+/************ Footer elements ************/
+
+.footer {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #CCCCFF;
+}
+
+a.footer {
+	color: #00AEED;
+	text-decoration: none;
+}
+
+a.footer:hover {
+	color: #DEA479;
+	text-decoration: underline;
+}
+
+
+/************ Content titles ************/
+
+/* The text used for individual pages' titles */
+.pagetitle {
+	font-weight: bold;
+	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	color: #FFCCCC;
+}
+
+
+/* Titles for newsitemsections, articlesections */
+.sectiontitle {
+	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	color: #FFCCCC;
+}
+
+/* Fos newsitemsections */
+.sectionsubtitle {
+	font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	color: #FFCCCC;
+}
+
+
+/************ Content elements ************/
+
+/* Synopsis / page intros */
+.introtext {
+	font-weight: bold;
+	color: #FFFFCC;
+}
+
+
+/* Copyright info */
+.copyright {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.editdata {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+}
+
+
+/************ Menu pages ************/
+
+/* content links - linklistmenu */
+.contentnavlink {
+	font-weight: bold;
+}
+
+/* content - linklistmenu pagetitles */
+.contentnavtitle, a.contentnavtitle {
+	color: #CCCCFF;
+}
+
+a.contentnavtitle:hover {
+	text-decoration: underline;
+	color: #FFCCCC;
+}
+
+
+/************ Newsitems and articles ************/
+
+.newsitemcategories {
+	color: #FFCCCC;
+}
+
+/* News: filter form wrapper */
+.newsfilterform {
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+}
+
+/* Newsitem: wrapper */
+.newsitem {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+}
+
+/* Newsitem: Label for section with quoted text */
+.newsquotetitle {
+	font-weight: bold;
+}
+
+/* Newsitem: Section with quoted text */
+div.newsquote {
+	font-style: italic;
+	color: #FFFFCC;
+	background-color: #0F384D;
+}
+
+/* Newsitem and article: Source info */
+.articlesource {
+	color: #FFCCCC;
+}
+
+.articleauthor {
+	font-weight: bold;
+	font-style: italic;
+	color: #FFCCCC;
+}
+
+.articlelocation {
+	color: #FFCCCC;
+}
+
+.articledate {
+	font-style: italic;
+	color: #FFCCCC;
+}
+
+/* Article: Table of Contents */
+.articletoc {
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	border-color: #89CAC8;
+}
+
+.articletoc li {
+	color: #CCCCFF;
+}
+
+
+/************ Gallery ************/
+
+.galleryimage {
+	text-decoration: none;
+}
+
+
+/************ Linklist ************/
+
+/* Linklist link */
+.linktitle {
+	text-decoration: none;
+	color: #CCCCFF;
+}
+
+a.linktitle {
+	text-decoration: none;
+	color: #CCCCFF;
+}
+
+a.linktitle:visited {
+	text-decoration: none;
+	color: #CCCCFF;
+}
+
+a.linktitle:hover {
+	text-decoration: underline;
+	color: #FFCCCC;
+}
+
+a.linktitle:active {
+	text-decoration: underline;
+	color: #CCCCFF;
+}
+
+
+.linklistlink {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+}
+
+.linkedimage {
+	border: 10px solid transparent;
+}
+
+
+/************ Images and image captions ************/
+
+/* Image + caption text */
+.captionedimage {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #89CAC8;
+	background-color: #0F384D;
+}
+
+.imagecaption {
+	font-weight: bold;
+	color: #FFCCCC;
+	font-style: normal;
+}
+
+.imagecaption a {
+	text-decoration: underline;
+	color: #CCCCFF;
+}
+
+.imagecaption a:hover {
+	text-decoration: underline;
+	color: #FFFFCC;
+}
+
+
+/************ Guestbook ************/
+
+.guestbookentry {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #89CAC8;
+}
+
+
+/************ Tables ************/
+
+table {
+	box-shadow: 4px 4px 3px #305360;
+	border: #ccccff;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+}
+
+caption {
+	border-color: #CCCCFF;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	color: #FFFFCC;
+	background-color: #0F384D;
+	background-image: url(img/title.gif);
+}
+
+th {
+	border: #ccccff;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	background-color: #305360;
+	color: #FFCCCC;
+	font-weight: bold;
+}
+
+td {
+	border: #ccccff;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	background-color: #01172E;
+	color: white;
+}

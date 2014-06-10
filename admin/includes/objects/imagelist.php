@@ -692,6 +692,7 @@ class AdminImagePage  extends Template {
 		parent::__construct($filename, array(0 => "includes/javascript/jquery.js"));
 
     	$this->stringvars['stylesheet']=getCSSPath("main.css");
+		$this->stringvars['stylesheetcolors']= getCSSPath("colors.css");
 		$this->stringvars['adminstylesheet']=getCSSPath("admin.css");
 		$this->stringvars['headertitle']= title2html(getproperty("Site Name")).' - Webpage building';
 		$this->stringvars['scriptlinks']=$this->getjspaths();

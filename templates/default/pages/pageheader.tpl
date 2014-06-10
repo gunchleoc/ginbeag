@@ -7,7 +7,8 @@
   <meta name="keywords" content="{KEYWORDS}">
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
 	<meta http-equiv="Content-Style-Type" content="text/css">
-  <link rel="stylesheet" href="{STYLESHEET}" type="text/css">
+	<link rel="stylesheet" href="{STYLESHEETCOLORS}" type="text/css">
+	<link rel="stylesheet" href="{STYLESHEET}" type="text/css">
 	<title>{SITENAME} - {BROWSERTITLE}</title>
 	<script type="text/javascript" src="includes/javascript/jquery.js"></script>
 

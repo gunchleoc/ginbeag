@@ -1,0 +1,407 @@
+/************ General element styles ************/
+
+html body {
+	background-color: #44B4EC;
+	color: #002373;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.en {
+	color: #4B0026;
+}
+
+a:link {
+	text-decoration: none;
+	color: #0066CC;
+}
+a:link span.en {
+	color: #4E009E;
+}
+
+a:visited {
+	text-decoration: none;
+	color: #005BB5;
+}
+a:visited span.en {
+	color: #623D87;
+}
+
+a:focus {
+	text-decoration: underline;
+	color: #623D87;
+}
+a:focus span.en {
+	color: red;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: #3333CC;
+}
+a:hover span.en {
+	color: #CC3399;
+}
+
+a:active {
+	text-decoration: underline;
+	color: blue;
+}
+a:active span.en {
+	color: #FF1751;
+}
+
+/* Highlighted text */
+.highlight {
+	font-weight: bold;
+	color: #CC3399;
+}
+
+a.highlight {
+	text-decoration: none;
+	color: #AA8CA6;
+}
+
+a.highlight:hover {
+	text-decoration: underline;
+	color: #AA8CA6;
+}
+
+a.highlight:active {
+	text-decoration: none;
+	color: #E9ACB5;
+}
+
+
+/**************** Form elements *****************/
+
+fieldset {
+	border: 1px solid #002373;
+}
+
+legend {
+	font-weight: bold;
+}
+
+/* The main submit button option */
+input.mainoption {
+	font-weight: bold;
+	font-family: "Helvetica Narrow", "Arial Narrow", Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.buttonlink {
+	text-decoration: none;
+	border: #999999 1px solid;
+	font-weight: normal;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: white;
+	background: -moz-linear-gradient(top, rgba(255,255,255,1) 1%, rgba(229,229,229,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1)));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+	background: -o-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+	background: -ms-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 );
+}
+
+a.buttonlink {
+	color: #333333;
+	text-decoration: none;
+}
+
+a.buttonlink:hover {
+	text-decoration: none;
+}
+
+
+/************ Main layout containers ************/
+
+#navigator {
+	background-color: #A9E2FF;
+}
+
+#banners {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+}
+
+#contentarea {
+	background-color: white;
+	border: 1px solid #65CCFF;
+}
+
+/* Border around everything else */
+#wrapper {
+	background-color: #A9E2FF;
+	background-image: url(img/bgfng.gif);
+	background-repeat: no-repeat;
+	border: 1px #65CCFF solid;
+}
+
+
+/************ Navigator elements ************/
+
+/* "Home" link on navigator*/
+#navhomelink {
+	font-weight: bold;
+}
+
+.potdcaption {
+	font-weight: bold;
+	color: #000000;
+}
+
+.aotd {
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+}
+
+/* Navigator - selected item */
+.navhighlight {
+	color: blue;
+}
+.navhighlight span.en {
+	color: #FF1751;
+}
+
+/* Navigator - links */
+.navtitle, a.navtitle {
+	color: #002373;
+}
+.navtitle span.en {
+	color: #FF1751;
+}
+
+/* Navigator link for the lower levels */
+.navlink, a.navlink {
+	font-weight: bold;
+	color: #002373;
+}
+.navlink span.en {
+	color: #660066;
+}
+
+
+/************ Header elements ************/
+
+#sitedescription {
+	font-style: italic;
+}
+
+.logoutlink {
+	text-decoration: underline;
+}
+
+/* Page title in header and navigator elements on splashpage */
+.headerpagetitle {
+	border: #65CCFF;
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #002373;
+}
+
+/* Site name */
+.maintitle {
+	font-weight: bold;
+	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #000000;
+}
+
+
+/************ Footer elements ************/
+
+.footer {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/************ Content titles ************/
+
+/* The text used for individual pages' titles */
+.pagetitle {
+	font-weight: bold;
+	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #0066CC;
+}
+.pagetitle span.en {
+	color: #FF1751;
+}
+
+/* Titles for newsitemsections, articlesections */
+.sectiontitle {
+	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #0066CC;
+}
+.sectiontitle span.en {
+	color: #FF1751;
+}
+
+/* For newsitemsections */
+.sectionsubtitle {
+	font-family: "Monotype Corsiva", "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #0066CC;
+}
+.sectionsubtitle span.en {
+	color: #FF1751;
+}
+
+
+/************ Content elements ************/
+
+/* Synopsis / page intros */
+.introtext {
+	font-weight: bold;
+}
+
+/* Copyright info */
+.copyright {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.editdata {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+}
+
+
+/************ Menu pages ************/
+
+/* content links - linklistmenu */
+.contentnavlink {
+	font-weight: bold;
+}
+
+/* content - linklistmenu pagetitles */
+.contentnavtitle, a.contentnavtitle {
+	color: #002373;
+}
+.contentnavtitle span.en {
+	color: #FF1751;
+}
+
+
+/************ Newsitems and articles ************/
+
+/* News: filter form wrapper */
+.newsfilterform {
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+}
+
+/* Newsitem: wrapper */
+.newsitem {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+}
+
+/* Newsitem: Label for section with quoted text */
+.newsquotetitle {
+	font-weight: bold;
+}
+
+/* Newsitem: Section with quoted text */
+div.newsquote {
+	font-style: italic;
+	background-color: #F2F1ED;
+}
+
+/* Newsitem and article: Source info */
+.articlesource {}
+
+.articleauthor {
+	font-weight: bold;
+	font-style: italic;
+}
+
+.articlelocation {}
+
+.articledate {
+	font-style: italic;
+}
+
+/* Article: Table of Contents */
+.articletoc {
+	border-style: solid;
+	border-width: 1px 0px 1px 0px;
+}
+
+
+/************ Gallery ************/
+
+.galleryimage {
+	text-decoration: none;
+}
+
+
+/************ Linklist ************/
+
+/* Linklist link */
+.linklistlink {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+}
+
+.linkedimage {
+	border: 10px solid transparent;
+}
+
+
+/************ Images and image captions ************/
+
+/* Image + caption text */
+.captionedimage {
+	border-style: solid;
+	border-width: 1px;
+	background-color: white;
+}
+
+.imagecaption {
+	font-weight: bold;
+	color: #000000;
+	font-style: normal;
+}
+
+
+/************ Guestbook ************/
+
+.guestbookentry {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+}
+
+
+/************ Tables ************/
+
+table {
+	box-shadow: 4px 4px 3px #aaaaaa;
+   	border: #398EB9;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+}
+
+caption {
+	border: #398EB9;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	background-color: #69C3F1;
+	color: #002373;
+	font-weight: bold;
+	box-shadow: -1px -1px 20px 10px #3C9ECF inset;
+}
+
+th {
+	border: #398EB9;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	background-color: #A9E2FF;
+	color: #CC3399;
+	font-weight: bold;
+}
+
+td {
+	border: #398EB9;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	background-color: #FFFFFF;
+}

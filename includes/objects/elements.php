@@ -13,6 +13,7 @@ class HTMLHeader extends Template {
     {
     	parent::__construct();
 		$this->stringvars['stylesheet']=getCSSPath($stylesheet);
+		$this->stringvars['stylesheetcolors']= getCSSPath("colors.css");
 		$this->stringvars['site_name']=title2html(getproperty("Site Name"));
 		$this->stringvars['header_title']=$headertitle;
 		if(strlen($title)>0) $this->stringvars['title']=$title;
