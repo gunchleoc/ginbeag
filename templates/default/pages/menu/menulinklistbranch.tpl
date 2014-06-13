@@ -1,1 +1,1 @@
-<ul>{LINK}</ul>
+<ul class="contentnavlinklist">{LINK}</ul>

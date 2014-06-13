@@ -1,0 +1,484 @@
+/************ General element styles ************/
+html body {
+	font-size: 250%;
+}
+
+li {
+	margin-left: 1em;
+}
+
+/* General text sizes */
+.medtext, div.medtext, span.medtext {
+	font-size: 90%;
+}
+
+.smalltext, div.smalltext, span.smalltext {
+	font-size: 80%;
+	letter-spacing: -0.25px;
+}
+
+
+/**************** Form elements *****************/
+
+fieldset {
+	padding: 1em;
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+
+input {
+	text-indent: 2px;
+	font-size: 100%;
+ }
+
+
+select {
+	font-size: 75%;
+ }
+
+/* Separate properties for buttons; not supported by IE */
+input[type=button], input[type=submit], input[type=reset], .button  {
+	font-size: 94%;
+}
+
+.buttonlink {
+	text-align: right;
+	padding: 0.2em;
+	padding-left: 0.3em;
+	padding-right: 0.3em;
+	margin-left: 0.2em;
+	margin-right: 0.2em;
+	border-radius: 0.4em;
+}
+
+
+/************ Layout control ************/
+
+.rightalign {
+	text-align: right;
+	float: right;
+}
+
+.leftalign {
+	text-align: left;
+	float: left;
+}
+
+.centeralign {
+	text-align: center;
+}
+
+/* to prevent floating for new sections after image */
+.newline {
+	clear:both;
+}
+
+
+/************ Main layout containers ************/
+
+#header {
+	text-align: left;
+}
+
+
+#navigator {
+	width: 19.5%;
+	position: absolute;
+	padding: 0.20em;
+	margin-top: 0.5em;
+	font-size: 150%;
+}
+
+#banners {
+	width: 95%;
+	margin-top: 2em;
+	font-size: 75%;
+	padding-top: 0.35em;
+	padding-bottom: 0.35em;
+}
+
+#contentarea {
+	z-index: 100;
+	min-width: 1px;
+	/*width: 77%;*/
+	padding: 0.4em;
+	padding-top: 0em;
+	margin-left: 0.2em;
+	margin-right: 0.2em;
+	margin-top: 0.2em;
+	padding-bottom: 2em;
+}
+
+/* Border around everything else */
+#wrapper {
+	padding: 0em;
+}
+
+
+/************ Navigator elements ************/
+
+/* For accessibility */
+.invisible {
+	width: 0px;
+	height: 0px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	overflow: hidden;
+	font-size: 0px;
+	float: left;
+}
+
+/* "Home" link on navigator*/
+#navhomelink {
+	margin-top: 0.5em;
+}
+
+.potdcaption {
+	width: 98%;
+	padding-top: 0.5em;
+	font-size: 65%;
+	text-align: left;
+	margin-bottom: 2em;
+}
+
+.aotd {
+	width: 98%;
+	margin-bottom: 2em;
+	font-size: 75%;
+	text-align: left;
+	padding-bottom: 0.35em;
+	padding-top: 0.35em;
+}
+
+/* Navigator - selected item */
+.navhighlight {
+	font-size: 100%;
+}
+
+
+/* Navigator link for the lower levels */
+.navlink {
+	font-size: 70%;
+}
+
+.navrootlinkwrapper {
+	margin-top: 1em;
+}
+
+.navlinkwrapper {
+	margin-top: 0.4em;
+	margin-bottom: 0.4em;
+}
+
+
+/************ header elements ************/
+
+#sitedescription {
+	margin: 0.2em;
+	font-style: normal;
+	margin-top: 0.05em;
+}
+
+
+/* Page title in header and navigator elements on splashpage */
+.headerpagetitle {
+	text-align: center;
+	padding-top: 0.4em;
+	padding-bottom: 0.35em;
+	padding-left: 0em;
+	padding-right: 0em;
+	font-size: 160%;
+	margin-bottom: 0em;
+}
+
+/* Site name */
+.maintitle {
+	font-size: 250%;
+	margin: 0em;
+	padding: 0em;
+}
+
+#headerleft {
+	margin: 0.2em;
+	font-style: normal;
+	font-size: 250%;
+	margin-top: 0.05em;
+}
+
+
+/************ Footer elements ************/
+
+.footer {
+	font-size: 80%;
+	letter-spacing: -0.5px;
+}
+
+/************ Content titles ************/
+
+/* The text used for individual pages' titles */
+.pagetitle {
+	font-size: 200%;
+	/*line-height: 120%;*/
+}
+
+/* Titles for newsitemsections, articlesections */
+.sectiontitle {
+	font-size: 180%;
+	margin-bottom: 0.75em;
+}
+
+/* For newsitemsections */
+.sectionsubtitle {
+	font-size: 160%;
+	margin-top: 0.5em;
+	margin-bottom: 0.75em;
+	margin-top: 1em;
+}
+
+
+/************ Content elements ************/
+
+/* section text all over the place */
+.sectiontext {
+	padding-top: 0.75em;
+	text-align: justify;
+}
+
+/* Synopsis for page intros formerly articlesynopsis */
+.introtext {
+	padding-top: 0.75em;
+	text-align: justify;
+}
+
+/* Pagemenu */
+.pagemenu {
+	text-align: right;
+	float: right:
+}
+
+/* Copyright info */
+.copyright {
+	font-size: 80%;
+	letter-spacing: -0.5px;
+}
+
+.editdata {
+	margin-top: 1.5em;
+	width: 100%;
+	padding-top: 0.5em;
+}
+
+
+/************ Menu pages ************/
+
+/* content - linklistmenu pagetitles */
+.contentnavtitle, a.contentnavtitle {
+	font-size: 130%;
+}
+
+.contentnavrootlinkwrapper {
+	margin-top: 4ex;
+	margin-bottom: 1ex;
+	margin-left: 0ex;
+}
+
+.contentnavlinkwrapper {
+	margin-top: 1.75ex;
+	line-height: 1.5em;
+	text-align: justify;
+	margin-left: 0ex;
+}
+
+.contentnavlinklist {
+	list-style-type: none;
+	padding-left: 1em;	
+}
+
+/* for articlemenu */
+.articleinfo {
+	margin-top: 0.05em;
+}
+
+
+/* for menu pages */
+.subpages {
+	margin-left: 1em;
+}
+
+
+/************ Newsitems and articles ************/
+
+/* Clickable categories */
+.articleinfocategories {
+	margin-top: 0.2em;
+	font-size: 80%;
+}
+
+.newsitemcategories {
+	margin-top: 0.2em;
+	font-size: 100%;
+}
+
+.categorylistlink {
+	margin-right: 0.5em;
+	margin-left: 0.5em;
+}
+
+/* News: RSS button */
+.rss {
+	text-align: left;
+	float: left:
+}
+
+/* News: filter form wrapper */
+.newsfilterform {
+	margin-top: 1.5em;
+}
+
+/* Newsitem: wrapper */
+.newsitem {
+	margin-top: 1.5em;
+	padding-top: 0.5em;
+}
+
+/* section text all over the place */
+.newsitemsynopsis {
+	padding-top: 1em;
+}
+
+
+/* Newsitem: Label for section with quoted text */
+.newsquotetitle {
+	padding-top: 1em;
+	margin-bottom: 0.1em;
+}
+
+/* Newsitem: Section with quoted text */
+div.newsquote {
+	width: *;
+	margin: 0em;
+	padding: 0.4em;
+	text-align: justify;
+}
+
+/* Article: Table of Contents */
+.articletoc {
+	margin-top: 1.5em;
+	padding-bottom:0.5em;
+	padding-top: 0.5em;
+}
+
+
+/************ Gallery ************/
+
+.galleryimage {
+	float: left;
+	padding: 1em;
+	margin: 1em;
+    overflow: hidden;
+    display: table-cell;
+	font-size: 90%;
+}
+
+.gallerycontents {
+	float: left;
+	width: 100%;
+	padding: 1em;
+	margin: 1em;
+	display: inline;
+    overflow: hidden;
+    display: table-cell;
+}
+
+
+/************ Linklist ************/
+
+/* Linklist link */
+.linktitle {
+	font-size: 115%;
+}
+
+.linklistlink {
+	margin-top: 1em;
+}
+
+.linkedimage {
+	float: left;
+}
+
+
+/************ Images and image captions ************/
+
+/* Image + caption text */
+.captionedimage {
+	padding: 0.75em;
+	margin: 1em;
+	text-align: center;
+}
+
+.imagecaption {
+	padding-left: 0.75em;
+	padding-right: 0.75em;
+	padding-top: 0.5em;
+	font-size: 100%;
+	text-align: center;
+}
+
+
+/************ Splashpage ************/
+
+
+#splashpagecontentarea {
+	z-index: 100;
+	min-width: 1px;
+	padding: 1em;
+	padding-top: 0em;
+	margin-top: 3em;
+	text-align: center;
+}
+
+.splashpagelink {
+	padding: 0.3em;
+}
+
+
+/************ Guestbook ************/
+
+.guestbookentry {
+	margin-top: 1.5em;
+	padding-top: 0.5em;
+}
+
+
+/************ tables ************/
+
+table {
+	font-size:100%;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 70%;
+	margin-left: 15%;
+	margin-right: 15%;
+}
+
+caption {
+	text-align: center;
+	padding-top: 0.4em;
+	padding-bottom: 0.35em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	font-size: 125%;
+}
+
+th {
+	text-align: center;
+	font-size: 110%;
+	padding: 0.5em;
+}
+
+td {
+	padding: 0.5em;
+}

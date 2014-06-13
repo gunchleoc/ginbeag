@@ -54,8 +54,15 @@ class ArticlePage extends Template {
 
 		$linkparams["printview"]="on";
 		$linkparams["page"]=$this->stringvars['page'];
-
-		$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
+		if(ismobile())
+		{
+			$linkparams["m"] = "on";
+			$this->stringvars['printviewbutton'] ='<a href="'.makelinkparameters($linkparams).'" title="'.getlang("pagemenu_printview").'" class="buttonlink">'.getlang("pagemenu_printview_short").'</a>';
+		}
+		else
+		{
+			$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
+		}
 
     	$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
 

@@ -109,6 +109,7 @@ $lang["news_filter_toyear"]="Gus a' bhlìadhna";
 
 $lang["news_single_showing"]="A' sealltainn naidheachd a-mhàin";
 $lang["news_single_link"]="Dèan ceangal dhan naidheachd seo";
+$lang["news_single_link_short"]="Ceàngal";
 
 
 $lang["news_source_source"]="Tùs:";
@@ -320,6 +321,7 @@ $lang["pagemenu_goto"]="Ràch gu duilleag: ";
 $lang["pagemenu_previous"]="Air àis";
 $lang["pagemenu_next"]="Air àdhart";
 $lang["pagemenu_printview"]="Sealladh clò-bhualaidh";
+$lang["pagemenu_printview_short"]="Clò-bhuail";
 $lang["pagemenu_jumptopage"]="Leum gu dùilleag:";
 $lang["pagemenu_go"]="Siùthad";
 

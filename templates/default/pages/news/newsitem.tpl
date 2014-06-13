@@ -1,13 +1,13 @@
 <div class="newline newsitem">
+		<!-- BEGIN switch PRINTVIEWBUTTON -->
+		<div class="medtext leftalign">{PRINTVIEWBUTTON} {ITEMLINK}</div>
+		<!--  END switch PRINTVIEWBUTTON -->
 		<!-- BEGIN switch SHOW_TOPLINK -->
-		<div align="right" class="medtext">
-			<a href="#top">{L_TOPOFTHISPAGE}</a>
+		<div align="right" class="medtext rightalign">
+			<a href="#top" class="buttonlink">{L_TOPOFTHISPAGE}</a>
 		</div>
 		<!-- END switch SHOW_TOPLINK -->
-		<!-- BEGIN switch PRINTVIEWBUTTON -->
-        	<span class="medtext">{PRINTVIEWBUTTON}</span>
-        	{ITEMLINK}
-    	<!--  END switch PRINTVIEWBUTTON -->
+        <div class="newline"></div>
     	<!-- BEGIN switch TITLE -->
     	<h3 class="sectiontitle">{TITLE}</h3>
     	<!-- END switch TITLE -->

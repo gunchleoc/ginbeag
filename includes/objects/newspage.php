@@ -67,10 +67,19 @@ class Newsitem extends Template {
 		{
 			$linkparams["page"]=$this->stringvars['page'];
 			$linkparams["newsitem"]=$newsitem;
-			if(ismobile()) $linkparams["m"] = "on";
-			$this->vars['itemlink']= new LinkButton(makelinkparameters($linkparams), getlang("news_single_link"), 'img/link.png');
-			$linkparams["printview"]="on";
-			$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
+			if(ismobile())
+			{
+				$linkparams["m"] = "on";
+				$this->stringvars['itemlink']= '<a href="'.makelinkparameters($linkparams).'" title="'.getlang("news_single_link").'" class="buttonlink">'.getlang("news_single_link_short").'</a>';
+				$linkparams["printview"]="on";
+				$this->stringvars['printviewbutton'] ='<a href="'.makelinkparameters($linkparams).'" title="'.getlang("pagemenu_printview").'" class="buttonlink">'.getlang("pagemenu_printview_short").'</a>';
+			}
+			else
+			{
+				$this->vars['itemlink']= new LinkButton(makelinkparameters($linkparams), getlang("news_single_link"), 'img/link.png');
+				$linkparams["printview"]="on";
+				$this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
+			}
 		}
 
 		$contents=getnewsitemcontents($newsitem);
@@ -377,7 +386,8 @@ class NewsPage extends Template {
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("pages/news/newspage.tpl");
+		if(ismobile()) $this->addTemplate("mobile/newspage.tpl");
+		else $this->addTemplate("pages/news/newspage.tpl");
     }
 
     function makenewsfilterform($page,$selectedcat="",$from=array(),$to=array(),$order="date",$ascdesc="desc")

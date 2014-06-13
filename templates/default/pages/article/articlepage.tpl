@@ -28,7 +28,9 @@
 <!-- BEGIN switch ARTICLESECTION -->
 {ARTICLESECTION}
 <!-- END switch ARTICLESECTION -->
-<!-- BEGIN switch PAGEMENU -->
-<p align="right">{PAGEMENU}</p>
-<!-- END switch PAGEMENU -->
-{EDITDATA}
+<div class="newline">
+	<!-- BEGIN switch PAGEMENU -->
+	<p align="right">{PAGEMENU}</p>
+	<!-- END switch PAGEMENU -->
+	{EDITDATA}
+</div>

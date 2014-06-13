@@ -172,7 +172,8 @@ class ArticleMenuPage extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("pages/menu/articlemenupage.tpl");
+		if(ismobile()) $this->addTemplate("mobile/articlemenupage.tpl");
+		else $this->addTemplate("pages/menu/articlemenupage.tpl");
 	}
 
 

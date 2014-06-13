@@ -56,46 +56,25 @@ if(isset($_GET['logout']))
 	unset($_GET['logout']);
 	$wasloggedout = true;
 }
-// mobile style
-if(isset($_GET['m']))
+
+// show splash page
+if(!isset($_GET['page']) || ($page == 0 && $wasloggedout))
 {
-	if(!isset($_GET['page']) || ($page == 0 && $wasloggedout))
-	{
-		$page = new Page("splashpagemobile");
-	}
-	// show normal page
-	else
-	{
-		if(isset($_GET['printview']))
-		{
-	   		$page = new Printview();
-		}
-		else
-		{
-			$page = new Page("mobile");
-		}
-	}
+	$page = new Page("splashpage");
 }
+// show normal page
 else
 {
-	// show splash page
-	if(!isset($_GET['page']) || ($page == 0 && $wasloggedout))
+	if(isset($_GET['printview']))
 	{
-		$page = new Page("splashpage");
+		$page = new Printview();
 	}
-	// show normal page
 	else
 	{
-		if(isset($_GET['printview']))
-		{
-	   		$page = new Printview();
-		}
-		else
-		{
-			$page = new Page("page");
-		}
+		$page = new Page("page");
 	}
 }
+
 print($page->toHTML());
 
 $db->closedb();

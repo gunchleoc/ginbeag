@@ -36,14 +36,16 @@ class Editdata extends Template {
 		else
 			$this->stringvars['footerlastedited']=sprintf(getlang("footer_lastedited"),formatdatetime($editdate));
 
-		$this->stringvars['copyright']=makecopyright($permissions);
+		if(strlen(makecopyright($permissions)) > 0)
+			$this->stringvars['copyright']=makecopyright($permissions);
 		$this->stringvars['topofthispage']=getlang("pagemenu_topofthispage");
     }
 
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("pages/editdata.tpl");
+		if(ismobile()) $this->addTemplate("mobile/editdata.tpl");
+		else $this->addTemplate("pages/editdata.tpl");
     }
 }
 
@@ -250,9 +252,10 @@ class NavigatorLink extends Template {
     function createTemplates()
     {
 		if($this->style=="splashpage")
-			$this->addTemplate("navigator/navigatorlinksplashpage.tpl");
-		elseif($this->style=="splashpagemobile")
-			$this->addTemplate("mobile/navigatorlinksplashpage.tpl");
+		{
+			if(ismobile()) $this->addTemplate("mobile/navigatorlinksplashpage.tpl");
+			else $this->addTemplate("navigator/navigatorlinksplashpage.tpl");
+		}
 		elseif($this->style=="printview")
 			$this->addTemplate("navigator/navigatorlinkprintview.tpl");
 		elseif($this->stringvars['title_class']=="navhighlight")
@@ -302,9 +305,10 @@ class NavigatorBranch extends Template {
     function createTemplates()
     {
 		if($this->style=="splashpage")
-			$this->addTemplate("navigator/navigatorbranchsplashpage.tpl");
-		elseif($this->style=="splashpagemobile")
-			$this->addTemplate("mobile/navigatorbranchsplashpage.tpl");
+		{
+			if(ismobile()) $this->addTemplate("mobile/navigatorbranchsplashpage.tpl");
+			else $this->addTemplate("navigator/navigatorbranchsplashpage.tpl");
+		}
 		elseif($this->style=="printview")
 			$this->addTemplate("navigator/navigatorbranchprintview.tpl");
 		else
@@ -334,7 +338,7 @@ class Navigator extends Template {
 			$linkparams = makelinkparameters(array("m" => "on"));
 		}
 
-	    if($displaytype=="splashpage" || $displaytype=="splashpagemobile")
+	    if($displaytype=="splashpage")
 	    {
 
 			$linksonsplashpage=explode(",",getproperty('Links on Splash Page'));
@@ -515,9 +519,10 @@ class Navigator extends Template {
 	function createTemplates()
 	{
 		if($this->displaytype==="splashpage")
-		  $this->addTemplate("navigator/navigatorsplashpage.tpl");
-		elseif($this->displaytype==="splashpagemobile")
-		  $this->addTemplate("mobile/navigatorsplashpage.tpl");
+		{
+			if(ismobile()) $this->addTemplate("mobile/navigatorsplashpage.tpl");
+			else $this->addTemplate("navigator/navigatorsplashpage.tpl");
+		}
 		elseif($this->displaytype==="printview")
 		  $this->addTemplate("navigator/navigatorprintview.tpl");
 		else
@@ -534,11 +539,8 @@ class Navigator extends Template {
 //
 class ItemsOfTheDay extends Template {
 
-	var $displaytype;
-
-	function ItemsOfTheDay($displaytype, $showhidden=false)
+	function ItemsOfTheDay($showhidden=false)
 	{
-		$this->displaytype=$displaytype;
 	   parent::__construct();
 
 		if(getproperty('Display Picture of the Day'))
@@ -557,7 +559,7 @@ class ItemsOfTheDay extends Template {
 			{
 				$linkparams = array();
 				$linkparams["page"] = $aotd;
-				if($displaytype == "splashpagemobile")
+				if(ismobile())
 				{
 					$linkparams["m"] = "on";
 				}
@@ -613,29 +615,25 @@ class PageHeader extends Template {
 
 		$linkparams = array("page" => $this->stringvars['page']);
 		$linkparams["logout"] = "on";
-		if($displaytype == "mobile") $linkparams["m"] = "on";
+		if(ismobile()) $linkparams["m"] = "on";
 
 		$this->stringvars['logoutlink'] = makelinkparameters($linkparams);
 
-		if($displaytype == "mobile")
+		$linkparams = $_GET;
+		if(ismobile())
 		{
-			$linkparams = $_GET;
-			unset($linkparams["m"]);
-			$this->stringvars['displaytypelink'] = $_SERVER["PHP_SELF"].makelinkparameters($linkparams);
-			$this->stringvars['l_displaytypelink'] = getlang("header_desktopstyle");
-			$this->stringvars['l_showmenu'] = getlang("header_showmenu");
-			$this->stringvars['l_hidemenu'] = getlang("header_hidemenu");
-		}
-		elseif($displaytype == "splashpagemobile")
-		{
-			$linkparams = $_GET;
 			unset($linkparams["m"]);
 			$this->stringvars['displaytypelink'] = "index.php".makelinkparameters($linkparams);
 			$this->stringvars['l_displaytypelink'] = getlang("header_desktopstyle");
+
+			if($displaytype != "splashpage")
+			{
+				$this->stringvars['l_showmenu'] = getlang("header_showmenu");
+				$this->stringvars['l_hidemenu'] = getlang("header_hidemenu");
+			}
 		}
 		else
 		{
-			$linkparams = $_GET;
 			$linkparams["m"] = "on";
 			$this->stringvars['displaytypelink'] = makelinkparameters($linkparams);
 			$this->stringvars['l_displaytypelink'] = getlang("header_mobilestyle");
@@ -652,7 +650,9 @@ class PageHeader extends Template {
 		}
 		$this->stringvars['keywords'].=title2html(getproperty('Google Keywords'));
 
-		$this->stringvars['stylesheet']= getCSSPath("main.css");
+		if(ismobile()) $this->stringvars['stylesheet']= getCSSPath("mobile.css");
+		else $this->stringvars['stylesheet']= getCSSPath("main.css");
+
 		$this->stringvars['stylesheetcolors']= getCSSPath("colors.css");
 		$this->stringvars['sitename']=title2html(getproperty("Site Name"));
 		$this->stringvars['browsertitle']=striptitletags($title);
@@ -682,7 +682,7 @@ class PageHeader extends Template {
 		}
 
 		$linkparams = array();
-		if($displaytype == "mobile") $linkparams["m"] = "on";
+		if(ismobile()) $linkparams["m"] = "on";
 
 		$link=getproperty("Left Header Link");
 		if(strlen($link)>0)
@@ -700,10 +700,11 @@ class PageHeader extends Template {
 	function createTemplates()
 	{
 		if($this->displaytype=="splashpage")
-			$this->addTemplate("pages/splashpageheader.tpl");
-		elseif($this->displaytype=="splashpagemobile")
-			$this->addTemplate("mobile/splashpageheader.tpl");
-		elseif($this->displaytype=="mobile")
+		{
+			if(ismobile()) $this->addTemplate("mobile/splashpageheader.tpl");
+			else $this->addTemplate("pages/splashpageheader.tpl");
+		}
+		elseif(ismobile())
 			$this->addTemplate("mobile/pageheader.tpl");
 		else
 			$this->addTemplate("pages/pageheader.tpl");
@@ -886,7 +887,7 @@ class Page extends Template {
 			$articlepage=1;
 		else $articlepage=0;
 
-		if($this->displaytype=="splashpage" || $this->displaytype==="splashpagemobile")
+		if($this->displaytype=="splashpage")
 		{
 			$contents="";
 			if(getproperty("Splash Page Font")==="italic") $contents.='<i>';
@@ -916,7 +917,7 @@ class Page extends Template {
 			if(getproperty("Enable Guestbook"))
 				$this->listvars['bottomlink'][]=new NavigatorBranch(0, $this->displaytype, 0, 0, "guestbook", $showhidden);
 			$this->listvars['bottomlink'][]=new NavigatorBranch(0, $this->displaytype, 0, 0, "contact", $showhidden);
-			$this->vars["itemsoftheday"] = new ItemsOfTheDay($this->displaytype, $showhidden);
+			$this->vars["itemsoftheday"] = new ItemsOfTheDay($showhidden);
 		}
 
 		// reroute to guide for webpage editors
@@ -1023,9 +1024,10 @@ class Page extends Template {
 	function createTemplates()
 	{
 		if($this->displaytype=="splashpage")
-			$this->addTemplate("pages/splashpage.tpl");
-		elseif($this->displaytype=="splashpagemobile")
-			$this->addTemplate("mobile/splashpage.tpl");
+		{
+			if(ismobile()) $this->addTemplate("mobile/splashpage.tpl");
+			else $this->addTemplate("pages/splashpage.tpl");
+		}
 		else
 			$this->addTemplate("pages/page.tpl");
 	}

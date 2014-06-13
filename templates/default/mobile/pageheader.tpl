@@ -6,13 +6,9 @@
 	<meta name="keywords" content="{KEYWORDS}">
 	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
 	<meta http-equiv="Content-Style-Type" content="text/css">
+	<link rel="stylesheet" href="{STYLESHEETCOLORS}" type="text/css">
 	<link rel="stylesheet" href="{STYLESHEET}" type="text/css">
 	<title>{SITENAME} - {BROWSERTITLE}</title>
-	<style>
-html body {
-	font-size: 250%;
-}
-	</style>
 	<script type="text/javascript" src="includes/javascript/jquery.js"></script>
 	<script language="JavaScript">
 
@@ -54,17 +50,6 @@ $(document).ready(function() {
 	var navigatorcontent = $("#navigator").html();
 
 	hidemenu();
-	if(navigator.appName == "Microsoft Internet Explorer")
-	{
-		$("#contentarea").css("width","96%");
-	}
-	else
-	{
-		$("#contentarea").css("width","initial");
-	}
-	$("#contentarea").css("margin-left","0px");
-	$("#wrapper").css("padding","0px");
-	$("#contentarea").css("padding-bottom","2em");
 
 	function hidemenu()
 	{
@@ -104,37 +89,30 @@ $(document).ready(function() {
 	</script>
 </head>
 <body>
-	<div>
+	<div id="wrapper">
 		<div id="header">
-			<div id="headerleft">
+			<div id="headerleft" class="leftalign maintitle">
 				<!-- BEGIN switch LEFT_IMAGE -->
 					<!-- BEGIN switch LEFT_LINK -->
-				  <a href="{LEFT_LINK}">
-					  <!-- END switch LEFT_LINK -->
-					  <img src="{LEFT_IMAGE}" border="0" alt="{SITENAME}" vspace="1" width="{LEFT_WIDTH}" height="{LEFT_HEIGHT}" />
-					  <!-- BEGIN switch LEFT_LINK -->
-				  </a>
-				<!-- END switch LEFT_LINK -->
-				<!-- END switch LEFT_IMAGE -->
-					<!-- BEGIN switch LOGGED_IN -->
-				  <div class="logoutlink"><a href="{LOGOUTLINK}">Log out</a></div>
-					<!-- END switch LOGGED_IN -->
+			        <a href="{LEFT_LINK}">
+				        <!-- END switch LEFT_LINK -->
+				        <img src="{LEFT_IMAGE}" border="0" alt="{SITENAME}" vspace="1" width="{LEFT_WIDTH}" height="{LEFT_HEIGHT}" />
+				        <!-- BEGIN switch LEFT_LINK -->
+			        </a>
+			      <!-- END switch LEFT_LINK -->
+			      <!-- END switch LEFT_IMAGE -->
 			</div>
-			<div id="headercenter">
-				 <h1 class="maintitle">{SITENAME}</h1>
-				 <!-- BEGIN switch SITE_DESCRIPTION -->
-				 <div id="sitedescription">{SITE_DESCRIPTION}</div>
-				 <!-- END switch SITE_DESCRIPTION -->
+			<div id="sitedescription" class="leftalign">
+				<div class="maintitle">{SITENAME}</div>
+				<!-- BEGIN switch SITE_DESCRIPTION -->{SITE_DESCRIPTION}<!-- END switch SITE_DESCRIPTION -->
 			</div>
-				<div id="headerright">
-					&nbsp;
-				</div>
-			</div>
-		<h1 id="headerpagetitle" class="headerpagetitle newline" style="width: initial;">
-			<div class="leftalign" style="font-size:80%; margin-left:0.2em; margin-right:1em;">
+		</div>
+		<h1 id="headerpagetitle" class="headerpagetitle newline">
+			<div class="leftalign" style="font-size:80%;">
 				<input id="menubutton" type="button" name="menubutton" value="Menu" class="buttonlink" />
 			</div>
-			<div class="rightalign" style="font-size:80%; margin-top:0.25em; margin-left:1em; margin-right:0.2em;">
+			<div class="rightalign" style="font-size:80%; margin-top:0.20em;">
+				<!-- BEGIN switch LOGGED_IN --><a href="{LOGOUTLINK}" class="buttonlink">Log out</a><!-- END switch LOGGED_IN -->
 				<a href="{DISPLAYTYPELINK}" class="buttonlink">{L_DISPLAYTYPELINK}</a>
 			</div>
 			<div class="newline"></div>

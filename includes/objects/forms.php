@@ -78,7 +78,7 @@ class PageMenu extends Template {
 			{
 				// "Previous"
 				$params["offset"] = $previous;
-				$result.='<a href="'.makelinkparameters($params).'">'.getlang("pagemenu_previous").'</a> ';
+				$result.='<a href="'.makelinkparameters($params).'" class="buttonlink">'.getlang("pagemenu_previous").'</a> ';
 			}
 			if($offset)
 			{
@@ -86,40 +86,36 @@ class PageMenu extends Template {
 				{
 					// First page number
 					$params["offset"] = 0;
-					$result.='<a href="'.makelinkparameters($params).'">1</a>, ';
+					$result.='<a href="'.makelinkparameters($params).'" class="buttonlink">1</a> ';
 					if(($previous-$number)>0) $result.='... ';
 				}
 				// previous number
 				$params["offset"] = $previous;
-				$result.='<a href="'.makelinkparameters($params).'">'.(1+$previous/$number).'</a>, ';
+				$result.='<a href="'.makelinkparameters($params).'" class="buttonlink">'.(1+$previous/$number).'</a> ';
 			}
 
 			// current number
-			$result.='<b>'.(1+$offset/$number).'</b>';
-			if($offset<$last)
-			{
-				$result.=', ';
-			}
+			$params["offset"] = $offset;
+			$result.='<a href="'.makelinkparameters($params).'" class="buttonlink"><span class="highlight"><strong>'.(1+$offset/$number).'</strong></span></a> ';
 
 			// next number
 			if($offset<$last)
 			{
 				$params["offset"] = $next;
-				$result.='<a href="'.makelinkparameters($params).'">'.(1+$next/$number).'</a>';
-				if($next<$last) $result.=', ';
+				$result.='<a href="'.makelinkparameters($params).'" class="buttonlink">'.(1+$next/$number).'</a> ';
 			}
 			if(($next+$number)<$last && $last/$number>2) $result.='... ';
 			if($next<$last)
 			{
 				// last number
 				$params["offset"] = $last;
-				$result.='<a href="'.makelinkparameters($params).'">'.(1+$last/$number).'</a>';
+				$result.='<a href="'.makelinkparameters($params).'" class="buttonlink">'.(1+$last/$number).'</a> ';
 			}
 			// "Next"
 			if($offset<$last)
 			{
 				$params["offset"] = $next;
-				$result.=' <a href="'.makelinkparameters($params).'">'.getlang("pagemenu_next").'</a>';
+				$result.=' <a href="'.makelinkparameters($params).'" class="buttonlink">'.getlang("pagemenu_next").'</a> ';
 			}
 		}
 		return $result;

@@ -110,6 +110,7 @@ $lang["news_filter_toyear"]="To Year";
 
 $lang["news_single_showing"]="Showing Single Newsitem";
 $lang["news_single_link"]="Link to this newsitem";
+$lang["news_single_link_short"]="Link";
 
 $lang["news_source_source"]="Source:";
 $lang["news_source_foundby"]="Found By:";
@@ -323,6 +324,7 @@ $lang["pagemenu_goto"]="Goto page: ";
 $lang["pagemenu_previous"]="Previous";
 $lang["pagemenu_next"]="Next";
 $lang["pagemenu_printview"]="Print View";
+$lang["pagemenu_printview_short"]="Print";
 $lang["pagemenu_jumptopage"]="Jump to page:";
 $lang["pagemenu_go"]="Go";
 
