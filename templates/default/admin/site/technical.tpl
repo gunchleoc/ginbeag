@@ -42,7 +42,7 @@
 			<div class="formexplain">The size thumbnails should be at. Shown to webpage editors when they upload images, and used for automatic thumbnail generation.</div>
 			<br />
 			<label for="mobilethumbnailsize">Mobile Thumbnail Size:</label>
-			<input id="mobilethumbnailsize" type="text" name="mobilethumbnailsize" size="2" maxlength="2" value="{MOBILETHUMBNAILSIZE}" />
+			<input id="mobilethumbnailsize" type="text" name="mobilethumbnailsize" size="2" maxlength="3" value="{MOBILETHUMBNAILSIZE}" />
 			<div class="formexplain">The size for mobile thumbnails. 72 is a good value, because it will still fit a thumb. These thumbnails are created automatically if your webserver has GD support.</div>
 		</fieldset>
 		<fieldset>

@@ -95,25 +95,24 @@ class CaptionedImage extends Template {
 		global $projectroot;
     	parent::__construct();
 
-      	// CSS stuff
-
-      	if ($halign == "right")
-      	{
-      		$this->stringvars['halign']="float:right; ";
-      	}
-      	elseif ($halign == "left")
-      	{
-      		$this->stringvars['halign']="float:left; ";
-      	}
-      	elseif ($halign == "center")
-      	{
-      		$this->stringvars['halign']="";
-      		$this->stringvars['center']="center";
-      	}
-      	else
-      	{
-      		$this->stringvars['halign']=$halign;
-      	}
+		// CSS stuff
+		if (ismobile() || $halign == "center")
+		{
+			$this->stringvars['halign']="";
+			$this->stringvars['center']="center";
+		}
+		elseif ($halign == "right")
+		{
+			$this->stringvars['halign']="float:right; ";
+		}
+		elseif ($halign == "left")
+		{
+			$this->stringvars['halign']="float:left; ";
+		}
+		else
+		{
+			$this->stringvars['halign']=$halign;
+		}
 
 		// determine image dimensions
 		$width=getproperty("Thumbnail Size");

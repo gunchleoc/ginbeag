@@ -265,6 +265,8 @@ class NewsPage extends Template {
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars($linkparams);
 
+		$this->stringvars["l_topofthispage"] = getlang("pagemenu_topofthispage");
+
 		// searching & filtering
 		$filter=isset($_GET['filter']);
 		$filterpage=isset($_GET['filterpage']);

@@ -31,10 +31,15 @@ input {
 	font-size: 100%;
  }
 
+label {
+	font-size: 110%;
+	line-height: 200%
+}
+
 
 select {
-	font-size: 75%;
- }
+	font-size: 100%;
+}
 
 /* Separate properties for buttons; not supported by IE */
 input[type=button], input[type=submit], input[type=reset], .button  {
