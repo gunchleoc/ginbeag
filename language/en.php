@@ -1,4 +1,8 @@
 <?php
+$projectroot=dirname(__FILE__);
+$projectroot=substr($projectroot,0,strrpos($projectroot,"language"));
+include_once($projectroot."includes/functions.php");
+
 $lang=array();
 
 /**************************************************************/
@@ -349,6 +353,19 @@ $lang["date_month"][10]="October";
 $lang["date_month"][11]="November";
 $lang["date_month"][12]="December";
 
+$lang["date_month_format"][1]="January";
+$lang["date_month_format"][2]="February";
+$lang["date_month_format"][3]="March";
+$lang["date_month_format"][4]="April";
+$lang["date_month_format"][5]="May";
+$lang["date_month_format"][6]="June";
+$lang["date_month_format"][7]="July";
+$lang["date_month_format"][8]="August";
+$lang["date_month_format"][9]="September";
+$lang["date_month_format"][10]="October";
+$lang["date_month_format"][11]="November";
+$lang["date_month_format"][12]="December";
+
 $lang["date_month_short"][1]="Jan";
 $lang["date_month_short"][2]="Feb";
 $lang["date_month_short"][3]="Mar";
@@ -361,4 +378,9 @@ $lang["date_month_short"][9]="Sep";
 $lang["date_month_short"][10]="Oct";
 $lang["date_month_short"][11]="Nov";
 $lang["date_month_short"][12]="Dec";
+
+function date_day_format($day)
+{
+	return $day;
+}
 ?>

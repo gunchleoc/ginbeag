@@ -391,9 +391,23 @@ function makearticledate($day,$month,$year)
 {
 	$result="";
 
-	if($year!="0000" && $month && $day)
+	if($year != "0000")
 	{
-		$result = $day." ".getlangarray("date_month",$month)." ".$year;
+		if($month)
+		{
+			if($day)
+			{
+				$result = lang_date_day_format($day)." ".getlangarray("date_month_format", $month)." ".$year;
+			}
+			else
+			{
+				$result = getlangarray("date_month", $month)." ".$year;
+			}
+		}
+		else
+		{
+			$result = $year;
+		}
 	}
 	return $result;
 }

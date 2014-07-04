@@ -20,10 +20,13 @@
 			<input id="{JSID}source" type="text" name="source" size="58" maxlength="255" value="{SOURCE}" />
 			<br /><label for="{JSID}sourcelink">Source link:</label>
 			<input id="{JSID}sourcelink" type="text" name="sourcelink" size="58" maxlength="255" value="{SOURCELINK}" />
-			<br />{DAYFORM} &nbsp;&nbsp; {MONTHFORM} &nbsp;&nbsp;
+		</fieldset>
+		<fieldset>
+			<legend class="highlight">Date</legend>
+			{DAYFORM} &nbsp;&nbsp; {MONTHFORM} &nbsp;&nbsp;
 			<label for="{JSID}year">Year (4-digit):</label><!-- todo: yearform for consistency -->
 			<input id="{JSID}year" type="text" name="year" size="5" maxlength="4" value="{YEAR}" />
-
+			<div class="formexplain">You can leave the Day empty, or the Day and the Month. Set the Year to 0000 for an empty date.</div>
 		</fieldset>
 
 		<fieldset>

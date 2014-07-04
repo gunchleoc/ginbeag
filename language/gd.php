@@ -1,4 +1,8 @@
 <?php
+$projectroot=dirname(__FILE__);
+$projectroot=substr($projectroot,0,strrpos($projectroot,"language"));
+include_once($projectroot."includes/functions.php");
+
 $lang=array();
 
 /**************************************************************/
@@ -329,18 +333,31 @@ $lang["error_pagenotfound"]="Cha deach an duilleag a lorg";
 $lang["error_pagenonotfound"]="Cha deach duilleag %d a lorg.";
 
 
-$lang["date_month"][1]="dhen Fhaoilleach";
-$lang["date_month"][2]="dhen Ghearran";
-$lang["date_month"][3]="dhen Mhàrt";
-$lang["date_month"][4]="dhen Ghiblean";
-$lang["date_month"][5]="dhen Chèitean";
-$lang["date_month"][6]="dhen Ògmhios";
-$lang["date_month"][7]="dhen Iuchar";
-$lang["date_month"][8]="dhen Lùnastal";
-$lang["date_month"][9]="dhen t-Sultain";
-$lang["date_month"][10]="dhen Dàmhair";
-$lang["date_month"][11]="dhen t-Samhainn";
-$lang["date_month"][12]="dhen Dùbhlachd";
+$lang["date_month"][1]="Am Faoilleach";
+$lang["date_month"][2]="An Gearran";
+$lang["date_month"][3]="Am Màrt";
+$lang["date_month"][4]="An Giblean";
+$lang["date_month"][5]="An Cèitean";
+$lang["date_month"][6]="An t-Ògmhios";
+$lang["date_month"][7]="An t-Iuchar";
+$lang["date_month"][8]="An Lùnastal";
+$lang["date_month"][9]="An Sultain";
+$lang["date_month"][10]="An Dàmhair";
+$lang["date_month"][11]="An Samhainn";
+$lang["date_month"][12]="An Dùbhlachd";
+
+$lang["date_month_format"][1]="dhen Fhaoilleach";
+$lang["date_month_format"][2]="dhen Ghearran";
+$lang["date_month_format"][3]="dhen Mhàrt";
+$lang["date_month_format"][4]="dhen Ghiblean";
+$lang["date_month_format"][5]="dhen Chèitean";
+$lang["date_month_format"][6]="dhen Ògmhios";
+$lang["date_month_format"][7]="dhen Iuchar";
+$lang["date_month_format"][8]="dhen Lùnastal";
+$lang["date_month_format"][9]="dhen t-Sultain";
+$lang["date_month_format"][10]="dhen Dàmhair";
+$lang["date_month_format"][11]="dhen t-Samhainn";
+$lang["date_month_format"][12]="dhen Dùbhlachd";
 
 $lang["date_month_short"][1]="Faoi";
 $lang["date_month_short"][2]="Gearr";
@@ -354,4 +371,12 @@ $lang["date_month_short"][9]="Sult";
 $lang["date_month_short"][10]="Dàmh";
 $lang["date_month_short"][11]="Samh";
 $lang["date_month_short"][12]="Dùbh";
+
+function date_day_format($day)
+{
+	if(str_endswith($day, "1")) return $day."d";
+	if(str_endswith($day, "2")) return $day."a";
+	if(str_endswith($day, "3")) return $day."s";
+	else return $day."mh";
+}
 ?>
