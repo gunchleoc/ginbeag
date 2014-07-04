@@ -19,56 +19,36 @@ if(navigator.appName =="Microsoft Internet Explorer")
 }
 
 $(document).ready(function() {
-	// height for pages where content is shorter than navigator
-	var navheight = $("#navigator").outerHeight(true);
-	var bannerheight = $("#banners").outerHeight(true);
-	var highestheader = $("#headerleft");
-
-	if ($("#headerright").outerHeight(true) > highestheader.outerHeight(true))
-	{
-		highestheader = $("#headerright");
-	}
-	if ($("#headercenter").outerHeight(true) > highestheader.outerHeight(true))
-	{
-		highestheader = $("#headercenter");
-	}
-	var headerheight = highestheader.outerHeight(true);
-	var titleheight = $("#headerpagetitle").outerHeight(true);
-	var wrapperheight = Math.ceil(navheight+bannerheight+headerheight+titleheight);
-	if ($("#wrapper").height() < wrapperheight)
-	{
-		$("#wrapper").height(wrapperheight);
-		var difference = $("#wrapper").outerHeight() - $("#wrapper").height();
-		//var difference = $("#wrapper").css("margin-top")+ $("#wrapper").css("margin-bottom")+ $("#wrapper").css("padding-top")+$("#wrapper").css("padding-bottom");
-		var margin = $("#contentarea").css("margin-bottom").replace("px","") + $("#contentarea").css("margin-top").replace("px","");
-		$("#contentarea").height(Math.ceil(navheight+bannerheight-difference-margin));
-	}
-
 	/** mobile menu **/
 
 	var menuon = false;
-	var navigatorcontent = $("#navigator").html();
 
 	hidemenu();
 
 	function hidemenu()
 	{
-		$("#navigator").css("width","0px");
-		$("#navigator").css("visibility","hidden");
-		$("#navigator").text("");
-		$("#contentarea").css("visibility","visible");
+		setpageheight($('#contentarea'));
+		$('#navigator').css("width","0px");
+		$('#navigator').css("visibility","hidden");
+		$('#contentarea').css("visibility","visible");
+		$('#navigator').css("height", "0px");
 		menuon = false;
 		$('#menubutton').attr("value", "{L_SHOWMENU}");
+		$('#contentarea').hide().show();
+		setpageheight($('#contentarea'));
 	}
 
 	function showmenu()
 	{
-		$("#navigator").css("width","96%");
-		$("#navigator").css("visibility","visible");
-		$("#navigator").html(navigatorcontent);
-		$("#contentarea").css("visibility","hidden");
+
+		$('#navigator').css("width","96%");
+		$('#navigator').css("visibility","visible");
+		$('#contentarea').css("visibility","hidden");
+		$('#contentarea').css("height", "0px");
 		menuon = true;
 		$('#menubutton').attr("value", "{L_HIDEMENU}");
+		$('#navigator').hide().show();
+		setpageheight($('#navigator'));
 	}
 
 
@@ -84,6 +64,16 @@ $(document).ready(function() {
 		}
 
 	}); // menubutton
+
+	function setpageheight(element)
+	{
+		var height = 0;
+
+		 element.children().each(function() {
+			 height = height + $(this).outerHeight(true);
+		});
+		element.css("height", (Math.ceil(height)+"px"));
+	}
 
 });
 	</script>
