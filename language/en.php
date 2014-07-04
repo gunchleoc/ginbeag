@@ -1,8 +1,4 @@
 <?php
-$projectroot=dirname(__FILE__);
-$projectroot=substr($projectroot,0,strrpos($projectroot,"language"));
-include_once($projectroot."includes/functions.php");
-
 $lang=array();
 
 /**************************************************************/
@@ -379,7 +375,7 @@ $lang["date_month_short"][10]="Oct";
 $lang["date_month_short"][11]="Nov";
 $lang["date_month_short"][12]="Dec";
 
-function date_day_format($day)
+function lang_date_day_format($day)
 {
 	return $day;
 }

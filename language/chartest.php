@@ -1,8 +1,4 @@
 <?php
-$projectroot=dirname(__FILE__);
-$projectroot=substr($projectroot,0,strrpos($projectroot,"language"));
-include_once($projectroot."includes/functions.php");
-
 $lang=array();
 
 /**************************************************************/
@@ -377,9 +373,9 @@ $lang["date_month_short"][12]="Dùbh";
 
 function lang_date_day_format($day)
 {
-	if(str_endswith($day, "1")) return $day."d";
-	if(str_endswith($day, "2")) return $day."a";
-	if(str_endswith($day, "3")) return $day."s";
+	if($day == "1" || $day == 11) return $day."d";
+	elseif($day == "2" || $day == 12) return $day."a";
+	elseif($day == "3" || $day == 13) return $day."s";
 	else return $day."mh";
 }
 ?>
