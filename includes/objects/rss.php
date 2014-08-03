@@ -34,7 +34,7 @@ class RSSItem extends Template {
 	// assigns templates and list objects
 	function createTemplates()
 	{
-		$this->addTemplate("news/rssitem.tpl");
+		$this->addTemplate("pages/news/rssitem.tpl");
 	}
 }
 
@@ -101,7 +101,7 @@ class RSSPage extends Template {
 	// assigns templates and list objects
 	function createTemplates()
 	{
-		$this->addTemplate("news/rsspage.tpl");
+		$this->addTemplate("pages/news/rsspage.tpl");
 	}
 }
 
