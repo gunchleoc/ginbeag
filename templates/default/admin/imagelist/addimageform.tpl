@@ -35,7 +35,12 @@
 						<!-- END switch CREATETHUMBNAILFORM -->
 						<label for="addimagethumbnail">Thumbnail file: </label>
 						<input id="addimagethumbnail" type="file" name="thumbnail" size="30" maxlength="255" />
-						<div class="formexplain"><strong>Optional</strong>. A small preview version of the image.<br />Thumbnails should be {THUMBNAILSIZE} pixels in width.</div>
+						<div class="formexplain">
+							<strong>Optional</strong>. A small preview version of the image.<br />Thumbnails should be {THUMBNAILSIZE} pixels in width.
+							<!-- BEGIN switch NOGD -->
+							<br /><span class="highlight">This server cannot generate thumbnails for you.</span> You will have to make and upload a small version of the image yourself. You can also do this later.
+							<!-- END switch NOGD -->
+						</div>
 
 				</div>
 				<div class="leftalign" style="width:31% !important; padding-right:2%;">

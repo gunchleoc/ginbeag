@@ -37,6 +37,10 @@ class AddImageForm extends Template {
 			$this->vars['resizeimageform'] = new CheckboxForm("resizeimage", "resizeimage", "Resize Automatically", $resizeimage, "right");
 			$this->stringvars["defaultimagewidth"] = getproperty("Image Width");
 		}
+		else
+		{
+			$this->stringvars['nogd']="nogd";
+		}
 
 		// set permissions radio buttons
 		$this->vars['permission_granted'] = new RadioButtonForm("","permission",PERMISSION_GRANTED,"Permission granted",$this->stringvars['permission'] == PERMISSION_GRANTED,"right");
