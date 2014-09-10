@@ -20,7 +20,7 @@ include_once($projectroot."includes/objects/categories.php");
 //
 class AddImageForm extends Template {
 
-	function AddImageForm($filename="",$caption="",$source="",$sourcelink="",$copyright="",$permission="", $createthumbnail = false, $resizeimage = false)
+	function AddImageForm($filename="",$caption="",$source="",$sourcelink="",$copyright="",$permission="", $dontcreatethumbnail = false, $resizeimage = false)
 	{
 		parent::__construct();
 
@@ -33,7 +33,7 @@ class AddImageForm extends Template {
 
 		if (extension_loaded('gd') && function_exists('gd_info'))
 		{
-			$this->vars['createthumbnailform'] = new CheckboxForm("createthumbnail", "createthumbnail", "Generate thumbnail automatically", $createthumbnail, "right");
+			$this->vars['createthumbnailform'] = new CheckboxForm("dontcreatethumbnail", "dontcreatethumbnail", "No automatic thumbnail", $dontcreatethumbnail, "right");
 			$this->vars['resizeimageform'] = new CheckboxForm("resizeimage", "resizeimage", "Resize Automatically", $resizeimage, "right");
 			$this->stringvars["defaultimagewidth"] = getproperty("Image Width");
 		}

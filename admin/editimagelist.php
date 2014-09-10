@@ -212,7 +212,7 @@ if(isset($_POST["addimage"]))
 					$error = true;
 				}
 			}
-			if(isset($_POST["createthumbnail"]))
+			if(!isset($_POST["dontcreatethumbnail"]))
 			{
 				$thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").$subpath, $filename);
 
@@ -622,7 +622,7 @@ if($form)
 }
 else
 {
-    $addimageform = new AddImageForm($filename, $caption, $source, $sourcelink ,$copyright, $permission, isset($_POST["createthumbnail"]),  isset($_POST["resizeimage"]));
+    $addimageform = new AddImageForm($filename, $caption, $source, $sourcelink ,$copyright, $permission, isset($_POST["dontcreatethumbnail"]),  isset($_POST["resizeimage"]));
 	$form = new ImageList($offset);
 	$adminimagepage = new AdminImagePage($filename, $form, new AdminMessage($message, $error), $addimageform, $displayeditform);
 }

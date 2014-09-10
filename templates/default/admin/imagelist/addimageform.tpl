@@ -28,7 +28,7 @@
 						<!-- BEGIN switch CREATETHUMBNAILFORM -->
 							{CREATETHUMBNAILFORM}
 							<div class="formexplain">
-								<strong>Optional</strong>. If this is checked, a thumbnail for the newly uploaded image will be created automatically.
+								<strong>Optional</strong>. Deactivate this if you don't want a thumbnail for the newly uploaded image to be be created automatically.
 								<br />Supported filetypes: <em>gif</em>, <em>jpeg</em>,<em>png</em>, <em>wbmp</em>, <em>xbm</em>.
 							</div>
 							<br /><div class="highlight">- or-</div><br />

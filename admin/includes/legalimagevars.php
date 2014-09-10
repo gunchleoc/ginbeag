@@ -13,6 +13,7 @@ $LEGALVARS["createthumbnail"]=1;
 $LEGALVARS["delete"]=1;
 $LEGALVARS["deletefile"]=1;
 $LEGALVARS["deletethumb"]=1;
+$LEGALVARS["dontcreatethumbnail"]=1;
 $LEGALVARS["executethumbnaildelete"]=1;
 $LEGALVARS["filename"]=1;
 $LEGALVARS["filter"]=1;
