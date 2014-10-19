@@ -12,10 +12,10 @@ include_once($projectroot."language/languages.php");
 class CategorylistLink extends Template {
 
 
-	 function CategorylistLink($category,$page, $cattype)
+	 function CategorylistLink($category, $name, $page)
 	 {
 		parent::__construct();
-		$this->stringvars['title']=title2html(getcategoryname($category, $cattype));
+		$this->stringvars['title']=title2html($name);
 		if(getpagetype($page) == "news")
 		{
 			$oldestdate=getoldestnewsitemdate($page);
@@ -73,12 +73,20 @@ class CategorylistLinks extends Template {
 
 		if($noofcategories)
 		{
+			$cats_with_names = array();
 
 			for($i=0;$i<count($categories);$i++)
 			{
-				$this->listvars['catlist'][]=new CategorylistLink($categories[$i],$page, $cattype);
-				$this->stringvars['l_categories']=getlang("categorylist_categories");
+				$cats_with_names[$categories[$i]] = getcategoryname($categories[$i], $cattype);
 			}
+			natcasesort($cats_with_names);
+			$keys = array_keys($cats_with_names);
+			while($key = current($keys))
+			{
+				$this->listvars['catlist'][]=new CategorylistLink($key, $cats_with_names[$key], $page);
+				next($keys);
+			}
+			$this->stringvars['l_categories']=getlang("categorylist_categories");
 		}
   		else
   		{

@@ -148,22 +148,25 @@ function addimagecategories($filename,$categories)
   	{
 		if(!isroot($categories[$i], CATEGORY_IMAGE))
     	{
-      		$addcategory=true;
-      		for($j=0;$addcategory && $j<count($imagecategories);$j++)
-      		{
-        		if($imagecategories[$j]==$categories[$i])
-        		{
-          			$addcategory=false;
-        		}
-      		}
-      		if($addcategory)
-      		{
-        		$values[0]=0;
-        		$values[1]=$db->setstring($filename);
-        		$values[2]=$db->setinteger($categories[$i]);
-        		$test = insertentry(IMAGECATS_TABLE,$values);
-        		$result = $result & ($test>0);
-      		}
+			$addcategory=true;
+			for($j=0;$addcategory && $j<count($imagecategories);$j++)
+			{
+				if($imagecategories[$j]==$categories[$i])
+				{
+						$addcategory=false;
+				}
+			}
+			if($addcategory)
+			{
+				// Guard against double entries again
+				deleteentry(IMAGECATS_TABLE,
+					"image_filename = '".$db->setstring($filename)."' AND category = '".$db->setinteger($categories[$i])."'");
+				$values[0]=0;
+				$values[1]=$db->setstring($filename);
+				$values[2]=$db->setinteger($categories[$i]);
+				$test = insertentry(IMAGECATS_TABLE,$values);
+				$result = $result & ($test>0);
+			}
     	}
   	}
   	return $result;
@@ -208,6 +211,9 @@ function addpagecategories($page,$categories)
 			}
 			if($addcategory)
 			{
+				// Guard against double entries again
+					deleteentry(ARTICLECATS_TABLE,
+						"page_id = '".$db->setinteger($page)."' AND category = '".$db->setinteger($categories[$i])."'");
 				$values[0]=0;
 				$values[1]=$db->setinteger($page);
 				$values[2]=$db->setinteger($categories[$i]);
@@ -252,18 +258,21 @@ function addnewsitemcategories($newsitem,$categories)
       		$addcategory=true;
       		for($j=0;$addcategory && $j<count($newsitemcategories);$j++)
       		{
-        		if($newsitemcategories[$j]==$categories[$i])
-        		{
-          			$addcategory=false;
-        		}
+					if($newsitemcategories[$j]==$categories[$i])
+					{
+							$addcategory=false;
+					}
       		}
       		if($addcategory)
       		{
-        		$values[0]=0;
-        		$values[1]=$db->setinteger($newsitem);
-        		$values[2]=$db->setinteger($categories[$i]);
-        		$temp = insertentry(NEWSITEMCATS_TABLE,$values);
-        		$result = $result & ($temp>0);
+					// Guard against double entries again
+					deleteentry(NEWSITEMCATS_TABLE,
+						"newsitem_id = '".$db->setinteger($newsitem)."' AND category = '".$db->setinteger($categories[$i])."'");
+					$values[0]=0;
+					$values[1]=$db->setinteger($newsitem);
+					$values[2]=$db->setinteger($categories[$i]);
+					$temp = insertentry(NEWSITEMCATS_TABLE,$values);
+					$result = $result & ($temp>0);
       		}
     	}
   	}

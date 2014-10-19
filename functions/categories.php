@@ -24,7 +24,7 @@ function getcategorynamessorted($categories, $cattype)
 	if(count($categories>0))
 	{
 		$condition="category_id IN ('".implode($categories,"', '")."')";
-		return getorderedcolumn("name", $table, $condition, "name");
+		return getorderedcolumn("name", $table, $condition, "name", "ASC");
 	}
 	else return array();
 }
@@ -113,7 +113,7 @@ function getcategorynewsitems($catid)
 function getcategoriesforimage($filename)
 {
 	global $db;
-	return getcolumn("category",IMAGECATS_TABLE, "image_filename = '".$db->setstring($filename)."'");
+	return getdistinctorderedcolumn("category", IMAGECATS_TABLE, "image_filename = '".$db->setstring($filename)."'", "category", "ASC");
 }
 
 //
@@ -122,7 +122,7 @@ function getcategoriesforimage($filename)
 function getcategoriesforpage($page)
 {
 	global $db;
-	return getcolumn("category",ARTICLECATS_TABLE, "page_id = '".$db->setinteger($page)."'");
+	return getdistinctorderedcolumn("category", ARTICLECATS_TABLE, "page_id = '".$db->setinteger($page)."'", "category", "ASC");
 }
 
 //
@@ -131,7 +131,7 @@ function getcategoriesforpage($page)
 function getcategoriesfornewsitem($newsitem)
 {
 	global $db;
-	return getcolumn("category",NEWSITEMCATS_TABLE, "newsitem_id = '".$db->setinteger($newsitem)."'");
+	return getdistinctorderedcolumn("category", NEWSITEMCATS_TABLE, "newsitem_id = '".$db->setinteger($newsitem)."'", "category", "ASC");
 }
 
 ?>
