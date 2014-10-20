@@ -29,7 +29,7 @@ class NewsitemImagePropertiesForm extends Template {
 
 		$linkparams["page"] = $this->stringvars['page'];
 		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters($linkparams);
-		
+
 		$linkparams["imageid"] = $imageid;
 		$linkparams["offset"] = $offset;
 		$linkparams["newsitem"] = $newsitem;
@@ -38,14 +38,14 @@ class NewsitemImagePropertiesForm extends Template {
 
 		$this->stringvars['imageid']=$imageid;
 		$this->stringvars['imagefilename']=$image;
-		
+
 		if(strlen($image)>0 && imageexists($image))
 		{
 			$this->vars['image'] = new CaptionedImageAdmin($image, $this->stringvars['page']);
 		}
 		$this->vars['removeconfirmform']= new CheckboxForm("removeconfirm","removeconfirm","Confirm remove",false, "right");
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -63,7 +63,7 @@ class NewsitemSynopsisForm extends Template {
 	{
 		global $offset;
 		parent::__construct();
-		
+
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["offset"] = $offset;
 		$linkparams["newsitem"] = $newsitem;
@@ -84,8 +84,8 @@ class NewsitemSynopsisForm extends Template {
 
 		//$this->stringvars['offset']=$offset;
 		//$this->stringvars['newsitem']=$newsitem;
-		
-	    $this->vars['synopsis']= new Editor($this->stringvars["page"],$newsitem,"newsitemsynopsis","Synopsis Text");		
+
+	    $this->vars['synopsis']= new Editor($this->stringvars["page"],$newsitem,"newsitemsynopsis","Synopsis Text");
 	}
 
 	// assigns templates
@@ -106,7 +106,7 @@ class NewsitemSectionForm extends Template {
 		parent::__construct($newsitemsection, array(), array(0 => "admin/includes/javascript/editnewsitemsection.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("newsitemsection" => $newsitemsection));
-    
+
 		$contents=getnewsitemsectioncontents($newsitemsection);
 
 		if($contents['text']==="[quote]") $this->stringvars['quotestart']="quotestart";
@@ -129,7 +129,7 @@ class NewsitemSectionForm extends Template {
 			$this->stringvars['sectionheader']="Section ID ".$newsitemsection;
 
 			$this->stringvars['sectiontitle']=input2html($contents['sectiontitle']);
-			
+
 			$this->vars['sectioneditor'] = new Editor($this->stringvars["page"],$newsitemsection,"newsitemsection","Section Text");
 			$this->vars['imageeditor'] = new ImageEditor($this->stringvars["page"], $newsitemsection, "newsitemsection",$contents);
 		}
@@ -279,11 +279,11 @@ class NewsItemDisplayOrderForm extends Template {
 	function NewsItemDisplayOrderForm()
 	{
 		parent::__construct();
-		
+
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
-		
+
 		if(displaynewestnewsitemfirst($this->stringvars['page'])) $this->stringvars['newestfirst'] = 'true';
 		elseif(!displaynewestnewsitemfirst($this->stringvars['page'])) $this->stringvars['oldestfirst'] = 'true';
 	}
@@ -379,7 +379,7 @@ class NewsItemSearchResult extends Template {
 		$this->stringvars['synopsis']=text2html($contents['synopsis']);
 	    $this->stringvars['contributor']= input2html($contents['contributor']);
     	$this->stringvars['source']= input2html($contents['source']);
-    	
+
     	if($contents['sourcelink']!="")
     	{
     		$this->stringvars['sourcelink']= $contents['sourcelink'];
@@ -441,7 +441,7 @@ class FakeTheDateForm extends Template {
 	function FakeTheDateForm($newsitem, $contents,$offset)
 	{
 		parent::__construct($newsitem);
-		
+
 		$this->stringvars['date']=formatdatetime($contents['date']);
 
 		$date=getnewsitemdate($newsitem);
@@ -519,7 +519,7 @@ class NewsItemPublishForm extends Template {
 		$linkparams["offset"] = $offset;
 		$linkparams["newsitem"] = $newsitem;
 		$linkparams["action"] = "editcontents";
-		
+
 		$this->stringvars['previewlink']=getprojectrootlinkpath()."admin/includes/preview.php".makelinkparameters($linkparams);
 
 		if(isnewsitempublished($newsitem))
@@ -578,7 +578,7 @@ class EditNewsItemForms extends Template {
 		parent::__construct($this->stringvars["newsitem"], array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("newsitem" => $this->stringvars["newsitem"]));
-		
+
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["offset"] = $offset;
 		$linkparams["action"] = "editcontents";
@@ -586,7 +586,7 @@ class EditNewsItemForms extends Template {
 
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
 		$this->vars['newsitemaddform'] = new NewsItemAddForm();
-		
+
 		$offset=getoffsetforjumppage($noofnewsitems,1,$offset);
 		if(!$offset)
 		{
@@ -611,8 +611,8 @@ class EditNewsItemForms extends Template {
 				$this->stringvars['newsitemtitle']="New Newsitem";
 
 			$this->stringvars['authorname']=getusername($contents['editor_id']);
-			$this->stringvars['title']=input2html($contents['title']);		
-			
+			$this->stringvars['title']=input2html($contents['title']);
+
 			$this->vars['newsitemdeleteform']= new NewsItemDeleteForm($this->stringvars["newsitem"], $offset);
 			$this->vars['newsitempublishform']= new NewsItemPublishForm($this->stringvars["newsitem"], $permissions, $offset);
 			$this->vars['newsitempermissionsform']= new NewsItemPermissionsForm($this->stringvars["newsitem"], $permissions);
@@ -660,7 +660,7 @@ class EditNews extends Template {
 	{
 		parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
 		$this->stringvars['javascript']=$this->getScripts();
-  	
+
     	$this->vars['intro']= new Editor($page,0,"pageintro","Synopsis");
 		$this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",getpageintro($page));
 
@@ -671,7 +671,7 @@ class EditNews extends Template {
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageContentsButton());
 		$this->vars['newsitemarchiveform'] = new NewsItemArchiveForm();
 		$this->vars['newsitemdisplayorderform'] = new NewsItemDisplayOrderForm();
-		
+
 		if(hasrssfeed($page))
 		{
 			$this->stringvars['rssbutton']='<a href="'.getprojectrootlinkpath().'rss.php'.makelinkparameters(array("page" => $page)).'" target="_blank"><img src="'.getprojectrootlinkpath().'img/rss.gif"></a>';

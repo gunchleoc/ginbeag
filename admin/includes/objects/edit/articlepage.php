@@ -27,7 +27,7 @@ class ArticlePageButton extends Template {
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 		$this->stringvars['articlepage']=$articlepage;
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -45,12 +45,12 @@ class EditArticle extends Template {
 		parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editarticle.js"));
 		$this->stringvars['javascript']=$this->getScripts();
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
-	
+
 	    $contents=getarticlepagecontents($page);
-	    
+
 	    $this->vars['synopsiseditor'] = new Editor($page,0,"pageintro","Synopsis Text");
 	    $this->vars['imageeditor'] = new ImageEditor($page,0,"pageintro",getpageintro($page));
-	
+
 	    $this->stringvars['author']= input2html($contents['article_author']);
 	    $this->stringvars['location']= input2html($contents['location']);
 	    $this->stringvars['source']= input2html($contents['source']);
@@ -92,27 +92,27 @@ class ArticleSectionForm extends Template {
 		$this->stringvars['actionvars']= makelinkparameters($linkparams)."#section".$articlesection;
 
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("articlesection" => $articlesection));
-		
+
 		$contents=getarticlesectioncontents($articlesection);
-		
+
 		$this->stringvars['articlesection']=$articlesection;
-		
+
 		$this->stringvars['moveup']=$moveup;
 		$this->stringvars['movedown']=$movedown;
-		
-		
+
+
 		if(strlen($contents['sectiontitle'])>0)
 			$this->stringvars['sectionheader']=title2html($contents['sectiontitle']);
 		else
 			$this->stringvars['sectionheader']="Section ID ".$articlesection;
-		
+
 		$this->stringvars['sectiontitle']=input2html($contents['sectiontitle']);
-		
+
 		$this->vars['sectioneditor'] = new Editor($this->stringvars['page'],$articlesection,"articlesection","Section Text");
-		
+
 		$this->vars['imageeditor'] = new ImageEditor($this->stringvars['page'],$articlesection,"articlesection",$contents);
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -135,37 +135,37 @@ class EditArticlePage extends Template {
 		$linkparams["articlepage"] = $articlepage;
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
-		
+
 		$this->stringvars['articlepage']=$articlepage;
-		
+
 		$articlesections=getarticlesections($this->stringvars['page'],$articlepage);
-		
+
 		$numberofarticlepages=numberofarticlepages($this->stringvars['page']);
 		$this->vars['pagemenu']= new PageMenu($articlepage-1, 1, $numberofarticlepages, array("action" => "editcontents"));
-		
+
 		if($numberofarticlepages==$articlepage)
 		{
 			$this->stringvars['deletepage']="Delete This Page";
 		}
-		
+
 		for($i=0;$i<count($articlesections);$i++)
 		{
 			if($i==0 && $articlepage>1)
 				$moveup="move section to previous page";
 			else
 				$moveup="move section up";
-			
+
 			if(getarticlesectionnumber($articlesections[$i])==getlastarticlesection($this->stringvars['page'],$articlepage))
 				$movedown="move section to next page";
 			else
 				$movedown="move section down";
-			
+
 			$this->listvars['articlesectionform'][] = new ArticleSectionForm($articlepage,$articlesections[$i],$moveup,$movedown);
 		}
-		
+
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{

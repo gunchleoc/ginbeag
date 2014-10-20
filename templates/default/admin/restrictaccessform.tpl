@@ -14,8 +14,6 @@
 			<fieldset>
 				<legend class="highlight">Public users with access to this page</legend>
 				<p>
-
-
 					{SELECTUSERS}
 				</p>
 				<p>

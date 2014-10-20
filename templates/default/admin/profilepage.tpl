@@ -20,7 +20,7 @@
 			<input id="email" type="text" name="email" size="40" maxlength="255" value="{EMAIL}" />
 			<div class="formexplain">You can change your e-mail address here.</div>
 		</fieldset>
-		<input type="submit" value="Change Account Settings" class="mainoption" />
+		{SUBMITROW_ACCOUNT}
 	</form>
 </div>
 <div class="contentheader">Contact page options</div>
@@ -41,7 +41,7 @@
 			</div>
 			<div class="newline"></div>
 		</fieldset>
-		<input type="submit" name="contact" value="Submit" class="mainoption" />
+		{SUBMITROW_CONTACT}
 	</form>
 </div>
 <p><a href="{RETURNVARS}" target="_self">Return to page editing</a></p>

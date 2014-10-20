@@ -4,9 +4,9 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
+include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."functions/pagecontent/linklistpages.php");
 include_once($projectroot."includes/objects/template.php");
-//include_once($projectroot."admin/includes/objects/images.php");
 include_once($projectroot."admin/includes/objects/editor.php");
 include_once($projectroot."admin/includes/objects/imageeditor.php");
 
@@ -20,6 +20,7 @@ class AddLinklistLinkForm extends Template {
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
+		$this->vars['submitrow'] = new SubmitRow("addlink", "Add Link", true);
 	}
 
 	// assigns templates
@@ -47,9 +48,9 @@ class EditLinkListLinkForm extends Template {
 		$linkparams["link"] = $linkid;
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
-		
+
 		$this->stringvars['linkid']=$linkid;
-		
+
 		$contents=getlinkcontents($linkid);
 
 		$this->stringvars['linktitle']=title2html($contents['title']);
@@ -59,13 +60,13 @@ class EditLinkListLinkForm extends Template {
 		$this->stringvars['linkinputtitle']=input2html($contents['title']);
 		$this->stringvars['link']=$contents['link'];
 		$this->stringvars['description']=text2html($contents['description']);
-		
+
 		$this->vars['imageeditor'] = new ImageEditor($this->stringvars['page'],$linkid,"link",$contents);
-		
+
 		$this->vars['editdescription']= new Editor($this->stringvars['page'],$linkid,"link","Link Description");
 		$this->vars['deleteconfirmform']= new CheckboxForm("deletelinkconfirm","deletelinkconfirm","Confirm delete",false, "right");
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -85,22 +86,22 @@ class EditLinklist extends Template {
 
 		$linkparams["page"] = $this->stringvars['page'];
 		$this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters($linkparams);
-		
+
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
-		
+
 		$linkids=getlinklistitems($page);
 		if(count($linkids<1)) $this->stringvars['linkform']="";
-		
+
 		for($i=0;$i<count($linkids);$i++)
 		{
 			$this->listvars['linkform'][] = new EditLinkListLinkForm($linkids[$i]);
 		}
-		
+
 		$this->vars['addform'] = new AddLinklistLinkForm();
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{

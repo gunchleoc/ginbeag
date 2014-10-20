@@ -25,7 +25,6 @@
 			<input id="title" type="text" name="title" size="60" maxlength="200" value="{PAGETITLE}" />
 			<div class="formexplain">This title will be displayed on the page itself.</div>
 		</fieldset>
-		<input type="submit" name="create" value="Create" class="mainoption" />
-		&nbsp;&nbsp;<input type="reset" value="Cancel" />
+		{SUBMITROW}
 	</form>
 </div>

@@ -7,9 +7,7 @@
 							<br /><label for="pass">Password:</label>
 							<input id="pass" type="password" name="pass" size="20" />
 						</fieldset>
-						<input type="submit" value="Login" class="mainoption">
-						&nbsp;&nbsp;
-						<input type="button" name="cancel" value="Cancel" onClick="self.location.href='admin.php'" >
+						{SUBMITROW}
 					</form>
 				<p><a href="{FORGETFULLINK}">I forgot my password</a></p>
 			</div>

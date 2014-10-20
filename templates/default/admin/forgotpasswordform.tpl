@@ -7,9 +7,7 @@
 							<br /><label for="email">E-mail:</label>
 							<input id="email" type="text" name="email" size="20" maxlength="255" />
 						</fieldset>
-						<input type="submit" name="requestpassword" value="Send password" class="mainoption" />
-						&nbsp;&nbsp;
-						<input type="button"  value="Cancel" onClick="self.location.href='admin.php'" />
+						{SUBMITROW}
 					</form>
 				<p><a href="{FORGETFULLINK}">Help! I forgot my e-mail as well!</a></p>
 			</div>

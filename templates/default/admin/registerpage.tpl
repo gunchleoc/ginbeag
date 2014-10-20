@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
 		<meta http-equiv="Content-Style-Type" content="text/css">
 	  	<link rel="stylesheet" href="{STYLESHEET}" type="text/css">
+	  	<link rel="stylesheet" href="{STYLESHEETCOLORS}" type="text/css">
 	  	<link rel="stylesheet" href="{ADMINSTYLESHEET}" type="text/css">
 		<title>{HEADERTITLE}</title>
 	</head>
@@ -26,8 +27,7 @@
 							<br /><label for="email">E-mail address:</label>
 							<input id="email" type="text" name="email" size="20" maxlength="255" value="{EMAIL}" />
 						</fieldset>
-						<input type="submit" value="Register" class="mainoption" />
-	              		&nbsp;&nbsp;<input type="reset" value="Reset" />
+						{SUBMITROW}
 					</form>
 					<!-- END switch SHOWFORM -->
 				</div>

@@ -4,6 +4,7 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
+include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."functions/pagecontent/externalpages.php");
 include_once($projectroot."functions/pages.php");
 include_once($projectroot."includes/objects/template.php");
@@ -102,6 +103,8 @@ class SelectNewParentForm extends Template {
 
 		$this->vars['targetform']= new OptionForm(0,$values,$descriptions,"parentnode","Move this page to:",20);
 		$this->stringvars['cancellocation']=makelinkparameters(array("page" => $this->stringvars['page'], "action" => "edit"));
+		$this->vars['submitrow'] = new SubmitRow("newparent", "Select Destination", false, true, makelinkparameters(array("page" => $this->stringvars['page'], "action" => "edit")), $this->stringvars["jsid"]);
+
 	}
 
 	// assigns templates
@@ -258,6 +261,7 @@ class ExternalForm extends Template {
 
 		$this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page'], "action" => "edit"));
 		$this->stringvars['link']=getexternallink($this->stringvars['page']);
+		$this->vars['submitrow'] = new SubmitRow("changelink", "Change Link", true);
 	}
 
 	// assigns templates

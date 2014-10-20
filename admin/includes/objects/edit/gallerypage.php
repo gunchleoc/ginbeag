@@ -4,6 +4,7 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
+include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."functions/pagecontent/gallerypages.php");
 include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."admin/includes/objects/imageeditor.php");
@@ -22,7 +23,7 @@ class ShowAllImagesButton extends Template {
 		$linkparams["noofimages"] = $noofimages;
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
-		
+
 		if($isshowall)
 		{
 			$this->stringvars['name']="showall";
@@ -34,7 +35,7 @@ class ShowAllImagesButton extends Template {
 			$this->stringvars['value']="Show ".$imagesperpage." images per page";
 		}
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -59,7 +60,7 @@ class GalleryImageForm extends Template {
 		$linkparams["offset"] = $offset;
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
-		
+
 		$this->stringvars['imageid']=$imageid;
 
 		$hiddenvars["galleryitemid"] = $imageid;
@@ -68,13 +69,13 @@ class GalleryImageForm extends Template {
 
 		$this->stringvars['imagefilename']=getgalleryimage($imageid);
 		$this->vars['image'] = new CaptionedImageAdmin($this->stringvars['imagefilename'], $this->stringvars['page']);
-		
+
 		if(!getthumbnail($this->stringvars['imagefilename']))
 			$this->stringvars['no_thumbnail']="This image has no thumbnail";
 
 		$this->vars['removeconfirmform']= new CheckboxForm("removeconfirm","removeconfirm","Confirm remove",false, "right");
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -102,8 +103,9 @@ class AddGalleryImageForm extends Template {
 		$hiddenvars = array();
 		if($showall) $hiddenvars["showall"] = 1;
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
+		$this->vars['submitrow'] = new SubmitRow("addgalleryimage", "Add Image", true);
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -119,16 +121,16 @@ class ReindexGalleryForm extends Template {
 	function ReindexGalleryForm($showall)
 	{
 		parent::__construct();
-		
+
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["action"] = "editcontents";
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
-		
+
 		$hiddenvars = array();
 		if($showall) $hiddenvars["showall"] = "true";
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -150,7 +152,7 @@ class EditGallery extends Template {
 
 		$noofimages = countgalleryimages($page);
 		$imageids = array();
-		
+
 		if ($showall)
 		{
 			$offset = 0;
@@ -166,7 +168,7 @@ class EditGallery extends Template {
 
 		$this->vars['showallbutton'] = new ShowAllImagesButton(!$showall,$noofimages,$imagesperpage);
 		$this->vars['pagemenu'] = new PageMenu($offset,$noofdisplayedimages,$noofimages);
-		
+
 		if($noofimages > 0)
 		{
 			for($i = 0; $i < count($imageids); $i++)
@@ -178,12 +180,12 @@ class EditGallery extends Template {
 		{
 			$this->stringvars['imageform']="There are no images in this gallery";
 		}
-		
+
 		$this->vars['addform'] = new AddGalleryImageForm($offset, $noofimages, $showall);
 		$this->vars['reindexform'] = new ReindexGalleryForm($showall);
 		$this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(),new EditPageIntroSettingsButton());
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{

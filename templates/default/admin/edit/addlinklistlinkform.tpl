@@ -12,7 +12,6 @@
 			<br /><label for="addlinkdescription">Description:</label><br />
 			<textarea id="addlinkdescription" name="description" rows="10" cols ="50"></textarea>
 		</fieldset>
-		<p><input type="submit" name="addlink" value="Submit" class="mainoption">
-		&nbsp;&nbsp;<input type="reset" value="Reset">
+		{SUBMITROW}
 	</form>
 </div>
