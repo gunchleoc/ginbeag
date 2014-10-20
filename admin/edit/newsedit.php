@@ -16,7 +16,8 @@ checksession();
 if(isset($_GET['page'])) $page=$_GET['page'];
 else $page=0;
 
-if(isset($_POST['item'])) $offset=getnewsitemoffset($page,1,$_POST['item'],true);
+if(isset($_POST['item'])) $offset=getnewsitemoffset($page, 1, $_POST['item'],true);
+elseif(isset($_GET['newsitem'])) $offset=getnewsitemoffset($page, 1, $_GET['newsitem'],true);
 elseif(isset($_GET['offset'])) $offset=$_GET['offset'];
 else $offset=0;
 
