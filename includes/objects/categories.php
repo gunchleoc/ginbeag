@@ -16,6 +16,7 @@ class CategorylistLink extends Template {
 	 {
 		parent::__construct();
 		$this->stringvars['title']=title2html($name);
+		$this->stringvars['title'] = str_replace(" ", "&nbsp;", $this->stringvars['title']);
 		if(getpagetype($page) == "news")
 		{
 			$oldestdate=getoldestnewsitemdate($page);
@@ -55,7 +56,10 @@ class CategorylistLink extends Template {
 	// assigns templates
 	function createTemplates()
 	{
-		$this->addTemplate("categories/categorylistlink.tpl");
+		if(ismobile())
+			$this->addTemplate("mobile/categorylistlink.tpl");
+		else
+			$this->addTemplate("categories/categorylistlink.tpl");
 	}
 }
 

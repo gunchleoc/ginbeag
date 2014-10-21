@@ -1,1 +1,1 @@
-<a href="{LINK}" class="categorylistlink" title="{TITLE}" class="categorylistlink">{TITLE}</a>
+<a href="{LINK}" title="{TITLE}" class="categorylistlink">{TITLE}</a>

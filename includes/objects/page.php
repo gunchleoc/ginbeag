@@ -943,7 +943,7 @@ class Page extends Template {
 				if(isset($_GET['offset'])) $offset=$_GET['offset'];
 				else $offset=0;
 
-				if(!$showhidden)
+				if(!$showhidden && !DEBUG)
 				{
 					$cached_page = getcachedpage($this->stringvars['page'], makelinkparameters($_GET));
 					if($cached_page != "")

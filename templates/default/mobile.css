@@ -316,17 +316,18 @@ input[type=button], input[type=submit], input[type=reset], .button  {
 /* Clickable categories */
 .articleinfocategories {
 	margin-top: 0.2em;
-	font-size: 80%;
+	margin-bottom: 2em;
+	font-size: 100%;
 }
 
 .newsitemcategories {
 	margin-top: 0.2em;
+	margin-bottom: 2em;
 	font-size: 100%;
 }
 
-.categorylistlink {
-	margin-right: 0.5em;
-	margin-left: 0.5em;
+a.categorylistlink {
+	line-height: 200%;
 }
 
 /* News: RSS button */
