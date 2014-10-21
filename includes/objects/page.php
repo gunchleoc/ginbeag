@@ -5,6 +5,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 include_once($projectroot."functions/pagecontent/linklistpages.php");
 include_once($projectroot."functions/pagecontent/externalpages.php");
 include_once($projectroot."functions/pagecontent/menupages.php");
+include_once($projectroot."functions/pagecontent/pagecache.php");
 include_once($projectroot."functions/pages.php");
 include_once($projectroot."functions/referrers.php");
 include_once($projectroot."functions/banners.php");
@@ -942,39 +943,55 @@ class Page extends Template {
 				if(isset($_GET['offset'])) $offset=$_GET['offset'];
 				else $offset=0;
 
-				if($pagetype==="article")
+				if(!$showhidden)
 				{
-					include_once($projectroot."includes/objects/articlepage.php");
-					$this->vars['contents'] = new ArticlePage($articlepage,$showhidden);
+					$cached_page = getcachedpage($this->stringvars['page'], makelinkparameters($_GET));
+					if($cached_page != "")
+					{
+						$this->stringvars['contents'] = utf8_encode($cached_page);
+					}
 				}
-				elseif($pagetype==="articlemenu")
+
+				if(!isset($this->stringvars['contents']))
 				{
-					include_once($projectroot."includes/objects/menupage.php");
-					$this->vars['contents'] = new ArticleMenuPage($page,$showhidden);
-				}
-				elseif($pagetype==="menu" || $pagetype=="linklistmenu")
-				{
-					include_once($projectroot."includes/objects/menupage.php");
-					$this->vars['contents'] = new MenuPage($page,$showhidden);
-				}
-				elseif($pagetype==="external")
-				{
-					$this->stringvars['contents'] ='<a href="'.getexternallink($page).'" target="_blank">External page</a>';
-				}
-				elseif($pagetype==="gallery")
-				{
-					include_once($projectroot."includes/objects/gallerypage.php");
-					$this->vars['contents'] = new GalleryPage($offset,$showhidden);
-				}
-				elseif($pagetype==="linklist")
-				{
-					include_once($projectroot."includes/objects/linklistpage.php");
-					$this->vars['contents']  = new LinklistPage($offset,$showhidden);
-				}
-				elseif($pagetype==="news")
-				{
-					include_once($projectroot."includes/objects/newspage.php");
-					$this->vars['contents']  = new NewsPage($page,$offset,$showhidden);
+					if($pagetype==="article")
+					{
+						include_once($projectroot."includes/objects/articlepage.php");
+						$this->vars['contents'] = new ArticlePage($articlepage,$showhidden);
+					}
+					elseif($pagetype==="articlemenu")
+					{
+						include_once($projectroot."includes/objects/menupage.php");
+						$this->vars['contents'] = new ArticleMenuPage($page,$showhidden);
+					}
+					elseif($pagetype==="menu" || $pagetype=="linklistmenu")
+					{
+						include_once($projectroot."includes/objects/menupage.php");
+						$this->vars['contents'] = new MenuPage($page,$showhidden);
+					}
+					elseif($pagetype==="external")
+					{
+						$this->stringvars['contents'] ='<a href="'.getexternallink($page).'" target="_blank">External page</a>';
+					}
+					elseif($pagetype==="gallery")
+					{
+						include_once($projectroot."includes/objects/gallerypage.php");
+						$this->vars['contents'] = new GalleryPage($offset,$showhidden);
+					}
+					elseif($pagetype==="linklist")
+					{
+						include_once($projectroot."includes/objects/linklistpage.php");
+						$this->vars['contents']  = new LinklistPage($offset,$showhidden);
+					}
+					elseif($pagetype==="news")
+					{
+						include_once($projectroot."includes/objects/newspage.php");
+						$this->vars['contents']  = new NewsPage($page,$offset,$showhidden);
+					}
+					if(!$showhidden)
+					{
+						makecachedpage($this->stringvars['page'], makelinkparameters($_GET), $this->vars['contents']->toHTML());
+					}
 				}
 			}
 			elseif(isset($_GET["sitepolicy"]))

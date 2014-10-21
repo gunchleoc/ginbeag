@@ -25,16 +25,15 @@ function getcachedpage($page, $parameters)
 	$condition="cache_key = '".$page.$parameters."'";
 
 	$pagefields=getmultiplefields(PAGECACHE_TABLE, "page_id",$condition, $fields, $orderby="page_id, cache_key");
-	//  print_r($pagefields);
-	if(array_key_exists("page_id",$pagefields[$page]))
+	if(isset($pagefields[$page]))
 	{
 		if(!iscachedpagedatecurrent($page, $pagefields[$page]["lastmodified"]))
 		{
-			deleteentry(PAGECACHE_TABLE, $condition);
+			deleteentry(PAGECACHE_TABLE, "page_id = '".$page."'");
 		}
 		else
 		{
-			$result=$pagefields[$page]["content_html"];
+			$result = $pagefields[$page]["content_html"];
 		}
 	}
 	return $result;
@@ -76,7 +75,7 @@ function makecachedpage($page, $parameters, $content_html)
 
 		if($dbentry == $page)
 		{
-			updatefields(PAGECACHE_TABLE, array(0 => "content_html", 1 => "lastmodified"), array(0 => $content_html, 1 => $now), "cache_id", $key)
+			updatefields(PAGECACHE_TABLE, array(0 => "content_html", 1 => "lastmodified"), array(0 => $content_html, 1 => $now), "cache_key", $key);
 		}
 		else
 		{
