@@ -187,6 +187,7 @@ class DeleteNewsItemConfirm extends Template {
 
 		$this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars["page"]));
 		$this->vars['item'] = new Newsitem($newsitem, $offset,true,true,false);
+		$this->vars['confirmbuttons'] = new CancelConfirmButtons($this->stringvars['actionvars'], "confirmdeleteitem", "nodeleteitem");
 	}
 
 	// assigns templates
@@ -217,6 +218,7 @@ class DeleteNewsItemSectionConfirm extends Template {
 		$contents=getnewsitemcontents($newsitem);
 		$this->stringvars['newsitemtitle']=title2html($contents['title']);
 		$this->vars['section'] = new Newsitemsection($newsitemsection, $newsitem, false, true, true);
+		$this->vars['confirmbuttons'] = new CancelConfirmButtons($this->stringvars['actionvars'], "confirmdeletesection", "nodeletesection");
 	}
 
 	// assigns templates

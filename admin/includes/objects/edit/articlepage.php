@@ -190,6 +190,7 @@ class DeleteArticleSectionConfirm extends Template {
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 
 		$this->vars['section'] = new Articlesection($articlesection,$articlepage,true,true);
+		$this->vars['confirmbuttons'] = new CancelConfirmButtons($this->stringvars['actionvars'], "confirmdeletesection", "nodeletesection");
 	}
 
   // assigns templates

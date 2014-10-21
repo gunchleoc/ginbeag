@@ -6,6 +6,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."functions/pages.php");
 include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
+include_once($projectroot."admin/includes/objects/forms.php");
 include_once($projectroot."admin/includes/objects/messages.php");
 include_once($projectroot."functions/pagecontent/newspages.php");
 include_once($projectroot."includes/objects/template.php");
@@ -87,6 +88,7 @@ class DeleteImageConfirmForm extends Template {
 		$actionvars["action"] = "executedelete";
 		$this->stringvars['actionvars']=makelinkparameters($actionvars);
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
+		$this->vars['confirmbuttons'] = new CancelConfirmButtons($this->stringvars['actionvars'], "delete", "nodelete", $this->stringvars['hiddenvars']);
 	}
 
 	// assigns templates
@@ -115,6 +117,7 @@ class DeleteThumbnailConfirmForm extends Template {
 		$actionvars["action"] = "executethumbnaildelete";
 		$this->stringvars['actionvars']=makelinkparameters($actionvars);
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
+		$this->vars['confirmbuttons'] = new CancelConfirmButtons($this->stringvars['actionvars'], "delete", "nodelete", $this->stringvars['hiddenvars']);
 	}
 
 	// assigns templates

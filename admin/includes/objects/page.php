@@ -42,6 +42,7 @@ class DeletePageConfirmForm extends Template {
 		{
 			$this->stringvars['deletemessage']="Are you sure you want to delete this page?";
 		}
+		$this->vars['confirmbuttons'] = new CancelConfirmButtons($this->stringvars['actionvars'], "executedelete", "nodelete");
 	}
 
 	// assigns templates

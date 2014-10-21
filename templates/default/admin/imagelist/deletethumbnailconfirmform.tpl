@@ -5,12 +5,7 @@
 			<h1 class="pagetitle">Deleting thumbnail for image {FILENAME}</h1>
 			<p class="highlight">Are you sure you want to delete the thumbnail for this image?<br>This cannot be undone!</p>
 			<p>You can review the image below.</p>
-			<form name="deletethumbnailform" action="{ACTIONVARS}" method="post">
-				{HIDDENVARS}
-				<input type="submit" name="delete" value="Yes, please delete" />
-				&nbsp;&nbsp;&nbsp;
-				<input type="submit" name="nodelete" value="Oops, no!" class="mainoption" />
-			</form>
+			{CONFIRMBUTTONS}
 			{IMAGE}
 		</div>
 	</div>

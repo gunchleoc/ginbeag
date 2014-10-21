@@ -18,7 +18,7 @@ class MovePageForm extends Template {
 		parent::__construct($moveid);
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("moveid" => $moveid));
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -38,13 +38,13 @@ class DoneButton extends Template {
 		$this->stringvars['link']=$link.makelinkparameters($params);
 		$this->stringvars['buttontext']=$buttontext;
 		$this->stringvars['class']=$class;
-		
+
 		if(str_endswith($link,"admin.php"))
 			$this->stringvars['target']="_top";
 		else
 			$this->stringvars['target']="_self";
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -64,7 +64,7 @@ class DonePage extends Template {
 		$this->vars['donebutton'] = new DoneButton($this->stringvars['page'], array("action" => "show"), $link, $buttontext);
 		$this->stringvars['title'] =$title;
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -103,13 +103,13 @@ class DoneRedirect extends Template {
 	function DoneRedirect($page,$title,$params=array("action" => "edit"),$link="pageedit.php",$buttontext="Done")
 	{
 		parent::__construct();
-		
+
 		$this->vars['donebutton'] =new DoneButton($page,$params,$link,$buttontext,"mainoption");
 		$params["page"] = $page;
 		$this->stringvars['url'] =$link.makelinkparameters($params);
 		$this->stringvars['title'] =$title;
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -134,7 +134,7 @@ class EditPageIntroSettingsButton extends Template {
 	function EditPageIntroSettingsButton()
 	{
 		parent::__construct();
-	
+
 		$pagetype = getpagetype($this->stringvars['page']);
 		if($pagetype==="article")
 		{
@@ -155,7 +155,7 @@ class EditPageIntroSettingsButton extends Template {
 		$this->stringvars['action']=getprojectrootlinkpath().'admin/edit/pageintrosettingsedit.php';
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("action" => "editcontents"));
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -172,7 +172,7 @@ class EditPageContentsButton extends Template {
 	function EditPageContentsButton()
 	{
 		parent::__construct();
-		
+
 		$pagetype = getpagetype($this->stringvars['page']);
 		if($pagetype==="article")
 		{
@@ -206,7 +206,7 @@ class EditPageContentsButton extends Template {
 		}
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("action" => "editcontents"));
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -223,7 +223,7 @@ class GeneralSettingsButton extends Template {
 	function GeneralSettingsButton()
   	{
     	parent::__construct();
-    	
+
 		$this->vars['button']= new DoneButton($this->stringvars['page'], array("action" => "edit"), getprojectrootlinkpath().'admin/pageedit.php', "General settings", "liteoption");
   	}
 
@@ -245,17 +245,17 @@ class PageEditNavigationButtons extends Template {
 	function PageEditNavigationButtons($firstbutton, $secondbutton)
   	{
     	parent::__construct();
-    	
+
     	if($firstbutton instanceof Template)
     		$this->vars['firstbutton']= $firstbutton;
     	else
     		$this->stringvars['firstbutton']= $firstbutton;
-    	
+
     	if($secondbutton instanceof Template)
     		$this->vars['secondbutton']= $secondbutton;
     	else
     		$this->stringvars['secondbutton']= $secondbutton;
-    	
+
 		$this->vars['donebutton']= new DoneButton($this->stringvars['page'], array("action" => "show", "unlock" => "on"), getprojectrootlinkpath().'admin/admin.php');
   	}
 
@@ -279,7 +279,7 @@ class SubmitRow extends Template {
 	function SubmitRow($submitname="submit",$submitlabel="Submit",$showreset=false,$showcancel=false,$cancellocation="",$jsid="")
   	{
   		parent::__construct($jsid);
-  		
+
     	$this->stringvars['submit']=$submitname;
     	$this->stringvars['submitlabel']=$submitlabel;
     	if($showreset)
@@ -291,7 +291,7 @@ class SubmitRow extends Template {
 
 	    	if(strlen($cancellocation)>0)
 	    		$this->stringvars['cancellocation']=$cancellocation;
-	    	else 
+			else
 	    		$this->stringvars['no_cancellocation']="true";
     	}
   	}
@@ -301,6 +301,29 @@ class SubmitRow extends Template {
   	{
     	$this->addTemplate("admin/submitrow.tpl");
   	}
+}
+
+
+//
+//
+//
+class CancelConfirmButtons extends Template {
+
+	function CancelConfirmButtons($actionvars, $confirmvar, $cancelvar, $hiddenvars = "")
+	{
+		parent::__construct();
+
+		$this->stringvars['actionvars']=$actionvars;
+		$this->stringvars['hiddenvars']=$hiddenvars;
+		$this->stringvars['confirmvar']=$confirmvar;
+		$this->stringvars['cancelvar']=$cancelvar;
+	}
+
+	// assigns templates
+	function createTemplates()
+	{
+		$this->addTemplate("admin/cancelconfirmbuttons.tpl");
+	}
 }
 
 ?>

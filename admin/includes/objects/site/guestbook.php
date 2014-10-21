@@ -19,12 +19,12 @@ class AdminGuestbookEntryList extends Template {
     {
     	parent::__construct();
   		$entries=getguestbookentries($number,$offset);
-  		
+
 		$this->vars['enableform'] = new AdminGuestbookEnableForm();
-  
+
 		$this->vars['pagemenu']=new PageMenu($offset, $number, countguestbookentries(), array("action" => "siteguest"));
-  
-  
+
+
   		if(count($entries)==0)
   		{
     		$this->stringvars['no_entries']= getlang("guestbook_nomessages");
@@ -61,16 +61,16 @@ class AdminGuestbookEntry extends Template {
 		$linkparams["action"] = "siteguest";
 		$this->stringvars['deleteactionvars'] = makelinkparameters($linkparams);
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("messageid" => $entryid));
-    	
+
     	$contents=getguestbookentrycontents($entryid);
     	$this->stringvars['name']=title2html($contents["name"]);
     	$this->stringvars['email']=title2html($contents["email"]);
     	$this->stringvars['date']=formatdatetime($contents["date"]);
     	$this->stringvars['subject']=title2html($contents["subject"]);
     	$this->stringvars['message']=text2html($contents["message"]);
-    	
+
     	if($showdeleteform) $this->stringvars['deleteform']="deleteform";
-    	
+
     	$this->stringvars['l_toppage']=getlang("pagemenu_topofthispage");
     	$this->stringvars['l_name']=getlang("guestbook_name");
     	$this->stringvars['l_email']=getlang("guestbook_email");
@@ -95,22 +95,22 @@ class AdminGuestbookEntry extends Template {
 //
 class AdminGuestbookDeleteConfirmForm extends Template {
 
-    function AdminGuestbookDeleteConfirmForm($entryid)
-    {
-    	parent::__construct();
+	function AdminGuestbookDeleteConfirmForm($entryid)
+	{
+		parent::__construct();
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["action"] = "siteguest";
-		$this->stringvars['deleteactionvars'] = makelinkparameters($linkparams);
+		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("messageid" => $entryid));
-    	$this->vars['entry']=new AdminGuestbookEntry($entryid, false);
- 	}
+		$this->vars['entry']=new AdminGuestbookEntry($entryid, false);
+		$this->vars['confirmbuttons'] = new CancelConfirmButtons($this->stringvars['actionvars'], "deleteconfirm", "deleteabort", $this->stringvars['hiddenvars']);
+	}
 
-    // assigns templates
-    function createTemplates()
-    {
+	// assigns templates
+	function createTemplates()
+	{
 		$this->addTemplate("admin/site/guestbookdeleteconfirmform.tpl");
-    }
-
+	}
 }
 
 
@@ -136,7 +136,7 @@ class AdminGuestbookEnableForm extends Template {
 	    $this->vars['enableguestbook_no'] = new RadioButtonForm($this->stringvars['jsid'], "enableguestbook", 0, "No", !$properties["Enable Guestbook"], "right");
 
    		$this->stringvars['entriesperpage']=$properties["Guestbook Entries Per Page"];
-   		
+
    		$this->vars['submitrow']= new SubmitRow("saveproperties","Submit",true);
  	}
 
