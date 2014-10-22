@@ -87,7 +87,6 @@ input[type=button], input[type=submit], input[type=reset], .button  {
 
 
 #navigator {
-	width: 19.5%;
 	position: absolute;
 	padding: 0.20em;
 	margin-top: 0.5em;
@@ -105,7 +104,6 @@ input[type=button], input[type=submit], input[type=reset], .button  {
 #contentarea {
 	z-index: 100;
 	min-width: 1px;
-	/*width: 77%;*/
 	padding: 0.4em;
 	padding-top: 0em;
 	margin: 0.2em;

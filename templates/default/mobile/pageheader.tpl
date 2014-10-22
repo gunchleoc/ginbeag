@@ -23,32 +23,33 @@ $(document).ready(function() {
 
 	var menuon = false;
 
+	$('#header').css("height", Math.max($('#headerleft').outerHeight(true), $('#sitedescription').outerHeight(true)));
+
 	hidemenu();
 
 	function hidemenu()
 	{
 		setpageheight($('#contentarea'));
 		$('#navigator').css("width","0px");
-		$('#navigator').css("visibility","hidden");
-		$('#contentarea').css("visibility","visible");
 		$('#navigator').css("height", "0px");
+		$('#contentarea').css("visibility","visible");
+		$('#navigator').css("visibility","hidden");
 		menuon = false;
 		$('#menubutton').attr("value", "{L_SHOWMENU}");
-		$('#contentarea').hide().show();
 		setpageheight($('#contentarea'));
+		setpageheight($('#wrapper'));
 	}
 
 	function showmenu()
 	{
-
 		$('#navigator').css("width","96%");
+		$('#contentarea').css("height", "0px");
 		$('#navigator').css("visibility","visible");
 		$('#contentarea').css("visibility","hidden");
-		$('#contentarea').css("height", "0px");
 		menuon = true;
 		$('#menubutton').attr("value", "{L_HIDEMENU}");
-		$('#navigator').hide().show();
 		setpageheight($('#navigator'));
+		setpageheight($('#wrapper'));
 	}
 
 
