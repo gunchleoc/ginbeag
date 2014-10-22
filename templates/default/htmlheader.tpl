@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="{STYLESHEETCOLORS}" type="text/css">
 	<link rel="stylesheet" href="{STYLESHEET}" type="text/css">
 	<!-- BEGIN switch IS_REDIRECT -->
-	<meta http-equiv="refresh" content="5;url={URL}" target="_top">
+	<meta http-equiv="refresh" content="0;url={URL}" target="_top">
 	<!-- END switch IS_REDIRECT -->
 	<!-- BEGIN switch SCRIPT -->
 	{SCRIPT}

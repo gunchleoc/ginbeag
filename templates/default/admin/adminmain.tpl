@@ -13,7 +13,7 @@
   	{JAVASCRIPT}
   	<!-- END switch JAVASCRIPT -->
   <!-- BEGIN switch IS_REDIRECT -->
-  <meta http-equiv="refresh" content="5;url={URL}" target="_top">
+  <meta http-equiv="refresh" content="1;url={URL}" target="_top">
   <!-- END switch IS_REDIRECT -->
 
 	<title>{HEADERTITLE}</title>
