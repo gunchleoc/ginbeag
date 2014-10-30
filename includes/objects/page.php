@@ -943,6 +943,7 @@ class Page extends Template {
 				if(isset($_GET['offset'])) $offset=$_GET['offset'];
 				else $offset=0;
 
+/*
 				if(!$showhidden && !DEBUG)
 				{
 					$cached_page = getcachedpage($this->stringvars['page'], makelinkparameters($_GET));
@@ -951,7 +952,7 @@ class Page extends Template {
 						$this->stringvars['contents'] = utf8_encode($cached_page);
 					}
 				}
-
+*/
 				if(!isset($this->stringvars['contents']))
 				{
 					if($pagetype==="article")
@@ -988,10 +989,12 @@ class Page extends Template {
 						include_once($projectroot."includes/objects/newspage.php");
 						$this->vars['contents']  = new NewsPage($page,$offset,$showhidden);
 					}
+					/*
 					if(!$showhidden)
 					{
 						makecachedpage($this->stringvars['page'], makelinkparameters($_GET), $this->vars['contents']->toHTML());
 					}
+					* */
 				}
 			}
 			elseif(isset($_GET["sitepolicy"]))
