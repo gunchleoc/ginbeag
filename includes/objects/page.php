@@ -5,6 +5,7 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 include_once($projectroot."functions/pagecontent/linklistpages.php");
 include_once($projectroot."functions/pagecontent/externalpages.php");
 include_once($projectroot."functions/pagecontent/menupages.php");
+include_once($projectroot."functions/pagecontent/newspages.php");
 include_once($projectroot."functions/pagecontent/pagecache.php");
 include_once($projectroot."functions/pages.php");
 include_once($projectroot."functions/referrers.php");
@@ -841,8 +842,15 @@ class Page extends Template {
 				checkpublicsession($page);
 			}
 
-			if(ispublished($page))
-				$title=$this->getmaintitle($page);
+			if(ispublished($page)) {
+				if(isset($_GET['newsitem'])) {
+					$newsitemcontents = getnewsitemcontents($_GET['newsitem']);
+					$title=$newsitemcontents['title'];
+				}
+				else {
+					$title=$this->getmaintitle($page);
+				}
+			}
 			elseif(isset($_GET["sitepolicy"]))
 				$title=getproperty("Site Policy Title");
 			elseif(isset($_GET["sitemap"]))
