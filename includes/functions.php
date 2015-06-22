@@ -20,6 +20,11 @@ function striptitletags($title)
 	//$title=str_replace('"',"&quot;",$title); // quotes
 	// strip 'em
 	$patterns = array(
+		"/\[link\](.*?)\[\/link\]/i",
+		"/\[url\](.*?)\[\/url\]/i",
+		'/\[url="(.*?)"\](.*?)\[\/url\]/i',
+		"/\[url=(.*?)\](.*?)\[\/url\]/i",
+
 		"/\[b\](.*?)\[\/b\]/si",
 		"/\[u\](.*?)\[\/u\]/si",
 		"/\[i\](.*?)\[\/i\]/si",
@@ -27,6 +32,11 @@ function striptitletags($title)
 		"/\[color=(.*?)\](.*?)\[\/color\]/si"
 	);
 	$replacements = array(
+		"\\1",
+		"\\1",
+		"\\2",
+		"\\2",
+
 		"\\1",
 		"\\1",
 		"\\1",

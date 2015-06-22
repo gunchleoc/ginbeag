@@ -5,7 +5,6 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 include_once($projectroot."functions/pagecontent/linklistpages.php");
 include_once($projectroot."functions/pagecontent/externalpages.php");
 include_once($projectroot."functions/pagecontent/menupages.php");
-include_once($projectroot."functions/pagecontent/newspages.php");
 include_once($projectroot."functions/pagecontent/pagecache.php");
 include_once($projectroot."functions/pages.php");
 include_once($projectroot."functions/referrers.php");
@@ -609,7 +608,7 @@ class PageHeader extends Template {
 
   var $displaytype;
 
-	function PageHeader($page, $title, $displaytype="page")
+	function PageHeader($page, $title, $meta_content, $displaytype="page")
 	{
 		global $projectroot, $_GET, $_SERVER;
 		$this->displaytype=$displaytype;
@@ -641,16 +640,8 @@ class PageHeader extends Template {
 			$this->stringvars['l_displaytypelink'] = getlang("header_mobilestyle");
 		}
 
-		$this->stringvars['keywords']="";
-		if($page>0)
-		{
-			$categories=getcategoriesforpage($page);
-			for($i=0;$i<count($categories);$i++)
-			{
-				$this->stringvars['keywords'].= title2html(getcategoryname($categories[$i], CATEGORY_ARTICLE)).', ';
-			}
-		}
-		$this->stringvars['keywords'].=title2html(getproperty('Google Keywords'));
+
+		$this->stringvars['meta_content'] = $meta_content;
 
 		if(ismobile()) $this->stringvars['stylesheet']= getCSSPath("mobile.css");
 		else $this->stringvars['stylesheet']= getCSSPath("main.css");
@@ -789,7 +780,6 @@ class Page extends Template {
 			{
 				include_once($projectroot."includes/objects/newspage.php");
 				$this->vars['contents'] = new Newsitempage($_GET['newsitem'],$this->stringvars['page'],0,false);
-				//print($newsitem->toHTML());
 			}
 			else
 			{
@@ -833,30 +823,60 @@ class Page extends Template {
 	//
 	function makeheader($page, $showhidden)
 	{
-		global $_GET;
+		global $_GET, $projectroot;
 		$title="";
+		$meta_content = "";
 		if(!$showhidden)
 		{
 			if(ispagerestrictedarray($page))
 			{
 				checkpublicsession($page);
 			}
+			$og_title = getproperty("Site Name");
+			$og_description = "";
+			$imagefile = "";
 
 			if(ispublished($page)) {
-				if(isset($_GET['newsitem'])) {
-					$newsitemcontents = getnewsitemcontents($_GET['newsitem']);
+				if(isset($_GET['newsitem']) && getpagetype($this->stringvars['page']) ==="news")
+				{
+					$newsitem = $_GET['newsitem'];
+					include_once($projectroot."functions/pagecontent/newspages.php");
+					$newsitemcontents = getnewsitemcontents($newsitem);
 					$title=$newsitemcontents['title'];
+					$og_title .= " - ".$title;
+					$og_description = getnewsitemsynopsistext($newsitem);
+					$imagefile = getnewsitemsynopsisimage(getnewsitemsynopsisimageids($newsitem)[0]);
+					if(!$imagefile)
+					{
+						$imagefile = getpageintroimage($page);
+					}
 				}
 				else {
-					$title=$this->getmaintitle($page);
+					$og_title .= " - ".$this->getmaintitle($page);
+					$og_description = getpageintrotext($page);
+					$imagefile = getpageintroimage($page);
+				}
+				if(!$imagefile)
+				{
+					$imagefile = $image=getproperty("Left Header Image");
 				}
 			}
+			elseif($this->displaytype=="splashpage")
+			{
+				$og_description = getproperty("Site Description")." ".getproperty("Splash Page Text 1 - 1").getproperty("Splash Page Text 1 - 2")." ".getproperty("Splash Page Text 2 - 1").getproperty("Splash Page Text 2 - 2");
+				$imagefile = $image=getproperty("Splash Page Image");
+			}
+
 			elseif(isset($_GET["sitepolicy"]))
 				$title=getproperty("Site Policy Title");
 			elseif(isset($_GET["sitemap"]))
 				$title=utf8_decode(getlang("pagetitle_sitemap"));
 			else
 				$title=utf8_decode(getlang("error_pagenotfound"));
+
+			$meta_content .= '<meta property="og:title" content="'.striptitletags($og_title).'" />';
+			$meta_content .= '<meta property="og:description" content="'.htmlentities(striptitletags($og_description)).'" />';
+			$meta_content .= '<meta property="og:image" content="'.getimagelinkpath($imagefile, getimagesubpath($imagefile)).'" />';
 		}
 		else
 		{
@@ -876,8 +896,20 @@ class Page extends Template {
 				$this->vars['message'] = new AdminPageDisplayMessage();
 			}
 		}
-		$this->vars['header'] = new PageHeader($page, $title,$this->displaytype);
 
+		$keywords = "";
+		if($page>0)
+		{
+			$categories=getcategoriesforpage($page);
+			for($i=0;$i<count($categories);$i++)
+			{
+				$keywords .= title2html(getcategoryname($categories[$i], CATEGORY_ARTICLE)).', ';
+			}
+		}
+		$keywords .= title2html(getproperty('Google Keywords'));
+		$meta_content .= '<meta name="keywords" content="'.$keywords.'">';
+
+		$this->vars['header'] = new PageHeader($page, $title, $meta_content, $this->displaytype);
 	}
 
 	//
