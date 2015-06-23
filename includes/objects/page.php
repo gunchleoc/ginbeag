@@ -832,8 +832,8 @@ class Page extends Template {
 			{
 				checkpublicsession($page);
 			}
-			$og_title = getproperty("Site Name");
-			$og_description = "";
+			$meta_title = getproperty("Site Name");
+			$meta_description = "";
 			$imagefile = "";
 
 			if(ispublished($page)) {
@@ -843,17 +843,34 @@ class Page extends Template {
 					include_once($projectroot."functions/pagecontent/newspages.php");
 					$newsitemcontents = getnewsitemcontents($newsitem);
 					$title=$newsitemcontents['title'];
-					$og_title .= " - ".$title;
-					$og_description = getnewsitemsynopsistext($newsitem);
+					$meta_title .= " - ".$title;
+					$meta_description .= getnewsitemsynopsistext($newsitem);
+					if(!$meta_description)
+					{
+						$sections = getnewsitemsections($newsitem);
+						for($i=0; !$meta_description && $i<count($sections); $i++)
+						{
+							$meta_description .= getnewsitemsectiontext($sections[$i]);
+						}
+					}
+
 					$imagefile = getnewsitemsynopsisimage(getnewsitemsynopsisimageids($newsitem)[0]);
 					if(!$imagefile)
 					{
-						$imagefile = getpageintroimage($page);
+						$sections = getnewsitemsections($newsitem);
+						for($i=0; !$imagefile && $i<count($sections); $i++)
+						{
+							$imagefile = getnewsitemsectionimage($sections[$i]);
+						}
+						if(!$imagefile)
+						{
+							$imagefile = getpageintroimage($page);
+						}
 					}
 				}
 				else {
-					$og_title .= " - ".$this->getmaintitle($page);
-					$og_description = getpageintrotext($page);
+					$meta_title .= " - ".$this->getmaintitle($page);
+					$meta_description .= getpageintrotext($page);
 					$imagefile = getpageintroimage($page);
 				}
 				if(!$imagefile)
@@ -863,7 +880,7 @@ class Page extends Template {
 			}
 			elseif($this->displaytype=="splashpage")
 			{
-				$og_description = getproperty("Site Description")." ".getproperty("Splash Page Text 1 - 1").getproperty("Splash Page Text 1 - 2")." ".getproperty("Splash Page Text 2 - 1").getproperty("Splash Page Text 2 - 2");
+				$meta_description .= getproperty("Site Description")." ".getproperty("Splash Page Text 1 - 1").getproperty("Splash Page Text 1 - 2")." ".getproperty("Splash Page Text 2 - 1").getproperty("Splash Page Text 2 - 2");
 				$imagefile = $image=getproperty("Splash Page Image");
 			}
 
@@ -874,9 +891,9 @@ class Page extends Template {
 			else
 				$title=utf8_decode(getlang("error_pagenotfound"));
 
-			$meta_content .= '<meta property="og:title" content="'.striptitletags($og_title).'" />';
-			$meta_content .= '<meta property="og:description" content="'.htmlentities(striptitletags($og_description)).'" />';
-			$meta_content .= '<meta property="og:image" content="'.getimagelinkpath($imagefile, getimagesubpath($imagefile)).'" />';
+			if($meta_title) $meta_content .= '<meta property="og:title" content="'.striptitletags($meta_title).'" />';
+			if($meta_description) $meta_content .= '<meta property="og:description" content="'.htmlentities(striptitletags($meta_description)).'" />';
+			if($imagefile) $meta_content .= '<meta property="og:image" content="'.getimagelinkpath($imagefile, getimagesubpath($imagefile)).'" />';
 		}
 		else
 		{
