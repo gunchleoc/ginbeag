@@ -893,7 +893,7 @@ class Page extends Template {
 				$title=utf8_decode(getlang("error_pagenotfound"));
 
 			if($meta_title) $meta_content .= '<meta property="og:title" content="'.striptitletags($meta_title).'" />';
-			if($meta_description) $meta_content .= '<meta property="og:description" content="'.htmlentities(striptitletags($meta_description)).'" />';
+			if($meta_description) $meta_content .= '<meta property="og:description" content="'.striptitletags($meta_description).'" />';
 			if($imagefile) $meta_content .= '<meta property="og:image" content="'.getimagelinkpath($imagefile, getimagesubpath($imagefile)).'" />';
 		}
 		else
