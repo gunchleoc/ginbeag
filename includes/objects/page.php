@@ -867,7 +867,7 @@ class Page extends Template {
 							}
 						}
 						$imageids = getnewsitemsynopsisimageids($newsitem);
-						$imagefile = getnewsitemsynopsisimage($imageids[0]);
+						if(count($imageids)<0) $imagefile = getnewsitemsynopsisimage($imageids[0]);
 						if(!$imagefile)
 						{
 							$sections = getnewsitemsections($newsitem);
@@ -918,10 +918,13 @@ class Page extends Template {
 			else
 				$title=utf8_decode(getlang("error_pagenotfound"));
 
+			if(!str_startswith($imagefile, getprojectrootlinkpath()))
+				$imagefile = getimagelinkpath($imagefile,getimagesubpath($imagefile));
+
 			// Facebook
 			if($meta_title) $meta_content .= '<meta property="og:title" content="'.striptitletags($meta_title).'" />';
 			if($meta_description) $meta_content .= '<meta property="og:description" content="'.substr(striptitletags($meta_description),0,300).'" />';
-			if($imagefile) $meta_content .= '<meta property="og:image" content="'.getimagelinkpath($imagefile, getimagesubpath($imagefile)).'" />';
+			if($imagefile) $meta_content .= '<meta property="og:image" content="'.$imagefile.'" />';
 			$meta_content .= '<meta property="og:site_name" content="'.$meta_sitename.'" />';
 			$meta_content .= '<meta property="og:type" content="'.$meta_type.'" />';
 
