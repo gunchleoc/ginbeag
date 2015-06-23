@@ -853,8 +853,9 @@ class Page extends Template {
 							$meta_description .= getnewsitemsectiontext($sections[$i]);
 						}
 					}
+					$imageids = getnewsitemsynopsisimageids($newsitem);
 
-					$imagefile = getnewsitemsynopsisimage(getnewsitemsynopsisimageids($newsitem)[0]);
+					$imagefile = getnewsitemsynopsisimage($imageids[0]);
 					if(!$imagefile)
 					{
 						$sections = getnewsitemsections($newsitem);
@@ -924,7 +925,7 @@ class Page extends Template {
 			}
 		}
 		$keywords .= title2html(getproperty('Google Keywords'));
-		$meta_content .= '<meta name="keywords" content="'.$keywords.'">';
+		if ($keywords) $meta_content .= '<meta name="keywords" content="'.$keywords.'">';
 
 		$this->vars['header'] = new PageHeader($page, $title, $meta_content, $this->displaytype);
 	}
