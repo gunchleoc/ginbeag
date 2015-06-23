@@ -29,7 +29,8 @@ function striptitletags($title)
 		"/\[u\](.*?)\[\/u\]/si",
 		"/\[i\](.*?)\[\/i\]/si",
 		"/\[style=(.*?)\](.*?)\[\/style\]/si",
-		"/\[color=(.*?)\](.*?)\[\/color\]/si"
+		"/\[color=(.*?)\](.*?)\[\/color\]/si",
+		"/\[img\](.*?)\[\/img\]/i",
 	);
 	$replacements = array(
 		"\\1",
@@ -41,11 +42,52 @@ function striptitletags($title)
 		"\\1",
 		"\\1",
 		"\\2",
-		"\\2"
+		"\\2",
+		""
 	);
 	$title = preg_replace($patterns,$replacements, $title);
     $title=str_replace('<','&lt;', $title);
   	$title=str_replace('>','&gt;', $title);
+  	
+	// Remove HTML tags
+	// todo: allowtags in site properties
+	$remove=array();
+	array_push($remove,'a');
+	array_push($remove,'b');
+	array_push($remove,'br');
+	array_push($remove,'caption');
+	array_push($remove,'center');
+	array_push($remove,'dd');
+	array_push($remove,'div');
+	array_push($remove,'dl');
+	array_push($remove,'dt');
+	array_push($remove,'em');
+	array_push($remove,'embed');
+	array_push($remove,'hr');
+	array_push($remove,'i');
+	array_push($remove,'img');
+	array_push($remove,'li');
+	array_push($remove,'object');
+	array_push($remove,'ol');
+	array_push($remove,'p');
+	array_push($remove,'pre');
+	array_push($remove,'span');
+	array_push($remove,'strong');
+	array_push($remove,'sub');
+	array_push($remove,'sup');
+	array_push($remove,'table');
+	array_push($remove,'td');
+	array_push($remove,'th');
+	array_push($remove,'tr');
+	array_push($remove,'ul');
+
+	for($i=0;$i<count($remove);$i++)
+	{
+		$pattern='/\&lt;'.$remove[$i].'(.*?)\&gt;/';
+		$title=preg_replace($pattern,"", $title);
+		$pattern='/\&lt;(\/)'.$remove[$i].'(.*?)\&gt;/';
+		$title=preg_replace($pattern,"", $title);
+	}
 
 
 	// copyright
@@ -532,7 +574,7 @@ function getprojectrootlinkpath()
 //
 //
 //
-function makelinkparameters($assoc_array)
+function makelinkparameters($assoc_array, $include_sid=true)
 {
 	global $sid;
 	$params="";
@@ -561,12 +603,12 @@ function makelinkparameters($assoc_array)
 				}
 			}
 		}
-		if(strlen($sid) > 0)
+		if($include_sid && strlen($sid) > 0)
 		{
 			$params.="&sid=".$sid;
 		}
 	}
-	elseif(strlen($sid) > 0)
+	elseif($include_sid && strlen($sid) > 0)
 	{
 		$params.="?sid=".$sid;
 	}

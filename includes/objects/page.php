@@ -832,45 +832,71 @@ class Page extends Template {
 			{
 				checkpublicsession($page);
 			}
-			$meta_title = getproperty("Site Name");
+			$meta_sitename = getproperty("Site Name");
+			$meta_type = "website";
+			$meta_title = "";
 			$meta_description = "";
 			$imagefile = "";
 
 			if(ispublished($page)) {
-				if(isset($_GET['newsitem']) && getpagetype($this->stringvars['page']) ==="news")
+				$meta_type = "article";
+				if(getpagetype($this->stringvars['page']) ==="news")
 				{
-					$newsitem = $_GET['newsitem'];
 					include_once($projectroot."functions/pagecontent/newspages.php");
-					$newsitemcontents = getnewsitemcontents($newsitem);
-					$title=$newsitemcontents['title'];
-					$meta_title .= " - ".$title;
-					$meta_description .= getnewsitemsynopsistext($newsitem);
-					if(!$meta_description)
+					$newsitem = 0;
+					if(isset($_GET['newsitem']))
 					{
-						$sections = getnewsitemsections($newsitem);
-						for($i=0; !$meta_description && $i<count($sections); $i++)
-						{
-							$meta_description .= getnewsitemsectiontext($sections[$i]);
-						}
+						$newsitem = $_GET['newsitem'];
 					}
-					$imageids = getnewsitemsynopsisimageids($newsitem);
-
-					$imagefile = getnewsitemsynopsisimage($imageids[0]);
-					if(!$imagefile)
+					else
 					{
-						$sections = getnewsitemsections($newsitem);
-						for($i=0; !$imagefile && $i<count($sections); $i++)
+						$newsitems = getpublishednewsitems($this->stringvars['page'],1,0);
+						if(count($newsitems)) $newsitem = $newsitems[0];
+					}
+					if($newsitem) {
+						$newsitemcontents = getnewsitemcontents($newsitem);
+						$title=$newsitemcontents['title'];
+						$meta_title .= $title;
+						$meta_description .= getnewsitemsynopsistext($newsitem);
+						if(!$meta_description)
 						{
-							$imagefile = getnewsitemsectionimage($sections[$i]);
+							$sections = getnewsitemsections($newsitem);
+							for($i=0; !$meta_description && $i<count($sections); $i++)
+							{
+								$meta_description .= getnewsitemsectiontext($sections[$i]);
+							}
 						}
+						$imageids = getnewsitemsynopsisimageids($newsitem);
+						$imagefile = getnewsitemsynopsisimage($imageids[0]);
 						if(!$imagefile)
 						{
-							$imagefile = getpageintroimage($page);
+							$sections = getnewsitemsections($newsitem);
+							for($i=0; !$imagefile && $i<count($sections); $i++)
+							{
+								$imagefile = getnewsitemsectionimage($sections[$i]);
+							}
+							if(!$imagefile)
+							{
+								$image_pattern = "/\[img\](.*?)\[\/img\]/i";
+								$image_matches=array();
+								$found = preg_match($image_pattern, getnewsitemsynopsistext($newsitem), $image_matches);
+								if($found) $imagefile = $image_matches[1];
+								for($i=0; !$imagefile && $i<count($sections); $i++)
+								{
+									$image_matches=array();
+									$found = preg_match($image_pattern, getnewsitemsectiontext($sections[$i]), $image_matches);
+									if($found) $imagefile = $image_matches[1];
+								}
+								if(!$imagefile)
+								{
+									$imagefile = getpageintroimage($page);
+								}
+							}
 						}
 					}
 				}
 				else {
-					$meta_title .= " - ".$this->getmaintitle($page);
+					$meta_title .= $this->getmaintitle($page);
 					$meta_description .= getpageintrotext($page);
 					$imagefile = getpageintroimage($page);
 				}
@@ -892,9 +918,37 @@ class Page extends Template {
 			else
 				$title=utf8_decode(getlang("error_pagenotfound"));
 
+			// Facebook
 			if($meta_title) $meta_content .= '<meta property="og:title" content="'.striptitletags($meta_title).'" />';
-			if($meta_description) $meta_content .= '<meta property="og:description" content="'.striptitletags($meta_description).'" />';
+			if($meta_description) $meta_content .= '<meta property="og:description" content="'.substr(striptitletags($meta_description),0,300).'" />';
 			if($imagefile) $meta_content .= '<meta property="og:image" content="'.getimagelinkpath($imagefile, getimagesubpath($imagefile)).'" />';
+			$meta_content .= '<meta property="og:site_name" content="'.$meta_sitename.'" />';
+			$meta_content .= '<meta property="og:type" content="'.$meta_type.'" />';
+
+			$meta_url=getprojectrootlinkpath().'index.php'.makelinkparameters($_GET, false);
+			$meta_content .= '<meta property="og:url" content="'.$meta_url.'" />';
+
+			// Google
+			$keywords = "";
+			if($page>0)
+			{
+				$categories=getcategoriesforpage($page);
+				for($i=0;$i<count($categories);$i++)
+				{
+					$keywords .= title2html(getcategoryname($categories[$i], CATEGORY_ARTICLE)).', ';
+				}
+			}
+			$keywords .= title2html(getproperty('Google Keywords'));
+			if ($keywords)
+			{
+				$meta_content .= '<meta name="keywords" content="'.$keywords.'">';
+				$meta_content .= '<meta name="description" content="'.striptitletags($meta_description).' - '.$keywords.'" />';
+			}
+			else
+			{
+				$meta_content .= '<meta name="description" content='.striptitletags($meta_description).'" />';
+			}
+			$meta_content .= '<link rel="canonical" href="'.$meta_url.'" />';
 		}
 		else
 		{
@@ -914,18 +968,6 @@ class Page extends Template {
 				$this->vars['message'] = new AdminPageDisplayMessage();
 			}
 		}
-
-		$keywords = "";
-		if($page>0)
-		{
-			$categories=getcategoriesforpage($page);
-			for($i=0;$i<count($categories);$i++)
-			{
-				$keywords .= title2html(getcategoryname($categories[$i], CATEGORY_ARTICLE)).', ';
-			}
-		}
-		$keywords .= title2html(getproperty('Google Keywords'));
-		if ($keywords) $meta_content .= '<meta name="keywords" content="'.$keywords.'">';
 
 		$this->vars['header'] = new PageHeader($page, $title, $meta_content, $this->displaytype);
 	}
