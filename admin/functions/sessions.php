@@ -278,7 +278,7 @@ function isloggedin()
 	if(!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) return false;
 
 	$clientip=getclientip();
-	if(!isset($_COOKIE[$cookieprefix."clientip"]) || substr($_COOKIE[$cookieprefix."clientip"],0,6)!=substr($clientip,0,6)) return false;
+	if (isset($_COOKIE[$cookieprefix."clientip"]) && substr($_COOKIE[$cookieprefix."clientip"],0,6)!=substr($clientip,0,6)) return false;
 
 	if(timeout($sid)) return false;
 
