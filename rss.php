@@ -26,6 +26,7 @@ $page=$_GET['page'];
 
 if(hasrssfeed($page))
 {
+	header("Content-type: text/xml;	charset=utf-8");
 	$printme = new RSSPage($page);
 	print($printme->toHTML());
 }

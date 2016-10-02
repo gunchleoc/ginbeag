@@ -80,11 +80,11 @@ class RSSPage extends Template {
 		{
 			$contents=getnewsitemcontents($newsitems[$i]);
 
-			$description=text2html($contents['synopsis']);
+			$description=html2xml(text2html($contents['synopsis'], true));
 			if($contents['source'])
 			{
-				$source=title2html($contents['source']);
-				$description.='<p>Source: '.title2html($contents['source']).'</p>';
+				$source=html2xml(title2html($contents['source']));
+				$description.='<p>Source: '.html2xml(title2html($contents['source'])).'</p>';
 			}
 			$link=$contents['sourcelink'];
 			if(str_startswith($link,'?'))
@@ -93,7 +93,7 @@ class RSSPage extends Template {
 			}
 			$pubdate=@date("r", strtotime($contents['date']));
 
-			$this->listvars['item'][]= new RSSItem($newsitems[$i],title2html($contents['title']),$description,$link,$contents['source'],$pubdate);
+			$this->listvars['item'][]= new RSSItem($newsitems[$i],html2xml(title2html($contents['title'])),$description,$link,$contents['source'],$pubdate);
       	}
 
 	}
