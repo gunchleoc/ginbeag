@@ -224,8 +224,8 @@ $lang["email_sendcopy"]="Cuir lethbhreac thugam";
 $lang["email_copyrequested"]="Dh'iarr thu lethbhreac";
 $lang["email_nocopyrequested"]="Cha do dh'iarr thu lethbhreac";
 $lang["email_sendemail"]="Cuir post-d";
-$lang["email_from"]="Bho";
-$lang["email_to"]="Gu: ";
+$lang["email_from"]="Bho: ";
+$lang["email_to"]=  "Gu:  ";
 $lang["email_webmaster"]="Maighstir-lìn";
 $lang["email_legend_youremail"]="Am post-d";
 $lang["email_legend_options"]="Roghainnean";
@@ -255,10 +255,9 @@ $lang["email_invalidtoken"]="MEARACHD: Tòcan mì-dhligheach. Cha deach am post-
 
 // messages
 $lang["email_enteredmessage"]="Chuir thu a-steach an teachdaireachd a leanas";
-$lang["email_emailsentto"]="Chaidh am post-d agad a chur gu ";
-$lang["email_youremailsent"]="Chaidh am post-d agad a chur";
 $lang["email_thisemailwassent"]="Chaidh am post-d agad a chur gu soirbheachail";
-$lang["email_yourmessage"]="An teachdaireachd agad gu ";
+// %s = site name
+$lang["email_yourmessage"]="An teachdaireachd agad gu %s - ";
 $lang["email_yourguestbookentry"]="An teachdaireachd agad gu leabhar nan aoighean ";
 $lang["email_emailsent"]="Tha am post-d air a chur";
 

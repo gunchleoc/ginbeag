@@ -228,8 +228,8 @@ $lang["email_sendcopy"]="Please send me a copy";
 $lang["email_copyrequested"]="Copy requested";
 $lang["email_nocopyrequested"]="No copy requested";
 $lang["email_sendemail"]="Send e-mail";
-$lang["email_from"]="From";
-$lang["email_to"]="To: ";
+$lang["email_from"]="From: ";
+$lang["email_to"]=  "To:   ";
 $lang["email_webmaster"]="Webmaster";
 $lang["email_legend_youremail"]="Your e-mail";
 $lang["email_legend_options"]="Options";
@@ -261,10 +261,9 @@ $lang["email_invalidtoken"]="ERROR: Invalid token. Your email has not been sent.
 
 // messages
 $lang["email_enteredmessage"]="You entered the following message";
-$lang["email_emailsentto"]="Your e-mail was sent to ";
-$lang["email_youremailsent"]="Your e-mail was sent";
 $lang["email_thisemailwassent"]="Your e-mail was sent successfully";
-$lang["email_yourmessage"]="Your message to ";
+// %s = site name
+$lang["email_yourmessage"]="Your message to %s - ";
 $lang["email_yourguestbookentry"]="Your guestbook entry ";
 $lang["email_emailsent"]="Sent e-mail";
 

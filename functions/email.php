@@ -147,11 +147,11 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
 
 	if($isguestbookentry)
 	{
-		$message_intro=getlang("email_yourguestbookentry").' @ '. html_entity_decode(getproperty("Site Name"))."\n";
+		$message_intro=utf8_decode(getlang("email_yourguestbookentry").' @ '. html_entity_decode(getproperty("Site Name")))."\n";
 	}
 	else
 	{
-		$message_intro=getlang("email_from").": ".$addy."\n".getlang("email_to").": ".$recipient."\n";
+		$message_intro=getlang("email_from").$addy."\n".getlang("email_to").$recipient."\n";
 	}
 	$message_intro.="________________________________________________________________\n\n";
 
@@ -159,25 +159,24 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
 	$messagetext=str_replace("\n","\r\n",$messagetext);
 
 	$messagetext.="\n\n________________________________________________________________\n\n";
-	$messagetext.=getproperty("Email Signature");
+	$messagetext.=utf8_decode(html_entity_decode(getproperty("Email Signature")));
 
 	$subject=stripslashes($subject);
 
 	if($isguestbookentry)
 	{
-		@mail($recipient,getlang("email_guestbooksubject"). html_entity_decode(getproperty("Site Name"))." - ".$subject,getlang("email_guestbooksubject"). html_entity_decode(getproperty("Site Name"))."\n\n".$messagetext,"From: ".$recipient);
-		@mail($addy,getlang("email_yourguestbookentry").' @ '. html_entity_decode(getproperty("Site Name"))." - ".$subject,$message_intro.$messagetext,"From: ".$recipient);
+		@mail($recipient,utf8_decode(html_entity_decode(getlang("email_guestbooksubject").getproperty("Site Name")))." - ".$subject,utf8_decode(html_entity_decode(getlang("email_guestbooksubject").getproperty("Site Name")))."\n\n".$messagetext,"From: ".$recipient);
+		@mail($addy,utf8_decode(html_entity_decode(getlang("email_yourguestbookentry").' @ '.getproperty("Site Name")))." - ".$subject,$message_intro.$messagetext,"From: ".$recipient);
 	}
 	else
 	{
-		@mail($recipient,sprintf(utf8_decode(getlang("email_contactsubject")), html_entity_decode(getproperty("Site Name"))).$subject,$message_intro.$messagetext,"From: ".$addy)
+		@mail($recipient,utf8_decode(sprintf(getlang("email_contactsubject"), html_entity_decode(getproperty("Site Name")))).$subject,$message_intro.$messagetext,"From: ".$addy)
 		or die('<p class="highlight"><b>'.utf8_decode(getlang("email_errorsending")).'</b></p>');
 		if($sendcopy)
 		{
-			@mail($addy,getlang("email_yourmessage"). html_entity_decode(getproperty("Site Name"))." - ".$subject,getlang("email_thisemailwassent").":\n\n".$message_intro.$messagetext,"From: ".$addy)
+			@mail($addy,utf8_decode(sprintf(getlang("email_yourmessage"), html_entity_decode(getproperty("Site Name")))).$subject,getlang("email_thisemailwassent").":\n\n".$message_intro.$messagetext,"From: ".$addy)
 			or die('<p class="highlight"><b>'.utf8_decode(getlang("email_errorsending")).'</b></p>');
 		}
-		print('<p>'.getlang("email_youremailsent").".<p>");
 	}
 	unset($_POST['addy']);
 }

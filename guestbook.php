@@ -82,9 +82,9 @@ elseif(isset($_POST['submitpost']))
 		$postername = fixquotes($postername);
 		$addy = trim($_POST[$emailvariables['E-Mail Address Variable']['property_value']]);
 		$subject = trim($_POST[$emailvariables['Subject Line Variable']['property_value']]);
-		$subject = fixquotes($subject);
+		$subject = html_entity_decode(fixquotes($subject));
 		$messagetext = trim(stripslashes($_POST[$emailvariables['Message Text Variable']['property_value']]));
-		$messagetext = fixquotes($messagetext);
+		$messagetext = html_entity_decode(fixquotes($messagetext));
 
 		$error = emailerror($addy, utf8_decode($subject), utf8_decode($messagetext), 0);
 		if(strlen($postername) < 1)
