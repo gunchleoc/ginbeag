@@ -20,7 +20,7 @@ class ContactPage extends Template {
 		if(ismobile()) $displaytype = "mobile";
 		else $displaytype = "page";
 
-		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_contact")), $displaytype);
+		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_contact")), "", $displaytype);
 		$this->vars['footer'] = new PageFooter();
 		$this->vars['navigator'] = new Navigator(0, 1, 0, $displaytype, false);
 

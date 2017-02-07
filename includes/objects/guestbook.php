@@ -21,7 +21,7 @@ class Guestbook extends Template {
 		if(ismobile()) $displaytype = "mobile";
 		else $displaytype = "page";
 
-		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_guestbook")), $displaytype);
+		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_guestbook")), "", $displaytype);
 		$this->vars['footer'] = new PageFooter();
 
 

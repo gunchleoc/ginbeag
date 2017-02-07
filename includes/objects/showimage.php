@@ -40,7 +40,7 @@ class Showimage extends Template {
 
 		if(ismobile()) $displaytype = "mobile";
 		else $displaytype = "page";
-		$this->vars['header']= new PageHeader($this->stringvars['page'], $pagetitle, $displaytype);
+		$this->vars['header']= new PageHeader($this->stringvars['page'], $pagetitle, "", $displaytype);
 		$this->vars['navigator'] = new Navigator($this->stringvars['page'], false, 1, $displaytype, $showhidden);
 
 		if(getproperty('Display Banners'))
