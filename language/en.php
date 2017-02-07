@@ -252,6 +252,7 @@ $lang["email_notvalidemail"]="This is not a valid e-mail address";
 $lang["email_specifysubject"]="Please specify a subject";
 $lang["email_emptymessage"]="Your message is empty";
 $lang["email_wrongmathcaptcha"]="You did not answer the security math question correctly!";
+$lang["email_spamwords"]="Sorry, but your message looks like spam to us and won't be sent like this.";
 $lang["email_errorsending"]="Error sending e-mail";
 $lang["email_tryagain"]="The data you entered is not correct. Please try again!";
 // %s = open and close link to contact page for webmaster

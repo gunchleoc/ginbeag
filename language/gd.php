@@ -246,6 +246,7 @@ $lang["email_notvalidemail"]="Chan e seòladh puist-d dligheach a tha seo";
 $lang["email_specifysubject"]="Feuch an sònraich thu cuspair";
 $lang["email_emptymessage"]="Tha an teachdaireachd agad bàn";
 $lang["email_wrongmathcaptcha"]="Chan eil an fhreagairt cheart don cheist tèarainteachd matamataigeach agad!";
+$lang["email_spamwords"]="Tha sinn duilich ach tha coltas an spama air an teachdaireachd agad agus cha dèid a chur mar sin.";
 $lang["email_errorsending"]="Thachair mearachd teignigeach a' cur a' phost-d agad";
 $lang["email_tryagain"]="Chan eil am fiosrachadh a chur thu a-steach ceart. Am feuch thu ris a-rithist?";
 // %s = open and close link to contact page for webmaster

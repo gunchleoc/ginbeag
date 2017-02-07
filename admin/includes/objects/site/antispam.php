@@ -25,15 +25,21 @@ class SiteAntispam extends Template {
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("postaction" => "savesite"));
-		
+
 		$variables=getmultiplefields(ANTISPAM_TABLE, "property_name", "1", array(0 => 'property_name', 1 => 'property_value'));
 
+		// Math CAPTCHA
 		$this->vars['usemathcaptcha_yes'] = new RadioButtonForm($this->stringvars['jsid'], "usemathcaptcha", 1, "Yes", $variables['Use Math CAPTCHA']['property_value'], "right");
-	    $this->vars['usemathcaptcha_no'] = new RadioButtonForm($this->stringvars['jsid'], "usemathcaptcha", 0, "No", !$variables['Use Math CAPTCHA']['property_value'], "right");
-		
-		$this->vars['submitrow']= new SubmitRow("submit","Submit",true);
+		$this->vars['usemathcaptcha_no'] = new RadioButtonForm($this->stringvars['jsid'], "usemathcaptcha", 0, "No", !$variables['Use Math CAPTCHA']['property_value'], "right");
+		$this->vars['mathcaptcha_submitrow']= new SubmitRow("mathcaptcha","Submit",true);
+
+		// Spam Words
+		$this->stringvars['spamwords_subject'] = $variables['Spam Words Subject']['property_value'];
+		$this->stringvars['spamwords_content'] = $variables['Spam Words Content']['property_value'];
+
+		$this->vars['spamwords_submitrow']= new SubmitRow("spamwords","Submit",true);
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{

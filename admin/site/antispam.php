@@ -31,9 +31,14 @@ if($postaction=='savesite')
 		$properties['Subject Line Variable']=makerandomvariablename();
 		$properties['E-Mail Address Variable']=makerandomvariablename();
 	}
-	else
+	else if(isset($_POST['mathcaptcha']))
 	{
 		$properties['Use Math CAPTCHA']=$db->setinteger($_POST['usemathcaptcha']);
+	}
+	else if(isset($_POST['spamwords']))
+	{
+		$properties['Spam Words Subject']=$db->setstring($_POST['spamwords_subject']);
+		$properties['Spam Words Content']=$db->setstring($_POST['spamwords_content']);
 	}
 
 	$success=updateentries(ANTISPAM_TABLE,$properties,"property_name","property_value");
