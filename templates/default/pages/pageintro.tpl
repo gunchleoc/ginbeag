@@ -2,5 +2,5 @@
 <!-- BEGIN switch IMAGE -->
 {IMAGE}
 <!-- END switch IMAGE -->
-<div class="introtext">{TEXT}</div>
+<div class="{CLASS}">{TEXT}</div>
 <div class="newline"></div>

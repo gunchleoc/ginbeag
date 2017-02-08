@@ -25,11 +25,11 @@ class Editor extends Template {
     {
 		parent::__construct($page.'-'.$item, array(), array(0 => "admin/includes/javascript/editor.js"));
 		$this->stringvars['javascript']=$this->getScripts();
-    
+
 		$this->stringvars['item']=$item;
 		$this->stringvars['elementtype']=$elementtype;
 		$this->stringvars['title']=$title;
-		
+
 		if($iscollapsed)
 			$this->vars['editorcontents']= new EditorContentsCollapsed($page,$item, $elementtype,"Edit ".$title);
 		else
@@ -98,7 +98,7 @@ class EditorContentsCollapsed extends Template {
 		$hiddenvars["title"] = $title;
 		$hiddenvars["elementtype"] = $elementtype;
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
-    	
+
     	$this->stringvars['title']=$title;
     }
 
@@ -141,7 +141,7 @@ class EditorContentsSaveDialog extends Template {
 function geteditortext($page,$item, $elementtype)
 {
 	$text="Text could not be loaded for ".$elementtype.", page ".$page.", item ".$item.".";
-	
+
 	if($elementtype=="pageintro")
   	{
     	$text=getpageintrotext($page);
@@ -164,7 +164,7 @@ function geteditortext($page,$item, $elementtype)
   	}
   	elseif($elementtype=="sitepolicy")
   	{
-    	$text=getdbelement("sitepolicytext",SITEPOLICY_TABLE,"policy_id",0);
+    	$text=getdbelement("text",SPECIALTEXTS_TABLE,"id","sitepolicy");
   	}
   	return stripslashes($text);
 }

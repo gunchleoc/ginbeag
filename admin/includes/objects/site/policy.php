@@ -26,17 +26,17 @@ class SitePolicy extends Template {
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 
   		$properties=getproperties();
-  		
+
   		$policytitle=$properties["Site Policy Title"];
-  		$policytext=getdbelement("sitepolicytext",SITEPOLICY_TABLE,"policy_id",0);
+  		$policytext=getdbelement("text",SPECIALTEXTS_TABLE,"id","sitepolicy");
 
 		$this->vars['displaypolicy_yes'] = new RadioButtonForm("", "displaypolicy", 1, "Yes", $properties["Display Site Policy"], "right");
 	    $this->vars['displaypolicy_no'] = new RadioButtonForm("", "displaypolicy", 0, "No", !$properties["Display Site Policy"], "right");
 
         $this->stringvars['policytitle']=$properties["Site Policy Title"];
-        
+
         $this->vars['policytext']= new Editor($this->stringvars['page'],0,"sitepolicy","Site Policy");
-        
+
         $this->vars['submitrow']= new SubmitRow("submit","Submit",true);
   	}
 

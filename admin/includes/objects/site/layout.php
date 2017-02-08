@@ -27,27 +27,27 @@ class SiteLayout extends Template {
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 
 		$this->vars['submitrow']= new SubmitRow("submit","Submit",true);
-		
+
 		$properties=getproperties();
 
 		$linksonsplashpage=explode(",",$properties['Links on Splash Page']);
-		
+
 		$this->stringvars['sitename']=input2html($properties["Site Name"]);
 		$this->stringvars['sitedescription']=input2html($properties["Site Description"]);
-		
+
 		$this->stringvars['uploadpath']='http://'.getproperty('Domain Name').'/'.getproperty('Local Path').'/img';
-		
+
 		$this->stringvars['leftimage']=$properties["Left Header Image"];
 		$this->stringvars['leftlink']=$properties["Left Header Link"];
 		$this->stringvars['rightimage']=$properties["Right Header Image"];
 		$this->stringvars['rightlink']=$properties["Right Header Link"];
-		
+
 		// Default Template
 		$defaulttemplate=$properties["Default Template"];
-		
+
 		$templatedir = $projectroot."templates/";
 		$templates = array();
-		
+
 		// Open a known directory, and proceed to read its contents
 		if (is_dir($templatedir))
 		{
@@ -61,17 +61,17 @@ class SiteLayout extends Template {
 		    	closedir($dh);
 			}
 		}
-		
+
 		$this->vars['default_template']= new OptionForm($defaulttemplate,$templates,$templates,$name="defaulttemplate", "Choose a template: ",$size=1);
-		
-		
-		// Footer    
+
+
+		// Footer
 		$this->stringvars['footermessage']=input2html($properties["Footer Message"]);
 		$this->stringvars['footermessagedisplay']=text2html($properties["Footer Message"]);
-		
+
 		$this->stringvars['newsperpage']=$properties["News Items Per Page"];
 		$this->stringvars['galleryimagesperpage']=$properties["Gallery Images Per Page"];
-		
+
 		// page links on splash page
 		$rootpages=getrootpages();
 		$rootpagetitles = array();
@@ -80,7 +80,7 @@ class SiteLayout extends Template {
 		{
 			$rootpagetitles[$i]=title2html(getpagetitle($rootpages[$i]));
 		}
-		
+
 		$linksonsplashpagedisplay = "";
 		for($i=0;$i<$noofrootpages;$i++)
 		{
@@ -98,9 +98,9 @@ class SiteLayout extends Template {
 		  		$linksonsplashpagedisplay .= $rootpagetitles[$i].'</a> ';
 			}
 		}
-		
+
 		$this->stringvars['linksonsplashpagedisplay']=$linksonsplashpagedisplay;
-		
+
 		$this->vars['linksonsplashpage'] = new OptionFormMultiple($linksonsplashpage,$rootpages,$rootpagetitles,"linksonsplashpage","Links on Splashpage", $size=10);
 
 		$this->vars['alllinksonsplashpage_yes'] = new RadioButtonForm($this->stringvars['jsid'], "alllinksonsplashpage", 1, "Show All Links on Splash Page", $properties["Show All Links on Splash Page"], "right");
@@ -112,12 +112,12 @@ class SiteLayout extends Template {
 		$this->vars['spfont_normal'] = new RadioButtonForm($this->stringvars['jsid'], "spfont", "normal", "Normal", $properties["Splash Page Font"] === "normal", "right");
 		$this->vars['spfont_italic'] = new RadioButtonForm($this->stringvars['jsid'], "spfont", "italic", "Italic", $properties["Splash Page Font"] === "italic", "right");
 		$this->vars['spfont_bold'] = new RadioButtonForm($this->stringvars['jsid'], "spfont", "bold", "Bold", $properties["Splash Page Font"] === "bold", "right");
-		
-		$this->stringvars['splashtext1']=input2html($properties["Splash Page Text 1 - 1"].$properties["Splash Page Text 1 - 2"]);
+
+		$this->stringvars['splashtext1']=input2html(getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage1"));
 		$this->stringvars['splashimage']=$properties["Splash Page Image"];
-		$this->stringvars['splashtext2']=input2html($properties["Splash Page Text 2 - 1"].$properties["Splash Page Text 2 - 2"]);
+		$this->stringvars['splashtext2']=input2html(getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage2"));
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{

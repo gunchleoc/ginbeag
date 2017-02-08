@@ -45,43 +45,11 @@ if($postaction=='savesite' && isset($_POST['submit']))
 	$properties['Splash Page Font']= $db->setstring(trim($_POST['spfont']));
 	$properties['Splash Page Image']= $db->setstring(trim($_POST['spimage']));
 
-	$sptext= $db->setstring(fixquotes(trim($_POST['sptext1'])));
-	if(strlen($sptext)>255)
-	{
-		$cutindex=255;
-		$properties['Splash Page Text 1 - 1']= substr($sptext,0,$cutindex);
-		while(str_endswith($properties['Splash Page Text 1 - 1'],chr(92)) && $cutindex>0)
-		{
-			$cutindex--;
-			$properties['Splash Page Text 1 - 1']= substr($sptext,0,$cutindex);
-		}
-		$properties['Splash Page Text 1 - 2']= substr($sptext,$cutindex);
-	}
-	else
-	{
-		$properties['Splash Page Text 1 - 1']= $sptext;
-		$properties['Splash Page Text 1 - 2']= "";
-	}
-
-	$sptext= $db->setstring(fixquotes(trim($_POST['sptext2'])));
-	if(strlen($sptext)>255)
-	{
-		$cutindex=255;
-		$properties['Splash Page Text 2 - 1']= substr($sptext,0,$cutindex);
-		while(str_endswith($properties['Splash Page Text 2 - 1'],chr(92)) && $cutindex>0)
-		{
-			$cutindex--;
-			$properties['Splash Page Text 2 - 1']= substr($sptext,0,$cutindex);
-		}
-		$properties['Splash Page Text 2 - 2']= substr($sptext,$cutindex);
-	}
-	else
-	{
-		$properties['Splash Page Text 2 - 1']= $sptext;
-		$properties['Splash Page Text 2 - 2']= "";
-	}
-
 	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
+
+	// Splash page texts go into he specialtexts table
+	$success=updatefield(SPECIALTEXTS_TABLE,"text",$db->setstring(fixquotes(trim($_POST['sptext1']))),"id='splashpage1'") && $success;
+	$success=updatefield(SPECIALTEXTS_TABLE,"text",$db->setstring(fixquotes(trim($_POST['sptext2']))),"id='splashpage2'") && $success;
 
 	$message = "Layout properties saved";
 

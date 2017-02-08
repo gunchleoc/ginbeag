@@ -583,11 +583,12 @@ class ItemsOfTheDay extends Template {
 //
 class PageIntro extends Template {
 
-	function PageIntro($title, $text, $image="", $imageautoshrink=true, $usethumbnail=true, $imagealign="left",$showhidden=false)
+	function PageIntro($title, $text, $image="", $imageautoshrink=true, $usethumbnail=true, $imagealign="left",$showhidden=false, $class="introtext")
 	{
 		parent::__construct();
 		$this->stringvars['pagetitle']=title2html($title);
 		$this->stringvars['text']=text2html($text);
+		$this->stringvars['class']=$class;
 		if($image && strlen($image) > 0)
 			$this->vars['image'] = new CaptionedImage($image, $imageautoshrink, $usethumbnail, $imagealign, array("page" => $this->stringvars['page']), $showhidden);
 	}
@@ -907,7 +908,7 @@ class Page extends Template {
 			}
 			elseif($this->displaytype=="splashpage")
 			{
-				$meta_description .= getproperty("Site Description")." ".getproperty("Splash Page Text 1 - 1").getproperty("Splash Page Text 1 - 2")." ".getproperty("Splash Page Text 2 - 1").getproperty("Splash Page Text 2 - 2");
+				$meta_description .= getproperty("Site Description")." ".getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage1")." ".getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage2");
 				$imagefile = $image=getproperty("Splash Page Image");
 			}
 
@@ -996,20 +997,20 @@ class Page extends Template {
 			$contents="";
 			if(getproperty("Splash Page Font")==="italic") $contents.='<i>';
 			elseif(getproperty("Splash Page Font")==="bold") $contents.='<b>';
-			$text= getproperty("Splash Page Text 1 - 1");
+			$text= getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage1");
 			if(strlen($text)>0)
 			{
-				$contents.='<p>'.$text.getproperty("Splash Page Text 1 - 2").'</p><p>&nbsp;</p>';
+				$contents.='<p>'.$text.'</p><p>&nbsp;</p>';
 			}
 			$image=getproperty("Splash Page Image");
 			if(strlen($image)>0)
 			{
 				$contents.='<p><img src="'.getprojectrootlinkpath().'img/'.$image.'" border="0" /></p><p>&nbsp;</p>';
 			}
-			$text= getproperty("Splash Page Text 2 - 1");
+			$text= getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage2");
 			if(strlen($text)>0)
 			{
-				$contents.='<p>'.$text.getproperty("Splash Page Text 2 - 2").'</p>';
+				$contents.='<p>'.$text.'</p>';
 			}
 			if(getproperty("Splash Page Font")==="italic") $contents.='</i>';
 			elseif(getproperty("Splash Page Font")==="bold") $contents.='</b>';
@@ -1102,7 +1103,7 @@ class Page extends Template {
 			}
 			elseif(isset($_GET["sitepolicy"]))
 			{
-				$this->vars['contents']  = new PageIntro(title2html(getproperty("Site Policy Title")),getdbelement("sitepolicytext",SITEPOLICY_TABLE,"policy_id",0));
+				$this->vars['contents']  = new PageIntro(title2html(getproperty("Site Policy Title")),getdbelement("text",SPECIALTEXTS_TABLE,"id","sitepolicy"), "", true, true, "left", false, "sectiontext");
 			}
 			elseif(isset($_GET["sitemap"]))
 			{
@@ -1112,7 +1113,7 @@ class Page extends Template {
 			else
 			{
 				// todo why encoding problem?
-				$this->vars['contents']  = new PageIntro(utf8_decode(getlang("error_pagenotfound")),utf8_decode(sprintf(getlang("error_pagenonotfound"),$page)));
+				$this->vars['contents']  = new PageIntro(utf8_decode(getlang("error_pagenotfound")),utf8_decode(sprintf(getlang("error_pagenonotfound"),$page)), "", true, true, "left", false, "highlight");
 			}
 		}
 	}
@@ -1254,7 +1255,7 @@ class Printview extends Template {
 		}
 		else
 		{
-			$this->vars['contents']  = new PageIntro("Page not found","Could not find page ".$page.".");
+			$this->vars['contents']  = new PageIntro("Page not found","Could not find page ".$page.".", "", true, true, "left", false, "highlight");
 		}
 	}
 

@@ -60,11 +60,11 @@ else {
 	}
 	elseif($elementtype=="sitepolicy")
 	{
-		$success=updatefield(SITEPOLICY_TABLE,"sitepolicytext",addslashes(utf8_decode($text)),"policy_id = '0'");
+		$success=updatefield(SPECIALTEXTS_TABLE,"text",addslashes(utf8_decode($text)),"id = 'sitepolicy'");
 		if($success) $message= "Saved sitepolicy text";
 	}
 
-	if($success >=0)
+	if($success)
 	{
 		print('<message error="0">');
 		updateeditdata($page);
