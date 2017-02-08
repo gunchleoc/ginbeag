@@ -9,6 +9,17 @@ include_once($projectroot."language/languages.php");
 $emailvariables=getmultiplefields(ANTISPAM_TABLE, "property_name", "1",
 	array(0 => 'property_name', 1 => 'property_value'));
 
+
+// Returns true if $matchme contains $spamword. Uses case-insensitive regex.
+function match_spamword($matchme, $spamword)
+{
+	$findme = trim($spamword);
+	$findme = str_replace("?", "\?", $findme);
+	$findme = str_replace("@", "\@", $findme);
+	$pattern ="/".$findme."/i";
+	return preg_match($pattern, $matchme);
+}
+
 // check data
 // returns error message
 // returns "" on success
@@ -87,7 +98,7 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 	$spamwords = false;
 	foreach ($spamwords_subject as $spamword)
 	{
-		if(strpos($subject, $spamword))
+		if(match_spamword($subject, $spamword))
 		{
 			$spamwords = true;
 			break;
@@ -95,12 +106,13 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 	}
 	foreach ($spamwords_content as $spamword)
 	{
-		if(strpos($messagetext, $spamword))
+		if(match_spamword($messagetext, $spamword))
 		{
 			$spamwords = true;
 			break;
 		}
 	}
+
 	if($spamwords) {
 		$result.=errormessage("email_spamwords");
 	}
