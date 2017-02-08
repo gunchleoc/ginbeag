@@ -35,44 +35,9 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 	{
 		$result.=errormessage("email_enteremail");
 	}
-	else
+	else if(!filter_var($addy, FILTER_VALIDATE_EMAIL))
 	{
-		$mail_chars="0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ-_.@";
-		$addy_length=strlen($addy);
-		$illegals="";
-		$at_detected=false;
-		$dot_detected=false;
-		// check e-mail for illegal chars and for @-sign
-		for($i=0;$i<$addy_length;$i++)
-		{
-			$current_char=substr($addy,$i,1);
-			if(strstr($mail_chars,$current_char)==false)
-			{
-				$illegals = $illegals.$current_char." ";
-			}
-			if($current_char=="@")
-			{
-				$at_detected=true;
-			}
-			if($at_detected)
-			{
-				if($current_char==".")
-				{
-					$dot_detected=true;
-				}
-			}
-		}
-		if($illegals)
-		{
-			$result.=errormessage("email_illegalchar");
-			$result.=$illegals;
-			$result.=errormessage("email_reenteremail");
-		}
-		elseif(!$dot_detected)
-		{
-			$result.=errormessage("email_notvalidemail");
-			$result.=errormessage("email_reenteremail");
-		}
+		$result.=errormessage("email_reenteremail");
 	}
 	// check subject
 	if($subject=="")

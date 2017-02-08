@@ -240,9 +240,7 @@ $lang["email_contactsubject"]="Teachdaireachd tro làrach %s - ";
 
 // error messages
 $lang["email_enteremail"]="Feuch an sònraich thu seòladh puist-d";
-$lang["email_illegalchar"]="Tha caractaran mì-dhligheach san t-seòladh puist-d agad: ";
 $lang["email_reenteremail"]="Feuch an ceartaich thu an seòladh puist-d agad";
-$lang["email_notvalidemail"]="Chan e seòladh puist-d dligheach a tha seo";
 $lang["email_specifysubject"]="Feuch an sònraich thu cuspair";
 $lang["email_emptymessage"]="Tha an teachdaireachd agad bàn";
 $lang["email_wrongmathcaptcha"]="Chan eil an fhreagairt cheart don cheist tèarainteachd matamataigeach agad!";

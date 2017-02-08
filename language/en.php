@@ -246,9 +246,7 @@ $lang["email_contactsubject"]="Message sent via the %s contact form - ";
 
 // error messages
 $lang["email_enteremail"]="Please specify an e-mail address";
-$lang["email_illegalchar"]="Your e-mail address contains illegal characters: ";
 $lang["email_reenteremail"]="Please correct your-mail address";
-$lang["email_notvalidemail"]="This is not a valid e-mail address";
 $lang["email_specifysubject"]="Please specify a subject";
 $lang["email_emptymessage"]="Your message is empty";
 $lang["email_wrongmathcaptcha"]="You did not answer the security math question correctly!";
