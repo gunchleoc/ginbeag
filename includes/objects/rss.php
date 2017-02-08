@@ -20,7 +20,7 @@ class RSSItem extends Template {
 
 		if($link)
 	    {
-			$this->stringvars['link']=$link;
+			$this->stringvars['link']=urlencode($link);
 	    }
 		if($source)
 	    {
