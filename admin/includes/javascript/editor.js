@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 	// watch edit state so user won't forget to save. Add this to all buttons.
 	var textisedited=false;
-	
+
 	/**
 	 * call when something changes in the text
 	 */
@@ -20,7 +20,7 @@ $(document).ready(function() {
 		textisedited=true;
 		$("#{JSID}hideeditorbutton").val("Discard Changes");
 	}
-	
+
 	/**
 	 * call when changes are reset or saved
 	 */
@@ -33,10 +33,10 @@ $(document).ready(function() {
 	// don't know which initial state we're getting
 	addlistenersCollapsed();
 	addlistenersExpanded();
-	
-	
-	
-//http://blog.vishalon.net/index.php/javascript-getting-and-setting-caret-position-in-textarea	
+
+
+
+//http://blog.vishalon.net/index.php/javascript-getting-and-setting-caret-position-in-textarea
 // todo funzt dort, bei mir aber nicht, wieso?
 /*
 function doGetCaretPosition (ctrl) {
@@ -62,11 +62,11 @@ function doGetCaretPosition (ctrl) {
 
 	/**
 	 * helper for Caret
-	 */	
+	 */
 	function getcaretstart(element)
 	{
 		var result=0;
-		
+
 		try
 		{
        		result=element.caret().start;
@@ -88,14 +88,14 @@ function doGetCaretPosition (ctrl) {
 
 		return result;
 	}
-	
+
 	/**
 	 * helper for Caret
-	 */	
+	 */
 	function getcaretend(element)
 	{
 		var result=0;
-		
+
 		try
 		{
        		result=element.caret().end;
@@ -112,13 +112,13 @@ function doGetCaretPosition (ctrl) {
 			var split = splitme.split("\n");
 			result=result-split.length+1;
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * helper for Caret
-	 */		
+	 */
 	function setcaret(element,position)
 	{
 		element.focus();
@@ -129,20 +129,20 @@ function doGetCaretPosition (ctrl) {
 		}
 		catch(e){
 		 //todo try to do something about IE
-		}		
+		}
 	}
-	
+
 
 
 	/**
 	 * helper for BBCode
-	 */	
+	 */
 	function insertOpenCloseTag(opentag, closetag)
 	{
        	var sourcetext = $("#{JSID}edittext").val();
    		var caretstart =getcaretstart($("#{JSID}edittext"));
    		var caretend =getcaretend($("#{JSID}edittext"));
-   		
+
        	var text = sourcetext.substring(0, caretstart);
        	var tag = opentag + sourcetext.substring(caretstart,caretend) + closetag;
        	text = text + tag;
@@ -150,9 +150,9 @@ function doGetCaretPosition (ctrl) {
        	$("#{JSID}edittext").val(text);
        	setcaret($("#{JSID}edittext"),caretend+opentag.length);
  	}
- 	
- 	
- 	
+
+
+
  	/**
  	 * Get rid of curly quotes
  	 */
@@ -162,22 +162,22 @@ function doGetCaretPosition (ctrl) {
   				.replace(/[\u2018\u2019]/g, "'")
   				.replace(/[\u201C\u201D]/g, '"');
  	}
-	
-	
+
+
 	/**
 	 * listeners for collapsed editor
-	 */	
+	 */
 	function addlistenersCollapsed()
 	{
 		/* expandbutton */
 		$("#{JSID}expandbutton").click(function() {
-		
+
 			var elements = new Array();
 			elements[0] = $("#{JSID}expandbutton");
 			disableElements(elements);
-		
+
 			$("#{JSID}status").html("Loading editor ...");
-			
+
        		postRequest(
 				projectroot+"admin/includes/ajax/editor/expandeditor.php",
        			{
@@ -189,21 +189,21 @@ function doGetCaretPosition (ctrl) {
 	       		},
 	       		function(html)
 				{
-					$("#{JSID}editorcontents").html(html); 
+					$("#{JSID}editorcontents").html(html);
 					addlistenersExpanded();
 				},
 				elements
-	    	); // post 	
-       		
-       		$("#{JSID}status").html("");   
-        			
+	    	); // post
+
+       		$("#{JSID}status").html("");
+
 		}); // expandbutton
 	} // addlistenersCollapsed
-	
-	
+
+
 	/**
 	 * listeners for expanded editor
-	 */	
+	 */
 	function addlistenersExpanded()
 	{
 		/* edittext */
@@ -211,27 +211,27 @@ function doGetCaretPosition (ctrl) {
 		// watch edit state so user won't forget to save
 		$("#{JSID}edittext").on("keypress", function() {
 			settextisedited();
-		});	
-	
+		});
+
 		/************* BBCode buttons *************/
 		/* bold */
 		$("#{JSID}bold").click(function() {
 			insertOpenCloseTag("[b]", "[/b]");
 	       	settextisedited();
 		});	//bold
-		
+
 		/* italic */
 		$("#{JSID}italic").click(function() {
 	       	insertOpenCloseTag("[i]", "[/i]");
 	       	settextisedited();
 		}); // italic
-		
+
 		/* underline */
 		$("#{JSID}underline").click(function() {
 	       	insertOpenCloseTag("[u]", "[/u]");
 	       	settextisedited();
 		}); // underline
-		
+
 		/* ul */
 		$("#{JSID}ul").click(function() {
 	       	var sourcetext = $("#{JSID}edittext").val();
@@ -239,7 +239,7 @@ function doGetCaretPosition (ctrl) {
 	       	var caretend =getcaretend($("#{JSID}edittext"));
 	       	var text = sourcetext.substring(0, caretstart);
 	       	text = text + "[list]";
-	       	
+
 	       	var splitme = sourcetext.substring(caretstart,caretend);
 	    	var split = splitme.split("\n");
 	    	for(var line in split)
@@ -251,19 +251,19 @@ function doGetCaretPosition (ctrl) {
 			$("#{JSID}edittext").val(text);
 			settextisedited();
 			setcaret($("#{JSID}edittext"),caretstart+9);
-			
+
 		});	// ul
-		
-		/* ol */	
+
+		/* ol */
 		$("#{JSID}ol").click(function() {
 			var type=prompt("Please enter number style for the list","1");
-			
+
 	       	var sourcetext = $("#{JSID}edittext").val();
 	       	var caretstart =getcaretstart($("#{JSID}edittext"));
 	       	var caretend =getcaretend($("#{JSID}edittext"));
 	       	var text = sourcetext.substring(0, caretstart);
 	       	var opentag ="";
-	       	
+
 			if (type!=null && type!="")
 		  	{
 	       		opentag ="[list="+type+"]";
@@ -272,9 +272,9 @@ function doGetCaretPosition (ctrl) {
 	       	{
 	       		opentag ="[list=]";
 	       	}
-	
+
 	       	text = text + opentag;
-	       	
+
 	       	var splitme = sourcetext.substring(caretstart,caretend);
 	    	var split = splitme.split("\n");
 	    	for(var line in split)
@@ -292,11 +292,11 @@ function doGetCaretPosition (ctrl) {
 		$("#{JSID}li").click(function() {
 	       	insertOpenCloseTag("[*]", "");
 	       	settextisedited();
-		});	// li		
+		});	// li
 
 		/* img */
 		$("#{JSID}img").click(function() {
-	
+
 			var link=prompt("Please enter the link to the image","http://");
 			if (link!=null && link!="")
 		  	{
@@ -306,7 +306,7 @@ function doGetCaretPosition (ctrl) {
 	       		var text = sourcetext.substring(0, caretstart);
 	       		text = text + "[img]"+ link+"[/img]";
 	       		text = text + sourcetext.substring(caretend);
-	       		$("#{JSID}edittext").val(text);	
+	       		$("#{JSID}edittext").val(text);
 	       		//setcaret($("#{JSID}edittext"),caretend);
 	       		setcaret($("#{JSID}edittext"),caretstart+link.length+11);
 		  	}
@@ -317,7 +317,7 @@ function doGetCaretPosition (ctrl) {
 
 		  	settextisedited();
 		}); // img
-	
+
 		/* url */
 		$("#{JSID}url").click(function() {
 			var caretstart =getcaretstart($("#{JSID}edittext"));
@@ -363,7 +363,7 @@ function doGetCaretPosition (ctrl) {
 		  	}
 		  	settextisedited();
 		});	// url
-		
+
 
 		/* table */
 		$("#{JSID}table").click(function() {
@@ -417,7 +417,7 @@ function doGetCaretPosition (ctrl) {
 		$("#{JSID}styleform").children().each(function(index) {
 			$(this).on("click", function() {
 				var caretend =getcaretend($("#{JSID}edittext"));
-				
+
 				if ($(this).attr("value")!=0)
 			  	{
 		       		insertOpenCloseTag("[style="+$(this).attr("value")+"]", "[/style]");
@@ -427,9 +427,9 @@ function doGetCaretPosition (ctrl) {
 			  	}
       		});
 		}); // styleform
-					
+
 		/************* Action buttons *************/
-		
+
 		var elements = new Array();
 		elements[0] = $("#{JSID}previewbutton");
 		elements[1] = $("#{JSID}savebutton");
@@ -445,16 +445,16 @@ function doGetCaretPosition (ctrl) {
 		elements[11] = $("#{JSID}url");
 		elements[12] = $("#{JSID}styleform");
 		elements[13] = $("#{JSID}edittext");
-							
+
 		/* preview text */
 		$("#{JSID}previewbutton").click(function() {
 
 			disableElements(elements);
-		
+
 			$("#{JSID}status").html("Updating preview ....");
 			var sourcetext = cleanupquotes($("#{JSID}edittext").val());
 			$("#{JSID}edittext").val(sourcetext);
-			
+
        		postRequest(
 				projectroot+"admin/includes/ajax/editor/formatpreviewtext.php",
        			{
@@ -470,17 +470,17 @@ function doGetCaretPosition (ctrl) {
 				elements
 	    	); // post formatpreviewtext.php
 		}); // previewbutton
-		
+
 		/* save text and collapse if successful */
 		$("#{JSID}savebutton").click(function() {
 			disableElements(elements);
 			$("#{JSID}status").html("Saving now ... ");
 			$("#{JSID}previewarea").html("Fetching preview ...");
 			showprogressbox("Saving Text ... ");
-			
+
 			var sourcetext = cleanupquotes($("#{JSID}edittext").val());
 			$("#{JSID}edittext").val(sourcetext);
-			
+
       		postRequest(
 				projectroot+"admin/includes/ajax/editor/formatpreviewtext.php",
        			{
@@ -488,13 +488,13 @@ function doGetCaretPosition (ctrl) {
 	       		},
 	       		function(html)
 				{
-	       	
+
 		       		$("#{JSID}previewarea").html(html);
-		
+
 					var savestatus="";
-			       	
+
 			       	$("#{JSID}status").html("Saving "+$("#{JSID}elementtype").val()+" ... ");
-			       	
+
 		       		postRequest(
 	   					projectroot+"admin/includes/ajax/editor/savetext.php",
 		       			{
@@ -520,7 +520,7 @@ function doGetCaretPosition (ctrl) {
 				       		{
 				       			savestatus=element.text();
 					       		settextisnotedited();
-					       		
+
 					       		postRequest(
 				   					projectroot+"admin/includes/ajax/editor/collapseeditor.php",
 					       			{
@@ -531,7 +531,7 @@ function doGetCaretPosition (ctrl) {
 						       		},
 						       		function(html)
 				    				{
-				    					$("#{JSID}editorcontents").html(html); 
+				    					$("#{JSID}editorcontents").html(html);
 						       			addlistenersCollapsed();
 						       			$("#{JSID}status").html(savestatus);
 				    				},
@@ -540,17 +540,17 @@ function doGetCaretPosition (ctrl) {
 							} // else
 						},
 	    				elements
-			    	); // post savetext.php		       		
+			    	); // post savetext.php
 				},
 				elements
 	    	); // post formatpreviewtext.php
 		}); // savebutton
-		
+
 		/* reset edit status */
 		$("#{JSID}resetbutton").click(function() {
        		settextisnotedited();
 		});	// resetbutton
-		
+
 		/* collapse the editor */
 		$("#{JSID}hideeditorbutton").click(function() {
 			disableElements(elements);
@@ -560,9 +560,9 @@ function doGetCaretPosition (ctrl) {
 	       		$("#{JSID}status").html("Hiding editor ... ");
 	       		var sourcetext = cleanupquotes($("#{JSID}edittext").val());
 				$("#{JSID}edittext").val(sourcetext);
-	       		
+
 				$("#{JSID}previewarea").html("Fetching preview ...");
-				
+
 	       		postRequest(
 					projectroot+"admin/includes/ajax/editor/formatpreviewtext.php",
 	       			{
@@ -574,7 +574,7 @@ function doGetCaretPosition (ctrl) {
 					},
 					elements
 		    	); // post formatpreviewtext.php
-		    	
+
 	       		postRequest(
 					projectroot+"admin/includes/ajax/editor/editorcontentssavedialog.php",
 	       			{
@@ -586,19 +586,19 @@ function doGetCaretPosition (ctrl) {
 		       		},
 		       		function(html)
 					{
-						$("#{JSID}editorcontents").html(html); 
+						$("#{JSID}editorcontents").html(html);
 		       			addlistenersSaveDialog();
 					},
 					elements
 		    	); // post editorcontentssavedialog.php
 
-       		
+
        			$("#{JSID}status").html("Are you sure you wish to discard your changes?");
 	       	}
 	       	else
 	       	{
 	       		$("#{JSID}status").html("Hiding editor ... ");
-	       		
+
 	       		postRequest(
 					projectroot+"admin/includes/ajax/editor/collapseeditor.php",
 	       			{
@@ -609,7 +609,7 @@ function doGetCaretPosition (ctrl) {
 		       		},
 		       		function(html)
 					{
-						$("#{JSID}editorcontents").html(html); 
+						$("#{JSID}editorcontents").html(html);
 		       			addlistenersCollapsed();
 		       			$("#{JSID}status").html("");
 					},
@@ -619,8 +619,8 @@ function doGetCaretPosition (ctrl) {
 		}); // hideeditorbutton
 
 	} // addlistenersExpanded
-	
-	
+
+
 	/**
 	 * listeners when editor is closed without saving
 	 */
@@ -631,7 +631,7 @@ function doGetCaretPosition (ctrl) {
 			elements[1] = $("#{JSID}expandeditedbutton");
 			elements[2] = $("#{JSID}dismissbutton");
 
-			
+
 		/* save and collapse */
 		$("#{JSID}saveandcollapsebutton").click(function() {
 			disableElements(elements);
@@ -639,10 +639,10 @@ function doGetCaretPosition (ctrl) {
 			var savestatus="";
 			var sourcetext = cleanupquotes($("#{JSID}edittext").val());
 			$("#{JSID}edittext").val(sourcetext);
-			       	
+
 	       	$("#{JSID}status").html("Saving "+$("#{JSID}elementtype").val()+" ... ");
 	       	showprogressbox("Saving "+$("#{JSID}elementtype").val()+" ... ");
-	       	
+
        		postRequest(
 				projectroot+"admin/includes/ajax/editor/savetext.php",
        			{
@@ -659,7 +659,7 @@ function doGetCaretPosition (ctrl) {
 		       			$("#{JSID}status").html(savestatus);
 		       			alert(savestatus);
 		       			showmessage(savestatus);
-		       			
+
 			       		postRequest(
 							projectroot+"admin/includes/ajax/editor/expandeditor.php",
 			       			{
@@ -683,7 +683,7 @@ function doGetCaretPosition (ctrl) {
 		       			savestatus=html;
 			       		settextisnotedited();
 			       		showmessage(savestatus);
-			       		
+
 			       		postRequest(
 							projectroot+"admin/includes/ajax/editor/collapseeditor.php",
 			       			{
@@ -694,25 +694,25 @@ function doGetCaretPosition (ctrl) {
 				       		},
 				       		function(html)
 							{
-								$("#{JSID}editorcontents").html(html); 
+								$("#{JSID}editorcontents").html(html);
 				       			addlistenersCollapsed();
 					       		$("#{JSID}status").html(savestatus);
 							},
 							elements
 				    	); // post collapseeditor.php
-					} // else	       		
+					} // else
 				},
 				elements
 	    	); // post savetext.php
 		}); // saveandcollapsebutton
-		
-		/* discard changes */		
+
+		/* discard changes */
 		$("#{JSID}dismissbutton").click(function() {
 			disableElements(elements);
-		
+
        		$("#{JSID}status").html("Hiding editor ... ");
        		showmessage("Changes discarded");
-       		
+
        		// get text from database
        		$("#{JSID}previewarea").html("Fetching original text ...");
        		postRequest(
@@ -727,8 +727,8 @@ function doGetCaretPosition (ctrl) {
 					$("#{JSID}previewarea").html(html);
 				},
 				elements
-	    	); // post gettextfromdatabase.php   
-       		
+	    	); // post gettextfromdatabase.php
+
        		postRequest(
 				projectroot+"admin/includes/ajax/editor/collapseeditor.php",
        			{
@@ -739,22 +739,22 @@ function doGetCaretPosition (ctrl) {
 	       		},
 	       		function(html)
 				{
-					$("#{JSID}editorcontents").html(html); 
+					$("#{JSID}editorcontents").html(html);
 	       			addlistenersCollapsed();
 		       		$("#{JSID}status").html("");
 				},
 				elements
-	    	); // post collapseeditor.php      		
-       		
+	    	); // post collapseeditor.php
+
 		}); // dismissbutton
-	
+
 		/* expand the editor */
 		$("#{JSID}expandeditedbutton").click(function() {
 			disableElements(elements);
-		
+
 			$("#{JSID}status").html("Loading editor ...");
-			
-			
+
+
        		postRequest(
 				projectroot+"admin/includes/ajax/editor/expandeditor.php",
        			{
@@ -769,12 +769,12 @@ function doGetCaretPosition (ctrl) {
 	       			$("#{JSID}editorcontents").html(html);
 	       			settextisedited();
 	       			addlistenersExpanded();
-		       		$("#{JSID}status").html("");  
+		       		$("#{JSID}status").html("");
 				},
 				elements
-	    	); // post expandeditor.php  
+	    	); // post expandeditor.php
 
 		}); // expandeditedbutton
 	} // addlistenersSaveDialog
-	
+
 }); // document
