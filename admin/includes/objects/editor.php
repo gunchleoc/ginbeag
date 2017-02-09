@@ -55,6 +55,7 @@ class EditorContentsExpanded extends Template {
     {
     	parent::__construct($page.'-'.$item);
 
+		$hiddenvars["page"] = $page;
 		$hiddenvars["item"] = $item;
 		$hiddenvars["title"] = $title;
 		$hiddenvars["elementtype"] = $elementtype;
@@ -94,6 +95,7 @@ class EditorContentsCollapsed extends Template {
     {
     	parent::__construct($page.'-'.$item);
 
+		$hiddenvars["page"] = $page;
 		$hiddenvars["item"] = $item;
 		$hiddenvars["title"] = $title;
 		$hiddenvars["elementtype"] = $elementtype;
@@ -118,6 +120,7 @@ class EditorContentsSaveDialog extends Template {
     {
     	parent::__construct($page.'-'.$item);
 
+		$hiddenvars["page"] = $page;
 		$hiddenvars["item"] = $item;
 		$hiddenvars["title"] = $title;
 		$hiddenvars["elementtype"] = $elementtype;
