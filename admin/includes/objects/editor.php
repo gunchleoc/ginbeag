@@ -173,6 +173,10 @@ function geteditortext($page,$item, $elementtype)
   	{
     	$text=getdbelement("text",SPECIALTEXTS_TABLE,"id","guestbook");
   	}
+  	elseif($elementtype=="contact")
+  	{
+    	$text=getdbelement("text",SPECIALTEXTS_TABLE,"id","contact");
+  	}
   	return stripslashes($text);
 }
 

@@ -10,7 +10,8 @@
 </div>
 <div id="contentarea">
 	<!-- BEGIN switch BLANKFORM -->
-	<h2 class="pagetitle">{L_PAGEINTRO}</h2>
+	{INTRO}
+	<br />
 	{CONTACTFORM}
 	<!-- END switch BLANKFORM -->
 

@@ -22,6 +22,7 @@ class ContactPage extends Template {
 
 		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_contact")), "", $displaytype);
 		$this->vars['footer'] = new PageFooter();
+		$this->vars['intro'] = new PageIntro(utf8_decode(getlang("pageintro_contact")),getdbelement("text",SPECIALTEXTS_TABLE,"id","contact"), "", true, true, "left", false, "sectiontext");
 		$this->vars['navigator'] = new Navigator(0, 1, 0, $displaytype, false);
 
 		if(getproperty('Display Banners'))
@@ -49,7 +50,6 @@ class ContactPage extends Template {
 		else
 		{
 			$this->stringvars['blankform']="true";
-			$this->stringvars['l_pageintro']=getlang("pageintro_contact");
 			$this->vars['contactform']=new ContactForm("", "", "", true, $userid, $token, $displaytype);
 		}
  	}

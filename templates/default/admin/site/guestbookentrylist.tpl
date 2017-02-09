@@ -1,6 +1,7 @@
-<h1 class="headerpagetitle">Guestbook</h1>
+<h1 class="headerpagetitle">Contact & Guestbook</h1>
+{CONTACTINTRO}
+{GUESTBOOKINTRO}
 {ENABLEFORM}
-{INTROTEXT}
 
 <!-- BEGIN switch NO_ENTRIES -->
 <p class="highlight">{NO_ENTRIES}</p>

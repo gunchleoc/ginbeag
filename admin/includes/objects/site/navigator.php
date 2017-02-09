@@ -49,7 +49,7 @@ class SiteAdminNavigatorCategory extends Template {
 		// layout parameters
 		if(strlen($header)>0)
 		$this->stringvars['header']=$header;
-		
+
 		for($i=0;$i<count($links);$i++)
 		{
 			$this->listvars['link'][]=$links[$i];
@@ -91,12 +91,12 @@ class SiteAdminNavigator extends Template {
 	function SiteAdminNavigator()
 	{
 		parent::__construct();
-		
+
 		$links=array();
 		$links[]= new SiteAdminNavigatorLink("Site Statistics","sitestats");
 		$this->listvars['category'][]= new SiteAdminNavigatorCategory("Site",$links);
-		
-		
+
+
 		$links=array();
 		if(isadmin())
 		{
@@ -104,17 +104,17 @@ class SiteAdminNavigator extends Template {
 		}
 		$links[]= new SiteAdminNavigatorLink("Restricted Pages","sitepagerestrict");
 		$this->listvars['category'][]= new SiteAdminNavigatorCategory("Pages",$links);
-		
+
 		$links=array();
 		if(isadmin())
 		{
 			$links[]= new SiteAdminNavigatorLink("Site Layout","sitelayout");
 			$links[]= new SiteAdminNavigatorLink("Items of the Day","siteiotd");
-			$links[]= new SiteAdminNavigatorLink("Guestbook","siteguest");
+			$links[]= new SiteAdminNavigatorLink("Contact & Guestbook","siteguest");
 			$links[]= new SiteAdminNavigatorLink("Site Policy","sitepolicy");
 			$links[]= new SiteAdminNavigatorLink("Banners","sitebanner");
 			$this->listvars['category'][]= new SiteAdminNavigatorCategory("Features &amp; Layout",$links);
-			
+
 			$links=array();
 			$links[]= new SiteAdminNavigatorLink("Technical Setup","sitetech");
 			$links[]= new SiteAdminNavigatorLink("Database Utilities","sitedb");

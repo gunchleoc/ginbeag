@@ -68,6 +68,11 @@ else {
 		$success=updatefield(SPECIALTEXTS_TABLE,"text",addslashes(utf8_decode($text)),"id = 'guestbook'");
 		if($success) $message= "Saved guestbook text";
 	}
+	elseif($elementtype=="contact")
+	{
+		$success=updatefield(SPECIALTEXTS_TABLE,"text",addslashes(utf8_decode($text)),"id = 'contact'");
+		if($success) $message= "Saved contact form intro text";
+	}
 
 
 	if($success)

@@ -23,7 +23,8 @@ class AdminGuestbookEntryList extends Template {
 
 		$this->vars['enableform'] = new AdminGuestbookEnableForm();
 
-		$this->vars['introtext']= new Editor($this->stringvars['page'],0,"guestbook","Guestbook Intro");
+		$this->vars['guestbookintro']= new Editor($this->stringvars['page'],0,"guestbook","Guestbook Intro");
+		$this->vars['contactintro']= new Editor($this->stringvars['page'],0,"contact","Contact Form Intro");
 
 		$this->vars['pagemenu']=new PageMenu($offset, $number, countguestbookentries(), array("action" => "siteguest"));
 
