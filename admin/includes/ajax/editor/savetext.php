@@ -63,6 +63,12 @@ else {
 		$success=updatefield(SPECIALTEXTS_TABLE,"text",addslashes(utf8_decode($text)),"id = 'sitepolicy'");
 		if($success) $message= "Saved sitepolicy text";
 	}
+	elseif($elementtype=="guestbook")
+	{
+		$success=updatefield(SPECIALTEXTS_TABLE,"text",addslashes(utf8_decode($text)),"id = 'guestbook'");
+		if($success) $message= "Saved guestbook text";
+	}
+
 
 	if($success)
 	{

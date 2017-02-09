@@ -7,6 +7,7 @@ include_once($projectroot."includes/objects/template.php");
 include_once($projectroot."includes/objects/page.php");
 include_once($projectroot."functions/guestbook.php");
 include_once($projectroot."includes/objects/elements.php");
+include_once($projectroot."admin/includes/objects/editor.php");
 include_once($projectroot."admin/includes/objects/forms.php");
 
 
@@ -21,6 +22,8 @@ class AdminGuestbookEntryList extends Template {
   		$entries=getguestbookentries($number,$offset);
 
 		$this->vars['enableform'] = new AdminGuestbookEnableForm();
+
+		$this->vars['introtext']= new Editor($this->stringvars['page'],0,"guestbook","Guestbook Intro");
 
 		$this->vars['pagemenu']=new PageMenu($offset, $number, countguestbookentries(), array("action" => "siteguest"));
 

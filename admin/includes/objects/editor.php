@@ -169,6 +169,10 @@ function geteditortext($page,$item, $elementtype)
   	{
     	$text=getdbelement("text",SPECIALTEXTS_TABLE,"id","sitepolicy");
   	}
+  	elseif($elementtype=="guestbook")
+  	{
+    	$text=getdbelement("text",SPECIALTEXTS_TABLE,"id","guestbook");
+  	}
   	return stripslashes($text);
 }
 

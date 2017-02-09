@@ -10,7 +10,9 @@
 </div>
 <div id="contentarea">
 
+<!-- BEGIN switch GUESTBOOKFORM -->
 <h2 class="pagetitle">{TITLE}</h2>
+<!-- END switch GUESTBOOKFORM -->
 
 <!-- BEGIN switch DISABLED -->
 <p class="highlight">{DISABLED}</p>
@@ -53,8 +55,9 @@
 	</form>
 	<!-- END switch RETURN -->
 
-
 	<!-- BEGIN switch LEAVEMESSAGE -->
+	{INTRO}
+	<br />
 	<form name="postform" method="post">
 		<input type="submit" name="post" value="{LEAVEMESSAGE}" class="mainoption" />
 	</form>

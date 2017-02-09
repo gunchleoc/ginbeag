@@ -18,6 +18,7 @@ class Guestbook extends Template {
     	parent::__construct();
 
 		$this->stringvars['title'] = $title;
+		$this->vars['intro'] = new PageIntro(utf8_decode($title),getdbelement("text",SPECIALTEXTS_TABLE,"id","guestbook"), "", true, true, "left", false, "sectiontext");
 		if(ismobile()) $displaytype = "mobile";
 		else $displaytype = "page";
 

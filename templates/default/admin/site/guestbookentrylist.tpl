@@ -1,5 +1,6 @@
 <h1 class="headerpagetitle">Guestbook</h1>
 {ENABLEFORM}
+{INTROTEXT}
 
 <!-- BEGIN switch NO_ENTRIES -->
 <p class="highlight">{NO_ENTRIES}</p>
