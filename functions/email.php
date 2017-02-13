@@ -29,6 +29,31 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 	global $_POST, $emailvariables;
 	$result="";
 
+	// Spam words
+	$spamwords_subject = explode("\n",$emailvariables['Spam Words Subject']['property_value']);
+	$spamwords_content = explode("\n",$emailvariables['Spam Words Content']['property_value']);
+	$spamwords = false;
+	foreach ($spamwords_subject as $spamword)
+	{
+		if(match_spamword($subject, $spamword))
+		{
+			$spamwords = true;
+			break;
+		}
+	}
+	foreach ($spamwords_content as $spamword)
+	{
+		if(match_spamword($messagetext, $spamword))
+		{
+			$spamwords = true;
+			break;
+		}
+	}
+
+	if($spamwords) {
+		return errormessage("email_generic_error");
+	}
+
 
 	// check e-mail addy
 	if($addy=="")
@@ -57,29 +82,6 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 		{
 			$result.=errormessage("email_wrongmathcaptcha");
 		}
-	}
-	$spamwords_subject = explode("\n",$emailvariables['Spam Words Subject']['property_value']);
-	$spamwords_content = explode("\n",$emailvariables['Spam Words Content']['property_value']);
-	$spamwords = false;
-	foreach ($spamwords_subject as $spamword)
-	{
-		if(match_spamword($subject, $spamword))
-		{
-			$spamwords = true;
-			break;
-		}
-	}
-	foreach ($spamwords_content as $spamword)
-	{
-		if(match_spamword($messagetext, $spamword))
-		{
-			$spamwords = true;
-			break;
-		}
-	}
-
-	if($spamwords) {
-		$result.=errormessage("email_spamwords");
 	}
 	return $result;
 }
