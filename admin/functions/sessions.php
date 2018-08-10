@@ -277,8 +277,10 @@ function isloggedin()
 	$userid=getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $sid);
 	if(!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) return false;
 
+/* Remove IP check
 	$clientip=getclientip();
 	if (isset($_COOKIE[$cookieprefix."clientip"]) && substr($_COOKIE[$cookieprefix."clientip"],0,6)!=substr($clientip,0,6)) return false;
+*/
 
 	if(timeout($sid)) return false;
 
