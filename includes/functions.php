@@ -300,7 +300,7 @@ function text2html($text)
 	$text = preg_replace($patterns,$replacements, $text);
 
 	// Auto URL
-	$text = preg_replace("/(https?:\/\/(\S*))(\/?)(\s|$)/", '<a href="\\1\\3">\\2</a>\\4', $text);
+	$text = preg_replace("/(\s|^)(https?:\/\/(\S*))(\/?)(\s|$)/", '<a href="\\2\\4">\\3</a>\\5', $text);
 
 	//remove sid from local links
 	$serverprotocol=getproperties()['Server Protocol'];
