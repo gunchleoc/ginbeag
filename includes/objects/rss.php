@@ -123,7 +123,7 @@ function link2xml($link)
 	$url=parse_url($link);
     $result="";
     if(isset($url['scheme']) && $url['scheme']) $result.=$url['scheme'].'://';
-    elseif(isset($url['host']) && $url['host']) $result.='http://'.$url['host'];
+    elseif(isset($url['host']) && $url['host']) $result.=getproperty("Server Protocol").$url['host'];
     return $result;
 }
 
