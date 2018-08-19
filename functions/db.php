@@ -27,6 +27,7 @@ $allowedscripts[]=$root4array."admin/includes/ajax/editor/collapseeditor.php";
 $allowedscripts[]=$root4array."admin/includes/ajax/editor/editorcontentssavedialog.php";
 $allowedscripts[]=$root4array."admin/includes/ajax/editor/expandeditor.php";
 $allowedscripts[]=$root4array."admin/includes/ajax/editor/formatpreviewtext.php";
+$allowedscripts[]=$root4array."admin/includes/ajax/editor/getserverprotocol.php";
 $allowedscripts[]=$root4array."admin/includes/ajax/editor/gettextfromdatabase.php";
 $allowedscripts[]=$root4array."admin/includes/ajax/editor/savetext.php";
 $allowedscripts[]=$root4array."admin/includes/ajax/galleries/saveimage.php";

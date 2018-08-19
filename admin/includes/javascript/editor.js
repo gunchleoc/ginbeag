@@ -296,72 +296,84 @@ function doGetCaretPosition (ctrl) {
 
 		/* img */
 		$("#{JSID}img").click(function() {
-
-			var link=prompt("Please enter the link to the image","http://");
-			if (link!=null && link!="")
-		  	{
-				var caretstart =getcaretstart($("#{JSID}edittext"));
-				var caretend =getcaretend($("#{JSID}edittext"));
-		  		var sourcetext = $("#{JSID}edittext").val();
-	       		var text = sourcetext.substring(0, caretstart);
-	       		text = text + "[img]"+ link+"[/img]";
-	       		text = text + sourcetext.substring(caretend);
-	       		$("#{JSID}edittext").val(text);
-	       		//setcaret($("#{JSID}edittext"),caretend);
-	       		setcaret($("#{JSID}edittext"),caretstart+link.length+11);
-		  	}
-		  	else
-		  	{
-	       		insertOpenCloseTag("[img]", "[/img]");
-		  	}
-
-		  	settextisedited();
+			postRequest(
+				projectroot+"admin/includes/ajax/editor/getserverprotocol.php",
+				{},
+				function(text)
+				{
+					var link=prompt("Please enter the link to the image",text);
+					if (link!=null && link!="")
+					{
+						var caretstart =getcaretstart($("#{JSID}edittext"));
+						var caretend =getcaretend($("#{JSID}edittext"));
+						var sourcetext = $("#{JSID}edittext").val();
+							var text = sourcetext.substring(0, caretstart);
+							text = text + "[img]"+ link+"[/img]";
+							text = text + sourcetext.substring(caretend);
+							$("#{JSID}edittext").val(text);
+							//setcaret($("#{JSID}edittext"),caretend);
+							setcaret($("#{JSID}edittext"),caretstart+link.length+11);
+					}
+					else
+					{
+							insertOpenCloseTag("[img]", "[/img]");
+					}
+					settextisedited();
+				},
+			); // post
 		}); // img
 
 		/* url */
 		$("#{JSID}url").click(function() {
-			var caretstart =getcaretstart($("#{JSID}edittext"));
-	       	var caretend =getcaretend($("#{JSID}edittext"));
-	       	if(caretstart<caretend)
-	       	{
-	       		var address=prompt("Please enter the URL address","http://");
-				if (address!=null && address!="")
-		  		{
-		  			insertOpenCloseTag("[url="+address+"]", "[/url]");
-		  		}
-		  		else
-		  		{
-		  			insertOpenCloseTag("[url]", "[/url]");
-		  		}
-	       	}
-	       	else
-	       	{
-				var address=prompt("Please enter the link address","http://");
-				if (address!=null && address!="")
-		  		{
-		  			var name=prompt("Please enter link title to be displayed","Title");
-					if (name!=null && name!="")
-		  			{
-		  				var sourcetext = $("#{JSID}edittext").val();
-	       				var text = sourcetext.substring(0, caretstart);
-	       				var tag ="[url="+address+"]"+ name+"[/url]"
-	       				text = text + tag;
-	       				text = text + sourcetext.substring(caretend);
-		  				$("#{JSID}edittext").val(text);
-		  				//setcaret($("#{JSID}edittext"),caretend+tag.length);
-		  				setcaret($("#{JSID}edittext"),caretstart+address.length+name.length+12);
-		  			}
-		  			else
-		  			{
-		  				insertOpenCloseTag("[url="+address+"]", "[/url]");
-		  			}
-		  		}
-		  		else
-		  		{
-		  			insertOpenCloseTag("[url]", "[/url]");
-		  		}
-		  	}
-		  	settextisedited();
+			postRequest(
+				projectroot+"admin/includes/ajax/editor/getserverprotocol.php",
+				{},
+				function(serverprotocoltext)
+				{
+					var caretstart =getcaretstart($("#{JSID}edittext"));
+					var caretend =getcaretend($("#{JSID}edittext"));
+					if(caretstart<caretend)
+					{
+						var address=prompt("Please enter the URL address",serverprotocoltext);
+					if (address!=null && address!="")
+					{
+						insertOpenCloseTag("[url="+address+"]", "[/url]");
+					}
+					else
+					{
+						insertOpenCloseTag("[url]", "[/url]");
+					}
+					}
+					else
+					{
+						var address=prompt("Please enter the link address",serverprotocoltext);
+						if (address!=null && address!="")
+						{
+							var name=prompt("Please enter link title to be displayed","Title");
+							if (name!=null && name!="")
+							{
+								var sourcetext = $("#{JSID}edittext").val();
+									var text = sourcetext.substring(0, caretstart);
+									var tag ="[url="+address+"]"+ name+"[/url]"
+									text = text + tag;
+									text = text + sourcetext.substring(caretend);
+								$("#{JSID}edittext").val(text);
+								//setcaret($("#{JSID}edittext"),caretend+tag.length);
+								setcaret($("#{JSID}edittext"),caretstart+address.length+name.length+12);
+							}
+							else
+						{
+								insertOpenCloseTag("[url="+address+"]", "[/url]");
+							}
+						}
+						else
+						{
+							insertOpenCloseTag("[url]", "[/url]");
+						}
+					}
+					settextisedited();
+				},
+	    	); // post
 		});	// url
 
 
