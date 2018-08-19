@@ -35,7 +35,7 @@ class SiteLayout extends Template {
 		$this->stringvars['sitename']=input2html($properties["Site Name"]);
 		$this->stringvars['sitedescription']=input2html($properties["Site Description"]);
 
-		$this->stringvars['uploadpath']='http://'.getproperty('Domain Name').'/'.getproperty('Local Path').'/img';
+		$this->stringvars['uploadpath']=$properties['Server Protocol'].$properties['Domain Name'].'/'.$properties['Local Path'].'/img';
 
 		$this->stringvars['leftimage']=$properties["Left Header Image"];
 		$this->stringvars['leftlink']=$properties["Left Header Link"];

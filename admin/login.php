@@ -21,6 +21,7 @@ $message="";
 $username="";
 if (isset($_POST['user'])) $username=urldecode($_POST['user']);
 elseif (isset($_GET['user'])) $username=urldecode($_GET['user']);
+$serverprotocol=getproperties()['Server Protocol'];
 
 if(!isset($_GET["referrer"]) && isset($_SERVER["HTTP_REFERER"]))
 {
@@ -30,7 +31,7 @@ if(!isset($_GET["referrer"]) && isset($_SERVER["HTTP_REFERER"]))
 	$_GET["referrer"]=$referrer;
 
 	$action=substr($_SERVER["HTTP_REFERER"],strpos($_SERVER["HTTP_REFERER"],"action"));
-	if(strpos($action,"http://")<0)
+	if(strpos($action,$serverprotocol)<0)
 	{
 		$action=substr($action,strpos($action,"="));
 		$action=substr($action,0,strpos($action,"&"));
@@ -46,7 +47,7 @@ if(!isset($_GET["referrer"]) && isset($_SERVER["HTTP_REFERER"]))
 	}
 
 	$params=substr($_SERVER["HTTP_REFERER"],strpos($_SERVER["HTTP_REFERER"],"?"));
-	if(strpos($params,"http://")<0)
+	if(strpos($params,$serverprotocol)<0)
 	{
 		$_GET["params"]=$params;
 	}

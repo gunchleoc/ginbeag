@@ -48,7 +48,7 @@ function striptitletags($title)
 	$title = preg_replace($patterns,$replacements, $title);
     $title=str_replace('<','&lt;', $title);
   	$title=str_replace('>','&gt;', $title);
-  	
+
 	// Remove HTML tags
 	// todo: allowtags in site properties
 	$remove=array();
@@ -299,20 +299,19 @@ function text2html($text)
 	);
 	$text = preg_replace($patterns,$replacements, $text);
 
-	// adam at releod dot com
-	// auto URL
-	$text = preg_replace("/(http:\/\/(.*)\/)[\s]/", "<a href=\\1>\\1</a> ", $text);
-	//$text = preg_replace("/(http:\/\/([w|\/|\.]*)[\W])/", "dummy", $text);
+	// Auto URL
+	$text = preg_replace("/(https?:\/\/(\S*))(\/?)(\s|$)/", '<a href="\\1\\3">\\2</a>\\4', $text);
 
 	//remove sid from local links
+	$serverprotocol=getproperties()['Server Protocol'];
 	$patterns = array(
-		"/http:(.*?)".getproperty("Domain Name")."(.*?)(sid=)(\w*?)(&)/",
-		"/http:(.*?)".getproperty("Domain Name")."(.*?)(\?sid=|&sid=)(\w*?)(\W|\s|$)/",
+		"/http(s){0,1}:(.*?)".getproperty("Domain Name")."(.*?)(sid=)(\w*?)(&)/",
+		"/http(s){0,1}:(.*?)".getproperty("Domain Name")."(.*?)(\?sid=|&sid=)(\w*?)(\W|\s|$)/",
 		"/(".str_replace("/","\/",getprojectrootlinkpath()).")(index|.*admin.*|.*includes.*|.*functions.*)(.php)(.*)/"
 	);
 	$replacements = array(
-		"http:\\2",
-		"http:\\2\\5",
+		$serverprotocol.getproperty("Domain Name")."\\3",
+		$serverprotocol.getproperty("Domain Name")."\\3\\6",
 		"\\4"
 	);
 	$text = preg_replace($patterns,$replacements, $text);
@@ -521,7 +520,7 @@ function getimagelinkpath($filename,$subpath)
 	$localpath=getproperty("Local Path");
 	$domain=getproperty("Domain Name");
 	$imagepath=getproperty("Image Upload Path");
-	$result='http://'.$domain.'/';
+	$result=getproperties()['Server Protocol'].$domain.'/';
 	if($localpath) $result.=$localpath.'/';
 	$result.=$imagepath.$subpath.'/'.rawurlencode(basename($filename));
 	return $result;
@@ -553,7 +552,7 @@ function getbannerlinkpath($filename)
 {
 	$localpath=getproperty("Local Path");
 	$domain=getproperty("Domain Name");
-	$result='http://'.$domain.'/';
+	$result=getproperties()['Server Protocol'].$domain.'/';
 	if($localpath) $result.=$localpath.'/';
 	return $result.'img/banners/'.rawurlencode(basename($filename));
 }
@@ -566,7 +565,7 @@ function getprojectrootlinkpath()
 {
 	$localpath=getproperty("Local Path");
 	$domain=getproperty("Domain Name");
-	$result='http://'.$domain.'/';
+	$result=getproperties()['Server Protocol'].$domain.'/';
 	if($localpath) $result.=$localpath.'/';
 	return $result;
 }
