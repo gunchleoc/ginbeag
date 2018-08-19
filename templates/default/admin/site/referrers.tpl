@@ -8,7 +8,7 @@
 			<label for="referrer">The site to be blocked: </label>
         	<input id="referrer" type="text" name="referrer" value="" />
         	<input type="submit" name="block" value="Block this site" class="mainoption" />
-   			<div class="formexplain">Keeps a site from linking to us. Do not add the protocol, e.g. <em>http://</em></div>
+   			<div class="formexplain">Keeps a site from linking to us. Do not add the protocol, e.g. <em>http://</em> or <em>https://</em></div>
       	</form>
 	</div>
 </div>

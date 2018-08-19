@@ -24,7 +24,7 @@
 
 						<br /><label for="{JSID}sourcelink">Source URL: </label>
 						<input id="{JSID}sourcelink" type="text" name="sourcelink" value="{SOURCELINK}" size="30" maxlength="255" />
-						<div class="formexplain">Link to the website you got the image from, starting with the protocol, e.g. <em>http://</em>.</div>
+						<div class="formexplain">Link to the website you got the image from, starting with the protocol, e.g. <em>https://</em>.</div>
 
 						<br /><label for="{JSID}copyright">Copyright Holder: </label>
 						<input id="{JSID}copyright" type="text" name="copyright" value="{COPYRIGHT}" size="30" maxlength="255" />

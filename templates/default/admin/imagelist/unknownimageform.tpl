@@ -28,7 +28,7 @@
 
 						<br /><label for="addimagesourcelink">Source URL: </label>
 						<input id="addimagesourcelink" type="text" name="sourcelink" value="" size="30" maxlength="255" />
-						<div class="formexplain">Optional. Link to the website you got the image from, starting with the protocol, e.g. <em>http://</em>.</div>
+						<div class="formexplain">Optional. Link to the website you got the image from, starting with the protocol, e.g. <em>https://</em>.</div>
 
 						<br /><label for="addimagecopyright">Copyright Holder: </label>
 						<input id="addimagecopyright" type="text" name="copyright" value="" size="30" maxlength="255" />
