@@ -56,6 +56,7 @@ class RSSPage extends Template {
 		$this->stringvars['link']=$rootlink.'index.php'.makelinkparameters(array("page" => $page));
     	$this->stringvars['description']=html2xml(title2html(getpagetitle($page)));
 		$this->stringvars['language']=$defaultlanguage;
+		$this->stringvars['serverprotocol']=getproperty("Server Protocol");
 
 		$permissions=getcopyright($page);
 		$this->stringvars['copyright']=html2xml(title2html($permissions['copyright']));

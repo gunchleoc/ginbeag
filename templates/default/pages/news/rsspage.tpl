@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="0.91" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rss version="0.91" xmlns:content="{SERVERPROTOCOL}purl.org/rss/1.0/modules/content/" xmlns:rdf="{SERVERPROTOCOL}www.w3.org/1999/02/22-rdf-syntax-ns#">
 	<channel>
 		<title><![CDATA[{TITLE}]]></title>
 		<link><![CDATA[{LINK}]]></link>
