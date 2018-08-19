@@ -25,6 +25,7 @@ class SiteTechnical extends Template {
   		$properties=getproperties();
 
   		$this->stringvars["googlekeywords"]=input2html($properties["Google Keywords"]);
+  		$this->vars['serverprotocolform']= new OptionForm($properties["Server Protocol"],array(0 => "http://", 1 => "https://"),array(0 => "Unencrypted (http://)", 1 => "Encrypted (https://)"), "serverprotocol");
   		$this->stringvars["domainname"]=$properties["Domain Name"];
   		$this->stringvars["localpath"]=$properties["Local Path"];
   		$this->stringvars["cookieprefix"]=$properties["Cookie Prefix"];

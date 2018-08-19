@@ -23,6 +23,7 @@ $error = false;
 if($postaction=='savesite' && isset($_POST['submit']))
 {
 	$properties['Google Keywords']=$db->setstring(trim($_POST['keywords']));
+	$properties['Server Protocol']=$db->setstring(trim($_POST['serverprotocol']));
 	$properties['Domain Name']=$db->setstring(trim($_POST['domainname']));
 	$properties['Local Path']=$db->setstring(trim($_POST['localpath']));
 	$properties['Cookie Prefix']=$db->setstring(trim($_POST['cookieprefix']));

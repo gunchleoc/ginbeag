@@ -11,6 +11,10 @@
 		</fieldset>
 		<fieldset>
 			<legend class="highlight">Site setup</legend>
+			<label for="domainname">Server Protocol:</label>
+			{SERVERPROTOCOLFORM}
+			<div class="formexplain">The server protocol - <em>http://</em> or <em>https://</em>.</div>
+			<br />
 			<label for="domainname">Domain Name:</label>
 			<input id="domainname" type="text" name="domainname" size="50" maxlength="255" value="{DOMAINNAME}" />
 			<div class="formexplain">The internet name of your webserver.</div>

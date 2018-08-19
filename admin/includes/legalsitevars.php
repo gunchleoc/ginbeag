@@ -25,6 +25,7 @@ $LEGALVARS["type"]=1;
 $LEGALVARS["userid"]=1;
 $LEGALVARS["username"]=1;
 $LEGALVARS["sitestats"]=1;
+$LEGALVARS["serverprotocol"]=1;
 
 $getkeys=array_keys($_GET);
 
