@@ -325,6 +325,15 @@ function text2html($text)
 	);
 	$text = preg_replace($patterns,$replacements, $text);
 
+	// Make sure that we're using the correct protocol for site-internal links
+	if (getproperty("Server Protocol") == "https://")
+	{
+		$text = str_replace('http://'.getproperty("Domain Name"),getproperty("Server Protocol").getproperty("Domain Name"), $text);
+	} else
+	{
+		$text = str_replace('https://'.getproperty("Domain Name"),getproperty("Server Protocol").getproperty("Domain Name"), $text);
+	}
+
 	// restore HTML tags
 	// todo: allowtags in site properties
 	$preserve=array();
