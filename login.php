@@ -55,7 +55,7 @@ if(isset($_POST['user']))
 		}
 		else
 		{
-			$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
+			$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")), "");
 			$loginform = new LoginForm($user,$login['message']);
 			$footer = new PageFooter();
 		}

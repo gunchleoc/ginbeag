@@ -2,7 +2,7 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"functions"));
 
-include_once($projectroot."functions/db.php");
+include_once($projectroot."functions/cookies.php");
 include_once($projectroot."functions/pages.php");
 include_once($projectroot."functions/users.php");
 include_once($projectroot."functions/treefunctions.php");
@@ -43,7 +43,10 @@ function publiclogin($username,$password)
 			if(checkpublicpassword($username,$password))
 			{
 				$result['sid']=createpublicsession($user,$ip,1);
-				if($result['sid']) $result['message']=getlang("login_success");
+				if($result['sid']) {
+					$result['message']=getlang("login_success");
+					set_session_cookie(false,$result['sid'],$ip);
+				}
 				else $result['message']=getlang("login_error_sessionfail");
 			}
 			else
@@ -80,6 +83,7 @@ function checkpublicpassword($username,$md5password)
 function deletesession($sid)
 {
 	global $db;
+	set_session_cookie(false,"","");
 	return deleteentry(PUBLICSESSIONS_TABLE, "session_id= '".$db->setstring($sid)."';");
 }
 
@@ -322,6 +326,7 @@ function ispublicsessionvalid($sid)
 //
 function ispublicuseripbanned($ip)
 {
+	if ($ip=="") return false;
 	// only for PHP 4 $ip=ip2long($ip);
 	$dbip = getdbelement("ip",RESTRICTEDPAGESBANNEDIPS_TABLE, "ip", $ip);
 	return $dbip == $ip;

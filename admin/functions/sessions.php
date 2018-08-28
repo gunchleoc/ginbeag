@@ -2,7 +2,7 @@
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
-include_once($projectroot."functions/db.php");
+include_once($projectroot."functions/cookies.php");
 include_once($projectroot."admin/functions/pagesmod.php");
 include_once($projectroot."functions/users.php");
 include_once($projectroot."includes/includes.php");
@@ -88,14 +88,7 @@ function logout()
 {
 	global $db;
 
-	$cookieprefix = getproperty("Cookie Prefix");
-	$cookiedomain = getproperty("Domain Name");
-	$localpath =makecookiepath();
-
-
-	setcookie($cookieprefix."sid", "",1, $localpath, $cookiedomain, 0, 1);
-	setcookie($cookieprefix."userid", "", 1, $localpath, $cookiedomain, 0, 1);
-	setcookie($cookieprefix."clientip", "", 1, $localpath, $cookiedomain, 0, 1);
+	set_session_cookie(true,"","");
 
 	unlockuserpages();
   	optimizetable(LOCKS_TABLE);
@@ -106,19 +99,6 @@ function logout()
   	optimizetable(SESSIONS_TABLE);
   	clearoldpagecacheentries();
 }
-
-
-//
-//
-//
-function makecookiepath()
-{
-	$localpath =getproperty("Local Path");
-	$localpath=$localpath."/admin/";
-	if(!str_startswith($localpath,"/")) $localpath="/".$localpath;
-	return $localpath;
-}
-
 
 //
 //
@@ -165,7 +145,6 @@ function createsession($user)
 
   	$result="";
 
-  	$ip=getclientip();
   	$now=strtotime('now');
 
   	mt_srand(make_seed());
@@ -187,16 +166,7 @@ function createsession($user)
 
   	$sql=insertentry(SESSIONS_TABLE,$values);
 
-  	$cookieprefix = getproperty("Cookie Prefix");
-  	$cookiedomain = getproperty("Domain Name");
-	$localpath =makecookiepath();
-
-	setcookie($cookieprefix."userid", $user,0, $localpath, $cookiedomain, 0, 1);
-	setcookie($cookieprefix."sid", $sid,0, $localpath, $cookiedomain, 0, 1);
-	setcookie($cookieprefix."clientip", $ip,0, $localpath, $cookiedomain, 0, 1);
-
-	//print("testing Domain=".$cookiedomain);
-	//print("<br>testing path=".$localpath);
+  	set_session_cookie(true,$sid,$user);
   	return $sid;
 }
 
@@ -276,11 +246,6 @@ function isloggedin()
 
 	$userid=getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $sid);
 	if(!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) return false;
-
-/* Remove IP check
-	$clientip=getclientip();
-	if (isset($_COOKIE[$cookieprefix."clientip"]) && substr($_COOKIE[$cookieprefix."clientip"],0,6)!=substr($clientip,0,6)) return false;
-*/
 
 	if(timeout($sid)) return false;
 
