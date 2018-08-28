@@ -79,11 +79,9 @@ function doGetCaretPosition (ctrl) {
 		// Opera adds 1 pos per line break, undo this
 		if(navigator.userAgent.substring(0,5) == "Opera")
 		{
-			//alert("hallo");
 			var splitme = element.val().substring(0,result);
 			var split = splitme.split("\n");
 			result=result-split.length+1;
-			//alert(result);
 		}
 
 		return result;
@@ -522,7 +520,7 @@ function doGetCaretPosition (ctrl) {
 							var error = element.attr("error");
 							if(error =="1")
 							{
-								alert(element.text());
+									alert(element.text());
 				       			savestatus=savestatusfailedmessage();
 				       			$("#{JSID}status").html(savestatus);
 				       			alert(savestatus);
