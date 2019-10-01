@@ -279,8 +279,7 @@ function getpictureoftheday()
 		if($sql)
 		{
 			// get column
-			while($row=mysql_fetch_row($sql))
-			{
+			while ($row = $sql->fetch_row()) {
 				array_push($images,$row[0]);
 			}
 		}

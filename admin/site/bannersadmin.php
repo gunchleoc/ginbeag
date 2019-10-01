@@ -145,9 +145,14 @@ elseif($postaction=='deletebanner')
 
 elseif($postaction=='displaybanners')
 {
-	updateentries(SITEPROPERTIES_TABLE, array('Display Banners' => $_POST['toggledisplaybanners']), "property_name", "property_value");
-	$properties = getproperties(); // need to update global variable
-	$message .= "Changed banner display options";
+	$success = updateentries(SITEPROPERTIES_TABLE, array('Display Banners' => $_POST['toggledisplaybanners']), "property_name", "property_value");
+	if ($success) {
+		$properties = getproperties(); // need to update global variable
+		$message .= "Changed banner display options";
+	} else {
+		$message = "Failed to save Guestbook properties";
+		$error = true;
+	}
 }
 
 unset($_POST['bannerid']);

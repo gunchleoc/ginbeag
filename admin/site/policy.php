@@ -27,13 +27,10 @@ if($postaction=='savesite')
 
 	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
 
-	if($success="1")
-	{
+	if ($success) {
 		$message="Site policy settings saved";
-	}
-	else
-	{
-		$message="Failed to save site policy".$sql;
+	} else {
+		$message="Failed to save site policy";
 	}
 }
 

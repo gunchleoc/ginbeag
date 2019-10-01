@@ -108,7 +108,7 @@ function createresizedimage($oldfile, $newfile, $pixels, $widthonly = false)
 				}
 			}
 		}
-		else print("File not found: ".basename($oldfile));
+		else if (DEBUG) print("File not found: ".basename($oldfile));
 	}
 	else print("No GD extension found");
 	return $success;

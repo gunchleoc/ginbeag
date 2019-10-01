@@ -3,9 +3,13 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 // security check: restrict which calling scripts can write files
-if(!($_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/admin.php")
-	||$_SERVER["SCRIPT_FILENAME"] === str_replace("\\","/",$projectroot."admin/editimagelist.php")))
-	die;
+$allowedscripts = array(
+	"admin/admin.php",
+	"admin/editimagelist.php"
+);
+
+if(!in_array(substr($_SERVER["SCRIPT_FILENAME"], strlen($_SERVER["DOCUMENT_ROOT"] . "/" . $installdir)),$allowedscripts)) die;
+
 
 include_once($projectroot."functions/imagefiles.php");
 

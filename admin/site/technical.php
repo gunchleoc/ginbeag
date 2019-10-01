@@ -39,12 +39,9 @@ if($postaction=='savesite' && isset($_POST['submit']))
 
 	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
 
-	if($success="1")
-	{
+	if ($success) {
 		$message="Technical setup saved";
-	}
-	else
-	{
+	} else {
 		$message = "Failed to save technical setup".$sql;
 		$error = true;
 	}

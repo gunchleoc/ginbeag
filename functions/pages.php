@@ -53,8 +53,7 @@ function getarticleoftheday()
 			if($sql)
 			{
 				// get column
-				while($row=mysql_fetch_row($sql))
-				{
+				while ($row = $sql->fetch_row()) {
 					if(!ispagerestricted($row[0]))
 					{
 						array_push($pagesforselection,$row[0]);
@@ -374,8 +373,7 @@ function updatepagestats($page)
 		if($sql)
 		{
 			// get column
-			while($row=mysql_fetch_row($sql))
-			{
+			while ($row = $sql->fetch_row()) {
 				array_push($stats,array($row[0],$row[1]));
 			}
 		}

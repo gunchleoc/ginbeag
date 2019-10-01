@@ -1,97 +1,102 @@
 <?php
 $projectroot=dirname(__FILE__);
+
 $projectroot=substr($projectroot,0,strrpos($projectroot,"functions"));
+
 include_once($projectroot ."config.php");
 include_once($projectroot ."includes/constants.php");
 
 // security check: restrict which calling scripts get access to the database
-$root4array=str_replace("\\","/",$projectroot);
+$allowedscripts = array(
+	"admin/activate.php",
+	"admin/admin.php",
+	"admin/edit/articleedit.php",
+	"admin/edit/galleryedit.php",
+	"admin/edit/linklistedit.php",
+	"admin/edit/menuedit.php",
+	"admin/edit/newsedit.php",
+	"admin/edit/pageintrosettingsedit.php",
+	"admin/editcategories.php",
+	"admin/editimagelist.php",
+	"admin/includes/ajax/articles/addcategories.php",
+	"admin/includes/ajax/articles/removecategories.php",
+	"admin/includes/ajax/articles/savesectiontitle.php",
+	"admin/includes/ajax/articles/savesource.php",
+	"admin/includes/ajax/articles/updatecategories.php",
+	"admin/includes/ajax/articles/updatesectiontitle.php",
+	"admin/includes/ajax/editor/collapseeditor.php",
+	"admin/includes/ajax/editor/editorcontentssavedialog.php",
+	"admin/includes/ajax/editor/expandeditor.php",
+	"admin/includes/ajax/editor/formatpreviewtext.php",
+	"admin/includes/ajax/editor/getserverprotocol.php",
+	"admin/includes/ajax/editor/gettextfromdatabase.php",
+	"admin/includes/ajax/editor/savetext.php",
+	"admin/includes/ajax/galleries/saveimage.php",
+	"admin/includes/ajax/galleries/updateimage.php",
+	"admin/includes/ajax/imageeditor/saveimagefilename.php",
+	"admin/includes/ajax/imageeditor/saveimagealignment.php",
+	"admin/includes/ajax/imageeditor/saveimagesize.php",
+	"admin/includes/ajax/imageeditor/showimagealignment.php",
+	"admin/includes/ajax/imageeditor/showimagesize.php",
+	"admin/includes/ajax/imageeditor/updateimage.php",
+	"admin/includes/ajax/imagelist/addcategories.php",
+	"admin/includes/ajax/imagelist/getimageusage.php",
+	"admin/includes/ajax/imagelist/removecategories.php",
+	"admin/includes/ajax/imagelist/savedescription.php",
+	"admin/includes/ajax/imagelist/updatecategories.php",
+	"admin/includes/ajax/imagelist/updateimage.php",
+	"admin/includes/ajax/linklists/",
+	"admin/includes/ajax/linklists/",
+	"admin/includes/ajax/linklists/savelinkproperties.php",
+	"admin/includes/ajax/linklists/updatelinktitle.php",
+	"admin/includes/ajax/menus/movepage.php",
+	"admin/includes/ajax/menus/saveoptions.php",
+	"admin/includes/ajax/menus/updatesubpages.php",
+	"admin/includes/ajax/news/addcategories.php",
+	"admin/includes/ajax/news/publish.php",
+	"admin/includes/ajax/news/removecategories.php",
+	"admin/includes/ajax/news/savedate.php",
+	"admin/includes/ajax/news/savepermissions.php",
+	"admin/includes/ajax/news/savesectiontitle.php",
+	"admin/includes/ajax/news/savesource.php",
+	"admin/includes/ajax/news/savetitle.php",
+	"admin/includes/ajax/news/unpublish.php",
+	"admin/includes/ajax/news/updatecategories.php",
+	"admin/includes/ajax/news/updatedate.php",
+	"admin/includes/ajax/news/updatesectiontitle.php",
+	"admin/includes/ajax/news/updatetitle.php",
+	"admin/includes/pagelist.php",
+	"admin/includes/preview.php",
+	"admin/login.php",
+	"admin/pagedelete.php",
+	"admin/pagedisplay.php",
+	"admin/pageedit.php",
+	"admin/pagenew.php",
+	"admin/profile.php",
+	"admin/register.php",
+	"admin/showimage.php",
+	"contact.php",
+	"guestbook.php",
+	"index.php",
+	"login.php",
+	"rss.php",
+	"showimage.php",
+	"stuth/geamannan/bs/index.php",
+	"stuth/geamannan/crochadair/getword.php",
+	"stuth/geamannan/crochadair/index.php",
+	"stuth/geamannan/leacan/index.php",
+	"stuth/geamannan/leumadair/index.php",
+	"stuth/geamannan/longan/index.php",
+	"stuth/geamannan/matamataigs/index.php",
+	"stuth/geamannan/tetris/highscore.php",
+	"stuth/geamannan/tetris/index.php",
+	"stuth/geamannan/tt/getpuzzle.php"
+);
 
-$allowedscripts[]=$root4array."admin/activate.php";
-$allowedscripts[]=$root4array."admin/admin.php";
-$allowedscripts[]=$root4array."admin/edit/articleedit.php";
-$allowedscripts[]=$root4array."admin/edit/galleryedit.php";
-$allowedscripts[]=$root4array."admin/edit/linklistedit.php";
-$allowedscripts[]=$root4array."admin/edit/menuedit.php";
-$allowedscripts[]=$root4array."admin/edit/newsedit.php";
-$allowedscripts[]=$root4array."admin/edit/pageintrosettingsedit.php";
-$allowedscripts[]=$root4array."admin/editcategories.php";
-$allowedscripts[]=$root4array."admin/editimagelist.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/articles/addcategories.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/articles/removecategories.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/articles/savesectiontitle.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/articles/savesource.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/articles/updatecategories.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/articles/updatesectiontitle.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/editor/collapseeditor.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/editor/editorcontentssavedialog.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/editor/expandeditor.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/editor/formatpreviewtext.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/editor/getserverprotocol.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/editor/gettextfromdatabase.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/editor/savetext.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/galleries/saveimage.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/galleries/updateimage.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imageeditor/saveimagefilename.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imageeditor/saveimagealignment.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imageeditor/saveimagesize.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imageeditor/showimagealignment.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imageeditor/showimagesize.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imageeditor/updateimage.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/addcategories.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/getimageusage.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/removecategories.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/savedescription.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/updatecategories.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/imagelist/updateimage.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/linklists/";
-$allowedscripts[]=$root4array."admin/includes/ajax/linklists/";
-$allowedscripts[]=$root4array."admin/includes/ajax/linklists/savelinkproperties.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/linklists/updatelinktitle.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/menus/movepage.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/menus/saveoptions.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/menus/updatesubpages.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/addcategories.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/publish.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/removecategories.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/savedate.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/savepermissions.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/savesectiontitle.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/savesource.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/savetitle.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/unpublish.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/updatecategories.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/updatedate.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/updatesectiontitle.php";
-$allowedscripts[]=$root4array."admin/includes/ajax/news/updatetitle.php";
-$allowedscripts[]=$root4array."admin/includes/pagelist.php";
-$allowedscripts[]=$root4array."admin/includes/preview.php";
-$allowedscripts[]=$root4array."admin/login.php";
-$allowedscripts[]=$root4array."admin/pagedelete.php";
-$allowedscripts[]=$root4array."admin/pagedisplay.php";
-$allowedscripts[]=$root4array."admin/pageedit.php";
-$allowedscripts[]=$root4array."admin/pagenew.php";
-$allowedscripts[]=$root4array."admin/profile.php";
-$allowedscripts[]=$root4array."admin/register.php";
-$allowedscripts[]=$root4array."admin/showimage.php";
-$allowedscripts[]=$root4array."contact.php";
-$allowedscripts[]=$root4array."guestbook.php";
-$allowedscripts[]=$root4array."index.php";
-$allowedscripts[]=$root4array."login.php";
-$allowedscripts[]=$root4array."rss.php";
-$allowedscripts[]=$root4array."showimage.php";
-$allowedscripts[]=$root4array."stuth/geamannan/bs/index.php";
-$allowedscripts[]=$root4array."stuth/geamannan/crochadair/getword.php";
-$allowedscripts[]=$root4array."stuth/geamannan/crochadair/index.php";
-$allowedscripts[]=$root4array."stuth/geamannan/leacan/index.php";
-$allowedscripts[]=$root4array."stuth/geamannan/leumadair/index.php";
-$allowedscripts[]=$root4array."stuth/geamannan/longan/index.php";
-$allowedscripts[]=$root4array."stuth/geamannan/matamataigs/index.php";
-$allowedscripts[]=$root4array."stuth/geamannan/tetris/highscore.php";
-$allowedscripts[]=$root4array."stuth/geamannan/tetris/index.php";
-$allowedscripts[]=$root4array."stuth/geamannan/tt/getpuzzle.php";
+$server_script = preg_replace('/\/\/+/', '/', $_SERVER["SCRIPT_FILENAME"]);
+$install_with_root =  preg_replace('/\/\/+/', '/', ($_SERVER["DOCUMENT_ROOT"] . "/" . $installdir . "/"));
 
-if(!in_array($_SERVER["SCRIPT_FILENAME"],$allowedscripts)) die;
+if(!in_array(substr($server_script, strlen($install_with_root)), $allowedscripts)) die;
 
 
 ################################################################################
@@ -114,24 +119,22 @@ class Database {
 	 * open DB at beginning of script
 	 */
 	function Database()
-  	{
-    	global $dbname,$dbhost,$dbuser,$dbpasswd;
+	{
+		global $dbname,$dbhost,$dbuser,$dbpasswd;
 
-		if(DEBUG)
-  		{
-			$this->db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
-				or die(mysql_errno().": ".mysql_error());
-
-			@mysql_select_db($dbname)
-				or die("Can't find database. Please try again later.");
+		if(DEBUG) {
+			$this->db=new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
+		} else {
+			$this->db=@new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
 		}
-		else
-		{
-			$this->db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
-				or die("Can't connect to database. Please try again later.");
 
-			@mysql_select_db($dbname)
-				or die("Can't find database. Please try again later.");
+		if (!$this->db) {
+			echo "Can't connect to database. Please try again later." . PHP_EOL;
+			if(DEBUG) {
+				echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
+				echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+			}
+			exit();
 		}
 	}
 
@@ -141,22 +144,20 @@ class Database {
 	// returns the query result
 	// 1 = success, "" = failure
 	//
-	function singlequery($query)
-	{
-		if(DEBUG)
-  		{
-	    	$result=@mysql_query($query)
-				or die(mysql_errno().": ".mysql_error().' <i>in query:</i> '.$query);
-		}
-		else
-		{
-			$result=@mysql_query($query)
-				or die("Can't get data from database. Please notify the admin.");
+	function singlequery($query) {
+		$result = $this->db->query($query);
+		if (!$result) {
+			if (DEBUG) {
+				printf("<strong>Error %d:</strong> %s<br /><strong>In query:</strong> %s%s", $this->db->errno, $this->db->error, $query, PHP_EOL);
+			} else {
+				print("Can't get data from database. Please notify the admin." . PHP_EOL);
+			}
+			exit();
 		}
 
-		if(preg_match ("/insert/i",$query))
+		if (preg_match ("/insert/i",$query))
 		{
-			$result= mysql_insert_id($this->db);
+			$result= $this->db->insert_id;
 		}
 
 		return $result;
@@ -165,31 +166,18 @@ class Database {
 	// executes a list of queries
 	// $queries an array of strings with a mysql commands
 	// returns an array of query results
-	// 1 = success, "" = failure
-	function multiquery($queries)
-	{
-		$result[0]="";
-
-		if(DEBUG)
-		{
-
-			for($i=0;$i<count($queries);$i++)
-			{
-				$result[$i]=@mysql_query($queries[$i])
-					or die(mysql_errno().": ".mysql_error().' <i>in query:</i> '.$queries[$i]);
+	// true = success, false = failure
+	function multiquery($queries) {
+		for ($i=0; $i < count($queries); $i++) {
+			$result = $this->db->query($queries[$i]);
+			if (!$result) {
+				if (DEBUG) {
+					printf("<strong>Error %d:</strong> %s<br /><strong>In query:</strong> %s%s", $this->db->errno, $this->db->error, $queries[$i], PHP_EOL);
+				}
+				return false;
 			}
 		}
-		else
-		{
-
-			for($i=0;$i<count($queries);$i++)
-			{
-				$result[$i]=@mysql_query($queries[$i])
-					or die("Can't get data from database. Please notify the admin.");
-			}
-		}
-
-		return $result;
+		return true;
 	}
 
 
@@ -208,7 +196,7 @@ class Database {
 	//
 	function setstring($var)
 	{
-  		$result= @mysql_real_escape_string($var);
+  		$result= @$this->db->real_escape_string($var);
 		return utf8_decode($result);
 	}
 
@@ -218,7 +206,7 @@ class Database {
 	 */
 	function closedb()
 	{
-		@mysql_close($db);
+		@mysqli_close($db);
 	}
 }
 
@@ -233,10 +221,8 @@ function getdbresultsingle($query)
 	global $db;
 
 	$sql=$db->singlequery($query);
-	if($sql)
-	{
-		$row=mysql_fetch_row($sql);
-		return $row[0];
+	if ($sql) {
+		return $sql->fetch_row()[0];
 	}
 	else return false;
 }
@@ -251,11 +237,9 @@ function getdbresultcolumn($query)
 
 	$result=array();
 	$sql=$db->singlequery($query);
-	if($sql)
-	{
-		while($row=mysql_fetch_row($sql))
-		{
-			array_push($result,$row[0]);
+	if ($sql) {
+		while ($row = $sql->fetch_row()) {
+			array_push($result, $row[0]);
 		}
 	}
 	return $result;
@@ -283,17 +267,13 @@ function getrowbykey($table, $keyname, $value, $fieldnames = array(0 => '*'))
 
 	//  print($query);
 	$sql=$db->singlequery($query);
-	if($sql)
-	{
-		$fields=mysql_num_fields($sql);
-
+	if ($sql) {
+		$fields = $sql->field_count;
 		// get row
-		if($row=mysql_fetch_row($sql))
-		{
-		// make associative array
-			for($field=0;$field<$fields;$field++)
-			{
-				$result[mysql_field_name($sql,$field)]=$row[$field];
+		if ($row = $sql->fetch_row()) {
+			// make associative array
+			for($field = 0; $field < $fields; $field++) {
+				$result[$sql->fetch_field_direct($field)->name]=$row[$field];
 			}
 		}
 	}
@@ -325,28 +305,24 @@ function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 =
 	}
 	//  print($query);
 	$sql=$db->singlequery($query);
-	if($sql)
-	{
-		$fields=mysql_num_fields($sql);
+	if($sql) {
+		$fields=$sql->field_count;
 
 		// get index for field name
 		$found=false;
-		for($field=0;!$found && $field<$fields;$field++)
-		{
-			if(mysql_field_name($sql,$field)==$keyname)
-			{
+		$fieldindex = 0;
+		for ($field = 0; !$found && $field < $fields; $field++) {
+			if ($sql->fetch_field_direct($field)->name==$keyname) {
 				$fieldindex=$field;
 				$found=true;
 			}
 		}
 
 		// get column
-		for($i=0;$row=mysql_fetch_row($sql);$i++)
-		{
+		while ($row = $sql->fetch_row()) {
 			// make associative array
-			for($field=0;$field<$fields;$field++)
-			{
-				$result[$row[$fieldindex]][mysql_field_name($sql,$field)]=$row[$field];
+			for ($field = 0; $field < $fields; $field++) {
+				$result[$row[$fieldindex]][$sql->fetch_field_direct($field)->name] = $row[$field];
 			}
 		}
 	}

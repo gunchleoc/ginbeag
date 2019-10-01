@@ -25,8 +25,7 @@ function getmonthlypagestats($count=20,$year=0,$month=0)
 	if($sql)
 	{
 		// get column
-		while($row=mysql_fetch_row($sql))
-		{
+		while($row = $sql->fetch_row()) {
 			array_push($result,array($row[0],$row[1]));
 		}
 	}
@@ -54,8 +53,7 @@ function getyearlypagestats($count=20,$year=0)
 	if($sql)
 	{
 		// get column
-		while($row=mysql_fetch_row($sql))
-		{
+		while($row = $sql->fetch_row()) {
 			array_push($result,array($row[0],$row[1]));
 		}
 	}

@@ -21,7 +21,7 @@ function getcategorynamessorted($categories, $cattype)
 	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
 	else  $table = CATEGORIES_IMAGES_TABLE;
 
-	if(count($categories>0))
+	if (count($categories) > 0)
 	{
 		$condition="category_id IN ('".implode($categories,"', '")."')";
 		return getorderedcolumn("name", $table, $condition, "name", "ASC");

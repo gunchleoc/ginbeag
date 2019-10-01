@@ -20,6 +20,7 @@ $LEGALVARS["filter"]=1;
 $LEGALVARS["image"]=1;
 $LEGALVARS["missing"]=1;
 $LEGALVARS["missingthumb"]=1;
+$LEGALVARS["newname"]=1;
 $LEGALVARS["nodelete"]=1;
 $LEGALVARS["noofimages"]=1;
 $LEGALVARS["nothumb"]=1;

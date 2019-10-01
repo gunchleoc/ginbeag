@@ -215,7 +215,7 @@ class Template {
 		$listkeys=array_keys($this->listvars);
 		while($listkey=current($listkeys))
 		{
-			if(count($listkey)) $keys[]=$listkey;
+			if(!empty($listkey)) $keys[]=$listkey;
 			next($listkeys);
 		}
 

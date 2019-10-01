@@ -81,8 +81,7 @@ function backupdatabase($display,$structureonly=true)
 	//  print($query.'<p>');
 
 	$tables=$db->singlequery($query);
-	while($tablerow = mysql_fetch_row($tables))
-	{
+	while ($tablerow = $tables->fetch_row()) {
 		$tablename=$tablerow[0];
 
 		$result.=$cr."# ------------------------------------------------";
@@ -95,10 +94,9 @@ function backupdatabase($display,$structureonly=true)
 		$query="SHOW COLUMNS FROM ".$tablename;
 		$columns=$db->singlequery($query);
 
-		$numfields=mysql_num_fields($columns);
+		$numfields = $columns->field_count;
 
-		while($column = mysql_fetch_row($columns))
-		{
+		while ($column = $columns->fetch_row()) {
 			// way around time limit?
 			set_time_limit(0);
 			$result.=" `".$column[0]."` ".$column[1];
@@ -112,8 +110,7 @@ function backupdatabase($display,$structureonly=true)
 		// get keys
 		$query="SHOW INDEX FROM ".$tablename;
 		$keys=$db->singlequery($query);
-		if(mysql_num_rows($keys))
-		{
+		if ($keys->num_rows > 0) {
 			$result=substr($result,0,strlen($result)-strlen($cr));
 		}
 		else
@@ -133,8 +130,7 @@ function backupdatabase($display,$structureonly=true)
 		// 9: Null
 		// 10: Index_type
 		// 11: Comment
-		while($key = mysql_fetch_row($keys))
-		{
+		while($key = $keys->fetch_row()) {
 			if($key[2]==="PRIMARY")
 			{
 				$result.=$cr."  PRIMARY KEY";
@@ -161,10 +157,8 @@ function backupdatabase($display,$structureonly=true)
 
 			$data=$db->singlequery($query);
 
-			if(mysql_num_rows($data))
-			{
-				while($element = mysql_fetch_row($data))
-				{
+			if ($data->num_rows > 0) {
+				while ($element = $data->fetch_row()) {
 					$result.=$cr."INSERT INTO `".$tablename."` VALUES (";
 					for($i=0;$i<count($element);$i++)
 					{
@@ -227,7 +221,7 @@ function showtables()
 	//  print($query.'<p>');
 
 	$tables=$db->singlequery($query);
-	while($tablerow = mysql_fetch_row($tables))
+	while($tablerow = $tables->fetch_row())
 	{
 		$tablename=$tablerow[0];
 		print('<p>'.$tablename.'<br>');
@@ -236,16 +230,15 @@ function showtables()
 		$query="SHOW COLUMNS FROM ".$tablename;
 		$columns=$db->singlequery($query);
 
-		$numfields=mysql_num_fields($columns);
+		$numfields = $columns->field_count;
 		print('<table class="bodyline"><tr>');
 		for($i=0;$i<$numfields;$i++)
 		{
-			print('<th>'.$i.": ".mysql_field_name ($columns,$i).'</th>');
+			print('<th>'.$i.": ".$columns->fetch_field_direct($i)->name.'</th>');
 		}
 		print('</tr>');
 
-		while($column = mysql_fetch_row($columns))
-		{
+		while ($column = $columns->fetch_row()) {
 			print('<tr>');
 			for($i=0;$i<count($column);$i++)
 			{
@@ -262,15 +255,14 @@ function showtables()
 		$query="SHOW INDEX FROM ".$tablename;
 		$keys=$db->singlequery($query);
 
-		$numfields=mysql_num_fields($keys);
+		$numfields = $keys->field_count;
 		print('<p>Keys:<br><table class="bodyline"><tr>');
 		for($i=0;$i<$numfields;$i++)
 		{
-			print('<th>'.$i.": ".mysql_field_name ($keys,$i).'</th>');
+			print('<th>'.$i.": ".$keys->fetch_field_direct($i)->name.'</th>');
 		}
 
-		while($key = mysql_fetch_row($keys))
-		{
+		while ($key = $keys->fetch_row()) {
 			print('<tr>');
 			for($i=0;$i<count($key);$i++)
 			{

@@ -82,7 +82,7 @@ function movepage($page, $direction, $positions=1)
 			{
 				$newpos[$sisterids[$i]]=getnavposition($sisterids[$i])+1;
 			}
-				updateentries(PAGES_TABLE,$newpos,"page_id","position_navigator");
+				$result = $result & updateentries(PAGES_TABLE,$newpos,"page_id","position_navigator");
 			}
 		$result = $result & updatefield(PAGES_TABLE,"position_navigator",1,"page_id='".$page."'");
 	}

@@ -46,13 +46,10 @@ if($postaction=='savesite')
 
 	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
 
-	if($success="1")
-	{
+	if ($success) {
 		$message="Random Items of the Day saved";
-	}
-	else
-	{
-		$message = "Failed to save Random Items of the Day".$sql;
+	} else {
+		$message = "Failed to save Random Items of the Day";
 		$error = true;
 	}
 }

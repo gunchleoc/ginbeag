@@ -377,8 +377,7 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 	if($sql)
 	{
 	// get column
-		while($row=mysql_fetch_row($sql))
-		{
+		while ($row = $sql->fetch_row()) {
 			array_push($pagestosearch,$row[0]);
 		}
 	}
@@ -414,8 +413,7 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 	if($sql)
 	{
 		// get column
-		while($row=mysql_fetch_row($sql))
-		{
+		while ($row = $sql->fetch_row()) {
 			array_push($result,$row[0]);
 		}
 	}
@@ -436,8 +434,7 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 			if($sql)
 			{
 				// get column
-				while($row=mysql_fetch_row($sql))
-				{
+				while ($row = $sql->fetch_row()) {
 					array_push($entry,$row[0]);
 				}
 			}
@@ -453,8 +450,7 @@ function searchnewsitems($search,$page,$all,$showhidden=false)
 			if($sql)
 			{
 				// get column
-				$row=mysql_fetch_row($sql);
-				$concat.=$row[0];
+				$concat .= $sql->fetch_row()[0];
 			}
 
 			// search concatenated string for all terms

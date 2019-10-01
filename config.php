@@ -1,10 +1,12 @@
 <?php
 $dbhost = 'localhost';
-$dbname = 'gaidhlig';
+$dbname = 'ginbeag';
 $dbuser = 'bratzbert';
 $dbpasswd = 'bratzbert';
 
 $table_prefix = 'gaidhlig_';
+
+$installdir = 'ginbeag/';
 
 $defaultlanguage ='chartest';
 

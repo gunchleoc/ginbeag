@@ -19,9 +19,9 @@ class MenuPage extends Template {
 
 	function MenuPage($page,$showhidden=false)
 	{
-	    parent::__construct();
+		parent::__construct();
 
-	    $pagecontents=getmenucontents($page);
+		$pagecontents=getmenucontents($page);
 
 		$pageintro = getpageintro($this->stringvars['page']);
 		$this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']),$pageintro['introtext'],$pageintro['introimage'],$pageintro['imageautoshrink'], $pageintro['usethumbnail'],$pageintro['imagehalign'],$showhidden);
@@ -37,7 +37,7 @@ class MenuPage extends Template {
 			{
 				if(displaylinksforpagearray($children[$i]) || $showhidden)
 				{
-					$this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i],$pagecontents['displaydepth']-1,0,$showhidden);
+					$this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i],isset($pagecontents['displaydepth']) ? $pagecontents['displaydepth']-1 : 1,0,$showhidden);
 				}
 			}
 

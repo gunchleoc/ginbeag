@@ -21,7 +21,7 @@ class SiteBannerEditForm extends Template {
 	function SiteBannerEditForm($banner)
 	{
 		parent::__construct($banner);
-		
+
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["postaction"] = "movebanner";
 		$linkparams["action"] = "sitebanner";
@@ -33,18 +33,18 @@ class SiteBannerEditForm extends Template {
 		$linkparams["postaction"] = "editbanner";
 		$this->stringvars['editactionvars'] = makelinkparameters($linkparams);
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("bannerid" => $banner));
-		
+
 		$contents=getbannercontents($banner);
 		if($contents['header'])
 			$this->stringvars['header']=input2html($contents['header']);
 		else
 			$this->stringvars['header']="";
-		
+
 		$this->vars['banner'] = new Banner($banner,true);
-		
+
 		if(!isbannercomplete($banner))
 			$this->stringvars['incomplete']= "incomplete";
-		
+
 		if(strlen($contents['image'])>0)
 			$this->stringvars['image']=$contents['image'];
 		else
@@ -55,7 +55,7 @@ class SiteBannerEditForm extends Template {
 		$this->stringvars['code']=input2html($contents['code']);
 
 		$this->vars['deletebannerconfirmform']= new CheckboxForm("deletebannerconfirm","deletebannerconfirm","Confirm delete",false, "right");
-		
+
 		$this->vars['submitrow']= new SubmitRow("bannerproperties","Submit Banner Changes",true);
 	}
 
@@ -90,16 +90,16 @@ class SiteBanners extends Template {
 
 		$this->vars['displaybanners_yes'] = new RadioButtonForm($this->stringvars['jsid'], "toggledisplaybanners", 1, "Yes", getproperty('Display Banners'), "right");
 	    $this->vars['displaybanners_no'] = new RadioButtonForm($this->stringvars['jsid'], "toggledisplaybanners", 0, "No", !getproperty('Display Banners'), "right");
-		
+
 		$banners=getbanners();
 		for($i=0;$i<count($banners);$i++)
 		{
 			$this->listvars['editform'][] = new SiteBannerEditForm($banners[$i]);
 		}
-		
+
 		$this->vars['submitrow']= new SubmitRow("addbanner","Add Banner",true);
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{

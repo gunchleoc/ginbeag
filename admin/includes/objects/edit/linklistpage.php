@@ -91,7 +91,7 @@ class EditLinklist extends Template {
 		$this->stringvars['actionvars']= makelinkparameters($linkparams);
 
 		$linkids=getlinklistitems($page);
-		if(count($linkids<1)) $this->stringvars['linkform']="";
+		if(count($linkids) < 1) $this->stringvars['linkform']="";
 
 		for($i=0;$i<count($linkids);$i++)
 		{

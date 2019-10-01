@@ -146,10 +146,15 @@ function setinteger($var)
 function setstring($var)
 {
   global $dbhost,$dbuser,$dbpasswd;
-  $db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
-      or die("Can't connect to database. Please try again later.");
-  $result= @mysql_real_escape_string($var);
-  @mysql_close($db);
+
+  $db=@new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
+  if (!$db) {
+    echo "Can't connect to database. Please try again later." . PHP_E
+    exit();
+  }
+
+  $result= @$db->real_escape_string($var);
+  @$db->close();
   return $result;
 }
 
@@ -163,8 +168,7 @@ function getdbresultsingle($query)
 	$sql=$db->singlequery($query);
 	if($sql)
 	{
-		$row=mysql_fetch_row($sql);
-		return $row[0];
+		return $sql->fetch_row()[0];
 	}
 	else return false;
 }
@@ -249,26 +253,24 @@ function getmultiplefields($table, $keyname, $condition, $fieldnames = array(0 =
   $sql=singlequery($query);
   if($sql)
   {
-    $fields=mysql_num_fields($sql);
+    $fields = $sql->field_count;
 
     // get index for field name
     $found=false;
     for($field=0;!$found && $field<$fields;$field++)
     {
-      if(mysql_field_name($sql,$field)==$keyname)
-      {
+      if ($sql->fetch_field_direct($field)->name == $keyname) {
         $fieldindex=$field;
         $found=true;
       }
     }
 
     // get column
-    for($i=0;$row=mysql_fetch_row($sql);$i++)
-    {
+    while ($row = $sql->fetch_row()) {
       // make associative array
       for($field=0;$field<$fields;$field++)
       {
-        $result[$row[$fieldindex]][mysql_field_name($sql,$field)]=$row[$field];
+        $result[$row[$fieldindex]][$sql->fetch_field_direct($field)->name] = $row[$field];
       }
     }
   }
@@ -288,20 +290,24 @@ function singlequery($query)
 
   $result=$query;
 
-    $db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
-      or die("Can't connect to database. Please try again later.");
-
-    @mysql_select_db($dbname)
-      or die("Can't find database. Please try again later.");
-
-    $result=@mysql_query($query)
-      or die("Can't get data from database. Please notify the admin.");
-
-  if(preg_match ("/insert/i",$query))
-  {
-    $result= mysql_insert_id($db);
+  $db=@new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
+  if (!$db) {
+    echo "Can't connect to database. Please try again later." . PHP_E
+    exit();
   }
-  @mysql_close($db);
+
+  $result = @$db->query($query);
+  if (!$result) {
+    print("Can't get data from database. Please notify the admin." . PHP_EOL);
+    exit();
+  }
+
+  if (preg_match ("/insert/i",$query))
+  {
+    $result= $db->insert_id;
+  }
+
+  @$db->close();
   return $result;
 }
 ?>

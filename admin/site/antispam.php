@@ -44,15 +44,12 @@ if($postaction=='savesite')
 	$success=updateentries(ANTISPAM_TABLE,$properties,"property_name","property_value");
 	$error = !$success;
 
-	if($success="1")
-	{
+	if ($success) {
 		if(isset($_POST['renamevariables']))
 			$message = "Renamed Variables";
 		else
 			$message = "Anti-Spam settings saved";
-	}
-	else
-	{
+	} else {
 		if(isset($_POST['renamevariables']))
 			$message = "Failed to rename variables ".$sql;
 		else

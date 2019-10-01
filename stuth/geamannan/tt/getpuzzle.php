@@ -3,12 +3,11 @@
 // words array, dimension, noofwords
 include_once("config.php");
 
-    $db=@mysql_connect($dbhost,$dbuser,$dbpasswd)
-      or die(mysql_errno().": ".mysql_error());
-
-    @mysql_select_db($dbname)
-      or die("Can't find database. Please try again later.");
-
+$db=@new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
+if (!$db) {
+echo "Can't connect to database. Please try again later." . PHP_E
+exit();
+}
 
 $dimension=20;
 
@@ -400,20 +399,19 @@ function getwordfromdatabase($query)
 		//print_r($query);
 		if($sql)
 		{
-			$fields=mysql_num_fields($sql);
+			$fields = $sql->field_count;
 
 			// get row
-			if($dbrow=mysql_fetch_row($sql))
-			{
+			if ($dbrow = $sql->fetch_row()) {
 				// make associative array
 				for($field=0;$field<$fields;$field++)
 				{
-					$word[mysql_field_name($sql,$field)]=$dbrow[$field];
+					$word[$sql->fetch_field_direct($field)->name]=$dbrow[$field];
 				}
 			}
 		}
 	}
-	mysql_free_result($sql);
+	$sql->free_result();
 	return $word;
 }
 
@@ -430,26 +428,21 @@ function makeXML($wrapper,$dbtable,$key)
 
 	$query = "SELECT * FROM ".$dbtable.", (SELECT FLOOR(MAX(".$dbtable.".".$key.") * RAND()) AS randId FROM ".$dbtable.") AS someRandId WHERE ".$dbtable.".".$key." = someRandId.randId;";
 
-	while($dbrow=="")
-	{
+	while($dbrow=="") {
 		$sql=singlequery($query);
 		//print_r($query);
-		if($sql)
-  		{
-    		$fields=mysql_num_fields($sql);
+		if ($sql) {
+			$fields = $sql->field_count;
 
-    		// get row
-    		if($dbrow=mysql_fetch_row($sql))
-    		{
-      			// make associative array
-      			for($field=0;$field<$fields;$field++)
-      			{
-        			$row[mysql_field_name($sql,$field)]=$dbrow[$field];
-      			}
-    		}
-  		}
-
-  	}
+			// get row
+			if ($dbrow = $sql->fetch_row()) {
+				// make associative array
+				for($field=0;$field<$fields;$field++) {
+					$row[$sql->fetch_field_direct($field)->name]=$dbrow[$field];
+				}
+			}
+		}
+	}
 
 	$keys=array_keys($row);
 
@@ -542,15 +535,14 @@ function getrowbykey($table, $keyname, $value, $fieldnames = array(0 => '*'))
   $sql=singlequery($query);
   if($sql)
   {
-    $fields=mysql_num_fields($sql);
+    $fields = $sql->field_count;
 
     // get row
-    if($row=mysql_fetch_row($sql))
-    {
+    if ($row = $sql->fetch_row()) {
       // make associative array
       for($field=0;$field<$fields;$field++)
       {
-        $result[mysql_field_name($sql,$field)]=$row[$field];
+        $result[$sql->fetch_field_direct($field)->name]=$row[$field];
       }
     }
   }
@@ -575,10 +567,8 @@ function getcolumn($fieldname, $table, $condition)
   if($sql)
   {
     // get column
-    while($row=mysql_fetch_row($sql))
-    {
+    while ($row = $sql->fetch_row()) {
       array_push($result,$row[0]);
-
     }
   }
   return $result;
@@ -594,12 +584,15 @@ function singlequery($query)
 
   $result=$query;
 
-    $result=@mysql_query($query)
-      or die(mysql_errno().": ".mysql_error().' <i>in query:</i> '.$query);
+  $result = @$db->query($query);
+  if (!$result) {
+    print("Can't get data from database. Please notify the admin." . PHP_EOL);
+    exit();
+  }
 
-  if(preg_match ("/insert/i",$query))
+  if (preg_match ("/insert/i",$query))
   {
-    $result= mysql_insert_id($db);
+    $result= $db->insert_id;
   }
 
   return $result;
@@ -636,5 +629,5 @@ function displayarray($data)
   print('</table>');
 }
 
-  @mysql_close($db);
+@$db->close();
 ?>

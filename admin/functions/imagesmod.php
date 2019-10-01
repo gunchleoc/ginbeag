@@ -344,8 +344,7 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 	if($sql)
 	{
 		// get column
-		while($row=mysql_fetch_row($sql))
-		{
+		while($row = $sql->fetch_row()) {
 			array_push($result,$row[0]);
 		}
 	}
@@ -359,8 +358,7 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 			$query.=IMAGECATS_TABLE;
 			$query.=" WHERE image_filename = '".$temp[$i]."';";
 			$sql=$db->singlequery($query);
-			if(!mysql_fetch_row($sql))
-			{
+			if (!$sql->fetch_row()) {
 				array_push($result,$temp[$i]);
 			}
 		}

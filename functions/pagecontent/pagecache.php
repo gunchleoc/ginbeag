@@ -69,8 +69,7 @@ function makecachedpage($page, $parameters, $content_html)
 
 		if($sql)
 		{
-			$row=mysql_fetch_row($sql);
-			$dbentry=$row[0];
+			$dbentry = $sql->fetch_row()[0];
 		}
 
 		if($dbentry == $page)

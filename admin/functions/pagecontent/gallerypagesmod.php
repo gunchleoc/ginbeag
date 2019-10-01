@@ -112,8 +112,7 @@ function reindexgallerypositions($page)
 	if($sql)
 	{
 		// get column
-		while($row=mysql_fetch_row($sql))
-		{
+		while($row = $sql->fetch_row()) {
 			array_push($items,$row[0]);
 		}
 		$newpos=array();

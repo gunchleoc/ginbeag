@@ -26,22 +26,19 @@ if($postaction ==='saveproperties')
 	$guestbookproperties = array();
 
 	$guestbookproperties['Enable Guestbook']=$db->setinteger($_POST['enableguestbook']);
-  	$guestbookproperties['Guestbook Entries Per Page']=$db->setinteger($_POST['guestbookperpage']);
+	$guestbookproperties['Guestbook Entries Per Page']=$db->setinteger($_POST['guestbookperpage']);
 
-  	$success=updateentries(SITEPROPERTIES_TABLE,$guestbookproperties,"property_name","property_value");
+	$success=updateentries(SITEPROPERTIES_TABLE,$guestbookproperties,"property_name","property_value");
 
-    if($success="1")
-  	{
-    	$message="Guestbook properties saved.";
-    	// sync global properties array with database changes
-  		$properties['Enable Guestbook']=$db->setinteger($_POST['enableguestbook']);
-  		$properties['Guestbook Entries Per Page']=$db->setinteger($_POST['guestbookperpage']);
-  	}
-  	else
-  	{
+	if ($success) {
+		$message="Guestbook properties saved.";
+		// sync global properties array with database changes
+		$properties['Enable Guestbook']=$db->setinteger($_POST['enableguestbook']);
+		$properties['Guestbook Entries Per Page']=$db->setinteger($_POST['guestbookperpage']);
+	} else {
 		$message = "Failed to save Guestbook properties";
 		$error = true;
-  	}
+	}
 }
 
 
@@ -58,10 +55,10 @@ elseif(isset($_POST["deleteconfirm"]))
 }
 if(!isset($_POST["deleteentry"]))
 {
-  	if(isset($_GET['offset'])) $offset=$_GET['offset'];
-  	else $offset=0;
+	if(isset($_GET['offset'])) $offset=$_GET['offset'];
+	else $offset=0;
 
-  	$contents = new AdminGuestbookEntryList($itemsperpage, $offset);
+	$contents = new AdminGuestbookEntryList($itemsperpage, $offset);
 }
 
 $content = new AdminMain($page, "siteguest", new AdminMessage($message, $error), $contents);

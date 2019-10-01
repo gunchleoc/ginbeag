@@ -14,7 +14,7 @@ function isreferrerblocked($referrer)
 	$query="select referrerurl from ".BLOCKEDREFERRERS_TABLE;
 	$sql=$db->singlequery($query);
 	$result=false;
-	while(!$result && $row=mysql_fetch_row($sql))
+	while(!$result && $row=$sql->fetch_row())
 	{
 		$result=strpos($referrer,$row[0]);
 	}

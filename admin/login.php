@@ -102,13 +102,13 @@ elseif(isset($_POST['requestpassword']))
 		sendplainemail($subject,$message,$useremail);
 	}
 }
-elseif(isset($_POST['user']) &&isset($_POST['pass']))
+elseif(isset($_POST['user']) && isset($_POST['pass']))
 {
 	$userid= getuserid($username);
 
 	if(!$userid)
 	{
-		$header = new AdminLoginHeader("Wrong username or password");
+		$header = new AdminLoginHeader($lang["login_error_username"]);
 		$form = new AdminLoginForm($username);
 	}
 	elseif(isactive($userid))
