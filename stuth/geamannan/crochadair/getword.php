@@ -199,7 +199,7 @@ function singlequery($query)
 
   $db=@new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
   if (!$db) {
-    echo "Can't connect to database. Please try again later." . PHP_E
+    print("Can't connect to database. Please try again later." . PHP_EOL);
     exit();
   }
 
