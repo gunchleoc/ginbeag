@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
@@ -12,7 +31,7 @@ require_once $projectroot."includes/objects/elements.php";
 //
 // returns array with sid and message
 //
-function login($username, $password) 
+function login($username, $password)
 {
     $password=md5($password);
 
@@ -57,7 +76,7 @@ function login($username, $password)
 //
 //
 //
-function checkpassword($username,$md5password) 
+function checkpassword($username,$md5password)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'password', array('username'), array($username), 's');
     return $sql->fetch_value() === $md5password;
@@ -67,7 +86,7 @@ function checkpassword($username,$md5password)
 //
 // returns sid
 //
-function logout() 
+function logout()
 {
     // Log out
     set_session_cookie(true, "", "");
@@ -114,7 +133,7 @@ function logout()
 //
 //
 //
-function clearoldpagecacheentries() 
+function clearoldpagecacheentries()
 {
     $sql = new SQLDeleteStatement(
         LOCKS_TABLE, array(),
@@ -126,7 +145,7 @@ function clearoldpagecacheentries()
 //
 //
 //
-function updatelogindate($username,$increasecount=false) 
+function updatelogindate($username,$increasecount=false)
 {
     $retries = $increasecount ? getretries($username) + 1 : 0;
 
@@ -142,7 +161,7 @@ function updatelogindate($username,$increasecount=false)
 //
 //
 //
-function createsession($user) 
+function createsession($user)
 {
     clearsessions();
 
@@ -172,7 +191,7 @@ function createsession($user)
 //
 //
 //
-function clearsessions() 
+function clearsessions()
 {
     $sql = new SQLDeleteStatement(
         SESSIONS_TABLE, array(),
@@ -184,7 +203,7 @@ function clearsessions()
 //
 //
 //
-function timeout($sid) 
+function timeout($sid)
 {
     $sql = new SQLSelectStatement(SESSIONS_TABLE, 'session_time', array('session_id'), array($sid), 's');
     $sessiontime = $sql->fetch_value();
@@ -272,7 +291,7 @@ function getsid()
 //
 //
 //
-function isadmin() 
+function isadmin()
 {
     $user = getsiduser();
     if (!$user) { return false;
@@ -297,7 +316,7 @@ function checkadmin()
 //
 // compares browser agent to entry in the sessions table
 //
-function checkagent($sid, $userid, $browseragent) 
+function checkagent($sid, $userid, $browseragent)
 {
     if($browseragent) {
         $sql = new SQLSelectStatement(SESSIONS_TABLE, 'browseragent', array('session_id'), array($sid), 's');
@@ -311,7 +330,7 @@ function checkagent($sid, $userid, $browseragent)
 //
 //
 //
-function getsiduser() 
+function getsiduser()
 {
     $sid = getsid();
     if (!$sid) { return false;
@@ -340,7 +359,7 @@ function getloggedinusers()
 //
 //
 //
-function isactive($user) 
+function isactive($user)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'user_active', array('user_id'), array($user), 'i');
     return $sql->fetch_value();
@@ -349,7 +368,7 @@ function isactive($user)
 //
 //
 //
-function getretries($username) 
+function getretries($username)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'retries', array('username'), array($username), 's');
     return $sql->fetch_value();
@@ -358,7 +377,7 @@ function getretries($username)
 //
 //
 //
-function getlastlogin($user) 
+function getlastlogin($user)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'last_login', array('user_id'), array($user), 'i');
     return $sql->fetch_value();

@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 // zweimal, weil nur auf "a" geprft wird
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "objects"));
@@ -21,7 +40,7 @@ class ImageEditor extends Template
     {
         parent::__construct($page.'-'.$elementid, array(), array(0 => "admin/includes/javascript/imageeditor.js"));
         $this->stringvars['javascript']=$this->getScripts();
-        
+
         $imagealign="left";
         $autoshrink=1;
         $usethumbnail=1;
@@ -48,7 +67,7 @@ class ImageEditor extends Template
             $usethumbnail="";
             $this->stringvars['title']="Link";
         }
-    
+
         $this->stringvars['elementtype']=$elementtype;
         $this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters(array("page" => $this->stringvars['page']));
         $this->vars['filenamepane'] = new ImageEditorFilenamePane($page, $elementid, $this->stringvars['image'], $elementtype);
@@ -88,7 +107,7 @@ class ImageEditorFilenamePane extends Template
     function ImageEditorFilenamePane($page,$elementid, $image, $elementtype)
     {
         parent::__construct($page.'-'.$elementid);
-    
+
         $this->stringvars['image']=$image;
         $this->stringvars['elementtype']=$elementtype;
         $this->stringvars['imagefilename']=$image;
@@ -116,7 +135,7 @@ class ImageEditorAlignmentPane extends Template
     function ImageEditorAlignmentPane($page,$elementid, $imagealign)
     {
         parent::__construct($page.'-'.$elementid);
-        
+
         $this->stringvars['submitname'] ="Save image alignment";
 
         if(!$imagealign) { $imagealign="left";
@@ -173,7 +192,7 @@ class ImageEditorImagePane extends Template
     {
         parent::__construct();
         $this->stringvars['image']="";
-        
+
         if(strlen($image)>0 && imageexists($image)) {
             $this->vars['image'] = new CaptionedImageAdmin($image, $page);
         }

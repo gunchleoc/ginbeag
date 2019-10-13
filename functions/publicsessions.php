@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "functions"));
 
@@ -14,7 +33,7 @@ require_once $projectroot."includes/objects/elements.php";
 // returns array with sid and message
 // todo check if retires are created properly
 //
-function publiclogin($username, $password) 
+function publiclogin($username, $password)
 {
     $password=md5($password);
     $ip=getclientip();
@@ -58,7 +77,7 @@ function publiclogin($username, $password)
 //
 //
 //
-function checkpublicpassword($username,$md5password) 
+function checkpublicpassword($username,$md5password)
 {
     $sql = new SQLSelectStatement(PUBLICUSERS_TABLE, 'password', array('username'), array($username), 's');
     return ($md5password===$sql->fetch_value());
@@ -68,7 +87,7 @@ function checkpublicpassword($username,$md5password)
 //
 //
 //
-function deletesession($sid) 
+function deletesession($sid)
 {
     set_session_cookie(false, "", "");
     $sql = new SQLDeleteStatement(PUBLICSESSIONS_TABLE, array('session_id'), array($sid), 's');
@@ -86,7 +105,7 @@ function publiclogout($sid)
 //
 //
 //
-function updatepubliclogindate($user, $ip) 
+function updatepubliclogindate($user, $ip)
 {
     $sid = getsidforpublicuser($user, $ip);
 
@@ -108,7 +127,7 @@ function updatepubliclogindate($user, $ip)
 //
 //
 //
-function createpublicsession($user,$ip,$session_valid) 
+function createpublicsession($user,$ip,$session_valid)
 {
     mt_srand(make_seed());
     $sid = md5("".mt_rand());
@@ -138,7 +157,7 @@ function createpublicsession($user,$ip,$session_valid)
 //
 //
 //
-function clearpublicsessions() 
+function clearpublicsessions()
 {
     $sql = new SQLDeleteStatement(PUBLICSESSIONS_TABLE, array(), array(date(DATETIMEFORMAT, strtotime('-1 hours'))), 's', 'session_time < ?');
     return $sql->run();
@@ -147,7 +166,7 @@ function clearpublicsessions()
 //
 //
 //
-function publictimeout($sid) 
+function publictimeout($sid)
 {
     $sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_time', array('session_id'), array($sid), 's');
     $sessiontime = $sql->fetch_value();
@@ -173,7 +192,7 @@ function publictimeout($sid)
 //
 //
 //
-function checkpublicsession($page) 
+function checkpublicsession($page)
 {
     global $_GET, $sid;
     $isvalid=$sid && ispublicsessionvalid($sid);
@@ -206,7 +225,7 @@ function checkpublicsession($page)
 //
 // todo bug
 //
-function getsidforpublicuser($user,$ip) 
+function getsidforpublicuser($user,$ip)
 {
     if (empty($user) || !$ip) { return "";
     }
@@ -217,7 +236,7 @@ function getsidforpublicuser($user,$ip)
 //
 //
 //
-function getpublicretries($user,$ip) 
+function getpublicretries($user,$ip)
 {
     $sid = getsidforpublicuser($user, $ip);
     if (empty($sid)) { return 0;
@@ -229,7 +248,7 @@ function getpublicretries($user,$ip)
 //
 //
 //
-function getlastpubliclogin($user,$ip) 
+function getlastpubliclogin($user,$ip)
 {
     $sid = getsidforpublicuser($user, $ip);
     $sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_time', array('session_id'), array($sid), 's');
@@ -239,7 +258,7 @@ function getlastpubliclogin($user,$ip)
 //
 //
 //
-function getpublicsiduser($sid) 
+function getpublicsiduser($sid)
 {
     $sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_user_id', array('session_id'), array($sid), 's');
     return $sql->fetch_value();
@@ -261,7 +280,7 @@ function ispublicloggedin()
 //
 //
 //
-function ispublicsessionvalid($sid) 
+function ispublicsessionvalid($sid)
 {
     $sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_valid', array('session_id'), array($sid), 's');
     return $sql->fetch_value();
@@ -271,7 +290,7 @@ function ispublicsessionvalid($sid)
 //
 //
 //
-function ispublicuseripbanned($ip) 
+function ispublicuseripbanned($ip)
 {
     if ($ip=="") { return false;
     }
@@ -294,7 +313,7 @@ function getallpublicsessions()
 //
 //
 //
-function getpublicip($sid) 
+function getpublicip($sid)
 {
     $sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_ip', array('session_id'), array($sid), 's');
     return $sql->fetch_value();

@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 // zweimal, weil nur auf "a" geprft wird
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
@@ -66,7 +85,7 @@ class AdminTopFrame extends Template
             if($action == "pagenew") { $this->stringvars['newpagelink']="New Page";
             } else { $this->vars['newpagelink']=new AdminTopFrameLink("pagenew.php", "New Page");
             }
-            
+
 
             if($action == "edit" || $action == "editcontents" || $action == "editpageintro") {
                 $this->vars['donelink']=new AdminTopFrameLink("admin.php", "Done", array("action" => "show", "unlock" => "on"));
@@ -95,16 +114,16 @@ class AdminTopFrame extends Template
                 }
             }
             $this->vars['previewpagelink']=new AdminTopFrameLink("pagedisplay.php", "Preview Page", array(), "_blank");
-            
+
             if($action == "pagedelete") { $this->stringvars['deletepagelink']="Delete Page";
             } elseif($this->stringvars['page']) { $this->vars['deletepagelink']=new AdminTopFrameLink("pagedelete.php", "Delete Page", array("action" => "delete"));
             }
             $this->vars['imageslink']=new AdminTopFrameLink("editimagelist.php", "Images", array(), "_blank");
-            
+
             if($action == "editcategories") { $this->stringvars['categorieslink']="Categories";
             } else { $this->vars['categorieslink']=new AdminTopFrameLink("editcategories.php", "Categories");
             }
-            
+
             if(issiteaction($action)) {
                 $this->stringvars['siteadminlink']="Site";
                 $this->vars['returnpageeditinglink']=new AdminTopFrameLink("admin.php", "Return to Page Editing");
@@ -119,7 +138,7 @@ class AdminTopFrame extends Template
             if($action == "profile") { $this->stringvars['profilelink']=$profilelinktitle;
             } else { $this->vars['profilelink']=new AdminTopFrameLink("profile.php", $profilelinktitle);
             }
-            
+
             $this->vars['logoutlink']=new AdminTopFrameLink("admin.php", "Logout", array("logout" => "on"), "_top");
             $this->stringvars['onlineusers']=implode(", ", getloggedinusers());
         }

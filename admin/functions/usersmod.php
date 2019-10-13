@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
@@ -8,7 +27,7 @@ require_once $projectroot."functions/users.php";
 //
 //
 //
-function register($user,$pass,$email) 
+function register($user,$pass,$email)
 {
     list($usec, $sec) = explode(' ', microtime());
     $activationkey= (float) $sec + ((float) $usec * 100000);
@@ -31,7 +50,7 @@ function register($user,$pass,$email)
 //
 //
 //
-function changeuserpassword($userid,$oldpass,$newpass,$confirmpass) 
+function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
 {
     $result["message"] = "Failed to change password";
     $result["error"] = false;
@@ -71,7 +90,7 @@ function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
 //
 //
 //
-function changeuserpasswordadmin($userid,$newpass,$confirmpass) 
+function changeuserpasswordadmin($userid,$newpass,$confirmpass)
 {
     $result="Failed to change password";
     if(isadmin()) {
@@ -108,7 +127,7 @@ function changeuserpasswordadmin($userid,$newpass,$confirmpass)
 //
 //
 //
-function makepassword($userid) 
+function makepassword($userid)
 {
     $letters=array(0=>0,1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,
     10=>"a",11=>"b",12=>"c",13=>"d",14=>"e",15=>"f",16=>"g",17=>"h",
@@ -144,7 +163,7 @@ function makepassword($userid)
 //
 //
 //
-function changeuseremail($userid,$email) 
+function changeuseremail($userid,$email)
 {
     $sql = new SQLUpdateStatement(
         USERS_TABLE,
@@ -157,7 +176,7 @@ function changeuseremail($userid,$email)
 //
 //
 //
-function setuserlevel($userid,$userlevel) 
+function setuserlevel($userid,$userlevel)
 {
     $sql = new SQLUpdateStatement(
         USERS_TABLE,
@@ -170,7 +189,7 @@ function setuserlevel($userid,$userlevel)
 //
 //
 //
-function getuserlevel($userid) 
+function getuserlevel($userid)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'userlevel', array('user_id'), array($userid), 'i');
     return $sql->fetch_value();
@@ -179,7 +198,7 @@ function getuserlevel($userid)
 //
 //
 //
-function changeiscontact($userid,$iscontact) 
+function changeiscontact($userid,$iscontact)
 {
     $sql = new SQLUpdateStatement(
         USERS_TABLE,
@@ -193,7 +212,7 @@ function changeiscontact($userid,$iscontact)
 //
 //
 //
-function changecontactfunction($userid,$contactfunction) 
+function changecontactfunction($userid,$contactfunction)
 {
     $sql = new SQLUpdateStatement(
         USERS_TABLE,
@@ -206,7 +225,7 @@ function changecontactfunction($userid,$contactfunction)
 //
 //
 //
-function activateuser($userid) 
+function activateuser($userid)
 {
     $sql = new SQLUpdateStatement(
         USERS_TABLE,
@@ -219,7 +238,7 @@ function activateuser($userid)
 //
 //
 //
-function deactivateuser($userid) 
+function deactivateuser($userid)
 {
     $sql = new SQLUpdateStatement(
         USERS_TABLE,
@@ -232,7 +251,7 @@ function deactivateuser($userid)
 //
 //
 //
-function hasactivationkey($username,$activationkey) 
+function hasactivationkey($username,$activationkey)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'activationkey', array('username'), array($username), 's');
     return $activationkey === $sql->fetch_value();
@@ -241,7 +260,7 @@ function hasactivationkey($username,$activationkey)
 //
 //
 //
-function userexists($username) 
+function userexists($username)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'username', array('username'), array($username), 's');
     return $sql->fetch_value();
@@ -250,7 +269,7 @@ function userexists($username)
 //
 //
 //
-function emailexists($email,$user=false) 
+function emailexists($email,$user=false)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'user_id', array('email'), array($email), 's');
     $emailuser = $sql->fetch_value();
@@ -266,7 +285,7 @@ function emailexists($email,$user=false)
 //
 //
 //
-function getallusers() 
+function getallusers()
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'user_id');
     $sql->set_order(array('username' => 'ASC'));

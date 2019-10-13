@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "pagecontent"));
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "functions"));
@@ -8,7 +27,7 @@ require_once $projectroot."functions/db.php";
 //
 //
 //
-function getmenucontents($page) 
+function getmenucontents($page)
 {
     $sql = new SQLSelectStatement(MENUS_TABLE, '*', array('page_id'), array($page), 'i');
     return $sql->fetch_row();
@@ -18,7 +37,7 @@ function getmenucontents($page)
 //
 //
 //
-function getmenunavigatordepth($page) 
+function getmenunavigatordepth($page)
 {
     $sql = new SQLSelectStatement(MENUS_TABLE, 'navigatordepth', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -28,7 +47,7 @@ function getmenunavigatordepth($page)
 //
 //
 //
-function getarticlepageoverview($page) 
+function getarticlepageoverview($page)
 {
     $sql = new SQLSelectStatement(ARTICLES_TABLE, array('article_author', 'source', 'day', 'month', 'year'), array('page_id'), array($page), 'i');
     return $sql->fetch_row();
@@ -40,7 +59,7 @@ function getarticlepageoverview($page)
 //
 //
 //
-function getallarticleyears() 
+function getallarticleyears()
 {
     $sql = new SQLSelectStatement(ARTICLES_TABLE, 'year');
     $sql->set_order(array('year' => 'ASC'));
@@ -52,7 +71,7 @@ function getallarticleyears()
 //
 //
 //
-function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showhidden=false) 
+function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showhidden=false)
 {
     $values = array();
     $datatypes = "";

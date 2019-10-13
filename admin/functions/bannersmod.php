@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
@@ -9,7 +28,7 @@ require_once $projectroot."functions/banners.php";
 // fngt an zu spinnen, wenn keine image da ist,
 // oder bereits ein Datensatz mit leerem image vorhanden ist
 //
-function addbanner($header, $imagefilename,$description,$link) 
+function addbanner($header, $imagefilename,$description,$link)
 {
     $sql = new SQLSelectStatement(BANNERS_TABLE, 'position');
     $sql->set_operator('max');
@@ -49,7 +68,7 @@ function addbanner($header, $imagefilename,$description,$link)
 // fngt an zu spinnen, wenn keine image da ist,
 // oder bereits ein Datensatz mit leerem image vorhanden ist
 //
-function addbannercode($header, $code) 
+function addbannercode($header, $code)
 {
     $sql = new SQLSelectStatement(BANNERS_TABLE, 'position');
     $sql->set_operator('max');
@@ -76,7 +95,7 @@ function addbannercode($header, $code)
 //
 //
 //
-function updatebanner($banner, $header, $imagefilename, $description, $link) 
+function updatebanner($banner, $header, $imagefilename, $description, $link)
 {
     $sql = new SQLUpdateStatement(
         BANNERS_TABLE,
@@ -91,7 +110,7 @@ function updatebanner($banner, $header, $imagefilename, $description, $link)
 //
 //
 //
-function updatebannercode($banner, $header, $code) 
+function updatebannercode($banner, $header, $code)
 {
     if (strlen($code) > 0) {
         $sql = new SQLUpdateStatement(
@@ -109,7 +128,7 @@ function updatebannercode($banner, $header, $code)
 //
 //
 //
-function deletebanner($banner) 
+function deletebanner($banner)
 {
     $sql = new SQLDeleteStatement(BANNERS_TABLE, array('banner_id'), array($banner), 'i');
     return $sql->run();
@@ -119,7 +138,7 @@ function deletebanner($banner)
 //
 //
 //
-function movebanner($banner, $direction, $positions=1) 
+function movebanner($banner, $direction, $positions=1)
 {
     if ($positions > 0) {
         $sql = new SQLSelectStatement(BANNERS_TABLE, 'banner_id');

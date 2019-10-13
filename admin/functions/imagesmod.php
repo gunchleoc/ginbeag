@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
@@ -10,7 +29,7 @@ require_once $projectroot."functions/images.php";
 //
 // returns false if image already exists
 //
-function addimage($filename, $subpath, $caption, $source, $sourcelink, $copyright, $permission) 
+function addimage($filename, $subpath, $caption, $source, $sourcelink, $copyright, $permission)
 {
     if(imageexists($filename)) {
         return false;
@@ -54,7 +73,7 @@ function addimage($filename, $subpath, $caption, $source, $sourcelink, $copyrigh
 //
 //
 //
-function addthumbnail($image,$thumbnail) 
+function addthumbnail($image,$thumbnail)
 {
     $sql = new SQLInsertStatement(
         THUMBNAILS_TABLE,
@@ -69,7 +88,7 @@ function addthumbnail($image,$thumbnail)
 // delete thumbnail file from file system first!!!
 // this function only deletes the database entry.
 //
-function deletethumbnail($imagefilename) 
+function deletethumbnail($imagefilename)
 {
     $sql = new SQLDeleteStatement(THUMBNAILS_TABLE, array('image_filename'), array($imagefilename), 's');
     return $sql->run();
@@ -79,7 +98,7 @@ function deletethumbnail($imagefilename)
 // delete image and thumbnail files from file system first!!!
 // this function only deletes the database entries.
 //
-function deleteimage($filename) 
+function deleteimage($filename)
 {
     $result = true;
     if(!imageisused($filename)) {
@@ -98,7 +117,7 @@ function deleteimage($filename)
 //
 //
 //
-function savedescription($filename, $caption, $source, $sourcelink, $copyright, $permission) 
+function savedescription($filename, $caption, $source, $sourcelink, $copyright, $permission)
 {
     $sql = new SQLUpdateStatement(
         IMAGES_TABLE,
@@ -264,7 +283,7 @@ function getfilteredimages(
 //
 //
 //
-function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$uploader,$copyright,$copyrightblank,$selectedcat,$categoriesblank,$order,$ascdesc) 
+function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$uploader,$copyright,$copyrightblank,$selectedcat,$categoriesblank,$order,$ascdesc)
 {
     $result=array();
     $categories=array();

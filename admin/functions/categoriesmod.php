@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
@@ -9,7 +28,7 @@ require_once $projectroot."functions/categories.php";
 //
 //
 //
-function addcategory($parent,$name, $cattype) 
+function addcategory($parent,$name, $cattype)
 {
     if($cattype==CATEGORY_NEWS) { $table = CATEGORIES_NEWS_TABLE;
     } elseif($cattype==CATEGORY_ARTICLE) { $table = CATEGORIES_ARTICLES_TABLE;
@@ -28,7 +47,7 @@ function addcategory($parent,$name, $cattype)
 //
 // returns false if isroot($catid)
 //
-function renamecategory($catid, $name, $cattype) 
+function renamecategory($catid, $name, $cattype)
 {
     if($cattype==CATEGORY_NEWS) { $table = CATEGORIES_NEWS_TABLE;
     } elseif($cattype==CATEGORY_ARTICLE) { $table = CATEGORIES_ARTICLES_TABLE;
@@ -49,7 +68,7 @@ function renamecategory($catid, $name, $cattype)
 //
 // returns false if isroot($catid)
 //
-function movecategory($catid, $newparent, $cattype) 
+function movecategory($catid, $newparent, $cattype)
 {
     if($cattype==CATEGORY_NEWS) { $table = CATEGORIES_NEWS_TABLE;
     } elseif($cattype==CATEGORY_ARTICLE) { $table = CATEGORIES_ARTICLES_TABLE;
@@ -92,7 +111,7 @@ function isdescendant($parent,$descendant, $cattype)
 // removes category from elements
 // if category is not a root category, replaces category with parent category
 //
-function deletecategory($catid, $cattype) 
+function deletecategory($catid, $cattype)
 {
     $result=true;
 
@@ -142,7 +161,7 @@ function deletecategory($catid, $cattype)
 //
 //
 //
-function addimagecategories($filename, $categories) 
+function addimagecategories($filename, $categories)
 {
     $result = true;
 
@@ -168,7 +187,7 @@ function addimagecategories($filename, $categories)
 //
 //
 //
-function removeimagecategories($filename, $categories) 
+function removeimagecategories($filename, $categories)
 {
     $result = true;
     foreach ($categories as $cat) {
@@ -182,7 +201,7 @@ function removeimagecategories($filename, $categories)
 //
 //
 //
-function addpagecategories($page, $categories) 
+function addpagecategories($page, $categories)
 {
     $result = true;
 
@@ -208,7 +227,7 @@ function addpagecategories($page, $categories)
 //
 //
 //
-function removearticlecategories($page, $categories) 
+function removearticlecategories($page, $categories)
 {
     $result = true;
     foreach ($categories as $cat) {
@@ -223,7 +242,7 @@ function removearticlecategories($page, $categories)
 //
 //
 //
-function addnewsitemcategories($newsitem,$categories) 
+function addnewsitemcategories($newsitem,$categories)
 {
     $result = true;
 
@@ -249,7 +268,7 @@ function addnewsitemcategories($newsitem,$categories)
 //
 //
 //
-function removenewsitemcategories($newsitem, $categories) 
+function removenewsitemcategories($newsitem, $categories)
 {
     $result = true;
     foreach ($categories as $cat) {

@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "functions"));
@@ -100,11 +119,11 @@ if(!in_array(substr($server_script, strlen($install_with_root)), $allowedscripts
 }
 
 
-// 
-// 
+//
+//
 // Functions                                                           ##
-// 
-// 
+//
+//
 
 // *************************** basic db functions *************************** //
 
@@ -129,12 +148,12 @@ class SQLStatement
     private $error_limit_reached = false;
 
     // Dummy constructor
-    protected function SQLStatement() 
+    protected function SQLStatement()
     {
     }
 
     // Add an error message to be handled
-    protected function register_error($error) 
+    protected function register_error($error)
     {
         if ($this->error_limit_reached) { return;
         }
@@ -159,7 +178,7 @@ class SQLStatement
     // security, use with all user input
     // also handles UTF-8 encoding!
     //
-    static function setstring($var) 
+    static function setstring($var)
     {
         global $db;
         $result = @$db->db->real_escape_string($var);
@@ -168,7 +187,7 @@ class SQLStatement
 
     // Checks if the given list is a comma saparated string or an array of non-negative integers
     // Returns an array with keys ("errormessage", "content")
-    static function prepare_integer_list($list) 
+    static function prepare_integer_list($list)
     {
         $result = array("errormessage" => "", "content" => "");
         if (is_array($list)) {
@@ -190,7 +209,7 @@ class SQLStatement
     }
 
     // Force int or string on all values
-    private function sanitize_values() 
+    private function sanitize_values()
     {
         global $db;
 
@@ -222,7 +241,7 @@ class SQLStatement
     }
 
     // Validate fields, values and datatypes and then construct a "where" condition
-    protected function construct_where_condition($allow_empty = false) 
+    protected function construct_where_condition($allow_empty = false)
     {
         // Validate
         if (!SQLStatement::is_empty($this->fields)) {
@@ -310,7 +329,7 @@ class SQLStatement
     }
 
     // Sets a limit for the number of rows returned
-    function set_limit($number, $offset) 
+    function set_limit($number, $offset)
     {
         global $db;
         if ($number < 1) {
@@ -336,7 +355,7 @@ class SQLStatement
         $this->offset = SQLStatement::setinteger($offset);
     }
 
-    private function limit() 
+    private function limit()
     {
         if ($this->number > 0) {
             return " LIMIT " . $this->number . " OFFSET " . $this->offset;
@@ -345,7 +364,7 @@ class SQLStatement
     }
 
     // Prepares a mysqli query and returns the statement object
-    private function prepare_query($query) 
+    private function prepare_query($query)
     {
         global $db;
         if (strpos($query, ';') !== false) {
@@ -360,7 +379,7 @@ class SQLStatement
 
 
     // Executes this query and returns the database statement
-    function execute() 
+    function execute()
     {
         global $db;
         $this->construct_query();
@@ -424,7 +443,7 @@ class SQLStatement
     }
 
     // Run the query and return whether it succeeded
-    public function run() 
+    public function run()
     {
         $this->execute();
         return empty($this->errors);
@@ -432,7 +451,7 @@ class SQLStatement
 
     // Executes this query and returns a column of database values
     // Will only work with 1 column in select when this object was constructed
-    function fetch_column() 
+    function fetch_column()
     {
         $result = array();
         $query_result = $this->execute();
@@ -447,7 +466,7 @@ class SQLStatement
 
     // Executes this query and returns two columns of database values
     // Will only work with 2 columns in select when this object was constructed
-    function fetch_two_columns() 
+    function fetch_two_columns()
     {
         $result = array();
         $query_result = $this->execute();
@@ -461,7 +480,7 @@ class SQLStatement
     }
 
     // Get an assiciative array for 1 row
-    function fetch_row() 
+    function fetch_row()
     {
         $query_result = $this->execute();
         if ($query_result) {
@@ -472,7 +491,7 @@ class SQLStatement
 
     // Returns a mapping from keys to asociative arrays of field, value pairs
     // The first column from the constructor acts as keys for the result array
-    function fetch_many_rows() 
+    function fetch_many_rows()
     {
         $result = array();
         $query_result = $this->execute();
@@ -492,7 +511,7 @@ class SQLStatement
     }
 
     // Fetch all values as associative array
-    function fetch_all() 
+    function fetch_all()
     {
         $result = array();
         $query_result = $this->execute();
@@ -503,7 +522,7 @@ class SQLStatement
     }
 
     // Return the first value fetched by the query
-    function fetch_value() 
+    function fetch_value()
     {
         $query_result = $this->execute();
         if ($query_result) {
@@ -516,7 +535,7 @@ class SQLStatement
 
     // Returns an error report constructed from the reported errors and adds backtrace info.
     // If $db->quiet_mode is off, prints it too.
-    private function handle_errors() 
+    private function handle_errors()
     {
         global $db;
 
@@ -590,7 +609,7 @@ class SQLStatement
     }
 
     // empty() with handling numeric to avoid reporting "0" as empty
-    protected static function is_empty($value) 
+    protected static function is_empty($value)
     {
         return (empty($value) && !is_numeric($value));
     }
@@ -605,7 +624,7 @@ class RawSQLStatement extends SQLStatement
     // $values:    values replacing ?
     // $datatypes: string of data types for values, e.g. 'is'
     //             needs to match the values
-    function RawSQLStatement($statement, $values = array(), $datatypes = "") 
+    function RawSQLStatement($statement, $values = array(), $datatypes = "")
     {
         // Set parameters
         $this->query = $statement;
@@ -644,7 +663,7 @@ class RawSQLStatement extends SQLStatement
         }
     }
 
-    protected function construct_query() 
+    protected function construct_query()
     {
         // Do nothing
     }
@@ -661,7 +680,7 @@ class SQLInsertStatement extends SQLStatement
     // $values:    values to be inserted
     // $datatypes: string of data types for values, e.g. 'isi'
     //             needs to match the values
-    function SQLInsertStatement($table, $columns, $values, $datatypes) 
+    function SQLInsertStatement($table, $columns, $values, $datatypes)
     {
         // Set parameters
         $this->table = $table;
@@ -721,7 +740,7 @@ class SQLInsertStatement extends SQLStatement
         }
     }
 
-    protected function construct_query() 
+    protected function construct_query()
     {
         if (!empty($this->errors)) { return;
         }
@@ -733,7 +752,7 @@ class SQLInsertStatement extends SQLStatement
     }
 
     // Run the query and get the generated ID
-    public function insert() 
+    public function insert()
     {
         $result = false;
         $query_result = $this->execute();
@@ -758,7 +777,7 @@ class SQLUpdateStatement extends SQLStatement
     //             and call the set_values() function instead
     // $datatypes: string of data types for values, e.g. 'isi'
     //             needs to match the values
-    function SQLUpdateStatement($table, $columns, $fields, $values, $datatypes) 
+    function SQLUpdateStatement($table, $columns, $fields, $values, $datatypes)
     {
         $this->table = $table;
         $this->datatypes = $datatypes;
@@ -788,7 +807,7 @@ class SQLUpdateStatement extends SQLStatement
 
     // An array of records to update, containing arrays of values for each record.
     // Those inner arrays have the same format as the $values array in the constructor
-    function set_values($values) 
+    function set_values($values)
     {
         if (empty($values)) {
             $this->register_error("Tried to add empty values");
@@ -796,7 +815,7 @@ class SQLUpdateStatement extends SQLStatement
         $this->values = $values;
     }
 
-    protected function construct_query() 
+    protected function construct_query()
     {
         $columns_to_values = array();
         foreach ($this->columns as $column) {
@@ -823,7 +842,7 @@ class SQLDeleteStatement extends SQLStatement
     //                     needs to match the values
     // $special_condition: use this to add any WHERE condition that doesn't fit the "key = value" pattern
     //                     values should show up as "?" and the real values added to $values and their datatypes to $datatypes
-    function SQLDeleteStatement($table, $fields, $values, $datatypes, $special_condition = "") 
+    function SQLDeleteStatement($table, $fields, $values, $datatypes, $special_condition = "")
     {
         $this->table = $table;
         $this->datatypes = $datatypes;
@@ -854,7 +873,7 @@ class SQLDeleteStatement extends SQLStatement
         }
     }
 
-    protected function construct_query() 
+    protected function construct_query()
     {
         $this->query = "DELETE FROM $this->table";
         $this->construct_where_condition();
@@ -881,7 +900,7 @@ class SQLSelectStatement extends SQLStatement
     //                     needs to match the values and anything added in special_condition
     // $special_condition: use this to add any WHERE condition that doesn't fit the "key = value" pattern
     //                     values should show up as "?" and the real values added to $values and their datatypes to $datatypes
-    function SQLSelectStatement($table, $columns, $fields = array(), $values = array(), $datatypes = "", $special_condition = "") 
+    function SQLSelectStatement($table, $columns, $fields = array(), $values = array(), $datatypes = "", $special_condition = "")
     {
         $this->table = $table;
         $this->columns = $columns;
@@ -912,7 +931,7 @@ class SQLSelectStatement extends SQLStatement
     // Sets a sort order for the data returned
     // $order: array of (columname => direction) to order by
     //         direction is 'ASC' or 'DESC'
-    function set_order($order) 
+    function set_order($order)
     {
         global $db;
         foreach ($order as $key => $value) {
@@ -923,13 +942,13 @@ class SQLSelectStatement extends SQLStatement
     }
 
     // Replace "SELECT" with "SELECT DISTINCT" when building the query string
-    function set_distinct() 
+    function set_distinct()
     {
         $this->distinct = true;
     }
 
     // SELECT with count, min, max or sum
-    function set_operator($operator) 
+    function set_operator($operator)
     {
         $allowed_operators = array('min', 'max', 'count', 'sum');
         if(!in_array($operator, $allowed_operators)) {
@@ -943,7 +962,7 @@ class SQLSelectStatement extends SQLStatement
     }
 
     // Returns an SQL statement
-    protected function construct_query() 
+    protected function construct_query()
     {
         $columns = '';
         if (is_array($this->columns)) {
@@ -1007,7 +1026,7 @@ class Database
     /*
     * close DB at end of script
     */
-    function __destruct() 
+    function __destruct()
     {
         @mysqli_close($db);
     }
@@ -1018,7 +1037,7 @@ class Database
 //
 // returns an associative array of properties
 //
-function getproperties() 
+function getproperties()
 {
     $sql = new SQLSelectStatement(SITEPROPERTIES_TABLE, array('property_name', 'property_value'));
     $result = $sql->fetch_two_columns();
@@ -1040,7 +1059,7 @@ function getproperty($propertyname)
 //
 // updates an associative array of properties
 //
-function updateproperties($table, $newproperties, $max_value_length = 0) 
+function updateproperties($table, $newproperties, $max_value_length = 0)
 {
     global $properties;
     $result = "";

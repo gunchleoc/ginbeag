@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "functions"));
 
@@ -7,7 +26,7 @@ require_once $projectroot."functions/db.php";
 //
 //
 //
-function imageexists($filename) 
+function imageexists($filename)
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename', array('image_filename'), array($filename), 's');
     return strlen($filename) > 0 && strcasecmp($sql->fetch_value(), $filename) == 0;
@@ -16,7 +35,7 @@ function imageexists($filename)
 //
 //
 //
-function thumbnailexists($thumbnailfilename) 
+function thumbnailexists($thumbnailfilename)
 {
     if (empty($thumbnailfilename)) { return false;
     }
@@ -27,7 +46,7 @@ function thumbnailexists($thumbnailfilename)
 //
 //
 //
-function hasthumbnail($imagefilename) 
+function hasthumbnail($imagefilename)
 {
     if (empty($imagefilename)) { return false;
     }
@@ -38,7 +57,7 @@ function hasthumbnail($imagefilename)
 //
 //
 //
-function getthumbnail($imagefilename) 
+function getthumbnail($imagefilename)
 {
     $sql = new SQLSelectStatement(THUMBNAILS_TABLE, 'thumbnail_filename', array('image_filename'), array($imagefilename), 's');
     return $sql->fetch_value();
@@ -47,7 +66,7 @@ function getthumbnail($imagefilename)
 //
 //
 //
-function getallfilenames($order="",$ascdesc="ASC") 
+function getallfilenames($order="",$ascdesc="ASC")
 {
     if($order) {
         if($order=="uploader") { $order="editor_id";
@@ -67,7 +86,7 @@ function getallfilenames($order="",$ascdesc="ASC")
 //
 //
 //
-function getallcaptions() 
+function getallcaptions()
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'caption');
     $sql->set_order(array('image_filename' => 'ASC'));
@@ -77,7 +96,7 @@ function getallcaptions()
 //
 //
 //
-function getsomefilenames($offset,$number, $order="filename", $ascdesc="ASC") 
+function getsomefilenames($offset,$number, $order="filename", $ascdesc="ASC")
 {
     if(strtolower($ascdesc)=="desc") { $ascdesc="DESC";
     } else { $ascdesc="ASC";
@@ -100,7 +119,7 @@ function getsomefilenames($offset,$number, $order="filename", $ascdesc="ASC")
 //
 //
 //
-function countimages() 
+function countimages()
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename');
     $sql->set_operator('count');
@@ -111,7 +130,7 @@ function countimages()
 //
 //
 //
-function getimage($filename) 
+function getimage($filename)
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, '*', array('image_filename'), array($filename), 's');
     return $sql->fetch_row();
@@ -121,7 +140,7 @@ function getimage($filename)
 //
 //
 //
-function getimagesubpath($filename) 
+function getimagesubpath($filename)
 {
     if (empty($filename)) { return "";
     }
@@ -132,7 +151,7 @@ function getimagesubpath($filename)
 //
 //
 //
-function getcaption($filename) 
+function getcaption($filename)
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'caption', array('image_filename'), array($filename), 's');
     return $sql->fetch_value();
@@ -142,7 +161,7 @@ function getcaption($filename)
 //
 //
 //
-function getsource($filename) 
+function getsource($filename)
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'source', array('image_filename'), array($filename), 's');
     return $sql->fetch_value();
@@ -151,7 +170,7 @@ function getsource($filename)
 //
 //
 //
-function getsourcelink($filename) 
+function getsourcelink($filename)
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'sourcelink', array('image_filename'), array($filename), 's');
     return $sql->fetch_value();
@@ -161,7 +180,7 @@ function getsourcelink($filename)
 //
 //
 //
-function getuploaddate($filename) 
+function getuploaddate($filename)
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'uploaddate', array('image_filename'), array($filename), 's');
     return $sql->fetch_value();
@@ -171,7 +190,7 @@ function getuploaddate($filename)
 //
 //
 //
-function getuploader($filename) 
+function getuploader($filename)
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'editor_id', array('image_filename'), array($filename), 's');
     return $sql->fetch_value();
@@ -180,7 +199,7 @@ function getuploader($filename)
 //
 //
 //
-function getimagecopyright($filename) 
+function getimagecopyright($filename)
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'copyright', array('image_filename'), array($filename), 's');
     return $sql->fetch_value();
@@ -189,7 +208,7 @@ function getimagecopyright($filename)
 //
 //
 //
-function getimagepermission($filename) 
+function getimagepermission($filename)
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'permission', array('image_filename'), array($filename), 's');
     return $sql->fetch_value();
@@ -199,7 +218,7 @@ function getimagepermission($filename)
 //
 //
 //
-function getallsources() 
+function getallsources()
 {
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'source');
     $sql->set_order(array('source' => 'ASC'));
@@ -219,7 +238,7 @@ function imageisused($filename)
 //
 // todo: modify for each new pagetype
 //
-function pagesforimage($filename) 
+function pagesforimage($filename)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('introimage'), array($filename), 's');
     $sql->set_order(array('page_id' => 'ASC'));
@@ -243,7 +262,7 @@ function pagesforimage($filename)
 //
 //
 //
-function newsitemsforimage($filename) 
+function newsitemsforimage($filename)
 {
     $sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, 'newsitem_id', array('image_filename'), array($filename), 's');
     $sql->set_order(array('newsitem_id' => 'ASC'));
@@ -260,7 +279,7 @@ function newsitemsforimage($filename)
 //
 //
 //
-function getpictureoftheday() 
+function getpictureoftheday()
 {
     $date=date("Y-m-d", strtotime('now'));
     //  print($date);

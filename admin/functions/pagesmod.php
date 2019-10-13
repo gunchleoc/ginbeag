@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
@@ -12,7 +31,7 @@ require_once $projectroot."functions/pages.php";
 //
 //
 //
-function renamepage($page, $title_navigator, $title_page) 
+function renamepage($page, $title_navigator, $title_page)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
@@ -26,7 +45,7 @@ function renamepage($page, $title_navigator, $title_page)
 //
 //
 //
-function updatepageintro($page, $introtext) 
+function updatepageintro($page, $introtext)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
@@ -40,7 +59,7 @@ function updatepageintro($page, $introtext)
 //
 //
 //
-function updatepageintroimagealign($page,$imagealign) 
+function updatepageintroimagealign($page,$imagealign)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
@@ -54,7 +73,7 @@ function updatepageintroimagealign($page,$imagealign)
 //
 //
 //
-function updatepageintroimagesize($page,$autoshrink, $usethumbnail) 
+function updatepageintroimagesize($page,$autoshrink, $usethumbnail)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
@@ -68,7 +87,7 @@ function updatepageintroimagesize($page,$autoshrink, $usethumbnail)
 //
 //
 //
-function updatepageintroimagefilename($page,$imagefilename) 
+function updatepageintroimagefilename($page,$imagefilename)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
@@ -82,7 +101,7 @@ function updatepageintroimagefilename($page,$imagefilename)
 //
 //
 //
-function movepage($page, $direction, $positions=1) 
+function movepage($page, $direction, $positions=1)
 {
     $parent = getparent($page);
     if ($direction === "top" || $direction === "bottom") {
@@ -104,7 +123,7 @@ function movepage($page, $direction, $positions=1)
 //
 //
 //
-function sortsubpagesbyname($page) 
+function sortsubpagesbyname($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('parent_id'), array($page), 'i');
     $sql->set_order(array('title_page' => 'ASC'));
@@ -133,7 +152,7 @@ function sortsubpagesbyname($page)
 //
 //
 //
-function getallsubpageids($page) 
+function getallsubpageids($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('parent_id'), array($page), 'i');
     $sql->set_order(array('position_navigator' => 'ASC'));
@@ -143,7 +162,7 @@ function getallsubpageids($page)
 //
 //
 //
-function getallsubpagenavtitles($page) 
+function getallsubpagenavtitles($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'title_navigator', array('parent_id'), array($page), 'i');
     $sql->set_order(array('position_navigator' => 'ASC'));
@@ -153,7 +172,7 @@ function getallsubpagenavtitles($page)
 //
 //
 //
-function getlastnavposition($pageid) 
+function getlastnavposition($pageid)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'position_navigator', array('parent_id'), array($pageid), 'i');
     $sql->set_operator('max');
@@ -164,7 +183,7 @@ function getlastnavposition($pageid)
 //
 // todo return error states
 //
-function movetonewparentpage($page, $newparent) 
+function movetonewparentpage($page, $newparent)
 {
     $result="";
     $navposition=getlastnavposition($newparent)+1;
@@ -208,7 +227,7 @@ function movetonewparentpage($page, $newparent)
 //
 //
 //
-function getmovetargets($page) 
+function getmovetargets($page)
 {
     $parent=getparent($page);
     $pagetype=getpagetype($page);
@@ -235,7 +254,7 @@ function getmovetargets($page)
 // the types of pages that can be parentpages of a page with $pagetype
 // returns an associative array of legal page types
 //
-function getlegalparentpagetypes($pagetype) 
+function getlegalparentpagetypes($pagetype)
 {
     $result=array();
     $restrictions = getrestrictions($pagetype);
@@ -268,7 +287,7 @@ function getlegalparentpagetypes($pagetype)
 //
 // can a page of $pagetype be a direct subpage of $parentpage?
 //
-function islegalparentpage($pagetype, $parentpage) 
+function islegalparentpage($pagetype, $parentpage)
 {
     $result=false;
 
@@ -289,7 +308,7 @@ function islegalparentpage($pagetype, $parentpage)
 //
 //
 //
-function getrestrictions($pagetype) 
+function getrestrictions($pagetype)
 {
     $sql = new SQLSelectStatement(
         PAGETYPES_TABLE,
@@ -302,7 +321,7 @@ function getrestrictions($pagetype)
 //
 //
 //
-function updaterestrictions($pagetype, $allowroot, $allowsimplemenu) 
+function updaterestrictions($pagetype, $allowroot, $allowsimplemenu)
 {
     $sql = new SQLUpdateStatement(
         PAGETYPES_TABLE,
@@ -315,7 +334,7 @@ function updaterestrictions($pagetype, $allowroot, $allowsimplemenu)
 //
 //
 //
-function publish($page) 
+function publish($page)
 {
     if(ispublishable($page)) {
         $sql = new SQLUpdateStatement(
@@ -332,7 +351,7 @@ function publish($page)
 //
 //
 //
-function unpublish($page) 
+function unpublish($page)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
@@ -346,7 +365,7 @@ function unpublish($page)
 //
 //
 //
-function makepublishable($page) 
+function makepublishable($page)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
@@ -360,7 +379,7 @@ function makepublishable($page)
 //
 //
 //
-function hide($page) 
+function hide($page)
 {
     if (!ispublished($page)) {
         $sql = new SQLUpdateStatement(
@@ -379,7 +398,7 @@ function hide($page)
 //
 //
 //
-function ispublishable($page) 
+function ispublishable($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'ispublishable', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -390,7 +409,7 @@ function ispublishable($page)
 //
 //
 //
-function updateeditdata($page) 
+function updateeditdata($page)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
@@ -403,7 +422,7 @@ function updateeditdata($page)
 //
 // permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
 //
-function updatecopyright($page,$copyright,$imagecopyright,$permission) 
+function updatecopyright($page,$copyright,$imagecopyright,$permission)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
@@ -420,7 +439,7 @@ function updatecopyright($page,$copyright,$imagecopyright,$permission)
 //
 //
 //
-function restrictaccess($page) 
+function restrictaccess($page)
 {
     $result = false;
     if (ispagerestricted($page)) {
@@ -447,7 +466,7 @@ function restrictaccess($page)
 //
 //
 //
-function removeaccessrestriction($page) 
+function removeaccessrestriction($page)
 {
     $sql = new SQLDeleteStatement(RESTRICTEDPAGES_TABLE, array('masterpage'), array($page), 'i');
     $result = $sql->run();
@@ -460,7 +479,7 @@ function removeaccessrestriction($page)
 //
 // must be called when editing the pages that are restricted
 //
-function rebuildaccessrestrictionindex() 
+function rebuildaccessrestrictionindex()
 {
     $result="";
 
@@ -529,7 +548,7 @@ function rebuildaccessrestrictionindex()
 //
 //
 //
-function getpageaccessforpublicuser($user) 
+function getpageaccessforpublicuser($user)
 {
     $sql = new SQLSelectStatement(RESTRICTEDPAGESACCESS_TABLE, 'page_id', array('publicuser_id'), array($user), 'i');
     return $sql->fetch_column();
@@ -538,7 +557,7 @@ function getpageaccessforpublicuser($user)
 //
 //
 //
-function getrestrictedpages() 
+function getrestrictedpages()
 {
     $sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, 'page_id', array('page_id'), array('masterpage'), 's');
     $sql->set_order(array('page_id' => 'ASC'));
@@ -549,7 +568,7 @@ function getrestrictedpages()
 //
 //
 //
-function hasaccess($user, $page) 
+function hasaccess($user, $page)
 {
     $masterpage = getpagerestrictionmaster($page);
     $sql = new SQLSelectStatement(RESTRICTEDPAGESACCESS_TABLE, 'publicuser_id', array('publicuser_id', 'page_id'), array($user, $masterpage), 'ii');
@@ -567,7 +586,7 @@ function hasaccess($user, $page)
 // returns empty string when lock has been obtained
 // else returns string containing reason for lock
 //
-function getpagelock($page) 
+function getpagelock($page)
 {
     $result="";
 
@@ -593,7 +612,7 @@ function getpagelock($page)
 //
 //
 //
-function lockpage($user, $page) 
+function lockpage($user, $page)
 {
     $now=date(DATETIMEFORMAT, strtotime('now'));
     $sql = new SQLSelectStatement(LOCKS_TABLE, 'user_id', array('page_id'), array($page), 'i');
@@ -618,7 +637,7 @@ function lockpage($user, $page)
 //
 //
 //
-function unlockpage($page) 
+function unlockpage($page)
 {
     $sql = new SQLDeleteStatement(LOCKS_TABLE, array('page_id'), array($page), 'i');
     return $sql->run();
@@ -627,7 +646,7 @@ function unlockpage($page)
 //
 //
 //
-function unlockuserpages() 
+function unlockuserpages()
 {
     $user = getsiduser();
     if (!$user) { return false;
@@ -639,7 +658,7 @@ function unlockuserpages()
 //
 // array user_id, locktime
 //
-function getlock($page) 
+function getlock($page)
 {
     // clear old locks
     $sql = new SQLDeleteStatement(

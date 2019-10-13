@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "pagecontent"));
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
@@ -10,7 +29,7 @@ require_once $projectroot."functions/pagecontent/newspages.php";
 //
 //
 //
-function setdisplaynewestnewsitemfirst($page, $shownewestfirst) 
+function setdisplaynewestnewsitemfirst($page, $shownewestfirst)
 {
     $sql = new SQLUpdateStatement(
         NEWS_TABLE,
@@ -24,7 +43,7 @@ function setdisplaynewestnewsitemfirst($page, $shownewestfirst)
 //
 //
 //
-function getnewsitems($page,$number,$offset) 
+function getnewsitems($page,$number,$offset)
 {
     $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id'), array($page), 'i');
     $sql->set_order(array('date' => 'DESC'));
@@ -35,7 +54,7 @@ function getnewsitems($page,$number,$offset)
 //
 //
 //
-function countnewsitems($page) 
+function countnewsitems($page)
 {
     $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id'), array($page), 'i');
     $sql->set_operator('count');
@@ -45,7 +64,7 @@ function countnewsitems($page)
 //
 //
 //
-function getpagefornewsitem($newsitem) 
+function getpagefornewsitem($newsitem)
 {
     $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'page_id', array('newsitem_id'), array($newsitem), 'i');
     return $sql->fetch_value();
@@ -55,7 +74,7 @@ function getpagefornewsitem($newsitem)
 //
 //
 //
-function updatenewsitemtitle($newsitem, $title) 
+function updatenewsitemtitle($newsitem, $title)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMS_TABLE,
@@ -68,7 +87,7 @@ function updatenewsitemtitle($newsitem, $title)
 //
 //
 //
-function addnewsitemsynopsisimage($newsitem, $filename) 
+function addnewsitemsynopsisimage($newsitem, $filename)
 {
     $sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, 'position', array('newsitem_id'), array($newsitem), 'i');
     $sql->set_operator('max');
@@ -85,7 +104,7 @@ function addnewsitemsynopsisimage($newsitem, $filename)
 //
 //
 //
-function editnewsitemsynopsisimage($newsitemimage, $filename) 
+function editnewsitemsynopsisimage($newsitemimage, $filename)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMSYNIMG_TABLE,
@@ -98,7 +117,7 @@ function editnewsitemsynopsisimage($newsitemimage, $filename)
 //
 //
 //
-function removenewsitemsynopsisimage($newsitemimage) 
+function removenewsitemsynopsisimage($newsitemimage)
 {
     $sql = new SQLDeleteStatement(NEWSITEMSYNIMG_TABLE, array('newsitemimage_id'), array($newsitemimage), 's');
     $sql->run();
@@ -107,7 +126,7 @@ function removenewsitemsynopsisimage($newsitemimage)
 //
 //
 //
-function updatenewsitemsource($newsitem, $source, $sourcelink, $location, $contributor) 
+function updatenewsitemsource($newsitem, $source, $sourcelink, $location, $contributor)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMS_TABLE,
@@ -120,7 +139,7 @@ function updatenewsitemsource($newsitem, $source, $sourcelink, $location, $contr
 //
 //
 //
-function fakethedate($newsitem, $day, $month, $year, $hours, $minutes, $seconds) 
+function fakethedate($newsitem, $day, $month, $year, $hours, $minutes, $seconds)
 {
     if (strlen($day) == 1) { $day = "0" . $day;
     }
@@ -152,7 +171,7 @@ function fakethedate($newsitem, $day, $month, $year, $hours, $minutes, $seconds)
 //
 //
 //
-function publishnewsitem($newsitem) 
+function publishnewsitem($newsitem)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMS_TABLE,
@@ -166,7 +185,7 @@ function publishnewsitem($newsitem)
 //
 //
 //
-function unpublishnewsitem($newsitem) 
+function unpublishnewsitem($newsitem)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMS_TABLE,
@@ -179,7 +198,7 @@ function unpublishnewsitem($newsitem)
 //
 //
 //
-function updatenewsitemcopyright($newsitem,$copyright,$imagecopyright,$permission) 
+function updatenewsitemcopyright($newsitem,$copyright,$imagecopyright,$permission)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMS_TABLE,
@@ -193,7 +212,7 @@ function updatenewsitemcopyright($newsitem,$copyright,$imagecopyright,$permissio
 //
 //
 //
-function addnewsitem($page) 
+function addnewsitem($page)
 {
     $sql = new SQLInsertStatement(
         NEWSITEMS_TABLE,
@@ -207,7 +226,7 @@ function addnewsitem($page)
 //
 //
 //
-function deletenewsitem($newsitem) 
+function deletenewsitem($newsitem)
 {
     $sql = new SQLDeleteStatement(NEWSITEMS_TABLE, array('newsitem_id'), array($newsitem), 'i');
     $sql->run();
@@ -224,7 +243,7 @@ function deletenewsitem($newsitem)
 // to a new page below $page
 // returns number of archived newsitems
 //
-function archivenewsitems($page,$day,$month,$year) 
+function archivenewsitems($page,$day,$month,$year)
 {
     $maxpagetitlelength=200;
     $maxnavtitlelength=30;
@@ -308,7 +327,7 @@ function archivenewsitems($page,$day,$month,$year)
 //
 //
 //
-function updatenewsitemsynopsistext($newsitem,$text) 
+function updatenewsitemsynopsistext($newsitem,$text)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMS_TABLE,
@@ -323,7 +342,7 @@ function updatenewsitemsynopsistext($newsitem,$text)
 //
 //
 //
-function addnewsitemsection($newsitem, $newsitemsection,$isquote=false) 
+function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
 {
     if(!$newsitemsection) {
         $sections=getnewsitemsections($newsitem);
@@ -411,7 +430,7 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
 //
 //
 //
-function updatenewsitemsectionimagealign($newsitemsection, $imagealign) 
+function updatenewsitemsectionimagealign($newsitemsection, $imagealign)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMSECTIONS_TABLE,
@@ -424,7 +443,7 @@ function updatenewsitemsectionimagealign($newsitemsection, $imagealign)
 //
 //
 //
-function updatenewsitemsectionimagesize($newsitemsection, $autoshrink, $usethumbnail) 
+function updatenewsitemsectionimagesize($newsitemsection, $autoshrink, $usethumbnail)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMSECTIONS_TABLE,
@@ -438,7 +457,7 @@ function updatenewsitemsectionimagesize($newsitemsection, $autoshrink, $usethumb
 //
 //
 //
-function updatenewsitemsectionimagefilename($newsitemsection, $imagefilename) 
+function updatenewsitemsectionimagefilename($newsitemsection, $imagefilename)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMSECTIONS_TABLE,
@@ -451,7 +470,7 @@ function updatenewsitemsectionimagefilename($newsitemsection, $imagefilename)
 //
 //
 //
-function updatenewsitemsectionttitle($newsitemsection, $title) 
+function updatenewsitemsectionttitle($newsitemsection, $title)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMSECTIONS_TABLE,
@@ -465,7 +484,7 @@ function updatenewsitemsectionttitle($newsitemsection, $title)
 //
 //
 //
-function updatenewsitemsectiontext($newsitemsection, $text) 
+function updatenewsitemsectiontext($newsitemsection, $text)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMSECTIONS_TABLE,
@@ -479,7 +498,7 @@ function updatenewsitemsectiontext($newsitemsection, $text)
 //
 //
 //
-function deletenewsitemsection($newsitem, $newsitemsection) 
+function deletenewsitemsection($newsitem, $newsitemsection)
 {
     // remove quotes if necessary
     $sections=getnewsitemsections($newsitem);
@@ -507,7 +526,7 @@ function deletenewsitemsection($newsitem, $newsitemsection)
 //
 // // RSS feeds are empty
 //
-function addrssfeed($page) 
+function addrssfeed($page)
 {
     $sql = new SQLInsertStatement(RSS_TABLE, array('page_id'), array($page), 'i');
     return $sql->insert();
@@ -516,7 +535,7 @@ function addrssfeed($page)
 //
 //
 //
-function removerssfeed($page) 
+function removerssfeed($page)
 {
     $sql = new SQLDeleteStatement(RSS_TABLE, array('page_id'), array($page), 'i');
     $sql->run();

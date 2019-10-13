@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "pagecontent"));
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "functions"));
@@ -11,7 +30,7 @@ require_once $projectroot ."config.php";
 //
 //
 //
-function getcachedpage($page, $parameters) 
+function getcachedpage($page, $parameters)
 {
     $result="";
     $fields=array(
@@ -41,7 +60,7 @@ function getcachedpage($page, $parameters)
 //
 //
 //
-function makecachedpage($page, $parameters, $content_html) 
+function makecachedpage($page, $parameters, $content_html)
 {
     // create date
     $now=date(DATETIMEFORMAT, strtotime('now'));
@@ -75,7 +94,7 @@ function makecachedpage($page, $parameters, $content_html)
 // compare to edit date and to current date
 // date = last time cache was modified
 //
-function iscachedpagedatecurrent($page, $date) 
+function iscachedpagedatecurrent($page, $date)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'editdate', array('page_id'), array($page), 'i');
     $pagedate = $sql->fetch_value();

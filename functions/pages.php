@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "functions"));
 
@@ -8,7 +27,7 @@ require_once $projectroot."functions/images.php";
 //
 //
 //
-function getarticleoftheday() 
+function getarticleoftheday()
 {
     $date=date("Y-m-d", strtotime('now'));
 
@@ -73,7 +92,7 @@ function getarticleoftheday()
 //
 //
 //
-function getpagetypes() 
+function getpagetypes()
 {
     $sql = new SQLSelectStatement(PAGETYPES_TABLE, array('type_key', 'type_description'));
     $sql->set_order(array('type_key' => 'ASC'));
@@ -84,7 +103,7 @@ function getpagetypes()
 //
 //
 //
-function getpagetype($page) 
+function getpagetype($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'pagetype', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -93,7 +112,7 @@ function getpagetype($page)
 //
 //
 //
-function getpagetitle($page) 
+function getpagetitle($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'title_page', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -102,7 +121,7 @@ function getpagetitle($page)
 //
 //
 //
-function getnavtitle($page) 
+function getnavtitle($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'title_navigator', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -112,7 +131,7 @@ function getnavtitle($page)
 //
 //
 //
-function getpageintro($page) 
+function getpageintro($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, array('introtext', 'introimage', 'imagehalign', 'imageautoshrink', 'usethumbnail'), array('page_id'), array($page), 'i');
     return $sql->fetch_row();
@@ -121,7 +140,7 @@ function getpageintro($page)
 //
 //
 //
-function getpageintrotext($page) 
+function getpageintrotext($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'introtext', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -131,7 +150,7 @@ function getpageintrotext($page)
 //
 //
 //
-function getpageintroimage($page) 
+function getpageintroimage($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'introimage', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -141,7 +160,7 @@ function getpageintroimage($page)
 //
 //
 //
-function getnavposition($page) 
+function getnavposition($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'position_navigator', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -150,7 +169,7 @@ function getnavposition($page)
 //
 //
 //
-function getpageeditor($page) 
+function getpageeditor($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'editor_id', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -160,7 +179,7 @@ function getpageeditor($page)
 // returns array of copyright, imagecopyright, permission
 // permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
 //
-function getcopyright($page) 
+function getcopyright($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, array('copyright', 'image_copyright', 'permission'), array('page_id'), array($page), 'i');
     return $sql->fetch_row();
@@ -169,7 +188,7 @@ function getcopyright($page)
 //
 // permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
 //
-function getpermission($page) 
+function getpermission($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'permission', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -179,7 +198,7 @@ function getpermission($page)
 //
 //
 //
-function geteditdate($page) 
+function geteditdate($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'editdate', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -188,7 +207,7 @@ function geteditdate($page)
 //
 //
 //
-function getparent($page) 
+function getparent($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'parent_id', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -198,7 +217,7 @@ function getparent($page)
 //
 //
 //
-function getsisters($page,$ascdesc="ASC") 
+function getsisters($page,$ascdesc="ASC")
 {
     return getchildren(getparent($page), $ascdesc);
 }
@@ -206,7 +225,7 @@ function getsisters($page,$ascdesc="ASC")
 //
 //
 //
-function getchildren($page,$ascdesc="ASC") 
+function getchildren($page,$ascdesc="ASC")
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('parent_id'), array($page), 'i');
     $sql->set_order(array('position_navigator' => $ascdesc));
@@ -216,7 +235,7 @@ function getchildren($page,$ascdesc="ASC")
 //
 //
 //
-function ispublished($page) 
+function ispublished($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'ispublished', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -226,7 +245,7 @@ function ispublished($page)
 //
 //
 //
-function pageexists($page) 
+function pageexists($page)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('page_id'), array($page), 'i');
     $foundpage = $sql->fetch_value();
@@ -245,7 +264,7 @@ function isrootpage($page)
 //
 //
 //
-function getrootpages() 
+function getrootpages()
 {
     return getchildren(0);
 }
@@ -254,7 +273,7 @@ function getrootpages()
 //
 //
 //
-function getallpages($fields) 
+function getallpages($fields)
 {
     $sql = new SQLSelectStatement(PAGES_TABLE, $fields);
     $sql->set_order(array('page_id' => 'ASC'));
@@ -265,7 +284,7 @@ function getallpages($fields)
 //
 //
 //
-function ispagerestricted($page) 
+function ispagerestricted($page)
 {
     $sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, 'page_id', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -275,7 +294,7 @@ function ispagerestricted($page)
 //
 //
 //
-function isthisexactpagerestricted($page) 
+function isthisexactpagerestricted($page)
 {
     $sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, 'page_id', array('masterpage'), array($page), 'i');
     return $sql->fetch_value();
@@ -284,7 +303,7 @@ function isthisexactpagerestricted($page)
 //
 //
 //
-function getpagerestrictionmaster($page) 
+function getpagerestrictionmaster($page)
 {
     $sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, 'masterpage', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -293,7 +312,7 @@ function getpagerestrictionmaster($page)
 //
 //
 //
-function hasaccesssession($page) 
+function hasaccesssession($page)
 {
     global $sid;
 
@@ -316,7 +335,7 @@ function hasaccesssession($page)
 //
 //
 //
-function getsubpagesforpagetype($page, $pagetype) 
+function getsubpagesforpagetype($page, $pagetype)
 {
     $result=array();
     $searchme=array($page);
@@ -338,7 +357,7 @@ function getsubpagesforpagetype($page, $pagetype)
 //
 //
 //
-function hasrssfeed($page) 
+function hasrssfeed($page)
 {
     $sql = new SQLSelectStatement(RSS_TABLE, 'page_id', array('page_id'), array($page), 'i');
     return $sql->fetch_value();
@@ -347,7 +366,7 @@ function hasrssfeed($page)
 //
 //
 //
-function updatepagestats($page) 
+function updatepagestats($page)
 {
     if ($page > 0) {
         $year=date("Y", strtotime('now'));

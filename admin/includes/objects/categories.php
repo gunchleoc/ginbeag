@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 // zweimal, weil nur auf "a" geprft wird
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
@@ -17,7 +36,7 @@ class CategoryMoveForm extends Template
     function CategoryMoveForm($cattype)
     {
         parent::__construct();
-        
+
         $this->vars['fromform']=new CategorySelectionForm(false, "", $cattype, 15, array(), false, "movefrom", "Select a category to move:");
         $this->vars['toform']=new CategorySelectionForm(false, "", $cattype, 15, array(), false, "moveto", "Select destination:");
 
@@ -29,7 +48,7 @@ class CategoryMoveForm extends Template
 
         $this->vars['submitrow']=new SubmitRow("movecat", "Move");
     }
-    
+
     // assigns templates
     function createTemplates()
     {
@@ -47,7 +66,7 @@ class EditCategoryForm extends Template
     function EditCategoryForm($addsubtext, $editcattext, $cattype)
     {
         parent::__construct();
-        
+
         $this->stringvars['addsubtext']=$addsubtext;
         $this->stringvars['editcattext']=$editcattext;
 
@@ -60,7 +79,7 @@ class EditCategoryForm extends Template
         $this->vars['categoryselection']=new CategorySelectionForm(false, "", $cattype, 15, array(), "assignSelectValue(this, editcattext)", "selectedcat", "Select a category for editing:");
         $this->vars['deleteconfirm']= new CheckboxForm("delcatconfirm", "Delete selected", "Confirm delete", false, "right");
     }
-    
+
     // assigns templates
     function createTemplates()
     {
@@ -80,7 +99,7 @@ class AdminCategories extends Template
     function AdminCategories($title,$addsubtext, $editcattext, $cattype)
     {
         parent::__construct();
-        
+
         $this->vars['categorymoveform']= new CategoryMoveForm($cattype);
         $this->vars['editcategoryform']= new EditCategoryForm($addsubtext, $editcattext, $cattype);
 
@@ -108,7 +127,7 @@ class AdminCategories extends Template
         }
 
     }
-    
+
     // assigns templates
     function createTemplates()
     {

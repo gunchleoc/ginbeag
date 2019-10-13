@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 // zweimal, weil nur auf "a" geprft wird
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
@@ -29,7 +48,7 @@ class SiteCreatePublicUser extends Template
         $this->vars['submitrow']= new SubmitRow("createuser", "Create User", false, true, "admin.php".makelinkparameters($linkparams));
 
         $this->stringvars['username'] = title2html($username);
-        
+
         if($newuserid >= 0) {
             $linkparams["userid"] = $newuserid;
             $linkparams["type"] = "public";
@@ -41,7 +60,7 @@ class SiteCreatePublicUser extends Template
             $this->stringvars['newuserlinks']="";
         }
     }
-    
+
     // assigns templates
     function createTemplates()
     {
@@ -60,16 +79,16 @@ class SiteUserlist extends Template
     function SiteUserlist($ref)
     {
         parent::__construct();
-    
+
         $users=getallusers();
-    
+
         for($i=0; $i<count($users);$i++)
         {
             $this->listvars['adminusers'][]=new SiteUserlistAdminUser($users[$i], $ref);
         }
-          
+
         $users=getallpublicusers();
-        
+
         for($i=0; $i<count($users);$i++)
         {
             $this->listvars['publicusers'][]=new SiteUserlistPublicUser($users[$i], $ref);
@@ -94,10 +113,10 @@ class SiteUserlistAdminUser extends Template
     function SiteUserlistAdminUser($userid,$ref)
     {
         parent::__construct();
-        
+
         $lastlogin = getlastlogin($userid);
         $retries = getretries($userid);
-        
+
         $this->stringvars['username'] = title2html(getusername($userid));
 
         $linkparams["page"] = $this->stringvars['page'];
@@ -114,25 +133,25 @@ class SiteUserlistAdminUser extends Template
             $linkparams["action"] = "siteuserperm";
             $this->stringvars['permissionslink'] = 'admin.php'.makelinkparameters($linkparams);
         }
-          
+
         $this->stringvars['email']=getuseremail($userid);
-          
+
         if(getiscontact($userid)) { $this->stringvars['iscontact']="Yes";
         } else { $this->stringvars['iscontact']="&mdash;";
         }
-          
+
         $this->stringvars['contactfunction']=getcontactfunction($userid);
-          
+
         if(isactive($userid)) { $this->stringvars['isactive']="Yes";
         } else { $this->stringvars['isactive']="&mdash;";
         }
-          
+
         $userlevel = getuserlevel($userid);
 
         if($userlevel==USERLEVEL_USER) { $this->stringvars['userlevel']="User";
         } elseif($userlevel==USERLEVEL_ADMIN) { $this->stringvars['userlevel']="Administrator";
         }
-          
+
         $this->stringvars['lastlogin']=getlastlogin($userid);
         $this->stringvars['retries']=getretries($userid);
     }
@@ -153,7 +172,7 @@ class SiteUserlistPublicUser extends Template
     function SiteUserlistPublicUser($userid,$ref)
     {
         parent::__construct();
-    
+
         $this->stringvars['username'] = title2html(getpublicusername($userid));
 
         $linkparams["page"] = $this->stringvars['page'];
@@ -171,22 +190,22 @@ class SiteUserlistPublicUser extends Template
             $linkparams["action"] = "siteuserperm";
             $this->stringvars['permissionslink'] = 'admin.php'.makelinkparameters($linkparams);
         }
-    
+
         if(ispublicuseractive($userid)) { $this->stringvars['isactive']="Yes";
         } else { $this->stringvars['isactive']="&mdash;";
         }
-          
+
         $userpages=getpageaccessforpublicuser($userid);
-          
+
         $noofpages=count($userpages);
         if(!$noofpages>0) {
-          
+
             $this->stringvars['userpages']='<div align="center"> &mdash; </div>';
         }
         else
         {
             $this->stringvars['userpages']='';
-          
+
             for($i=0;$i<$noofpages;$i++)
             {
                 if($i>0) {
@@ -213,7 +232,7 @@ class SiteSelectUserForm extends Template
     function SiteSelectUserForm($username="")
     {
         parent::__construct();
-        
+
         $this->stringvars['username'] = title2html($username);
 
         $linkparams["page"] = $this->stringvars['page'];
@@ -277,11 +296,11 @@ class SiteAdminUserProfileForm extends Template
         $this->stringvars['username'] = title2html(getusername($userid));
         $this->stringvars['email']=getuseremail($userid);
         $this->stringvars['contactfunction']=getcontactfunction($userid);
-          
+
         if(isactive($userid)) { $this->stringvars['isactive']="true";
         } else { $this->stringvars['notactive']="true";
         }
-          
+
         if(getiscontact($userid)) { $this->stringvars['iscontact']="true";
         }
         $this->vars['iscontactform']= new CheckboxForm("iscontact", "iscontact", "<em>".$this->stringvars['username']."</em> can be contacted through the contact page:", getiscontact($userid));
@@ -319,7 +338,7 @@ class SitePublicUserProfileForm extends Template
     function SitePublicUserProfileForm($userid)
     {
         parent::__construct();
-          
+
         $this->stringvars['username'] = title2html(getpublicusername($userid));
         $this->stringvars['userid']=$userid;
 
@@ -339,11 +358,11 @@ class SitePublicUserProfileForm extends Template
         $this->stringvars['activateactionvars'] = makelinkparameters($linkparams);
 
         $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
-          
+
         if(ispublicuseractive($userid)) { $this->stringvars['isactive']="true";
         } else { $this->stringvars['notactive']="true";
         }
-          
+
 
         $linkparams=array();
         $linkparams["page"] = $this->stringvars['page'];
@@ -351,7 +370,7 @@ class SitePublicUserProfileForm extends Template
         $this->stringvars['returnlink'] = makelinkparameters($linkparams);
 
         $this->vars['submitrow']= new SubmitRow("profile", "Change Password", false, true, $this->stringvars['returnlink']);
-          
+
         $linkparams=array();
         $linkparams["page"] = $this->stringvars['page'];
         $linkparams["userid"] = $userid;

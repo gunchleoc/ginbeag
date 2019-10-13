@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
@@ -8,7 +27,7 @@ require_once $projectroot."functions/publicusers.php";
 //
 //
 //
-function addpublicuser($user,$pass) 
+function addpublicuser($user,$pass)
 {
     $sql = new SQLInsertStatement(
         PUBLICUSERS_TABLE,
@@ -23,7 +42,7 @@ function addpublicuser($user,$pass)
 //
 //
 //
-function changepublicuserpasswordadmin($userid,$newpass,$confirmpass) 
+function changepublicuserpasswordadmin($userid,$newpass,$confirmpass)
 {
     $result="Failed to change password";
 
@@ -60,7 +79,7 @@ function changepublicuserpasswordadmin($userid,$newpass,$confirmpass)
 //
 //
 //
-function activatepublicuser($userid) 
+function activatepublicuser($userid)
 {
     $sql = new SQLUpdateStatement(
         PUBLICUSERS_TABLE,
@@ -73,7 +92,7 @@ function activatepublicuser($userid)
 //
 //
 //
-function deactivatepublicuser($userid) 
+function deactivatepublicuser($userid)
 {
     $sql = new SQLUpdateStatement(
         PUBLICUSERS_TABLE,
@@ -87,7 +106,7 @@ function deactivatepublicuser($userid)
 //
 //
 //
-function publicuserexists($username) 
+function publicuserexists($username)
 {
     $sql = new SQLSelectStatement(PUBLICUSERS_TABLE, 'username', array('username'), array($username), 's');
     return $sql->fetch_value();
@@ -97,7 +116,7 @@ function publicuserexists($username)
 //
 //
 //
-function getallpublicusers() 
+function getallpublicusers()
 {
     $sql = new SQLSelectStatement(PUBLICUSERS_TABLE, 'user_id');
     $sql->set_order(array('username' => 'ASC'));
@@ -109,7 +128,7 @@ function getallpublicusers()
 //
 //
 //
-function addpageaccess($userids,$pageid) 
+function addpageaccess($userids,$pageid)
 {
     $result = true;
     for($i=0;$i<count($userids);$i++)
@@ -128,7 +147,7 @@ function addpageaccess($userids,$pageid)
 //
 //
 //
-function removepageaccess($userids, $pageid) 
+function removepageaccess($userids, $pageid)
 {
     $result = true;
     foreach ($userids as $id) {
@@ -141,7 +160,7 @@ function removepageaccess($userids, $pageid)
 //
 //
 //
-function getallpublicuserswithaccessforpage($pageid) 
+function getallpublicuserswithaccessforpage($pageid)
 {
     $sql = new SQLSelectStatement(RESTRICTEDPAGESACCESS_TABLE, 'publicuser_id', array('page_id'), array($pageid), 'i');
     return $sql->fetch_column();
@@ -153,7 +172,7 @@ function getallpublicuserswithaccessforpage($pageid)
 //
 //
 //
-function addbannedipforrestrictedpages($ip) 
+function addbannedipforrestrictedpages($ip)
 {
     $ip = ip2long($ip);
     $sql = new SQLSelectStatement(RESTRICTEDPAGESBANNEDIPS_TABLE, 'ip', array('ip'), array($ip), 'i');
@@ -167,7 +186,7 @@ function addbannedipforrestrictedpages($ip)
 //
 //
 //
-function removebannedipforrestrictedpageas($ip) 
+function removebannedipforrestrictedpageas($ip)
 {
     $sql = new SQLDeleteStatement(RESTRICTEDPAGESBANNEDIPS_TABLE, array('ip'), array(ip2long($ip)), 'i');
     return $sql->run();
@@ -176,7 +195,7 @@ function removebannedipforrestrictedpageas($ip)
 //
 //
 //
-function getalladdbannedipforrestrictedpages() 
+function getalladdbannedipforrestrictedpages()
 {
     $sql = new SQLSelectStatement(RESTRICTEDPAGESBANNEDIPS_TABLE, 'ip');
     $sql->set_order(array('ip' => 'ASC'));

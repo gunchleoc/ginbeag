@@ -1,4 +1,23 @@
 <?php
+/*
+ * An Gineadair Beag is a content management system to run websites with.
+ *
+ * Copyright (C) 2005-2019 GunChleoc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 $projectroot=dirname(__FILE__);
 
 // zweimal, weil nur auf "a" geprft wird
@@ -25,29 +44,29 @@ class AdminMain extends Template
         parent::__construct();
 
         /****************************
- * header 
+ * header
 ***************************************/
-    
+
         $this->stringvars['stylesheet']=getCSSPath("main.css");
         $this->stringvars['stylesheetcolors']= getCSSPath("colors.css");
         $this->stringvars['adminstylesheet']=getCSSPath("admin.css");
         $this->stringvars['headertitle']= title2html(getproperty("Site Name")).' - Webpage building';
-        
-        
-        // load linked Javascript        
+
+
+        // load linked Javascript
         if($contentobject instanceof Template) {
             $jspaths = $contentobject->getjspaths();
             $this->stringvars['scriptlinks']='<script type="text/javascript" src="'.getprojectrootlinkpath().'includes/javascript/jquery.js"></script>';
             if(strlen($jspaths)>0) {
                 $this->stringvars['scriptlinks'] .= $jspaths;
             }
-                
+
             $jscripts = $contentobject->getScripts();
             if(strlen($jscripts)>0) {
                 $this->stringvars['javascript']=$jscripts;
             }
         }
-        
+
         if($contentobject instanceof DoneRedirect) {
             $this->stringvars['is_redirect']="redirect";
             $this->stringvars['url']=$contentobject->stringvars['url'];
@@ -57,9 +76,9 @@ class AdminMain extends Template
 
 
         /****************************
- * navigator 
+ * navigator
 ************************************/
-    
+
         if(issiteaction($action)) {
             include_once $projectroot."admin/includes/objects/site/navigator.php";
             $this->vars['navigatorfixed']= new SiteAdminNavigatorHeader();
@@ -73,14 +92,14 @@ class AdminMain extends Template
         }
 
         /****************************
- * content 
+ * content
 **************************************/
-    
+
         $this->vars['message'] = $message;
 
         if(!is_null($contentobject)) {
 
-                
+
             if($contentobject instanceof Template) {
                 $this->vars['contents']= $contentobject;
             } elseif(is_string($contentobject)) {
@@ -88,7 +107,7 @@ class AdminMain extends Template
             } else {
                 $this->stringvars['contents']= "Error: illegal content in AdminMain!";
             }
-            
+
         }
         else
         {
@@ -109,7 +128,7 @@ class AdminMain extends Template
             else
             {
                 $pagetype=getpagetype($_GET["page"]);
-        
+
                 // init
                 if(isset($_GET['articlepage'])) {
                     $articlepage=$_GET['articlepage'];
@@ -120,14 +139,14 @@ class AdminMain extends Template
                 } else {
                     $articlepage=0;
                 }
-        
-        
+
+
                 if(isset($_GET['offset'])) { $offset=$_GET['offset'];
                 } else { $offset=0;
                 }
-                
+
                 $this->vars['message'] = new AdminPageDisplayMessage(true);
-        
+
                 if($pagetype==="article") {
                     include_once $projectroot."includes/objects/articlepage.php";
                     $this->vars['contents'] = new ArticlePage($articlepage, true);
