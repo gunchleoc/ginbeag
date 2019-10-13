@@ -1,6 +1,8 @@
 <?php
-/*
+/**
  * An Gineadair Beag is a content management system to run websites with.
+ *
+ * PHP Version 7
  *
  * Copyright (C) 2005-2019 GunChleoc
  *
@@ -16,29 +18,29 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * @category Ginbeag
+ * @package  Ginbeag
+ * @author   gunchleoc <fios@foramnagaidhlig.net>
+ * @license  https://www.gnu.org/licenses/agpl-3.0.en.html GNU AGPL
+ * @link     https://github.com/gunchleoc/ginbeag/
  */
 
 $lang=array();
 
-/**************************************************************/
 /* screen reader titles ***************************************/
-/**************************************************************/
 
 $lang["title_navigator"] = "Navigator";
 $lang["title_content"] = "Content";
 
-/**************************************************************/
 /* page header ************************************************/
-/**************************************************************/
 
 $lang["header_mobilestyle"]="Mobile Style";
 $lang["header_desktopstyle"]="Desktop Style";
 $lang["header_showmenu"]="Menu ▼";
 $lang["header_hidemenu"]="Menu ▲";
 
-/**************************************************************/
 /* page footer ************************************************/
-/**************************************************************/
 
 //s1 = date
 $lang["footer_lastedited"]="Last edited: %s";
@@ -64,9 +66,7 @@ $lang["footer_imageuploadedauthor"]="Image uploaded: %1s by %2s";
 
 
 
-/**************************************************************/
 /* menu pages *************************************************/
-/**************************************************************/
 
 
 $lang["menu_filter_displayoptions"]="Display options:";
@@ -84,9 +84,7 @@ $lang["menu_filter_result"]="Search Result";
 
 
 
-/**************************************************************/
 /* articlemenu pages ******************************************/
-/**************************************************************/
 
 $lang["article_filter_title"]="Title";
 $lang["article_filter_author"]="Author";
@@ -99,9 +97,7 @@ $lang["article_filter_to"]="To: ";
 $lang["article_filter_showall"]="Show all articles";
 
 
-/**************************************************************/
 /* news pages *************************************************/
-/**************************************************************/
 
 $lang["news_filter_displayoptions"]="Display options:";
 $lang["news_filter_categories"]="Categories: ";
@@ -140,16 +136,12 @@ $lang["newsitem_returnbutton"]="Show all newsitems";
 
 $lang["news_title_default"]="News – %s";
 
-/**************************************************************/
 /* categories *************************************************/
-/**************************************************************/
 
 $lang["categorylist_categories"]="Categories: ";
 $lang["categorylist_none"]="none";
 
-/**************************************************************/
 /* article pages **********************************************/
-/**************************************************************/
 
 $lang["article_page_source"]="Source: ";
 $lang["article_page_author"]="By";
@@ -157,9 +149,7 @@ $lang["article_page_toc"]="Table of Contents";
 
 
 
-/**************************************************************/
 /* forms ******************************************************/
-/**************************************************************/
 
 $lang["form_ascdesc_ascending"]="Ascending";
 $lang["form_ascdesc_descending"]="Descending";
@@ -169,16 +159,12 @@ $lang["form_cat_allcats"]="All Categories";
 
 
 
-/**************************************************************/
 /* sections ***************************************************/
-/**************************************************************/
 
 $lang["section_quote"]="Quote:";
 
 
-/**************************************************************/
 /* special pages **********************************************/
-/**************************************************************/
 
 $lang["navigator_contact"]="Contact";
 $lang["navigator_sitemap"]="Sitemap";
@@ -201,9 +187,7 @@ $lang["pageintro_guestbook"]="Guestbook Messages";
 
 
 
-/**************************************************************/
 /* guestbook **************************************************/
-/**************************************************************/
 
 $lang["guestbook_leavemessageguestbook"]="Leave a message in the Guestbook";
 $lang["guestbook_leavemessage"]="Leave a message";
@@ -235,9 +219,7 @@ $lang["guestbook_messageadded"]="Your message has been added to the Guestbook.";
 $lang["guestbook_return"]="Return to the Guestbook";
 $lang["guestbook_leavemessage"]="Leave a message";
 
-/**************************************************************/
 /* email functions ********************************************/
-/**************************************************************/
 
 // labels
 $lang["email_address"]="Your e-mail address: ";
@@ -285,24 +267,18 @@ $lang["email_yourguestbookentry"]="Your guestbook entry ";
 $lang["email_emailsent"]="Sent e-mail";
 
 
-/**************************************************************/
 /* Anti-spam **************************************************/
-/**************************************************************/
 
 $lang["antispam_legend_captcha"]="Please prove you're not a spambot";
 
 
-/**************************************************************/
 /* show image *************************************************/
-/**************************************************************/
 
 $lang["image_viewing"]="Viewing Image";
 $lang["image_viewthumbnails"]="Return to the full page";
 
 
-/**************************************************************/
 /* Login and restricted pages *********************************/
-/**************************************************************/
 
 $lang["login_pagetitle"]="Login";
 $lang["login_legend_login"]="Login to restricted pages";
@@ -329,9 +305,7 @@ $lang["restricted_pagetitle"]="Access restricted";
 $lang["restricted_pleaselogin"]="Please log in";
 
 
-/**************************************************************/
 /* general ****************************************************/
-/**************************************************************/
 
 
 // top link text

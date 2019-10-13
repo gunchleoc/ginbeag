@@ -1,6 +1,8 @@
 <?php
-/*
+/**
  * An Gineadair Beag is a content management system to run websites with.
+ *
+ * PHP Version 7
  *
  * Copyright (C) 2005-2019 GunChleoc
  *
@@ -16,6 +18,12 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * @category Ginbeag
+ * @package  Ginbeag
+ * @author   gunchleoc <fios@foramnagaidhlig.net>
+ * @license  https://www.gnu.org/licenses/agpl-3.0.en.html GNU AGPL
+ * @link     https://github.com/gunchleoc/ginbeag/
  */
 
 $projectroot=dirname(__FILE__)."/";

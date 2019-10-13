@@ -1,6 +1,8 @@
 <?php
-/*
+/**
  * An Gineadair Beag is a content management system to run websites with.
+ *
+ * PHP Version 7
  *
  * Copyright (C) 2005-2019 GunChleoc
  *
@@ -16,29 +18,29 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * @category Ginbeag
+ * @package  Ginbeag
+ * @author   gunchleoc <fios@foramnagaidhlig.net>
+ * @license  https://www.gnu.org/licenses/agpl-3.0.en.html GNU AGPL
+ * @link     https://github.com/gunchleoc/ginbeag/
  */
 
 $lang=array();
 
-/**************************************************************/
 /* screen reader titles ***************************************/
-/**************************************************************/
 
 $lang["title_navigator"] = "Clàr-taice";
 $lang["title_content"] = "Susbaint";
 
-/**************************************************************/
 /* page header ************************************************/
-/**************************************************************/
 
 $lang["header_mobilestyle"]="Inneal-làimhe";
 $lang["header_desktopstyle"]="Deasg";
 $lang["header_showmenu"]="Clàr-taice ▼";
 $lang["header_hidemenu"]="Clàr-taice ▲";
 
-/**************************************************************/
 /* page footer ************************************************/
-/**************************************************************/
 
 //s1 = date
 $lang["footer_lastedited"]="An deasachadh mu dheireadh: %s";
@@ -62,10 +64,7 @@ $lang["footer_imageuploaded"]="Dealbh air a luchdadh suas: %s";
 $lang["footer_imageuploadedauthor"]="Dealbh air a luchdadh suas: %1s le %2s";
 
 
-
-/**************************************************************/
 /* menu pages *************************************************/
-/**************************************************************/
 
 
 $lang["menu_filter_displayoptions"]="Roghainnean an t-seallaidh:";
@@ -82,10 +81,7 @@ $lang["menu_filter_badyearselection"]="Cha dèan an dà bhliadhna a thagh thu ci
 $lang["menu_filter_result"]="Toraidhean an luirg";
 
 
-
-/**************************************************************/
 /* articlemenu pages ******************************************/
-/**************************************************************/
 
 $lang["article_filter_title"]="Tiotal";
 $lang["article_filter_author"]="Ùghdar";
@@ -97,10 +93,7 @@ $lang["article_filter_from"]="Bho: ";
 $lang["article_filter_to"]="Gu: ";
 $lang["article_filter_showall"]="Seall na h-uile aiste";
 
-
-/**************************************************************/
 /* news pages *************************************************/
-/**************************************************************/
 
 $lang["news_filter_displayoptions"]="Roghainnean an t-seallaidh:";
 $lang["news_filter_categories"]="Roinnean-seòrsa: ";
@@ -139,25 +132,18 @@ $lang["newsitem_returnbutton"]="Seall na h-uile naidheachd";
 
 $lang["news_title_default"]="Naidheachd – %s";
 
-/**************************************************************/
 /* categories *************************************************/
-/**************************************************************/
 
 $lang["categorylist_categories"]="Roinnean-seorsa: ";
 $lang["categorylist_none"]="gin";
 
-/**************************************************************/
 /* article pages **********************************************/
-/**************************************************************/
 
 $lang["article_page_source"]="Tùs: ";
 $lang["article_page_author"]="Le";
 $lang["article_page_toc"]="Clàr-innse";
 
-
-/**************************************************************/
 /* forms ******************************************************/
-/**************************************************************/
 
 $lang["form_ascdesc_ascending"]="A' dìreadh";
 $lang["form_ascdesc_descending"]="A' teàrnadh";
@@ -165,17 +151,11 @@ $lang["form_ascdesc_label"]="Comhair: ";
 
 $lang["form_cat_allcats"]="A h-uile roinn-seòrsa";
 
-
-
-/**************************************************************/
 /* sections ***************************************************/
-/**************************************************************/
 
 $lang["section_quote"]="Às-earrann:";
 
-/**************************************************************/
 /* special pages **********************************************/
-/**************************************************************/
 
 $lang["navigator_contact"]="Fios thugainn";
 $lang["navigator_sitemap"]="Mapa na làraich";
@@ -195,10 +175,7 @@ $lang["pageintro_sitemap"]="Mapa na làraich";
 //$lang["pageintro_home"]="Dachaigh";
 $lang["pageintro_guestbook"]="Teachdaireachdan nan aoighean";
 
-
-/**************************************************************/
 /* guestbook **************************************************/
-/**************************************************************/
 
 $lang["guestbook_leavemessageguestbook"]="Cuir teachdaireachd ri leabhar nan aoighean";
 $lang["guestbook_leavemessage"]="Cuir teachdaireachd ris";
@@ -231,9 +208,7 @@ $lang["guestbook_return"]="Till gu leabhar nan aoighean";
 $lang["guestbook_leavemessage"]="Fàg teachdaireachd";
 
 
-/**************************************************************/
 /* email functions ********************************************/
-/**************************************************************/
 
 // labels
 $lang["email_address"]="An seòladh puist-d agad: ";
@@ -279,24 +254,18 @@ $lang["email_yourguestbookentry"]="An teachdaireachd agad gu leabhar nan aoighea
 $lang["email_emailsent"]="Tha am post-d air a chur";
 
 
-/**************************************************************/
 /* Anti-spam **************************************************/
-/**************************************************************/
 
 $lang["antispam_legend_captcha"]="An dearbhaich thu nach e inneal-rannsachaidh a th' annad?";
 
 
-/**************************************************************/
 /* show image *************************************************/
-/**************************************************************/
 
 $lang["image_viewing"]="A' coimhead air dealbh";
 $lang["image_viewthumbnails"]="Till dhan duilleag shlàn";
 
 
-/**************************************************************/
 /* Login and restricted pages *********************************/
-/**************************************************************/
 
 $lang["login_pagetitle"]="Logadh a-steach";
 $lang["login_legend_login"]="Log a-steach dha dhuilleagan cuingichte";
@@ -323,9 +292,7 @@ $lang["restricted_pagetitle"]="Inntrigeadh cuingichte";
 $lang["restricted_pleaselogin"]="An log thu a-steach?";
 
 
-/**************************************************************/
 /* general ****************************************************/
-/**************************************************************/
 
 
 // top link text
