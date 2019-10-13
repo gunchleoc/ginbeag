@@ -11,11 +11,17 @@ include_once($projectroot."admin/functions/sessions.php");
 //print_r($_POST);
 //print_r($_GET);
 
+$db->quiet_mode = true;
+
 checksession();
 
 $filename=$_POST['filename'];
 $image=getimage($filename);
 $printme= new EditImageFormUsage($filename);
 
-print($printme->toHTML());
+if (empty($db->error_report)) {
+	print($printme->toHTML());
+} else {
+	print($db->error_report);
+}
 ?>

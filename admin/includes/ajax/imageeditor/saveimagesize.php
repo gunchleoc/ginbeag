@@ -8,6 +8,8 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."admin/functions/pagesmod.php");
 include_once($projectroot."admin/functions/sessions.php");
 
+$db->quiet_mode = true;
+
 checksession();
 
 //print_r($_POST);
@@ -71,10 +73,10 @@ if(!$errormessage)
 	}
 }
 
-if($errormessage)
+if($errormessage || !empty($db->error_report))
 {
 	print('<message error="1">');
-	print("error ".$errormessage);
+	print("error ".$errormessage . "<br />\n" . $db->error_report);
 }
 else
 {

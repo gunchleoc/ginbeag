@@ -6,10 +6,13 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
 $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
+include_once($projectroot."functions/db.php");
 include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
+
+$db->quiet_mode = true;
 
 checksession();
 
@@ -19,12 +22,12 @@ $message = getpagelock($_POST['page']);
 if($message)
 {
 	print('<message error="1">');
-	print($message);
+	print($message . $db->error_report);
 }
 else {
 	$success = updatenewsitemtitle($_POST['newsitem'],fixquotes($_POST['title']));
 
-	if($success >=0)
+	if($success >=0 && empty($db->error_report))
 	{
 		print('<message error="0">');
 		updateeditdata($_POST['page']);
@@ -33,7 +36,8 @@ else {
 	else
 	{
 		print('<message error="1">');
-		print("Error Saving  Title for Newsitem ID: ".$_POST['newsitem']);
+		print("Error Saving Title for Newsitem ID: " . $_POST['newsitem']
+			. "<br />\n" . $db->error_report);
 	}
 }
 print("</message>");

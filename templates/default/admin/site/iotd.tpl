@@ -1,6 +1,5 @@
 <h1 class="headerpagetitle">Random Items of the Day</h1>
 <form name="site" action="{ACTIONVARS}" method="post">
-	{HIDDENVARS}
 	<div class="contentheader">On Random: Picture of the Day</div>
 	<div class="contentsection">
 		<fieldset>

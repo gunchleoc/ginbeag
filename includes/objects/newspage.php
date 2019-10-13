@@ -113,7 +113,7 @@ class Newsitem extends Template {
 			$this->stringvars['l_contributor'] =getlang('news_source_foundby');
 		}
 
-		$this->vars['categorylist']=new CategorylistLinks(getcategoriesfornewsitem($newsitem),$this->stringvars["page"],CATEGORY_NEWS);
+		$this->vars['categorylist']=new CategorylistLinks(getcategoriesfornewsitem($newsitem),$this->stringvars['page'],CATEGORY_NEWS);
 
 		if(strlen($contents['synopsis'])>0)
 			$this->stringvars['synopsis_image']="synopsis_image";
@@ -267,10 +267,9 @@ class NewsPage extends Template {
 
 		$this->stringvars["l_topofthispage"] = getlang("pagemenu_topofthispage");
 
-		// searching & filtering
+		// filtering
 		$filter=isset($_GET['filter']);
 		$filterpage=isset($_GET['filterpage']);
-		$search=isset($_GET['search']);
 		if($filter || $filterpage)
 		{
 			$selectedcat=$_GET['selectedcat'];
@@ -286,14 +285,7 @@ class NewsPage extends Template {
 
 			$newsitems=getfilterednewsitems($this->stringvars['page'],$selectedcat,$from,$to,$order,$ascdesc,$newsitemsperpage,$offset);
 		}
-		elseif($search)
-		{
-			$newsitems=searchnewsitems($search,$_GET['searchpage'],$_GET['all'],$showhidden);
-			$noofnewsitems=count($newsitems);
-			$newsitemsperpage=$noofnewsitems;
-			if(!($newsitemsperpage>0)) $newsitemsperpage = 5;
-		}
-		// no searching or filtering
+		// no filtering
 		else
 		{
 			$newsitemsperpage=getproperty("News Items Per Page");
@@ -304,7 +296,7 @@ class NewsPage extends Template {
 
 			$newsitems=getpublishednewsitems($this->stringvars['page'],$newsitemsperpage,$offset);
 		}
-		// end searching and filtering
+		// end filtering
 
 
 		// rss
@@ -342,10 +334,9 @@ class NewsPage extends Template {
 			$this->vars['pagemenu'] = new Pagemenu($offset, $newsitemsperpage, $noofnewsitems, $filterparams);
 		}
 
-		// search result message
-		if($search || $filter || $filterpage)
+		// filter result message
+		if($filter || $filterpage)
 		{
-			$this->stringvars['search_result']="searchresult";
 			if(!count($newsitems))
 			{
 			$this->stringvars['message']=getlang("news_filter_nomatch");

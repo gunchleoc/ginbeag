@@ -10,6 +10,8 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 $contents=getlinkcontents($_POST['linkid']);
@@ -19,5 +21,9 @@ if(strlen($contents['title'])>0)
 else
 	$sectionheader="Link ID ".$_POST['linkid'];
 
-print($sectionheader);
+if (empty($db->error_report)) {
+	print($sectionheader);
+} else {
+	print($db->error_report);
+}
 ?>

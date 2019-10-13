@@ -57,7 +57,7 @@ class AddImageForm extends Template {
 		$this->stringvars['actionvars']=makelinkparameters($actionvars);
 
 		// display storage path
-		$this->stringvars['imagelinkpath']=getimagelinkpath("",getimagesubpath(basename($filename)));
+		$this->stringvars['imagelinkpath']=getimagelinkpath("", empty($filename) ? "" : getimagesubpath(basename($filename)));
 
 		$this->stringvars['thumbnailsize']=getproperty("Thumbnail Size");
 	}

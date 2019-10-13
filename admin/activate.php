@@ -32,7 +32,6 @@ $header = new HTMLHeader("Activated user","Webpage Building",$message);
 print($header->toHTML());
 $footer = new HTMLFooter();
 print($footer->toHTML());
-$db->closedb();
 
 //
 //

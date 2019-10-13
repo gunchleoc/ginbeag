@@ -22,7 +22,8 @@ class ContactPage extends Template {
 
 		$this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_contact")), "", $displaytype);
 		$this->vars['footer'] = new PageFooter();
-		$this->vars['intro'] = new PageIntro(utf8_decode(getlang("pageintro_contact")),getdbelement("text",SPECIALTEXTS_TABLE,"id","contact"), "", true, true, "left", false, "sectiontext");
+		$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('contact'), 's');
+		$this->vars['intro'] = new PageIntro(utf8_decode(getlang("pageintro_contact")),$sql->fetch_value(), "", true, true, "left", false, "sectiontext");
 		$this->vars['navigator'] = new Navigator(0, 1, 0, $displaytype, false);
 
 		if(getproperty('Display Banners'))
@@ -97,19 +98,19 @@ class ContactForm extends Template {
     	$this->vars['contacts']= new OptionForm($userid,$contacts,$descriptions,"userid", getlang("email_to"), 1);
 
     	$this->stringvars['l_emailadress']=getlang("email_address");
-    	$this->stringvars['emailvariable']=$emailvariables['E-Mail Address Variable']['property_value'];
+    	$this->stringvars['emailvariable']=$emailvariables['E-Mail Address Variable'];
     	$this->stringvars['address']=$email;
     	$this->stringvars['l_emailsubject']=getlang("email_subject");
-    	$this->stringvars['subjectvariable']=$emailvariables['Subject Line Variable']['property_value'];
+    	$this->stringvars['subjectvariable']=$emailvariables['Subject Line Variable'];
     	$this->stringvars['subject']=$subject;
     	$this->stringvars['l_emailmessage']=getlang("email_message");
-    	$this->stringvars['messagevariable']=$emailvariables['Message Text Variable']['property_value'];
+    	$this->stringvars['messagevariable']=$emailvariables['Message Text Variable'];
     	$this->stringvars['message']=$message;
 
 		$this->vars["sendcopyform"] = new CheckboxForm("sendcopy", "sendcopy", getlang("email_sendcopy"), $sendcopy, "right");
 
     	$this->stringvars['l_emailsendcopy']=getlang("email_sendcopy");
-  		if($emailvariables['Use Math CAPTCHA']['property_value'])
+  		if($emailvariables['Use Math CAPTCHA'])
   		{
 
     		$this->vars['captcha']= new MathCAPTCHA();

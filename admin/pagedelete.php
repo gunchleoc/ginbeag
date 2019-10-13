@@ -60,5 +60,4 @@ elseif(isset($_POST["nodelete"]))
 
 $content = new AdminMain($page, "pagedelete", new AdminMessage($message, $error), $editpage);
 print($content->toHTML());
-$db->closedb();
 ?>

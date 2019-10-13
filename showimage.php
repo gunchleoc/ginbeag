@@ -58,7 +58,4 @@ if(isset($_GET['item']))
 $showimage = new Showimage($page,$image,$item,false);
 
 print($showimage->toHTML());
-
-$db->closedb();
-
 ?>

@@ -35,5 +35,4 @@ elseif(isset($_POST['selectyear']))
 
 $content = new AdminMain($page, "sitestats", new AdminMessage("", false), new SiteStatsTable($count, $year, $month, $timespan));
 print($content->toHTML());
-$db->closedb();
 ?>

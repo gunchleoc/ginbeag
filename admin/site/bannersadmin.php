@@ -30,7 +30,7 @@ if($postaction=='editbanner')
 	if(strlen($_POST['code'])>0)
 	{
 		$message .= 'Edited banner #'.$_POST['bannerid'].'code <i>'.$_POST['header'].'</i>';
-		updatebannercode($_POST['bannerid'], fixquotes($_POST['header']), $_POST['code']);
+		updatebannercode($_POST['bannerid'], fixquotes($_POST['header']), utf8_decode($_POST['code']));
 	}
 	else
 	{
@@ -79,39 +79,28 @@ if($postaction=='editbanner')
 }
 elseif($postaction=='addbanner')
 {
-	if(strlen($_POST['code'])>0)
-	{
+	if (!empty($_POST['code'])) {
 		$message .= 'Added banner code <i>'.$_POST['header'].'</i>';
-		addbannercode(fixquotes($_POST['header']), $_POST['code']);
+		$banner = addbannercode(fixquotes($_POST['header']), $_POST['code']);
+		if (!$banner > 0) {
+			$message .= ' Error adding banner with code.';
+			$error = true;
+		}
 	}
-	else
-	{
+	else {
 		$filename=$_FILES['image']['name'];
 		$filename=cleanupfilename($filename);
 		$errorcode = replacefile("img/banners", "image", $filename);
-		if($errorcode == UPLOAD_ERR_OK)
-		{
-			$success = true;
-		}
-		else
-		{
-			$message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
-			$success = false;
-			$error = true;
-		}
-		if($success)
-		{
-			$banner=addbanner(fixquotes($_POST['header']), $filename ,fixquotes($_POST['description']),$_POST['link']);
+		if($errorcode == UPLOAD_ERR_OK) {
+			$banner=addbanner(fixquotes($_POST['header']), basename($filename) ,fixquotes($_POST['description']),$_POST['link']);
 			$message='Added banner <i>'.$_POST['header'].'</i>';
-			if(!isbannercomplete($banner))
-			{
-				$message .= ' This banner is not complete and will not be displayed! Please fill out all required fields.';
+			if(!isbannercomplete($banner)) {
+				$message .= ' This banner #'.$banner.' is not complete and will not be displayed! Please fill out all required fields.';
 				$error = true;
 			}
-		}
-		else
-		{
+		} else {
 			$message .= 'Failed to add banner: error uploading image!';
+			$message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
 			$error = true;
 		}
 	}
@@ -143,10 +132,10 @@ elseif($postaction=='deletebanner')
 	}
 }
 
-elseif($postaction=='displaybanners')
-{
-	$success = updateentries(SITEPROPERTIES_TABLE, array('Display Banners' => $_POST['toggledisplaybanners']), "property_name", "property_value");
-	if ($success) {
+elseif($postaction=='displaybanners') {
+	$newproperties = array('Display Banners' => SQLStatement::setinteger(trim($_POST['toggledisplaybanners'])));
+	$message = updateproperties(SITEPROPERTIES_TABLE, $newproperties, 255);
+	if (empty($message)) {
 		$properties = getproperties(); // need to update global variable
 		$message .= "Changed banner display options";
 	} else {
@@ -159,5 +148,4 @@ unset($_POST['bannerid']);
 
 $content = new AdminMain($page, "sitebanner", new AdminMessage($message, $error), new SiteBanners());
 print($content->toHTML());
-$db->closedb();
 ?>

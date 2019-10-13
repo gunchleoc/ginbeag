@@ -383,7 +383,7 @@ function text2html($text)
 }
 
 
-// get rid of qurly quotes
+// get rid of curly quotes
 function fixquotes($text)
 {
 

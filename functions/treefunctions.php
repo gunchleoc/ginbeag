@@ -10,19 +10,25 @@ include_once($projectroot ."config.php");
 if(isset($_GET["sid"])) $user=getpublicsiduser($_GET["sid"]);
 else $user=0;
 
-$fields=array();
-$fields[]='page_id';
-$fields[]='parent_id';
-$fields[]='title_navigator';
-$fields[]='title_page';
-$fields[]='position_navigator';
-$fields[]='pagetype';
-$fields[]='ispublished';
+$sql = new SQLSelectStatement(PAGES_TABLE,
+	array(
+		'page_id',
+		'parent_id',
+		'title_navigator',
+		'title_page',
+		'position_navigator',
+		'pagetype',
+		'ispublished'
+	));
+$sql->set_order(array('parent_id' => 'ASC', 'position_navigator' => 'ASC'));
+$allpages = $sql->fetch_many_rows();
 
-$allpages=getmultiplefields(PAGES_TABLE, "page_id","1", $fields, $orderby="parent_id, position_navigator");
+$sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, array('page_id', 'masterpage'));
+$sql->set_order(array('page_id' => 'ASC'));
+$allrestrictedpages = $sql->fetch_many_rows();
 
-$allrestrictedpages=getmultiplefields(RESTRICTEDPAGES_TABLE, "page_id","1", array(0 => "page_id", 1 => "masterpage"), $orderby="page_id");
-$directrestrictedpagesaccess=getmultiplefields(RESTRICTEDPAGESACCESS_TABLE, "page_id","publicuser_id = '".$user."'", array(0 => "page_id"), $orderby="page_id");
+$sql = new SQLSelectStatement(RESTRICTEDPAGESACCESS_TABLE, 'page_id');
+$directrestrictedpagesaccess = $sql->fetch_column();
 
 //
 //
@@ -77,13 +83,10 @@ function getchildrenarray($page,$ascdesc="ASC")
 	global $allpages;
 	$result=array();
 	reset($allpages);
-	while($checkpage=current($allpages))
-	{
-		if($checkpage['parent_id']==$page)
-		{
-			array_push($result,$checkpage['page_id']);
+	foreach ($allpages as $key => $checkpage) {
+		if ($checkpage['parent_id'] == $page) {
+			array_push($result, $key);
 		}
-		next($allpages);
 	}
 	return $result;
 }
@@ -108,7 +111,14 @@ function isrootpagearray($page)
 	else return false;
 }
 
-
+//
+// When creating a new page, the array might be out of date
+//
+function ispageknownarray($page)
+{
+	global $allpages;
+	return array_key_exists($page, $allpages);
+}
 
 
 //

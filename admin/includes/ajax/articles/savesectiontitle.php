@@ -11,6 +11,8 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 header('Content-type: text/xml;	charset=utf-8');
@@ -31,7 +33,7 @@ else {
 	$success = updatearticlesectiontitle($articlesection,$sectiontitle);
 
 
-	if($success >=0)
+	if($success >=0 && empty($db->error_report))
 	{
 		print('<message error="0">');
 		updateeditdata($page);
@@ -40,7 +42,8 @@ else {
 	else
 	{
 		print('<message error="1">');
-		print("Error Updating Section Title for Section ID: ".$articlesection);
+		print("Error Updating Section Title for Section ID: ".$articlesection
+			. "<br />\n" . $db->error_report);
 	}
 }
 print("</message>");

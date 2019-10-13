@@ -22,32 +22,32 @@ $error = false;
 
 if($postaction=='savesite' && isset($_POST['submit']))
 {
-	$properties['Google Keywords']=$db->setstring(trim($_POST['keywords']));
-	$properties['Server Protocol']=$db->setstring(trim($_POST['serverprotocol']));
-	$properties['Domain Name']=$db->setstring(trim($_POST['domainname']));
-	$properties['Local Path']=$db->setstring(trim($_POST['localpath']));
-	$properties['Cookie Prefix']=$db->setstring(trim($_POST['cookieprefix']));
-	$properties['Image Upload Path']=$db->setstring(trim($_POST['imagepath']));
-	$properties['Admin Email Address']=$db->setstring(trim($_POST['email']));
-	$properties['Email Signature']= $db->setstring(fixquotes(trim($_POST['signature'])));
-	$properties['Date Time Format']=$db->setstring(trim($_POST['datetime']));
-	$properties['Date Format']=$db->setstring(trim($_POST['date']));
-	$properties['Image Width']=$db->setinteger(trim($_POST['imagewidth']));
-	$properties['Thumbnail Size']=$db->setinteger(trim($_POST['thumbnailsize']));
-	$properties['Mobile Thumbnail Size']=$db->setinteger(trim($_POST['mobilethumbnailsize']));
-	$properties['Imagelist Images Per Page']=$db->setinteger(trim($_POST['imagesperpage']));
+	$newproperties = array();
+	$newproperties['Google Keywords'] = fixquotes(trim($_POST['keywords']));
+	$newproperties['Server Protocol'] = fixquotes(trim($_POST['serverprotocol']));
+	$newproperties['Domain Name'] = fixquotes(trim($_POST['domainname']));
+	$newproperties['Local Path'] = fixquotes(trim($_POST['localpath']));
+	$newproperties['Cookie Prefix'] = fixquotes(trim($_POST['cookieprefix']));
+	$newproperties['Image Upload Path'] = fixquotes(trim($_POST['imagepath']));
+	$newproperties['Admin Email Address'] = fixquotes(trim($_POST['email']));
+	$newproperties['Email Signature'] = fixquotes(fixquotes(trim($_POST['signature'])));
+	$newproperties['Date Time Format'] = trim($_POST['datetime']);
+	$newproperties['Date Format'] = trim($_POST['date']);
+	$newproperties['Image Width'] = SQLStatement::setinteger(trim($_POST['imagewidth']));
+	$newproperties['Thumbnail Size'] = SQLStatement::setinteger(trim($_POST['thumbnailsize']));
+	$newproperties['Mobile Thumbnail Size'] = SQLStatement::setinteger(trim($_POST['mobilethumbnailsize']));
+	$newproperties['Imagelist Images Per Page'] = SQLStatement::setinteger(trim($_POST['imagesperpage']));
 
-	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
+	$message .= updateproperties(SITEPROPERTIES_TABLE, $newproperties, 255);
 
-	if ($success) {
-		$message="Technical setup saved";
+	if (empty($message)) {
+		$message = "Technical setup saved";
 	} else {
-		$message = "Failed to save technical setup".$sql;
+		$message = "Failed to save technical setup:" . $message;
 		$error = true;
 	}
 }
 
 $content = new AdminMain($page, "sitetech", new AdminMessage($message, $error), new SiteTechnical());
 print($content->toHTML());
-$db->closedb();
 ?>

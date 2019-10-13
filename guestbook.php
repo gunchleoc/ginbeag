@@ -80,10 +80,10 @@ elseif(isset($_POST['submitpost']))
 
 		$postername = trim($_POST['postername']);
 		$postername = fixquotes($postername);
-		$addy = trim($_POST[$emailvariables['E-Mail Address Variable']['property_value']]);
-		$subject = trim($_POST[$emailvariables['Subject Line Variable']['property_value']]);
+		$addy = trim($_POST[$emailvariables['E-Mail Address Variable']]);
+		$subject = trim($_POST[$emailvariables['Subject Line Variable']]);
 		$subject = html_entity_decode(fixquotes($subject));
-		$messagetext = trim(stripslashes($_POST[$emailvariables['Message Text Variable']['property_value']]));
+		$messagetext = trim(stripslashes($_POST[$emailvariables['Message Text Variable']]));
 		$messagetext = html_entity_decode(fixquotes($messagetext));
 
 		$error = emailerror($addy, utf8_decode($subject), utf8_decode($messagetext), 0);
@@ -125,7 +125,4 @@ if(!$token) $token = createtoken();
 
 $guestbook = new Guestbook($postername, $addy, $subject, $messagetext, $token, $offset, $showguestbookform, $showpost, $showleavemessagebutton, $itemsperpage, $title, $listtitle, $message, $error, $postadded);
 print($guestbook->toHTML());
-
-$db->closedb();
-
 ?>

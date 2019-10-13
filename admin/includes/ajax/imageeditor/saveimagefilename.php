@@ -7,6 +7,8 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/functions/sessions.php");
 
+$db->quiet_mode = true;
+
 checksession();
 
 header('Content-type: text/xml;	charset=utf-8');
@@ -14,10 +16,10 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 $errormessage = getpagelock($_POST['page']);
 $message="";
-if($errormessage)
+if($errormessage || !empty($db->error_report))
 {
 	print('<message error="1">');
-	print($errormessage);
+	print($errormessage . "<br />\n" . $db->error_report);
 }
 else {
 	$page=$_POST['page'];
@@ -81,10 +83,10 @@ else {
 		else $errormessage = 'Error saving image: unknown element type "'.$elementtype.'"';
 	}
 
-	if($errormessage)
+	if($errormessage || !empty($db->error_report))
 	{
 		print('<message error="1">');
-		print($errormessage);
+		print($errormessage . "<br />\n" . $db->error_report);
 	}
 	else
 	{

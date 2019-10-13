@@ -8,6 +8,8 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 include_once($projectroot."admin/includes/objects/imageeditor.php");
 include_once($projectroot."admin/functions/sessions.php");
 
+$db->quiet_mode = true;
+
 //print_r($_POST);
 
 checksession();
@@ -38,7 +40,9 @@ elseif($elementtype=="link")
 	$printme="";
 }
 else print ("Error: Unknown elementtype: ".$elementtype."</br /> for image on page: ".$_POST['page'].", item: ".$_POST['item']);
-if($align)
+if (!empty($db->error_report)) {
+	print($db->error_report);
+} else if($align)
 {
 	$printme = new ImageEditorAlignmentPane($_POST["page"],$_POST["item"], $align);
 	print($printme->toHTML());

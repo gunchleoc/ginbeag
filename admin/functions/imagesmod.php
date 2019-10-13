@@ -10,67 +10,81 @@ include_once($projectroot."functions/images.php");
 //
 // returns false if image already exists
 //
-function addimage($filename,$subpath,$caption,$source,$sourcelink,$copyright,$permission)
-{
-	global $db;
-  	$now=date(DATETIMEFORMAT, strtotime('now'));
+function addimage($filename, $subpath, $caption, $source, $sourcelink, $copyright, $permission) {
+	if(imageexists($filename)) {
+		return false;
+	}
 
-  	$result=true;
-  	if(imageexists($filename))
-  	{
-    	$result=false;
-  	}
-  	else
-  	{
-    	$values[]=$db->setstring($filename);
-    	$values[]=$db->setstring($subpath);
-    	$values[]=$db->setstring($caption);
-    	$values[]=$db->setstring($source);
-    	$values[]=$db->setstring($sourcelink);
-    	$values[]=$now;
-    	$values[]=getsiduser();
-    	$values[]=$db->setstring($copyright);
-    	$values[]=$db->setinteger($permission);
-    	$result= insertentry(IMAGES_TABLE,$values);
-  	}
-  	return $result;
+	$columns = array('image_filename', 'uploaddate', 'editor_id', 'permission');
+	$values = array($filename, date(DATETIMEFORMAT, strtotime('now')), getsiduser(), $permission);
+	$datatypes = 'ssii';
+
+	if (!empty($subpath)) {
+		array_push($columns, 'path');
+		array_push($values, $subpath);
+		$datatypes .= 's';
+	}
+	if (!empty($caption)) {
+		array_push($columns, 'caption');
+		array_push($values, $caption);
+		$datatypes .= 's';
+	}
+	if (!empty($source)) {
+		array_push($columns, 'source');
+		array_push($values, $source);
+		$datatypes .= 's';
+	}
+	if (!empty($sourcelink)) {
+		array_push($columns, 'sourcelink');
+		array_push($values, $sourcelink);
+		$datatypes .= 's';
+	}
+	if (!empty($copyright)) {
+		array_push($columns, 'copyright');
+		array_push($values, $copyright);
+		$datatypes .= 's';
+	}
+
+	$sql = new SQLInsertStatement( IMAGES_TABLE, $columns, $values, $datatypes);
+	return $sql->insert();
 }
 
 
 //
 //
 //
-function addthumbnail($image,$thumbnail)
-{
-	global $db;
-	$values[0]=$db->setstring($image);
-	$values[1]=$db->setstring($thumbnail);
-	return insertentry(THUMBNAILS_TABLE,$values);
+function addthumbnail($image,$thumbnail) {
+	$sql = new SQLInsertStatement(
+		THUMBNAILS_TABLE,
+		array('image_filename', 'thumbnail_filename'),
+		array($image, $thumbnail),
+		'ss');
+	return $sql->insert();
 }
 
 //
 // delete thumbnail file from file system first!!!
 // this function only deletes the database entry.
 //
-function deletethumbnail($imagefilename)
-{
-	global $db;
-  	return deleteentry(THUMBNAILS_TABLE,"image_filename='".$db->setstring($imagefilename)."'");
+function deletethumbnail($imagefilename) {
+	$sql = new SQLDeleteStatement(THUMBNAILS_TABLE, array('image_filename'), array($imagefilename), 's');
+	return $sql->run();
 }
 
 //
 // delete image and thumbnail files from file system first!!!
 // this function only deletes the database entries.
 //
-function deleteimage($filename)
-{
-	global $db;
+function deleteimage($filename) {
 	$result = true;
 	if(!imageisused($filename))
 	{
-		$result = $result & deleteentry(IMAGES_TABLE,"image_filename='".$db->setstring($filename)."'");
-		$result = $result & deleteentry(THUMBNAILS_TABLE,"image_filename='".$db->setstring($filename)."'");
-		$result = $result & deleteentry(IMAGECATS_TABLE,"image_filename='".$db->setstring($filename)."'");
+		$sql = new SQLDeleteStatement(IMAGES_TABLE, array('image_filename'), array($filename), 's');
+		$result = $result & $sql->run();
+		$sql = new SQLDeleteStatement(THUMBNAILS_TABLE, array('image_filename'), array($filename), 's');
+		$result = $result & $sql->run();
+		$sql = new SQLDeleteStatement(IMAGECATS_TABLE, array('image_filename'), array($filename), 's');
+		$result = $result & $sql->run();
 	}
 	else $result = false;
 	return $result;
@@ -79,17 +93,11 @@ function deleteimage($filename)
 //
 //
 //
-function savedescription($filename,$caption,$source,$sourcelink,$copyright,$permission)
-{
-	global $db;
-
-	$result = true;
-  	$result = $result & updatefield(IMAGES_TABLE,"caption",$db->setstring($caption),"image_filename = '".$db->setstring($filename)."'");
-  	$result = $result & updatefield(IMAGES_TABLE,"source",$db->setstring($source),"image_filename = '".$db->setstring($filename)."'");
-  	$result = $result & updatefield(IMAGES_TABLE,"sourcelink",$db->setstring($sourcelink),"image_filename = '".$db->setstring($filename)."'");
-  	$result = $result & updatefield(IMAGES_TABLE,"copyright",$db->setstring($copyright),"image_filename = '".$db->setstring($filename)."'");
-  	$result = $result & updatefield(IMAGES_TABLE,"permission",$db->setinteger($permission),"image_filename = '".$db->setstring($filename)."'");
-  	return $result;
+function savedescription($filename, $caption, $source, $sourcelink, $copyright, $permission) {
+	$sql = new SQLUpdateStatement(IMAGES_TABLE,
+		array('caption', 'source', 'sourcelink', 'copyright', 'permission'), array('image_filename'),
+		array($caption, $source, $sourcelink, $copyright, $permission, $filename), 'ssssis');
+	return $sql->run();
 }
 
 
@@ -143,21 +151,15 @@ function getunknownimageshelper($subpath)
 	global $projectroot;
 	$result=array();
 
+	$dirtolist = $projectroot.getproperty("Image Upload Path").$subpath;
+
 	//using the opendir function
-	$dir_handle = @opendir($projectroot.getproperty("Image Upload Path").$subpath)
+	$dir_handle = @opendir($dirtolist)
 		or die("Unable to open path");
 
-	while($file = readdir($dir_handle))
-	{
-		if($file!="." && $file!=".." && !strpos(strtolower($file),".php") && !strpos(strtolower($file),".htm"))
-		{
-			$compareme=getdbelement("image_filename",IMAGES_TABLE, "image_filename", $file);
-			if(strlen($compareme) < 1)
-			{
-				$compareme=getdbelement("thumbnail_filename",THUMBNAILS_TABLE, "thumbnail_filename", $file);
-			}
-			if(strlen($compareme) < 1)
-			{
+	while($file = readdir($dir_handle)) {
+		if(!is_dir($dirtolist."/".$file) && !strpos(strtolower($file),".php") && !strpos(strtolower($file),".htm")) {
+			if (!(imageexists($file) || thumbnailexists($file))) {
 				array_push($result, array("filename" => $file, "subpath" => $subpath));
 			}
 		}
@@ -228,17 +230,15 @@ function getimageswithoutthumbnails($order, $ascdesc, $files)
 //
 //
 //
-function getfilteredimages($filename,$caption,$source,$sourceblank,$uploader,$copyright,$copyrightblank,$selectedcats,$categoriesblank,$order,$ascdesc)
-{
-	global $db;
-	$filename=$db->setstring($filename);
-	$caption=$db->setstring($caption);
-	$source=trim($db->setstring($source));
-	$uploader=$db->setinteger($uploader);
-	$copyright=trim($db->setstring($copyright));
-	$order=$db->setstring($order);
-	$ascdesc=$db->setstring($ascdesc);
+function getfilteredimages(
+		$filename, $caption, $source, $sourceblank, $uploader,
+		$copyright, $copyrightblank, $selectedcats, $categoriesblank,
+		$order, $ascdesc) {
 
+	$filename = trim($filename);
+	$caption = trim($caption);
+	$source = trim($source);
+	$copyright = trim($copyright);
 	$result=array();
 
 	// get all category children
@@ -261,9 +261,7 @@ function getfilteredimages($filename,$caption,$source,$sourceblank,$uploader,$co
 //
 //
 //
-function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$uploader,$copyright,$copyrightblank,$selectedcat,$categoriesblank,$order,$ascdesc)
-{
-	global $db;
+function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$uploader,$copyright,$copyrightblank,$selectedcat,$categoriesblank,$order,$ascdesc) {
 	$result=array();
 	$categories=array();
 	if($selectedcat>=0)
@@ -277,6 +275,8 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 		}
 	}
 
+	$values = array();
+	$datatypes = "";
 	$query="SELECT DISTINCTROW images.image_filename FROM ";
 	$query.=IMAGES_TABLE." as images";
 
@@ -287,16 +287,22 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 	}
 	else
 	{
-		$query.=" WHERE '1'";
+		$query.=" WHERE ?";
+		array_push($values, 1);
+		$datatypes .= 'i';
 	}
 
 	if($filename)
 	{
-		$query.=" AND images.image_filename LIKE '%".$filename."%'";
+		$query.=" AND images.image_filename LIKE ?";
+		array_push($values, '%' . $filename . '%');
+		$datatypes .= 's';
 	}
 	if(strlen($caption) > 0)
 	{
-		$query.=" AND caption LIKE '%".$caption."%'";
+		$query.=" AND caption LIKE ?";
+		array_push($values, '%' . $caption . '%');
+		$datatypes .= 's';
 	}
 	if($sourceblank)
 	{
@@ -304,7 +310,9 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 	}
 	elseif(strlen($source) > 0)
 	{
-		$query.=" AND source LIKE '%".$source."%'";
+		$query.=" AND source LIKE ?";
+		array_push($values, '%' . $source . '%');
+		$datatypes .= 's';
 	}
 	if($copyrightblank)
 	{
@@ -312,53 +320,49 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
 	}
 	elseif(strlen($copyright) >0)
 	{
-		$query.=" AND copyright LIKE '%".$copyright."%'";
+		$query.=" AND copyright LIKE ?";
+		array_push($values, '%' . $copyright . '%');
+		$datatypes .= 's';
 	}
 	if($uploader > 0)
 	{
-		$query.=" AND editor_id = '".$uploader."'";
+		$query.=" AND editor_id = ?";
+		array_push($values, $uploader);
+		$datatypes .= 's';
 	}
 	if(count($categories)>0)
 	{
-		$query.=" AND cat.category IN (";
-		for($i=0;$i<count($categories);$i++)
-		{
-			$query.="'".$categories[$i]."',";
+		$placeholders = array_fill(0, count($categories), '?');
+		$query.=" AND cat.category IN (".implode(",", $placeholders).")";
+		foreach ($categories as $cat) {
+			$values[] = $cat;
 		}
-		$query=substr($query,0,strlen($query)-1);
-		$query.=")";
+		$datatypes .= str_pad("", count($categories), 's');
 	}
 	if($order)
 	{
 		if($order=="uploader") $order="editor_id";
 		elseif($order=="filename") $order="image_filename";
-		$query.=" ORDER BY ".$order." ".$ascdesc;
+		$query .= " ORDER BY ? " . (strtolower($ascdesc) == "desc" ? "DESC" : "ASC");
+		array_push($values, $order);
+		$datatypes .= 's';
 	}
+
+	$sql = new RawSQLStatement($query, $values, $datatypes);
+	$result = $sql->fetch_column();
+
 
 //  print('Some debugging info: '.$query.'<p>');
 
-	if($query)
-	{
-		$sql=$db->singlequery($query);
-	}
-	if($sql)
-	{
-		// get column
-		while($row = $sql->fetch_row()) {
-			array_push($result,$row[0]);
-		}
-	}
 	if($categoriesblank)
 	{
 		$temp=$result;
 		$result=array();
 		for($i=0;$i<count($temp);$i++)
 		{
-			$query="SELECT DISTINCTROW image_filename FROM ";
-			$query.=IMAGECATS_TABLE;
-			$query.=" WHERE image_filename = '".$temp[$i]."';";
-			$sql=$db->singlequery($query);
-			if (!$sql->fetch_row()) {
+			$sql = new SQLSelectStatement(IMAGECATS_TABLE, 'image_filename', array('image_filename'), array($temp[$i]), 's');
+			$sql->set_distinct();
+			if (!$sql->fetch_value()) {
 				array_push($result,$temp[$i]);
 			}
 		}

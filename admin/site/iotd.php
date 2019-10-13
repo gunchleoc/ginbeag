@@ -23,38 +23,35 @@ $error = false;
 
 if($postaction=='savesite')
 {
-	$properties['Display Picture of the Day']=$db->setinteger($_POST['displaypotd']);
-	if(isset($_POST['selectedcat']))
-	{
-		$potdcats=$_POST['selectedcat'];
-		for($i=0;$i<count($potdcats);$i++)
-		{
-			$potdcats[$i] = $db->setinteger($potdcats[$i]);
+	$newproperties = array();
+	$newproperties['Display Picture of the Day'] = SQLStatement::setinteger($_POST['displaypotd']);
+	if (isset($_POST['selectedcat'])) {
+		$list = SQLStatement::prepare_integer_list($_POST['selectedcat']);
+		if (empty ($list['errormessage'])) {
+			$newproperties['Picture of the Day Categories'] = $list['content'];
+		} else {
+			$message .= $list['errormessage'];
 		}
-		$properties['Picture of the Day Categories']=implode(",",$potdcats);
 	}
-	else $properties['Picture of the Day Categories']=$db->setstring($_POST['oldpotdcats']);
 
-	$properties['Display Article of the Day']=$db->setinteger($_POST['displayaotd']);
-	$aotdpages=explode(',',$_POST['aotdpages']);
-
-	for($i=0;$i<count($aotdpages);$i++)
-	{
-		$aotdpages[$i] = $db->setinteger($aotdpages[$i]);
+	$newproperties['Display Article of the Day'] = SQLStatement::setinteger($_POST['displayaotd']);
+	$list = SQLStatement::prepare_integer_list($_POST['aotdpages']);
+	if (empty ($list['errormessage'])) {
+		$newproperties['Article of the Day Start Pages'] = $list['content'];
+	} else {
+		$message .= $list['errormessage'];
 	}
-	$properties['Article of the Day Start Pages']=implode(",",$aotdpages);
 
-	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
+	$message .= updateproperties(SITEPROPERTIES_TABLE, $newproperties, 255);
 
-	if ($success) {
+	if (empty($message)) {
 		$message="Random Items of the Day saved";
 	} else {
-		$message = "Failed to save Random Items of the Day";
+		$message = "Failed to save Random Items of the Day" . $message;
 		$error = true;
 	}
 }
 
 $content = new AdminMain($page, "siteiotd", new AdminMessage($message, $error), new SiteRandomItems());
 print($content->toHTML());
-$db->closedb();
 ?>

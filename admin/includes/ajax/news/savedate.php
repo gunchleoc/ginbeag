@@ -11,6 +11,8 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 header('Content-type: text/xml;	charset=utf-8');
@@ -25,7 +27,7 @@ if($message)
 else {
 	$success = fakethedate($_POST['newsitem'],$_POST['day'],$_POST['month'],$_POST['year'],$_POST['hours'],$_POST['minutes'],$_POST['seconds']);
 
-	if($success >=0)
+	if($success >=0 && empty($db->error_report))
 	{
 		print('<message error="0">');
 		updateeditdata($_POST['page']);
@@ -34,7 +36,8 @@ else {
 	else
 	{
 		print('<message error="1">');
-		print("Error Saving Date for Newsitem ID:".$_POST['newsitem']);
+		print("Error Saving Date for Newsitem ID:" . $_POST['newsitem']
+			. "<br />\n" . $db->error_report);
 	}
 }
 print("</message>");

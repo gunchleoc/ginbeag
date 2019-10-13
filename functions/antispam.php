@@ -7,10 +7,7 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function createtoken()
-{
-	global $db;
-
+function createtoken() {
 	$success = false;
 	$token = "";
 	$useragent = substr($_SERVER["HTTP_USER_AGENT"], 0, 255);
@@ -24,11 +21,12 @@ function createtoken()
 
 	  	cleartokens();
 
-		$values = array();
-		$values[] = $token;
-		$values[] = date(DATETIMEFORMAT, $now);
-		$values[] = $useragent;
-		insertentry(ANTISPAM_TOKENS_TABLE,$values);
+		$sql = new SQLInsertStatement(
+			ANTISPAM_TOKENS_TABLE,
+			array('token_id', 'session_time', 'browseragent'),
+			array($token, date(DATETIMEFORMAT, $now), $useragent),
+			'sss');
+		$sql->insert();
 	}
 	else $token = "";
 	return $token;
@@ -38,23 +36,19 @@ function createtoken()
 //
 //
 //
-function cleartokens()
-{
-	global $db;
-	deleteentry(ANTISPAM_TOKENS_TABLE,"session_time < '".date(DATETIMEFORMAT, strtotime('-1 hours'))."'");
+function cleartokens() {
+	$sql = new SQLDeleteStatement(ANTISPAM_TOKENS_TABLE, array(), array(date(DATETIMEFORMAT, strtotime('-1 hours'))), 's', 'session_time < ?');
+	return $sql->run();
 }
 
 
 //
 //
 //
-function checktoken($token)
-{
-	global $SERVER, $db;
-
+function checktoken($token) {
+	global $SERVER;
 	$useragent = substr($_SERVER["HTTP_USER_AGENT"], 0, 255);
-
-	$tokenagent = getdbelement("browseragent",ANTISPAM_TOKENS_TABLE, "token_id", $db->setstring($token));
-	return ($useragent === $tokenagent);
+	$sql = new SQLSelectStatement(ANTISPAM_TOKENS_TABLE, 'browseragent', array('token_id'), array($token), 's');
+	return ($useragent === $sql->fetch_value());
 }
 ?>

@@ -7,5 +7,13 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."functions/db.php");
 
-print getproperties()["Server Protocol"];
+$db->quiet_mode = true;
+
+$protocol = getproperties()["Server Protocol"];
+
+if (empty($db->error_report)) {
+	print($protocol);
+} else {
+	print($db->error_report);
+}
 ?>

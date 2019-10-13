@@ -13,5 +13,4 @@ else $page=0;
 
 $content = new AdminMain($page, "siteonline", new AdminMessage("", false), new SiteWhosOnline());
 print($content->toHTML());
-$db->closedb();
 ?>

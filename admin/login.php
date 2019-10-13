@@ -161,5 +161,4 @@ if(isset($form))
 
 $footer = new HTMLFooter();
 print($footer->toHTML());
-$db->closedb();
 ?>

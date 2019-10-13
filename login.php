@@ -39,7 +39,7 @@ if(isset($_POST['user']))
 
 	if(!$userid)
 	{
-		$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
+		$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")), "");
 		$loginform = new LoginForm($user,getlang("login_error_username"));
 		$footer = new PageFooter();
 	}
@@ -62,14 +62,14 @@ if(isset($_POST['user']))
 	}
 	else
 	{
-		$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
+		$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")), "");
 		$loginform = new LoginForm("",getlang("login_error_inactive"));
 		$footer = new PageFooter();
 	}
 }
 else
 {
-	$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")));
+	$header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")), "");
   	$loginform = new LoginForm("");
   	$footer = new PageFooter();
 }
@@ -77,7 +77,4 @@ else
 print($header->toHTML());
 if (isset($loginform)) print($loginform->toHTML());
 print($footer->toHTML());
-
-$db->closedb();
-
 ?>

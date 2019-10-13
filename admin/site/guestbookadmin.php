@@ -21,20 +21,17 @@ unset($_GET['postaction']);
 $message = "";
 $error = false;
 
-if($postaction ==='saveproperties')
-{
-	$guestbookproperties = array();
+if($postaction ==='saveproperties') {
 
-	$guestbookproperties['Enable Guestbook']=$db->setinteger($_POST['enableguestbook']);
-	$guestbookproperties['Guestbook Entries Per Page']=$db->setinteger($_POST['guestbookperpage']);
+	$newproperties = array();
 
-	$success=updateentries(SITEPROPERTIES_TABLE,$guestbookproperties,"property_name","property_value");
+	$newproperties['Enable Guestbook']= SQLStatement::setinteger($_POST['enableguestbook']);
+	$newproperties['Guestbook Entries Per Page']= SQLStatement::setinteger($_POST['guestbookperpage']);
 
-	if ($success) {
+	$message .= updateproperties(SITEPROPERTIES_TABLE, $newproperties, 255);
+
+	if (empty($message)) {
 		$message="Guestbook properties saved.";
-		// sync global properties array with database changes
-		$properties['Enable Guestbook']=$db->setinteger($_POST['enableguestbook']);
-		$properties['Guestbook Entries Per Page']=$db->setinteger($_POST['guestbookperpage']);
 	} else {
 		$message = "Failed to save Guestbook properties";
 		$error = true;
@@ -63,5 +60,4 @@ if(!isset($_POST["deleteentry"]))
 
 $content = new AdminMain($page, "siteguest", new AdminMessage($message, $error), $contents);
 print($content->toHTML());
-$db->closedb();
 ?>

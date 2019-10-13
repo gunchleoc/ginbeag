@@ -23,44 +23,44 @@ $error = false;
 
 if($postaction=='savesite')
 {
+	$newproperties = array();
 	if(isset($_POST['renamevariables']))
 	{
-		$properties['Math CAPTCHA Reply Variable']=makerandomvariablename();
-		$properties['Math CAPTCHA Answer Variable']=makerandomvariablename();
-		$properties['Message Text Variable']=makerandomvariablename();
-		$properties['Subject Line Variable']=makerandomvariablename();
-		$properties['E-Mail Address Variable']=makerandomvariablename();
+		$newproperties['Math CAPTCHA Reply Variable']=makerandomvariablename();
+		$newproperties['Math CAPTCHA Answer Variable']=makerandomvariablename();
+		$newproperties['Message Text Variable']=makerandomvariablename();
+		$newproperties['Subject Line Variable']=makerandomvariablename();
+		$newproperties['E-Mail Address Variable']=makerandomvariablename();
 	}
 	else if(isset($_POST['mathcaptcha']))
 	{
-		$properties['Use Math CAPTCHA']=$db->setinteger($_POST['usemathcaptcha']);
+		$newproperties['Use Math CAPTCHA'] = SQLStatement::setinteger($_POST['usemathcaptcha']);
 	}
 	else if(isset($_POST['spamwords']))
 	{
-		$properties['Spam Words Subject']=$db->setstring($_POST['spamwords_subject']);
-		$properties['Spam Words Content']=$db->setstring($_POST['spamwords_content']);
+		$newproperties['Spam Words Subject'] = fixquotes($_POST['spamwords_subject']);
+		$newproperties['Spam Words Content'] = fixquotes($_POST['spamwords_content']);
 	}
 
-	$success=updateentries(ANTISPAM_TABLE,$properties,"property_name","property_value");
-	$error = !$success;
+	$message .= updateproperties(ANTISPAM_TABLE, $newproperties);
 
-	if ($success) {
+	if (empty($message)) {
 		if(isset($_POST['renamevariables']))
 			$message = "Renamed Variables";
 		else
 			$message = "Anti-Spam settings saved";
 	} else {
+		$error = true;
 		if(isset($_POST['renamevariables']))
-			$message = "Failed to rename variables ".$sql;
+			$message = "Failed to rename variables ".$message;
 		else
-			$message = "Failed to save Anti-Spam settings ".$sql;
+			$message = "Failed to save Anti-Spam settings ".$message;
 	}
 }
 
 
 $content = new AdminMain($page, "sitespam", new AdminMessage($message, $error), new SiteAntispam());
 print($content->toHTML());
-$db->closedb();
 
 
 function makerandomvariablename()

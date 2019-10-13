@@ -11,10 +11,16 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 $filename=getgalleryimage($_POST['galleryitemid']);
 $printme = new CaptionedImageAdmin($filename, $_POST['page']);
 
-print($printme->toHTML());
+if (empty($db->error_report)) {
+	print($printme->toHTML());
+} else {
+	print($db->error_report);
+}
 ?>

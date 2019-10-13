@@ -33,8 +33,7 @@ include_once($projectroot."admin/functions/sessions.php");
 if(isset($_GET['logout']))
 {
 	unset($_GET['logout']);
-  	logout();
- 	unlockuserpages();
+	logout();
 }
 
 checksession();

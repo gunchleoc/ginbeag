@@ -30,49 +30,47 @@ else $pass="";
 if(isset($_POST['passconfirm'])) $passconf=$_POST['passconfirm'];
 else $passconf="";
 
+if(isset($_POST['createuser']) && $_POST['createuser'] === "Create User") {
+	if($username && $pass===$passconf)
+	{
+		if(publicuserexists($username))
+		{
+			$message = 'Username already exists!';
+			$error = true;
+		}
+		elseif(!$pass)
+		{
+			$message = 'Please specify a password!';
+			$error = true;
+		}
+		else
+		{
+			$register=addpublicuser($username,$pass);
 
-if($username && $pass===$passconf)
-{
-	if(publicuserexists($username))
-	{
-		$message = 'Username already exists!';
-		$error = true;
+			if($register)
+			{
+				$message='Created user <em>'.$username.'</em> successfully';
+				$username="";
+			}
+			else
+			{
+				$message = 'Error creating user: ' . $register;
+				$error = true;
+			}
+		}
 	}
-	elseif(!$pass)
+	elseif($username && $pass!=$passconf)
 	{
-		$message = 'Please specify a password!';
+		$message = 'Passwords did not match!';
 		$error = true;
 	}
 	else
 	{
-		$register=addpublicuser($username,$pass);
-
-		if($register)
-		{
-			$message='Created user <em>'.$username.'</em> successfully';
-			$username="";
-		}
-		else
-		{
-			$message = 'Error creating user';
-			$error = true;
-		}
+		$message = 'Please specify a username';
+		$error = true;
 	}
-}
-elseif($username && $pass!=$passconf)
-{
-	$message = 'Passwords did not match!';
-	$error = true;
-}
-else
-{
-	$message = 'Please specify a username';
-	$error = true;
 }
 
 $content = new AdminMain($page, "siteusercreate", new AdminMessage($message, $error), new SiteCreatePublicUser($username, $message, $register));
 print($content->toHTML());
-
-$db->closedb();
-
 ?>

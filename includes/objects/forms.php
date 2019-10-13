@@ -161,20 +161,17 @@ class CategorySelectionForm  extends Template {
 		$remaining=array();
 		$currentcats=array();
 
-		while($category=current($categories))
-		{
-			if($category['parent_id']==$parent) array_push($currentcats,$category);
-			else array_push($remaining,$category);
-			next($categories);
+		while (list($key, $category) = each($categories)) {
+			if($category['parent_id']==$parent) $currentcats[$key] = $category;
+			else $remaining[$key] = $category;
 		}
 
-		while($category=current($currentcats))
-		{
-			$optionvalue=$category["category_id"];
+		while (list($key, $category) = each($currentcats)) {
+			$category = $currentcats[$key];
 			$optionisselected="";
 			$optiontext="";
 
-			if(array_key_exists($category["category_id"],$selectedcat)) $optionisselected=' selected';
+			if(array_key_exists($key, $selectedcat)) $optionisselected=' selected';
 			for($i=0;$i<$level+1;$i++)
 			{
 				$optiontext.="&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -182,10 +179,9 @@ class CategorySelectionForm  extends Template {
 
 			$optiontext.=input2html($category["name"]);
 
-			$this->listvars['option'][]= new OptionFormOption($optionvalue,$optionisselected,$optiontext);
+			$this->listvars['option'][]= new OptionFormOption($key,$optionisselected,$optiontext);
 
-			$this->makecategoryoption($remaining, $category["category_id"],$selectedcat,$level+1);
-			next($currentcats);
+			$this->makecategoryoption($remaining, $key,$selectedcat,$level+1);
 		}
     }
 

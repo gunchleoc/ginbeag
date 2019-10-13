@@ -81,5 +81,4 @@ else
 $content = new AdminMain($page, "profile", new AdminMessage($message, $error), new ProfilePage($userid));
 
 print($content->toHTML());
-$db->closedb();
 ?>

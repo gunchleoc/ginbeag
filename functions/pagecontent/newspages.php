@@ -8,208 +8,189 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getpublishednewsitems($page,$number,$offset)
-{
-	global $db;
-	$page=$db->setinteger($page);
+function getpublishednewsitems($page,$number,$offset) {
 	if(!$offset) $offset=0;
 	if(!$number>0) $number=1;
-	$condition="page_id='".$page."' AND ispublished='1'";
-	if(displaynewestnewsitemfirst($page)) $order="DESC";
-	else $order="ASC";
-	return getorderedcolumnlimit("newsitem_id",NEWSITEMS_TABLE,$condition, "date", $db->setinteger($offset), $db->setinteger($number),$order);
-}
 
-
-
-//
-//
-//
-function displaynewestnewsitemfirst($page)
-{
-	global $db;
-	return getdbelement("shownewestfirst",NEWS_TABLE, "page_id", $db->setinteger($page));
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id', 'ispublished'), array($page, 1), 'ii');
+	$sql->set_order(array('date' => (displaynewestnewsitemfirst($page) ? 'DESC' : 'ASC')));
+	$sql->set_limit($number, $offset);
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function getnewsitemoffset($page,$number,$newsitem,$showhidden=false)
-{
-	global $db;
+function displaynewestnewsitemfirst($page) {
+	$sql = new SQLSelectStatement(NEWS_TABLE, 'shownewestfirst', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
+}
+
+//
+//
+//
+function getnewsitemoffset($page,$number,$newsitem,$showhidden=false) {
+	if (!$newsitem > 0) {
+		return 0;
+	}
 	if(!$number>0) $number=1;
-	$date=getdbelement("date",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
-	$condition="page_id='".$db->setinteger($page)."'";
-	if(!$showhidden) $condition.=" AND ispublished='1'";
-	$condition.=" AND date > '".$date."'";
-	$noofelements = countelementscondition("newsitem_id",NEWSITEMS_TABLE,$condition);
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'date', array('newsitem_id'), array($newsitem), 'i');
+	$date = $sql->fetch_value();
+
+	$sql = $showhidden ?
+		new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id'), array($page, $date), 'is', "date > ?") :
+		new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id', 'ispublished'), array($page, 1, $date), 'iis', "date > ?");
+	$sql->set_operator('count');
+	$noofelements = $sql->fetch_value();
 	return floor($noofelements/$number);
 }
 
 //
 //
 //
-function countpublishednewsitems($page)
-{
-	global $db;
-	$condition="page_id='".$db->setinteger($page)."' AND ispublished='1'";
-	return countelementscondition("newsitem_id",NEWSITEMS_TABLE, $condition);
+function countpublishednewsitems($page) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id', 'ispublished'), array($page, 1), 'ii');
+	$sql->set_operator('count');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getnewsitemcontents($newsitem)
-{
-	global $db;
-	return getrowbykey(NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
+function getnewsitemcontents($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, '*', array('newsitem_id'), array($newsitem), 'i');
+	return $sql->fetch_row();
 }
 
 //
 // returns a date array
 //
-function getnewsitemdate($newsitem)
-{
-	global $db;
-	$date =getdbelement("date",NEWSITEMS_TABLE, "newsitem_id",$db->setinteger($newsitem));
-	return @getdate(strtotime($date));
+function getnewsitemdate($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'date', array('newsitem_id'), array($newsitem), 'i');
+	return @getdate(strtotime($sql->fetch_value()));
 }
 
 //
 //
 //
-function getoldestnewsitemdate($page)
-{
-	global $db;
-	$date=getmin("date",NEWSITEMS_TABLE, "page_id",$db->setinteger($page));
-	return @getdate(strtotime($date));
+function getoldestnewsitemdate($page) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'date', array('page_id'), array($page), 'i');
+	$sql->set_operator('min');
+	return @getdate(strtotime($sql->fetch_value()));
 }
 
 //
 //
 //
-function getnewestnewsitemdate($page)
-{
-	global $db;
-	$date=getmax("date", NEWSITEMS_TABLE, "page_id",$db->setinteger($page));
-	return @getdate(strtotime($date));
+function getnewestnewsitemdate($page) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'date', array('page_id'), array($page), 'i');
+	$sql->set_operator('max');
+	return @getdate(strtotime($sql->fetch_value()));
 }
 
 //
 //
 //
-function getnewsitempage($newsitem)
-{
-	global $db;
-  return getdbelement("page_id", NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
+function getnewsitempage($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'page_id', array('newsitem_id'), array($newsitem), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getnewsitemsynopsistext($newsitem)
-{
-	global $db;
-  return getdbelement("synopsis", NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
+function getnewsitemsynopsistext($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'synopsis', array('newsitem_id'), array($newsitem), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getnewsitemsynopsisimageids($newsitem)
-{
-	global $db;
-	$condition= "newsitem_id='".$db->setinteger($newsitem)."'";
-	return getorderedcolumn("newsitemimage_id",NEWSITEMSYNIMG_TABLE, $condition, "position", "ASC");
+function getnewsitemsynopsisimageids($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, 'newsitemimage_id', array('newsitem_id'), array($newsitem), 'i');
+	$sql->set_order(array('position' => 'ASC'));
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function getnewsitemsynopsisimage($newsitemimage)
-{
-	global $db;
-	return getdbelement("image_filename",NEWSITEMSYNIMG_TABLE, "newsitemimage_id", $db->setinteger($newsitemimage));
+function getnewsitemsynopsisimage($newsitemimage) {
+	$sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, 'image_filename', array('newsitemimage_id'), array($newsitemimage), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getnewsitemsynopsisimages($newsitem)
-{
-	global $db;
-	$condition= "newsitem_id='".$db->setinteger($newsitem)."'";
-	return getorderedcolumn("image_filename",NEWSITEMSYNIMG_TABLE, $condition, "position", "ASC");
+function getnewsitemsynopsisimages($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, 'image_filename', array('newsitem_id'), array($newsitem), 'i');
+	$sql->set_order(array('position' => 'ASC'));
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function getnewsitemsections($newsitem)
-{
-	global $db;
-	$condition= "newsitem_id='".$db->setinteger($newsitem)."'";
-	return getorderedcolumn("newsitemsection_id",NEWSITEMSECTIONS_TABLE, $condition, "sectionnumber", "ASC");
+function getnewsitemsections($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'newsitemsection_id', array('newsitem_id'), array($newsitem), 'i');
+	$sql->set_order(array('sectionnumber' => 'ASC'));
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function getnewsitemsectioncontents($newsitemsection)
-{
-	global $db;
-	return getrowbykey(NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($newsitemsection));
+function getnewsitemsectioncontents($newsitemsection) {
+	$sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, '*', array('newsitemsection_id'), array($newsitemsection), 'i');
+	return $sql->fetch_row();
 }
 
 //
 //
 //
-function getnewsitemsectiontext($newsitemsection)
-{
-	global $db;
-	return getdbelement("text",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($newsitemsection));
+function getnewsitemsectiontext($newsitemsection) {
+	$sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'text', array('newsitemsection_id'), array($newsitemsection), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getnewsitemsectionimage($newsitemsection)
-{
-	global $db;
-	return getdbelement("sectionimage",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($newsitemsection));
+function getnewsitemsectionimage($newsitemsection) {
+	$sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionimage', array('newsitemsection_id'), array($newsitemsection), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getnewsitemsectionimagealign($newsitemsection)
-{
-	global $db;
-	return getdbelement("imagealign",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($newsitemsection));
+function getnewsitemsectionimagealign($newsitemsection) {
+	$sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'imagealign', array('newsitemsection_id'), array($newsitemsection), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getnewsitemsectionnumber($newsitemsection)
-{
-	global $db;
-	return getdbelement("sectionnumber",NEWSITEMSECTIONS_TABLE, "newsitemsection_id", $db->setinteger($newsitemsection));
+function getnewsitemsectionnumber($newsitemsection) {
+	$sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionnumber', array('newsitemsection_id'), array($newsitemsection), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function isnewsitempublished($newsitem)
-{
-	global $db;
-	return getdbelement("ispublished",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
+function isnewsitempublished($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'ispublished', array('newsitem_id'), array($newsitem), 'i');
+	return $sql->fetch_value();
 }
 
 
@@ -217,30 +198,27 @@ function isnewsitempublished($newsitem)
 // returns array of copyright, imagecopyright, permission
 // permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
 //
-function getnewsitemcopyright($newsitem)
-{
-	global $db;
-	$fieldnames = array(0 => 'copyright', 1=> 'image_copyright', 2=>'permission');
-	return getrowbykey(NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem), $fieldnames);
+function getnewsitemcopyright($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, array('copyright', 'image_copyright', 'permission'), array('newsitem_id'), array($newsitem), 'i');
+	return $sql->fetch_row();
 }
 
 //
 //
 //
-function getnewsitempermission($newsitem)
-{
-	global $db;
-	return getdbelement("permission",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
+function getnewsitempermission($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'permission', array('newsitem_id'), array($newsitem), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getlastnewsitemsection($newsitem)
-{
-	global $db;
-	return getmax("sectionnumber",NEWSITEMSECTIONS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
+function getlastnewsitemsection($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionnumber', array('newsitem_id'), array($newsitem), 'i');
+	$sql->set_operator('max');
+	return $sql->fetch_value();
 }
 
 
@@ -249,14 +227,9 @@ function getlastnewsitemsection($newsitem)
 //
 //
 //
-function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$newsitemsperpage,$offset)
-{
-	global $db;
-	$page=$db->setinteger($page);
-	$selectedcat=$db->setinteger($selectedcat);
-	$order=$db->setstring($order);
-	$ascdesc=$db->setstring($ascdesc);
-	$offset=$db->setinteger($offset);
+function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$newsitemsperpage,$offset) {
+	$values = array();
+	$datatypes = "";
 
 	$months[1]='January';
 	$months[2]='February';
@@ -277,205 +250,60 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
 	$date=$to["day"]." ".$months[$to["month"]]." ".$to["year"]." 23:59:59";
 	$todate=date(DATETIMEFORMAT, strtotime($date));
 
-	// get all category children
-	$categories=array();
-	if($selectedcat!=1)
-	{
-		$pendingcategories=array(0 => $selectedcat);
-		while(count($pendingcategories))
-		{
-			$selectedcat=array_pop($pendingcategories);
-			array_push($categories,$selectedcat);
-			$pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat, CATEGORY_NEWS));
-		}
-	}
-
 	$query="SELECT DISTINCTROW items.newsitem_id FROM ";
-	$query.=NEWSITEMS_TABLE." AS items ";
-	// all parameters
-	if(count($categories)>0)
-	{
-		$query.=", ".NEWSITEMCATS_TABLE." AS cat";
-		$query.=" WHERE cat.newsitem_id = items.newsitem_id";
-		$query.=" AND cat.category IN (";
-		for($i=0;$i<count($categories);$i++)
-		{
-			$query.="'".$categories[$i]."',";
-		}
-		$query=substr($query,0,strlen($query)-1);
-		$query.=")";
-		$query.=" AND items.date BETWEEN '".$fromdate."' AND '".$todate."'";
-		$query.=" AND ";
+	$query.=NEWSITEMS_TABLE." AS items";
+
+	// Filter for categories
+	if ($selectedcat != 1) {
+		// get all category descendants
+		$categories = getcategorydescendants($selectedcat, CATEGORY_NEWS);
+		$datatypes = str_pad($datatypes, count($categories) + strlen($datatypes), 'i');
+		$placeholders = array_fill(0, count($categories), '?');
+		$values = array_merge($values, $categories);
+
+		$query .= ", ".NEWSITEMCATS_TABLE." AS cat";
+		$query .= " WHERE cat.newsitem_id = items.newsitem_id";
+		$query .= " AND cat.category IN (" . implode(',' , $placeholders) . ") AND";
+	} else {
+		$query .= " WHERE";
 	}
-	// only years
-	else
-	{
-		$query.=" WHERE items.date BETWEEN '".$fromdate."' AND '".$todate."'";
-		$query.=" AND ";
-	}
+	// years
+	$query .= " items.date BETWEEN ? AND ?";
+	array_push($values, $fromdate);
+	array_push($values, $todate);
+	$datatypes .= 'ss';
 
 	// get pages to search
-	$query.="items.page_id ='".$page."'";
-	$query.=" AND items.ispublished = '1'";
+	$query .= " AND items.page_id = ?";
+	$query .= " AND items.ispublished = ?";
+	array_push($values, $page);
+	array_push($values, 1);
+	$datatypes .= 'si';
 
-	if($order)
-	{
-		$query.=" ORDER BY ";
-		if($order=="title") $query.="items.title ";
-		elseif($order=="date") $query.="date ";
-		elseif($order=="source") $query.="items.source ";
-		$query.=$ascdesc;
+	if($order) {
+		$query .= " ORDER BY ";
+		if ($order === "title") $query .= "items.title ";
+		elseif ($order === "date") $query .= "date ";
+		elseif ($order === "source") $query .= "items.source ";
+		$query .= strtolower($ascdesc) === "desc" ? "DESC" : "ASC";
 	}
-	if($newsitemsperpage>0)
-	{
-		$query.=" limit ".$offset.", ".$newsitemsperpage;
+
+	$sql = new RawSQLStatement($query, $values, $datatypes);
+	if($newsitemsperpage > 0) {
+		$sql->set_limit($newsitemsperpage, $offset);
 	}
-	return getdbresultcolumn($query);
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function searchnewsitemtitles($search,$page,$showhidden=false)
-{
-	global $db;
-	$query="SELECT DISTINCTROW newsitem_id FROM ".NEWSITEMS_TABLE;
-	$query.=" WHERE page_id = '".$db->setinteger($page)."'";
-	$query.=" AND title like '%".$db->setstring(trim($search))."%'";
+function searchnewsitemtitles($search,$page,$showhidden=false) {
+	$query = "SELECT DISTINCTROW newsitem_id FROM " . NEWSITEMS_TABLE;
+	$query .= " WHERE page_id = ? AND title like ?";
 
-	//  $query.=" AND MATCH(title) AGAINST('".str_replace(" ",",",trim($db->setstring($search)))."'))";
-	return getdbresultcolumn($query);
-}
-
-//
-// todo: refine match all
-//
-function searchnewsitems($search,$page,$all,$showhidden=false)
-{
-	global $db;
-	$page=$db->setinteger($page);
-
-	$result=array();
-
-	// search all subpages as well
-	$pagestosearch=array();
-
-	$newspages=getsubpagesforpagetype($page, "news");
-
-	// get pages to search
-	$query="SELECT DISTINCTROW page.page_id FROM ";
-	$query.=PAGES_TABLE." AS page WHERE ";
-	$query.="page.page_id IN (";
-	for($i=0;$i<count($newspages);$i++)
-	{
-		$query.="'".$newspages[$i]."',";
-	}
-	$query=substr($query,0,strlen($query)-1);
-	$query.=")";
-
-	$sql=$db->singlequery($query);
-	if($sql)
-	{
-	// get column
-		while ($row = $sql->fetch_row()) {
-			array_push($pagestosearch,$row[0]);
-		}
-	}
-
-	// search news
-	$query="SELECT items.newsitem_id FROM ";
-	$query.=NEWSITEMS_TABLE." AS items, ";
-	$query.=NEWSITEMSECTIONS_TABLE." AS sec, ";
-	$query.=PAGES_TABLE." AS page WHERE ";
-
-	$query.="page.page_id IN (";
-	for($i=0;$i<count($pagestosearch);$i++)
-	{
-		$query.="'".$pagestosearch[$i]."',";
-	}
-	$query=substr($query,0,strlen($query)-1);
-	$query.=")";
-
-	$query.=" AND page.ispublished = '1'";
-	$query.=" AND items.ispublished = '1'";
-	$query.=" AND page.page_id = items.page_id";
-
-	// search sections
-	$query.=" AND ((items.newsitem_id = sec.newsitem_id";
-	$query.=" AND MATCH(sec.text) AGAINST('".str_replace(" ",",",trim($search))."'))";
-	// search synopses
-	$query.=" OR MATCH(items.synopsis) AGAINST('".str_replace(" ",",",trim($search))."')";
-	// search titles
-	$query.=" OR MATCH(items.title) AGAINST('".str_replace(" ",",",trim($search))."'))";
-
-//  print($query);
-	$sql=$db->singlequery($query);
-	if($sql)
-	{
-		// get column
-		while ($row = $sql->fetch_row()) {
-			array_push($result,$row[0]);
-		}
-	}
-
-  // from the search result, kick out entries that don't match all words
-	if($all)
-	{
-		$allresult=array();
-		for($i=0;$i<count($result);$i++)
-		{
-			// get a concatenated string
-			$query="SELECT sec.text FROM ";
-			$query.=NEWSITEMSECTIONS_TABLE." AS sec WHERE ";
-			$query.="sec.newsitem_id ='".$result[$i]."'";
-
-			$sql=$db->singlequery($query);
-			$entry=array();
-			if($sql)
-			{
-				// get column
-				while ($row = $sql->fetch_row()) {
-					array_push($entry,$row[0]);
-				}
-			}
-			$concat=implode(" ",$entry);
-
-			$query="SELECT CONCAT(items.synopsis, items.title) FROM ";
-			$query.=NEWSITEMS_TABLE." AS items WHERE ";
-			$query.="items.newsitem_id ='".$result[$i]."'";
-
-			//      print('<p>'.$query.'<p>');
-
-			$sql=$db->singlequery($query);
-			if($sql)
-			{
-				// get column
-				$concat .= $sql->fetch_row()[0];
-			}
-
-			// search concatenated string for all terms
-			$concat=strtolower(text2html($concat));
-			$concat=str_replace("[quote]","",$concat);
-			$concat=str_replace("[unquote]","",$concat);
-			$keys=explode(" ",$search);
-			$found=true;
-			for($j=0;$j<count($keys) && $found;$j++)
-			{
-				if(strlen($keys[$j])>3)
-				{
-					if(!strpos($concat,strtolower(text2html($keys[$j])))) $found=false;
-				}
-			}
-			if($found) array_push($allresult,$result[$i]);
-		}
-	}
-//  print('<p>'.count($result).'<p>');
-//  print_r($result);
-	if($all)
-	{
-		return $allresult;
-	}
-	else return $result;
+	$sql = new RawSQLStatement($query, array($page, '%' . trim($search) . '%'), 'is');
+	return $sql->fetch_column();
 }
 
 ?>

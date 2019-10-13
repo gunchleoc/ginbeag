@@ -10,6 +10,9 @@ include_once($projectroot."includes/functions.php");
 include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
+
+$db->quiet_mode = true;
+
 checksession();
 
 header('Content-type: text/xml;	charset=utf-8');
@@ -25,7 +28,7 @@ else {
 
 	$success = updatearticlesource($_POST['page'],fixquotes($_POST['author']),fixquotes($_POST['location']),$_POST['day'],$_POST['month'],$_POST['year'],fixquotes($_POST['source']),$_POST['sourcelink'],$_POST['toc']);
 
-	if($success >=0)
+	if($success >=0 && empty($db->error_report))
 	{
 		print('<message error="0">');
 		updateeditdata($_POST['page']);
@@ -34,7 +37,8 @@ else {
 	else
 	{
 		print('<message error="1">');
-		print("Error Saving Source Info for Article ID:".$_POST['page']);
+		print("Error Saving Source Info for Article ID:".$_POST['page']
+			. "<br />\n" . $db->error_report);
 	}
 }
 print("</message>");

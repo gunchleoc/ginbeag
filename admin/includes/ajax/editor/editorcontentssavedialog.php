@@ -7,6 +7,13 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/includes/objects/editor.php");
 
+$db->quiet_mode = true;
+
 $editor = new EditorContentsSaveDialog($_POST['page'],$_POST['item'],$_POST['elementtype'], $_POST['edittext'],$_POST['title']);
-print($editor->toHTML());
+
+if (empty($db->error_report)) {
+	print($editor->toHTML());
+} else {
+	print($db->error_report);
+}
 ?>

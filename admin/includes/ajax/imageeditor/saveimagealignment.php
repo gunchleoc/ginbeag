@@ -7,6 +7,8 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/functions/sessions.php");
 
+$db->quiet_mode = true;
+
 checksession();
 
 
@@ -58,10 +60,10 @@ else {
  	}
 	else $errormessage = 'Error saving image align: unknown element type "'.$elementtype.'"';
 
-	if($errormessage)
+	if($errormessage || !empty($db->error_report))
 	{
 		print('<message error="1">');
-		print($errormessage);
+		print($errormessage . "<br />\n" . $db->error_report);
 	}
 	else
 	{

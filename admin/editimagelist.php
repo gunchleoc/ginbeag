@@ -269,6 +269,13 @@ if(isset($_POST["addimage"]))
 }
 elseif($action==="replaceimage")
 {
+	// Ensure that the browser won't cache the old images
+	header('Expires: Sun, 01 Jan 2014 00:00:00 GMT');
+	header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');
+	header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+	header('Cache-Control: post-check=0, pre-check=0', FALSE);
+	header('Pragma: no-cache');
+
 	$displayeditform = true;
 	$newfilename=$_FILES['newfilename']['name'];
 
@@ -287,29 +294,34 @@ elseif($action==="replaceimage")
 		$success=checkextension($filename,$newfilename);
 		if($success)
 		{
-			$errorcode = replacefile(getproperty("Image Upload Path").getimagesubpath($filename), "newfilename", $filename);
+			$uploadpath = getproperty("Image Upload Path").getimagesubpath($filename);
+			$errorcode = replacefile($uploadpath, "newfilename", $filename);
+			$hasthumbnail = hasthumbnail($filename);
 			if($errorcode == UPLOAD_ERR_OK)
 			{
-				$success = true;
-			}
-			else
-			{
+				$message="Replaced Image";
+				$displayeditform=true;
+				if ($hasthumbnail && extension_loaded('gd') && function_exists('gd_info')) {
+					deletethumbnail($filename);
+					$thsuccess = createthumbnail($projectroot.$uploadpath, $filename);
+					if ($thsuccess) {
+						$extension = substr($filename,strrpos($filename,"."),strlen($filename));
+						$imagename = substr($filename,0,strrpos($filename,"."));
+						addthumbnail($filename, $imagename.'_thn'.$extension);
+						$message .= ". Thumbnail created successfully.";
+					} else {
+						$message .= ". Failed to create thumbnail. Try using the 'generate tThumbnail' button.";
+						$error = true;
+					}
+				}
+			} else {
+				$message .= "Failed to replace the image file.";
 				$message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
-				$success = false;
 				$error = true;
 			}
 		}
-		if($success)
-		{
-			$message="Replaced Image";
-			$displayeditform=true;
-		}
-		else
-		{
-			$message .= "Failed to replace the image file.";
-			$error = true;
-		}
 	}
+	unset($_FILES);
 }
 elseif($action==="resizeimage")
 {
@@ -628,8 +640,6 @@ else
 }
 
 print($adminimagepage->toHTML());
-$db->closedb();
-
 
 //
 // when replacing an images, the extension must be the same
@@ -650,4 +660,3 @@ function checkextension($oldfile,$newfile)
 }
 
 ?>
-

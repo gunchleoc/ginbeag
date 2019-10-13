@@ -113,9 +113,11 @@ class SiteLayout extends Template {
 		$this->vars['spfont_italic'] = new RadioButtonForm($this->stringvars['jsid'], "spfont", "italic", "Italic", $properties["Splash Page Font"] === "italic", "right");
 		$this->vars['spfont_bold'] = new RadioButtonForm($this->stringvars['jsid'], "spfont", "bold", "Bold", $properties["Splash Page Font"] === "bold", "right");
 
-		$this->stringvars['splashtext1']=input2html(getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage1"));
+		$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('splashpage1'), 's');
+		$this->stringvars['splashtext1']=input2html($sql->fetch_value());
 		$this->stringvars['splashimage']=$properties["Splash Page Image"];
-		$this->stringvars['splashtext2']=input2html(getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage2"));
+		$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('splashpage2'), 's');
+		$this->stringvars['splashtext2']=input2html($sql->fetch_value());
 	}
 
 	// assigns templates

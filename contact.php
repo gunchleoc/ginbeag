@@ -70,14 +70,14 @@ else
 
 
 // check data and send e-mail
-if(isset($_POST[$emailvariables['E-Mail Address Variable']['property_value']]))
+if(isset($_POST[$emailvariables['E-Mail Address Variable']]))
 {
 	if($token && checktoken($token))
 	{
 		// get vars
-		$email=trim($_POST[$emailvariables['E-Mail Address Variable']['property_value']]);
-		$subject=trim($_POST[$emailvariables['Subject Line Variable']['property_value']]);
-		$messagetext=trim(stripslashes($_POST[$emailvariables['Message Text Variable']['property_value']]));
+		$email=trim($_POST[$emailvariables['E-Mail Address Variable']]);
+		$subject=trim($_POST[$emailvariables['Subject Line Variable']]);
+		$messagetext=trim(stripslashes($_POST[$emailvariables['Message Text Variable']]));
 		$sendcopy=isset($_POST['sendcopy']) && $_POST['sendcopy'];
 
 		$errormessage = emailerror($email,$subject,$messagetext,$sendcopy);
@@ -99,7 +99,4 @@ if(!$token) $token = createtoken();
 
 $contactpage = new ContactPage($email, $subject, $messagetext, $sendcopy, $userid, $token, $errormessage, $sendmail);
 print($contactpage->toHTML());
-
-
-$db->closedb();
 ?>

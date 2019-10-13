@@ -16,19 +16,19 @@ class SitePageTypes extends Template {
 	function SitePageTypes()
 	{
 		parent::__construct();
-		
+
 		$pagetypes=getpagetypes();
 		$keys=array_keys($pagetypes);
-		
+
 		for($i=0;$i<count($keys);$i++)
 		{
 			$pagetype=$keys[$i];
 			$restrictions=getrestrictions($pagetype);
-		
+
 			$this->listvars['pagetype'][]=new SitePageType($pagetype, $pagetypes[$pagetype], $restrictions);
 		}
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -50,14 +50,14 @@ class SitePageType extends Template {
 		$linkparams["action"] = "sitepagetype";
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("pagetype" => $pagetype));
-		
+
 		$this->stringvars['pagetype']=$pagetype;
 		$this->stringvars['description']=$description;
-		$this->vars['allowrootform']= new CheckboxForm("allowroot","allowroot","",$restrictions["allowroot"]);
-		$this->vars['allowsimplemenuform']= new CheckboxForm("allowsimplemenu","allowsimplemenu","",$restrictions["allowsimplemenu"]);
-		if($restrictions["allowself"]) $this->stringvars['allowself']="true";
+		$this->vars['allowrootform']= new CheckboxForm("allowroot","allowroot","",$restrictions["allow_root"]);
+		$this->vars['allowsimplemenuform']= new CheckboxForm("allowsimplemenu","allowsimplemenu","",$restrictions["allow_simplemenu"]);
+		if($restrictions["allow_self"]) $this->stringvars['allowself']="true";
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{

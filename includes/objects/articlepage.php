@@ -143,6 +143,9 @@ class ArticleTOC extends Template {
 		      		$this->listvars['toc'][] = new ArticleTOCItem($articlesections[$j],$sectiontitle,$i-1);
 		    }
 		}
+		if (empty($this->listvars['toc'])) {
+			$this->stringvars['toc'] = "";
+		}
   	}
 
     // assigns templates

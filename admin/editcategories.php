@@ -167,5 +167,4 @@ else
 
 $content = new AdminMain($page, "editcategories", new AdminMessage($message, $error), new AdminCategories($title,$addsubtext, $editcattext, $cattype));
 print($content->toHTML());
-$db->closedb();
 ?>

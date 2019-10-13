@@ -30,24 +30,24 @@ class AdminNavigatorLink extends Template {
 		$this->stringvars['margin_top']=1;
 		$this->stringvars['link_class']=$class;
 		$this->stringvars['title_class']="";
-		
+
 		if($isroot)
 			$this->stringvars['is_root']="is_root";
 		else
 			$this->stringvars['no_root']="no_root";
-        
+
 		// data
 		$this->stringvars['pagetype']=getpagetypearray($page);
 		$this->stringvars['title']=title2html(getnavtitlearray($page));
-		
+
 		if(isthisexactpagerestricted($page)) $this->stringvars['title']=$this->stringvars['title'].' (R)';
 		if(!ispublished($page)) $this->stringvars['title']='<i>'.$this->stringvars['title'].'</i>';
-		
+
 		$this->stringvars['description']="";
-		
+
 		$this->stringvars['link']=getprojectrootlinkpath().'admin/admin.php'.makelinkparameters(array("page" => $page));
 		$this->stringvars['link_attributes']=' target="_top"';
-		
+
 		if(isset($_GET['page']) && $_GET['page']===$page)
 			$this->stringvars['title_class']="navhighlight";
 		else
@@ -74,8 +74,11 @@ class AdminNavigatorBranch extends Template {
 			$class="navtitle";
         else
 			$class="navlink";
-        
+
         $isroot=false;
+	if (!ispageknownarray($page)) {
+		return;
+	}
         if(isrootpagearray($page))
           $isroot=true;
 
@@ -106,7 +109,7 @@ class AdminNavigator extends Template {
 	function AdminNavigator($page)
 	{
 	    parent::__construct();
-    
+
 		// navigator
 		if($page==0 || !pageexists($page))
 		{
@@ -213,10 +216,10 @@ class AdminNavigatorHeader extends Template {
     function AdminNavigatorHeader()
     {
 		parent::__construct();
-		
+
 		$this->vars['jumptopageform']= new JumpToPageForm(getprojectrootlinkpath()."admin/admin.php",array(),"left","_top");
 		$this->stringvars['pagelistlink']= getprojectrootlinkpath()."admin/includes/pagelist.php".makelinkparameters(array("page" => $this->stringvars['page']));
-		
+
     }
 
     // assigns templates
@@ -236,13 +239,13 @@ class PageList extends Template {
     function PageList()
     {
 		parent::__construct();
-		
+
 		$roots=getrootpages();
 		for($i=0;$i<count($roots);$i++)
 		{
 			$this->listvars['navigator'][]=new AdminNavigatorBranch($roots[$i],50,0);
 		}
-		
+
     }
 
     // assigns templates

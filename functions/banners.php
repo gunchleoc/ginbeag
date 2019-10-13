@@ -7,18 +7,18 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getbannercontents($banner)
-{
-	global $db;
-	return getrowbykey(BANNERS_TABLE, "banner_id", $db->setinteger($banner));
+function getbannercontents($banner) {
+	$sql = new SQLSelectStatement(BANNERS_TABLE, '*', array('banner_id'), array($banner), 'i');
+	return $sql->fetch_row();
 }
 
 //
 //
 //
-function getbanners()
-{
-	return getorderedcolumn("banner_id", BANNERS_TABLE, 1, "position", "ASC");
+function getbanners() {
+	$sql = new SQLSelectStatement(BANNERS_TABLE, 'banner_id');
+	$sql->set_order(array('position' => 'ASC'));
+	return $sql->fetch_column();
 }
 
 //
@@ -26,6 +26,7 @@ function getbanners()
 //
 function isbannercomplete($banner)
 {
+	if (empty($banner)) return false;
 	$contents=getbannercontents($banner);
 	$result=true;
 	if(!strlen($contents['image'])>0 || !strlen($contents['description'])>0 || !strlen($contents['link'])>0)

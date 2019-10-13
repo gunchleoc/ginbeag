@@ -12,6 +12,8 @@ include_once($projectroot."admin/functions/sessions.php");
 //print_r($_POST);
 //print_r($_GET);
 
+$db->quiet_mode = true;
+
 checksession();
 
 $contents=getarticlesectioncontents($_POST['articlesection']);
@@ -20,5 +22,9 @@ if(strlen($contents['sectiontitle'])>0)
 else
 	$sectionheader="Section ID ".$_POST['articlesection'];
 
-print($sectionheader);
+if (empty($db->error_report)) {
+	print($sectionheader);
+} else {
+	print($db->error_report);
+}
 ?>

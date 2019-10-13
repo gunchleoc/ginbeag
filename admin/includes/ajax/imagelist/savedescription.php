@@ -12,6 +12,8 @@ include_once($projectroot."admin/functions/sessions.php");
 //print_r($_POST);
 //print_r($_GET);
 
+$db->quiet_mode = true;
+
 checksession();
 
 $filename="";
@@ -37,7 +39,7 @@ $success = savedescription($filename,$caption,$source,$sourcelink,$copyright,$pe
 header('Content-type: text/xml;	charset=utf-8');
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 
-if($success >=0)
+if($success >=0 && empty($db->error_report))
 {
 	print('<message error="0">');
 	print("Saved Description for ".$filename.".");
@@ -45,7 +47,8 @@ if($success >=0)
 else
 {
 	print('<message error="1">');
-	print("Error Saving Description for ".$filename."!");
+	print("Error Saving Description for ".$filename."!"
+			. "<br />\n" . $db->error_report);
 }
 print("</message>");
 ?>

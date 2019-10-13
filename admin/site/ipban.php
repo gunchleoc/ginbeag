@@ -38,6 +38,4 @@ elseif(isset($_POST['unbanipallrestricted']))
 
 $content = new AdminMain($page, "siteipban", new AdminMessage($message, $error), new SiteIPBan());
 print($content->toHTML());
-
-$db->closedb();
 ?>

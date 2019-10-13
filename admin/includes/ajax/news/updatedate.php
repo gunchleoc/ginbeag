@@ -11,8 +11,15 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 $contents=getnewsitemcontents($_POST['newsitem']);
-print(formatdatetime($contents['date']));
+
+if (empty($db->error_report)) {
+	print(formatdatetime($contents['date']));
+} else {
+	print($db->error_report);
+}
 ?>

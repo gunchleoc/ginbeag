@@ -12,6 +12,8 @@ include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 
@@ -60,22 +62,32 @@ else {
 	}
 	elseif($elementtype=="sitepolicy")
 	{
-		$success=updatefield(SPECIALTEXTS_TABLE,"text",addslashes(utf8_decode($text)),"id = 'sitepolicy'");
+		$sql = new SQLUpdateStatement(SPECIALTEXTS_TABLE,
+			array('text'), array('id'),
+			array(addslashes(utf8_decode($text)), 'sitepolicy'), 'ss');
+		$success = $sql->run();
 		if($success) $message= "Saved sitepolicy text";
 	}
 	elseif($elementtype=="guestbook")
 	{
-		$success=updatefield(SPECIALTEXTS_TABLE,"text",addslashes(utf8_decode($text)),"id = 'guestbook'");
+		// TODO editing guestbook intro is broken
+		$sql = new SQLUpdateStatement(SPECIALTEXTS_TABLE,
+			array('text'), array('id'),
+			array(addslashes(utf8_decode($text)), 'guestbook'), 'ss');
+		$success = $sql->run();
 		if($success) $message= "Saved guestbook text";
 	}
 	elseif($elementtype=="contact")
 	{
-		$success=updatefield(SPECIALTEXTS_TABLE,"text",addslashes(utf8_decode($text)),"id = 'contact'");
+		$sql = new SQLUpdateStatement(SPECIALTEXTS_TABLE,
+			array('text'), array('id'),
+			array(addslashes(utf8_decode($text)), 'contact'), 'ss');
+		$success = $sql->run();
 		if($success) $message= "Saved contact form intro text";
 	}
 
 
-	if($success)
+	if($success && empty($db->error_report))
 	{
 		print('<message error="0">');
 		updateeditdata($page);
@@ -84,7 +96,8 @@ else {
 	else
 	{
 		print('<message error="1">');
-		print("Error saving ".$elementtype." text: ".$message);
+		print("Error saving ".$elementtype." text: ".$message
+			. "<br />\n" . $db->error_report);
 	}
 }
 print("</message>");

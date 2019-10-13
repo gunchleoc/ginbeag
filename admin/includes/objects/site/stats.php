@@ -19,7 +19,7 @@ class SiteStatsTable extends Template {
 	function SiteStatsTable($count,$year, $month,$timespan="month")
 	{
 		parent::__construct();
-		
+
 		if($timespan=="month")
 		{
 			$this->stringvars['month']=$month;
@@ -32,29 +32,23 @@ class SiteStatsTable extends Template {
 		}
 		$this->stringvars['year']=$year;
 		$this->stringvars['count']=$count;
-		
-		
+
 		$this->vars["month_selection"]=new MonthOptionForm($month,true,"","month","Month");
 		$this->vars["month_year_selection"]=new YearOptionForm($year,getstatsfirstyear(),date("Y",strtotime('now')),"","month_year","Year");
 		$this->stringvars["count_selection"]= $count;
-		
+
 		$this->vars["year_year_selection"]=new YearOptionForm($year,getstatsfirstyear(),date("Y",strtotime('now')),"","year_year","Year");
-	
-		//print_r($stats);
-		
-		if(count($stats))
-		{
-		    for($i=0;$i<count($stats);$i++)
-			{
-		  		$this->listvars['stats'][]=new SiteStatsEntry($stats[$i], $i+1);
-		  	}
+
+		$rank = 0;
+		foreach ($stats as $page => $views) {
+			$this->listvars['stats'][]=new SiteStatsEntry($views, $page, ++$rank);
 		}
-		else
-		{
+
+		if ($rank == 0) {
 			$this->stringvars['nostats']="Stats not available";
 		}
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{
@@ -68,18 +62,18 @@ class SiteStatsTable extends Template {
 //
 class SiteStatsEntry extends Template {
 
-	function SiteStatsEntry($stats,$rank)
+	function SiteStatsEntry($views, $page, $rank)
 	{
 		parent::__construct();
-		
+
 		$this->stringvars['rank']=$rank;
-		$this->stringvars['views']=number_format($stats[1]);
-		$this->stringvars['pagetype']=getpagetype($stats[0]);
-		$this->stringvars['page']=$stats[0];
-		$this->stringvars['pagetitle']=text2html(getpagetitle($stats[0]));
-		$this->stringvars['url']=getprojectrootlinkpath()."admin/admin.php".makelinkparameters(array("page" => $stats[0]));
+		$this->stringvars['views']=number_format($views);
+		$this->stringvars['pagetype']=getpagetype($page);
+		$this->stringvars['page']=$page;
+		$this->stringvars['pagetitle']=text2html(getpagetitle($page));
+		$this->stringvars['url']=getprojectrootlinkpath()."admin/admin.php".makelinkparameters(array("page" => $page));
 	}
-	
+
 	// assigns templates
 	function createTemplates()
 	{

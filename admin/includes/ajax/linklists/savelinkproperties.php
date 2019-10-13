@@ -10,6 +10,8 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 header('Content-type: text/xml;	charset=utf-8');
@@ -24,7 +26,7 @@ if($message)
 else {
 	$success=updatelinkproperties($_POST['linkid'],fixquotes($_POST['title']),$_POST['link']);
 
-	if($success >=0)
+	if($success >=0 && empty($db->error_report))
 	{
 		print('<message error="0">');
 		updateeditdata($_POST['page']);
@@ -33,7 +35,8 @@ else {
 	else
 	{
 		print('<message error="1">');
-		print("Error Saving Properties for Link ID : ".$_POST['linkid']);
+		print("Error Saving Properties for Link ID : ".$_POST['linkid']
+			. "<br />\n" . $db->error_report);
 	}
 }
 print("</message>");

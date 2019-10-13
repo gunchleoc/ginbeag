@@ -10,6 +10,8 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 header('Content-type: text/xml;	charset=utf-8');
@@ -31,7 +33,7 @@ else {
 
 	$success = updatemenunavigation($_POST['page'],$_POST['navlevels'],$_POST['pagelevels'],$sistersinnavigator);
 
-	if($success >=0)
+	if($success >=0 && empty($db->error_report))
 	{
 		print('<message error="0">');
 		updateeditdata($_POST['page']);
@@ -40,7 +42,8 @@ else {
 	else
 	{
 		print('<message error="1">');
-		print("Error Saving Menu Options for Page: ".$_POST['page']);
+		print("Error Saving Menu Options for Page: ".$_POST['page']
+			. "<br />\n" . $db->error_report);
 	}
 }
 print("</message>");

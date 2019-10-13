@@ -8,10 +8,11 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function updateexternallink($page, $link)
-{
-	global $db;
-	return updatefield(EXTERNALS_TABLE,"link",$db->setstring($link) ,"page_id='".$db->setinteger($page)."'");
+function updateexternallink($page, $link) {
+	$sql = new SQLUpdateStatement(EXTERNALS_TABLE,
+		array('link'), array('page_id'),
+		array($link, $page), 'si');
+	return $sql->run();
 }
 
 ?>

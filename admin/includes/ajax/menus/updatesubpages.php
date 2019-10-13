@@ -10,9 +10,16 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 $subpageids=getallsubpageids($_POST['page']);
 $printme= new MenuMovePageFormContainer ($_POST['page'],$subpageids);
-print($printme->toHTML());
+
+if (empty($db->error_report)) {
+	print($printme->toHTML());
+} else {
+	print($db->error_report);
+}
 ?>

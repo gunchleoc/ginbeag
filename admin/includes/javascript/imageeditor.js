@@ -13,7 +13,7 @@ $(document).ready(function() {
 	var filenameisedited=false;
 	var alignisedited=false;
 	var sizeisedited=false;
-	
+
 	/**
 	 * call when something changes in the text
 	 */
@@ -24,7 +24,7 @@ $(document).ready(function() {
 		$("#{JSID}submitfilename").css("font-style","normal");
 		enableElements([$("#{JSID}submitfilename"),$("#{JSID}resetfilename")]);
 	}
-	
+
 	/**
 	 * call when changes are reset or saved
 	 */
@@ -46,7 +46,7 @@ $(document).ready(function() {
 		$("#{JSID}submitalignment").css("font-style","normal");
 		enableElements([$("#{JSID}submitalignment"),$("#{JSID}resetalignment")]);
 	}
-	
+
 	/**
 	 * call when changes are reset or saved
 	 */
@@ -85,31 +85,31 @@ $(document).ready(function() {
 	addlistenersAlign();
 	addlistenersSize();
 
-	
+
 	/**
 	 * listeners for filename pane
-	 */	
+	 */
 	function addlistenersFilename()
 	{
 		setfilenameisnotedited();
 		var elements = new Array();
 		elements[0] = $("#{JSID}submitfilename");
 		elements[1] = $("#{JSID}resetfilename");
-		
+
 		// watch edit state to activate save button
 		$("#{JSID}imagefilename").on("keypress", function() {
 			setfilenameisedited();
-		});	
-		
+		});
+
 		/* save image filename */
 		$("#{JSID}submitfilename").click(function() {
 
 			disableElements(elements);
-			
+
 			//alert("Submit filename clicked!");
 
 			showprogressbox("Saving Image File: "+$("#{JSID}imagefilename").val()+" ... ");
-			
+
        		postRequest(
 				projectroot+"admin/includes/ajax/imageeditor/saveimagefilename.php",
        			{
@@ -126,7 +126,7 @@ $(document).ready(function() {
 		       		{
 		       			//alert("Image saved!");
 			       		setfilenameisnotedited();
-			       		
+
 						postRequest(
 							projectroot+"admin/includes/ajax/imageeditor/updateimage.php",
 			       			{
@@ -140,7 +140,7 @@ $(document).ready(function() {
 							},
 							elements
 				    	); // post updateimage.php
-				    	
+
 				    	if($("#{JSID}imagefilename").val().length<1)
 				    	{
 							$("#{JSID}editoralignmentpane").html("");
@@ -161,23 +161,25 @@ $(document).ready(function() {
 									addlistenersAlign();
 								},
 								elements
-							); // post showimagealignment.php
-				    		postRequest(
-								projectroot+"admin/includes/ajax/imageeditor/showimagesize.php",
-				       			{
-					       			page: $("#{JSID}page").val(),
-					       			item: $("#{JSID}item").val(),
-					       			elementtype: $("#{JSID}elementtype").val()
-					       		},
-								function(html)
-								{
-									$("#{JSID}editorsizepane").html(html);
-									addlistenersSize();
-								},
-								elements
-							); // post showimagesize.php
+							); // post showimagealignment.php except for linklist links
+							if ($("#{JSID}elementtype").val() !== "link") {
+								postRequest(
+									projectroot+"admin/includes/ajax/imageeditor/showimagesize.php",
+										{
+											page: $("#{JSID}page").val(),
+											item: $("#{JSID}item").val(),
+											elementtype: $("#{JSID}elementtype").val()
+										},
+									function(html)
+									{
+										$("#{JSID}editorsizepane").html(html);
+										addlistenersSize();
+									},
+									elements
+								); // post showimagesize.php
+							}
 				    	}
-			       		
+
 					} // no error
 					showmessageXML(xml);
 					enableElements(elements);
@@ -186,9 +188,9 @@ $(document).ready(function() {
 	    	); // post saveimagefilename.php
 
 		}); // submitfilename
-		
-		
-		
+
+
+
 		/* reset edit status */
 		$("#{JSID}resetfilename").click(function() {
        		setfilenameisnotedited();
@@ -198,38 +200,38 @@ $(document).ready(function() {
 
 
 
-	
+
 	/**
 	 * listeners for alignment pane
-	 */	
+	 */
 	function addlistenersAlign()
 	{
 		setalignisnotedited();
-		
+
 		var elements = new Array();
 		elements[0] = $("#{JSID}submitalignment");
 		elements[1] = $("#{JSID}resetalignment");
-		
+
 		// watch edit state to activate save button
 		$("#{JSID}imagealignleft").on("click", function() {
 			setalignisedited();
 		});
-		
+
 		$("#{JSID}imagealignright").on("click", function() {
 			setalignisedited();
 		});
-		
+
 		$("#{JSID}imagealigncenter").on("click", function() {
 			setalignisedited();
 		});
-		
+
 		/* save image filename */
 		$("#{JSID}submitalignment").click(function() {
 
 			disableElements(elements);
 
 			showprogressbox("Saving Image Alignment: "+$('input[name={JSID}imagealign]:checked').val()+" ... ");
-			
+
 			postRequest(
 				projectroot+"admin/includes/ajax/imageeditor/saveimagealignment.php",
        			{
@@ -251,9 +253,9 @@ $(document).ready(function() {
 				},
 				elements
 			); // post saveimagealignment.php
-			
+
 		}); // submitfilename
-		
+
 		/* reset edit status */
 		$("#{JSID}resetalignment").click(function() {
 			setalignisnotedited();

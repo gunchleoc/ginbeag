@@ -908,7 +908,11 @@ class Page extends Template {
 			}
 			elseif($this->displaytype=="splashpage")
 			{
-				$meta_description .= getproperty("Site Description")." ".getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage1")." ".getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage2");
+				$meta_description .= getproperty("Site Description")." ";
+				$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('splashpage1'), 's');
+				$meta_description .= $sql->fetch_value() . " ";
+				$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('splashpage2'), 's');
+				$meta_description .= $sql->fetch_value();
 				$imagefile = $image=getproperty("Splash Page Image");
 			}
 
@@ -997,7 +1001,9 @@ class Page extends Template {
 			$contents="";
 			if(getproperty("Splash Page Font")==="italic") $contents.='<i>';
 			elseif(getproperty("Splash Page Font")==="bold") $contents.='<b>';
-			$text= getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage1");
+			$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('splashpage1'), 's');
+			$text = $sql->fetch_value();
+
 			if(strlen($text)>0)
 			{
 				$contents.='<p>'.$text.'</p><p>&nbsp;</p>';
@@ -1007,7 +1013,8 @@ class Page extends Template {
 			{
 				$contents.='<p><img src="'.getprojectrootlinkpath().'img/'.$image.'" border="0" /></p><p>&nbsp;</p>';
 			}
-			$text= getdbelement("text",SPECIALTEXTS_TABLE,"id","splashpage2");
+			$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('splashpage2'), 's');
+			$text = $sql->fetch_value();
 			if(strlen($text)>0)
 			{
 				$contents.='<p>'.$text.'</p>';
@@ -1103,7 +1110,8 @@ class Page extends Template {
 			}
 			elseif(isset($_GET["sitepolicy"]))
 			{
-				$this->vars['contents']  = new PageIntro(title2html(getproperty("Site Policy Title")),getdbelement("text",SPECIALTEXTS_TABLE,"id","sitepolicy"), "", true, true, "left", false, "sectiontext");
+				$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('sitepolicy'), 's');
+				$this->vars['contents']  = new PageIntro(title2html(getproperty("Site Policy Title")),$sql->fetch_value(), "", true, true, "left", false, "sectiontext");
 			}
 			elseif(isset($_GET["sitemap"]))
 			{

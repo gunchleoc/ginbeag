@@ -8,10 +8,9 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getarticlepagecontents($page)
-{
-	global $db;
-	return getrowbykey(ARTICLES_TABLE, "page_id", $db->setinteger($page));
+function getarticlepagecontents($page) {
+	$sql = new SQLSelectStatement(ARTICLES_TABLE, '*', array('page_id'), array($page), 'i');
+	return $sql->fetch_row();
 }
 
 
@@ -19,33 +18,38 @@ function getarticlepagecontents($page)
 //
 //
 //
-function numberofarticlepages($page)
-{
-	global $db;
-	return getdbelement("numberofpages",ARTICLES_TABLE, "page_id", $db->setinteger($page));
+function numberofarticlepages($page) {
+	$sql = new SQLSelectStatement(ARTICLES_TABLE, 'numberofpages', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getlastarticlesection($page,$pagenumber)
-{
-	global $db;
-	$condition="article_id ='".$db->setinteger($page)."' and pagenumber ='".$db->setinteger($pagenumber)."'";
-	return getmax("sectionnumber",ARTICLESECTIONS_TABLE, $condition);
+function getlastarticlesection($page,$pagenumber) {
+	$sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'sectionnumber', array('article_id', 'pagenumber'), array($page, $pagenumber), 'ii');
+	$sql->set_operator('max');
+	return $sql->fetch_value();
+}
+
+//
+//
+//
+function getfirstarticlesection($page,$pagenumber) {
+	$sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'sectionnumber', array('article_id', 'pagenumber'), array($page, $pagenumber), 'ii');
+	$sql->set_operator('min');
+	return $sql->fetch_value();
 }
 
 
 //
 // the section number on the page. Not the primary key!!!
 //
-function getarticlesections($page, $pagenumber)
-{
-	global $db;
-	$condition= "(article_id='".$db->setinteger($page)."'";
-	$condition.= " AND pagenumber='".$db->setinteger($pagenumber)."')";
-	return getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, $condition, "sectionnumber", "ASC");
+function getarticlesections($page, $pagenumber) {
+	$sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'articlesection_id', array('article_id', 'pagenumber'), array($page, $pagenumber), 'ii');
+	$sql->set_order(array('sectionnumber' => 'ASC'));
+	return $sql->fetch_column();
 }
 
 
@@ -53,47 +57,42 @@ function getarticlesections($page, $pagenumber)
 //
 // for printview
 //
-function getallarticlesections($page)
-{
-	global $db;
-	$condition= "article_id='".$db->setinteger($page)."'";
-	return getorderedcolumn("articlesection_id",ARTICLESECTIONS_TABLE, $condition, "pagenumber, sectionnumber", "ASC");
+function getallarticlesections($page) {
+	$sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'articlesection_id', array('article_id'), array($page), 'i');
+	$sql->set_order(array('pagenumber' => 'ASC', 'sectionnumber' => 'ASC'));
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function getarticlesectioncontents($articlesection)
-{
-	global $db;
-	return getrowbykey(ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($articlesection));
+function getarticlesectioncontents($articlesection) {
+	$sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, '*', array('articlesection_id'), array($articlesection), 'i');
+	return $sql->fetch_row();
 }
 
 //
 //
 //
-function getarticlesectiontitle($articlesection)
-{
-	global $db;
-	return getdbelement("sectiontitle",ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($articlesection));
+function getarticlesectiontitle($articlesection) {
+	$sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'sectiontitle', array('articlesection_id'), array($articlesection), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getarticlesectiontext($articlesection)
-{
-	global $db;
-	return getdbelement("text",ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($articlesection));
+function getarticlesectiontext($articlesection) {
+	$sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'text', array('articlesection_id'), array($articlesection), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getarticlesectionnumber($articlesection)
-{
-	global $db;
-	return getdbelement("sectionnumber",ARTICLESECTIONS_TABLE, "articlesection_id", $db->setinteger($articlesection));
+function getarticlesectionnumber($articlesection) {
+	$sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'sectionnumber', array('articlesection_id'), array($articlesection), 'i');
+	return $sql->fetch_value();
 }
 
 ?>

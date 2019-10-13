@@ -47,7 +47,6 @@ $LEGALVARS["params"]=1;
 $LEGALVARS["permission"]=1;
 $LEGALVARS["printview"]=1;
 $LEGALVARS["search"]=1;
-$LEGALVARS["searchpage"]=1;
 $LEGALVARS["selectedcat"]=1;
 $LEGALVARS["showall"]=1;
 $LEGALVARS["sid"]=1;

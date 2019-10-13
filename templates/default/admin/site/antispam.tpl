@@ -26,10 +26,10 @@
 		<fieldset>
 			<legend class="highlight">Spam Words</legend>
 			<label for="spam_wordssubject">Subject Line</label>
-			<br /><textarea id="spamwords_subject" name="spamwords_subject" rows="6" cols="20">{SPAMWORDS_SUBJECT}</textarea>
+			<br /><textarea id="spamwords_subject" name="spamwords_subject" rows="6" cols="40">{SPAMWORDS_SUBJECT}</textarea>
 			<div class="formexplain">Contact form and guestbook messages containing this text in the subject line are considered spam. Enter 1 item per line or leave blank.</div>
 			<br /><label for="spamwords_content">Message Content</label>
-			<br /><textarea id="spamwords_content" name="spamwords_content" rows="6" cols="20">{SPAMWORDS_CONTENT}</textarea>
+			<br /><textarea id="spamwords_content" name="spamwords_content" rows="6" cols="40">{SPAMWORDS_CONTENT}</textarea>
 			<div class="formexplain">Contact form and guestbook messages containing this text in the message content are considered spam. Enter 1 item per line or leave blank.</div>
 			{SPAMWORDS_SUBMITROW}
 		</fieldset>

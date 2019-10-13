@@ -14,10 +14,7 @@ include_once($projectroot."includes/objects/elements.php");
 // returns array with sid and message
 // todo check if retires are created properly
 //
-function publiclogin($username,$password)
-{
-	global $db;
-	$username=$db->setstring($username);
+function publiclogin($username, $password) {
 	$password=md5($password);
 	$ip=getclientip();
 
@@ -63,28 +60,19 @@ function publiclogin($username,$password)
 //
 //
 //
-function checkpublicpassword($username,$md5password)
-{
-	global $db;
-	$username=$db->setstring($username);
-	$md5password=$db->setstring($md5password);
-
-	$result=false;
-	$dbpassword=getdbelement("password",PUBLICUSERS_TABLE, "username", $username);
-
-	if($dbpassword===$md5password) $result=true;
-	return $result;
+function checkpublicpassword($username,$md5password) {
+	$sql = new SQLSelectStatement(PUBLICUSERS_TABLE, 'password', array('username'), array($username), 's');
+	return ($md5password===$sql->fetch_value());
 }
 
 
 //
 //
 //
-function deletesession($sid)
-{
-	global $db;
+function deletesession($sid) {
 	set_session_cookie(false,"","");
-	return deleteentry(PUBLICSESSIONS_TABLE, "session_id= '".$db->setstring($sid)."';");
+	$sql = new SQLDeleteStatement(PUBLICSESSIONS_TABLE, array('session_id'), array($sid), 's');
+	return $sql->run();
 }
 
 //
@@ -98,38 +86,18 @@ function publiclogout($sid)
 //
 //
 //
-function updatepubliclogindate($user,$ip)
-{
-	global $db;
-	$user=$db->setinteger($user);
+function updatepubliclogindate($user, $ip) {
+	$sid = getsidforpublicuser($user, $ip);
 
-	$now=strtotime('now');
+	if ($sid) {
+		$retries = getpublicretries($user, $ip);
 
-	$sid=getsidforpublicuser($user,$ip);
-
-	if($sid)
-	{
-		$query=("update ");
-		$query.=(PUBLICSESSIONS_TABLE." set ");
-		$query.="session_time=";
-		$query.="'".date(DATETIMEFORMAT, $now)."'";
-		$query.=" where session_id = '".$sid."';";
-		//  print($query.'<p>');
-		$sql=$db->singlequery($query);
-
-		$retries=getpublicretries($user,$ip);
-
-		$query=("update ");
-		$query.=(PUBLICSESSIONS_TABLE." set ");
-		$query.="retries=";
-		$query.="'".($retries+1)."'";
-		$query.=" where session_id = '".$sid."';";
-		//  print($query.'<p>');
-		$sql=$db->singlequery($query);
-	}
-	else
-	{
-		createpublicsession($user,$ip,0);
+		$sql = new SQLUpdateStatement(PUBLICSESSIONS_TABLE,
+			array('session_time', 'retries'), array('session_id'),
+			array(date(DATETIMEFORMAT, strtotime('now')), $retries + 1, $sid), 'sis');
+		$sql->run();
+	} else {
+		createpublicsession($user, $ip, 0);
 	}
 }
 
@@ -137,43 +105,26 @@ function updatepubliclogindate($user,$ip)
 //
 //
 //
-function createpublicsession($user,$ip,$session_valid)
-{
-	global $db;
-	$user=$db->setinteger($user);
-	$session_valid=$db->setinteger($session_valid);
-
-	$result="";
-
-	$now=strtotime('now');
-
+function createpublicsession($user,$ip,$session_valid) {
 	mt_srand(make_seed());
 	$sid = md5("".mt_rand());
 
 	clearpublicsessions();
 
-	$lastsession=getsidforpublicuser($user,$ip);
+	$lastsession = getsidforpublicuser($user, $ip);
 
-	if($lastsession)
-	{
+	if ($lastsession) {
 		deletesession($lastsession);
 	}
 
-	$values=array();
-	$values[]=$sid;
-	$values[]=$user;
-	$values[]=date(DATETIMEFORMAT, $now);
-	$values[]=$ip;
-	$values[]=$session_valid;
-	$values[]=0;
+	if (!$ip > 0) return "";
 
-	$query="insert into ".PUBLICSESSIONS_TABLE." values(";
-	for($i=0;$i<count($values)-1;$i++)
-	{
-		$query.="'".$values[$i]."', ";
-	}
-	$query.="'".$values[count($values)-1]."');";
-	$db->singlequery($query);
+	$sql = new SQLInsertStatement(
+		PUBLICSESSIONS_TABLE,
+		array('session_id', 'session_user_id', 'session_time', 'session_ip', 'session_valid', 'retries'),
+		array($sid, $user, date(DATETIMEFORMAT, strtotime('now')), $ip, $session_valid, 0),
+		'sisiii');
+	$sql->run();
 	return $sid;
 }
 
@@ -181,61 +132,40 @@ function createpublicsession($user,$ip,$session_valid)
 //
 //
 //
-function clearpublicsessions()
-{
-	global $db;
-	$db->singlequery("DELETE FROM ".PUBLICSESSIONS_TABLE." where session_time < '".date(DATETIMEFORMAT, strtotime('-1 hours'))."'");
+function clearpublicsessions() {
+	$sql = new SQLDeleteStatement(PUBLICSESSIONS_TABLE, array(), array(date(DATETIMEFORMAT, strtotime('-1 hours'))), 's', 'session_time < ?');
+	return $sql->run();
 }
 
 //
 //
 //
-function publictimeout($sid)
-{
-	global $db;
-	$sid=$db->setstring($sid);
+function publictimeout($sid) {
+	$sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_time', array('session_id'), array($sid), 's');
+	$sessiontime = $sql->fetch_value();
 
-	$result=false;
-
-	$sessiontime=getdbelement("session_time",PUBLICSESSIONS_TABLE, "session_id", $sid);
-
-	if(!$sessiontime)
-	{
-		$result=true;
+	if (!$sessiontime) {
+		return true;
 	}
-	else
-	{
-		$time=date(DATETIMEFORMAT, strtotime('-1 hours'));
 
-		if($sessiontime<$time)
-		{
-			deletesession($sid);
-			$result=true;
-		}
-		else
-		{
-			$now=date(DATETIMEFORMAT, strtotime('now'));
-
-			$query=("update ");
-			$query.=(PUBLICSESSIONS_TABLE." set ");
-			$query.="session_time=";
-			$query.="'".$now."'";
-			$query.=" where session_id = '".$sid."';";
-			//  print($query.'<p>');
-			$db->singlequery($query);
-		}
+	if ($sessiontime < date(DATETIMEFORMAT, strtotime('-1 hours'))) {
+		deletesession($sid);
+		return true;
 	}
-	return $result;
+
+	$sql = new SQLUpdateStatement(PUBLICSESSIONS_TABLE,
+		array('session_time'), array('session_id'),
+		array(date(DATETIMEFORMAT, strtotime('now')), $sid), 'ss');
+	$sql->run();
+	return false;
 }
 
 //
 //
 //
-function checkpublicsession($page)
-{
-	global $db;
+function checkpublicsession($page) {
 	global $_GET, $sid;
-	$isvalid=$sid && ispublicsessionvalid($db->setstring($sid));
+	$isvalid=$sid && ispublicsessionvalid($sid);
 	//  $user=getpublicsiduser($_GET["sid"]);
 	if(!$sid) $hasaccess = false;
 	else $hasaccess = hasaccesssession($page);
@@ -254,7 +184,6 @@ function checkpublicsession($page)
 
 	    $footer = new HTMLFooter();
 	    print($footer->toHTML());
-	    $db->closedb();
 	    exit;
     }
 }
@@ -264,39 +193,37 @@ function checkpublicsession($page)
 //
 // todo bug
 //
-function getsidforpublicuser($user,$ip)
-{
-	global $db;
-	$query="select session_id from ".PUBLICSESSIONS_TABLE." where session_user_id = '".$db->setinteger($user)."' AND session_ip = '".$db->setinteger($ip)."';";
-	//print($query);
-	return getdbresultsingle($query);
+function getsidforpublicuser($user,$ip) {
+	if (empty($user) || !$ip) return "";
+	$sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_id', array('session_user_id', 'session_ip'), array($user, $ip), 'si');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getpublicretries($user,$ip)
-{
-	$sid=getsidforpublicuser($user,$ip);
-	return getdbelement("retries",PUBLICSESSIONS_TABLE, "session_id", $sid);
+function getpublicretries($user,$ip) {
+	$sid = getsidforpublicuser($user, $ip);
+	if (empty($sid)) return 0;
+	$sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'retries', array('session_id'), array($sid), 's');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getlastpubliclogin($user,$ip)
-{
-	$sid=getsidforpublicuser($user,$ip);
-	return getdbelement("session_time",PUBLICSESSIONS_TABLE, "session_id", $sid);
+function getlastpubliclogin($user,$ip) {
+	$sid = getsidforpublicuser($user,$ip);
+	$sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_time', array('session_id'), array($sid), 's');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getpublicsiduser($sid)
-{
-	global $db;
-	return getdbelement("session_user_id",PUBLICSESSIONS_TABLE, "session_id", $db->setstring($sid));
+function getpublicsiduser($sid) {
+	$sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_user_id', array('session_id'), array($sid), 's');
+	return $sql->fetch_value();
 }
 
 //
@@ -314,22 +241,19 @@ function ispublicloggedin()
 //
 //
 //
-function ispublicsessionvalid($sid)
-{
-	global $db;
-	return getdbelement("session_valid",PUBLICSESSIONS_TABLE, "session_id", $db->setstring($sid));
+function ispublicsessionvalid($sid) {
+	$sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_valid', array('session_id'), array($sid), 's');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function ispublicuseripbanned($ip)
-{
+function ispublicuseripbanned($ip) {
 	if ($ip=="") return false;
-	// only for PHP 4 $ip=ip2long($ip);
-	$dbip = getdbelement("ip",RESTRICTEDPAGESBANNEDIPS_TABLE, "ip", $ip);
-	return $dbip == $ip;
+	$sql = new SQLSelectStatement(RESTRICTEDPAGESBANNEDIPS_TABLE, 'ip', array('ip'), array($ip), 's');
+	return $sql->fetch_value() == $ip;
 }
 
 
@@ -340,15 +264,15 @@ function ispublicuseripbanned($ip)
 //
 function getallpublicsessions()
 {
-	return getcolumn("session_id",PUBLICSESSIONS_TABLE,"1");
+	$sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_id');
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function getpublicip($sid)
-{
-	global $db;
-	return getdbelement("session_ip",PUBLICSESSIONS_TABLE, "session_id", $db->setstring($sid));
+function getpublicip($sid) {
+	$sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_ip', array('session_id'), array($sid), 's');
+	return $sql->fetch_value();
 }
 ?>

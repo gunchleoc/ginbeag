@@ -20,5 +20,4 @@ else $ref="";
 
 $content = new AdminMain($page, "siteuserlist", new AdminMessage("", false), new SiteUserlist($ref));
 print($content->toHTML());
-$db->closedb();
 ?>

@@ -47,24 +47,24 @@ class SiteUserLevelForm extends Template {
 	function SiteUserLevelForm($userid)
   	{
 		parent::__construct();
-		
+
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["changelevel"] = "change";
 		$linkparams["action"] = "siteuserperm";
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 
 		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
-  		
+
 		$this->stringvars['username']=title2html(getusername($userid));
-  		
+
   		$this->stringvars['userlevel_user']=USERLEVEL_USER;
   		$this->stringvars['userlevel_admin']=USERLEVEL_ADMIN;
-  		
+
   		if(getuserlevel($userid)==USERLEVEL_USER) $this->stringvars['levelisuser']="true";
   		elseif(getuserlevel($userid)==USERLEVEL_ADMIN)$this->stringvars['levelisadmin']="true";
-  		
+
   		$this->vars['submitrow']= new SubmitRow("changelevel","Change Userlevel",true);
-  		
+
 		$linkparams=array();
 		$linkparams["page"] = $this->stringvars['page'];
 		$linkparams["username"] = $this->stringvars['username'];
@@ -99,9 +99,9 @@ class SitePublicUserAccessForm extends Template {
 	function SitePublicUserAccessForm($userid)
   	{
 		parent::__construct();
-		
+
 		$this->stringvars['username']=title2html(getpublicusername($userid));
-  
+
   		$userpages=getpageaccessforpublicuser($userid);
   		$restrictedpages=getrestrictedpages();
   		$restrictedpagesnoaccess=array();
@@ -112,7 +112,7 @@ class SitePublicUserAccessForm extends Template {
       			array_push($restrictedpagesnoaccess, $restrictedpages[$i]);
     		}
   		}
-  		
+
 		for($i=0;$i<count($userpages);$i++)
    		{
    			$this->listvars['pageswithaccess'][]= new SitePublicUserAccessPageForm($userid,$userpages[$i],true);
@@ -156,12 +156,12 @@ class SitePublicUserAccessPageForm extends Template {
 	function SitePublicUserAccessPageForm($userid,$page,$hasaccess)
   	{
   		parent::__construct();
-  		
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid, "pageid" => $page));
-  		
-		$linkparams["page"] = $this->stringvars['page'];
 
-		$this->stringvars['pagelink']=getprojectrootlinkpath()."admin/pagedisplay.php=".makelinkparameters($linkparams);
+		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid, "pageid" => $page));
+
+		$linkparams["page"] = $page;
+
+		$this->stringvars['pagelink']=getprojectrootlinkpath()."admin/pagedisplay.php".makelinkparameters($linkparams);
 		$this->stringvars['pagelinktitle']=$page.": ".title2html(getnavtitle($page));
 
   		if($hasaccess)

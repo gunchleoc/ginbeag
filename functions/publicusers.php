@@ -7,28 +7,25 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getpublicusername($user)
-{
-	global $db;
-	return getdbelement("username",PUBLICUSERS_TABLE, "user_id", $db->setinteger($user));
+function getpublicusername($user) {
+	$sql = new SQLSelectStatement(PUBLICUSERS_TABLE, 'username', array('user_id'), array($user), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getpublicuserid($username)
-{
-	global $db;
-	return getdbelement("user_id",PUBLICUSERS_TABLE, "username",$db->setstring($username));
+function getpublicuserid($username) {
+	$sql = new SQLSelectStatement(PUBLICUSERS_TABLE, 'user_id', array('username'), array($username), 's');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function ispublicuseractive($user)
-{
-	global $db;
-	return getdbelement("user_active",PUBLICUSERS_TABLE, "user_id", $db->setinteger($user));
+function ispublicuseractive($user) {
+	$sql = new SQLSelectStatement(PUBLICUSERS_TABLE, 'user_active', array('user_id'), array($user), 'i');
+	return $sql->fetch_value();
 }
 
 ?>

@@ -36,5 +36,4 @@ if(isset($_POST['pagetypesettings']))
 
 $content = new AdminMain($page, "sitepagetype", new AdminMessage($message, $error), new SitePageTypes());
 print($content->toHTML());
-$db->closedb();
 ?>

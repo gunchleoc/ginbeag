@@ -28,5 +28,4 @@ if($postaction==='restrictedpages')
 
 $content = new AdminMain($page, "siteind", new AdminMessage($message, $error), new SiteRebuildIndices($message));
 print($content->toHTML());
-$db->closedb();
 ?>

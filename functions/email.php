@@ -6,9 +6,8 @@ include_once($projectroot."functions/users.php");
 include_once($projectroot."language/languages.php");
 
 //initialize anti-spam variable names
-$emailvariables=getmultiplefields(ANTISPAM_TABLE, "property_name", "1",
-	array(0 => 'property_name', 1 => 'property_value'));
-
+$sql = new SQLSelectStatement(ANTISPAM_TABLE, array('property_name', 'property_value'));
+$emailvariables = $sql->fetch_two_columns();
 
 // Returns true if $matchme contains $spamword. Uses case-insensitive regex.
 function match_spamword($matchme, $spamword)
@@ -30,8 +29,8 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 	$result="";
 
 	// Spam words
-	$spamwords_subject = explode("\n",$emailvariables['Spam Words Subject']['property_value']);
-	$spamwords_content = explode("\n",$emailvariables['Spam Words Content']['property_value']);
+	$spamwords_subject = explode("\n",$emailvariables['Spam Words Subject']);
+	$spamwords_content = explode("\n",$emailvariables['Spam Words Content']);
 	$spamwords = false;
 	foreach ($spamwords_subject as $spamword)
 	{
@@ -76,9 +75,9 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
 	}
 
 	// test captcha
-	if($emailvariables['Use Math CAPTCHA']['property_value'])
+	if($emailvariables['Use Math CAPTCHA'])
 	{
-		if($_POST[$emailvariables['Math CAPTCHA Reply Variable']['property_value']] != $_POST[$emailvariables['Math CAPTCHA Answer Variable']['property_value']])
+		if($_POST[$emailvariables['Math CAPTCHA Reply Variable']] != $_POST[$emailvariables['Math CAPTCHA Answer Variable']])
 		{
 			$result.=errormessage("email_wrongmathcaptcha");
 		}

@@ -11,6 +11,8 @@ include_once($projectroot."admin/functions/categoriesmod.php");
 //print_r($_POST);
 //print_r($_GET);
 
+$db->quiet_mode = true;
+
 checksession();
 
 $filename="";
@@ -24,7 +26,7 @@ $success = removeimagecategories($filename,$selectedcats);
 header('Content-type: text/xml;	charset=utf-8');
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 
-if($success)
+if($success && empty($db->error_report))
 {
 	print('<message error="0">');
 	print("Removed Categories from ".$filename.".");
@@ -32,7 +34,8 @@ if($success)
 else
 {
 	print('<message error="1">');
-	print("Error Removing Categories from ".$filename."!");
+	print("Error Removing Categories from ".$filename."!"
+			. "<br />\n" . $db->error_report);
 }
 print("</message>");
 ?>

@@ -9,52 +9,51 @@ include_once($projectroot."functions/categories.php");
 //
 //
 //
-function addcategory($parent,$name, $cattype)
-{
-	global $db;
+function addcategory($parent,$name, $cattype) {
 	if($cattype==CATEGORY_NEWS) $table = CATEGORIES_NEWS_TABLE;
 	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
 	else  $table = CATEGORIES_IMAGES_TABLE;
-	$values[0]=0;
-	$values[1]=$db->setinteger($parent);
-	$values[2]=$db->setstring($name);
-	return insertentry($table,$values);
+
+	$sql = new SQLInsertStatement(
+		$table,
+		array('parent_id', 'name'),
+		array($parent, $name),
+		'is');
+	return $sql->insert();
 }
 
 //
 // returns false if isroot($catid)
 //
-function renamecategory($catid, $name, $cattype)
-{
-	global $db;
+function renamecategory($catid, $name, $cattype) {
 	if($cattype==CATEGORY_NEWS) $table = CATEGORIES_NEWS_TABLE;
 	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
 	else  $table = CATEGORIES_IMAGES_TABLE;
-	$result=false;
 
-	if(!isroot($catid, $cattype))
-	{
-		$result = updatefield($table,"name",$db->setstring($name),"category_id = '".$db->setinteger($catid)."'");
+	if (!isroot($catid, $cattype)) {
+		$sql = new SQLUpdateStatement($table,
+			array('name'), array('category_id'),
+			array($name, $catid), 'si');
+		return $sql->run();
 	}
-	return $result;
+	return false;
 }
 
 //
 // returns false if isroot($catid)
 //
-function movecategory($catid,$newparent, $cattype)
-{
-	global $db;
+function movecategory($catid, $newparent, $cattype) {
 	if($cattype==CATEGORY_NEWS) $table = CATEGORIES_NEWS_TABLE;
 	elseif($cattype==CATEGORY_ARTICLE) $table = CATEGORIES_ARTICLES_TABLE;
 	else  $table = CATEGORIES_IMAGES_TABLE;
-	$result=false;
 
-	if(!isroot($catid, $cattype) && !isdescendant($catid,$newparent, $cattype))
-	{
-		$result=updatefield($table,"parent_id",$db->setinteger($newparent),"category_id = '".$db->setinteger($catid)."'");
+	if (!isroot($catid, $cattype) && !isdescendant($catid, $newparent, $cattype)) {
+		$sql = new SQLUpdateStatement($table,
+			array('parent_id'), array('category_id'),
+			array($newparent, $catid), 'ii');
+		return $sql->run();
 	}
-	return $result;
+	return false;
 }
 
 //
@@ -83,9 +82,7 @@ function isdescendant($parent,$descendant, $cattype)
 // removes category from elements
 // if category is not a root category, replaces category with parent category
 //
-function deletecategory($catid, $cattype)
-{
-	global $db;
+function deletecategory($catid, $cattype) {
 	$result=true;
 
 	if($cattype==CATEGORY_NEWS)
@@ -130,7 +127,8 @@ function deletecategory($catid, $cattype)
 		}
 	}
 
-	$result= $result & deleteentry($table,"category_id='".$db->setinteger($catid)."'");
+	$sql = new SQLDeleteStatement($table, array('category_id'), array($catid), 'i');
+	$result = $result & $sql->run();
 	return $result;
 }
 
@@ -138,86 +136,20 @@ function deletecategory($catid, $cattype)
 //
 //
 //
-function addimagecategories($filename,$categories)
-{
-	global $db;
-
-	$result=true;
-  	$imagecategories=getcategoriesforimage($filename);
-  	for($i=0;$i<count($categories);$i++)
-  	{
-		if(!isroot($categories[$i], CATEGORY_IMAGE))
-    	{
-			$addcategory=true;
-			for($j=0;$addcategory && $j<count($imagecategories);$j++)
-			{
-				if($imagecategories[$j]==$categories[$i])
-				{
-						$addcategory=false;
-				}
-			}
-			if($addcategory)
-			{
-				// Guard against double entries again
-				deleteentry(IMAGECATS_TABLE,
-					"image_filename = '".$db->setstring($filename)."' AND category = '".$db->setinteger($categories[$i])."'");
-				$values[0]=0;
-				$values[1]=$db->setstring($filename);
-				$values[2]=$db->setinteger($categories[$i]);
-				$test = insertentry(IMAGECATS_TABLE,$values);
-				$result = $result & ($test>0);
-			}
-    	}
-  	}
-  	return $result;
-}
-
-
-//
-//
-//
-function removeimagecategories($filename,$categories)
-{
-	global $db;
-	$result=true;
-	for($i=0;$i<count($categories);$i++)
-	{
-    	$condition="image_filename ='".$db->setstring($filename)."' and category ='".$db->setinteger($categories[$i])."'";
-    	$result = $result & deleteentry(IMAGECATS_TABLE,$condition);
-  	}
-  	return $result;
-}
-
-
-//
-//
-//
-function addpagecategories($page,$categories)
-{
-	global $db;
+function addimagecategories($filename, $categories) {
 	$result = true;
-	$pagecategories=getcategoriesforpage($page);
-	for($i=0;$i<count($categories);$i++)
-	{
-		if(!isroot($categories[$i], CATEGORY_ARTICLE))
-		{
-			$addcategory=true;
-			for($j=0;$addcategory && $j<count($pagecategories);$j++)
-			{
-				if($pagecategories[$j]==$categories[$i])
-				{
-					$addcategory=false;
-				}
-			}
-			if($addcategory)
-			{
-				// Guard against double entries again
-					deleteentry(ARTICLECATS_TABLE,
-						"page_id = '".$db->setinteger($page)."' AND category = '".$db->setinteger($categories[$i])."'");
-				$values[0]=0;
-				$values[1]=$db->setinteger($page);
-				$values[2]=$db->setinteger($categories[$i]);
-				$result = $result & insertentry(ARTICLECATS_TABLE,$values);
+
+	$existingcategories = getcategoriesforimage($filename);
+
+	foreach ($categories as $cat) {
+		if (!isroot($cat, CATEGORY_IMAGE)) {
+			if (!in_array($cat, $existingcategories)) {
+				$sql = new SQLInsertStatement(
+					IMAGECATS_TABLE,
+					array('image_filename', 'category'),
+					array($filename, $cat),
+					'si');
+				$result = $result & ($sql->insert() > 0);
 			}
 		}
 	}
@@ -228,14 +160,48 @@ function addpagecategories($page,$categories)
 //
 //
 //
-function removearticlecategories($page,$categories)
-{
-	global $db;
+function removeimagecategories($filename, $categories) {
 	$result = true;
-	for($i=0;$i<count($categories);$i++)
-	{
-		$condition="page_id ='".$db->setinteger($page)."' and category ='".$db->setinteger($categories[$i])."'";
-		$result = $result & deleteentry(ARTICLECATS_TABLE,$condition);
+	foreach ($categories as $cat) {
+		$sql = new SQLDeleteStatement(IMAGECATS_TABLE, array('image_filename', 'category'), array($filename, $cat), 'si');
+		$result = $result & $sql->run();
+	}
+	return $result;
+}
+
+
+//
+//
+//
+function addpagecategories($page, $categories) {
+	$result = true;
+
+	$existingcategories = getcategoriesforpage($page);
+
+	foreach ($categories as $cat) {
+		if (!isroot($cat, CATEGORY_ARTICLE)) {
+			if (!in_array($cat, $existingcategories)) {
+				$sql = new SQLInsertStatement(
+					ARTICLECATS_TABLE,
+					array('page_id', 'category'),
+					array($page, $cat),
+					'ii');
+				$result = $result & ($sql->insert() > 0);
+			}
+		}
+	}
+	return $result;
+}
+
+
+//
+//
+//
+function removearticlecategories($page, $categories) {
+	$result = true;
+	foreach ($categories as $cat) {
+		$sql = new SQLDeleteStatement(ARTICLECATS_TABLE, array('page_id', 'category'), array($page, $cat), 'ii');
+		$result = $result & $sql->run();
 	}
 	return $result;
 }
@@ -245,53 +211,36 @@ function removearticlecategories($page,$categories)
 //
 //
 //
-function addnewsitemcategories($newsitem,$categories)
-{
-	global $db;
+function addnewsitemcategories($newsitem,$categories) {
 	$result = true;
 
-  	$newsitemcategories=getcategoriesfornewsitem($newsitem);
-  	for($i=0;$i<count($categories);$i++)
-  	{
-		if(!isroot($categories[$i], CATEGORY_NEWS))
-    	{
-      		$addcategory=true;
-      		for($j=0;$addcategory && $j<count($newsitemcategories);$j++)
-      		{
-					if($newsitemcategories[$j]==$categories[$i])
-					{
-							$addcategory=false;
-					}
-      		}
-      		if($addcategory)
-      		{
-					// Guard against double entries again
-					deleteentry(NEWSITEMCATS_TABLE,
-						"newsitem_id = '".$db->setinteger($newsitem)."' AND category = '".$db->setinteger($categories[$i])."'");
-					$values[0]=0;
-					$values[1]=$db->setinteger($newsitem);
-					$values[2]=$db->setinteger($categories[$i]);
-					$temp = insertentry(NEWSITEMCATS_TABLE,$values);
-					$result = $result & ($temp>0);
-      		}
-    	}
-  	}
-  	return $result;
+	$existingcategories = getcategoriesfornewsitem($newsitem);
+
+	foreach ($categories as $cat) {
+		if (!isroot($cat, CATEGORY_NEWS)) {
+			if (!in_array($cat, $existingcategories)) {
+				$sql = new SQLInsertStatement(
+					NEWSITEMCATS_TABLE,
+					array('newsitem_id', 'category'),
+					array($newsitem, $cat),
+					'ii');
+				$result = $result & ($sql->insert() > 0);
+			}
+		}
+	}
+	return $result;
 }
 
 
 //
 //
 //
-function removenewsitemcategories($newsitem,$categories)
-{
-	global $db;
-	$result=true;
-  	for($i=0;$i<count($categories);$i++)
-  	{
-    	$condition="newsitem_id ='".$db->setinteger($newsitem)."' and category ='".$db->setinteger($categories[$i])."'";
-    	$result = $result & deleteentry(NEWSITEMCATS_TABLE,$condition);
-  	}
-  	return $result;
+function removenewsitemcategories($newsitem, $categories) {
+	$result = true;
+	foreach ($categories as $cat) {
+		$sql = new SQLDeleteStatement(NEWSITEMCATS_TABLE, array('newsitem_id', 'category'), array($newsitem, $cat), 'ii');
+		$result = $result & $sql->run();
+	}
+	return $result;
 }
 ?>

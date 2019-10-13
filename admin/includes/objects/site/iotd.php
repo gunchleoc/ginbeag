@@ -24,7 +24,6 @@ class SiteRandomItems extends Template {
 		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
 
   		$properties=getproperties();
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("oldpotdcats" => $properties["Picture of the Day Categories"]));
 
   		$potdcats=explode(",",$properties["Picture of the Day Categories"]);
   		$potdcatnames=array();
@@ -50,9 +49,9 @@ class SiteRandomItems extends Template {
 
 		$this->vars['displayaotd_yes'] = new RadioButtonForm($this->stringvars['jsid'], "displayaotd", 1, "Yes", $properties["Display Article of the Day"], "right");
 	    $this->vars['displayaotd_no'] = new RadioButtonForm($this->stringvars['jsid'], "displayaotd", 0, "No", !$properties["Display Article of the Day"], "right");
-       
+
         $this->stringvars['aotdpages']= $properties["Article of the Day Start Pages"];
-        
+
         $this->vars['submitrow']= new SubmitRow("submit","Submit",true);
   	}
 

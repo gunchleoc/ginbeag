@@ -7,200 +7,178 @@ include_once($projectroot."functions/db.php");
 include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."functions/pagecontent/newspages.php");
 
-
 //
 //
 //
-function setdisplaynewestnewsitemfirst($page, $shownewestfirst)
-{
-	global $db;
-  if($shownewestfirst)
-  {
-    updatefield(NEWS_TABLE,"shownewestfirst ",1,"page_id='".$db->setinteger($page)."'");
-  }
-  else
-  {
-    updatefield(NEWS_TABLE,"shownewestfirst ",0,"page_id='".$db->setinteger($page)."'");
-  }
+function setdisplaynewestnewsitemfirst($page, $shownewestfirst) {
+	$sql = new SQLUpdateStatement(NEWS_TABLE,
+		array('shownewestfirst'), array('page_id'),
+		array($shownewestfirst ? 1 : 0, $page), 'ii');
+	return $sql->run();
 }
 
 
 //
 //
 //
-function getnewsitems($page,$number,$offset)
-{
-	global $db;
-  return getorderedcolumnlimit("newsitem_id",NEWSITEMS_TABLE, "page_id='".$db->setinteger($page)."'", "date", $db->setinteger($offset), $db->setinteger($number),"DESC");
+function getnewsitems($page,$number,$offset) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id'), array($page), 'i');
+	$sql->set_order(array('date' => 'DESC'));
+	$sql->set_limit($number, $offset);
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function countnewsitems($page)
-{
-	global $db;
-  return countelementscondition("newsitem_id",NEWSITEMS_TABLE, "page_id='".$db->setinteger($page)."'");
+function countnewsitems($page) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id'), array($page), 'i');
+	$sql->set_operator('count');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getpagefornewsitem($newsitem)
-{
-	global $db;
-  return getdbelement("page_id",NEWSITEMS_TABLE, "newsitem_id", $db->setinteger($newsitem));
-}
-
-
-//
-//
-//
-function updatenewsitemtitle($newsitem, $title)
-{
-	global $db;
-  	return updatefield(NEWSITEMS_TABLE,"title",$db->setstring($title),"newsitem_id='".$db->setinteger($newsitem)."'");
-}
-
-//
-//
-//
-function addnewsitemsynopsisimage($newsitem, $filename)
-{
-	global $db;
-  $newsitem= $db->setinteger($newsitem);
-  $lastposition= getmax("position",NEWSITEMSYNIMG_TABLE, "newsitem_id = '".$newsitem."'");
-
-  $values=array();
-  $values[]=0;
-  $values[]=$newsitem;
-  $values[]=$db->setstring($filename);
-  $values[]=$lastposition+1;
-  return insertentry(NEWSITEMSYNIMG_TABLE,$values);
-}
-
-//
-//
-//
-function editnewsitemsynopsisimage($newsitemimage, $filename)
-{
-	global $db;
-  updatefield(NEWSITEMSYNIMG_TABLE,"image_filename",$db->setstring($filename),"newsitemimage_id='".$db->setinteger($newsitemimage)."'");
-}
-
-//
-//
-//
-function removenewsitemsynopsisimage($newsitemimage)
-{
-	global $db;
-  deleteentry(NEWSITEMSYNIMG_TABLE,"newsitemimage_id ='".$db->setinteger($newsitemimage)."'");
-}
-
-//
-//
-//
-function updatenewsitemsource($newsitem, $source, $sourcelink, $location, $contributor)
-{
-	global $db;
-	$result = true;
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"source",$db->setstring($source),"newsitem_id='".$db->setinteger($newsitem)."'");
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"sourcelink",$db->setstring($sourcelink),"newsitem_id='".$db->setinteger($newsitem)."'");
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"location",$db->setstring($location),"newsitem_id='".$db->setinteger($newsitem)."'");
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"contributor",$db->setstring($contributor),"newsitem_id='".$db->setinteger($newsitem)."'");
-  	return $result;
-}
-
-//
-//
-//
-function fakethedate($newsitem,$day,$month,$year,$hours,$minutes,$seconds)
-{
-	global $db;
-	$result=false;
-  	if(strlen($day)==1) $day="0".$day;
-  	if(strlen($month)==1) $month="0".$month;
-  	if(strlen($hours)==1) $hours="0".$hours;
-  	if(strlen($minutes)==1) $minutes="0".$minutes;
-  	if(strlen($seconds)==1) $seconds="0".$seconds;
-  	if(strlen($year)==4)
-  	{
-    	$date=$db->setinteger($year)."-".$db->setinteger($month)."-".$db->setinteger($day)." ".$db->setinteger($hours).":".$db->setinteger($minutes).":".$db->setinteger($seconds);
-    	$result=updatefield(NEWSITEMS_TABLE,"date",$date,"newsitem_id='".$db->setinteger($newsitem)."'");
-  	}
-  	return $result;
-}
-
-//
-//
-//
-function publishnewsitem($newsitem)
-{
-	global $db;
-    return updatefield(NEWSITEMS_TABLE,"ispublished",1,"newsitem_id='".$db->setinteger($newsitem)."'");
+function getpagefornewsitem($newsitem) {
+	$sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'page_id', array('newsitem_id'), array($newsitem), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function unpublishnewsitem($newsitem)
-{
-	global $db;
-  return updatefield(NEWSITEMS_TABLE,"ispublished",0,"newsitem_id='".$db->setinteger($newsitem)."'");
+function updatenewsitemtitle($newsitem, $title) {
+	$sql = new SQLUpdateStatement(NEWSITEMS_TABLE,
+		array('title'), array('newsitem_id'),
+		array($title, $newsitem), 'si');
+	$sql->run();
 }
 
 //
 //
 //
-function updatenewsitemcopyright($newsitem,$copyright,$imagecopyright,$permission)
-{
-	global $db;
-	$result=true;
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"copyright",$db->setstring($copyright),"newsitem_id='".$db->setinteger($newsitem)."'");
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"image_copyright",$db->setstring($imagecopyright),"newsitem_id='".$db->setinteger($newsitem)."'");
-  	$result = $result & updatefield(NEWSITEMS_TABLE,"permission",$db->setinteger($permission),"newsitem_id='".$db->setinteger($newsitem)."'");
-  	return $result;
+function addnewsitemsynopsisimage($newsitem, $filename) {
+	$sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, 'position', array('newsitem_id'), array($newsitem), 'i');
+	$sql->set_operator('max');
+
+	$sql = new SQLInsertStatement(
+		NEWSITEMSYNIMG_TABLE,
+		array('newsitem_id', 'image_filename', 'position'),
+		array($newsitem, $filename, $sql->fetch_value() + 1),
+		'isi');
+	return $sql->insert();
+}
+
+//
+//
+//
+function editnewsitemsynopsisimage($newsitemimage, $filename) {
+	$sql = new SQLUpdateStatement(NEWSITEMSYNIMG_TABLE,
+		array('image_filename'), array('newsitemimage_id'),
+		array($filename, $newsitemimage), 'si');
+	$sql->run();
+}
+
+//
+//
+//
+function removenewsitemsynopsisimage($newsitemimage) {
+	$sql = new SQLDeleteStatement(NEWSITEMSYNIMG_TABLE, array('newsitemimage_id'), array($newsitemimage), 's');
+	$sql->run();
+}
+
+//
+//
+//
+function updatenewsitemsource($newsitem, $source, $sourcelink, $location, $contributor) {
+	$sql = new SQLUpdateStatement(NEWSITEMS_TABLE,
+		array('source', 'sourcelink', 'location', 'contributor'), array('newsitem_id'),
+		array($source, $sourcelink, $location, $contributor, $newsitem), 'ssssi');
+	$sql->run();
+}
+
+//
+//
+//
+function fakethedate($newsitem, $day, $month, $year, $hours, $minutes, $seconds) {
+	if (strlen($day) == 1) $day = "0" . $day;
+	if (strlen($month) == 1) $month = "0" . $month;
+	if (strlen($hours) == 1) $hours = "0" . $hours;
+	if (strlen($minutes) == 1) $minutes = "0" . $minutes;
+	if (strlen($seconds) == 1) $seconds = "0" . $seconds;
+	if (strlen($year) == 4) {
+		$date = SQLStatement::setinteger($year) . "-"
+			. SQLStatement::setinteger($month) . "-"
+			. SQLStatement::setinteger($day) . " "
+			. SQLStatement::setinteger($hours) . ":"
+			. SQLStatement::setinteger($minutes) . ":"
+			. SQLStatement::setinteger($seconds);
+		$sql = new SQLUpdateStatement(NEWSITEMS_TABLE,
+			array('date'), array('newsitem_id'),
+			array($date, $newsitem), 'si');
+		return $sql->run();
+	}
+	return false;
+}
+
+//
+//
+//
+function publishnewsitem($newsitem) {
+	$sql = new SQLUpdateStatement(NEWSITEMS_TABLE,
+		array('ispublished'), array('newsitem_id'),
+		array(1, $newsitem), 'ii');
+	return $sql->run();
 }
 
 
 //
 //
 //
-function addnewsitem($page)
-{
-	global $db;
-  $values=array();
-  $values[]=0;
-  $values[]=$db->setinteger($page);
-  $values[]='';
-  $values[]='';
-  $values[]='';
-  $values[]='';
-  $values[]='';
-  $values[]='';
-  $values[]=date(DATETIMEFORMAT, strtotime('now'));
-  $values[]=getsiduser();
-  $values[]='';
-  $values[]='';
-  $values[]=NO_PERMISSION;
-  $values[]=0;
-  $values[]=1;
-  $values[]=1;
-
-  return insertentry(NEWSITEMS_TABLE,$values);
+function unpublishnewsitem($newsitem) {
+	$sql = new SQLUpdateStatement(NEWSITEMS_TABLE,
+		array('ispublished'), array('newsitem_id'),
+		array(0, $newsitem), 'ii');
+	return $sql->run();
 }
 
 //
 //
 //
-function deletenewsitem($newsitem)
-{
-	global $db;
-  deleteentry(NEWSITEMS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
-  deleteentry(NEWSITEMSYNIMG_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
-  deleteentry(NEWSITEMCATS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
-  deleteentry(NEWSITEMSECTIONS_TABLE,"newsitem_id ='".$db->setinteger($newsitem)."'");
+function updatenewsitemcopyright($newsitem,$copyright,$imagecopyright,$permission) {
+	$sql = new SQLUpdateStatement(NEWSITEMS_TABLE,
+		array('copyright', 'image_copyright', 'permission'), array('newsitem_id'),
+		array($copyright, $imagecopyright, $permission, $newsitem), 'ssii');
+	return $sql->run();
+}
+
+
+//
+//
+//
+function addnewsitem($page) {
+	$sql = new SQLInsertStatement(
+		NEWSITEMS_TABLE,
+		array('page_id', 'date', 'editor_id', 'permission', 'ispublished', 'imageautoshrink', 'usethumbnail'),
+		array($page, date(DATETIMEFORMAT, strtotime('now')), getsiduser(), NO_PERMISSION, 0, 1, 1),
+		'isiiiii');
+	return $sql->insert();
+}
+
+//
+//
+//
+function deletenewsitem($newsitem) {
+	$sql = new SQLDeleteStatement(NEWSITEMS_TABLE, array('newsitem_id'), array($newsitem), 'i');
+	$sql->run();
+	$sql = new SQLDeleteStatement(NEWSITEMSYNIMG_TABLE, array('newsitem_id'), array($newsitem), 'i');
+	$sql->run();
+	$sql = new SQLDeleteStatement(NEWSITEMCATS_TABLE, array('newsitem_id'), array($newsitem), 'i');
+	$sql->run();
+	$sql = new SQLDeleteStatement(NEWSITEMSECTIONS_TABLE, array('newsitem_id'), array($newsitem), 'i');
+	$sql->run();
 }
 
 //
@@ -208,11 +186,7 @@ function deletenewsitem($newsitem)
 // to a new page below $page
 // returns number of archived newsitems
 //
-function archivenewsitems($page,$day,$month,$year)
-{
-	global $db;
-  $page = $db->setinteger($page);
-
+function archivenewsitems($page,$day,$month,$year) {
   $maxpagetitlelength=200;
   $maxnavtitlelength=30;
   $months[1]='January';
@@ -231,7 +205,8 @@ function archivenewsitems($page,$day,$month,$year)
   $date=$day." ".$months[$month]." ".$year." 23:59:59";
   $comparedate=date(DATETIMEFORMAT, strtotime($date));
 
-  $moveids=getcolumn("newsitem_id",NEWSITEMS_TABLE,"page_id = ".$page." AND date <= '".$comparedate."'");
+  $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id'), array($page, $comparedate), 'is', "date <= ?");
+  $moveids = $sql->fetch_column();
   $noofitems=count($moveids);
 
   if($noofitems>0)
@@ -279,18 +254,18 @@ function archivenewsitems($page,$day,$month,$year)
     $navtitle.=$interval2;
 
     $newpage=createpage($page,$pagetitle,$navtitle,"news",getsiduser(),ispublishable($page));
-    $values="";
-    for($i=0;$i<$noofitems;$i++)
-    {
-      $values.="'".$moveids[$i]."',";
-    }
-    $values=substr($values,0,strlen($values)-1);
-    $query=("update ");
-    $query.=(NEWSITEMS_TABLE." set ");
-    $query.="page_id=";
-    $query.="'".$newpage."'";
-    $query.=" where newsitem_id IN (".$values.");";
-    $db->singlequery($query);
+
+    // Move items to the new page
+		$values = array($newpage);
+		foreach ($moveids as $value) {
+			$values[] = $value;
+		}
+		$placeholders = array_fill(0, $noofitems, '?');
+		$sql = new RawSQLStatement(
+			"UPDATE " . NEWSITEMS_TABLE .
+				" SET page_id = ? WHERE newsitem_id IN (" . implode(",", $placeholders) . ")",
+			$values, $datatypes = str_pad("", $noofitems + 1, 'i'));
+		$sql->run();
   }
   return $noofitems;
 }
@@ -298,10 +273,11 @@ function archivenewsitems($page,$day,$month,$year)
 //
 //
 //
-function updatenewsitemsynopsistext($newsitem,$text)
-{
-	global $db;
-  	return updatefield(NEWSITEMS_TABLE,"synopsis",$db->setstring($text),"newsitem_id='".$db->setinteger($newsitem)."'");
+function updatenewsitemsynopsistext($newsitem,$text) {
+	$sql = new SQLUpdateStatement(NEWSITEMS_TABLE,
+		array('synopsis'), array('newsitem_id'),
+		array($text, $newsitem), 'si');
+	return $sql->run();
 }
 
 
@@ -309,12 +285,7 @@ function updatenewsitemsynopsistext($newsitem,$text)
 //
 //
 //
-function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
-{
-	global $db;
-  $newsitem=$db->setinteger($newsitem);
-  $newsitemsection=$db->setinteger($newsitemsection);
-
+function addnewsitemsection($newsitem, $newsitemsection,$isquote=false) {
   if(!$newsitemsection)
   {
     $sections=getnewsitemsections($newsitem);
@@ -341,67 +312,56 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
   {
     $sections=getnewsitemsections($newsitem);
     $finished=false;
-    for($i=count($sections)-1;$i>0 && !$finished;$i--)
-    {
+
+    // Bring into shape for the database call
+    $values = array();
+
+    for($i = count($sections) - 1; $i > 0; $i--) {
       $currentsectionnumber=getnewsitemsectionnumber($sections[$i]);
-      if($currentsectionnumber > $sectionnumber)
-      {
-          updatefield(NEWSITEMSECTIONS_TABLE,"sectionnumber",$currentsectionnumber+$offset,"newsitemsection_id='".$sections[$i]."'");
-      }
-      else
-      {
-        $finished=true;
+      if ($currentsectionnumber > $sectionnumber) {
+        array_push($values, array($currentsectionnumber + $offset, $sections[$i]));
+      } else {
+        break;
       }
     }
+
+    // Write
+    $sql = new SQLUpdateStatement(NEWSITEMSECTIONS_TABLE,
+      array('sectionnumber'), array('newsitemsection_id'),
+      array(), 'ii');
+    $sql->set_values($values);
+    $sql->run();
   }
 
-  $newsectionnumber=$sectionnumber+1;
+  $sectionnumber++;
 
-  if($isquote)
-  {
-    $values=array();
-    $values[]=0;
-    $values[]=$newsitem;
-    $values[]=$newsectionnumber;
-    $values[]='';
-    $values[]='[quote]';
-    $values[]='';
-    $values[]='left';
-    $values[]=1;
-    $values[]=1;
-    insertentry(NEWSITEMSECTIONS_TABLE,$values);
+  if ($isquote) {
+    $sql = new SQLInsertStatement(
+      NEWSITEMSECTIONS_TABLE,
+      array('newsitem_id', 'sectionnumber', 'text', 'imagealign', 'imageautoshrink', 'usethumbnail'),
+      array($newsitem, $sectionnumber, '[quote]', 'left', 1, 1),
+      'iissii');
+    $sql->insert();
 
-    $newsectionnumber=$newsectionnumber+1;
+    $sectionnumber++;
   }
 
-  $values=array();
-  $values[]=0;
-  $values[]=$newsitem;
-  $values[]=$newsectionnumber;
-  $values[]='';
-  $values[]='';
-  $values[]='';
-  $values[]='left';
-  $values[]=1;
-  $values[]=1;
+  $sql = new SQLInsertStatement(
+      NEWSITEMSECTIONS_TABLE,
+      array('newsitem_id', 'sectionnumber', 'imagealign', 'imageautoshrink', 'usethumbnail'),
+      array($newsitem, $sectionnumber, 'left', 1, 1),
+      'iisii');
+  $result = $sql->insert();
 
-  $result=insertentry(NEWSITEMSECTIONS_TABLE,$values);
+  if ($isquote) {
+    $sectionnumber++;
 
-  if($isquote)
-  {
-    $newsectionnumber=$newsectionnumber+1;
-
-    $values=array();
-    $values[]=0;
-    $values[]=$newsitem;
-    $values[]=$newsectionnumber;
-    $values[]='';
-    $values[]='[unquote]';
-    $values[]='';
-    $values[]='left';
-    $values[]=1;
-    $values[]=1;
-    insertentry(NEWSITEMSECTIONS_TABLE,$values);
+    $sql = new SQLInsertStatement(
+      NEWSITEMSECTIONS_TABLE,
+      array('newsitem_id', 'sectionnumber', 'text', 'imagealign', 'imageautoshrink', 'usethumbnail'),
+      array($newsitem, $sectionnumber, '[unquote]', 'left', 1, 1),
+      'iissii');
+    $sql->insert();
   }
   return $result;
 }
@@ -410,61 +370,60 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
 //
 //
 //
-function updatenewsitemsectionimagealign($newsitemsection,$imagealign)
-{
-	global $db;
-	return updatefield(NEWSITEMSECTIONS_TABLE,"imagealign",$db->setstring($imagealign),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
+function updatenewsitemsectionimagealign($newsitemsection, $imagealign) {
+	$sql = new SQLUpdateStatement(NEWSITEMSECTIONS_TABLE,
+		array('imagealign'), array('newsitemsection_id'),
+		array($imagealign, $newsitemsection), 'si');
+	return $sql->run();
 }
 
 //
 //
 //
-function updatenewsitemsectionimagesize($newsitemsection,$autoshrink, $usethumbnail)
-{
-	global $db;
-	$success = updatefield(NEWSITEMSECTIONS_TABLE,"imageautoshrink",$db->setinteger($autoshrink),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
-	return $success & updatefield(NEWSITEMSECTIONS_TABLE,"usethumbnail",$db->setinteger($usethumbnail),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
-}
-
-
-//
-//
-//
-function updatenewsitemsectionimagefilename($newsitemsection,$imagefilename)
-{
-	global $db;
-	return updatefield(NEWSITEMSECTIONS_TABLE,"sectionimage",$db->setstring(basename($imagefilename)),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
-}
-
-//
-//
-//
-function updatenewsitemsectionttitle($newsitemsection,$title)
-{
-	global $db;
-  	$result = updatefield(NEWSITEMSECTIONS_TABLE,"sectiontitle",$db->setstring($title),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
-  	return $result;
+function updatenewsitemsectionimagesize($newsitemsection, $autoshrink, $usethumbnail) {
+	$sql = new SQLUpdateStatement(NEWSITEMSECTIONS_TABLE,
+		array('imageautoshrink', 'usethumbnail'), array('newsitemsection_id'),
+		array($autoshrink, $usethumbnail, $newsitemsection), 'iii');
+	return $sql->run();
 }
 
 
 //
 //
 //
-function updatenewsitemsectiontext($newsitemsection,$text)
-{
-	global $db;
-  	return updatefield(NEWSITEMSECTIONS_TABLE,"text",$db->setstring($text),"newsitemsection_id='".$db->setinteger($newsitemsection)."'");
+function updatenewsitemsectionimagefilename($newsitemsection, $imagefilename) {
+	$sql = new SQLUpdateStatement(NEWSITEMSECTIONS_TABLE,
+		array('sectionimage'), array('newsitemsection_id'),
+		array($imagefilename, $newsitemsection), 'si');
+	return $sql->run();
+}
+
+//
+//
+//
+function updatenewsitemsectionttitle($newsitemsection, $title) {
+	$sql = new SQLUpdateStatement(NEWSITEMSECTIONS_TABLE,
+		array('sectiontitle'), array('newsitemsection_id'),
+		array($title, $newsitemsection), 'si');
+	return $sql->run();
 }
 
 
 //
 //
 //
-function deletenewsitemsection($newsitem, $newsitemsection)
-{
-	global $db;
-  $newsitemsection=$db->setinteger($newsitemsection);
+function updatenewsitemsectiontext($newsitemsection, $text) {
+	$sql = new SQLUpdateStatement(NEWSITEMSECTIONS_TABLE,
+		array('text'), array('newsitemsection_id'),
+		array($text, $newsitemsection), 'si');
+	return $sql->run();
+}
 
+
+//
+//
+//
+function deletenewsitemsection($newsitem, $newsitemsection) {
   // remove quotes if necessary
   $sections=getnewsitemsections($newsitem);
   $found=false;
@@ -478,30 +437,31 @@ function deletenewsitemsection($newsitem, $newsitemsection)
 //      print("<p>text".$text1.$text2);
       if($text1==="[quote]" && $text2==="[unquote]")
       {
-        deleteentry(NEWSITEMSECTIONS_TABLE,"newsitemsection_id ='".$sections[$i-1]."'");
-        deleteentry(NEWSITEMSECTIONS_TABLE,"newsitemsection_id ='".$sections[$i+1]."'");
+        $sql = new SQLDeleteStatement(NEWSITEMSECTIONS_TABLE, array('newsitemsection_id'), array($sections[$i - 1]), 'i');
+        $sql->run();
+        $sql = new SQLDeleteStatement(NEWSITEMSECTIONS_TABLE, array('newsitemsection_id'), array($sections[$i + 1]), 'i');
+        $sql->run();
       }
     }
   }
   // delete
-  deleteentry(NEWSITEMSECTIONS_TABLE,"newsitemsection_id ='".$newsitemsection."'");
+  $sql = new SQLDeleteStatement(NEWSITEMSECTIONS_TABLE, array('newsitemsection_id'), array($newsitemsection), 'i');
+  $sql->run();
+}
+
+//
+// // RSS feeds are empty
+//
+function addrssfeed($page) {
+	$sql = new SQLInsertStatement(RSS_TABLE, array('page_id'), array($page), 'i');
+	return $sql->insert();
 }
 
 //
 //
 //
-function addrssfeed($page)
-{
-	global $db;
-  insertentry(RSS_TABLE,array( 0=> $db->setinteger($page)));
-}
-
-//
-//
-//
-function removerssfeed($page)
-{
-	global $db;
-  deleteentry(RSS_TABLE,"page_id='".$db->setinteger($page)."'");
+function removerssfeed($page) {
+	$sql = new SQLDeleteStatement(RSS_TABLE, array('page_id'), array($page), 'i');
+	$sql->run();
 }
 ?>

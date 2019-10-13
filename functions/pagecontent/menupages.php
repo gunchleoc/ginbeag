@@ -8,31 +8,27 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getmenucontents($page)
-{
-	global $db;
-	return getrowbykey(MENUS_TABLE, "page_id", $db->setinteger($page));
+function getmenucontents($page) {
+  $sql = new SQLSelectStatement(MENUS_TABLE, '*', array('page_id'), array($page), 'i');
+  return $sql->fetch_row();
 }
 
 
 //
 //
 //
-function getmenunavigatordepth($page)
-{
-	global $db;
-	return getdbelement("navigatordepth",MENUS_TABLE, "page_id", $db->setinteger($page));
+function getmenunavigatordepth($page) {
+  $sql = new SQLSelectStatement(MENUS_TABLE, 'navigatordepth', array('page_id'), array($page), 'i');
+  return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getarticlepageoverview($page)
-{
-	global $db;
-	$fieldnames = array(0 => 'article_author', 1=> 'source', 2=>'day', 3=>'month', 4=>'year');
-	return getrowbykey(ARTICLES_TABLE, "page_id", $db->setinteger($page), $fieldnames);
+function getarticlepageoverview($page) {
+  $sql = new SQLSelectStatement(ARTICLES_TABLE, array('article_author', 'source', 'day', 'month', 'year'), array('page_id'), array($page), 'i');
+  return $sql->fetch_row();
 }
 
 
@@ -41,257 +37,73 @@ function getarticlepageoverview($page)
 //
 //
 //
-function getallarticleyears()
-{
-  return getdistinctorderedcolumn("year",ARTICLES_TABLE,"1","year","ASC");
+function getallarticleyears() {
+  $sql = new SQLSelectStatement(ARTICLES_TABLE, 'year');
+  $sql->set_order(array('year' => 'ASC'));
+  $sql->set_distinct();
+  return $sql->fetch_column();
 }
 
 
 //
 //
 //
-function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showhidden=false)
-{
-	global $db;
-	$page=$db->setinteger($page);
-	$selectedcat=$db->setinteger($selectedcat);
-	$from=$db->setinteger($from);
-	$to=$db->setinteger($to);
-	$order=$db->setstring($order);
-	$ascdesc=$db->setstring($ascdesc);
+function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showhidden=false) {
+  $values = array();
+  $datatypes = "";
 
-	// get all category children
-	$categories=array();
-	if($selectedcat!=1)
-	{
-		$pendingcategories=array(0 => $selectedcat);
-		while(count($pendingcategories))
-		{
-			$selectedcat=array_pop($pendingcategories);
-			array_push($categories,$selectedcat);
-			$pendingcategories=array_merge($pendingcategories,getcategorychildren($selectedcat, CATEGORY_ARTICLE));
-		}
-	}
+  $query = "SELECT DISTINCTROW art.page_id FROM ";
+  $query .= ARTICLES_TABLE." AS art, ";
+  $query .= PAGES_TABLE." AS page";
 
-	$query="SELECT DISTINCTROW art.page_id FROM ";
-	$query.=ARTICLES_TABLE." AS art, ";
-	$query.=PAGES_TABLE." AS page";
-	// all parameters
-	if(count($categories)>0 && $from!="all" && $to!="all")
-	{
-		$query.=", ".ARTICLECATS_TABLE." AS cat";
-		$query.=" WHERE cat.page_id = art.page_id";
-		$query.=" AND cat.category IN (";
-		for($i=0;$i<count($categories);$i++)
-		{
-			$query.="'".$categories[$i]."',";
-		}
-		$query=substr($query,0,strlen($query)-1);
-		$query.=")";
-		$query.=" AND art.year BETWEEN '".$from."' AND '".$to."' AND";
-	}
-	// all years, filtered for categories
-	elseif(count($categories)>0)
-	{
-		$query.=", ".ARTICLECATS_TABLE." AS cat";
-		$query.=" WHERE cat.page_id = art.page_id";
-		$query.=" AND cat.category IN (";
-		for($i=0;$i<count($categories);$i++)
-		{
-			$query.="'".$categories[$i]."',";
-		}
-		$query=substr($query,0,strlen($query)-1);
-		$query.=") AND";
-	}
-	// only years
-	elseif($from!="all" && $to!="all")
-	{
-		$query.=" WHERE art.year BETWEEN '".$from."' AND '".$to."' AND ";
-	}
-	else
-	{
-		$query.=" WHERE ";
-	}
+  // Filter for categories
+  if ($selectedcat != 1) {
+    // get all category descendants
+    $categories = getcategorydescendants($selectedcat, CATEGORY_ARTICLE);
+    $datatypes = str_pad($datatypes, count($categories) + strlen($datatypes), 'i');
+    $placeholders = array_fill(0, count($categories), '?');
+    $values = array_merge($values, $categories);
 
-		$query.=" page.page_id = art.page_id AND ";
-
-	if(!$showhidden)
-	{
-		$query.=" page.ispublished = '1' AND ";
-	}
-
-	// get pages to search
-	$pages=getsubpagesforpagetype($page, "articlemenu");
-
-	$query.="page.parent_id IN (";
-	for($i=0;$i<count($pages);$i++)
-	{
-		$query.="'".$pages[$i]."',";
-	}
-	$query=substr($query,0,strlen($query)-1);
-	$query.=")";
-
-	if($order)
-	{
-		$query.=" ORDER BY ";
-		if($order=="title") $query.="page.title_page ";
-		elseif($order=="author") $query.="art.article_author ";
-		elseif($order=="date") $query.="art.year, art.month, art.day ";
-		elseif($order=="source") $query.="art.source ";
-		elseif($order=="editdate") $query.="page.editdate ";
-		$query.=$ascdesc;
-	}
-
-	return getdbresultcolumn($query);
-}
-
-//
-// todo: refine match all
-//
-function searcharticles($search,$page,$all,$showhidden=false)
-{
-	global $db;
-  $page=$db->setinteger($page);
-
-  $result=array();
-
-  // get articles to search
-  $pagestosearch=array();
-
-  $menupages=getsubpagesforpagetype($page, "articlemenu");
-  $query="SELECT DISTINCTROW page.page_id FROM ";
-  $query.=PAGES_TABLE." AS page WHERE ";
-  $query.="page.parent_id IN (";
-  for($i=0;$i<count($menupages);$i++)
-  {
-    $query.="'".$menupages[$i]."',";
-  }
-  $query=substr($query,0,strlen($query)-1);
-  $query.=")";
-//  print($query);
-  $sql=$db->singlequery($query);
-
-  if($sql)
-  {
-    // get column
-    while ($row = $sql->fetch_row()) {
-      array_push($pagestosearch,$row[0]);
-    }
-  }
-//  print('testing'.$pagestosearch);
-
-
-  // search articles
-  $query="SELECT page.page_id FROM ";
-  $query.=ARTICLES_TABLE." AS art, ";
-  $query.=ARTICLESECTIONS_TABLE." AS sec, ";
-  $query.=PAGES_TABLE." AS page WHERE ";
-
-  $query.="page.page_id IN (";
-  for($i=0;$i<count($pagestosearch);$i++)
-  {
-    $query.="'".$pagestosearch[$i]."',";
-  }
-  $query=substr($query,0,strlen($query)-1);
-  $query.=")";
-
-  if(!$showhidden)
-  {
-    $query.=" AND page.ispublished = '1'";
+    $query .= ", ".ARTICLECATS_TABLE." AS cat WHERE cat.page_id = art.page_id";
+    $query .= " AND cat.category IN (". implode(',' , $placeholders) . ") AND";
+  } else {
+    $query .= " WHERE";
   }
 
-  // search sections
-  $query.=" AND (MATCH(sec.text) AGAINST('".str_replace(" ",",",trim($search))."')";
-  $query.=" AND page.page_id = sec.article_id";
-  // search synopses
-  $query.=" OR MATCH(art.synopsis) AGAINST('".str_replace(" ",",",trim($search))."')";
-  $query.=" AND page.page_id = art.page_id";
-  // search author
-  $query.=" OR MATCH(art.article_author) AGAINST('".str_replace(" ",",",trim($search))."')";
-  $query.=" AND page.page_id = art.page_id";
-  // search source
-  $query.=" OR MATCH(art.source) AGAINST('".str_replace(" ",",",trim($search))."')";
-  $query.=" AND page.page_id = art.page_id";
-  //search title
-  $query.=" OR MATCH(page.title_page) AGAINST('".str_replace(" ",",",trim($search))."')";
-  $query.=")";
+  $query .= " page.page_id = art.page_id";
 
-  print($query);
-  $sql=$db->singlequery($query);
-  if($sql)
-  {
-    // get column
-    while ($row = $sql->fetch_row()) {
-      array_push($result,$row[0]);
-    }
+  if (!$showhidden) {
+    $query .= " AND page.ispublished = ?";
+    array_push($values, 1);
+    $datatypes .= 'i';
   }
 
-// doto: endless loop?
-  // from the search result, kick out entries that don't match all words
-/*  if($all)
-  {
-    $allresult=array();
-    for($i=0;$i<count($result);$i++)
-    {
-      // get a concatenated string
-      $query="SELECT sec.text FROM ";
-//      $query.=ARTICLES_TABLE." AS art, ";
-      $query.=ARTICLESECTIONS_TABLE." AS sec WHERE ";
-      $query.="sec.article_id ='".$result[$i]."'";
+  // get pages to search
+  $pages=getsubpagesforpagetype($page, "articlemenu");
+  $datatypes = str_pad($datatypes, count($pages) + strlen($datatypes), 'i');
+  $placeholders = array_fill(0, count($pages), '?');
+  $values = array_merge($values, $pages);
+  $query .= " AND page.parent_id IN (".implode(",", $placeholders).")";
 
-      $sql=singlequery($query);
-      $entry=array();
-      if($sql)
-      {
-        // get column
-        while ($row = $sql->fetch_row()) {
-          array_push($entry,$row[0]);
-        }
-      }
-      $concat=implode(" ",$entry);
-
-      $query="SELECT CONCAT(art.synopsis, art.article_author, art.source, pages.title_page) FROM ";
-      $query.=PAGES_TABLE." AS pages, ";
-      $query.=ARTICLES_TABLE." AS art WHERE ";
-      $query.="art.page_id ='".$result[$i]."'";
-      $query.=" AND pages.page_id ='".$result[$i]."'";
-
-//      print('<p>'.$query.'<p>');
-
-      $sql=$db->singlequery($query);
-      if($sql)
-      {
-        // get column
-        $concat .= $sql->fetch_row()[0];
-      }
-
-      // search concatenated string for all terms
-      $concat=strtolower(text2html($concat));
-      $keys=explode(" ",$search);
-      $found=true;
-      for($j=0;$j<count($keys) && $found;$j++)
-      {
-        if(strlen($keys[$j])>3)
-        {
-          if(!strpos($concat,strtolower(text2html($keys[$j])))) $found=false;
-        }
-      }
-      if($found) array_push($allresult,$result[$i]);
-    }
+  // Filter for years
+  if ($from != "all" && $to != "all") {
+    $query .= " AND art.year BETWEEN ? AND ?";
+    array_push($values, $from);
+    array_push($values, $to);
+    $datatypes .= 'ss';
   }
-//  print('<p>'.count($result).'<p>');
-//  print_r($allresult);
-  if($all)
-  {
-    return $allresult;
+
+  if ($order) {
+    $query .= " ORDER BY ";
+    if ($order === "title") $query .= "page.title_page ";
+    elseif ($order === "author") $query .= "art.article_author ";
+    elseif ($order === "date") $query .= "art.year, art.month, art.day ";
+    elseif ($order === "source") $query .= "art.source ";
+    elseif ($order === "editdate") $query .= "page.editdate ";
+    $query.= strtolower($ascdesc) === "desc" ? "DESC" : "ASC";
   }
-*/
-//  else
-   return $result;
 
-
-
-//  print('<p>'.count($result));
-//  return $result;
+  $sql = new RawSQLStatement($query, $values, $datatypes);
+  return $sql->fetch_column();
 }
 ?>

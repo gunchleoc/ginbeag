@@ -85,10 +85,8 @@ class CategorylistLinks extends Template {
 			}
 			natcasesort($cats_with_names);
 			$keys = array_keys($cats_with_names);
-			while($key = current($keys))
-			{
-				$this->listvars['catlist'][]=new CategorylistLink($key, $cats_with_names[$key], $page);
-				next($keys);
+			while (list($key, $category) = each($cats_with_names)) {
+				$this->listvars['catlist'][]=new CategorylistLink($key, $category, $page);
 			}
 			$this->stringvars['l_categories']=getlang("categorylist_categories");
 		}

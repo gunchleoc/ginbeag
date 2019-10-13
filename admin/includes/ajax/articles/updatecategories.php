@@ -11,9 +11,15 @@ include_once($projectroot."functions/categories.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 $printme= new Categorylist(getcategoriesforpage($_POST['page']), CATEGORY_ARTICLE);
 
-print($printme->toHTML());
+if (empty($db->error_report)) {
+	print($printme->toHTML());
+} else {
+	print($db->error_report);
+}
 ?>

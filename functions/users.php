@@ -7,55 +7,51 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getusername($user)
-{
-	global $db;
-	return getdbelement("username",USERS_TABLE, "user_id", $db->setinteger($user));
+function getusername($user) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'username', array('user_id'), array($user), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getuseremail($user)
-{
-	global $db;
-	return getdbelement("email",USERS_TABLE, "user_id", $db->setinteger($user));
+function getuseremail($user) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'email', array('user_id'), array($user), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getuserid($username)
-{
-	global $db;
-	return getdbelement("user_id",USERS_TABLE, "username",$db->setstring($username));
+function getuserid($username) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'user_id', array('username'), array($username), 's');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getallcontacts()
-{
-	return getorderedcolumn("user_id",USERS_TABLE,"iscontact = '1'", "username", "ASC");
+function getallcontacts() {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'user_id', array('iscontact'), array(1), 'i');
+	$sql->set_order(array('username' => 'ASC'));
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function getiscontact($user)
-{
-	global $db;
-	return getdbelement("iscontact",USERS_TABLE, "user_id",$db->setinteger($user));
+function getiscontact($user) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'iscontact', array('user_id'), array($user), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getcontactfunction($user)
-{
-	global $db;
-	return getdbelement("contactfunction",USERS_TABLE, "user_id",$db->setinteger($user));
+function getcontactfunction($user) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'contactfunction', array('user_id'), array($user), 'i');
+	return $sql->fetch_value();
 }
 
 ?>

@@ -8,7 +8,7 @@ include_once($projectroot."functions/db.php");
 $testpath = "/".getproperty("Local Path");
 if(getproperty("Local Path") == "") $testpath = "";
 
-if(!((isset($_SERVER["ORIG_PATH_TRANSLATED"]) && $_SERVER["ORIG_PATH_TRANSLATED"] == $projectroot."index.php") ||
+if(!DEBUG && !((isset($_SERVER["ORIG_PATH_TRANSLATED"]) && $_SERVER["ORIG_PATH_TRANSLATED"] == $projectroot."index.php") ||
 	$_SERVER["PHP_SELF"] == $testpath."/index.php"))
 {
 	header("HTTP/1.0 404 Not Found");
@@ -76,7 +76,4 @@ else
 }
 
 print($page->toHTML());
-
-$db->closedb();
-
 ?>

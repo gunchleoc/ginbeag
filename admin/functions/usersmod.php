@@ -8,37 +8,27 @@ include_once($projectroot."functions/users.php");
 //
 //
 //
-function register($user,$pass,$email)
-{
-	global $db;
+function register($user,$pass,$email) {
 	list($usec, $sec) = explode(' ', microtime());
 	$activationkey= (float) $sec + ((float) $usec * 100000);
 	$activationkey=md5($activationkey);
 
-	$values=array();
-	$values[]=0;
-	$values[]=0;
-	$values[]=$db->setstring($user);
-	$values[]=md5($pass);
-	$values[]=$db->setstring($email);
-	$values[]=USERLEVEL_USER;
-	$values[]=0;
-	$values[]="";
-	$values[]=$activationkey;
-	$values[]=date(DATETIMEFORMAT, strtotime('now'));
-	$values[]=0;
-
-	$success = insertentry(USERS_TABLE,$values);
-	if($success) return $activationkey;
-	else return false;
+	$sql = new SQLInsertStatement(
+		USERS_TABLE,
+		array('user_active', 'username', 'password', 'email', 'userlevel', 'iscontact',
+			'activationkey', 'last_login', 'retries'),
+		array(0, $user, md5($pass), $email, USERLEVEL_USER, 0, $activationkey, date(DATETIMEFORMAT, strtotime('now')), 0),
+		'isssiissi');
+	$sql->insert();
+	$sql = new SQLSelectStatement(USERS_TABLE, 'activationkey', array('username'), array($user), 's');
+	if ($activationkey === $sql->fetch_value()) return $activationkey;
+	return false;
 }
 
 //
 //
 //
-function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
-{
-	global $db;
+function changeuserpassword($userid,$oldpass,$newpass,$confirmpass) {
 	$result["message"] = "Failed to change password";
 	$result["error"] = false;
 	if(checkpassword(getusername($userid),md5($oldpass)))
@@ -47,9 +37,10 @@ function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
 		{
 			if($newpass===$confirmpass)
 			{
-				$sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".$db->setinteger($userid)."'");
-				if($sql)
-				{
+				$sql = new SQLUpdateStatement(USERS_TABLE,
+					array('password'), array('user_id'),
+					array(md5($newpass), $userid), 'si');
+				if ($sql->run()) {
 					$result["message"] = "Password changed successfully";
 				}
 			}
@@ -77,9 +68,7 @@ function changeuserpassword($userid,$oldpass,$newpass,$confirmpass)
 //
 //
 //
-function changeuserpasswordadmin($userid,$newpass,$confirmpass)
-{
-	global $db;
+function changeuserpasswordadmin($userid,$newpass,$confirmpass) {
 	$result="Failed to change password";
 	if(isadmin())
 	{
@@ -87,10 +76,11 @@ function changeuserpasswordadmin($userid,$newpass,$confirmpass)
 		{
 			if($newpass===$confirmpass)
 			{
-				$sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".$db->setinteger($userid)."'");
-				if($sql)
-				{
-					$result="Password changed successfully";
+				$sql = new SQLUpdateStatement(USERS_TABLE,
+					array('password'), array('user_id'),
+					array(md5($newpass), $userid), 'si');
+				if ($sql->run()) {
+					$result= "Password changed successfully";
 				}
 			}
 			else
@@ -115,9 +105,7 @@ function changeuserpasswordadmin($userid,$newpass,$confirmpass)
 //
 //
 //
-function makepassword($userid)
-{
-	global $db;
+function makepassword($userid) {
 	$letters=array(0=>0,1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,
 	10=>"a",11=>"b",12=>"c",13=>"d",14=>"e",15=>"f",16=>"g",17=>"h",
 	18=>"i",19=>"j",20=>"k",21=>"l",22=>"m",22=>"n",23=>"o",24=>"p",
@@ -139,7 +127,10 @@ function makepassword($userid)
 		$newpass.=$letters[rand(0,60)];
 	}
 
-	$sql=updatefield(USERS_TABLE,"password",md5($newpass),"user_id = '".$db->setinteger($userid)."'");
+	$sql = new SQLUpdateStatement(USERS_TABLE,
+		array('password'), array('user_id'),
+		array(md5($newpass), $userid), 'si');
+	$sql->run();
 	return $newpass;
 }
 
@@ -147,93 +138,94 @@ function makepassword($userid)
 //
 //
 //
-function changeuseremail($userid,$email)
-{
-	global $db;
-	return updatefield(USERS_TABLE,"email",$db->setstring($email),"user_id = '".$db->setinteger($userid)."'");
+function changeuseremail($userid,$email) {
+	$sql = new SQLUpdateStatement(USERS_TABLE,
+		array('email'), array('user_id'),
+		array($email, $userid), 'si');
+	$sql->run();
 }
 
 //
 //
 //
-function setuserlevel($userid,$userlevel)
-{
-	global $db;
-  	return updatefield(USERS_TABLE,"userlevel",$db->setinteger($userlevel),"user_id = '".$db->setinteger($userid)."'");
+function setuserlevel($userid,$userlevel) {
+	$sql = new SQLUpdateStatement(USERS_TABLE,
+		array('userlevel'), array('user_id'),
+		array($userlevel, $userid), 'ii');
+	$sql->run();
 }
 
 //
 //
 //
-function getuserlevel($userid)
-{
-	global $db;
-	return getdbelement("userlevel", USERS_TABLE, "user_id",$db->setinteger($userid));
+function getuserlevel($userid) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'userlevel', array('user_id'), array($userid), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function changeiscontact($userid,$iscontact)
-{
-	global $db;
-	return updatefield(USERS_TABLE,"iscontact",$db->setinteger($iscontact),"user_id = '".$db->setinteger($userid)."'");
+function changeiscontact($userid,$iscontact) {
+	$sql = new SQLUpdateStatement(USERS_TABLE,
+		array('iscontact'), array('user_id'),
+		array($iscontact, $userid), 'ii');
+	$sql->run();
 }
 
 
 //
 //
 //
-function changecontactfunction($userid,$contactfunction)
-{
-	global $db;
-	return updatefield(USERS_TABLE,"contactfunction",$db->setstring($contactfunction),"user_id = '".$db->setinteger($userid)."'");
+function changecontactfunction($userid,$contactfunction) {
+	$sql = new SQLUpdateStatement(USERS_TABLE,
+		array('contactfunction'), array('user_id'),
+		array($contactfunction, $userid), 'si');
+	$sql->run();
 }
 
 //
 //
 //
-function activateuser($userid)
-{
-	global $db;
-	return updatefield(USERS_TABLE,"user_active",1,"user_id = '".$db->setinteger($userid)."'");
-	$result = $result & updatefield(USERS_TABLE,"activationkey",'',"userid = '".$db->setinteger($userid)."'");
+function activateuser($userid) {
+	$sql = new SQLUpdateStatement(USERS_TABLE,
+		array('user_active', 'activationkey'), array('user_id'),
+		array(1, '', $userid), 'isi');
+	return $sql->run();
 }
 
 //
 //
 //
-function deactivateuser($userid)
-{
-	global $db;
-	return updatefield(USERS_TABLE,"user_active",0,"user_id = '".$db->setinteger($userid)."'");
+function deactivateuser($userid) {
+	$sql = new SQLUpdateStatement(USERS_TABLE,
+		array('user_active'), array('user_id'),
+		array(0, $userid), 'ii');
+	return $sql->run();
 }
 
 //
 //
 //
-function hasactivationkey($username,$activationkey)
-{
-	global $db;
-	return $activationkey === getdbelement("activationkey", USERS_TABLE, "username",$db->setstring($username));
+function hasactivationkey($username,$activationkey) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'activationkey', array('username'), array($username), 's');
+	return $activationkey === $sql->fetch_value();
 }
 
 //
 //
 //
-function userexists($username)
-{
-	global $db;
-	return getdbelement("username", USERS_TABLE, "username", $db->setstring($username));
+function userexists($username) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'username', array('username'), array($username), 's');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function emailexists($email,$user=false)
-{
-	global $db;
-	$emailuser= getdbelement("user_id", USERS_TABLE, "email", $db->setstring($email));
+function emailexists($email,$user=false) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'user_id', array('email'), array($email), 's');
+	$emailuser = $sql->fetch_value();
 	if($user)
 	{
 		return ($emailuser && ($user !== $emailuser));
@@ -247,9 +239,10 @@ function emailexists($email,$user=false)
 //
 //
 //
-function getallusers()
-{
-	return getorderedcolumn("user_id",USERS_TABLE,"1", "username","ASC");
+function getallusers() {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'user_id');
+	$sql->set_order(array('username' => 'ASC'));
+	return $sql->fetch_column();
 }
 
 ?>

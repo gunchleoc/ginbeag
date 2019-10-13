@@ -13,5 +13,4 @@ else $page=0;
 $pagelist = new PageList();
 $content = new AdminMain($page, "show", new AdminMessage ("", false), $pagelist);
 print($content->toHTML());
-$db->closedb();
 ?>

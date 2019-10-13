@@ -20,48 +20,59 @@ unset($_GET['postaction']);
 $message = "";
 $error = false;
 
-
 if($postaction=='savesite' && isset($_POST['submit']))
 {
-	$properties['Default Template']=$db->setstring(trim($_POST['defaulttemplate']));
+	$newproperties = array();
+	if (isset($_POST['linksonsplashpage'])) {
+		$list = SQLStatement::prepare_integer_list($_POST['linksonsplashpage']);
+		if (empty ($list['errormessage'])) {
+			$newproperties['Links on Splash Page'] = $list['content'];
+		} else {
+			$message .= $list['errormessage'];
+			$success = false;
+		}
+	}
 
-	$properties['Site Name']=$db->setstring(fixquotes(trim($_POST['sitename'])));
-	$properties['Site Description']=$db->setstring(fixquotes(trim($_POST['sitedescription'])));
-	$properties['Left Header Image']=$db->setstring(trim($_POST['leftimage']));
-	$properties['Left Header Link']=$db->setstring(trim($_POST['leftlink']));
-	$properties['Right Header Image']=$db->setstring(trim($_POST['rightimage']));
-	$properties['Right Header Link']=$db->setstring(trim($_POST['rightlink']));
+	$newproperties['Default Template'] = trim($_POST['defaulttemplate']);
 
-	$properties['Footer Message']=$db->setstring(fixquotes(trim($_POST['footermessage'])));
+	$newproperties['Site Name'] = fixquotes(trim($_POST['sitename']));
+	$newproperties['Site Description'] = fixquotes(trim($_POST['sitedescription']));
+	$newproperties['Left Header Image'] = trim($_POST['leftimage']);
+	$newproperties['Left Header Link'] = trim($_POST['leftlink']);
+	$newproperties['Right Header Image'] = trim($_POST['rightimage']);
+	$newproperties['Right Header Link'] = trim($_POST['rightlink']);
 
-	$properties['News Items Per Page']=$db->setinteger(trim($_POST['newsperpage']));
-	$properties['Gallery Images Per Page']=$db->setinteger(trim($_POST['galleryimagesperpage']));
+	$newproperties['Footer Message'] = fixquotes(trim($_POST['footermessage']));
 
-	if(isset($_POST['linksonsplashpage']))
-		$properties['Links on Splash Page']= implode(",",$_POST['linksonsplashpage']);
+	$newproperties['News Items Per Page'] = SQLStatement::setinteger(trim($_POST['newsperpage']));
+	$newproperties['Gallery Images Per Page'] = SQLStatement::setinteger(trim($_POST['galleryimagesperpage']));
 
-	$properties['Show All Links on Splash Page']= $db->setinteger(trim($_POST['alllinksonsplashpage']));
-	$properties['Display Site Description on Splash Page']= $db->setinteger(trim($_POST['showsd']));
-	$properties['Splash Page Font']= $db->setstring(trim($_POST['spfont']));
-	$properties['Splash Page Image']= $db->setstring(trim($_POST['spimage']));
+	$newproperties['Show All Links on Splash Page'] = SQLStatement::setinteger(trim($_POST['alllinksonsplashpage']));
+	$newproperties['Display Site Description on Splash Page'] = SQLStatement::setinteger(trim($_POST['showsd']));
+	$newproperties['Splash Page Font'] = trim($_POST['spfont']);
+	$newproperties['Splash Page Image'] = trim($_POST['spimage']);
 
-	$success=updateentries(SITEPROPERTIES_TABLE,$properties,"property_name","property_value");
+	$message .= updateproperties(SITEPROPERTIES_TABLE, $newproperties, 255);
 
-	// Splash page texts go into he specialtexts table
-	$success=updatefield(SPECIALTEXTS_TABLE,"text",$db->setstring(fixquotes(trim($_POST['sptext1']))),"id='splashpage1'") && $success;
-	$success=updatefield(SPECIALTEXTS_TABLE,"text",$db->setstring(fixquotes(trim($_POST['sptext2']))),"id='splashpage2'") && $success;
+	// Splash page texts go into the specialtexts table
+	$sql = new SQLUpdateStatement(SPECIALTEXTS_TABLE,
+		array('text'), array('id'),
+		array(fixquotes(trim($_POST['sptext1'])), 'splashpage1'), 'ss');
+	$success = $sql->run();
 
-	$message = "Layout properties saved";
+	$sql = new SQLUpdateStatement(SPECIALTEXTS_TABLE,
+		array('text'), array('id'),
+		array(fixquotes(trim($_POST['sptext2'])), 'splashpage2'), 'ss');
+	$success = $sql->run() && $success;
 
-	if(!$success)
-	{
-		$message = "Failed to save layout properties: ".$sql;
+	if ($success && empty($message)) {
+		$message = "Layout properties saved";
+	} else {
+		$message = "Failed to save layout properties:" . $message;
 		$error = true;
 	}
 }
 
 $content = new AdminMain($page, "sitelayout", new AdminMessage($message, $error), new SiteLayout());
 print($content->toHTML());
-$db->closedb();
-
 ?>

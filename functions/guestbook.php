@@ -7,51 +7,42 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function addguestbookentry($postername,$addy,$subject,$messagetext)
-{
-	global $db;
-	$values[0]=0;
-	$values[1]=$db->setstring($postername);
-	$values[2]=$db->setstring($addy);
-	$values[3]=$db->setstring($subject);
-	$values[4]=$db->setstring($messagetext);
-	$values[5]=date(DATETIMEFORMAT, strtotime('now'));
-	return $newpage = insertentry(GUESTBOOK_TABLE, $values);
+function addguestbookentry($postername, $email, $subject, $messagetext) {
+	$sql = new SQLInsertStatement(
+			GUESTBOOK_TABLE,
+			array('name', 'email', 'subject', 'message', 'date'),
+			array($postername, $email, $subject, $messagetext, date(DATETIMEFORMAT, strtotime('now'))),
+			'sssss');
+	return $sql->insert();
 }
 
 //
 //
 //
-function getguestbookentries($number,$offset)
-{
-	global $db;
+function getguestbookentries($number,$offset) {
 	if(!$offset) $offset=0;
 	if(!$number>0) $number=1;
-	return getorderedcolumnlimit("message_id",GUESTBOOK_TABLE,"1", "date", $db->setinteger($offset), $db->setinteger($number),"DESC");
+
+	$sql = new SQLSelectStatement(GUESTBOOK_TABLE, 'message_id');
+	$sql->set_order(array('date' => 'DESC'));
+	$sql->set_limit($number, $offset);
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function countguestbookentries()
-{
-	return countelements("message_id", GUESTBOOK_TABLE);
+function countguestbookentries() {
+	$sql = new SQLSelectStatement(GUESTBOOK_TABLE, 'message_id');
+	$sql->set_operator('count');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getguestbookentrycontents($message)
-{
-	global $db;
-	$result=array();
-	$message=$db->setinteger($message);
-	$result['name']= getdbelement("name",GUESTBOOK_TABLE, "message_id", $message);
-	$result['email']= getdbelement("email",GUESTBOOK_TABLE, "message_id", $message);
-	$result['subject']= getdbelement("subject",GUESTBOOK_TABLE, "message_id", $message);
-	$result['message']= getdbelement("message",GUESTBOOK_TABLE, "message_id", $message);
-	$result['date']= getdbelement("date",GUESTBOOK_TABLE, "message_id", $message);
-
-	return $result;
+function getguestbookentrycontents($message) {
+	$sql = new SQLSelectStatement(GUESTBOOK_TABLE, '*', array('message_id'), array($message), 'i');
+	return $sql->fetch_row();
 }
 ?>

@@ -16,5 +16,4 @@ include_once($projectroot."includes/objects/page.php");
 
 $page = new Page("page",true);
 print($page->toHTML());
-$db->closedb();
 ?>

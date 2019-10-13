@@ -145,39 +145,21 @@ function geteditortext($page,$item, $elementtype)
 {
 	$text="Text could not be loaded for ".$elementtype.", page ".$page.", item ".$item.".";
 
-	if($elementtype=="pageintro")
-  	{
-    	$text=getpageintrotext($page);
-  	}
-  	elseif($elementtype=="articlesection")
-  	{
-    	$text=getarticlesectiontext($item);
-  	}
-  	if($elementtype=="link")
-  	{
-    	$text=getlinkdescription($item);
-  	}
-  	elseif($elementtype=="newsitemsynopsis")
-  	{
-    	$text=getnewsitemsynopsistext($item);
-  	}
-  	elseif($elementtype=="newsitemsection")
-  	{
-    	$text=getnewsitemsectiontext($item);
-  	}
-  	elseif($elementtype=="sitepolicy")
-  	{
-    	$text=getdbelement("text",SPECIALTEXTS_TABLE,"id","sitepolicy");
-  	}
-  	elseif($elementtype=="guestbook")
-  	{
-    	$text=getdbelement("text",SPECIALTEXTS_TABLE,"id","guestbook");
-  	}
-  	elseif($elementtype=="contact")
-  	{
-    	$text=getdbelement("text",SPECIALTEXTS_TABLE,"id","contact");
-  	}
-  	return stripslashes($text);
+	if($elementtype==="pageintro") {
+		$text=getpageintrotext($page);
+	} elseif($elementtype==="articlesection") {
+		$text=getarticlesectiontext($item);
+	} elseif($elementtype==="link")	{
+		$text=getlinkdescription($item);
+	} elseif($elementtype==="newsitemsynopsis") {
+		$text=getnewsitemsynopsistext($item);
+	} elseif($elementtype==="newsitemsection") {
+		$text=getnewsitemsectiontext($item);
+	} elseif($elementtype==="sitepolicy" || $elementtype==="guestbook" || $elementtype==="contact") {
+		$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array($elementtype), 's');
+		$text= $sql->fetch_value();
+	}
+	return stripslashes($text);
 }
 
 

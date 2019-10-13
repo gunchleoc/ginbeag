@@ -9,6 +9,7 @@ include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/functions/categoriesmod.php");
 
 //print_r($_POST);
+$db->quiet_mode = true;
 
 checksession();
 
@@ -26,7 +27,7 @@ else {
 
 	$success = removenewsitemcategories($_POST['newsitem'],$selectedcats);
 
-	if($success >=0)
+	if($success >=0 && empty($db->error_report))
 	{
 		print('<message error="0">');
 		updateeditdata($_POST['page']);
@@ -35,7 +36,8 @@ else {
 	else
 	{
 		print('<message error="1">');
-		print("Error Removing Categories from Newsitem ID: ".$_POST['newsitem']."!");
+		print("Error Removing Categories from Newsitem ID: ".$_POST['newsitem']."!"
+			. "<br />\n" . $db->error_report);
 	}
 }
 print("</message>");

@@ -10,6 +10,7 @@ include_once($projectroot."functions/guestbook.php");
 
 //
 // Guestbook master
+// TODO edit guestbook intro is broken
 //
 class Guestbook extends Template {
 
@@ -18,7 +19,8 @@ class Guestbook extends Template {
     	parent::__construct();
 
 		$this->stringvars['title'] = $title;
-		$this->vars['intro'] = new PageIntro(utf8_decode($title),getdbelement("text",SPECIALTEXTS_TABLE,"id","guestbook"), "", true, true, "left", false, "sectiontext");
+		$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('guestbook'), 's');
+		$this->vars['intro'] = new PageIntro(utf8_decode($title),$sql->fetch_value(), "", true, true, "left", false, "sectiontext");
 		if(ismobile()) $displaytype = "mobile";
 		else $displaytype = "page";
 
@@ -196,9 +198,9 @@ class GuestbookForm extends Template {
     	$this->stringvars['subject']=title2html($subject);
     	$this->stringvars['message']=text2html($message);
 
-    	$this->stringvars['emailvariable']=$emailvariables['E-Mail Address Variable']['property_value'];
-    	$this->stringvars['subjectvariable']=$emailvariables['Subject Line Variable']['property_value'];
-    	$this->stringvars['messagevariable']=$emailvariables['Message Text Variable']['property_value'];
+    	$this->stringvars['emailvariable']=$emailvariables['E-Mail Address Variable'];
+    	$this->stringvars['subjectvariable']=$emailvariables['Subject Line Variable'];
+    	$this->stringvars['messagevariable']=$emailvariables['Message Text Variable'];
 
 
 
@@ -211,7 +213,7 @@ class GuestbookForm extends Template {
     	$this->stringvars['l_legend_yourmessagetous']=getlang("guestbook_legend_yourmessagetous");
 
 
-  		if($emailvariables['Use Math CAPTCHA']['property_value'])
+  		if($emailvariables['Use Math CAPTCHA'])
   		{
     		$this->vars['captcha']= new MathCAPTCHA();
     		$this->stringvars['l_legend_captcha']=getlang("antispam_legend_captcha");

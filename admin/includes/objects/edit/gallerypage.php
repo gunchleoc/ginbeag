@@ -161,7 +161,6 @@ class EditGallery extends Template {
 		}
 		else
 		{
-			if(!$offset) $offset=0;
 			$noofdisplayedimages = $imagesperpage;
 			$imageids = getgalleryimageslimit($page, $offset, $noofdisplayedimages);
 		}

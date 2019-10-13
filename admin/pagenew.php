@@ -50,7 +50,6 @@ if(isset($_POST['create']))
 		{
 			$userid=getsiduser();
 			$page=createpage($parent, $title, $navtitle, $type,$userid,$ispublishable);
-			$allpages=getmultiplefields(PAGES_TABLE, "page_id","1", $fields, $orderby="parent_id, position_navigator");
 			if($parent)
 			{
 				$title=getpagetitle($parent);
@@ -101,5 +100,4 @@ else
     $content = new AdminMain($page, "pagenew", new AdminMessage($message, $error), new NewPageForm($page, "", "", true, false));
 	print($content->toHTML());
 }
-$db->closedb();
 ?>

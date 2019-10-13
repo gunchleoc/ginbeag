@@ -70,7 +70,6 @@ elseif($user && $pass!=$passconf)
 
 $content = new RegisterPage($user, $email,$message,$showform);
 print($content->toHTML());
-$db->closedb();
 
 //
 //

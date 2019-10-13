@@ -7,5 +7,13 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."includes/functions.php");
 
-print utf8_decode(text2html($_POST['previewtext']));
+$db->quiet_mode = true;
+
+$text = utf8_decode(text2html($_POST['previewtext']));
+
+if (empty($db->error_report)) {
+	print($text);
+} else {
+	print($db->error_report);
+}
 ?>

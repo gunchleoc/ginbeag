@@ -49,7 +49,7 @@ else
 			else
 			{
 				$articlepage = $lastpage;
-				$message = "You cannot add a page after an empty page";
+				$message = "You cannot add a page while the last page is still empty";
 				$error = true;
 			}
 			$editpage = new EditArticlePage($articlepage);

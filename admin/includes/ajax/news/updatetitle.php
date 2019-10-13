@@ -10,6 +10,8 @@ include_once($projectroot."admin/functions/sessions.php");
 
 //print_r($_POST);
 
+$db->quiet_mode = true;
+
 checksession();
 
 $contents=getnewsitemcontents($_POST['newsitem']);
@@ -19,5 +21,9 @@ if(strlen($contents['title'])>0)
 else
 	$header="New Newsitem";
 
-print($header);
+if (empty($db->error_report)) {
+	print($header);
+} else {
+	print($db->error_report);
+}
 ?>

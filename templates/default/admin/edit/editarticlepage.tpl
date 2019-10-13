@@ -5,7 +5,7 @@
 <div class="contentsection">
 	<div class="leftalign">
 		<form name="addarticlepageform" action="{ACTIONVARS}" method="post">
-			<input type="submit" name="addarticlepage" value="Add a Page after this Page" class="mainoption" />
+			<input type="submit" name="addarticlepage" value="Add a Page" class="mainoption" />
 		</form>
 	</div>
 	<div class="leftalign">

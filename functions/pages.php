@@ -8,70 +8,56 @@ include_once($projectroot."functions/images.php");
 //
 //
 //
-function getarticleoftheday()
-{
-	global $db;
+function getarticleoftheday() {
 	$date=date("Y-m-d",strtotime('now'));
 
-	$aotd=getdbelement("aotd_id",ARTICLEOFTHEDAY_TABLE, "aotd_date", $date);
-	if(!ispublished($aotd) || ispagerestricted($aotd))
-	{
-		$query="DELETE FROM ".ARTICLEOFTHEDAY_TABLE." where aotd_date= '".$date."';";
-		deleteentry(ARTICLEOFTHEDAY_TABLE, "aotd_date= '".$date."';");
+	// Get the current article of the day if any
+	$sql = new SQLSelectStatement(ARTICLEOFTHEDAY_TABLE, 'aotd_id', array('aotd_date'), array($date), 's');
+	$aotd = $sql->fetch_value();
+
+	// Ensure that it's still public
+	if ($aotd > 0 && (!ispublished($aotd) || ispagerestricted($aotd))) {
+		$sql = new SQLDeleteStatement(ARTICLEOFTHEDAY_TABLE, array('aotd_date'), array($date), 's');
+		$sql->run();
 		$aotd=0;
 	}
-	if(!$aotd)
-	{
-		// get pages to search
+
+	if (!$aotd) {
+		// We need a new article. Collect viable articlemenus.
 		$pagestosearch=explode(",",getproperty("Article of the Day Start Pages"));
-		$count=count($pagestosearch);
+
 		$pages=array();
-		for($i=0;$i<$count;$i++)
-		{
-			// test for nonsense in the site properties
-			if(getpagetype($pagestosearch[$i])==="articlemenu" && !ispagerestricted($pagestosearch[$i]))
-			{
-				$pages=array_merge($pages,getsubpagesforpagetype($pagestosearch[$i],"articlemenu"));
+		foreach ($pagestosearch as $searchme) {
+			// Test for nonsense in the site properties ...
+			if (getpagetype($searchme) === "articlemenu" && !ispagerestricted($searchme)) {
+				// ... and get submenus
+				$pages = array_merge($pages, getsubpagesforpagetype($searchme, "articlemenu"));
 			}
 		}
-			// there was a valid start page, so generate
-		if(count($pages))
-		{
-			$query="SELECT DISTINCTROW page.page_id FROM ";
-			$query.=PAGES_TABLE." AS page WHERE ";
-			$query.="page.pagetype = 'article' AND ";
-			$query.="page.parent_id IN (";
-			for($i=0;$i<count($pages);$i++)
-			{
-				$query.="'".$pages[$i]."',";
-			}
-			$query=substr($query,0,strlen($query)-1);
-			$query.=") AND page.ispublished = '1'";
 
-			$sql=$db->singlequery($query);
-			$pagesforselection=array();
-			if($sql)
-			{
-				// get column
-				while ($row = $sql->fetch_row()) {
-					if(!ispagerestricted($row[0]))
-					{
-						array_push($pagesforselection,$row[0]);
-					}
-				}
-			}
-			if(count($pagesforselection)>0)
-			{
+		$pagecount = count($pages);
+		if ($pagecount > 0) {
+			// Found some viable article menus, so get their articles
+			$query = "SELECT DISTINCTROW page_id FROM " . PAGES_TABLE . " WHERE
+					pagetype = 'article' AND
+					parent_id IN (" . implode(',' , array_fill(0, $pagecount, '?')) . ")
+					AND ispublished = '1'";
+
+			$sql = new RawSQLStatement($query, $pages, str_pad("", $pagecount, 'i'));
+			$pagesforselection = $sql->fetch_column();
+
+			if (count($pagesforselection) > 0) {
 				list($usec, $sec) = explode(' ', microtime());
 				$random= ((float) $sec + ((float) $usec * 100000)) % count($pagesforselection);
 
-				$aotd=$pagesforselection[$random];
-				if($aotd)
-				{
-					$values = array();
-					$values[] = $date;
-					$values[] = $aotd;
-					insertentry(ARTICLEOFTHEDAY_TABLE, $values);
+				$aotd = $pagesforselection[$random];
+				if ($aotd) {
+					$sql = new SQLInsertStatement(
+						ARTICLEOFTHEDAY_TABLE,
+						array('aotd_date', 'aotd_id'),
+						array($date, $aotd),
+						'si');
+					$sql->insert();
 				}
 			}
 		}
@@ -85,171 +71,147 @@ function getarticleoftheday()
 //
 //
 //
-function getpagetypes()
-{
-	$result=array();
-
-	$keys=getorderedcolumn("type_key",PAGETYPES_TABLE, "1", "type_key", "ASC");
-	$values=getorderedcolumn("type_description",PAGETYPES_TABLE, "1", "type_key", "ASC");
-	for($i=0;$i<count($keys);$i++)
-	{
-		$result[$keys[$i]]=$values[$i];
-	}
-	return $result;
+function getpagetypes() {
+	$sql = new SQLSelectStatement(PAGETYPES_TABLE, array('type_key', 'type_description'));
+	$sql->set_order(array('type_key' => 'ASC'));
+	return $sql->fetch_two_columns();
 }
 
 
 //
 //
 //
-function getpagetype($page)
-{
-	global $db;
-	return getdbelement("pagetype",PAGES_TABLE, "page_id", $db->setinteger($page));
+function getpagetype($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'pagetype', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getpagetitle($page)
-{
-	global $db;
-	return getdbelement("title_page",PAGES_TABLE, "page_id", $db->setinteger($page));
+function getpagetitle($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'title_page', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getnavtitle($page)
-{
-	global $db;
-	return getdbelement("title_navigator",PAGES_TABLE, "page_id", $db->setinteger($page));
+function getnavtitle($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'title_navigator', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getpageintro($page)
-{
-	global $db;
-	$fieldnames = array(0 => 'introtext', 1=> 'introimage', 2=>'imagehalign', 3 => 'imageautoshrink', 4 => 'usethumbnail');
-	return getrowbykey(PAGES_TABLE, "page_id", $db->setinteger($page), $fieldnames);
+function getpageintro($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, array('introtext', 'introimage', 'imagehalign', 'imageautoshrink', 'usethumbnail'), array('page_id'), array($page), 'i');
+	return $sql->fetch_row();
 }
 
 //
 //
 //
-function getpageintrotext($page)
-{
-	global $db;
-  	return getdbelement("introtext", PAGES_TABLE, "page_id", $db->setinteger($page));
+function getpageintrotext($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'introtext', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getpageintroimage($page)
-{
-	global $db;
-  	return getdbelement("introimage", PAGES_TABLE, "page_id", $db->setinteger($page));
+function getpageintroimage($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'introimage', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function getnavposition($page)
-{
-	global $db;
-	return getdbelement("position_navigator",PAGES_TABLE, "page_id", $db->setinteger($page));
+function getnavposition($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'position_navigator', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getpageeditor($page)
-{
-	global $db;
-	return getdbelement("editor_id",PAGES_TABLE, "page_id", $db->setinteger($page));
+function getpageeditor($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'editor_id', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 //
 // returns array of copyright, imagecopyright, permission
 // permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
 //
-function getcopyright($page)
-{
-	global $db;
-	$fieldnames = array(0 => 'copyright', 1=> 'image_copyright', 2=>'permission');
-	return getrowbykey(PAGES_TABLE, "page_id", $db->setinteger($page), $fieldnames);
+function getcopyright($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, array('copyright', 'image_copyright', 'permission'), array('page_id'), array($page), 'i');
+	return $sql->fetch_row();
 }
 
 //
 // permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
 //
-function getpermission($page)
-{
-	return getdbelement("permission",PAGES_TABLE, "page_id", $page);
+function getpermission($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'permission', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function geteditdate($page)
-{
-	global $db;
-	return getdbelement("editdate", PAGES_TABLE, "page_id", $db->setinteger($page));
+function geteditdate($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'editdate', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getparent($page)
-{
-	global $db;
-	return getdbelement("parent_id",PAGES_TABLE, "page_id", $db->setinteger($page));
-}
-
-
-//
-//
-//
-function getsisters($page,$ascdesc="ASC")
-{
-	global $db;
-	return getorderedcolumn("page_id",PAGES_TABLE, "parent_id='".getparent($db->setinteger($page))."'", "position_navigator", $db->setstring($ascdesc));
-}
-
-//
-//
-//
-function getchildren($page,$ascdesc="ASC")
-{
-	global $db;
-	return getorderedcolumn("page_id",PAGES_TABLE, "parent_id='".$db->setinteger($page)."'", "position_navigator", $db->setstring($ascdesc));
-}
-
-//
-//
-//
-function ispublished($page)
-{
-	global $db;
-	return getdbelement("ispublished",PAGES_TABLE, "page_id", $db->setinteger($page));
+function getparent($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'parent_id', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function pageexists($page)
-{
-	global $db;
-	$foundpage = getdbelement("page_id",PAGES_TABLE, "page_id", $db->setinteger($page));
-	return $foundpage>0 && $foundpage == $page;
+function getsisters($page,$ascdesc="ASC") {
+	return getchildren(getparent($page), $ascdesc);
+}
+
+//
+//
+//
+function getchildren($page,$ascdesc="ASC") {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('parent_id'), array($page), 'i');
+	$sql->set_order(array('position_navigator' => $ascdesc));
+	return $sql->fetch_column();
+}
+
+//
+//
+//
+function ispublished($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'ispublished', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
+}
+
+
+//
+//
+//
+function pageexists($page) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('page_id'), array($page), 'i');
+	$foundpage = $sql->fetch_value();
+	return $foundpage > 0 && $foundpage == $page;
 }
 
 
@@ -264,81 +226,84 @@ function isrootpage($page)
 //
 //
 //
-function getrootpages()
-{
-	return getorderedcolumn("page_id",PAGES_TABLE, "parent_id='0'", "position_navigator", "ASC");
+function getrootpages() {
+	return getchildren(0);
 }
 
 
 //
 //
 //
-function getallpages($fields)
-{
-	return getmultiplefields(PAGES_TABLE, "page_id","1", $fields, $orderby="page_id");
+function getallpages($fields) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, $fields);
+	$sql->set_order(array('page_id' => 'ASC'));
+	return $sql->fetch_many_rows();
 }
 
 
 //
 //
 //
-function ispagerestricted($page)
-{
-	global $db;
-	return getdbelement("page_id",RESTRICTEDPAGES_TABLE, "page_id", $db->setinteger($page));
+function ispagerestricted($page) {
+	$sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, 'page_id', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 
 //
 //
 //
-function isthisexactpagerestricted($page)
-{
-	global $db;
-	return getdbelement("page_id",RESTRICTEDPAGES_TABLE, "masterpage", $db->setinteger($page));
+function isthisexactpagerestricted($page) {
+	$sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, 'page_id', array('masterpage'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
+//
+//
+//
+function getpagerestrictionmaster($page) {
+	$sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, 'masterpage', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
+}
 
 //
 //
 //
-function hasaccesssession($page)
-{
-	global $db, $sid;
-	$result=true;
+function hasaccesssession($page) {
+	global $sid;
 
-	$masterpage=getdbelement("masterpage",RESTRICTEDPAGES_TABLE, "page_id", $page);
+	$masterpage = getpagerestrictionmaster($page);
 
-	if($masterpage)
-	{
-		$user_id=getdbelement("session_user_id",PUBLICSESSIONS_TABLE, "session_id", $db->setstring($sid));
-		$page=$db->setinteger($page);
+	if ($masterpage > 0) {
+		if (empty($sid)) return false;
 
-		$query="select publicuser_id from ".RESTRICTEDPAGESACCESS_TABLE." where publicuser_id = '".$user_id."' AND page_id = '".$masterpage."';";
-		$result = getdbresultsingle($query);
+		$sql = new SQLSelectStatement(PUBLICSESSIONS_TABLE, 'session_user_id', array('session_id'), array($sid), 's');
+		$user_id = $sql->fetch_value();
+
+		$sql = new SQLSelectStatement(RESTRICTEDPAGESACCESS_TABLE, 'publicuser_id', array('publicuser_id', 'page_id'), array($user_id, $masterpage), 'ii');
+		return $sql->fetch_value();
 	}
-	return $result;
+	return true;
 }
 
 
 //
 //
 //
-function getsubpagesforpagetype($page, $pagetype)
-{
-	global $db;
+function getsubpagesforpagetype($page, $pagetype) {
 	$result=array();
-	$searchme=array(0 => $db->setinteger($page));
-	$pagetype=$db->setstring($pagetype);
-	while(count($searchme))
-	{
+	$searchme=array($page);
+	while(count($searchme)) {
 		$currentpage=array_shift($searchme);
 		if(getpagetype($currentpage)===$pagetype)
 		{
 			array_push($result, $currentpage);
 		}
-		$condition= "parent_id='".$currentpage."' AND pagetype = '".$pagetype."'";
-		$submenus= getorderedcolumn("page_id",PAGES_TABLE,$condition, "position_navigator", "ASC");
+
+		$sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('parent_id', 'pagetype'), array($currentpage, $pagetype), 'ii');
+		$sql->set_order(array('position_navigator' => 'ASC'));
+		$submenus = $sql->fetch_column();
+
 		$searchme=array_merge($searchme,$submenus);
 	}
 	return $result;
@@ -347,50 +312,38 @@ function getsubpagesforpagetype($page, $pagetype)
 //
 //
 //
-function hasrssfeed($page)
-{
-	global $db;
-	return getdbelement("page_id",RSS_TABLE, "page_id", $db->setinteger($page));
+function hasrssfeed($page) {
+	$sql = new SQLSelectStatement(RSS_TABLE, 'page_id', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function updatepagestats($page)
-{
-	global $db;
-	if($page>0)
-	{
+function updatepagestats($page) {
+	if ($page > 0) {
 		$year=date("Y",strtotime('now'));
 		$month=date("m",strtotime('now'));
 
-		$query="SELECT stats_id, viewcount FROM ".MONTHLYPAGESTATS_TABLE." WHERE ";
-		$query.="year='".$year."' AND month='".$month."' AND page_id='".$db->setinteger($page)."'";
+		$sql = new SQLSelectStatement(MONTHLYPAGESTATS_TABLE,
+			array('stats_id', 'viewcount'), array('page_id', 'year', 'month'),
+				array($page, $year, $month), 'iii');
+		$stats = $sql->fetch_row();
 
-		//  print($query);
-		$sql=$db->singlequery($query);
-		$stats=array();
-		if($sql)
-		{
-			// get column
-			while ($row = $sql->fetch_row()) {
-				array_push($stats,array($row[0],$row[1]));
-			}
+		if (empty($stats)) {
+			$sql = new SQLInsertStatement(
+				MONTHLYPAGESTATS_TABLE,
+				array('page_id', 'viewcount', 'month', 'year'),
+				array($page, 1, $month, $year),
+				'iiii');
+			$sql->insert();
+		} else {
+			$sql = new SQLUpdateStatement(MONTHLYPAGESTATS_TABLE,
+				array('viewcount'), array('stats_id'),
+				array($stats['viewcount'] + 1, $stats['stats_id']), 'ii');
+			$sql->run();
 		}
-		if(count($stats))
-		{
-			updatefield(MONTHLYPAGESTATS_TABLE, "viewcount" ,$stats[0][1] + 1, "stats_id='".$stats[0][0]."'");
-		}
-		else
-		{
-			$values = array();
-			$values[] = 0;
-			$values[] = $db->setinteger($page);
-			$values[] = 1;
-			$values[] = $month;
-			$values[] = $year;
-			insertentry(MONTHLYPAGESTATS_TABLE, $values);
-		}
+		return;
 	}
 }
 ?>

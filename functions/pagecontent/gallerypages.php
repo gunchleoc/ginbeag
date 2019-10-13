@@ -8,65 +8,66 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getgalleryimage($galleryitem)
-{
-	global $db;
-	return getdbelement("image_filename",GALLERYITEMS_TABLE, "galleryitem_id",$db->setinteger($galleryitem));
+function getgalleryimage($galleryitem) {
+	$sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'image_filename', array('galleryitem_id'), array($galleryitem), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getgalleryimages($page)
-{
-	global $db;
-	return getorderedcolumn("galleryitem_id",GALLERYITEMS_TABLE, "page_id='".$db->setinteger($page)."'", "position", "ASC");
-}
-
-
-//
-//
-//
-function getgalleryimageslimit($page, $offset, $number)
-{
-	global $db;
-	return getorderedcolumnlimit("galleryitem_id",GALLERYITEMS_TABLE, "page_id='".$db->setinteger($page)."'", "position", $db->setinteger($offset), $db->setinteger($number), "ASC");
-}
-
-//
-//
-//
-function getgalleryimagefilenames($page)
-{
-	global $db;
-	return getorderedcolumn("image_filename",GALLERYITEMS_TABLE, "page_id='".$db->setinteger($page)."'", "position", "ASC");
+function getgalleryimages($page) {
+	$sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'galleryitem_id', array('page_id'), array($page), 'i');
+	$sql->set_order(array('position' => 'ASC'));
+	return $sql->fetch_column();
 }
 
 
 //
 //
 //
-function getgalleryimageposition($galleryitem)
-{
-	global $db;
-	return getdbelement("position", GALLERYITEMS_TABLE, "galleryitem_id",$db->setinteger($galleryitem));
+function getgalleryimageslimit($page, $offset, $number) {
+	$sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'galleryitem_id', array('page_id'), array($page), 'i');
+	$sql->set_order(array('position' => 'ASC'));
+	$sql->set_limit($number, $offset);
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function getlastgalleryimageposition($page)
-{
-	global $db;
-	return getmax("position", GALLERYITEMS_TABLE, "page_id ='".$db->setinteger($page)."'");
+function getgalleryimagefilenames($page) {
+	$sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'image_filename', array('page_id'), array($page), 'i');
+	$sql->set_order(array('position' => 'ASC'));
+	return $sql->fetch_column();
+}
+
+
+//
+//
+//
+function getgalleryimageposition($galleryitem) {
+	$sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'position', array('galleryitem_id'), array($galleryitem), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function countgalleryimages($page)
-{
-	global $db;
-	return countelementscondition("page_id", GALLERYITEMS_TABLE, "page_id ='".$db->setinteger($page)."'");
+function getlastgalleryimageposition($page) {
+	$sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'position', array('page_id'), array($page), 'i');
+	$sql->set_operator('max');
+	$result = $sql->fetch_value();
+	if (!$result) $result = 1;
+	return $result;
+}
+
+//
+//
+//
+function countgalleryimages($page) {
+	$sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'page_id', array('page_id'), array($page), 'i');
+	$sql->set_operator('count');
+	return $sql->fetch_value();
 }
 ?>

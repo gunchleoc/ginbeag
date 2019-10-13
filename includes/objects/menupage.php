@@ -210,8 +210,6 @@ class ArticleMenuPage extends Template {
 		global $_GET;
 		$result=array();
 
-		$this->stringvars['search_result']="search result";
-
 		$this->stringvars['l_clearsearch']=getlang("menu_filter_clearsearch");
 
 		$selectedcat=$_GET['selectedcat'];

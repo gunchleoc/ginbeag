@@ -8,145 +8,104 @@ include_once($projectroot."functions/db.php");
 //  todo: restrictions
 // todo: return error state
 //
-function createpage($parent, $title, $navtitle, $pagetype, $user, $ispublishable)
-{
-	global $db;
+function createpage($parent, $title, $navtitle, $pagetype, $user, $ispublishable) {
+	if (!$parent) $parent=0;
 
-	$parent=$db->setinteger($parent);
-	$title=$db->setstring($title);
-	$navtitle=$db->setstring($navtitle);
-	$pagetype=$db->setstring($pagetype);
-	$user=$db->setinteger($user);
-	$ispublishable=$db->setinteger($ispublishable);
+	$date = date(DATETIMEFORMAT);
+	$sql = new SQLInsertStatement(
+		PAGES_TABLE,
+		array('parent_id', 'title_navigator', 'title_page', 'imagehalign', 'imageautoshrink',
+			'usethumbnail', 'position_navigator', 'pagetype', 'editdate', 'editor_id',
+			'permission', 'ispublished', 'ispublishable', 'showpermissionrefusedimages'),
+		array($parent, $navtitle, $title, 'left', 1,
+			1, create_getlastnavposition($parent) + 1, $pagetype, date(DATETIMEFORMAT), $user,
+			NO_PERMISSION, 0, $ispublishable, 0),
+		'isssiiissiiiii');
+	$sql->insert();
 
-	if(!$parent)
-	{
-		$parent=0;
-	}
-	$lastnavposition=1+create_getlastnavposition($parent);
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('editdate'), array($date), 's');
+	$page = $sql->fetch_value();
 
-	$date=date(DATETIMEFORMAT);
-
-	$values=array();
-	$values[]=0;
-	$values[]=$parent;
-	$values[]=$navtitle;
-	$values[]=$title;
-	$values[]=""; // Introtext
-	$values[]=""; // Introimage
-	$values[]="left"; // Intro image halign
-	$values[]=1;
-	$values[]=1;
-	$values[]=$lastnavposition;
-	$values[]=$pagetype;
-	$values[]=$date;
-	$values[]=$user;
-	$values[]="";
-	$values[]="";
-	$values[]=NO_PERMISSION;
-	$values[]=0;
-	$values[]=$ispublishable;
-	$values[]=0;
-
-	$newpage = insertentry(PAGES_TABLE,$values);
-	if($newpage)
-	{
-		$page=getdbelement("page_id",PAGES_TABLE, "editdate", $date);
-
-		if($pagetype==="article")
-		{
+	if ($page > 0) {
+		if($pagetype==="article") {
 			createemptyarticle($page);
-		}
-		elseif($pagetype==="external")
-		{
+		} elseif($pagetype==="external") {
 			createemptyexternal($page);
-		}
-		elseif($pagetype==="menu" || $pagetype==="articlemenu" || $pagetype==="linklistmenu")
-		{
+		} elseif($pagetype==="menu" || $pagetype==="articlemenu" || $pagetype==="linklistmenu") {
 			createemptymenu($page);
-		}
-		elseif($pagetype==="news")
-		{
+		} elseif($pagetype==="news") {
 			createemptynewspage($page);
 		}
-	}
 
-	$parentrestricted=getdbelement("page_id",RESTRICTEDPAGES_TABLE, "page_id", $parent);
-	if($parentrestricted==$parent && $parent!=0)
-	{
-		insertentry(RESTRICTEDPAGES_TABLE,array(0=>$page, 1=>getpagerestrictionmaster($parent)));
+		if ($parent != 0 && ispagerestricted($parent)) {
+			$sql = new SQLInsertStatement(
+				RESTRICTEDPAGES_TABLE,
+				array('page_id', 'masterpage'),
+				array($page, getpagerestrictionmaster($parent)),
+				'ii');
+			$sql->insert();
+		}
 	}
-	return $newpage;
+	return $page;
 }
 
 //
 //
 //
-function create_getlastnavposition($pageid)
-{
-	global $db;
-	return getmax("position_navigator",PAGES_TABLE, "parent_id = '".$db->setinteger($pageid)."'");
+function create_getlastnavposition($pageid) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'position_navigator', array('parent_id'), array($pageid), 'i');
+	$sql->set_operator('max');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function createemptyarticle($page)
-{
-	global $db;
+function createemptyarticle($page) {
 	$now=getdate(strtotime('now'));
-
-	$values=array();
-	$values[]=$db->setinteger($page);
-	$values[]=''; // author
-	$values[]=''; // location
-	$values[]=''; // source
-	$values[]=''; // sourcelink
-	$values[]=$now['mday']; // day
-	$values[]=$now['mon']; // month
-	$values[]=$now['year']; // year
-	$values[]=1; // noofpages
-	$values[]=0; // use Table of contents
-
-	return insertentry(ARTICLES_TABLE,$values);
+	$sql = new SQLInsertStatement(
+		ARTICLES_TABLE,
+		array('page_id', 'day', 'month', 'year', 'numberofpages', 'use_toc'),
+		array($page, $now['mday'], $now['mon'], $now['year'], 1, 0),
+		'isssii');
+	return $sql->insert();
 }
 
 //
 //
 //
-function createemptyexternal($page)
-{
-	global $db;
-	return insertentry(EXTERNALS_TABLE,array(0=>$db->setinteger($page), 1=>''));
+function createemptyexternal($page) {
+	$sql = new SQLInsertStatement(
+		EXTERNALS_TABLE,
+		array('page_id'),
+		array($page),
+		'i');
+	return $sql->insert();
 }
 
 
 //
 //
 //
-function createemptymenu($page)
-{
-	global $db;
-	$values=array();
-	$values[]=$db->setinteger($page);
-	$values[]='1'; // navigatordepth
-	$values[]='2'; // displaydepth
-	$values[]='1'; // sistersinnavigator
-
-	return insertentry(MENUS_TABLE,$values);
+function createemptymenu($page) {
+	$sql = new SQLInsertStatement(
+		MENUS_TABLE,
+		array('page_id', 'navigatordepth', 'displaydepth', 'sistersinnavigator'),
+		array($page, 1, 2, 1),
+		'iiii');
+	return $sql->insert();
 }
 
 
 //
 //
 //
-function createemptynewspage($page)
-{
-	global $db;
-	$values=array();
-	$values[]=$db->setinteger($page);
-	$values[]='1';
-
-	return insertentry(NEWS_TABLE,$values);
+function createemptynewspage($page) {
+	$sql = new SQLInsertStatement(
+		NEWS_TABLE,
+		array('page_id', 'shownewestfirst'),
+		array($page, 1),
+		'ii');
+	return $sql->insert();
 }
 ?>

@@ -76,15 +76,18 @@ else
 		}
 		if($_POST['email'])
 		{
-			if(emailexists($_POST['email'],$userid))
-			{
-				$message = 'E-mail <i>'.$_POST['email'].'</i> already exists!';
-				$error = true;
-			}
-			else
-			{
-				changeuseremail($userid,$_POST['email']);
-				$message.=' EMail changed';
+			$emailexists = emailexists($_POST['email'], $userid);
+			if (!$_POST['pass']) {
+				if ($emailexists) {
+					$message .= ' E-mail <i>' . $_POST['email'] . '</i> already exists!';
+					$error = true;
+				} else {
+					changeuseremail($userid, $_POST['email']);
+					$message .= ' EMail changed';
+				}
+			} else if (!$emailexists) {
+				changeuseremail($userid, $_POST['email']);
+				$message .= ' EMail changed';
 			}
 		}
 	}
@@ -147,5 +150,4 @@ else
 
 $content = new AdminMain($page, "siteuserman", new AdminMessage($message, $error), $contents);
 print($content->toHTML());
-$db->closedb();
 ?>

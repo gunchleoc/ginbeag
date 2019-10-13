@@ -80,6 +80,7 @@ else
 				}
 				else
 				{
+					// TODO redirect to the newly created page
 					// do the archiving
 					$moveditems=archivenewsitems($page, $_POST['day'], $_POST['month'], $_POST['year']);
 					if($moveditems > 0)
@@ -134,5 +135,4 @@ else
 }
 $content = new AdminMain($page, "editpageintro", new AdminMessage($message, $error), $editpage);
 print($content->toHTML());
-$db->closedb();
 ?>

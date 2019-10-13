@@ -6,8 +6,8 @@ include_once($projectroot."admin/functions/sessions.php");
 include_once($projectroot."admin/includes/objects/preview.php");
 
 checksession();
+$page = $_GET['page'];
 
 $contents= new Preview($_GET['newsitem']);
 print($contents->toHTML());
-$db->closedb();
 ?>

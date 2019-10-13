@@ -12,17 +12,14 @@ include_once($projectroot."includes/objects/elements.php");
 //
 // returns array with sid and message
 //
-function login($username,$password)
-{
-	global $db;
-	$username=$db->setstring($username);
+function login($username, $password) {
 	$password=md5($password);
 
 	$user=getuserid($username);
 
 	$result=array();
 	$proceed=true;
-	$retries=getretries($user);
+	$retries=getretries($username);
 
 	if($retries>=3)
 	{
@@ -64,153 +61,141 @@ function login($username,$password)
 //
 //
 //
-function checkpassword($username,$md5password)
-{
-	global $db;
-	$username=$db->setstring($username);
-	$md5password=$db->setstring($md5password);
-
-	$result=false;
-
-	$dbpassword=getdbelement("password",USERS_TABLE, "username", $username);
-	if($dbpassword===$md5password)
-	{
-		$result=true;
-	}
-	return $result;
+function checkpassword($username,$md5password) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'password', array('username'), array($username), 's');
+	return $sql->fetch_value() === $md5password;
 }
 
 
 //
 // returns sid
 //
-function logout()
-{
-	global $db;
-
+function logout() {
+	// Log out
 	set_session_cookie(true,"","");
-
 	unlockuserpages();
-  	optimizetable(LOCKS_TABLE);
-  	optimizetable(NEWSITEMSECTIONS_TABLE);
-  	optimizetable(NEWSITEMS_TABLE);
-  	optimizetable(MONTHLYPAGESTATS_TABLE);
-  	deleteentry(SESSIONS_TABLE,"session_id='".$db->setstring(getsid())."'");
-  	optimizetable(SESSIONS_TABLE);
-  	clearoldpagecacheentries();
-}
-
-//
-//
-//
-function clearoldpagecacheentries()
-{
-	deleteentry(PAGECACHE_TABLE,"lastmodified < '".date(DATETIMEFORMAT, strtotime('-1 day'))."'");
-}
-
-//
-//
-//
-function updatelogindate($username,$increasecount=false)
-{
-	global $db;
-	$username=$db->setstring($username);
-
-	$now=strtotime('now');
-
-	updatefield(USERS_TABLE,"last_login",date(DATETIMEFORMAT, $now),"username = '".$username."'");
-
-	if($increasecount)
-	{
-		$retries=getdbelement("retries",USERS_TABLE, "username", $username);
-		$newretry=$retries+1;
-		updatefield(USERS_TABLE,"retries",$newretry,"username = '".$username."'");
+	$sid = getsid();
+	if ($sid) {
+		$sql = new SQLDeleteStatement(SESSIONS_TABLE, array('session_id'), array($sid), 's');
+		$sql->run();
 	}
-	else
-	{
-		updatefield(USERS_TABLE,"retries","0","username = '".$username."'");
+
+	// Take the opportunity to do some cleanup
+	clearoldpagecacheentries();
+
+	$tables_to_optimize = array (
+		ANTISPAM_TOKENS_TABLE,
+		ARTICLEOFTHEDAY_TABLE,
+		ARTICLES_TABLE,
+		ARTICLESECTIONS_TABLE,
+		GALLERYITEMS_TABLE,
+		GUESTBOOK_TABLE,
+		IMAGECATS_TABLE,
+		IMAGES_TABLE,
+		LINKS_TABLE,
+		LOCKS_TABLE,
+		MONTHLYPAGESTATS_TABLE,
+		NEWSITEMS_TABLE,
+		NEWSITEMSECTIONS_TABLE,
+		NEWSITEMSYNIMG_TABLE,
+		PAGECACHE_TABLE,
+		PAGES_TABLE,
+		PICTUREOFTHEDAY_TABLE,
+		PUBLICSESSIONS_TABLE,
+		PUBLICUSERS_TABLE,
+		SESSIONS_TABLE,
+		THUMBNAILS_TABLE,
+	);
+
+	foreach ($tables_to_optimize as $table) {
+		$sql = new RawSQLStatement("OPTIMIZE TABLE $table");
+		$sql->fetch_Value();
 	}
 }
 
+//
+//
+//
+function clearoldpagecacheentries() {
+	$sql = new SQLDeleteStatement(LOCKS_TABLE, array(),
+		array(date(PAGECACHE_TABLE, strtotime('-1 day'))), 's', 'locktime < ?');
+	$sql->run();
+}
 
 //
 //
 //
-function createsession($user)
-{
-	global $db;
+function updatelogindate($username,$increasecount=false) {
+	$retries = $increasecount ? getretries($username) + 1 : 0;
 
-
-  	$user=$db->setinteger($user);
-
-  	$result="";
-
-  	$now=strtotime('now');
-
-  	mt_srand(make_seed());
-  	$sid = md5("".mt_rand());
-
-  	clearsessions();
-
-  	$lastsession=getdbelement("session_id",SESSIONS_TABLE, "session_user_id", $user);
-  	if($lastsession)
-  	{
-    	$sql=deleteentry(SESSIONS_TABLE,"session_id='".$lastsession."'");
-  	}
-
-	$values=array();
-	$values[]=$sid;
-	$values[]=$user;
-	$values[]=date(DATETIMEFORMAT, $now);
-	$values[]=substr($_SERVER["HTTP_USER_AGENT"], 0, 255);
-
-  	$sql=insertentry(SESSIONS_TABLE,$values);
-
-  	set_session_cookie(true,$sid,$user);
-  	return $sid;
+	$sql = new SQLUpdateStatement(USERS_TABLE,
+		array('retries', 'last_login'), array('username'),
+		array($retries, date(DATETIMEFORMAT, strtotime('now')), $username), 'iss');
+	$sql->run();
 }
 
 
 //
 //
 //
-function clearsessions()
-{
-	deleteentry(SESSIONS_TABLE,"session_time<'".date(DATETIMEFORMAT, strtotime('-1 hours'))."'");
+function createsession($user) {
+	clearsessions();
+
+	$sql = new SQLSelectStatement(SESSIONS_TABLE, 'session_id', array('session_user_id'), array($user), 'i');
+	$lastsession = $sql->fetch_value();
+	if ($lastsession) {
+		$sql = new SQLDeleteStatement(SESSIONS_TABLE, array('session_id'), array($lastsession), 's');
+		$sql->run();
+	}
+
+	mt_srand(make_seed());
+	$sid = md5("".mt_rand());
+
+	$sql = new SQLInsertStatement(
+		SESSIONS_TABLE,
+		array('session_id', 'session_user_id', 'session_time', 'browseragent'),
+		array($sid, $user, date(DATETIMEFORMAT, strtotime('now')), substr($_SERVER["HTTP_USER_AGENT"], 0, 255)),
+		'siss');
+	$sql->insert();
+
+	set_session_cookie(true, $sid, $user);
+	return $sid;
+}
+
+
+//
+//
+//
+function clearsessions() {
+	$sql = new SQLDeleteStatement(SESSIONS_TABLE, array(),
+		array(date(DATETIMEFORMAT, strtotime('-1 hours'))), 's', 'session_time < ?');
+	$sql->run();
 }
 
 //
 //
 //
-function timeout($sid)
-{
-	global $db;
-	$sid=$db->setstring($sid);
+function timeout($sid) {
+	$sql = new SQLSelectStatement(SESSIONS_TABLE, 'session_time', array('session_id'), array($sid), 's');
+	$sessiontime = $sql->fetch_value();
 
-	$result=false;
-
-	$sessiontime=getdbelement("session_time",SESSIONS_TABLE, "session_id", $sid);
-
-	if(!$sessiontime)
-	{
-		$result=true;
+	if(!$sessiontime) {
+		return true;
 	}
-	else
-	{
-		$time=date(DATETIMEFORMAT, strtotime('-1 hours'));
 
-		if($sessiontime<$time)
-		{
-			deleteentry(SESSIONS_TABLE,"session_id = '".$sid."'");
-			$result=true;
-		}
-		else
-		{
-			$now=date(DATETIMEFORMAT, strtotime('now'));
-			updatefield(SESSIONS_TABLE,"session_time",$now,"session_id='".$sid."'");
-		}
+	$time=date(DATETIMEFORMAT, strtotime('-1 hours'));
+
+	if($sessiontime < $time) {
+		$sql = new SQLDeleteStatement(SESSIONS_TABLE, array('session_id'), array($sid), 's');
+		$sql->run();
+		return true;
 	}
-	return $result;
+
+	$sql = new SQLUpdateStatement(SESSIONS_TABLE,
+		array('session_time'), array('session_id'),
+		array(date(DATETIMEFORMAT, strtotime('now')), $sid), 'ss');
+	$sql->run();
+	return false;
 }
 
 //
@@ -218,7 +203,7 @@ function timeout($sid)
 //
 function checksession()
 {
-	global $_GET, $db, $projectroot;
+	global $_GET;
 	if(!isloggedin())
 	{
 		$header = new HTMLHeader("Access restricted","Webpage Building","",getprojectrootlinkpath().'admin/login.php'.makelinkparameters($_GET),'Click or tap here to log in',false);
@@ -226,9 +211,6 @@ function checksession()
 
 		$footer = new HTMLFooter();
 		print($footer->toHTML());
-
-		$db->closedb();
-
 		exit;
 	}
 }
@@ -244,7 +226,9 @@ function isloggedin()
 	if(isset($_COOKIE[$cookieprefix."sid"])) $sid = $_COOKIE[$cookieprefix."sid"];
 	else return false;
 
-	$userid=getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $sid);
+	$sql = new SQLSelectStatement(SESSIONS_TABLE, 'session_user_id', array('session_id'), array($sid), 's');
+	$userid = $sql->fetch_value();
+
 	if(!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) return false;
 
 	if(timeout($sid)) return false;
@@ -272,10 +256,12 @@ function getsid()
 //
 //
 //
-function isadmin()
-{
-	$userlevel=getdbelement("userlevel", USERS_TABLE, "user_id",getsiduser());
-	return $userlevel==USERLEVEL_ADMIN;
+function isadmin() {
+	$user = getsiduser();
+	if (!$user) return false;
+	$sql = new SQLSelectStatement(USERS_TABLE, 'userlevel', array('user_id'), array($user), 'i');
+	$userlevel = $sql->fetch_value();
+	return $userlevel == USERLEVEL_ADMIN;
 }
 
 
@@ -294,27 +280,24 @@ function checkadmin()
 //
 // compares browser agent to entry in the sessions table
 //
-function checkagent($sid, $userid, $browseragent)
-{
-	global $db;
-	$result = true;
-
-	if($browseragent)
-	{
-		$sessionagent=getdbelement("browseragent",SESSIONS_TABLE, "session_id", $db->setstring($sid));
-		$result = (substr($sessionagent,0,255)===substr($browseragent,0,255));
+function checkagent($sid, $userid, $browseragent) {
+	if($browseragent) {
+		$sql = new SQLSelectStatement(SESSIONS_TABLE, 'browseragent', array('session_id'), array($sid), 's');
+		$sessionagent = $sql->fetch_value();
+		return (substr($sessionagent,0,255) === substr($browseragent,0,255));
 	}
-	return $result;
+	return true;
 }
 
 
 //
 //
 //
-function getsiduser()
-{
-	global $db;
-	return getdbelement("session_user_id",SESSIONS_TABLE, "session_id", $db->setstring(getsid()));
+function getsiduser() {
+	$sid = getsid();
+	if (!$sid) return false;
+	$sql = new SQLSelectStatement(SESSIONS_TABLE, 'session_user_id', array('session_id'), array($sid), 's');
+	return $sql->fetch_value();
 }
 
 
@@ -329,33 +312,32 @@ function getloggedinusers()
 	$query.=SESSIONS_TABLE." as sessions";
 	$query.=" where users.user_id = sessions.session_user_id";
 	$query.=" order by users.username ASC";
-	return getdbresultcolumn($query);
+
+	$sql = new RawSQLStatement($query);
+	return $sql->fetch_column();
 }
 
 //
 //
 //
-function isactive($user)
-{
-	global $db;
-	return getdbelement("user_active",USERS_TABLE, "user_id", $db->setinteger($user));
+function isactive($user) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'user_active', array('user_id'), array($user), 'i');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getretries($user)
-{
-	global $db;
-	return getdbelement("retries",USERS_TABLE, "user_id", $db->setinteger($user));
+function getretries($username) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'retries', array('username'), array($username), 's');
+	return $sql->fetch_value();
 }
 
 //
 //
 //
-function getlastlogin($user)
-{
-	global $db;
-	return getdbelement("last_login",USERS_TABLE, "user_id", $db->setinteger($user));
+function getlastlogin($user) {
+	$sql = new SQLSelectStatement(USERS_TABLE, 'last_login', array('user_id'), array($user), 'i');
+	return $sql->fetch_value();
 }
 ?>

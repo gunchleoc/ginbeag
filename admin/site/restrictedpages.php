@@ -14,6 +14,4 @@ else $page=0;
 
 $content = new AdminMain($page, "sitepagerestrict", new AdminMessage("", false), new SiteRestrictedPages());
 print($content->toHTML());
-
-$db->closedb();
 ?>

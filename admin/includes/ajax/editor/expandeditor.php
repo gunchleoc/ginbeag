@@ -7,6 +7,8 @@ $projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
 
 include_once($projectroot."admin/includes/objects/editor.php");
 
+$db->quiet_mode = true;
+
 $page=0;
 if(isset($_POST['page'])) $page= $_POST['page'];
 
@@ -18,6 +20,11 @@ else
 {
 	$editor = new EditorContentsExpanded($page,$_POST['item'],$_POST['elementtype'],$_POST['title']);
 }
-print($editor->toHTML());
+
+if (empty($db->error_report)) {
+	print($editor->toHTML());
+} else {
+	print($db->error_report);
+}
 
 ?>

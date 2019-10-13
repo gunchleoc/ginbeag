@@ -35,7 +35,7 @@ function uni2ent(srcTxt) {
 }
 
 
-// only used in admin, so can use admin to split string for getting the link path	
+// only used in admin, so can use admin to split string for getting the link path
 function makeprojectroot()
 {
 	var linkpath=$(location).attr('href');
@@ -55,7 +55,7 @@ function postRequest(url, data, success, elements)
 {
 
 	$.ajax({
-		url: url, 
+		url: url,
 		data: data,
 		type: 'post',
 		error: function(XMLHttpRequest, textStatus, errorThrown)
@@ -117,7 +117,7 @@ function showprogressbox(message)
 {
 	$("#{JSID}progressbox").html(message);
 	placeOnBottom($('#{JSID}progressbox'));
-	
+
 	$('#{JSID}progressbox').animate({opacity: 1},0, function() {
 
 	}); // animate 1
@@ -140,17 +140,17 @@ function placeOnBottom(element)
 		height = height.substring(0, temp);
 	}
 	else height=0;
-	
+
 	var windowheight = document.body.clientHeight;
 	var top = windowheight-height*2-30;
-	
+
 	// Internet Exploder
 	if(element.css("position")=="static")
 	{
 		element.css("position","absolute");
 		top = top+document.body.scrollTop;
 	}
-		
+
 	top = top+"px";
 	element.css("top",top);
 }
@@ -171,33 +171,33 @@ function placeOnCenter(element)
 	else if(temp<0) temp = height.length;
 	else widthunit = "%";
 	height = height.substring(0, temp);
-	
+
 	var windowheight = document.body.clientHeight;
 	var top = (windowheight-height)/2;
-	
+
 	// Internet Exploder
 	if(element.css("position")=="static")
 	{
 		element.css("position","absolute");
 		top = top+document.body.scrollTop;
 	}
-		
+
 	top = top+"px";
 	element.css("top",top);
-	
+
 	var widthunit = "px";
 	var width = element.css("width");
 	if(!width) width="33%";
 	var temp = width.indexOf("px");
 	if(width<0)	temp = width.indexOf("%");
-	else if(width<0) temp = width.length;	
+	else if(width<0) temp = width.length;
 	else widthunit = "%";
 	width = width.substring(0, temp);
-	
+
 	var windowwidth = document.body.clientWidth;
 	var left = (windowwidth-width)/2;
-	left = left+"px";	
-	
+	left = left+"px";
+
 	element.css("left",left);
 }
 */

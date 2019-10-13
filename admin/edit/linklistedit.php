@@ -81,5 +81,4 @@ else
 }
 $content = new AdminMain($page, "editcontents", new AdminMessage($message, $error), $editpage);
 print($content->toHTML());
-$db->closedb();
 ?>

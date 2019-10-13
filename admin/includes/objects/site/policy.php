@@ -27,9 +27,6 @@ class SitePolicy extends Template {
 
   		$properties=getproperties();
 
-  		$policytitle=$properties["Site Policy Title"];
-  		$policytext=getdbelement("text",SPECIALTEXTS_TABLE,"id","sitepolicy");
-
 		$this->vars['displaypolicy_yes'] = new RadioButtonForm("", "displaypolicy", 1, "Yes", $properties["Display Site Policy"], "right");
 	    $this->vars['displaypolicy_no'] = new RadioButtonForm("", "displaypolicy", 0, "No", !$properties["Display Site Policy"], "right");
 

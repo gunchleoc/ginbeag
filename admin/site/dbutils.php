@@ -18,8 +18,6 @@ else $page=0;
 $message = "";
 $error = false;
 
-
-//showtables();
 if(isset($_POST['backup']))
 {
 	if($_POST['structure']==="structure")
@@ -42,15 +40,13 @@ if(!(isset($_POST['display']) && $_POST['display']==="screen"))
 	$content = new AdminMain($page, "sitedb", new AdminMessage($message, $error), new SiteDBUtilsBackupForm());
 	print($content->toHTML());
 }
-$db->closedb();
-
 
 //
 //
 //
 function backupdatabase($display,$structureonly=true)
 {
-	global $dbname, $table_prefix, $db, $page, $message, $error;
+	global $dbname, $table_prefix, $page, $message, $error;
 
 	$sitename=title2html(getproperty("Site Name"));
 
@@ -75,42 +71,35 @@ function backupdatabase($display,$structureonly=true)
 		$result.="# Full backup".$cr."#".$cr;
 	}
 
-	//get table names
-	$query="SHOW TABLES LIKE '".$table_prefix."%';";
-
-	//  print($query.'<p>');
-
-	$tables=$db->singlequery($query);
-	while ($tablerow = $tables->fetch_row()) {
-		$tablename=$tablerow[0];
-
+	// Iterate table names
+	$sql = new RawSQLStatement("SHOW TABLES LIKE '" . SQLStatement::setstring($table_prefix) . "%'");
+	foreach ($sql->fetch_column() as $tablename) {
 		$result.=$cr."# ------------------------------------------------";
 		$result.=$cr."#".$cr."# Table: ".$tablename.$cr."#";
 		$result.=$cr."# ------------------------------------------------".$cr.$cr;
 		$result.="DROP TABLE IF EXISTS `".$tablename."`;".$cr;
 		$result.="CREATE TABLE `".$tablename."` (".$cr;
 
-		// get fields
-		$query="SHOW COLUMNS FROM ".$tablename;
-		$columns=$db->singlequery($query);
+		$tablename = SQLStatement::setstring($tablename);
 
-		$numfields = $columns->field_count;
-
-		while ($column = $columns->fetch_row()) {
+		// Get fields
+		$sql = new RawSQLStatement("SHOW COLUMNS FROM " . $tablename);
+		foreach ($sql->fetch_all() as $column) {
 			// way around time limit?
 			set_time_limit(0);
-			$result.=" `".$column[0]."` ".$column[1];
-			if($column[2]==="YES") $result.=" NULL";
+			$result.=" `".$column['Field']."` ".$column['Type'];
+			if($column['Null']==="YES") $result.=" NULL";
 			else $result.=" NOT NULL";
-			if(strlen($column[4])>0) $result.=" default '".$column[4]."'";
-			if(strlen($column[5])>0) $result.=" ".$column[5];
+			if(!empty($column['Default'])) $result.=" default '".$column['Default']."'";
+			if(!empty($column['Extra'])) $result.=" ".$column['Extra'];
 			$result.=",".$cr;
 		}
 
-		// get keys
-		$query="SHOW INDEX FROM ".$tablename;
-		$keys=$db->singlequery($query);
-		if ($keys->num_rows > 0) {
+		// Get keys
+		$sql = new RawSQLStatement("SHOW INDEX FROM " . $tablename);
+		$keys = $sql->fetch_all();
+
+		if (!empty($keys)) {
 			$result=substr($result,0,strlen($result)-strlen($cr));
 		}
 		else
@@ -118,62 +107,47 @@ function backupdatabase($display,$structureonly=true)
 			$result=substr($result,0,strlen($result)-1);
 		}
 
-		// 0: Table
-		// 1: Non_unique
-		// 2: Key_name
-		// 3: Seq_in_index
-		// 4: Column_name
-		// 5: Collation
-		// 6: Cardinality
-		// 7: Sub_part
-		// 8: Packed
-		// 9: Null
-		// 10: Index_type
-		// 11: Comment
-		while($key = $keys->fetch_row()) {
-			if($key[2]==="PRIMARY")
+		foreach ($keys as $key) {
+			if($key['Key_name']==="PRIMARY")
 			{
 				$result.=$cr."  PRIMARY KEY";
 			}
-			elseif($key[10]==="FULLTEXT")
+			elseif($key['Index_type']==="FULLTEXT")
 			{
-				$result.=$cr."  FULLTEXT KEY `".$key[2]."`";
+				$result.=$cr."  FULLTEXT KEY `".$key['Key_name']."`";
 			}
-			elseif(!$key[1])
+			elseif(!$key['Non_unique'])
 			{
-				$result.=$cr."  UNIQUE KEY "." `".$key[2]."`";
+				$result.=$cr."  UNIQUE KEY "." `".$key['Key_name']."`";
 			}
 			else
 			{
 				$result.=$cr."  KEY";
 			}
-      		$result.=" (`".$key[4]."`),";
+			$result.=" (`".$key['Column_name']."`),";
 		}
 		$result=substr($result,0,strlen($result)-1);
 		$result.=$cr.");".$cr;
+
 		if(!$structureonly)
 		{
-			$query="SELECT * from ".$tablename.";";
+			$sql = new SQLSelectStatement($tablename, '*');
+			$test = $sql->fetch_all();
 
-			$data=$db->singlequery($query);
-
-			if ($data->num_rows > 0) {
-				while ($element = $data->fetch_row()) {
-					$result.=$cr."INSERT INTO `".$tablename."` VALUES (";
-					for($i=0;$i<count($element);$i++)
+			foreach ($sql->fetch_all() as $row) {
+				$result.=$cr."INSERT INTO `".$tablename."` VALUES (";
+				foreach ($row as $value) {
+					$entry = utf8_encode(addslashes($value));
+					if($display==="screen")
 					{
-						$entry = utf8_encode(addslashes($element[$i]));
-						if($display==="screen")
-						{
-							$entry=str_replace ("<", "&lt;", $entry);
-							$entry=str_replace (">", "&gt;", $entry);
-						}
-						$entry=stripslashes($entry);
-						$result.="'".$entry."',";
+						$entry=str_replace ("<", "&lt;", $entry);
+						$entry=str_replace (">", "&gt;", $entry);
 					}
-					$result=substr($result,0,strlen($result)-1);
-					$result.=");";
+					$entry=stripslashes($entry);
+					$result.="'".$entry."',";
 				}
+				$result=substr($result,0,strlen($result)-1);
+				$result.=");";
 			}
 		}
 		$result.=$cr;
@@ -209,80 +183,10 @@ function backupdatabase($display,$structureonly=true)
 }
 
 //
-// helper function for programming dump
-//
-function showtables()
-{
-	global $table_prefix, $db;
-
-	//get table names
-	$query="SHOW TABLES LIKE '".$table_prefix."%';";
-
-	//  print($query.'<p>');
-
-	$tables=$db->singlequery($query);
-	while($tablerow = $tables->fetch_row())
-	{
-		$tablename=$tablerow[0];
-		print('<p>'.$tablename.'<br>');
-
-		// get fields
-		$query="SHOW COLUMNS FROM ".$tablename;
-		$columns=$db->singlequery($query);
-
-		$numfields = $columns->field_count;
-		print('<table class="bodyline"><tr>');
-		for($i=0;$i<$numfields;$i++)
-		{
-			print('<th>'.$i.": ".$columns->fetch_field_direct($i)->name.'</th>');
-		}
-		print('</tr>');
-
-		while ($column = $columns->fetch_row()) {
-			print('<tr>');
-			for($i=0;$i<count($column);$i++)
-			{
-				print('<td>');
-				print_r($column[$i]);
-				print('</td>');
-			}
-			print('</tr>');
-		}
-		print('</tr></table>');
-
-
-		// show keys
-		$query="SHOW INDEX FROM ".$tablename;
-		$keys=$db->singlequery($query);
-
-		$numfields = $keys->field_count;
-		print('<p>Keys:<br><table class="bodyline"><tr>');
-		for($i=0;$i<$numfields;$i++)
-		{
-			print('<th>'.$i.": ".$keys->fetch_field_direct($i)->name.'</th>');
-		}
-
-		while ($key = $keys->fetch_row()) {
-			print('<tr>');
-			for($i=0;$i<count($key);$i++)
-			{
-				print('<td>');
-				print_r($key[$i]);
-				print('</td>');
-			}
-			print('</tr>');
-		}
-		print('</tr></table>');
-	}
-}
-
 //
 //
-//
-function clearpagecache()
-{
-	global $db;
-	$query="TRUNCATE TABLE ".PAGECACHE_TABLE.";";
-	$sql=$db->singlequery($query);
+function clearpagecache() {
+	$sql = new RawSQLStatement("TRUNCATE table " . PAGECACHE_TABLE);
+	$sql->run();
 }
 ?>

@@ -41,6 +41,4 @@ else
 
 $content = new AdminMain($page, "sitereferrers", new AdminMessage($message, $error), $referrers);
 print($content->toHTML());
-
-$db->closedb();
 ?>

@@ -88,14 +88,16 @@ else
 		{
 			$message = 'Moved image <i>'.$_POST['imagefilename'].'</i> up';
 			movegalleryimage($_POST['galleryitemid'], "up", $_POST['positions']);
-			$offset = (ceil(getgalleryimageposition($_POST['galleryitemid']) / $imagesperpage) - 1) * $imagesperpage;
+			$newpos = getgalleryimageposition($_POST['galleryitemid']);
+			$offset = $newpos - ($newpos % $imagesperpage);
 			updateeditdata($page);
 		}
 		elseif(isset($_POST['moveimagedown']))
 		{
 			$message = 'Moved image <i>'.$_POST['imagefilename'].'</i> down';
 			movegalleryimage($_POST['galleryitemid'], "down", $_POST['positions']);
-			$offset = (ceil(getgalleryimageposition($_POST['galleryitemid']) / $imagesperpage) - 1) * $imagesperpage;
+			$newpos = getgalleryimageposition($_POST['galleryitemid']);
+			$offset = $newpos - ($newpos % $imagesperpage);
 			updateeditdata($page);
 		}
 		elseif(isset($_POST['reindex']))
@@ -113,5 +115,4 @@ else
 }
 $content = new AdminMain($page, "editcontents", new AdminMessage($message, $error), $editpage);
 print($content->toHTML());
-$db->closedb();
 ?>

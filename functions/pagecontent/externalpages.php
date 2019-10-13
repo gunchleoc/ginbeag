@@ -8,10 +8,9 @@ include_once($projectroot."functions/db.php");
 //
 //
 //
-function getexternallink($page)
-{
-	global $db;
-	return getdbelement("link",EXTERNALS_TABLE, "page_id", $db->setinteger($page));
+function getexternallink($page) {
+	$sql = new SQLSelectStatement(EXTERNALS_TABLE, 'link', array('page_id'), array($page), 'i');
+	return $sql->fetch_value();
 }
 
 ?>

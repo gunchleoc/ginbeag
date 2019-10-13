@@ -82,5 +82,4 @@ else
 
 $content = new AdminMain($page, "siteuserperm", new AdminMessage($message, $error), $contents);
 print($content->toHTML());
-$db->closedb();
 ?>

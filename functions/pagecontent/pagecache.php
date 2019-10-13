@@ -11,25 +11,23 @@ include_once($projectroot ."config.php");
 //
 //
 //
-function getcachedpage($page, $parameters)
-{
-	global $db;
+function getcachedpage($page, $parameters) {
 	$result="";
-	$page = $db->setinteger($page);
-	$parameters = $db->setstring($parameters);
-	$fields=array();
-	$fields[]='page_id';
-	$fields[]='content_html';
-	$fields[]='lastmodified';
+	$fields=array(
+		'page_id',
+		'content_html',
+		'lastmodified'
+	);
 
-	$condition="cache_key = '".$page.$parameters."'";
+	$sql = new SQLSelectStatement(PAGECACHE_TABLE, array('page_id', 'content_html', 'lastmodified'), array('cache_key'), array($page.$parameters), 's');
+	$pagefields = $sql->fetch_many_rows();
 
-	$pagefields=getmultiplefields(PAGECACHE_TABLE, "page_id",$condition, $fields, $orderby="page_id, cache_key");
 	if(isset($pagefields[$page]))
 	{
 		if(!iscachedpagedatecurrent($page, $pagefields[$page]["lastmodified"]))
 		{
-			deleteentry(PAGECACHE_TABLE, "page_id = '".$page."'");
+			$sql = new SQLDeleteStatement(PAGECACHE_TABLE, array('page_id'), array($page), 'i');
+			$sql->run();
 		}
 		else
 		{
@@ -44,46 +42,27 @@ function getcachedpage($page, $parameters)
 //
 //
 //
-function makecachedpage($page, $parameters, $content_html)
-{
-	global $db;
+function makecachedpage($page, $parameters, $content_html) {
 	// create date
 	$now=date(DATETIMEFORMAT, strtotime('now'));
-
-	$page = $db->setinteger($page);
-	$parameters = $db->setstring($parameters);
-	$content_html = $db->setstring($content_html);
 	$key = $page.$parameters;
 
-	if(strlen($key)<=255)
-	{
-
+	if (strlen($key) <= 255) {
 		// insert or update entries
-		$dbentry="";
+		$sql = new SQLSelectStatement(PAGECACHE_TABLE, 'page_id', array('cache_key'), array($key), 'i');
 
-		$query="select page_id from ".PAGECACHE_TABLE." where ";
-		$query.="cache_key = '".$key."'";
-
-		//  print($query.'<br>');
-		$sql=$db->singlequery($query);
-
-		if($sql)
-		{
-			$dbentry = $sql->fetch_row()[0];
-		}
-
-		if($dbentry == $page)
-		{
-			updatefields(PAGECACHE_TABLE, array(0 => "content_html", 1 => "lastmodified"), array(0 => $content_html, 1 => $now), "cache_key", $key);
-		}
-		else
-		{
-			$values = array();
-			$values[] = $key;
-			$values[] = $page;
-			$values[] = $content_html;
-			$values[] = $now;
-			insertentry(PAGECACHE_TABLE, $values);
+		if($sql->fetch_value() == $page) {
+			$sql = new SQLUpdateStatement(PAGECACHE_TABLE,
+				array('content_html', 'lastmodified'), array($key),
+				array($content_html, $now, 'cache_key'), 'sss');
+			$sql->run();
+		} else {
+			$sql = new SQLInsertStatement(
+				PAGECACHE_TABLE,
+				array('cache_key', 'page_id', 'content_html', 'lastmodified'),
+				array($key, $page, $content_html, $now),
+				'siss');
+			$sql->insert();
 		}
 	}
 }
@@ -93,11 +72,9 @@ function makecachedpage($page, $parameters, $content_html)
 // compare to edit date and to current date
 // date = last time cache was modified
 //
-function iscachedpagedatecurrent($page, $date)
-{
-	global $db;
-	$result=false;
-	$pagedate=getdbelement("editdate", PAGES_TABLE, 'page_id', $db->setinteger($page));
+function iscachedpagedatecurrent($page, $date) {
+	$sql = new SQLSelectStatement(PAGES_TABLE, 'editdate', array('page_id'), array($page), 'i');
+	$pagedate = $sql->fetch_value();
 	return $pagedate <= $date && $date > date(DATETIMEFORMAT, strtotime('-1 day'));
 }
 
