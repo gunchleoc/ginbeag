@@ -375,6 +375,6 @@ $lang["date_month_short"][12]="Dec";
 
 function lang_date_day_format($day)
 {
-	return $day;
+    return $day;
 }
 ?>

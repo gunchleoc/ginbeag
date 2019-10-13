@@ -1,69 +1,69 @@
 table {
-	border-style: none;
-	margin: 10px;
-	margin-top: 0em;
-	margin-bottom: 10em;
-	box-shadow: none;
-	background-color: transparent;
-	font-size: 130%
+    border-style: none;
+    margin: 10px;
+    margin-top: 0em;
+    margin-bottom: 10em;
+    box-shadow: none;
+    background-color: transparent;
+    font-size: 130%
 }
 
-table.frame	{
-	border: 10px #051A28 inset;
-	margin: 0px;
-	box-shadow: none;
+table.frame    {
+    border: 10px #051A28 inset;
+    margin: 0px;
+    box-shadow: none;
 }
 
-img.frame	{
-	border: 0px transparent;
-	background-repeat:no-repeat;
-	width: 75px;
-	height: 75px;
-	margin:0px;
+img.frame    {
+    border: 0px transparent;
+    background-repeat:no-repeat;
+    width: 75px;
+    height: 75px;
+    margin:0px;
 }
 
 td {
-	border-style: none;
-	font-size: 110%;
-	background-color: transparent;
-	padding-right:10px;
-	padding-top:0px;
+    border-style: none;
+    font-size: 110%;
+    background-color: transparent;
+    padding-right:10px;
+    padding-top:0px;
 }
 
-td.frame	{
-	border: 0px transparent;
-	background-repeat:no-repeat;
-	width: 75px;
-	height: 75px;
-	margin:0px;
-	background-color: transparent;
-	padding:0em;
+td.frame    {
+    border: 0px transparent;
+    background-repeat:no-repeat;
+    width: 75px;
+    height: 75px;
+    margin:0px;
+    background-color: transparent;
+    padding:0em;
 }
 
-td.sea	{
-	border: 5px #093D4E outset;
-	background-image:url(water.png);
-	margin:0px;
-	padding:0em;
-	width:150px;
+td.sea    {
+    border: 5px #093D4E outset;
+    background-image:url(water.png);
+    margin:0px;
+    padding:0em;
+    width:150px;
 }
 
 img.thumb {
-	margin:5px;
-	border: 1px #000000 solid;
+    margin:5px;
+    border: 1px #000000 solid;
 }
 
 #messages {
-	width:150px;
-	font-size:80%;
-	padding-left: 2px;
-	padding-right: 2px;
+    width:150px;
+    font-size:80%;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 #gametitle {
-	width:150px;
-	font-size:100%;
-	text-align:left;
-	padding-left: 2px;
-	padding-right: 2px;
+    width:150px;
+    font-size:100%;
+    text-align:left;
+    padding-left: 2px;
+    padding-right: 2px;
 }

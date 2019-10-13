@@ -1,21 +1,21 @@
 /************ tables ************/
 
 table {
-	border-style: none;
-	margin: 0px;
-	box-shadow: none;
+    border-style: none;
+    margin: 0px;
+    box-shadow: none;
 }
 
 caption {
-	border-style: none;
-	box-shadow: none;
+    border-style: none;
+    box-shadow: none;
 }
 
 th {
-	border-style: none;
+    border-style: none;
 }
 
 td {
-	border-style: none;
-	font-size: 110%;
+    border-style: none;
+    font-size: 110%;
 }

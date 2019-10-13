@@ -1,28 +1,28 @@
 #contentarea {
-	width: 100%;
+    width: 100%;
 }
 
 
 .galleryimage, .gallerycontents {
-	overflow: hidden;
-	margin-right: 0px;
- 	margin-left: 0px;
-	font-size:90%;
+    overflow: hidden;
+    margin-right: 0px;
+     margin-left: 0px;
+    font-size:90%;
 }
 
 
 /* for IE : border: none + width:0px*/
 img {
-	border: none;
-	border-width:0px;
+    border: none;
+    border-width:0px;
 }
 
 
 legend {
-	margin-bottom: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 
 #headercenter {
-	margin-left: 0;
+    margin-left: 0;
 }

@@ -1,125 +1,125 @@
 /************ General element styles ************/
 
 html body {
-	background-color: #CCCCCC;
-	color: #000000;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #CCCCCC;
+    color: #000000;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 a:link {
-	text-decoration: underline;
-	color: #3067F2;
+    text-decoration: underline;
+    color: #3067F2;
 }
 
 a:visited {
-	text-decoration: underline;
-	color: #3067F2;
+    text-decoration: underline;
+    color: #3067F2;
 }
 
 a:focus {
-	text-decoration: underline;
-	color: #3067F2;
+    text-decoration: underline;
+    color: #3067F2;
 }
 
 a:hover {
-	text-decoration: underline;
-	color: #AA8CA6;
+    text-decoration: underline;
+    color: #AA8CA6;
 }
 
 a:active {
-	text-decoration: underline;
-	color: #E9ACB5;
+    text-decoration: underline;
+    color: #E9ACB5;
 }
 
 /* Highlighted text */
 .highlight {
-	font-weight: bold;
-	color: #D75876;
+    font-weight: bold;
+    color: #D75876;
 }
 
 a.highlight {
-	text-decoration: underline;
-	color: #AA8CA6;
+    text-decoration: underline;
+    color: #AA8CA6;
 }
 
 a.highlight:hover {
-	text-decoration: underline;
-	color: #AA8CA6;
+    text-decoration: underline;
+    color: #AA8CA6;
 }
 
 a.highlight:active {
-	text-decoration: none;
-	color:#E9ACB5;
+    text-decoration: none;
+    color:#E9ACB5;
 }
 
 
 /**************** Form elements *****************/
 
 fieldset {
-	border: 1px solid #89CAC8;
+    border: 1px solid #89CAC8;
 }
 
 legend {
-	font-weight: bold;
-	color: #3067F2;
+    font-weight: bold;
+    color: #3067F2;
 }
 
 textarea, select {
-	border-color: #89CAC8;
+    border-color: #89CAC8;
 }
 
 input {
-	border-color: #89CAC8;
+    border-color: #89CAC8;
  }
 
 /* The main submit button option */
 input.mainoption {
-	font-weight: bold;
-	font-family: "Helvetica Narrow", "Arial Narrow", Tahoma, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-family: "Helvetica Narrow", "Arial Narrow", Tahoma, Arial, Helvetica, sans-serif;
 }
 
 .buttonlink {
-	text-decoration: none;
-	border: #999999 1px solid;
-	font-weight: normal;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: white;
-	background: -moz-linear-gradient(top, rgba(255,255,255,1) 1%, rgba(229,229,229,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1)));
-	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	background: -o-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	background: -ms-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	background: linear-gradient(to bottom, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 );
+    text-decoration: none;
+    border: #999999 1px solid;
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 1%, rgba(229,229,229,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1)));
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 );
 }
 
 a.buttonlink {
-	color: #333333;
-	text-decoration: none;
+    color: #333333;
+    text-decoration: none;
 }
 
 a.buttonlink:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 
 /************ Main layout containers ************/
 
 #banners {
-	background-color: #CCCCCC;
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #89CAC8;
+    background-color: #CCCCCC;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    border-color: #89CAC8;
 }
 
 #contentarea {
-	background-color: #F8F2D9;
+    background-color: #F8F2D9;
 }
 
 /* Border around everything else */
 #wrapper {
-	background-color: #CCCCCC;
-	border: 1px #89CAC8 solid;
+    background-color: #CCCCCC;
+    border: 1px #89CAC8 solid;
 }
 
 
@@ -127,93 +127,93 @@ a.buttonlink:hover {
 
 /* "Home" link on navigator*/
 #navhomelink {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .potdcaption {
-	font-weight: bold;
-	color: #AA8CA6;
+    font-weight: bold;
+    color: #AA8CA6;
 }
 
 .aotd {
-	font-weight: bold;
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
-	border-color: #89CAC8;
+    font-weight: bold;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
+    border-color: #89CAC8;
 }
 
 /* Navigator - selected item */
 .navhighlight {
-	color: #D75876;
+    color: #D75876;
 }
 
 /* Navigator - links */
 .navtitle {}
 
 a.navtitle {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 a.navtitle:hover {
-	text-decoration: underline;
-	color: #D75876;
+    text-decoration: underline;
+    color: #D75876;
 }
 
 a.navtitle:active {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 
 /* Navigator link for the lower levels */
 .navlink {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 a.navlink {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 a.navlink:hover {
-	text-decoration: underline;
-	color: #D75876;
+    text-decoration: underline;
+    color: #D75876;
 }
 
 a.navlink:active {
-	text-decoration: none;
-	color: #3067F2;
+    text-decoration: none;
+    color: #3067F2;
 }
 
 
 /************ Header elements ************/
 
 #sitedescription {
-	font-style: italic;
+    font-style: italic;
 }
 
 .logoutlink {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 /* Page title in header and navigator elements on splashpage */
 .headerpagetitle {
-	border-color: #A7BCF3;
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
-	font-weight: bold;
+    border-color: #A7BCF3;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
+    font-weight: bold;
 }
 
 /* Site name */
 .maintitle {
-	font-weight: bold;
-	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
-	color: #000000;
+    font-weight: bold;
+    font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #000000;
 }
 
 
 /************ Footer elements ************/
 
 .footer {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 
@@ -221,22 +221,22 @@ a.navlink:active {
 
 /* The text used for individual pages' titles */
 .pagetitle {
-	font-weight: bold;
-	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
-	color: #D75876;
+    font-weight: bold;
+    font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #D75876;
 }
 
 
 /* Titles for newsitemsections, articlesections */
 .sectiontitle {
-	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
-	color: #D75876;
+    font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #D75876;
 }
 
 /* Fos newsitemsections */
 .sectionsubtitle {
-	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
-	color: #D75876;
+    font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #D75876;
 }
 
 
@@ -244,18 +244,18 @@ a.navlink:active {
 
 /* Synopsis / page intros */
 .introtext {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 /* Copyright info */
 .copyright {
-	font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .editdata {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #89CAC8;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    border-color: #89CAC8;
 }
 
 
@@ -263,81 +263,81 @@ a.navlink:active {
 
 /* content links - linklistmenu */
 .contentnavlink {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 a.contentnavtitle:hover {
-	text-decoration: underline;
-	color: #D75876;
+    text-decoration: underline;
+    color: #D75876;
 }
 
 
 /************ Newsitems and articles ************/
 
 .newsitemcategories {
-	color: #766173;
+    color: #766173;
 }
 
 /* News: filter form wrapper */
 .newsfilterform {
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
 }
 
 /* Newsitem: wrapper */
 .newsitem {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #89CAC8;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    border-color: #89CAC8;
 }
 
 /* Newsitem: Label for section with quoted text */
 .newsquotetitle {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 /* Newsitem: Section with quoted text */
 div.newsquote {
-	font-style: italic;
-	background-color: #F2F1ED;
+    font-style: italic;
+    background-color: #F2F1ED;
 }
 
 /* Newsitem and article: Source info */
 .articlesource {
-	color: #766173;
+    color: #766173;
 }
 
 .articleauthor {
-	font-weight: bold;
-	font-style: italic;
-	color: #766173;
+    font-weight: bold;
+    font-style: italic;
+    color: #766173;
 }
 
 .articlelocation {
-	color: #766173;
+    color: #766173;
 }
 
 .articledate {
-	font-style: italic;
-	color: #766173;
+    font-style: italic;
+    color: #766173;
 }
 
 /* Article: Table of Contents */
 .articletoc {
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
-	border-color: #89CAC8;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
+    border-color: #89CAC8;
 }
 
 .articletoc li {
-	color: #000000;
+    color: #000000;
 }
 
 
 /************ Gallery ************/
 
 .galleryimage {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 
@@ -345,38 +345,38 @@ div.newsquote {
 
 /* Linklist link */
 .linktitle {
-	text-decoration: none;
-	color: #3067F2;
+    text-decoration: none;
+    color: #3067F2;
 }
 
 a.linktitle {
-	text-decoration: none;
-	color: #3067F2;
+    text-decoration: none;
+    color: #3067F2;
 }
 
 a.linktitle:visited {
-	text-decoration: none;
-	color: #3067F2;
+    text-decoration: none;
+    color: #3067F2;
 }
 
 a.linktitle:hover {
-	text-decoration: underline;
-	color: #AA8CA6;
+    text-decoration: underline;
+    color: #AA8CA6;
 }
 
 a.linktitle:active {
-	text-decoration: underline;
-	color: #3067F2;
+    text-decoration: underline;
+    color: #3067F2;
 }
 
 .linklistlink {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #89CAC8;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    border-color: #89CAC8;
 }
 
 .linkedimage {
-	border: 10px solid transparent;
+    border: 10px solid transparent;
 }
 
 
@@ -384,69 +384,69 @@ a.linktitle:active {
 
 /* Image + caption text */
 .captionedimage {
-	border-style: solid;
-	border-width: 1px;
-	border-color: #89CAC8;
-	background-color: #F8F2D9;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #89CAC8;
+    background-color: #F8F2D9;
 }
 
 .imagecaption {
-	font-weight: bold;
-	color: #766173;
-	font-style: normal;
+    font-weight: bold;
+    color: #766173;
+    font-style: normal;
 }
 
 .imagecaption a {
-	text-decoration: underline;
-	color: #D75876;
+    text-decoration: underline;
+    color: #D75876;
 }
 
 .imagecaption a:hover {
-	text-decoration: underline;
-	color: #E9ACB5;
+    text-decoration: underline;
+    color: #E9ACB5;
 }
 
 /************ Guestbook ************/
 
 .guestbookentry {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #89CAC8;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    border-color: #89CAC8;
 }
 
 
 /************ Tables ************/
 
 table {
-	box-shadow: 4px 4px 3px #305360;
-	border: #89CAC8;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
+    box-shadow: 4px 4px 3px #305360;
+    border: #89CAC8;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
 }
 
 caption {
-	border: #89CAC8;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	background-color: #eeeeee;
-	color: #D75876;
-	font-weight: bold;
-	box-shadow: -1px -1px 20px 10px #cccccc inset;
+    border: #89CAC8;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
+    background-color: #eeeeee;
+    color: #D75876;
+    font-weight: bold;
+    box-shadow: -1px -1px 20px 10px #cccccc inset;
 }
 
 th {
-	border: #89CAC8;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	background-color: #dddddd;
-	color: #3067F2;
-	font-weight: bold;
+    border: #89CAC8;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
+    background-color: #dddddd;
+    color: #3067F2;
+    font-weight: bold;
 }
 
 td {
-	border: #89CAC8;
-	border-style: solid;
-	border-width: 1px 1px 1px 1px;
-	background-color: #ffffff;
-	color: #000000;
+    border: #89CAC8;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    background-color: #ffffff;
+    color: #000000;
 }

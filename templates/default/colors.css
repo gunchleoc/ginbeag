@@ -1,104 +1,104 @@
 /************ General element styles ************/
 
 html body {
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: black;
 }
 
 a:link {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 a:visited {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 a:focus {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 a:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 a:active {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 /* Highlighted text */
 .highlight {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 a.highlight {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 a.highlight:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 a.highlight:active {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 
 /**************** Form elements *****************/
 
 fieldset {
-	border: 1px solid black;
+    border: 1px solid black;
 }
 
 legend {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 /* The main submit button option */
 input.mainoption {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .buttonlink {
-	text-decoration: none;
-	border: #999999 1px solid;
-	font-weight: normal;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: white;
-	background: -moz-linear-gradient(top, rgba(255,255,255,1) 1%, rgba(229,229,229,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1)));
-	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	background: -o-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	background: -ms-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	background: linear-gradient(to bottom, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 );
+    text-decoration: none;
+    border: #999999 1px solid;
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 1%, rgba(229,229,229,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1)));
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 1%,rgba(229,229,229,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 );
 }
 
 a.buttonlink {
-	color: #333333;
-	text-decoration: none;
+    color: #333333;
+    text-decoration: none;
 }
 
 a.buttonlink:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 
 /************ Main layout containers ************/
 
 #banners {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
 }
 
 #contentarea {
-	border: 1px solid black;
-	background-color: white;
+    border: 1px solid black;
+    background-color: white;
 }
 
 /* Border around everything else */
 #wrapper {
-	border: 1px black solid;
-	background-color: lightgrey;
+    border: 1px black solid;
+    background-color: lightgrey;
 }
 
 
@@ -106,17 +106,17 @@ a.buttonlink:hover {
 
 /* "Home" link on navigator*/
 #navhomelink {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .potdcaption {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .aotd {
-	font-weight: bold;
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
+    font-weight: bold;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
 }
 
 /* Navigator - selected item */
@@ -127,30 +127,30 @@ a.buttonlink:hover {
 
 /* Navigator link for the lower levels */
 .navlink, a.navlink {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 
 /************ Header elements ************/
 
 #sitedescription {
-	font-style: italic;
+    font-style: italic;
 }
 
 .logoutlink {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 /* Page title in header and navigator elements on splashpage */
 .headerpagetitle {
-	border: black;
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
+    border: black;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
 }
 
 /* Site name */
 .maintitle {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 
@@ -158,7 +158,7 @@ a.buttonlink:hover {
 
 /* The text used for individual pages' titles */
 .pagetitle {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 
@@ -166,12 +166,12 @@ a.buttonlink:hover {
 
 /* Synopsis / page intros */
 .introtext {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .editdata {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
 }
 
 
@@ -179,7 +179,7 @@ a.buttonlink:hover {
 
 /* content links - linklistmenu */
 .contentnavlink {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 
@@ -187,51 +187,51 @@ a.buttonlink:hover {
 
 /* News: filter form wrapper */
 .newsfilterform {
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
 }
 
 /* Newsitem: wrapper */
 .newsitem {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
 }
 
 /* Newsitem: Label for section with quoted text */
 .newsquotetitle {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 /* Newsitem: Section with quoted text */
 div.newsquote {
-	font-style: italic;
+    font-style: italic;
 }
 
 /* Newsitem and article: Source info */
 .articlesource {}
 
 .articleauthor {
-	font-weight: bold;
-	font-style: italic;
+    font-weight: bold;
+    font-style: italic;
 }
 
 .articlelocation {}
 
 .articledate {
-	font-style: italic;
+    font-style: italic;
 }
 
 /* Article: Table of Contents */
 .articletoc {
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
 }
 
 
 /************ Gallery ************/
 
 .galleryimage {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 
@@ -239,12 +239,12 @@ div.newsquote {
 
 /* Linklist link */
 .linklistlink {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
 }
 
 .linkedimage {
-	border: 10px solid transparent;
+    border: 10px solid transparent;
 }
 
 
@@ -252,50 +252,50 @@ div.newsquote {
 
 /* Image + caption text */
 .captionedimage {
-	border-style: solid;
-	border-width: 1px;
+    border-style: solid;
+    border-width: 1px;
 }
 
 .imagecaption {
-	font-weight: bold;
-	font-style: normal;
+    font-weight: bold;
+    font-style: normal;
 }
 
 
 /************ Guestbook ************/
 
 .guestbookentry {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
 }
 
 
 /************ Tables ************/
 
 table {
-	box-shadow: 4px 4px 3px darkgrey;
-	border: black;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
+    box-shadow: 4px 4px 3px darkgrey;
+    border: black;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
 }
 
 caption {
-	border: black;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	font-weight: bold;
-	box-shadow: -1px -1px 20px 10px lightgrey inset;
+    border: black;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
+    font-weight: bold;
+    box-shadow: -1px -1px 20px 10px lightgrey inset;
 }
 
 th {
-	border: black;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	font-weight: bold;
+    border: black;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
+    font-weight: bold;
 }
 
 td {
-	border: black;
-	border-style: solid;
-	border-width: 1px 1px 1px 1px;
+    border: black;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
 }

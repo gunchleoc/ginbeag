@@ -1,53 +1,53 @@
 <?php
 $projectroot=dirname(__FILE__);
-$projectroot=substr($projectroot,0,strrpos($projectroot,"stuth"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "stuth"));
 
-include_once($projectroot."includes/objects/page.php");
+require_once $projectroot."includes/objects/page.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-	<meta name="keywords" content="Gaelic, Scottish-Gaelic, Scots Gaelic, Schottisch-Gälisch, Gàidhlig, Fòram, bòrd-brath, forum">
-	<title>Fòram na Gàidhlig - Geama matamataigs</title>
-	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
-	<link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
-	<script type="text/javascript" src="jquery.js"></script>
-	<style type="text/css">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <meta name="keywords" content="Gaelic, Scottish-Gaelic, Scots Gaelic, Schottisch-Gälisch, Gàidhlig, Fòram, bòrd-brath, forum">
+    <title>Fòram na Gàidhlig - Geama matamataigs</title>
+    <meta http-equiv="Content-Type"    content="text/html;    charset=utf-8">
+    <link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
+    <script type="text/javascript" src="jquery.js"></script>
+    <style type="text/css">
 #messagebox {
-	position: absolute;
-	overflow: auto;
-	z-index: 10;
-	color:green;
-	background-color:white;
-	border:5px ridge blue;
-	padding:10px;
-	text-align:center;
-	font-size:150%;
-	padding-top:1em;
-	padding-bottom:1em;
-	opacity: 0;
+    position: absolute;
+    overflow: auto;
+    z-index: 10;
+    color:green;
+    background-color:white;
+    border:5px ridge blue;
+    padding:10px;
+    text-align:center;
+    font-size:150%;
+    padding-top:1em;
+    padding-bottom:1em;
+    opacity: 0;
 }
 
 table {
-	border-style: none;
-	margin: 0px;
-	box-shadow: none;
-	font-size: 120%;
+    border-style: none;
+    margin: 0px;
+    box-shadow: none;
+    font-size: 120%;
 }
 
 caption {
-	border-style: none;
-	box-shadow: none;
+    border-style: none;
+    box-shadow: none;
 }
 
 th {
-	border-style: none;
+    border-style: none;
 }
 
 td {
-	border-style: none;
-	font-size: 110%;
+    border-style: none;
+    font-size: 110%;
 }
 </style>
 
@@ -84,45 +84,45 @@ var theirpoints=0;
  *
  */
 function CountDown() {
-	if(time>0)
-	{
-		document.getElementById("timer").innerHTML = time;
-		time=time-1;
-		var gameTimer=setTimeout("CountDown()", 1000);
-	}
-	else if (time==0)
-	{
-		document.getElementById("timer").innerHTML = "0";
-		timesup=1;
-		var pointsmessage="<br />Fhuair thu "+theirpoints;
-		if(theirpoints == 1 || theirpoints == 11 || theirpoints == 2 || theirpoints == 12) pointsmessage=pointsmessage + " phuing";
-		else {
-			if((3 <= theirpoints && theirpoints <= 19 ) || (13 <= theirpoints && theirpoints <=19)) pointsmessage=pointsmessage + " puingean";
-			else pointsmessage=pointsmessage + " puing";
-		}
-		showmessage('Dh\'fhalbh an ùine ort!'+pointsmessage);
-		document.math.answer.value="";
-		document.getElementById("operator").innerHTML = "Deireadh a' gheama";
-		document.getElementById("firstnum").innerHTML = "";
-		document.getElementById("secondnum").innerHTML = "";
+    if(time>0)
+    {
+        document.getElementById("timer").innerHTML = time;
+        time=time-1;
+        var gameTimer=setTimeout("CountDown()", 1000);
+    }
+    else if (time==0)
+    {
+        document.getElementById("timer").innerHTML = "0";
+        timesup=1;
+        var pointsmessage="<br />Fhuair thu "+theirpoints;
+        if(theirpoints == 1 || theirpoints == 11 || theirpoints == 2 || theirpoints == 12) pointsmessage=pointsmessage + " phuing";
+        else {
+            if((3 <= theirpoints && theirpoints <= 19 ) || (13 <= theirpoints && theirpoints <=19)) pointsmessage=pointsmessage + " puingean";
+            else pointsmessage=pointsmessage + " puing";
+        }
+        showmessage('Dh\'fhalbh an ùine ort!'+pointsmessage);
+        document.math.answer.value="";
+        document.getElementById("operator").innerHTML = "Deireadh a' gheama";
+        document.getElementById("firstnum").innerHTML = "";
+        document.getElementById("secondnum").innerHTML = "";
 
-	}
+    }
 }
 <!--END OF TIMER SCRIPT-->
 
 
 function trim(str, chars) {
-	return ltrim(rtrim(str, chars), chars);
+    return ltrim(rtrim(str, chars), chars);
 }
 
 function ltrim(str, chars) {
-	chars = chars || "\\s";
-	return str.replace(new RegExp("^[" + chars + "]+", "g"), "");
+    chars = chars || "\\s";
+    return str.replace(new RegExp("^[" + chars + "]+", "g"), "");
 }
 
 function rtrim(str, chars) {
-	chars = chars || "\\s";
-	return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
+    chars = chars || "\\s";
+    return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
 }
 
 
@@ -168,7 +168,7 @@ document.getElementById("numsystem").firstChild.nodeValue = "seann nòs";
 // mapping test
 for (var i=0; i<=100; i++)
 {
-	showmessage(""+i+": "+mapnumbers[i]);
+    showmessage(""+i+": "+mapnumbers[i]);
 }
 */
 
@@ -180,16 +180,16 @@ for (var i=0; i<=100; i++)
  */
 function startgame()
 {
-	document.math.answer.value="";
-	document.getElementById("points").innerHTML="0";
-	theirpoints=0;
-	started=0;
-	time=120;
-	timesup=0;
-	CountDown();
-	started=1;
-	getProb();
-	showmessage("Siuthad! Dè nì e?");
+    document.math.answer.value="";
+    document.getElementById("points").innerHTML="0";
+    theirpoints=0;
+    started=0;
+    time=120;
+    timesup=0;
+    CountDown();
+    started=1;
+    getProb();
+    showmessage("Siuthad! Dè nì e?");
 }
 
 <!--START OF RANDOM NUMBER SCRIPT-->
@@ -198,8 +198,8 @@ function startgame()
  */
 function randnum(min,max)
 {
-	var num=Math.round(Math.random()*(max-min))+min;
-	return num;
+    var num=Math.round(Math.random()*(max-min))+min;
+    return num;
 }
 <!--END OF RANDOM NUMBER SCRIPT-->
 
@@ -210,44 +210,44 @@ var choose, rightanswer
  */
 function getProb()
 {
-	var choose1=0;
-	var choose2=0;
+    var choose1=0;
+    var choose2=0;
 
-	choose=randnum(1,4);
-	if (choose=="1")
-	{
-		document.getElementById("operator").innerHTML = " cuir ris ";
+    choose=randnum(1,4);
+    if (choose=="1")
+    {
+        document.getElementById("operator").innerHTML = " cuir ris ";
 
-		choose1=randnum(0,50);
-		choose2=randnum(0,50);
+        choose1=randnum(0,50);
+        choose2=randnum(0,50);
 
-		rightanswer=choose1 + choose2;
-	}
-	if (choose=="2")
-	{
-		document.getElementById("operator").innerHTML = " thoirt air falbh ";
-		choose2=randnum(0,50);
-		choose1=randnum(choose2,50);
+        rightanswer=choose1 + choose2;
+    }
+    if (choose=="2")
+    {
+        document.getElementById("operator").innerHTML = " thoirt air falbh ";
+        choose2=randnum(0,50);
+        choose1=randnum(choose2,50);
 
-		rightanswer=choose1 -  choose2;
-	}
-	if (choose=="3")
-	{
-		document.getElementById("operator").innerHTML = " iomadaich le ";
-		choose1=randnum(0,10);
-		choose2=randnum(0,10);
-		rightanswer=choose1 * choose2;
-	}
-	if (choose=="4")
-	{
-		document.getElementById("operator").innerHTML = " roinn le ";
-		choose2=randnum(1,10);
-		choose1=choose2 * randnum(0,10);
+        rightanswer=choose1 -  choose2;
+    }
+    if (choose=="3")
+    {
+        document.getElementById("operator").innerHTML = " iomadaich le ";
+        choose1=randnum(0,10);
+        choose2=randnum(0,10);
+        rightanswer=choose1 * choose2;
+    }
+    if (choose=="4")
+    {
+        document.getElementById("operator").innerHTML = " roinn le ";
+        choose2=randnum(1,10);
+        choose1=choose2 * randnum(0,10);
 
-		rightanswer=choose1 /  choose2;
-	}
-	document.getElementById("firstnum").innerHTML = mapnumbers[choose1]+" ";
-	document.getElementById("secondnum").innerHTML = " "+mapnumbers[choose2];
+        rightanswer=choose1 /  choose2;
+    }
+    document.getElementById("firstnum").innerHTML = mapnumbers[choose1]+" ";
+    document.getElementById("secondnum").innerHTML = " "+mapnumbers[choose2];
 }
 
 /*
@@ -255,52 +255,52 @@ function getProb()
  */
 function answerit()
 {
-	if (started==0)
-	{
-		showmessage('Feumaidh tu briogadh air a\' phùtan "Tòisich air geama ùr"!');
-	}
-	else
-	{
-		if (timesup!=0)
-		{
-			showmessage('Tha an ùine seachad!');
-		}
-		else
-		{
-			var theiranswer=trim(document.math.answer.value);
-			theirpoints=eval(trim(document.getElementById("points").innerHTML));
-			if (theiranswer==null || theiranswer=="")
-			{
-				showmessage('Cuir an fhreagairt agad sa bhogsa air barr a\' phutain "Cuir an fhreagairt a-null"!');
-				document.math.answer.select();
-			}
-			else
-			{
-				if (theiranswer==rightanswer)
-				{
-					showmessage('Tha sin ceart!');
-					theirpoints++;
-					document.getElementById("points").innerHTML=theirpoints;
-				}
-				else if (theiranswer==mapnumbers[rightanswer])
-				{
-					showmessage("'S math a rinn thu!");
-					theirpoints=theirpoints+2;
-					document.getElementById("points").innerHTML=theirpoints;
-				}
+    if (started==0)
+    {
+        showmessage('Feumaidh tu briogadh air a\' phùtan "Tòisich air geama ùr"!');
+    }
+    else
+    {
+        if (timesup!=0)
+        {
+            showmessage('Tha an ùine seachad!');
+        }
+        else
+        {
+            var theiranswer=trim(document.math.answer.value);
+            theirpoints=eval(trim(document.getElementById("points").innerHTML));
+            if (theiranswer==null || theiranswer=="")
+            {
+                showmessage('Cuir an fhreagairt agad sa bhogsa air barr a\' phutain "Cuir an fhreagairt a-null"!');
+                document.math.answer.select();
+            }
+            else
+            {
+                if (theiranswer==rightanswer)
+                {
+                    showmessage('Tha sin ceart!');
+                    theirpoints++;
+                    document.getElementById("points").innerHTML=theirpoints;
+                }
+                else if (theiranswer==mapnumbers[rightanswer])
+                {
+                    showmessage("'S math a rinn thu!");
+                    theirpoints=theirpoints+2;
+                    document.getElementById("points").innerHTML=theirpoints;
+                }
 
-				else
-				{
-					showmessage("Tha \""+ theiranswer + "\" cearr!\n\n\Is \""+rightanswer + "\" no \""+mapnumbers[rightanswer]+"\" an fhreagairt ceart!")
-				}
-				document.math.answer.select();
-				getProb();
-			}
-		}
-	}
-	document.math.answer.value="";
+                else
+                {
+                    showmessage("Tha \""+ theiranswer + "\" cearr!\n\n\Is \""+rightanswer + "\" no \""+mapnumbers[rightanswer]+"\" an fhreagairt ceart!")
+                }
+                document.math.answer.select();
+                getProb();
+            }
+        }
+    }
+    document.math.answer.value="";
 
-	document.math.answer.focus();
+    document.math.answer.focus();
 }
 
 
@@ -310,50 +310,50 @@ function answerit()
  */
 function togglesystem()
 {
-	if(mapnumbers == mapnumbersnew)
-	{
-		mapnumbers = mapnumbersold;
-		document.getElementById("togglesystem").value = "Cleachd na h-àireamhan ùra";
-		document.getElementById("numsystem").firstChild.nodeValue = "seann nòs";
-		showmessage("Bidh an ath àireamh san t-seann nòs.");
-	}
-	else
-	{
-		mapnumbers = mapnumbersnew;
-		document.getElementById("togglesystem").value = "Cleachd na seann àireamhan";
-		document.getElementById("numsystem").firstChild.nodeValue = "nòs ùr";
-		showmessage("Bidh an ath àireamh san nòs ùr.");
-	}
+    if(mapnumbers == mapnumbersnew)
+    {
+        mapnumbers = mapnumbersold;
+        document.getElementById("togglesystem").value = "Cleachd na h-àireamhan ùra";
+        document.getElementById("numsystem").firstChild.nodeValue = "seann nòs";
+        showmessage("Bidh an ath àireamh san t-seann nòs.");
+    }
+    else
+    {
+        mapnumbers = mapnumbersnew;
+        document.getElementById("togglesystem").value = "Cleachd na seann àireamhan";
+        document.getElementById("numsystem").firstChild.nodeValue = "nòs ùr";
+        showmessage("Bidh an ath àireamh san nòs ùr.");
+    }
 }
 
 
 $("#start").click(function(e){
-	startgame();
-	document.math.answer.focus();
+    startgame();
+    document.math.answer.focus();
 
 });
 
 
 $("#answerit").click(function(e){
-	answerit();
+    answerit();
 });
 
 
 $("#answer").keyup(function(e) {
-	if(e.keyCode == 13) {
-		var test=trim(document.math.answer.value);
-		if(test.length>0)
-		{
-			jQuery(this).blur();
-			jQuery('#submit').focus().click();
-			answerit();
-		}
-	}
+    if(e.keyCode == 13) {
+        var test=trim(document.math.answer.value);
+        if(test.length>0)
+        {
+            jQuery(this).blur();
+            jQuery('#submit').focus().click();
+            answerit();
+        }
+    }
 });
 
 
 $("#togglesystem").click(function(e){
-	togglesystem();
+    togglesystem();
 });
 
 
@@ -369,7 +369,7 @@ $("#togglesystem").click(function(e){
 // special treatment for IE
 if(navigator.appName =="Microsoft Internet Explorer")
 {
-	document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
+    document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
 }
 
 /**
@@ -377,171 +377,170 @@ if(navigator.appName =="Microsoft Internet Explorer")
  */
 function showmessage(message)
 {
-	$('#messagebox').stop();
-	$("#messagebox").html(message);
-	placeOnBottom($('#messagebox'));
+    $('#messagebox').stop();
+    $("#messagebox").html(message);
+    placeOnBottom($('#messagebox'));
 
-	$('#messagebox').animate({opacity: 1},0, function() {
+    $('#messagebox').animate({opacity: 1},0, function() {
 
-		$('#messagebox').delay(600).animate({
-			opacity: 0
-			}, 4000, function() {
-			$('#messagebox').css("width","0px");
-			$('#messagebox').css("height","0px");
-			// Animation complete.
-		}); // animate 2
-	}); // animate 1
+        $('#messagebox').delay(600).animate({
+            opacity: 0
+            }, 4000, function() {
+            $('#messagebox').css("width","0px");
+            $('#messagebox').css("height","0px");
+            // Animation complete.
+        }); // animate 2
+    }); // animate 1
 } // showmessage
 
 
 // http://www.howtocreate.co.uk/tutorials/javascript/browserwindow
 function placeOnBottom(element)
 {
-	element.css("position","fixed");
-	element.css("width","70%");
-	element.css("height","auto");
-	element.css("right","0px");
-	element.css("margin-right","25px");
-	var height = element.css("height");
-	if(height)
-	{
-		var temp = height.indexOf("px");
-		height = height.substring(0, temp);
-	}
-	else height=0;
+    element.css("position","fixed");
+    element.css("width","70%");
+    element.css("height","auto");
+    element.css("right","0px");
+    element.css("margin-right","25px");
+    var height = element.css("height");
+    if(height)
+    {
+        var temp = height.indexOf("px");
+        height = height.substring(0, temp);
+    }
+    else height=0;
 
-	var windowheight = document.body.clientHeight;
-	var top = windowheight-height*2-10;
+    var windowheight = document.body.clientHeight;
+    var top = windowheight-height*2-10;
 
-	// Internet Exploder
-	if(element.css("position")=="static")
-	{
-		element.css("position","absolute");
-		top = top+document.body.scrollTop;
-	}
-	top = top-25;
+    // Internet Exploder
+    if(element.css("position")=="static")
+    {
+        element.css("position","absolute");
+        top = top+document.body.scrollTop;
+    }
+    top = top-25;
 
-	top = top+"px";
-	element.css("top",top);
+    top = top+"px";
+    element.css("top",top);
 }
 
 
 $(document).ready(function() {
-	// height for pages where content is shorter than navigator
-	var navheight = $("#navigator").outerHeight(true);
-	var bannerheight = $("#banners").outerHeight(true);
-	var highestheader = $("#headerleft");
+    // height for pages where content is shorter than navigator
+    var navheight = $("#navigator").outerHeight(true);
+    var bannerheight = $("#banners").outerHeight(true);
+    var highestheader = $("#headerleft");
 
-	if ($("#headerright").outerHeight(true) > highestheader.outerHeight(true))
-	{
-		highestheader = $("#headerright");
-	}
-	if ($("#headercenter").outerHeight(true) > highestheader.outerHeight(true))
-	{
-		highestheader = $("#headercenter");
-	}
-	var headerheight = highestheader.outerHeight(true);
-	var titleheight = $("#headerpagetitle").outerHeight(true);
-	var wrapperheight = Math.ceil(navheight+bannerheight+headerheight+titleheight);
-	if ($("#wrapper").height() < wrapperheight)
-	{
-		$("#wrapper").height(wrapperheight);
-		var difference = $("#wrapper").outerHeight() - $("#wrapper").height();
-		//var difference = $("#wrapper").css("margin-top")+ $("#wrapper").css("margin-bottom")+ $("#wrapper").css("padding-top")+$("#wrapper").css("padding-bottom");
-		var margin = $("#contentarea").css("margin-bottom").replace("px","") + $("#contentarea").css("margin-top").replace("px","");
-		$("#contentarea").height(Math.ceil(navheight+bannerheight-difference-margin));
-	}
+    if ($("#headerright").outerHeight(true) > highestheader.outerHeight(true))
+    {
+        highestheader = $("#headerright");
+    }
+    if ($("#headercenter").outerHeight(true) > highestheader.outerHeight(true))
+    {
+        highestheader = $("#headercenter");
+    }
+    var headerheight = highestheader.outerHeight(true);
+    var titleheight = $("#headerpagetitle").outerHeight(true);
+    var wrapperheight = Math.ceil(navheight+bannerheight+headerheight+titleheight);
+    if ($("#wrapper").height() < wrapperheight)
+    {
+        $("#wrapper").height(wrapperheight);
+        var difference = $("#wrapper").outerHeight() - $("#wrapper").height();
+        //var difference = $("#wrapper").css("margin-top")+ $("#wrapper").css("margin-bottom")+ $("#wrapper").css("padding-top")+$("#wrapper").css("padding-bottom");
+        var margin = $("#contentarea").css("margin-bottom").replace("px","") + $("#contentarea").css("margin-top").replace("px","");
+        $("#contentarea").height(Math.ceil(navheight+bannerheight-difference-margin));
+    }
 
 });
-	</script>
+    </script>
 
 </head>
 <body>
-	<div id="wrapper">
-		<div id="headerleft">
-	        <a href="http://www.foramnagaidhlig.net/">
-		        <img src="../../../img/fnglogo_cearn.gif" border="0" alt="Fòram na Gàidhlig" vspace="1" />
-	        </a>
-		</div>
-		<div id="headercenter">
-		    <h1 class="maintitle">Fòram na Gàidhlig</h1>
+    <div id="wrapper">
+        <div id="headerleft">
+            <a href="http://www.foramnagaidhlig.net/">
+                <img src="../../../img/fnglogo_cearn.gif" border="0" alt="Fòram na Gàidhlig" vspace="1" />
+            </a>
+        </div>
+        <div id="headercenter">
+            <h1 class="maintitle">Fòram na Gàidhlig</h1>
 
-		    <div id="sitedescription">Coimhearsneachd airson ionnsachadh is leasachadh na Gàidhlig</div>
+            <div id="sitedescription">Coimhearsneachd airson ionnsachadh is leasachadh na Gàidhlig</div>
 
-		</div>
-		<div id="headerright">
+        </div>
+        <div id="headerright">
 
 
-		</div>
-		<h1 id="headerpagetitle" class="headerpagetitle newline">Geama Matamataigs</h1>
+        </div>
+        <h1 id="headerpagetitle" class="headerpagetitle newline">Geama Matamataigs</h1>
 
-		<div class="invisible"><a href="#contentarea" accesskey="n" class="invisible">Skip navigation</a></div>
+        <div class="invisible"><a href="#contentarea" accesskey="n" class="invisible">Skip navigation</a></div>
 
-		<div id="navigator" title="Clàr-taice">
+        <div id="navigator" title="Clàr-taice">
 <?php
-$navigator = new Navigator(38,false,1,false,false);
+$navigator = new Navigator(38, false, 1, false, false);
 print($navigator->toHTML());
-if(getproperty('Display Banners'))
-{
-  $banners=new BannerList();
-  print($banners->toHTML());
+if(getproperty('Display Banners')) {
+    $banners=new BannerList();
+    print($banners->toHTML());
 }
 $db->closedb();
 ?>
-		</div>
-		<div id="contentarea" style="height: 950px;" title="Susbaint">
+        </div>
+        <div id="contentarea" style="height: 950px;" title="Susbaint">
 <!--  Game HTML starts here  -->
-				<h2 class="pagetitle">Geama Matamataigs</h2>
+                <h2 class="pagetitle">Geama Matamataigs</h2>
 
 <table align="center" cellpadding="5">
 <form name="math" >
-	<tr>
-  		<td align="left" rowspan="6"><img src="matamataigslogo.png" /></td>
+    <tr>
+          <td align="left" rowspan="6"><img src="matamataigslogo.png" /></td>
 
     </tr>
     <tr>
-      	<td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">Fuasgail: </span></td>
-      	<td colspan="2">
-      		<font face="Arial, Helvetica, Sans Serif">
-      			<span name="firstnum" id="firstnum" style="font-weight:bold;"> </span>
-      			<span name="operator" id="operator"> </span>
-      			<span name="secondnum" id="secondnum" style="font-weight:bold;"> </span>
-      		</font>
-      	</td>
+          <td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">Fuasgail: </span></td>
+          <td colspan="2">
+              <font face="Arial, Helvetica, Sans Serif">
+                  <span name="firstnum" id="firstnum" style="font-weight:bold;"> </span>
+                  <span name="operator" id="operator"> </span>
+                  <span name="secondnum" id="secondnum" style="font-weight:bold;"> </span>
+              </font>
+          </td>
     </tr>
     <tr>
-      	<td align="left" valign="top"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">A'&nbsp;dèanamh:</span></td>
-      	<td colspan="2" valign="top"><input type="text" ID="answer" name="answer" size="40" style="font-size: 100%;" onKeyPress="return disableEnterKey(event)"> <input type="button" id="answerit" name="answerit" value="Cuir an fhreagairt a-null" style="font-size: 90%;"></td>
+          <td align="left" valign="top"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:#000000">A'&nbsp;dèanamh:</span></td>
+          <td colspan="2" valign="top"><input type="text" ID="answer" name="answer" size="40" style="font-size: 100%;" onKeyPress="return disableEnterKey(event)"> <input type="button" id="answerit" name="answerit" value="Cuir an fhreagairt a-null" style="font-size: 90%;"></td>
     </tr>
     <tr>
-		<td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:green;">Puingean:</span></td>
-		<td><span name="points" id="points" style="font-weight:bold; color:green;"> </span></td>
-		<td align="right"><font face="Arial, Helvetica, Sans Serif">Ùine air fhàgail: </font><span name="timer" id="timer" style="font-weight:bold;"> </span></td>
+        <td align="left"><span style="font-family: Arial, Helvetica, Sans Serif; font-size: 100%; font-weight:bold; color:green;">Puingean:</span></td>
+        <td><span name="points" id="points" style="font-weight:bold; color:green;"> </span></td>
+        <td align="right"><font face="Arial, Helvetica, Sans Serif">Ùine air fhàgail: </font><span name="timer" id="timer" style="font-weight:bold;"> </span></td>
     </tr>
 </form>
-	<tr>
-    	<td align="left" colspan="3">
-    		<p style="font-family: Arial, Helvetica, Sans Serif; font-size: 75%;">Gheibh thu puing do gach freagairt cheart ma chleachdas tu àireamh.
-			<br />Gheibh thu dà phuing do gach freagairt cheart ma sgrìobhas tu ainm na h-àireimh.</p>
-      	</td>
-	</tr>
-	<tr>
-		<td>
-			<font face="Arial, Helvetica, Sans Serif"><span style="font-weight:bold;">Àireamhan:</span></font>
-      	</td>
-      	<td>
-			<font face="Arial, Helvetica, Sans Serif"><span name="numsystem" id="numsystem" style="font-weight:bold;">seann nòs</span></font>
-      	</td>
-      	<td align="right">
-    		<input type="button" id="togglesystem" name="togglesystem" value="Cleachd na h-àireamhan ùra" style="font-size: 80%;">
-    	</td>
-	</tr>
-	<tr>
-    	<td align="center">
-    		<input type="button" id="start" name="start" value="Tòisich air geama ùr" style="font-size: 90%;">
-		</td>
-		<td colspan="3">&nbsp;</td>
-  	</tr>
+    <tr>
+        <td align="left" colspan="3">
+            <p style="font-family: Arial, Helvetica, Sans Serif; font-size: 75%;">Gheibh thu puing do gach freagairt cheart ma chleachdas tu àireamh.
+            <br />Gheibh thu dà phuing do gach freagairt cheart ma sgrìobhas tu ainm na h-àireimh.</p>
+          </td>
+    </tr>
+    <tr>
+        <td>
+            <font face="Arial, Helvetica, Sans Serif"><span style="font-weight:bold;">Àireamhan:</span></font>
+          </td>
+          <td>
+            <font face="Arial, Helvetica, Sans Serif"><span name="numsystem" id="numsystem" style="font-weight:bold;">seann nòs</span></font>
+          </td>
+          <td align="right">
+            <input type="button" id="togglesystem" name="togglesystem" value="Cleachd na h-àireamhan ùra" style="font-size: 80%;">
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <input type="button" id="start" name="start" value="Tòisich air geama ùr" style="font-size: 90%;">
+        </td>
+        <td colspan="3">&nbsp;</td>
+      </tr>
 </table>
 <div id="messagebox"></div>
 <br /><hr>
@@ -550,7 +549,7 @@ $db->closedb();
 
 <!-- End game HTML -->
 </div>
-	<div class="footer newline"></div>
-	</div>
+    <div class="footer newline"></div>
+    </div>
 </body>
 </html>

@@ -1,62 +1,62 @@
 table {
-	border-style: none;
-	margin: 0px;
-	box-shadow: none;
-	font-size: 125%;
-	padding: 0px;
+    border-style: none;
+    margin: 0px;
+    box-shadow: none;
+    font-size: 125%;
+    padding: 0px;
 }
 
-table.frame	{
-	border: 5px #333333 solid;
-	margin: 0px;
-	box-shadow: none;
-	font-size: 100%
+table.frame    {
+    border: 5px #333333 solid;
+    margin: 0px;
+    box-shadow: none;
+    font-size: 100%
 }
 
-img.master	{
-	border: 5px #333333 solid;
+img.master    {
+    border: 5px #333333 solid;
 }
 
-img.frame	{
-	border: 1px #c6c6c6 solid;
-	background-repeat:no-repeat;
-	width: 75px;
-	height: 75px;
-	margin:0px;
+img.frame    {
+    border: 1px #c6c6c6 solid;
+    background-repeat:no-repeat;
+    width: 75px;
+    height: 75px;
+    margin:0px;
 }
 
-td.frame	{
-	border: 1px #000000 solid;
-	background-repeat:no-repeat;
-	width: 75px;
-	height: 75px;
-	margin: 0px;
-	padding: 0px;
-	font-size: 100%
+td.frame    {
+    border: 1px #000000 solid;
+    background-repeat:no-repeat;
+    width: 75px;
+    height: 75px;
+    margin: 0px;
+    padding: 0px;
+    font-size: 100%
 }
 
 td {
-	border-style: none;
-	font-size: 110%;
-	padding: 0px;
+    border-style: none;
+    font-size: 110%;
+    padding: 0px;
 }
 
 img.thumb {
-	margin:5px;
-	border: 1px #000000 solid;
+    margin:5px;
+    border: 1px #000000 solid;
 }
 
 #messages {
-	width:150px;
-	font-size:80%;
-	padding-left: 2px;
-	padding-right: 2px;
+    width:150px;
+    font-size:80%;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 #gametitle {
-	width:150px;
-	font-size:100%;
-	text-align:left;
-	padding-left: 2px;
-	padding-right: 2px;
+    width:150px;
+    font-size:100%;
+    text-align:left;
+    padding-left: 2px;
+    padding-right: 2px;
 }

@@ -1,12 +1,12 @@
 <?php
 $projectroot=dirname(__FILE__);
-$projectroot=substr($projectroot,0,strrpos($projectroot,"imageeditor"));
-$projectroot=substr($projectroot,0,strrpos($projectroot,"ajax"));
-$projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
-$projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "imageeditor"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "ajax"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
-include_once($projectroot."admin/includes/objects/imageeditor.php");
-include_once($projectroot."admin/functions/sessions.php");
+require_once $projectroot."admin/includes/objects/imageeditor.php";
+require_once $projectroot."admin/functions/sessions.php";
 
 $db->quiet_mode = true;
 
@@ -18,34 +18,30 @@ $align="";
 
 $elementtype=$_POST["elementtype"];
 
-if($elementtype=="pageintro")
-{
-	include_once($projectroot."functions/pages.php");
-	$contents=getpageintro($_POST['page']);
-	$align = $contents['imagehalign'];
+if($elementtype=="pageintro") {
+    include_once $projectroot."functions/pages.php";
+    $contents=getpageintro($_POST['page']);
+    $align = $contents['imagehalign'];
 }
-elseif($elementtype=="articlesection")
-{
-	include_once($projectroot."functions/pagecontent/articlepages.php");
-	$contents = getarticlesectioncontents($_POST['item']);
-	$align = $contents['imagealign'];
+elseif($elementtype=="articlesection") {
+    include_once $projectroot."functions/pagecontent/articlepages.php";
+    $contents = getarticlesectioncontents($_POST['item']);
+    $align = $contents['imagealign'];
 }
-elseif($elementtype=="newsitemsection")
-{
-	include_once($projectroot."functions/pagecontent/newspages.php");
-	$align = getnewsitemsectionimagealign($_POST['item']);
+elseif($elementtype=="newsitemsection") {
+    include_once $projectroot."functions/pagecontent/newspages.php";
+    $align = getnewsitemsectionimagealign($_POST['item']);
 }
-elseif($elementtype=="link")
-{
-	$printme="";
+elseif($elementtype=="link") {
+    $printme="";
 }
-else print ("Error: Unknown elementtype: ".$elementtype."</br /> for image on page: ".$_POST['page'].", item: ".$_POST['item']);
+else { print ("Error: Unknown elementtype: ".$elementtype."</br /> for image on page: ".$_POST['page'].", item: ".$_POST['item']);
+}
 if (!empty($db->error_report)) {
-	print($db->error_report);
-} else if($align)
-{
-	$printme = new ImageEditorAlignmentPane($_POST["page"],$_POST["item"], $align);
-	print($printme->toHTML());
+    print($db->error_report);
+} else if($align) {
+    $printme = new ImageEditorAlignmentPane($_POST["page"], $_POST["item"], $align);
+    print($printme->toHTML());
 }
 
 ?>

@@ -1,110 +1,110 @@
 /************ overwrite background colors for form elements ************/
 
 textarea, select, input {
-	background-color : #002927!important;
+    background-color : #002927!important;
 }
 
 textarea:disabled, select:disabled, input:disabled {
-	background-color : #003B39!important;
-	color:#909090;
+    background-color : #003B39!important;
+    color:#909090;
 }
 
 
 /* Separate properties for buttons; not supported by IE */
 input[type=button], input[type=submit], input[type=reset], .button  {
-	font-size:95%;
-	background-color : #003B39!important;
+    font-size:95%;
+    background-color : #003B39!important;
 }
 
 
 /************ button enable/disable colors ************/
 
 .enabledbutton {
-	color:white;
+    color:white;
 }
 
 
 .disabledbutton {
-	color:grey;
+    color:grey;
 }
 
 /************ main layout containers ************/
 html body {
-	height:100%;
+    height:100%;
 
 }
 
 
 #header {
-	/*border-style: solid;
-	border-width: 0px 0px 1px 0px;*/
-	padding-bottom:0.5em;
-	height:8em;
+    /*border-style: solid;
+    border-width: 0px 0px 1px 0px;*/
+    padding-bottom:0.5em;
+    height:8em;
 }
 
 #navigatorscroll {
-	height:97%;
-	overflow:auto;
-	resize:horizontal;
-	border-style: solid;
-	border-width: 1px 1px 1px 1px;
-	padding-left:0.5em;
-	font-size: 95%;
-	background-color: #002927;
+    height:97%;
+    overflow:auto;
+    resize:horizontal;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    padding-left:0.5em;
+    font-size: 95%;
+    background-color: #002927;
 }
 
 
 #navigator {
-	height:68%;
+    height:68%;
 }
 
 #navigatorfixed {
-	font-size:80%;
+    font-size:80%;
 }
 
 #contentarea {
-	width: 77%;
-	border: 1px solid #00AEED;
-	height:59% !important;
-	max-height: 65% !important;
-	overflow:auto;
-	margin-top:1em;
-	padding-bottom:120px;
+    width: 77%;
+    border: 1px solid #00AEED;
+    height:59% !important;
+    max-height: 65% !important;
+    overflow:auto;
+    margin-top:1em;
+    padding-bottom:120px;
 }
 
 #wrapper {
-	height:93%;
-	max-height:93%;
+    height:93%;
+    max-height:93%;
 }
 
 
 /************ header ************/
 
 .admintoplinks {
-	color:yellow;
-	font-weight: bold;
-	border: 1px solid #00AEED;
-	padding: 0.5em;
-	margin-top: 1em;
-	margin-bottom: 0.5em;
-	background-color: #003B39;
-	height:1.2em;
-	box-shadow:-1px -1px 3px 1px #006666 inset;
-	background-image: url(img/navigator.gif);
-	background-repeat:repeat-x;
+    color:yellow;
+    font-weight: bold;
+    border: 1px solid #00AEED;
+    padding: 0.5em;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    background-color: #003B39;
+    height:1.2em;
+    box-shadow:-1px -1px 3px 1px #006666 inset;
+    background-image: url(img/navigator.gif);
+    background-repeat:repeat-x;
 }
 .admintoplinks a {color: white; }
 
 .admintoppageinfo {
-	font-size:120%;
-	margin:0.25em;
+    font-size:120%;
+    margin:0.25em;
 }
 
 
 /* Site name */
-.maintitle	{
-	font-size: 250%;
-	margin:0.25em;
+.maintitle    {
+    font-size: 250%;
+    margin:0.25em;
 }
 
 /************ navigator ************/
@@ -112,221 +112,221 @@ html body {
 
 /* Navigator category for site functions */
 .sitenavcategory {
-	width: 100%;
-	text-align: left;
-	border: #65CCFF;
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	padding-top: 0.35em;
-	padding-bottom: 0.35em;
-	margin-top: 1em;
-	font-size: 100%;
-	color : yellow;
+    width: 100%;
+    text-align: left;
+    border: #65CCFF;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    padding-top: 0.35em;
+    padding-bottom: 0.35em;
+    margin-top: 1em;
+    font-size: 100%;
+    color : yellow;
 }
 
 /* Navigator link for site functions */
 .sitenavlink {
-	font-weight: bold;
-	font-size: 70%;
-	margin-left:1em;
-	margin-bottom:0.25em;
+    font-weight: bold;
+    font-size: 70%;
+    margin-left:1em;
+    margin-bottom:0.25em;
 }
 .sitenavlink a {
-	color: white;
-	text-decoration: none;
+    color: white;
+    text-decoration: none;
 }
 
 a.admintopframelink {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 /************ content ************/
 
 .inlinemessage {
-	width: 100%;
-	text-align: center;
-	border: #65CCFF;
-	background-color: #003B39;
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
-	padding-top: 0.35em;
-	padding-bottom: 0.35em;
-	margin-top: 1em;
-	font-size: 100%;
-	box-shadow:4px 4px 3px #006666;
+    width: 100%;
+    text-align: center;
+    border: #65CCFF;
+    background-color: #003B39;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
+    padding-top: 0.35em;
+    padding-bottom: 0.35em;
+    margin-top: 1em;
+    font-size: 100%;
+    box-shadow:4px 4px 3px #006666;
 }
 
 /* For admin messages when saving etc */
 .messagebox {
-	position: absolute;
-	overflow: auto;
-	z-index: 10;
-	background:#003B39;
-	padding:10px;
-	border:2px solid #00AEED;
-	text-align:center;
-	opacity: 0;
+    position: absolute;
+    overflow: auto;
+    z-index: 10;
+    background:#003B39;
+    padding:10px;
+    border:2px solid #00AEED;
+    text-align:center;
+    opacity: 0;
 }
 
 
 /* Title for content area */
 /* todo kann weg? */
 .contenttitle {
-	font-size: 250%;
+    font-size: 250%;
 }
 
 .headerpagetitle {
-	margin-top: 1em;
+    margin-top: 1em;
 }
 
 
 /* Subtitle for dividing content area */
 .contentheader {
-	text-align: center;
-	border: #00AEED;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	font-size: 110%;
-	background-color: #D4ECFB;
-	color : #FFFF00;
-	font-weight: bold;
-	padding:0.5em;
-	background-image: url(img/navigator.gif);
-	height: 26px;
-	box-shadow:-1px -1px 3px 1px #006666 inset;
+    text-align: center;
+    border: #00AEED;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
+    font-size: 110%;
+    background-color: #D4ECFB;
+    color : #FFFF00;
+    font-weight: bold;
+    padding:0.5em;
+    background-image: url(img/navigator.gif);
+    height: 26px;
+    box-shadow:-1px -1px 3px 1px #006666 inset;
 }
 
 
 /* Framing for sections of the page when editing contents */
 .contentsection
 {
-	padding:10px;
-	background-color: #003B39;
-	border: 1px #00AEED solid;
-	border-style: solid;
-	border-width: 0px 1px 1px 1px;
-	margin-bottom: 2em;
-	margin-top:0px;
+    padding:10px;
+    background-color: #003B39;
+    border: 1px #00AEED solid;
+    border-style: solid;
+    border-width: 0px 1px 1px 1px;
+    margin-bottom: 2em;
+    margin-top:0px;
 }
 
 .contentoutline {
-	margin-top:2em;
-	box-shadow:4px 4px 3px #006666;
+    margin-top:2em;
+    box-shadow:4px 4px 3px #006666;
 }
 
 .contentheadersmall {
-	font-weight:bold;
-	padding-top:1em;
-	font-size:110%;
+    font-weight:bold;
+    padding-top:1em;
+    font-size:110%;
 }
 
 /************ tables ************/
 
 table.userlist {
-	width:96%!important;
-	margin-left:2%!important;
-	margin-right:0em!important;
+    width:96%!important;
+    margin-left:2%!important;
+    margin-right:0em!important;
 }
 
 /************ menuedit ************/
 
 .menueditpage {
-	font-size:140%;
-	padding-bottom:0.5em;
-	padding-top:1em;
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+    font-size:140%;
+    padding-bottom:0.5em;
+    padding-top:1em;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
 
 }
 
 /************ editor ************/
 
 .editorbuttonrow {
-	margin-top:1em;
-	padding-top:1em;
-	padding-bottom:0.5em;
-	text-align:center;
-	border: #398EB9;
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+    margin-top:1em;
+    padding-top:1em;
+    padding-bottom:0.5em;
+    text-align:center;
+    border: #398EB9;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
 }
 
 .editorlineleft {
-	border-left: 1px solid #00AEED;
-	margin:0.5em;
-	padding-left:1em;
+    border-left: 1px solid #00AEED;
+    margin:0.5em;
+    padding-left:1em;
 }
 
 .editorcodebuttonrow {
-	margin-left:2em;
-	padding-top:1em;
-	padding-bottom:1em;
+    margin-left:2em;
+    padding-top:1em;
+    padding-bottom:1em;
 }
 
 .editorcodebutton {
-	padding:0px;
-	margin:0.5em;
+    padding:0px;
+    margin:0.5em;
 }
 
 .editorpreviewarea {
-	background-color: #002927;
-	padding:1em;
-	margin-bottom:1em;
+    background-color: #002927;
+    padding:1em;
+    margin-bottom:1em;
 }
 
 /************ forms ************/
 
 .submitrow {
-	padding-top:1em;
-	text-align:left;
+    padding-top:1em;
+    text-align:left;
 }
 
 /* Explanation at bottom of fieldset */
 /* todo this gets ignored. Why? */
 .formexplain {
-	padding-top:0.5em;
+    padding-top:0.5em;
 }
 
 .labelleft {
-	width:15em;
+    width:15em;
 }
 
 label {
-	font-weight:bold;
+    font-weight:bold;
 }
 
 .pageeditnavigationbuttons {
-	padding-top:1em;
-	margin-top:1em;
-	margin-bottom:1em;
+    padding-top:1em;
+    margin-top:1em;
+    margin-bottom:1em;
 }
 
 
 /************ Login & Profile form ************/
 
 #contentarealogin {
-	border: 1px solid #002373;
-	margin-top:1em;
-	background-color: #002927;
-	padding:5em;
+    border: 1px solid #002373;
+    margin-top:1em;
+    background-color: #002927;
+    padding:5em;
 }
 
 /************ Image Database ************/
 
 
 .imagecontentarea {
-	border: 1px solid #00AEED;
-	background-color: #002927;
-	margin-top:1em;
-	width: 96%;
-	padding-left:2em;
-	padding-right:2em;
-	margin-top:1em;
-	margin-bottom:1em;
+    border: 1px solid #00AEED;
+    background-color: #002927;
+    margin-top:1em;
+    width: 96%;
+    padding-left:2em;
+    padding-right:2em;
+    margin-top:1em;
+    margin-bottom:1em;
 }
 
 #imagelistwrapper {
-	background-color: #003B39;
-	border: 1px #00AEED solid;
-	padding: 1em;
+    background-color: #003B39;
+    border: 1px #00AEED solid;
+    padding: 1em;
 }

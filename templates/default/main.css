@@ -1,126 +1,126 @@
 /************ General element styles ************/
 html body {
-	font-size: 75%;
+    font-size: 75%;
 }
 
 li {
-	margin-left: 1em;
+    margin-left: 1em;
 }
 
 /* General text sizes */
 .medtext, div.medtext, span.medtext {
-	font-size: 90%;
+    font-size: 90%;
 }
 
 .smalltext, div.smalltext, span.smalltext {
-	font-size: 80%;
-	letter-spacing: -0.25px;
+    font-size: 80%;
+    letter-spacing: -0.25px;
 }
 
 
 /**************** Form elements *****************/
 
 fieldset {
-	padding: 1em;
-	margin-bottom: 1em;
-	margin-top: 1em;
+    padding: 1em;
+    margin-bottom: 1em;
+    margin-top: 1em;
 }
 
 input {
-	text-indent: 2px;
+    text-indent: 2px;
  }
 
 /* Separate properties for buttons; not supported by IE */
 input[type=button], input[type=submit], input[type=reset], .button  {
-	font-size: 95%;
+    font-size: 95%;
 }
 
 .buttonlink {
-	text-align: right;
-	padding: 0.2em;
-	padding-left: 0.3em;
-	padding-right: 0.3em;
-	border-radius: 0.4em;
+    text-align: right;
+    padding: 0.2em;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    border-radius: 0.4em;
 }
 
 
 /************ Layout control ************/
 
 .rightalign {
-	text-align: right;
-	float: right;
+    text-align: right;
+    float: right;
 }
 
 .leftalign {
-	text-align: left;
-	float: left;
+    text-align: left;
+    float: left;
 }
 
 .centeralign {
-	text-align: center;
+    text-align: center;
 }
 
 /* to prevent floating for new sections after image */
 .newline {
-	clear:both;
+    clear:both;
 }
 
 
 /************ Main layout containers ************/
 
 #header {
-	padding-bottom: 2em;
+    padding-bottom: 2em;
 }
 
 #headerleft {
-	width: 20%;
-	float: left;
+    width: 20%;
+    float: left;
 }
 
 #headercenter {
-	width: 60%;
-	text-align: center;
-	display: block;
+    width: 60%;
+    text-align: center;
+    display: block;
     margin: 0 auto;
-	float: left;
+    float: left;
 }
 
 #headerright {
-	width: 20%;
-	text-align: right;
-	float: right;
+    width: 20%;
+    text-align: right;
+    float: right;
 }
 
 #navigator {
-	width: 19.5%;
-	position: absolute;
-	padding: 0.20em;
-	margin-top: 0.5em;
-	font-size: 150%;
+    width: 19.5%;
+    position: absolute;
+    padding: 0.20em;
+    margin-top: 0.5em;
+    font-size: 150%;
 }
 
 #banners {
-	width: 95%;
-	margin-top: 2em;
-	font-size: 75%;
-	padding-top: 0.35em;
-	padding-bottom: 0.35em;
+    width: 95%;
+    margin-top: 2em;
+    font-size: 75%;
+    padding-top: 0.35em;
+    padding-bottom: 0.35em;
 }
 
 #contentarea {
-	z-index: 100;
-	min-width: 1px;
-	width: 77%;
-	padding: 1em;
-	padding-top: 0em;
-	margin-left: 21%;
-	margin-top: 1.5em;
-	padding-bottom: 3em;
+    z-index: 100;
+    min-width: 1px;
+    width: 77%;
+    padding: 1em;
+    padding-top: 0em;
+    margin-left: 21%;
+    margin-top: 1.5em;
+    padding-bottom: 3em;
 }
 
 /* Border around everything else */
 #wrapper {
-	padding: 1em;
+    padding: 1em;
 }
 
 
@@ -128,116 +128,116 @@ input[type=button], input[type=submit], input[type=reset], .button  {
 
 /* For accessibility */
 .invisible {
-	width: 0px;
-	height: 0px;
-	margin: 0px;
-	padding: 0px;
-	border: 0px;
-	overflow: hidden;
-	font-size: 0px;
-	float: left;
+    width: 0px;
+    height: 0px;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    overflow: hidden;
+    font-size: 0px;
+    float: left;
 }
 
 /* "Home" link on navigator*/
 #navhomelink {
-	margin-top: 0.5em;
+    margin-top: 0.5em;
 }
 
 .potdcaption {
-	width: 98%;
-	padding-top: 0.5em;
-	font-size: 65%;
-	text-align: left;
-	margin-bottom: 2em;
+    width: 98%;
+    padding-top: 0.5em;
+    font-size: 65%;
+    text-align: left;
+    margin-bottom: 2em;
 }
 
 .aotd {
-	width: 98%;
-	margin-bottom: 2em;
-	font-size: 75%;
-	text-align: left;
-	padding-bottom: 0.35em;
-	padding-top: 0.35em;
+    width: 98%;
+    margin-bottom: 2em;
+    font-size: 75%;
+    text-align: left;
+    padding-bottom: 0.35em;
+    padding-top: 0.35em;
 }
 
 /* Navigator - selected item */
 .navhighlight {
-	font-size: 100%;
+    font-size: 100%;
 }
 
 
 /* Navigator link for the lower levels */
 .navlink {
-	font-size: 70%;
+    font-size: 70%;
 }
 
 .navrootlinkwrapper {
-	margin-top: 1em;
+    margin-top: 1em;
 }
 
 .navlinkwrapper {
-	margin-top: 0.4em;
-	margin-bottom: 0.4em;
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
 }
 
 
 /************ header elements ************/
 
 #sitedescription {
-	padding-top: 0.75em;
-	padding-bottom: 0.75em;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
 }
 
 .logoutlink {
-	text-align: right;
-	margin-top: 100px;
+    text-align: right;
+    margin-top: 100px;
 }
 
 /* Page title in header and navigator elements on splashpage */
 .headerpagetitle {
-	width: 98.5%;
-	text-align: center;
-	padding-top: 0.4em;
-	padding-bottom: 0.35em;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
-	font-size: 160%;
+    width: 98.5%;
+    text-align: center;
+    padding-top: 0.4em;
+    padding-bottom: 0.35em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-size: 160%;
 }
 
 /* Site name */
 .maintitle {
-	font-size: 350%;
-	margin: 0.25em;
+    font-size: 350%;
+    margin: 0.25em;
 }
 
 
 /************ Footer elements ************/
 
 .footer {
-	font-size: 80%;
-	letter-spacing: -0.5px;
+    font-size: 80%;
+    letter-spacing: -0.5px;
 }
 
 /************ Content titles ************/
 
 /* The text used for individual pages' titles */
 .pagetitle {
-	font-size: 250%;
-	line-height: 160%;
+    font-size: 250%;
+    line-height: 160%;
 }
 
 /* Titles for newsitemsections, articlesections */
 .sectiontitle {
-	font-size: 220%;
-	margin-bottom: 0.75em;
+    font-size: 220%;
+    margin-bottom: 0.75em;
 }
 
 /* For newsitemsections */
 .sectionsubtitle {
-	font-size: 175%;
-	margin-top: 0.5em;
-	margin-bottom: 0.75em;
-	margin-top: 1em;
+    font-size: 175%;
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+    margin-top: 1em;
 }
 
 
@@ -245,32 +245,32 @@ input[type=button], input[type=submit], input[type=reset], .button  {
 
 /* section text all over the place */
 .sectiontext {
-	padding-top: 0.75em;
-	text-align: justify;
+    padding-top: 0.75em;
+    text-align: justify;
 }
 
 /* Synopsis for page intros formerly articlesynopsis */
 .introtext {
-	padding-top: 0.75em;
-	text-align: justify;
+    padding-top: 0.75em;
+    text-align: justify;
 }
 
 /* Pagemenu */
 .pagemenu {
-	text-align: right;
-	float: right:
+    text-align: right;
+    float: right:
 }
 
 /* Copyright info */
 .copyright {
-	font-size: 80%;
-	letter-spacing: -0.5px;
+    font-size: 80%;
+    letter-spacing: -0.5px;
 }
 
 .editdata {
-	margin-top: 1.5em;
-	width: 100%;
-	padding-top: 0.5em;
+    margin-top: 1.5em;
+    width: 100%;
+    padding-top: 0.5em;
 }
 
 
@@ -278,29 +278,29 @@ input[type=button], input[type=submit], input[type=reset], .button  {
 
 /* content - linklistmenu pagetitles */
 .contentnavtitle, a.contentnavtitle {
-	font-size: 180%;
+    font-size: 180%;
 }
 
 .contentnavrootlinkwrapper {
-	margin-top: 5ex;
-	margin-bottom: 1ex;
+    margin-top: 5ex;
+    margin-bottom: 1ex;
 }
 
 .contentnavlinkwrapper {
-	margin-top: 1.75ex;
-	line-height: 1.5em;
-	text-align: justify;
+    margin-top: 1.75ex;
+    line-height: 1.5em;
+    text-align: justify;
 }
 
 /* for articlemenu */
 .articleinfo {
-	margin-top: 0.05em;
+    margin-top: 0.05em;
 }
 
 
 /* for menu pages */
 .subpages {
-	margin-left: 3em;
+    margin-left: 3em;
 }
 
 
@@ -308,84 +308,84 @@ input[type=button], input[type=submit], input[type=reset], .button  {
 
 /* Clickable categories */
 .articleinfocategories {
-	margin-top: 0.2em;
-	font-size: 80%;
+    margin-top: 0.2em;
+    font-size: 80%;
 }
 
 .newsitemcategories {
-	margin-top: 0.2em;
-	font-size: 100%;
+    margin-top: 0.2em;
+    font-size: 100%;
 }
 
 .categorylistlink {
-	margin-right: 0.5em;
-	margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
 }
 
 /* News: RSS button */
 .rss {
-	text-align: left;
-	float: left:
+    text-align: left;
+    float: left:
 }
 
 /* News: filter form wrapper */
 .newsfilterform {
-	margin-top: 1.5em;
+    margin-top: 1.5em;
 }
 
 /* Newsitem: wrapper */
 .newsitem {
-	margin-top: 1.5em;
-	padding-top: 0.5em;
+    margin-top: 1.5em;
+    padding-top: 0.5em;
 }
 
 /* section text all over the place */
 .newsitemsynopsis {
-	padding-top: 1em;
+    padding-top: 1em;
 }
 
 
 /* Newsitem: Label for section with quoted text */
 .newsquotetitle {
-	margin-left: 2em;
-	padding-top: 2em;
-	margin-bottom: 1em;
+    margin-left: 2em;
+    padding-top: 2em;
+    margin-bottom: 1em;
 }
 
 /* Newsitem: Section with quoted text */
 div.newsquote {
-	margin-left: 2em;
-	margin-right: 2em;
-	width: *;
-	padding: 1em;
-	text-align: justify;
+    margin-left: 2em;
+    margin-right: 2em;
+    width: *;
+    padding: 1em;
+    text-align: justify;
 }
 
 /* Article: Table of Contents */
 .articletoc {
-	margin-top: 1.5em;
-	padding-bottom:0.5em;
-	padding-top: 0.5em;
+    margin-top: 1.5em;
+    padding-bottom:0.5em;
+    padding-top: 0.5em;
 }
 
 
 /************ Gallery ************/
 
 .galleryimage {
-	float: left;
-	padding: 1em;
-	margin: 1em;
+    float: left;
+    padding: 1em;
+    margin: 1em;
     overflow: hidden;
     display: table-cell;
-	font-size: 90%;
+    font-size: 90%;
 }
 
 .gallerycontents {
-	float: left;
-	width: 100%;
-	padding: 1em;
-	margin: 1em;
-	display: inline;
+    float: left;
+    width: 100%;
+    padding: 1em;
+    margin: 1em;
+    display: inline;
     overflow: hidden;
     display: table-cell;
 }
@@ -395,15 +395,15 @@ div.newsquote {
 
 /* Linklist link */
 .linktitle {
-	font-size: 135%;
+    font-size: 135%;
 }
 
 .linklistlink {
-	margin-top: 1em;
+    margin-top: 1em;
 }
 
 .linkedimage {
-	float: left;
+    float: left;
 }
 
 
@@ -411,79 +411,79 @@ div.newsquote {
 
 /* Image + caption text */
 .captionedimage {
-	padding: 0.75em;
-	margin: 1em;
-	text-align: center;
+    padding: 0.75em;
+    margin: 1em;
+    text-align: center;
 }
 
 .imagecaption {
-	padding-left: 0.75em;
-	padding-right: 0.75em;
-	padding-top: 0.5em;
-	font-size: 100%;
-	text-align: center;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    padding-top: 0.5em;
+    font-size: 100%;
+    text-align: center;
 }
 
 
 /************ Splashpage ************/
 
 .splashpageheaderspacer {
-	padding-top: 3.5em;
-	padding-bottom: 3em;
+    padding-top: 3.5em;
+    padding-bottom: 3em;
 }
 
 #splashpagecontentarea {
-	z-index: 100;
-	min-width: 1px;
-	padding: 1em;
-	padding-top: 0em;
-	margin-top: 3em;
-	text-align: center;
+    z-index: 100;
+    min-width: 1px;
+    padding: 1em;
+    padding-top: 0em;
+    margin-top: 3em;
+    text-align: center;
 }
 
 .splashpagelink {
-	padding-left: 0.3em;
-	padding-right: 0.3em;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
 }
 
 
 /************ Guestbook ************/
 
 .guestbookentry {
-	margin-top: 1.5em;
-	padding-top: 0.5em;
+    margin-top: 1.5em;
+    padding-top: 0.5em;
 }
 
 
 /************ tables ************/
 
 table {
-	font-size:100%;
-	margin-top: 2em;
-	margin-bottom: 2em;
-	border-collapse: collapse;
-	border-spacing: 0;
-	width: 70%;
-	margin-left: 15%;
-	margin-right: 15%;
+    font-size:100%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 caption {
-	text-align: center;
-	padding-top: 0.4em;
-	padding-bottom: 0.35em;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
-	font-size: 125%;
-	height: 26px;
+    text-align: center;
+    padding-top: 0.4em;
+    padding-bottom: 0.35em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-size: 125%;
+    height: 26px;
 }
 
 th {
-	text-align: center;
-	font-size: 110%;
-	padding: 0.5em;
+    text-align: center;
+    font-size: 110%;
+    padding: 0.5em;
 }
 
 td {
-	padding: 0.5em;
+    padding: 0.5em;
 }

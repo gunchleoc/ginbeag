@@ -371,9 +371,10 @@ $lang["date_month_short"][12]="Dùbh";
 
 function lang_date_day_format($day)
 {
-	if($day == "1" || $day == 11) return $day."d";
-	elseif($day == "2" || $day == 12) return $day."a";
-	elseif($day == "3" || $day == 13) return $day."s";
-	else return $day."mh";
+    if($day == "1" || $day == 11) { return $day."d";
+    } elseif($day == "2" || $day == 12) { return $day."a";
+    } elseif($day == "3" || $day == 13) { return $day."s";
+    } else { return $day."mh";
+    }
 }
 ?>

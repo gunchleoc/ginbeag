@@ -1,13 +1,13 @@
 <?php
 $projectroot=dirname(__FILE__);
-$projectroot=substr($projectroot,0,strrpos($projectroot,"news"));
-$projectroot=substr($projectroot,0,strrpos($projectroot,"ajax"));
-$projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
-$projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "news"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "ajax"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
-include_once($projectroot."admin/functions/pagecontent/newspagesmod.php");
-include_once($projectroot."includes/functions.php");
-include_once($projectroot."admin/functions/sessions.php");
+require_once $projectroot."admin/functions/pagecontent/newspagesmod.php";
+require_once $projectroot."includes/functions.php";
+require_once $projectroot."admin/functions/sessions.php";
 
 //print_r($_POST);
 //print_r($_GET);
@@ -20,26 +20,24 @@ header('Content-type: text/xml;	charset=utf-8');
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 $message = getpagelock($_POST['page']);
-if($message)
-{
-	print('<message error="1">');
-	print($message);
+if($message) {
+    print('<message error="1">');
+    print($message);
 }
 else {
-	$success = updatenewsitemsectionttitle($_POST['newsitemsection'],fixquotes($_POST['sectiontitle']));
+    $success = updatenewsitemsectionttitle($_POST['newsitemsection'], fixquotes($_POST['sectiontitle']));
 
-	if($success >=0 && empty($db->error_report))
-	{
-		print('<message error="0">');
-		updateeditdata($_POST['page']);
-		print("Saved Section Title for section ID:".$_POST['newsitemsection']);
-	}
-	else
-	{
-		print('<message error="1">');
-		print("Error Saving Section Title for section ID:".$_POST['newsitemsection']
-			. "<br />\n" . $db->error_report);
-	}
-	print("</message>");
+    if($success >=0 && empty($db->error_report)) {
+        print('<message error="0">');
+        updateeditdata($_POST['page']);
+        print("Saved Section Title for section ID:".$_POST['newsitemsection']);
+    }
+    else
+    {
+        print('<message error="1">');
+        print("Error Saving Section Title for section ID:".$_POST['newsitemsection']
+        . "<br />\n" . $db->error_report);
+    }
+    print("</message>");
 }
 ?>

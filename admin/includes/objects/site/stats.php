@@ -1,84 +1,85 @@
 <?php
 $projectroot=dirname(__FILE__);
 // zweimal, weil nur auf "a" geprüft wird
-$projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
-$projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
-include_once($projectroot."includes/objects/template.php");
-include_once($projectroot."admin/functions/sitestats.php");
-include_once($projectroot."includes/objects/elements.php");
-include_once($projectroot."includes/objects/forms.php");
+require_once $projectroot."includes/objects/template.php";
+require_once $projectroot."admin/functions/sitestats.php";
+require_once $projectroot."includes/objects/elements.php";
+require_once $projectroot."includes/objects/forms.php";
 
 
 
 //
 //
 //
-class SiteStatsTable extends Template {
+class SiteStatsTable extends Template
+{
 
-	function SiteStatsTable($count,$year, $month,$timespan="month")
-	{
-		parent::__construct();
+    function SiteStatsTable($count,$year, $month,$timespan="month")
+    {
+        parent::__construct();
 
-		if($timespan=="month")
-		{
-			$this->stringvars['month']=$month;
-			$stats=getmonthlypagestats($count,$year,$month);
-		}
-		else
-		{
-			$this->stringvars['month']="";
-			$stats=getyearlypagestats($count,$year);
-		}
-		$this->stringvars['year']=$year;
-		$this->stringvars['count']=$count;
+        if($timespan=="month") {
+            $this->stringvars['month']=$month;
+            $stats=getmonthlypagestats($count, $year, $month);
+        }
+        else
+        {
+            $this->stringvars['month']="";
+            $stats=getyearlypagestats($count, $year);
+        }
+        $this->stringvars['year']=$year;
+        $this->stringvars['count']=$count;
 
-		$this->vars["month_selection"]=new MonthOptionForm($month,true,"","month","Month");
-		$this->vars["month_year_selection"]=new YearOptionForm($year,getstatsfirstyear(),date("Y",strtotime('now')),"","month_year","Year");
-		$this->stringvars["count_selection"]= $count;
+        $this->vars["month_selection"]=new MonthOptionForm($month, true, "", "month", "Month");
+        $this->vars["month_year_selection"]=new YearOptionForm($year, getstatsfirstyear(), date("Y", strtotime('now')), "", "month_year", "Year");
+        $this->stringvars["count_selection"]= $count;
 
-		$this->vars["year_year_selection"]=new YearOptionForm($year,getstatsfirstyear(),date("Y",strtotime('now')),"","year_year","Year");
+        $this->vars["year_year_selection"]=new YearOptionForm($year, getstatsfirstyear(), date("Y", strtotime('now')), "", "year_year", "Year");
 
-		$rank = 0;
-		foreach ($stats as $page => $views) {
-			$this->listvars['stats'][]=new SiteStatsEntry($views, $page, ++$rank);
-		}
+        $rank = 0;
+        foreach ($stats as $page => $views) {
+            $this->listvars['stats'][]=new SiteStatsEntry($views, $page, ++$rank);
+        }
 
-		if ($rank == 0) {
-			$this->stringvars['nostats']="Stats not available";
-		}
-	}
+        if ($rank == 0) {
+            $this->stringvars['nostats']="Stats not available";
+        }
+    }
 
-	// assigns templates
-	function createTemplates()
-	{
-		$this->addTemplate("admin/site/statstable.tpl");
-	}
+    // assigns templates
+    function createTemplates()
+    {
+        $this->addTemplate("admin/site/statstable.tpl");
+    }
 }
 
 
 //
 //
 //
-class SiteStatsEntry extends Template {
+class SiteStatsEntry extends Template
+{
 
-	function SiteStatsEntry($views, $page, $rank)
-	{
-		parent::__construct();
+    function SiteStatsEntry($views, $page, $rank)
+    {
+        parent::__construct();
 
-		$this->stringvars['rank']=$rank;
-		$this->stringvars['views']=number_format($views);
-		$this->stringvars['pagetype']=getpagetype($page);
-		$this->stringvars['page']=$page;
-		$this->stringvars['pagetitle']=text2html(getpagetitle($page));
-		$this->stringvars['url']=getprojectrootlinkpath()."admin/admin.php".makelinkparameters(array("page" => $page));
-	}
+        $this->stringvars['rank']=$rank;
+        $this->stringvars['views']=number_format($views);
+        $this->stringvars['pagetype']=getpagetype($page);
+        $this->stringvars['page']=$page;
+        $this->stringvars['pagetitle']=text2html(getpagetitle($page));
+        $this->stringvars['url']=getprojectrootlinkpath()."admin/admin.php".makelinkparameters(array("page" => $page));
+    }
 
-	// assigns templates
-	function createTemplates()
-	{
-		$this->addTemplate("admin/site/statsentry.tpl");
-	}
+    // assigns templates
+    function createTemplates()
+    {
+        $this->addTemplate("admin/site/statsentry.tpl");
+    }
 }
 
 ?>

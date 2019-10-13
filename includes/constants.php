@@ -1,7 +1,7 @@
 <?php
 
 //Datetime format for database entries
-define('DATETIMEFORMAT','Y-m-d H:i:s');
+define('DATETIMEFORMAT', 'Y-m-d H:i:s');
 
 // Table names
 define('ANTISPAM_TABLE', $table_prefix.'antispam');
@@ -46,12 +46,12 @@ define('THUMBNAILS_TABLE', $table_prefix.'thumbnails');
 define('USERS_TABLE', $table_prefix.'users');
 
 // Content permissions
-define('PERMISSION_GRANTED',2);
-define('NO_PERMISSION',1);
+define('PERMISSION_GRANTED', 2);
+define('NO_PERMISSION', 1);
 
 // Admin/Webediting panel permissions
-define('USERLEVEL_USER',0);
-define('USERLEVEL_ADMIN',1);
+define('USERLEVEL_USER', 0);
+define('USERLEVEL_ADMIN', 1);
 
 // for different types of categories
 define('CATEGORY_ARTICLE', 0);
@@ -62,6 +62,6 @@ define('CATEGORY_NEWS', 2);
 define('WRONG_MIME_TYPE_NO_IMAGE', -1);
 
 // todo replace site property? Hack for gallery pages CSS
-define('IMAGECAPTIONLINEHEIGHT',8);
+define('IMAGECAPTIONLINEHEIGHT', 8);
 
 ?>

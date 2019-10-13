@@ -1,136 +1,136 @@
 /************ General element styles ************/
 
 html body {
-	background-color: #002927;
-	color: #FFFFFF;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #002927;
+    color: #FFFFFF;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 a:link {
-	text-decoration: underline;
-	color: #D4ECFB;
+    text-decoration: underline;
+    color: #D4ECFB;
 }
 
 a:visited {
-	text-decoration: underline;
-	color: #D4ECFB;
+    text-decoration: underline;
+    color: #D4ECFB;
 }
 
 a:focus {
-	text-decoration: underline;
-	color: yellow;
+    text-decoration: underline;
+    color: yellow;
 }
 
 a:hover {
-	text-decoration: underline;
-	color: yellow;
+    text-decoration: underline;
+    color: yellow;
 }
 
 a:active {
-	text-decoration: underline;
-	color: #D4ECFB;
+    text-decoration: underline;
+    color: #D4ECFB;
 }
 
 /* Highlighted text */
 .highlight {
-	font-weight: bold;
-	color: yellow;
+    font-weight: bold;
+    color: yellow;
 }
 
 a.highlight {
-	text-decoration: none;
-	color: #FF9900;
+    text-decoration: none;
+    color: #FF9900;
 }
 
 a.highlight:hover {
-	text-decoration: underline;
-	color: #FF9900;
+    text-decoration: underline;
+    color: #FF9900;
 }
 
 a.highlight:active {
-	text-decoration: none;
-	color: #FF9900;
+    text-decoration: none;
+    color: #FF9900;
 }
 
 
 /**************** Form elements *****************/
 
 fieldset {
-	border: 1px solid #00AEED;
+    border: 1px solid #00AEED;
 }
 
 legend {
-	font-weight: bold;
-	color: white;
+    font-weight: bold;
+    color: white;
 }
 
 
 textarea, select {
-	color: #FFFFFF;
-	border-color: #00AEED;
-	background-color: #003B39;
+    color: #FFFFFF;
+    border-color: #00AEED;
+    background-color: #003B39;
 }
 
 
 input {
-	color: #FFFFFF;
-	border-color: #00AEED;
- 	background-color: #003B39;
+    color: #FFFFFF;
+    border-color: #00AEED;
+     background-color: #003B39;
  }
 
 /* The main submit button option */
 input.mainoption {
-	font-weight: bold;
-	font-family: "Helvetica Narrow", "Arial Narrow", Tahoma, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-family: "Helvetica Narrow", "Arial Narrow", Tahoma, Arial, Helvetica, sans-serif;
 }
 
 .buttonlink {
-	text-decoration: none;
-	border: #00AEED 1px solid;
-	color: #D4ECFB;
-	font-weight: normal;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #003B39;
-	background: -moz-linear-gradient(top, rgba(0,84,81,1) 0%, rgba(0,106,102,1) 44%, rgba(0,41,39,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,84,81,1)), color-stop(44%,rgba(0,106,102,1)), color-stop(100%,rgba(0,41,39,1)));
-	background: -webkit-linear-gradient(top, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
-	background: -o-linear-gradient(top, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
-	background: -ms-linear-gradient(top, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
-	background: linear-gradient(to bottom, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#005451', endColorstr='#002927',GradientType=0 );
+    text-decoration: none;
+    border: #00AEED 1px solid;
+    color: #D4ECFB;
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #003B39;
+    background: -moz-linear-gradient(top, rgba(0,84,81,1) 0%, rgba(0,106,102,1) 44%, rgba(0,41,39,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,84,81,1)), color-stop(44%,rgba(0,106,102,1)), color-stop(100%,rgba(0,41,39,1)));
+    background: -webkit-linear-gradient(top, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
+    background: -o-linear-gradient(top, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
+    background: -ms-linear-gradient(top, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
+    background: linear-gradient(to bottom, rgba(0,84,81,1) 0%,rgba(0,106,102,1) 44%,rgba(0,41,39,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#005451', endColorstr='#002927',GradientType=0 );
 }
 
 a.buttonlink {
-	color: #D4ECFB;
-	text-decoration: none;
+    color: #D4ECFB;
+    text-decoration: none;
 }
 
 a.buttonlink:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 
 /************ Main layout containers ************/
 
 #navigator {
-	background-color: #003B39;
+    background-color: #003B39;
 }
 
 #banners {
-	background-color: #003B39;
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #00AEED;
+    background-color: #003B39;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    border-color: #00AEED;
 }
 
 #contentarea {
-	background-color: #002927;
+    background-color: #002927;
 }
 
 /* Border around everything else */
 #wrapper {
-	background-color: #003B39;
-	border: 1px #00AEED solid;
+    background-color: #003B39;
+    border: 1px #00AEED solid;
 }
 
 
@@ -138,117 +138,117 @@ a.buttonlink:hover {
 
 /* "Home" link on navigator*/
 #navhomelink {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .potdcaption {
-	font-weight: bold;
-	color: #D4ECFB;
+    font-weight: bold;
+    color: #D4ECFB;
 }
 
 .aotd {
-	font-weight: bold;
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
-	border-color: #00AEED;
+    font-weight: bold;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
+    border-color: #00AEED;
 }
 
 .aotd a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 /* Navigator - selected item */
 .navhighlight {
-	color: yellow;
+    color: yellow;
 }
 
 /* Navigator - links */
 .navtitle { color: #D4ECFB;}
 
 a.navtitle {
-	text-decoration: none;
-	color: #D4ECFB;
+    text-decoration: none;
+    color: #D4ECFB;
 }
 
 a.navtitle:hover {
-	text-decoration: underline;
-	color: yellow;
+    text-decoration: underline;
+    color: yellow;
 }
 
 a.navtitle:active {
-	text-decoration: none;
-	color: yellow;
+    text-decoration: none;
+    color: yellow;
 }
 
 
 /* Navigator link for the lower levels */
 .navlink {
-	font-weight: bold;
-	color: #D4ECFB;
+    font-weight: bold;
+    color: #D4ECFB;
 }
 
 a.navlink {
-	text-decoration: none;
-	color: #D4ECFB;
+    text-decoration: none;
+    color: #D4ECFB;
 }
 
 a.navlink:hover {
-	text-decoration: underline;
-	color: yellow;
+    text-decoration: underline;
+    color: yellow;
 }
 
 a.navlink:active {
-	text-decoration: none;
-	color: yellow;
+    text-decoration: none;
+    color: yellow;
 }
 
 
 /************ Header elements ************/
 
 #sitedescription {
-	font-style: italic;
+    font-style: italic;
 }
 
 .logoutlink {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 /* Page title in header and navigator elements on splashpage */
 .headerpagetitle {
-	border: #006378;
-	border-style: solid;
-	border-width: 0px 0px 2px 0px;
-	font-family: Arial, Helvetica, sans-serif;
-	color: yellow;
-	background-color: #006378;
-	color: #FFFF00;
-	background-image: url(img/navigator.gif);
-	background-repeat: repeat-x;
+    border: #006378;
+    border-style: solid;
+    border-width: 0px 0px 2px 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: yellow;
+    background-color: #006378;
+    color: #FFFF00;
+    background-image: url(img/navigator.gif);
+    background-repeat: repeat-x;
 }
 
 /* Site name */
 .maintitle {
-	font-weight: bold;
-	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
-	color: #77CEED;
+    font-weight: bold;
+    font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #77CEED;
 }
 
 
 /************ Footer elements ************/
 
 .footer {
-	font-family: Arial, Helvetica, sans-serif;
-	color: #FFFFFF;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #FFFFFF;
 }
 
 a.footer {
-	color: #00AEED;
-	text-decoration: none;
+    color: #00AEED;
+    text-decoration: none;
 }
 
 a.footer:hover {
-	color: yellow;
-	text-decoration: underline;
+    color: yellow;
+    text-decoration: underline;
 }
 
 
@@ -256,22 +256,22 @@ a.footer:hover {
 
 /* The text used for individual pages' titles */
 .pagetitle {
-	font-weight: bold;
-	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
-	color: yellow;
+    font-weight: bold;
+    font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+    color: yellow;
 }
 
 
 /* Titles for newsitemsections, articlesections */
 .sectiontitle {
-	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
-	color: yellow;
+    font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+    color: yellow;
 }
 
 /* For newsitemsections */
 .sectionsubtitle {
-	font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
-	color: yellow;
+    font-family: "Comic Sans MS", Verdana, Arial, Helvetica, sans-serif;
+    color: yellow;
 }
 
 
@@ -279,18 +279,18 @@ a.footer:hover {
 
 /* Synopsis / page intros */
 .introtext {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 /* Copyright info */
 .copyright {
-	font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .editdata {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #00AEED;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    border-color: #00AEED;
 }
 
 
@@ -298,83 +298,83 @@ a.footer:hover {
 
 /* content links - linklistmenu */
 .contentnavlink {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 /* content - linklistmenu pagetitles */
 .contentnavtitle, a.contentnavtitle {
-	color: #D4ECFB;
+    color: #D4ECFB;
 }
 
 a.contentnavtitle:hover {
-	text-decoration: underline;
-	color: yellow;
+    text-decoration: underline;
+    color: yellow;
 }
 
 
 /************ Newsitems and articles ************/
 
 .newsitemcategories {
-	color: yellow;
+    color: yellow;
 }
 
 /* News: filter form wrapper */
 .newsfilterform {
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
-	border-color: #00AEED;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
+    border-color: #00AEED;
 }
 
 /* Newsitem: wrapper */
 .newsitem {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #00AEED;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    border-color: #00AEED;
 }
 
 /* Newsitem: Label for section with quoted text */
 .newsquotetitle {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 /* Newsitem: Section with quoted text */
 div.newsquote {
-	background-color: #003B39;
-	color: #FFFFFF;
+    background-color: #003B39;
+    color: #FFFFFF;
 }
 
 /* Newsitem and article: Source info */
 .articlesource {
-	color: yellow;
+    color: yellow;
 }
 
 .articleauthor {
-	font-weight: bold;
-	font-style: italic;
-	color: yellow;
+    font-weight: bold;
+    font-style: italic;
+    color: yellow;
 }
 
 .articlelocation {
-	color: yellow;
+    color: yellow;
 }
 
 .articledate {
-	font-style: italic;
-	color: yellow;
+    font-style: italic;
+    color: yellow;
 }
 
 /* Article: Table of Contents */
 .articletoc {
-	border-style: solid;
-	border-width: 1px 0px 1px 0px;
-	border-color: #00AEED;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
+    border-color: #00AEED;
 }
 
 
 /************ Gallery ************/
 
 .galleryimage {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 
@@ -382,37 +382,37 @@ div.newsquote {
 
 /* Linklist link */
 .linktitle {
-	text-decoration: none;
-	color: #D4ECFB;
+    text-decoration: none;
+    color: #D4ECFB;
 }
 
 a.linktitle {
-	text-decoration: none;
-	color: #D4ECFB;
+    text-decoration: none;
+    color: #D4ECFB;
 }
 
 a.linktitle:visited {
-	text-decoration: none;
-	color: #D4ECFB;
+    text-decoration: none;
+    color: #D4ECFB;
 }
 
 a.linktitle:hover {
-	text-decoration: underline;
-	color: yellow;
+    text-decoration: underline;
+    color: yellow;
 }
 
 a.linktitle:active {
-	text-decoration: underline;
-	color: yellow;
+    text-decoration: underline;
+    color: yellow;
 }
 
 .linklistlink {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
 }
 
 .linkedimage {
-	border: 10px solid transparent;
+    border: 10px solid transparent;
 }
 
 
@@ -420,64 +420,64 @@ a.linktitle:active {
 
 /* Image + caption text */
 .captionedimage {
-	border-style: solid;
-	border-width: 1px;
-	border-color: #00AEED;
-	background-color: #002927;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #00AEED;
+    background-color: #002927;
 }
 
 .imagecaption {
-	font-weight: bold;
-	color: #D4ECFB;
-	font-style: normal;
+    font-weight: bold;
+    color: #D4ECFB;
+    font-style: normal;
 }
 
 .imagecaption a {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 
 /************ Guestbook ************/
 
 .guestbookentry {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
 }
 
 
 /************ Tables ************/
 
 table {
-	box-shadow: 4px 4px 3px #006666;
-	border: #398EB9;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
+    box-shadow: 4px 4px 3px #006666;
+    border: #398EB9;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
 }
 
 caption {
-	border: #398EB9;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	background-color: #D4ECFB;
-	color: #FFFF00;
-	font-weight: bold;
-	background-image: url(img/navigator.gif);
-	box-shadow: -1px -1px 3px 1px #006666 inset;
+    border: #398EB9;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
+    background-color: #D4ECFB;
+    color: #FFFF00;
+    font-weight: bold;
+    background-image: url(img/navigator.gif);
+    box-shadow: -1px -1px 3px 1px #006666 inset;
 }
 
 th {
-	border: #398EB9;
-	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	background-color: #006378;
-	color: #FFFF00;
-	font-weight: bold;
+    border: #398EB9;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
+    background-color: #006378;
+    color: #FFFF00;
+    font-weight: bold;
 }
 
 td {
-	border: #398EB9;
-	border-style: solid;
-	border-width: 1px 1px 1px 1px;
-	background-color: #002927;
-	color: white;
+    border: #398EB9;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    background-color: #002927;
+    color: white;
 }

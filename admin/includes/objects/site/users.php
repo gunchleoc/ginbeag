@@ -1,365 +1,374 @@
 <?php
 $projectroot=dirname(__FILE__);
 // zweimal, weil nur auf "a" geprft wird
-$projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
-$projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
-include_once($projectroot."includes/objects/template.php");
-include_once($projectroot."admin/functions/usersmod.php");
-include_once($projectroot."admin/functions/publicusersmod.php");
-include_once($projectroot."includes/objects/elements.php");
-include_once($projectroot."admin/includes/objects/forms.php");
-
-//
-//
-//
-class SiteCreatePublicUser extends Template {
-
-	function SiteCreatePublicUser($username, $message="", $newuserid=-1)
-	{
-		global $projectroot;
-		parent::__construct();
-
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["action"] = "siteusercreate";
-		$this->stringvars['actionvars'] = makelinkparameters($linkparams);
-
-		$linkparams["action"] = "siteuserman";
-		$this->vars['submitrow']= new SubmitRow("createuser","Create User",false,true,"admin.php".makelinkparameters($linkparams));
-
-		$this->stringvars['username'] = title2html($username);
-		
-		if($newuserid >= 0)
-		{
-			$linkparams["userid"] = $newuserid;
-			$linkparams["type"] = "public";
-			$linkparams["action"] = "siteuserman";
-			$this->stringvars['newuserlinks']='<p>The new user has been created. You can <a href="admin.php'.makelinkparameters($linkparams).'">Manage this user</a> now.</p>';
-		}
-		else
-		{
-			$this->stringvars['newuserlinks']="";
-		}
-	}
-	
-	// assigns templates
-	function createTemplates()
-	{
-		$this->addTemplate("admin/site/createpublicuser.tpl");
-	}
-}
-
-
+require_once $projectroot."includes/objects/template.php";
+require_once $projectroot."admin/functions/usersmod.php";
+require_once $projectroot."admin/functions/publicusersmod.php";
+require_once $projectroot."includes/objects/elements.php";
+require_once $projectroot."admin/includes/objects/forms.php";
 
 //
 //
 //
-class SiteUserlist extends Template {
+class SiteCreatePublicUser extends Template
+{
 
-	function SiteUserlist($ref)
-  	{
-  		parent::__construct();
+    function SiteCreatePublicUser($username, $message="", $newuserid=-1)
+    {
+        global $projectroot;
+        parent::__construct();
+
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["action"] = "siteusercreate";
+        $this->stringvars['actionvars'] = makelinkparameters($linkparams);
+
+        $linkparams["action"] = "siteuserman";
+        $this->vars['submitrow']= new SubmitRow("createuser", "Create User", false, true, "admin.php".makelinkparameters($linkparams));
+
+        $this->stringvars['username'] = title2html($username);
+        
+        if($newuserid >= 0) {
+            $linkparams["userid"] = $newuserid;
+            $linkparams["type"] = "public";
+            $linkparams["action"] = "siteuserman";
+            $this->stringvars['newuserlinks']='<p>The new user has been created. You can <a href="admin.php'.makelinkparameters($linkparams).'">Manage this user</a> now.</p>';
+        }
+        else
+        {
+            $this->stringvars['newuserlinks']="";
+        }
+    }
     
-    	$users=getallusers();
+    // assigns templates
+    function createTemplates()
+    {
+        $this->addTemplate("admin/site/createpublicuser.tpl");
+    }
+}
+
+
+
+//
+//
+//
+class SiteUserlist extends Template
+{
+
+    function SiteUserlist($ref)
+    {
+        parent::__construct();
     
-		for($i=0; $i<count($users);$i++)
-  		{
-  			$this->listvars['adminusers'][]=new SiteUserlistAdminUser($users[$i],$ref);
-  		}
-  		
-		$users=getallpublicusers();
-		
-		for($i=0; $i<count($users);$i++)
-  		{
-  			$this->listvars['publicusers'][]=new SiteUserlistPublicUser($users[$i],$ref);
-  		}
-  	}
-
-  	// assigns templates
-  	function createTemplates()
-  	{
-    	$this->addTemplate("admin/site/userlist.tpl");
-  	}
-}
-
-
-
-//
-//
-//
-class SiteUserlistAdminUser extends Template {
-
-	function SiteUserlistAdminUser($userid,$ref)
-	{
-		parent::__construct();
-    	
-    	$lastlogin = getlastlogin($userid);
-    	$retries = getretries($userid);
-    	
-		$this->stringvars['username'] = title2html(getusername($userid));
-
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["userid"] = $userid;
-
-		if(strlen($ref) > 0)
-  		{
-			$linkparams["action"] = $ref;
-			$this->stringvars['reflink'] = makelinkparameters($linkparams);
-  		}
-  		else
-  		{
-			$linkparams["action"] = "siteuserman";
-			$this->stringvars['managelink'] = 'admin.php'.makelinkparameters($linkparams);
-			$linkparams["action"] = "siteuserperm";
-			$this->stringvars['permissionslink'] = 'admin.php'.makelinkparameters($linkparams);
-  		}
-  		
-  		$this->stringvars['email']=getuseremail($userid);
-  		
-  		if(getiscontact($userid)) $this->stringvars['iscontact']="Yes";
-  		else $this->stringvars['iscontact']="&mdash;";
-  		
-  		$this->stringvars['contactfunction']=getcontactfunction($userid);
-  		
-  		if(isactive($userid)) $this->stringvars['isactive']="Yes";
-  		else $this->stringvars['isactive']="&mdash;";
-  		
-  		$userlevel = getuserlevel($userid);
-
-  		if($userlevel==USERLEVEL_USER) $this->stringvars['userlevel']="User";
-  		elseif($userlevel==USERLEVEL_ADMIN) $this->stringvars['userlevel']="Administrator";
-  		
-  		$this->stringvars['lastlogin']=getlastlogin($userid);
-  		$this->stringvars['retries']=getretries($userid);
-	}
-
- 	 // assigns templates
- 	function createTemplates()
-  	{
-    	$this->addTemplate("admin/site/userlistadminuser.tpl");
-  	}
-}
-
-//
-//
-//
-class SiteUserlistPublicUser extends Template {
-
-	function SiteUserlistPublicUser($userid,$ref)
-  	{
-  		parent::__construct();
+        $users=getallusers();
     
-		$this->stringvars['username'] = title2html(getpublicusername($userid));
+        for($i=0; $i<count($users);$i++)
+        {
+            $this->listvars['adminusers'][]=new SiteUserlistAdminUser($users[$i], $ref);
+        }
+          
+        $users=getallpublicusers();
+        
+        for($i=0; $i<count($users);$i++)
+        {
+            $this->listvars['publicusers'][]=new SiteUserlistPublicUser($users[$i], $ref);
+        }
+    }
 
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["userid"] = $userid;
-		$linkparams["type"] = "public";
+    // assigns templates
+    function createTemplates()
+    {
+        $this->addTemplate("admin/site/userlist.tpl");
+    }
+}
 
-		if(strlen($ref) > 0)
-  		{
-			$linkparams["action"] = $ref;
-			$this->stringvars['reflink'] = makelinkparameters($linkparams);
-  		}
-  		else
-  		{
-			$linkparams["action"] = "siteuserman";
-			$this->stringvars['managelink'] = 'admin.php'.makelinkparameters($linkparams);
-			$linkparams["action"] = "siteuserperm";
-			$this->stringvars['permissionslink'] = 'admin.php'.makelinkparameters($linkparams);
-		}
+
+
+//
+//
+//
+class SiteUserlistAdminUser extends Template
+{
+
+    function SiteUserlistAdminUser($userid,$ref)
+    {
+        parent::__construct();
+        
+        $lastlogin = getlastlogin($userid);
+        $retries = getretries($userid);
+        
+        $this->stringvars['username'] = title2html(getusername($userid));
+
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["userid"] = $userid;
+
+        if(strlen($ref) > 0) {
+            $linkparams["action"] = $ref;
+            $this->stringvars['reflink'] = makelinkparameters($linkparams);
+        }
+        else
+        {
+            $linkparams["action"] = "siteuserman";
+            $this->stringvars['managelink'] = 'admin.php'.makelinkparameters($linkparams);
+            $linkparams["action"] = "siteuserperm";
+            $this->stringvars['permissionslink'] = 'admin.php'.makelinkparameters($linkparams);
+        }
+          
+        $this->stringvars['email']=getuseremail($userid);
+          
+        if(getiscontact($userid)) { $this->stringvars['iscontact']="Yes";
+        } else { $this->stringvars['iscontact']="&mdash;";
+        }
+          
+        $this->stringvars['contactfunction']=getcontactfunction($userid);
+          
+        if(isactive($userid)) { $this->stringvars['isactive']="Yes";
+        } else { $this->stringvars['isactive']="&mdash;";
+        }
+          
+        $userlevel = getuserlevel($userid);
+
+        if($userlevel==USERLEVEL_USER) { $this->stringvars['userlevel']="User";
+        } elseif($userlevel==USERLEVEL_ADMIN) { $this->stringvars['userlevel']="Administrator";
+        }
+          
+        $this->stringvars['lastlogin']=getlastlogin($userid);
+        $this->stringvars['retries']=getretries($userid);
+    }
+
+    // assigns templates
+    function createTemplates()
+    {
+        $this->addTemplate("admin/site/userlistadminuser.tpl");
+    }
+}
+
+//
+//
+//
+class SiteUserlistPublicUser extends Template
+{
+
+    function SiteUserlistPublicUser($userid,$ref)
+    {
+        parent::__construct();
     
-  		if(ispublicuseractive($userid)) $this->stringvars['isactive']="Yes";
-  		else $this->stringvars['isactive']="&mdash;";
-  		
-  		$userpages=getpageaccessforpublicuser($userid);
-  		
-  		$noofpages=count($userpages);
-  		if(!$noofpages>0)
-  		{
-  		
-  			$this->stringvars['userpages']='<div align="center"> &mdash; </div>';
-  		}
-  		else
-  		{
-  			$this->stringvars['userpages']='';
-  		
-  			for($i=0;$i<$noofpages;$i++)
-  			{
-    			if($i>0)
-    			{
-     				$this->stringvars['userpages'].=' &ndash; ';
-    			}
-				$this->stringvars['userpages'].='<a href="'.getprojectrootlinkpath().'admin/pagedisplay.php'.makelinkparameters(array("page" => $userpages[$i])).'" target="_blank">'.$userpages[$i].": ".title2html(getnavtitle($userpages[$i])).'</a>';
-  			}
-  		}
- 	}
+        $this->stringvars['username'] = title2html(getpublicusername($userid));
 
-  	// assigns templates
-  	function createTemplates()
-  	{
-   		$this->addTemplate("admin/site/userlistpublicuser.tpl");
-  	}
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["userid"] = $userid;
+        $linkparams["type"] = "public";
+
+        if(strlen($ref) > 0) {
+            $linkparams["action"] = $ref;
+            $this->stringvars['reflink'] = makelinkparameters($linkparams);
+        }
+        else
+        {
+            $linkparams["action"] = "siteuserman";
+            $this->stringvars['managelink'] = 'admin.php'.makelinkparameters($linkparams);
+            $linkparams["action"] = "siteuserperm";
+            $this->stringvars['permissionslink'] = 'admin.php'.makelinkparameters($linkparams);
+        }
+    
+        if(ispublicuseractive($userid)) { $this->stringvars['isactive']="Yes";
+        } else { $this->stringvars['isactive']="&mdash;";
+        }
+          
+        $userpages=getpageaccessforpublicuser($userid);
+          
+        $noofpages=count($userpages);
+        if(!$noofpages>0) {
+          
+            $this->stringvars['userpages']='<div align="center"> &mdash; </div>';
+        }
+        else
+        {
+            $this->stringvars['userpages']='';
+          
+            for($i=0;$i<$noofpages;$i++)
+            {
+                if($i>0) {
+                    $this->stringvars['userpages'].=' &ndash; ';
+                }
+                $this->stringvars['userpages'].='<a href="'.getprojectrootlinkpath().'admin/pagedisplay.php'.makelinkparameters(array("page" => $userpages[$i])).'" target="_blank">'.$userpages[$i].": ".title2html(getnavtitle($userpages[$i])).'</a>';
+            }
+        }
+    }
+
+    // assigns templates
+    function createTemplates()
+    {
+        $this->addTemplate("admin/site/userlistpublicuser.tpl");
+    }
 }
 
 //
 //
 //
-class SiteSelectUserForm extends Template {
+class SiteSelectUserForm extends Template
+{
 
-	function SiteSelectUserForm($username="")
-  	{
-		parent::__construct();
-		
-		$this->stringvars['username'] = title2html($username);
+    function SiteSelectUserForm($username="")
+    {
+        parent::__construct();
+        
+        $this->stringvars['username'] = title2html($username);
 
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["action"] = "siteusercreate";
-		$this->stringvars['createactionvars'] = makelinkparameters($linkparams);
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["action"] = "siteusercreate";
+        $this->stringvars['createactionvars'] = makelinkparameters($linkparams);
 
-		$linkparams["action"] = "siteuserman";
-		$this->stringvars['selectactionvars'] = makelinkparameters($linkparams);
+        $linkparams["action"] = "siteuserman";
+        $this->stringvars['selectactionvars'] = makelinkparameters($linkparams);
 
-		$linkparams["ref"] = "siteuserman";
-		$linkparams["action"] = "siteuserlist";
-		$this->stringvars['userlistlink'] = makelinkparameters($linkparams);
-	}
+        $linkparams["ref"] = "siteuserman";
+        $linkparams["action"] = "siteuserlist";
+        $this->stringvars['userlistlink'] = makelinkparameters($linkparams);
+    }
 
-  	// assigns templates
-  	function createTemplates()
-  	{
-    	$this->addTemplate("admin/site/selectuserform.tpl");
-  	}
+    // assigns templates
+    function createTemplates()
+    {
+        $this->addTemplate("admin/site/selectuserform.tpl");
+    }
 }
 
 //
 //
 //
-class SiteAdminUserProfileForm extends Template {
+class SiteAdminUserProfileForm extends Template
+{
 
-	function SiteAdminUserProfileForm($userid)
-  	{
-		parent::__construct();
+    function SiteAdminUserProfileForm($userid)
+    {
+        parent::__construct();
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["userid"] = $userid;
-		$linkparams["profile"] = "change";
-		$linkparams["action"] = "siteuserman";
-		$this->stringvars['profileactionvars'] = makelinkparameters($linkparams);
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["userid"] = $userid;
+        $linkparams["profile"] = "change";
+        $linkparams["action"] = "siteuserman";
+        $this->stringvars['profileactionvars'] = makelinkparameters($linkparams);
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["userid"] = $userid;
-		$linkparams["action"] = "siteuserman";
-		$this->stringvars['activateactionvars'] = makelinkparameters($linkparams);
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["userid"] = $userid;
+        $linkparams["action"] = "siteuserman";
+        $this->stringvars['activateactionvars'] = makelinkparameters($linkparams);
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["userid"] = $userid;
-		$linkparams["generate"] = "generate";
-		$linkparams["action"] = "siteuserman";
-		$this->stringvars['passgenactionvars'] = makelinkparameters($linkparams);
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["userid"] = $userid;
+        $linkparams["generate"] = "generate";
+        $linkparams["action"] = "siteuserman";
+        $this->stringvars['passgenactionvars'] = makelinkparameters($linkparams);
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["userid"] = $userid;
-		$linkparams["contact"] = "contact";
-		$linkparams["action"] = "siteuserman";
-		$this->stringvars['contactactionvars'] = makelinkparameters($linkparams);
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["userid"] = $userid;
+        $linkparams["contact"] = "contact";
+        $linkparams["action"] = "siteuserman";
+        $this->stringvars['contactactionvars'] = makelinkparameters($linkparams);
 
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
+        $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
 
-		$this->stringvars['username'] = title2html(getusername($userid));
-  		$this->stringvars['email']=getuseremail($userid);
-  		$this->stringvars['contactfunction']=getcontactfunction($userid);
-  		
-  		if(isactive($userid)) $this->stringvars['isactive']="true";
-  		else $this->stringvars['notactive']="true";
-  		
-  		if(getiscontact($userid)) $this->stringvars['iscontact']="true";
-  		$this->vars['iscontactform']= new CheckboxForm("iscontact","iscontact","<em>".$this->stringvars['username']."</em> can be contacted through the contact page:", getiscontact($userid));
+        $this->stringvars['username'] = title2html(getusername($userid));
+        $this->stringvars['email']=getuseremail($userid);
+        $this->stringvars['contactfunction']=getcontactfunction($userid);
+          
+        if(isactive($userid)) { $this->stringvars['isactive']="true";
+        } else { $this->stringvars['notactive']="true";
+        }
+          
+        if(getiscontact($userid)) { $this->stringvars['iscontact']="true";
+        }
+        $this->vars['iscontactform']= new CheckboxForm("iscontact", "iscontact", "<em>".$this->stringvars['username']."</em> can be contacted through the contact page:", getiscontact($userid));
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["action"] = "siteuserman";
-		$this->stringvars['returnlink'] = makelinkparameters($linkparams);
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["action"] = "siteuserman";
+        $this->stringvars['returnlink'] = makelinkparameters($linkparams);
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["userid"] = $userid;
-		$linkparams["action"] = "siteuserperm";
-		$this->stringvars['permissionslink'] = makelinkparameters($linkparams);
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["userid"] = $userid;
+        $linkparams["action"] = "siteuserperm";
+        $this->stringvars['permissionslink'] = makelinkparameters($linkparams);
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["action"] = "siteuserlist";
-		$this->stringvars['userlistlink'] = makelinkparameters($linkparams);
-	}
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["action"] = "siteuserlist";
+        $this->stringvars['userlistlink'] = makelinkparameters($linkparams);
+    }
 
-  	// assigns templates
-  	function createTemplates()
-  	{
-    	$this->addTemplate("admin/site/adminuserprofileform.tpl");
-  	}
+    // assigns templates
+    function createTemplates()
+    {
+        $this->addTemplate("admin/site/adminuserprofileform.tpl");
+    }
 }
 
 //
 //
 //
-class SitePublicUserProfileForm extends Template {
+class SitePublicUserProfileForm extends Template
+{
 
-	function SitePublicUserProfileForm($userid)
-  	{
-  		parent::__construct();
-  		
-		$this->stringvars['username'] = title2html(getpublicusername($userid));
-  		$this->stringvars['userid']=$userid;
+    function SitePublicUserProfileForm($userid)
+    {
+        parent::__construct();
+          
+        $this->stringvars['username'] = title2html(getpublicusername($userid));
+        $this->stringvars['userid']=$userid;
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["userid"] = $userid;
-		$linkparams["profile"] = "change";
-		$linkparams["type"] = "public";
-		$linkparams["action"] = "siteuserman";
-		$this->stringvars['profileactionvars'] = makelinkparameters($linkparams);
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["userid"] = $userid;
+        $linkparams["profile"] = "change";
+        $linkparams["type"] = "public";
+        $linkparams["action"] = "siteuserman";
+        $this->stringvars['profileactionvars'] = makelinkparameters($linkparams);
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["userid"] = $userid;
-		$linkparams["type"] = "public";
-		$linkparams["action"] = "siteuserman";
-		$this->stringvars['activateactionvars'] = makelinkparameters($linkparams);
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["userid"] = $userid;
+        $linkparams["type"] = "public";
+        $linkparams["action"] = "siteuserman";
+        $this->stringvars['activateactionvars'] = makelinkparameters($linkparams);
 
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
-  		
-  		if(ispublicuseractive($userid)) $this->stringvars['isactive']="true";
-  		else $this->stringvars['notactive']="true";
-  		
+        $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
+          
+        if(ispublicuseractive($userid)) { $this->stringvars['isactive']="true";
+        } else { $this->stringvars['notactive']="true";
+        }
+          
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["action"] = "siteuserman";
-		$this->stringvars['returnlink'] = makelinkparameters($linkparams);
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["action"] = "siteuserman";
+        $this->stringvars['returnlink'] = makelinkparameters($linkparams);
 
-		$this->vars['submitrow']= new SubmitRow("profile","Change Password",false,true,$this->stringvars['returnlink']);
-  		
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["userid"] = $userid;
-		$linkparams["type"] = "public";
-		$linkparams["action"] = "siteuserperm";
-		$this->stringvars['permissionslink'] = makelinkparameters($linkparams);
+        $this->vars['submitrow']= new SubmitRow("profile", "Change Password", false, true, $this->stringvars['returnlink']);
+          
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["userid"] = $userid;
+        $linkparams["type"] = "public";
+        $linkparams["action"] = "siteuserperm";
+        $this->stringvars['permissionslink'] = makelinkparameters($linkparams);
 
-		$linkparams=array();
-		$linkparams["page"] = $this->stringvars['page'];
-		$linkparams["action"] = "siteuserlist";
-		$this->stringvars['userlistlink'] = makelinkparameters($linkparams)."#public";
-	}
+        $linkparams=array();
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["action"] = "siteuserlist";
+        $this->stringvars['userlistlink'] = makelinkparameters($linkparams)."#public";
+    }
 
-  	// assigns templates
-  	function createTemplates()
-  	{
-    	$this->addTemplate("admin/site/publicuserprofileform.tpl");
-  	}
+    // assigns templates
+    function createTemplates()
+    {
+        $this->addTemplate("admin/site/publicuserprofileform.tpl");
+    }
 }
 ?>

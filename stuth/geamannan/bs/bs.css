@@ -1,83 +1,83 @@
 table.grid {
-	border:	black	1px	solid;
-	margin:0;
-	box-shadow: none;
+    border:    black    1px    solid;
+    margin:0;
+    box-shadow: none;
 }
 
 .solved {
-	color:red;
+    color:red;
 }
 
 .bingo {
-	color:black;
+    color:black;
 }
 
 .mouseover {
-	color:red;
+    color:red;
 }
 
 td.word {
-	border:	black	1px	solid;
-	text-align:center;
-	vertical-align:middle;
-	width:7em;
-	height:7em;
-	font-size: 110%;
-	padding: 2px;
+    border:    black    1px    solid;
+    text-align:center;
+    vertical-align:middle;
+    width:7em;
+    height:7em;
+    font-size: 110%;
+    padding: 2px;
 }
 
 
 td.highlight {
-	border:	black	1px	solid;
-	text-align:center;
-	vertical-align:middle;
-	width:7em;
-	height:7em;
-	font-size: 110%;
-	color:green;
+    border:    black    1px    solid;
+    text-align:center;
+    vertical-align:middle;
+    width:7em;
+    height:7em;
+    font-size: 110%;
+    color:green;
 }
 
 
 td.solved {
-	border:	black	1px	solid;
-	text-align:center;
-	vertical-align:middle;
-	width:7em;
-	height:7em;
-	font-size: 110%;
-	background:lightgrey;
+    border:    black    1px    solid;
+    text-align:center;
+    vertical-align:middle;
+    width:7em;
+    height:7em;
+    font-size: 110%;
+    background:lightgrey;
 }
 
 td.bingo {
-	border:	black	1px	solid;
-	text-align:center;
-	vertical-align:middle;
-	width:7em;
-	height:7em;
-	font-size: 110%;
-	background:lightpink;
+    border:    black    1px    solid;
+    text-align:center;
+    vertical-align:middle;
+    width:7em;
+    height:7em;
+    font-size: 110%;
+    background:lightpink;
 }
 
 
 td.print {
-	border:	black	1px	solid;
-	text-align:center;
-	vertical-align:middle;
-	width:120px;
-	height:120px;
-	font-size: 16px;
+    border:    black    1px    solid;
+    text-align:center;
+    vertical-align:middle;
+    width:120px;
+    height:120px;
+    font-size: 16px;
 }
 
 #messagebox {
-	position: absolute;
-	overflow: auto;
-	z-index: 10;
-	background:#ffffff;
-	padding:10px;
-	border:5px dashed red;
-	text-align:center;
-	font-size:28px;
-	padding-top:28px;
-	padding-bottom:28px;
-	opacity: 0;
+    position: absolute;
+    overflow: auto;
+    z-index: 10;
+    background:#ffffff;
+    padding:10px;
+    border:5px dashed red;
+    text-align:center;
+    font-size:28px;
+    padding-top:28px;
+    padding-bottom:28px;
+    opacity: 0;
 }

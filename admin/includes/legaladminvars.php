@@ -69,14 +69,14 @@ $getkeys=array_keys($_GET);
 
 while($key=current($getkeys))
 {
-    if(!array_key_exists($key,$LEGALVARS))
-    {
-	    header("HTTP/1.0 404 Not Found");
-		print("HTTP 404: Sorry, but this page does not exist.");
-		if(DEBUG) print("<br />'".$key."' not registered with legaladminvars.");
-		exit;
-	}
-	next($getkeys);
+    if(!array_key_exists($key, $LEGALVARS)) {
+        header("HTTP/1.0 404 Not Found");
+        print("HTTP 404: Sorry, but this page does not exist.");
+        if(DEBUG) { print("<br />'".$key."' not registered with legaladminvars.");
+        }
+        exit;
+    }
+    next($getkeys);
 }
 
 ?>

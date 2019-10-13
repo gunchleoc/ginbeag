@@ -9,7 +9,7 @@ $table_prefix = 'gaidhlig_';
 $defaultlanguage ='chartest';
 
 // Time zone list: http://de.php.net/manual/en/timezones.php
-date_default_timezone_set ('Europe/London');
+date_default_timezone_set('Europe/London');
 
 // Debug Level
 //define('DEBUG', 1); // Debugging on

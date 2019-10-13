@@ -4,9 +4,9 @@
  */
 
 $projectroot=dirname(__FILE__);
-$projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
-include_once($projectroot."includes/includes.php");
-include_once($projectroot."language/languages.php");
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
+require_once $projectroot."includes/includes.php";
+require_once $projectroot."language/languages.php";
 
 /**
  * Page template superclass
@@ -25,66 +25,69 @@ include_once($projectroot."language/languages.php");
  *
  * Make sure to overwrite createTemplates() as well.
  */
-class Template {
-	/**
-	 * A list of .tpl files used to generate the HTML representation of the object
-	 */
-	var $templates=array();
+class Template
+{
+    /**
+     * A list of .tpl files used to generate the HTML representation of the object
+     */
+    var $templates=array();
 
 
-	/**
-	 * Content variables that are simple strings
-	 */
+    /**
+     * Content variables that are simple strings
+     */
     var $stringvars=array();
 
-	/**
-	 * Content variables of class Template
-	 */
+    /**
+     * Content variables of class Template
+     */
     var $vars=array();
 
-	/**
-	 * Arrays of content variables of class Template
-	 */
+    /**
+     * Arrays of content variables of class Template
+     */
     var $listvars=array();
 
-	/**
-	 * Links to javascript library files
-	 */
+    /**
+     * Links to javascript library files
+     */
     var $jspaths=array();
 
-	/**
-	 * Javascript to be loaded inline. Contains {JSID}s that need replacing
-	 */
+    /**
+     * Javascript to be loaded inline. Contains {JSID}s that need replacing
+     */
     var $jscripts=array();
 
 
     /**
-	 * Constructor for the template superclass
-	 *
-	 * To create a template object, call this constructor first (parent::__construct();)
-	 * in its constructor, then add your data into the special arrays ($stringvars, $vars, $listvars).
-	 *
-	 * @param string $jsid A string added to HTML elements' IDs in the .tpl file, for uniquely
-	 * referencing multiple elements with the same name. Will be inserted for each {JSID} in the .tpl file.
-	 *
-	 * @param array $jspaths A list of javascript libraries to link in the HTML
-	 *
-	 * @param array $jscripts A list of javascript functions to include inline in the HTML. These will be run through the parser.
-	 *
-	 * @return void
-	 */
+     * Constructor for the template superclass
+     *
+     * To create a template object, call this constructor first (parent::__construct();)
+     * in its constructor, then add your data into the special arrays ($stringvars, $vars, $listvars).
+     *
+     * @param string $jsid     A string added to HTML elements' IDs in the .tpl file, for uniquely
+     *                         referencing multiple elements with the same name. Will be inserted
+     *                         for each {JSID} in the .tpl file.     
+     *
+     * @param array  $jspaths  A list of javascript libraries to link in the HTML
+     *
+     * @param array  $jscripts A list of javascript functions to include inline in the HTML. These will be run through the parser.
+     *
+     * @return void
+     */
     function Template($jsid="",$jspaths=array(),$jscripts=array())
     {
-    	global $sid, $page;
+        global $sid, $page;
 
-		if(DEBUG) print ("<!-- ".get_class($this)." //-->\n");
+        if(DEBUG) { print ("<!-- ".get_class($this)." //-->\n");
+        }
 
-    	$this->stringvars['sid']=$sid;
-    	$this->stringvars['page']=$page;
-    	$this->stringvars['jsid']=$jsid;
-    	$this->jspaths=$jspaths;
-    	$this->jscripts=$jscripts;
-    	$this->createTemplates();
+        $this->stringvars['sid']=$sid;
+        $this->stringvars['page']=$page;
+        $this->stringvars['jsid']=$jsid;
+        $this->jspaths=$jspaths;
+        $this->jscripts=$jscripts;
+        $this->createTemplates();
     }
 
 
@@ -100,67 +103,67 @@ class Template {
     }
 
 
-	/**
+    /**
      * Get an array of links to javascript files already prepared as string for includion in HTML header
      *
      * @return string HTML with <script> tags to link to the $jspaths
      */
-	function getjspaths()
-	{
-		$result="";
+    function getjspaths()
+    {
+        $result="";
 
-	  	for($i=0;$i<count($this->jspaths);$i++)
-	  	{
-	  		$result.='<script type="text/javascript" src="'.getprojectrootlinkpath().$this->jspaths[$i].'"></script>';
-	  	}
+        for($i=0;$i<count($this->jspaths);$i++)
+        {
+            $result.='<script type="text/javascript" src="'.getprojectrootlinkpath().$this->jspaths[$i].'"></script>';
+        }
 
-	  	return $result;
-	}
+        return $result;
+    }
 
 
-	/**
+    /**
      * Get inline javascript as string to be placed in header. {JSID}s have been replaced.
      *
      * Calls prepareJavaScript($jsid, $scriptpath) for all $jscripts
      *
      * @return string HTML with <script> tags and inline javascript that has the {JSID} replaced
      */
-	function getScripts()
-	{
-		$result = "&nbsp;".$this->prepareJavaScript("admin/includes/javascript/messageboxes.js");
+    function getScripts()
+    {
+        $result = "&nbsp;".$this->prepareJavaScript("admin/includes/javascript/messageboxes.js");
 
-		for($i=0;$i<count($this->jscripts);$i++)
-		{
-			$result .= $this->prepareJavaScript($this->jscripts[$i])." ";
-		}
-		return $result;
-	}
-
-
-	/**
-	 * Individualise javascripts with {JSID}s. Needed when the same javascript is inserted more than once into the same page.
-	 *
-	 * @return string HTML with <script> tags and inline javascript that has the {JSID} replaced
-	 */
-	function prepareJavaScript($scriptpath)
-	{
-		global $projectroot;
-		$result="";
-
-		$filename=$projectroot.$scriptpath;
-		if(file_exists($filename))
-		{
-			$result.= implode("", @file($filename));
-		}
-		elseif(DEBUG) print('<p class="highlight">Missing javascript file! '.$filename.'</p>');
-
-		// replace JSIDs
-		$result = '<script language="JavaScript">'.str_replace ("{JSID}", $this->stringvars["jsid"], $result).'</script>';
-		return $result;
-	}
+        for($i=0;$i<count($this->jscripts);$i++)
+        {
+            $result .= $this->prepareJavaScript($this->jscripts[$i])." ";
+        }
+        return $result;
+    }
 
 
-	/**
+    /**
+     * Individualise javascripts with {JSID}s. Needed when the same javascript is inserted more than once into the same page.
+     *
+     * @return string HTML with <script> tags and inline javascript that has the {JSID} replaced
+     */
+    function prepareJavaScript($scriptpath)
+    {
+        global $projectroot;
+        $result="";
+
+        $filename=$projectroot.$scriptpath;
+        if(file_exists($filename)) {
+            $result.= implode("", @file($filename));
+        }
+        elseif(DEBUG) { print('<p class="highlight">Missing javascript file! '.$filename.'</p>');
+        }
+
+        // replace JSIDs
+        $result = '<script language="JavaScript">'.str_replace("{JSID}", $this->stringvars["jsid"], $result).'</script>';
+        return $result;
+    }
+
+
+    /**
      * Adds a .tpl template to be parsed and added to the HTML output
      *
      * You can call this function multiple times.
@@ -172,118 +175,113 @@ class Template {
      */
     function addTemplate($filename)
     {
-		$this->templates[]=$filename;
+        $this->templates[]=$filename;
     }
 
 
-	/**
-	 * Parses variables in the attribute arrays into all .tpl templates
-	 *
-	 * Data ist stored in special arrays ($stringvars, $vars, $listvars).
-	 * The placeholder variables in the corresponding .tpl file are replaced by the
-	 * contents of these arrays by this function.
-	 *
-	 * @return string the HTML representation of this object
-	 */
+    /**
+     * Parses variables in the attribute arrays into all .tpl templates
+     *
+     * Data ist stored in special arrays ($stringvars, $vars, $listvars).
+     * The placeholder variables in the corresponding .tpl file are replaced by the
+     * contents of these arrays by this function.
+     *
+     * @return string the HTML representation of this object
+     */
     function toHTML()
     {
-		global $projectroot;
-		$result="";
+        global $projectroot;
+        $result="";
 
-		// concatenate templates
-		for($i=0;$i<count($this->templates);$i++)
-		{
-			$filename=$projectroot."templates/".getproperty("Default Template")."/".$this->templates[$i];
-			if(file_exists($filename))
-			{
-				$result.= implode("", @file($filename));
-			}
-			else
-			{
-				$filename=$projectroot."templates/default/".$this->templates[$i];
-				if(file_exists($filename))
-				{
-					$result.= implode("", @file($filename));
-				}
-				elseif(DEBUG) print('<p class="highlight">Missing template file! '.$filename.'</p>');
-			}
-		}
+        // concatenate templates
+        for($i=0;$i<count($this->templates);$i++)
+        {
+            $filename=$projectroot."templates/".getproperty("Default Template")."/".$this->templates[$i];
+            if(file_exists($filename)) {
+                $result.= implode("", @file($filename));
+            }
+            else
+            {
+                $filename=$projectroot."templates/default/".$this->templates[$i];
+                if(file_exists($filename)) {
+                    $result.= implode("", @file($filename));
+                }
+                elseif(DEBUG) { print('<p class="highlight">Missing template file! '.$filename.'</p>');
+                }
+            }
+        }
 
-		// handle switches
-		$keys=array_keys($this->vars);
-		$keys=array_merge($keys,array_keys($this->stringvars));
-		$listkeys=array_keys($this->listvars);
-		while($listkey=current($listkeys))
-		{
-			if(!empty($listkey)) $keys[]=$listkey;
-			next($listkeys);
-		}
+        // handle switches
+        $keys=array_keys($this->vars);
+        $keys=array_merge($keys, array_keys($this->stringvars));
+        $listkeys=array_keys($this->listvars);
+        while($listkey=current($listkeys))
+        {
+            if(!empty($listkey)) { $keys[]=$listkey;
+            }
+            next($listkeys);
+        }
 
-		preg_match_all("/<!--\s*BEGIN\s*switch\s*(\w*)\s*-->/", $result, $matches);
+        preg_match_all("/<!--\s*BEGIN\s*switch\s*(\w*)\s*-->/", $result, $matches);
 
-		for($i=0;$i<count($matches[1]);$i++)
-		{
-			$found =array_search(strtolower($matches[1][$i]),$keys);
-			$pattern="/<!--\s*BEGIN\s*switch\s*".$matches[1][$i]."\s*-->(.*)<!--\s*END\s*switch\s*".$matches[1][$i]."\s*-->/Us";
-			if($found || $found === 0)
-			{
-				$result=preg_replace($pattern,"\\1",$result);
-			}
-			else
-			{
-				$result=preg_replace($pattern,"",$result);
-			}
-		}
-
-
-		// parse vars
-		$keys=array_keys($this->vars);
-		if(count($keys))
-		{
-			while($key=current($keys))
-			{
-				// just a precaution
-				if($this->vars[$key] instanceof Template)
-				{
-					$result=str_replace ("{".strtoupper($key)."}", $this->vars[$key]->toHTML(), $result);
-				}
-				next($keys);
-			}
-		}
-		// parse listvars
-		$listkeys=array_keys($this->listvars);
-		for($i=0;$i<count($listkeys);$i++)
-		{
-			$temp="";
-			$currentarray=$this->listvars[$listkeys[$i]];
-			$keys=array_keys($currentarray);
-			for($j=0;$j<count($keys);$j++)
-			{
-				// just a precaution
-				if($currentarray[$keys[$j]] instanceof Template)
-				{
-					// concatenate from the object's own toHTML function
-					$temp.=$currentarray[$keys[$j]]->toHTML();
-				}
-			}
-			// replace with concatenated string
-			$result=str_replace ("{".strtoupper($listkeys[$i])."}", $temp, $result);
-		}
+        for($i=0;$i<count($matches[1]);$i++)
+        {
+            $found =array_search(strtolower($matches[1][$i]), $keys);
+            $pattern="/<!--\s*BEGIN\s*switch\s*".$matches[1][$i]."\s*-->(.*)<!--\s*END\s*switch\s*".$matches[1][$i]."\s*-->/Us";
+            if($found || $found === 0) {
+                $result=preg_replace($pattern, "\\1", $result);
+            }
+            else
+            {
+                $result=preg_replace($pattern, "", $result);
+            }
+        }
 
 
-		// parse stringvars
-		$keys=array_keys($this->stringvars);
-		if(count($keys))
-		{
-			while($key=current($keys))
-			{
-				$result=str_replace ("{".strtoupper($key)."}", $this->stringvars[$key], $result);
-				next($keys);
-			}
-		}
+        // parse vars
+        $keys=array_keys($this->vars);
+        if(count($keys)) {
+            while($key=current($keys))
+            {
+                // just a precaution
+                if($this->vars[$key] instanceof Template) {
+                    $result=str_replace("{".strtoupper($key)."}", $this->vars[$key]->toHTML(), $result);
+                }
+                next($keys);
+            }
+        }
+        // parse listvars
+        $listkeys=array_keys($this->listvars);
+        for($i=0;$i<count($listkeys);$i++)
+        {
+            $temp="";
+            $currentarray=$this->listvars[$listkeys[$i]];
+            $keys=array_keys($currentarray);
+            for($j=0;$j<count($keys);$j++)
+            {
+                // just a precaution
+                if($currentarray[$keys[$j]] instanceof Template) {
+                    // concatenate from the object's own toHTML function
+                    $temp.=$currentarray[$keys[$j]]->toHTML();
+                }
+            }
+            // replace with concatenated string
+            $result=str_replace("{".strtoupper($listkeys[$i])."}", $temp, $result);
+        }
 
-		return $result;
-	}
+
+        // parse stringvars
+        $keys=array_keys($this->stringvars);
+        if(count($keys)) {
+            while($key=current($keys))
+            {
+                $result=str_replace("{".strtoupper($key)."}", $this->stringvars[$key], $result);
+                next($keys);
+            }
+        }
+
+        return $result;
+    }
 
 
 
@@ -294,27 +292,30 @@ class Template {
     //
     function makehiddenvars($vars = array())
     {
-		$result= "";
-		if(strlen($this->stringvars["sid"]) > 0)
-			$result .= '<input type="hidden" id="'.$this->stringvars["jsid"].'sid" name="sid" value="'.$this->stringvars["sid"].'" />';
-		if(strlen($this->stringvars["page"]) > 0 && $this->stringvars["page"] > 0)
-			$result .= '<input type="hidden" id="'.$this->stringvars["jsid"].'page" name="page" value="'.$this->stringvars["page"].'" />';
+        $result= "";
+        if(strlen($this->stringvars["sid"]) > 0) {
+            $result .= '<input type="hidden" id="'.$this->stringvars["jsid"].'sid" name="sid" value="'.$this->stringvars["sid"].'" />';
+        }
+        if(strlen($this->stringvars["page"]) > 0 && $this->stringvars["page"] > 0) {
+            $result .= '<input type="hidden" id="'.$this->stringvars["jsid"].'page" name="page" value="'.$this->stringvars["page"].'" />';
+        }
 
-  		// add extra vars
-    	$keys = array_keys($vars);
-    	while($key=current($keys))
-  		{
-			if(strlen($vars[$key]) > 0)
-			{
-				$result.= '<input type="hidden" id="'.$this->stringvars["jsid"].$key.'" name="'.$key.'" value="'.$vars[$key].'" />';
-			}
-    		next($keys);
-  		}
-  		return $result;
+        // add extra vars
+        $keys = array_keys($vars);
+        while($key=current($keys))
+        {
+            if(strlen($vars[$key]) > 0) {
+                $result.= '<input type="hidden" id="'.$this->stringvars["jsid"].$key.'" name="'.$key.'" value="'.$vars[$key].'" />';
+            }
+            next($keys);
+        }
+        return $result;
     }
 }
 
-/************************* non-object functions ****************************/
+/*************************
+ * non-object functions 
+ ****************************/
 
 /**
  * Helper function for testing
@@ -343,11 +344,10 @@ function print_vars($obj)
  */
 function getCSSPath($stylesheet="")
 {
-	global $projectroot;
-	$result=getprojectrootlinkpath()."templates/default/".$stylesheet;
+    global $projectroot;
+    $result=getprojectrootlinkpath()."templates/default/".$stylesheet;
     $filename=$projectroot."templates/".getproperty("Default Template")."/".$stylesheet;
-    if(file_exists($filename))
-    {
+    if(file_exists($filename)) {
         $result= getprojectrootlinkpath()."templates/".getproperty("Default Template")."/".$stylesheet;
     }
     return $result;

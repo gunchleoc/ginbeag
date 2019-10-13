@@ -1,87 +1,89 @@
 <?php
 $projectroot=dirname(__FILE__);
 // zweimal, weil nur auf "a" geprft wird
-$projectroot=substr($projectroot,0,strrpos($projectroot,"objects"));
-$projectroot=substr($projectroot,0,strrpos($projectroot,"includes"));
-$projectroot=substr($projectroot,0,strrpos($projectroot,"admin"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "objects"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
-include_once($projectroot."includes/functions.php");
-include_once($projectroot."includes/objects/template.php");
-include_once($projectroot."includes/objects/forms.php");
-include_once($projectroot."functions/pages.php");
-include_once($projectroot."functions/pagecontent/articlepages.php");
-include_once($projectroot."functions/pagecontent/linklistpages.php");
-include_once($projectroot."functions/pagecontent/newspages.php");
-include_once($projectroot."includes/objects/elements.php");
-include_once($projectroot."includes/objects/images.php");
+require_once $projectroot."includes/functions.php";
+require_once $projectroot."includes/objects/template.php";
+require_once $projectroot."includes/objects/forms.php";
+require_once $projectroot."functions/pages.php";
+require_once $projectroot."functions/pagecontent/articlepages.php";
+require_once $projectroot."functions/pagecontent/linklistpages.php";
+require_once $projectroot."functions/pagecontent/newspages.php";
+require_once $projectroot."includes/objects/elements.php";
+require_once $projectroot."includes/objects/images.php";
 
 
 //
 // Templating for Editor
 //
-class Editor extends Template {
+class Editor extends Template
+{
 
     function Editor($page,$item, $elementtype, $title="Text", $iscollapsed=true)
     {
-		parent::__construct($page.'-'.$item, array(), array(0 => "admin/includes/javascript/editor.js"));
-		$this->stringvars['javascript']=$this->getScripts();
+        parent::__construct($page.'-'.$item, array(), array(0 => "admin/includes/javascript/editor.js"));
+        $this->stringvars['javascript']=$this->getScripts();
 
-		$this->stringvars['item']=$item;
-		$this->stringvars['elementtype']=$elementtype;
-		$this->stringvars['title']=$title;
+        $this->stringvars['item']=$item;
+        $this->stringvars['elementtype']=$elementtype;
+        $this->stringvars['title']=$title;
 
-		if($iscollapsed)
-			$this->vars['editorcontents']= new EditorContentsCollapsed($page,$item, $elementtype,"Edit ".$title);
-		else
-			$this->vars['editorcontents']= new EditorContentsExpanded($page,$item, $elementtype,"Edit ".$title);
+        if($iscollapsed) {
+            $this->vars['editorcontents']= new EditorContentsCollapsed($page, $item, $elementtype, "Edit ".$title);
+        } else {
+            $this->vars['editorcontents']= new EditorContentsExpanded($page, $item, $elementtype, "Edit ".$title);
+        }
 
-      	$this->stringvars['previewtext']=text2html(geteditortext($page,$item, $elementtype));
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars();
+        $this->stringvars['previewtext']=text2html(geteditortext($page, $item, $elementtype));
+        $this->stringvars['hiddenvars'] = $this->makehiddenvars();
     }
 
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("admin/editor.tpl");
+        $this->addTemplate("admin/editor.tpl");
     }
 }
 
 //
 // expanded editor contents
 //
-class EditorContentsExpanded extends Template {
+class EditorContentsExpanded extends Template
+{
 
     function EditorContentsExpanded($page,$item, $elementtype,$title="Edit text", $edittext=false)
     {
-    	parent::__construct($page.'-'.$item);
+        parent::__construct($page.'-'.$item);
 
-		$hiddenvars["page"] = $page;
-		$hiddenvars["item"] = $item;
-		$hiddenvars["title"] = $title;
-		$hiddenvars["elementtype"] = $elementtype;
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
+        $hiddenvars["page"] = $page;
+        $hiddenvars["item"] = $item;
+        $hiddenvars["title"] = $title;
+        $hiddenvars["elementtype"] = $elementtype;
+        $this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
 
-		$this->stringvars['title']=$title;
+        $this->stringvars['title']=$title;
 
-		if($edittext!=false)
-		{
-			$edittext = stripslashes(stripslashes($edittext));
-			$this->stringvars['text']=$edittext;
-			$this->stringvars['previewtext']=text2html($edittext);
-		}
-		else
-		{
-			$text = geteditortext($page,$item, $elementtype);
-			$this->stringvars['text']=input2html($text);
-	      	$this->stringvars['previewtext']=text2html($text);
-		}
-      	$this->vars['styleform']=new OptionForm("0",array(0=>"0", 1=>"en"),array(0=>"-- Style --", 1=>"English"),$this->stringvars['jsid']."styleform","",1);
+        if($edittext!=false) {
+            $edittext = stripslashes(stripslashes($edittext));
+            $this->stringvars['text']=$edittext;
+            $this->stringvars['previewtext']=text2html($edittext);
+        }
+        else
+        {
+            $text = geteditortext($page, $item, $elementtype);
+            $this->stringvars['text']=input2html($text);
+              $this->stringvars['previewtext']=text2html($text);
+        }
+        $this->vars['styleform']=new OptionForm("0", array(0=>"0", 1=>"en"), array(0=>"-- Style --", 1=>"English"), $this->stringvars['jsid']."styleform", "", 1);
     }
 
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("admin/editorcontentsexpanded.tpl");
+        $this->addTemplate("admin/editorcontentsexpanded.tpl");
     }
 }
 
@@ -89,49 +91,51 @@ class EditorContentsExpanded extends Template {
 //
 // expanded editor contents
 //
-class EditorContentsCollapsed extends Template {
+class EditorContentsCollapsed extends Template
+{
 
     function EditorContentsCollapsed($page,$item, $elementtype, $title="Edit text")
     {
-    	parent::__construct($page.'-'.$item);
+        parent::__construct($page.'-'.$item);
 
-		$hiddenvars["page"] = $page;
-		$hiddenvars["item"] = $item;
-		$hiddenvars["title"] = $title;
-		$hiddenvars["elementtype"] = $elementtype;
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
+        $hiddenvars["page"] = $page;
+        $hiddenvars["item"] = $item;
+        $hiddenvars["title"] = $title;
+        $hiddenvars["elementtype"] = $elementtype;
+        $this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
 
-    	$this->stringvars['title']=$title;
+        $this->stringvars['title']=$title;
     }
 
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("admin/editorcontentscollapsed.tpl");
+        $this->addTemplate("admin/editorcontentscollapsed.tpl");
     }
 }
 
 //
 // expanded editor contents
 //
-class EditorContentsSaveDialog extends Template {
+class EditorContentsSaveDialog extends Template
+{
 
     function EditorContentsSaveDialog($page,$item, $elementtype, $edittext,$title="Edit text")
     {
-    	parent::__construct($page.'-'.$item);
+        parent::__construct($page.'-'.$item);
 
-		$hiddenvars["page"] = $page;
-		$hiddenvars["item"] = $item;
-		$hiddenvars["title"] = $title;
-		$hiddenvars["elementtype"] = $elementtype;
-		$hiddenvars["edittext"] = htmlspecialchars($edittext);
-		$this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
+        $hiddenvars["page"] = $page;
+        $hiddenvars["item"] = $item;
+        $hiddenvars["title"] = $title;
+        $hiddenvars["elementtype"] = $elementtype;
+        $hiddenvars["edittext"] = htmlspecialchars($edittext);
+        $this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
     }
 
     // assigns templates
     function createTemplates()
     {
-		$this->addTemplate("admin/editorcontentssavedialog.tpl");
+        $this->addTemplate("admin/editorcontentssavedialog.tpl");
     }
 }
 
@@ -143,23 +147,23 @@ class EditorContentsSaveDialog extends Template {
 //
 function geteditortext($page,$item, $elementtype)
 {
-	$text="Text could not be loaded for ".$elementtype.", page ".$page.", item ".$item.".";
+    $text="Text could not be loaded for ".$elementtype.", page ".$page.", item ".$item.".";
 
-	if($elementtype==="pageintro") {
-		$text=getpageintrotext($page);
-	} elseif($elementtype==="articlesection") {
-		$text=getarticlesectiontext($item);
-	} elseif($elementtype==="link")	{
-		$text=getlinkdescription($item);
-	} elseif($elementtype==="newsitemsynopsis") {
-		$text=getnewsitemsynopsistext($item);
-	} elseif($elementtype==="newsitemsection") {
-		$text=getnewsitemsectiontext($item);
-	} elseif($elementtype==="sitepolicy" || $elementtype==="guestbook" || $elementtype==="contact") {
-		$sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array($elementtype), 's');
-		$text= $sql->fetch_value();
-	}
-	return stripslashes($text);
+    if($elementtype==="pageintro") {
+        $text=getpageintrotext($page);
+    } elseif($elementtype==="articlesection") {
+        $text=getarticlesectiontext($item);
+    } elseif($elementtype==="link") {
+        $text=getlinkdescription($item);
+    } elseif($elementtype==="newsitemsynopsis") {
+        $text=getnewsitemsynopsistext($item);
+    } elseif($elementtype==="newsitemsection") {
+        $text=getnewsitemsectiontext($item);
+    } elseif($elementtype==="sitepolicy" || $elementtype==="guestbook" || $elementtype==="contact") {
+        $sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array($elementtype), 's');
+        $text= $sql->fetch_value();
+    }
+    return stripslashes($text);
 }
 
 
