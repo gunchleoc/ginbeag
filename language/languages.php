@@ -31,25 +31,44 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "language"));
 
 require_once $projectroot."includes/functions.php";
 
-if(isset($defaultlanguage) && file_exists($projectroot."language/".$defaultlanguage.".php")) { include_once $projectroot."language/".$defaultlanguage.".php";
-} else { include_once $projectroot."language/en.php";
+if (isset($defaultlanguage)
+    && file_exists($projectroot."language/".$defaultlanguage.".php")
+) {
+    include_once $projectroot."language/".$defaultlanguage.".php";
+} else {
+    include_once $projectroot."language/en.php";
 }
 
 
-// get lang for key string
-function getlang($element)
+/**
+ * Get translated string for key string
+ *
+ * @param string $key Key for fetching the translated string
+ *
+ * @return the translation for the given key
+ */
+function getlang($key)
 {
     global $lang;
-    if(array_key_exists($element, $lang)) { return $lang[$element];
-    } else { return "[".$element."]";
+    if (array_key_exists($key, $lang)) {
+        return $lang[$key];
+    } else {
+        return "[".$key."]";
     }
 }
 
-// get lang from array of key strings
-function getlangarray($element,$index)
+/**
+ * Get translated string from array of key strings, e.g. to get a specific month name
+ *
+ * @param string $key   Main key, e.g. "date_month_short"
+ * @param int    $index Sub index, e.g. 1
+ *
+ * @return The translation for the given key at the given index
+ */
+function getlangarray($key, $index)
 {
     global $lang;
-    return $lang[$element][$index];
+    return $lang[$key][$index];
 }
 
 ?>
