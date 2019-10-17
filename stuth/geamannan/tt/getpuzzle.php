@@ -2,12 +2,7 @@
 //todo: store games in database
 // words array, dimension, noofwords
 require_once "config.php";
-
-$db=@new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
-if (!$db) {
-    echo "Can't connect to database. Please try again later." . PHP_E
-    exit();
-}
+require_once "../../../functions/db.php";
 
 $dimension=20;
 
@@ -66,10 +61,10 @@ function findfirstword($dimension)
     }
 
     // try to get minimum length word
-    for($i=0; count($word)<1 && $i<MAX_RETRIES; $i++)
+    for($i=0; $i<MAX_RETRIES; $i++)
     {
-        $query = "SELECT * FROM ".DBTABLE.", (SELECT FLOOR(MAX(".DBTABLE.".id) * RAND()) AS randId FROM ".DBTABLE.") AS someRandId WHERE ".DBTABLE.".id = someRandId.randId AND solution like '".$wildcard."%';";
-        $word = getwordfromdatabase($query);
+        $sql = new RawSQLStatement("SELECT * FROM ".DBTABLE.", (SELECT FLOOR(MAX(".DBTABLE.".id) * RAND()) AS randId FROM ".DBTABLE.") AS someRandId WHERE ".DBTABLE.".id = someRandId.randId AND solution like ?", array($wildcard . '%'), 's');
+        $word = $sql->fetch_value();
 
         print("<br />strlen=".strlen($word["solution"]));
         if(strlen($word["solution"])>$dimension) {
@@ -80,9 +75,9 @@ function findfirstword($dimension)
 
     }
     // if no word found, get any word
-    if(!count($word)) {
-        $query = "SELECT * FROM ".DBTABLE.", (SELECT FLOOR(MAX(".DBTABLE.".id) * RAND()) AS randId FROM ".DBTABLE.") AS someRandId WHERE ".DBTABLE.".id = someRandId.randId;";
-        $word = getwordfromdatabase($query);
+    if (empty($word)) {
+        $sql = new RawSQLStatement("SELECT * FROM ".DBTABLE.", (SELECT FLOOR(MAX(".DBTABLE.".id) * RAND()) AS randId FROM ".DBTABLE.") AS someRandId WHERE ".DBTABLE.".id = someRandId.randId");
+        $word = $sql->fetch_value();
 
         print("<br />strlen=".strlen($word["solution"]));
         if(strlen($word["solution"])>$dimension) {
@@ -91,7 +86,7 @@ function findfirstword($dimension)
             $word=array();
         }
     }
-    if(count($word)) {
+    if (empty($word)) {
         print("<br />adding first word: ");
 
         $word["ypos"]=rand(0, $dimension-strlen($word["solution"]));
@@ -123,6 +118,10 @@ function findsecondword($dimension)
         $minlengthwildcard.="_";
     }
     $minlengthwildcard ="_"; // todo remove this line
+
+    if (empty($words)) {
+        exit(1);
+    }
 
     $attachword=$words[0];
 
@@ -212,8 +211,8 @@ function findsecondword($dimension)
 
         //for($j=0;count($word)<1 && $j<$maxlettersbefore;$j++)
         {
-        $query = "SELECT * FROM ".DBTABLE.", (SELECT FLOOR(MAX(".DBTABLE.".id) * RAND()) AS randId FROM ".DBTABLE.") AS someRandId WHERE ".DBTABLE.".id = someRandId.randId AND ".$condition;
-        $word = getwordfromdatabase($query);
+        $sql = new RawSQLStatement("SELECT * FROM ".DBTABLE.", (SELECT FLOOR(MAX(".DBTABLE.".id) * RAND()) AS randId FROM ".DBTABLE.") AS someRandId WHERE ".DBTABLE.".id = someRandId.randId");
+        $word = $sql->fetch_value();
         }
 
         // todo check length again?
@@ -308,8 +307,8 @@ function findword($dimension)
         $wildcard="";
         for($j=0;count($word)<1 && $j<$maxlettersbefore;$j++)
         {
-            $query = "SELECT * FROM ".DBTABLE.", (SELECT FLOOR(MAX(".DBTABLE.".id) * RAND()) AS randId FROM ".DBTABLE.") AS someRandId WHERE ".DBTABLE.".id = someRandId.randId AND solution like '".$wildcard.$attachletter."%';";
-            $word = getwordfromdatabase($query);
+            $sql = new RawSQLStatement("SELECT * F1ROM ".DBTABLE.", (SELECT FLOOR(MAX(".DBTABLE.".id) * RAND()) AS randId FROM ".DBTABLE.") AS someRandId WHERE ".DBTABLE.".id = someRandId.randId AND solution like ?", array($wildcard . $attachletter. '%'), 's');
+            $word = $sql->fetch_value();
 
             print("<br />checking word:");
             print_r($word);
@@ -372,38 +371,6 @@ function addword($word)
     $words[]=$word;
     displayarray($grid);
 }
-
-
-
-/**
- *
- */
-function getwordfromdatabase($query)
-{
-    $dbrow="";
-    while($dbrow=="")
-    {
-        $sql=singlequery($query);
-        //print_r($query);
-        if($sql) {
-            $fields = $sql->field_count;
-
-            // get row
-            if ($dbrow = $sql->fetch_row()) {
-                // make associative array
-                for($field=0;$field<$fields;$field++)
-                {
-                    $word[$sql->fetch_field_direct($field)->name]=$dbrow[$field];
-                }
-            }
-        }
-    }
-    $sql->free_result();
-    return $word;
-}
-
-
-
 
 //
 // get random entry form database and print as XML for AJAX
@@ -558,30 +525,6 @@ function getcolumn($fieldname, $table, $condition)
     }
     return $result;
 }
-
-
-//
-//
-//
-function singlequery($query)
-{
-    global $dbname,$dbhost,$dbuser,$dbpasswd,$db;
-
-    $result=$query;
-
-    $result = @$db->query($query);
-    if (!$result) {
-        print("Can't get data from database. Please notify the admin." . PHP_EOL);
-        exit();
-    }
-
-    if (preg_match("/insert/i", $query)) {
-        $result= $db->insert_id;
-    }
-
-    return $result;
-}
-
 
 //
 // dislays an array[$row][$col] as table data
