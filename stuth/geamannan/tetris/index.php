@@ -83,7 +83,10 @@ $(document).ready(function() {
 <?php
 $navigator = new Navigator(38, false, 1, false, false);
 print($navigator->toHTML());
-$db->closedb();
+if (getproperty('Display Banners')) {
+    $banners=new BannerList();
+    print($banners->toHTML());
+}
 ?>
         </div>
         <div id="contentarea" style="height: 500px;" title="Susbaint">
@@ -195,8 +198,7 @@ $db->closedb();
 <p class="gen">Cleachdaidh an geama seo JavaScript agus briosgaidean.</p>
 <p class="gen">Ma tha sgrìn beag agad, <a href="index.html">falaich na bannan-cinn is clàran-taice</a>.</p>
 <!-- End game HTML -->
-        </div>
-    <div class="footer newline"></div>
-    </div>
-</body>
-</html>
+<?php
+$footer = new PageFooter();
+print($footer->toHTML());
+?>
