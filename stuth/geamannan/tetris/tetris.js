@@ -1308,7 +1308,7 @@ $(document).ready(
 
                         $(xml).find('entry').each(
                             function () {
-                                scores+='<tr><td align="right" valign="top">'+$(this).find('id').text()+'.</td><td>'+$(this).find('name').text()+'</td><td align="right" valign="top">'+$(this).find('score').text()+'</td></tr>';
+                                scores+='<tr><td align="right" valign="top">'+$(this).find('rank').text()+'.</td><td>'+$(this).find('name').text()+'</td><td align="right" valign="top">'+$(this).find('score').text()+'</td></tr>';
                             }
                         );
                         scores+='</table>';

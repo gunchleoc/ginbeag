@@ -132,7 +132,7 @@ $db->closedb();
                 <div class="h5">Stadastaig:</div>
                 <table cellspacing="0" cellpadding="0">
                 <tr>
-                    <td    class="level">Rang:</td>
+                    <td    class="level">Leibheil:</td>
                     <td><span id="tetris-stats-level">1</span></td>
                 </tr>
                 <tr>
