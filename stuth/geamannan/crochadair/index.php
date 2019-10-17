@@ -3,86 +3,22 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "stuth"));
 
 require_once $projectroot."includes/objects/page.php";
+$meta_content = '<meta name="keywords" content="Gaelic, Scottish-Gaelic, Scots Gaelic, Schottisch-Gälisch, Gàidhlig, Fòram, bòrd-brath, forum">';
+$meta_content .= '<script type="text/javascript" src="../../../includes/javascript/jquery.js"></script>';
+$meta_content .= '<script type="text/javascript" src="crochadair.js"></script>';
+$meta_content .= '<link rel="stylesheet" href="crochadair.css" type="text/css">';
+
+$header = new PageHeader(0, utf8_decode("An Crochadair"), $meta_content);
+print($header->toHTML());
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <meta name="keywords" content="Gaelic, Scottish-Gaelic, Scots Gaelic, Schottisch-Gälisch, Gàidhlig, Fòram, bòrd-brath, forum">
-    <title>Fòram na Gàidhlig - An Crochadair</title>
-    <meta http-equiv="Content-Type"    content="text/html;    charset=utf-8">
-    <link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
-    <link rel="stylesheet" href="crochadair.css" type="text/css">
-    <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript" src="crochadair.js"></script>
-    <script language="JavaScript">
-
-// special treatment for IE
-if(navigator.appName =="Microsoft Internet Explorer")
-{
-    document.write('<link rel="stylesheet" type="text/css" href="templates/ie.css">');
-}
-
-$(document).ready(function() {
-    // height for pages where content is shorter than navigator
-    var navheight = $("#navigator").outerHeight(true);
-    var bannerheight = $("#banners").outerHeight(true);
-    var highestheader = $("#headerleft");
-
-    if ($("#headerright").outerHeight(true) > highestheader.outerHeight(true))
-    {
-        highestheader = $("#headerright");
-    }
-    if ($("#headercenter").outerHeight(true) > highestheader.outerHeight(true))
-    {
-        highestheader = $("#headercenter");
-    }
-    var headerheight = highestheader.outerHeight(true);
-    var titleheight = $("#headerpagetitle").outerHeight(true);
-    var wrapperheight = Math.ceil(navheight+bannerheight+headerheight+titleheight);
-    if ($("#wrapper").height() < wrapperheight)
-    {
-        $("#wrapper").height(wrapperheight);
-        var difference = $("#wrapper").outerHeight() - $("#wrapper").height();
-        //var difference = $("#wrapper").css("margin-top")+ $("#wrapper").css("margin-bottom")+ $("#wrapper").css("padding-top")+$("#wrapper").css("padding-bottom");
-        var margin = $("#contentarea").css("margin-bottom").replace("px","") + $("#contentarea").css("margin-top").replace("px","");
-        $("#contentarea").height(Math.ceil(navheight+bannerheight-difference-margin));
-    }
-
-});
-    </script>
-
-</head>
-<body>
-    <div id="wrapper">
-        <div id="headerleft">
-            <a href="http://www.foramnagaidhlig.net/">
-                <img src="../../../img/fnglogo_cearn.gif" border="0" alt="Fòram na Gàidhlig" vspace="1" />
-            </a>
-        </div>
-        <div id="headercenter">
-            <h1 class="maintitle">Fòram na Gàidhlig</h1>
-
-            <div id="sitedescription">Coimhearsneachd airson ionnsachadh is leasachadh na Gàidhlig</div>
-
-        </div>
-        <div id="headerright">
-
-
-        </div>
-        <h1 id="headerpagetitle" class="headerpagetitle newline">An Crochadair</h1>
-
-        <div class="invisible"><a href="#contentarea" accesskey="n" class="invisible">Skip navigation</a></div>
-
         <div id="navigator" title="Clàr-taice">
 <?php
 $navigator = new Navigator(38, false, 1, false, false);
 print($navigator->toHTML());
-if(getproperty('Display Banners')) {
+if (getproperty('Display Banners')) {
     $banners=new BannerList();
     print($banners->toHTML());
 }
-$db->closedb();
 ?>
         </div>
         <div id="contentarea" style="height: 950px;" title="Susbaint">
@@ -155,19 +91,18 @@ $db->closedb();
 
 <hr>
 <p class="medtext">
-Tha an geama seo stèidhichte air JavaScript a fhuair mi air <a href="http://www.java2s.com/Code/JavaScript/Page-Components/AJavaScriptHangmanGame.htm">java2s.com</a>.
+Tha an geama seo stèidhichte air JavaScript a fhuair mi air <a href="https://www.java2s.com/Code/JavaScript/Page-Components/AJavaScriptHangmanGame.htm">java2s.com</a>.
 </p>
 <p class="medtext">
-Dealbhan le taic bho <a href="http://opengameart.org/">OpenGameArt.org</a>:
-<br />An cnàimheach le <a href="http://gord-goodwin.blogspot.com/2010/03/manny-mannequin.html">Gord Goodwin</a> <a href='http://creativecommons.org/publicdomain/zero/1.0/'><br /><img src='http://opengameart.org/sites/default/files/license_images/cc0.png' alt='' title=''><br />CC0</a>
-<br /> agus na h-eòin le <a href="https://github.com/leezh/flying-penguin">leezh</a>.<br /><a href='http://creativecommons.org/licenses/by/3.0/'><img src='http://opengameart.org/sites/default/files/license_images/cc-by.png' alt='' title=''><br />CC-BY 3.0</a>
+Dealbhan le taic bho <a href="https://opengameart.org/">OpenGameArt.org</a>:
+<br />An cnàimheach le <a href="https://gord-goodwin.blogspot.com/2010/03/manny-mannequin.html">Gord Goodwin</a> <a href='https://creativecommons.org/publicdomain/zero/1.0/'><br /><img src='https://opengameart.org/sites/default/files/license_images/cc0.png' alt='' title=''><br />CC0</a>
+<br /> agus na h-eòin le <a href="https://github.com/leezh/flying-penguin">leezh</a>.<br /><a href='https://creativecommons.org/licenses/by/3.0/'><img src='https://opengameart.org/sites/default/files/license_images/cc-by.png' alt='' title=''><br />CC-BY 3.0</a>
 </p>
 <p class="medtext">
 Cleachdaidh an geama seo JavaScript.</p>
 
 <!-- End game HTML -->
-        </div>
-    <div class="footer newline"></div>
-    </div>
-</body>
-</html>
+<?php
+$footer = new PageFooter();
+print($footer->toHTML());
+?>

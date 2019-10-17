@@ -37,7 +37,7 @@ $installdir = 'ginbeag/';
 
 $defaultlanguage ='chartest';
 
-// Time zone list: http://de.php.net/manual/en/timezones.php
+// Time zone list: https://www.php.net/manual/en/timezones.php
 date_default_timezone_set('Europe/London');
 
 // Debug Level

@@ -972,6 +972,13 @@ class Page extends Template
                 $meta_content .= '<meta name="description" content='.striptitletags($meta_description).'" />';
             }
             $meta_content .= '<link rel="canonical" href="'.$meta_url.'" />';
+            // JQuery is only needed for admin functions
+            if ($showhidden) {
+                $meta_content
+                    .= '<script type="application/javascript" src="'
+                    . getprojectrootlinkpath()
+                    . 'includes/javascript/jquery.js"></script>';
+            }
         }
         else
         {

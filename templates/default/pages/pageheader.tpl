@@ -2,14 +2,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8">
+	<meta http-equiv="Content-Type"	content="text/html; charset=utf-8">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
 	{META_CONTENT}
 	<link rel="stylesheet" href="{STYLESHEETCOLORS}" type="text/css">
 	<link rel="stylesheet" href="{STYLESHEET}" type="text/css">
 	<title>{SITENAME} - {BROWSERTITLE}</title>
-	<script type="text/javascript" src="includes/javascript/jquery.js"></script>
 
 	<script language="JavaScript">
 
