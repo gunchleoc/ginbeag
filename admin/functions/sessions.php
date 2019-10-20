@@ -144,8 +144,8 @@ function logout()
 function clearoldpagecacheentries()
 {
     $sql = new SQLDeleteStatement(
-        LOCKS_TABLE, array(),
-        array(date(PAGECACHE_TABLE, strtotime('-1 day'))), 's', 'locktime < ?'
+        PAGECACHE_TABLE, array(),
+        array(date(DATETIMEFORMAT, strtotime('-1 day'))), 's', 'lastmodified < ?'
     );
     $sql->run();
 }
