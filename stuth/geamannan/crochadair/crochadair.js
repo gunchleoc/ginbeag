@@ -265,6 +265,7 @@ $(document).ready(
 
         /* *************** listeners ******************************* */
 
+        // Handle error message from backend
         function handle_error(xml) {
             var has_error = false;
             var error_tag = $(xml).find('error');
@@ -274,6 +275,19 @@ $(document).ready(
                 has_error = true;
             }
             return has_error;
+        }
+
+        // "Liosta mòr de dh'fhaclan" no "Na faclan beaga"
+        function startWordGame(xml) {
+            if (!handle_error(xml)) {
+                word=$(xml).find('facal').text();
+
+                toGuess = word.toUpperCase();
+
+                winmessage = "<span style='font-size:80%'><br /><b>Facal:</b> "+ word+ "<br />&nbsp;<br /><a href='http://www.faclair.com/?txtSearch="+ encodeURI(word)+"'>Lorg '"+word+"' san Fhaclair Bheag</a></span>";
+
+                startGame();
+            }
         }
 
         // Get word from database
@@ -286,6 +300,7 @@ $(document).ready(
 
                 // send request
                 if(document.getElementById("àiteachan").checked) {
+                    // "Ainmean-àite"
                     $.post(
                         "getword.php?mode=placenames", {list: $(this).html()}, function (xml) {
 
@@ -314,16 +329,7 @@ $(document).ready(
                 else if($("#iomlan").checked) {
                     $.post(
                         "getword.php?mode=words", {list: $(this).html()}, function (xml) {
-
-                            if (!handle_error(xml)) {
-                                word=$(xml).find('facal').text();
-
-                                toGuess = word.toUpperCase();
-
-                                winmessage = "<span style='font-size:80%'><br /><b>Facal:</b> "+ word+ "<br />&nbsp;<br /><a href='http://www.faclair.com/?txtSearch="+ encodeURI(word)+"'>Lorg '"+word+"' san Fhaclair Bheag</a></span>";
-
-                                startGame();
-                            }
+                            startWordGame(xml);
                         }
                     );
                 } // iomlan
@@ -331,17 +337,7 @@ $(document).ready(
                 {
                     $.post(
                         "getword.php?mode=wordssmall", {list: $(this).html()}, function (xml) {
-
-                            if (!handle_error(xml)) {
-
-                                word=$(xml).find('faclanbeag').text();
-
-                                toGuess = word.toUpperCase();
-
-                                winmessage = "<span style='font-size:80%'><br /><b>Facal:</b> "+ word+ "<br />&nbsp;<br /><a href='http://www.faclair.com/?txtSearch="+ encodeURI(word)+"'>Lorg '"+word+"' san Fhaclair Bheag</a></span>";
-
-                                startGame();
-                            }
+                            startWordGame(xml);
                         }
                     );
                 } // liosta beag

@@ -34,20 +34,17 @@ function makeXML($wrapper,$dbtable,$key)
 
     $entry = "";
 
-    if ($wrapper === "aiteachan") {
-        $row = $sql->fetch_row();
-        foreach ($row as $key => $element) {
-            $entry .= "<$key>".utf8_encode($element)."</$key>";
-        }
-    } else {
-        $row = $sql->fetch_two_columns();
-        $key = array_key_first($row);
-        $entry .= utf8_encode($row[$key]);
+    $row = $sql->fetch_row();
+    foreach ($row as $key => $element) {
+        $entry .= "<$key>".utf8_encode($element)."</$key>";
     }
 
     header('Content-type: text/xml;	charset=utf-8');
     '<?xml version="1.0" encoding="UTF-8"?>';
 
+    if (empty($entry)) {
+        print('<error>No word found</error>');
+    }
     if (empty($db->error_report)) {
         print("<".$wrapper."><entry>" . $entry. "</entry></".$wrapper.">");
     } else     {
