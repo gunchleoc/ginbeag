@@ -220,7 +220,7 @@ $(document).ready(
                 var score=this.stats.getScore();
 
                 $.post(
-                    "highscore.php?checkscore="+score, {list: $(this).html()}, function (xml) {
+                    "highscore.php?checkscore="+score, function (xml) {
 
                         var mayadd=$(xml).find('mayaddscore').text();
 
@@ -243,7 +243,7 @@ $(document).ready(
 
                             // save score
                             $.post(
-                                'highscore.php?savescore=true&score='+score+'&name='+encodeURIComponent(name), {list: $(this).html()}, function (xml) {
+                                'highscore.php?savescore=true&score='+score+'&name='+encodeURIComponent(name), function (xml) {
                                     cookie.del("tetris-maysavehighscore");
                                     showHighscores();
                                 }
@@ -1302,7 +1302,7 @@ $(document).ready(
                 document.getElementById("tetris-highscores-content").innerHTML="<p>A' faighinn nan sgòran as àirde ...</p>";
 
                 $.post(
-                    "highscore.php?print=true", {list: $(this).html()}, function (xml) {
+                    "highscore.php?print=true",  function (xml) {
 
                         var scores='<table cellspacing="0" cellpadding="2"><tr><th></th><th style="font-size: 11px; color: #002373; font-weight : bold;" align="left">Ainm</th><th style="font-size: 11px; color: #002373; font-weight : bold;" align="left">Sgòr</th></tr>';
 

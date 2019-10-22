@@ -12,6 +12,7 @@ require_once $projectroot."includes/objects/page.php";
     <title>Fòram na Gàidhlig - Longan-cogaidh</title>
     <meta http-equiv="Content-Type"    content="text/html;    charset=utf-8">
     <link href="longan.css"    rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../../includes/javascript/jquery.js"></script>
     <script language="JavaScript">
 
 // special treatment for IE
@@ -79,7 +80,6 @@ if(getproperty('Display Banners')) {
     $banners=new BannerList();
     print($banners->toHTML());
 }
-$db->closedb();
 ?>
         </div>
         <div id="contentarea" style="height: 950px;" title="Susbaint">

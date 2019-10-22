@@ -11,7 +11,7 @@ require_once $projectroot."includes/objects/page.php";
     <meta name="keywords" content="Gaelic, Scottish-Gaelic, Scots Gaelic, Schottisch-Gälisch, Gàidhlig, Fòram, bòrd-brath, forum">
     <title>Fòram na Gàidhlig - Bullshit Bingo</title>
     <meta http-equiv="Content-Type"    content="text/html;    charset=utf-8">
-    <script    type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="../../../includes/javascript/jquery.js"></script>
     <script    type="text/javascript" src="bs.js"></script>
     <link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
     <link rel="stylesheet" href="bs.css" type="text/css">
@@ -82,7 +82,6 @@ if(getproperty('Display Banners')) {
     $banners=new BannerList();
     print($banners->toHTML());
 }
-$db->closedb();
 ?>
         </div>
         <div id="contentarea" style="height: 950px;" title="Susbaint">

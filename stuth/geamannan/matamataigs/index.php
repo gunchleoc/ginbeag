@@ -12,7 +12,7 @@ require_once $projectroot."includes/objects/page.php";
     <title>Fòram na Gàidhlig - Geama matamataigs</title>
     <meta http-equiv="Content-Type"    content="text/html;    charset=utf-8">
     <link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
-    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="../../../includes/javascript/jquery.js"></script>
     <style type="text/css">
 #messagebox {
     position: absolute;
@@ -129,7 +129,7 @@ function rtrim(str, chars) {
 
 $(document).ready(function() {
 
-var mapnumbersold = new Array("a neoni", "a h-aon", "a dhà", "a trì", "a ceithir", "a còig", "a sia", "a seachd", "a h-ochd", "a naoi",
+var mapnumbersold = new Array("a neoini", "a h-aon", "a dhà", "a trì", "a ceithir", "a còig", "a sia", "a seachd", "a h-ochd", "a naoi",
 "a deich", "a h-aon deug", "a dhà dheug", "a trì deug", "a ceithir deug", "a còig deug", "a sia deug", "a seachd deug", "a h-ochd deug","a naoi deug",
 "fichead", "a h-aon air fhichead", "a dhà air fhichead", "a trì air fhichead", "a ceithir air fhichead", "a còig air fhichead", "a sia air fhichead", "a seachd air fhichead", "a h-ochd air fhichead", "a naoi air fhichead",
 "deich air fhichead", "a h-aon deug air fhichead", "a dhà dheug air fhichead", "a trì deug air fhichead", "a ceithir deug air fhichead", "a còig deug air fhichead", "a sia deug air fhichead", "a seachd deug air fhichead", "a h-ochd deug air fhichead", "a naoi deug air fhichead",
@@ -143,7 +143,7 @@ var mapnumbersold = new Array("a neoni", "a h-aon", "a dhà", "a trì", "a ceith
 
 
 
-var mapnumbersnew = new Array("a neoni", "a h-aon", "a dhà", "a trì", "a ceithir", "a còig", "a sia", "a seachd", "a h-ochd", "a naoi",
+var mapnumbersnew = new Array("a neoini", "a h-aon", "a dhà", "a trì", "a ceithir", "a còig", "a sia", "a seachd", "a h-ochd", "a naoi",
 "a deich", "a h-aon deug", "a dhà dheug", "a trì deug", "a ceithir deug", "a còig deug", "a sia deug", "a seachd deug", "a h-ochd deug","a naoi deug",
 "fichead", "fichead is a h-aon", "fichead is a dhà","fichead is a trì", "fichead is a ceithir","fichead is a còig","fichead is a sia","fichead is a seachd","fichead is a h-ochd","fichead is a naoi",
 "trithead", "trithead is a h-aon", "trithead is a dhà","trithead is a trì", "trithead is a ceithir","trithead is a còig","trithead is a sia","trithead is a seachd","trithead is a h-ochd","trithead is a naoi",
@@ -485,7 +485,6 @@ if(getproperty('Display Banners')) {
     $banners=new BannerList();
     print($banners->toHTML());
 }
-$db->closedb();
 ?>
         </div>
         <div id="contentarea" style="height: 950px;" title="Susbaint">

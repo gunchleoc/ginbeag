@@ -13,7 +13,7 @@ require_once $projectroot."includes/objects/page.php";
     <meta http-equiv="Content-Type"    content="text/html;    charset=utf-8">
     <link rel="stylesheet" href="../../../templates/fng/main.css" type="text/css">
     <link href="leacan.css"    rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="../../../includes/javascript/jquery.js"></script>
     <script type="text/javascript" src="leacan.js"></script>
     <script language="JavaScript">
 
@@ -82,7 +82,6 @@ if(getproperty('Display Banners')) {
     $banners=new BannerList();
     print($banners->toHTML());
 }
-$db->closedb();
 ?>
         </div>
         <div id="contentarea" style="height: 950px;" title="Susbaint">

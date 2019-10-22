@@ -221,7 +221,7 @@ $(document).ready(
                 text += '</div>';
 
                 writeConsole(text);
-                function writeConsole(content) 
+                function writeConsole(content)
                 {
                     top.consoleRef=window.open(
                         '','myconsole',
@@ -518,7 +518,7 @@ $(document).ready(
         function getwords()
         {
             $.post(
-                "bs.php", {list: $(this).html()}, function (xml) {
+                "bs.php", function (xml) {
 
                     $(xml).find('facal').each(
                         function () {
