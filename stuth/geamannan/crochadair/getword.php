@@ -3,6 +3,8 @@
 require_once "config.php";
 require_once "../../../functions/db.php";
 
+$db->quiet_mode = true;
+
 $mode = isset($_GET['mode']) ? $_GET['mode'] : "words";
 
 switch ($mode) {
@@ -22,6 +24,7 @@ switch ($mode) {
 //
 function makeXML($wrapper,$dbtable,$key)
 {
+    global $db;
     $query
         = "SELECT * FROM " . $dbtable
         . ", (SELECT FLOOR(MAX(".$dbtable.".".$key
@@ -29,23 +32,26 @@ function makeXML($wrapper,$dbtable,$key)
         . ") AS someRandId WHERE " . $dbtable . "." . $key . " = someRandId.randId";
     $sql = new RawSQLStatement($query);
 
-    $xml = "<".$wrapper."><entry>";
+    $entry = "";
 
     if ($wrapper === "aiteachan") {
         $row = $sql->fetch_row();
         foreach ($row as $key => $element) {
-            $xml .= "<$key>".utf8_encode($element)."</$key>";
+            $entry .= "<$key>".utf8_encode($element)."</$key>";
         }
     } else {
         $row = $sql->fetch_two_columns();
         $key = array_key_first($row);
-        $xml .= utf8_encode($row[$key]);
+        $entry .= utf8_encode($row[$key]);
     }
-    $xml .= "</entry></".$wrapper.">";
 
     header('Content-type: text/xml;	charset=utf-8');
     '<?xml version="1.0" encoding="UTF-8"?>';
 
-    print($xml);
+    if (empty($db->error_report)) {
+        print("<".$wrapper."><entry>" . $entry. "</entry></".$wrapper.">");
+    } else     {
+        print('<error>' . $db->error_report . '</error>');
+    }
 }
 ?>

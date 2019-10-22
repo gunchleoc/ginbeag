@@ -28,7 +28,7 @@ $(document).ready(
 
         hideButtons();
 
-        function startGame() 
+        function startGame()
         {
             gamestarted=true;
             guesses = 0;
@@ -47,12 +47,12 @@ $(document).ready(
             document.getElementById("messages").innerHTML="<span style='font-size:80%'><span style='color:green; font-weight:bold;'>Geama air tòiseachadh.</span> Feuch am faigh tu a-mach dè am facal a th' ann.</span>";
         }
 
-        function displayHangmanTransition() 
+        function displayHangmanTransition()
         {
             document.getElementById("status").src=imgTransition[guesses].src;
         }
 
-        function resetButtons() 
+        function resetButtons()
         {
 
             var buttons = new Array();
@@ -163,7 +163,7 @@ $(document).ready(
 
 
 
-        function displayToGuess() 
+        function displayToGuess()
         {
             var pattern="";
             for(i=0;i<toGuess.length;++i) {
@@ -178,12 +178,12 @@ $(document).ready(
 
         /* ********** guesses ****************************************** */
 
-        function displayGuessed() 
+        function displayGuessed()
         {
             document.getElementById("guessed").innerHTML=guessed;
         }
 
-        function badGuess(s) 
+        function badGuess(s)
         {
             if(toGuess.indexOf(s) == -1) { return true;
             }
@@ -191,7 +191,7 @@ $(document).ready(
         }
 
 
-        function winner() 
+        function winner()
         {
             for(i=0;i<toGuess.length;++i) {
                 if(guessed.indexOf(toGuess.charAt(i)) == -1) { return false;
@@ -265,6 +265,17 @@ $(document).ready(
 
         /* *************** listeners ******************************* */
 
+        function handle_error(xml) {
+            var has_error = false;
+            var error_tag = $(xml).find('error');
+            if (error_tag.length) {
+                document.getElementById("messages").innerHTML
+                    = "<span style='color: red; font-weight:bold;'>" + error_tag.text() + "</span>";
+                has_error = true;
+            }
+            return has_error;
+        }
+
         // Get word from database
         $("#restart").click(
             function (e) {
@@ -278,24 +289,25 @@ $(document).ready(
                     $.post(
                         "getword.php?mode=placenames", {list: $(this).html()}, function (xml) {
 
-                            word=$(xml).find('gaidhlig').text();
-                            var aaa=$(xml).find('aaa').text();
-                            var imt=$(xml).find('imt').text();
+                            if (!handle_error(xml)) {
+                                word=$(xml).find('gaidhlig').text();
+                                var aaa=$(xml).find('aaa').text();
+                                var imt=$(xml).find('imt').text();
 
-                            toGuess = word.toUpperCase();
+                                toGuess = word.toUpperCase();
 
-                            winmessage = "<span style='font-size:80%'><br /><b>Àite:</b> "+ word;
+                                winmessage = "<span style='font-size:80%'><br /><b>Àite:</b> "+ word;
 
-                            if(imt==1) {
-                                winmessage+="<br />&nbsp;<br /><a href='http://www.smo.uhi.ac.uk/gaidhlig/aite/lorg.php?seorsa=gaidhlig&tus_saor=on&facal="+ encodeURI(word.replace(/'/g, "*"))+"*&eis_saor=on&tairg=Lorg'>"+word+" sna h-Ainmean-àite le buidheachas do dh' Iain Mac an Tailleir</a>";
+                                if(imt==1) {
+                                    winmessage+="<br />&nbsp;<br /><a href='http://www.smo.uhi.ac.uk/gaidhlig/aite/lorg.php?seorsa=gaidhlig&tus_saor=on&facal="+ encodeURI(word.replace(/'/g, "*"))+"*&eis_saor=on&tairg=Lorg'>"+word+" sna h-Ainmean-àite le buidheachas do dh' Iain Mac an Tailleir</a>";
+                                }
+                                if(aaa!=0) {
+                                    winmessage+="<br />&nbsp;<br /><a href='http://www.gaelicplacenames.org/databasedetails.php?id="+ aaa+"&lan=ga'>"+word+" air làrach Ainmean-àite na h-Alba</a>";
+                                }
+
+                                winmessage+="</span>";
+                                startGame();
                             }
-                            if(aaa!=0) {
-                                winmessage+="<br />&nbsp;<br /><a href='http://www.gaelicplacenames.org/databasedetails.php?id="+ aaa+"&lan=ga'>"+word+" air làrach Ainmean-àite na h-Alba</a>";
-                            }
-
-                            winmessage+="</span>";
-                            startGame();
-
                         }
                     );
                 } // àiteachan
@@ -303,15 +315,15 @@ $(document).ready(
                     $.post(
                         "getword.php?mode=words", {list: $(this).html()}, function (xml) {
 
-                            word=$(xml).find('facal').text();
+                            if (!handle_error(xml)) {
+                                word=$(xml).find('facal').text();
 
-                            toGuess = word.toUpperCase();
+                                toGuess = word.toUpperCase();
 
-                            winmessage = "<span style='font-size:80%'><br /><b>Facal:</b> "+ word+ "<br />&nbsp;<br /><a href='http://www.faclair.com/?txtSearch="+ encodeURI(word)+"'>Lorg '"+word+"' san Fhaclair Bheag</a></span>";
+                                winmessage = "<span style='font-size:80%'><br /><b>Facal:</b> "+ word+ "<br />&nbsp;<br /><a href='http://www.faclair.com/?txtSearch="+ encodeURI(word)+"'>Lorg '"+word+"' san Fhaclair Bheag</a></span>";
 
-
-                            startGame();
-
+                                startGame();
+                            }
                         }
                     );
                 } // iomlan
@@ -320,15 +332,16 @@ $(document).ready(
                     $.post(
                         "getword.php?mode=wordssmall", {list: $(this).html()}, function (xml) {
 
-                            word=$(xml).find('faclanbeag').text();
+                            if (!handle_error(xml)) {
 
-                            toGuess = word.toUpperCase();
+                                word=$(xml).find('faclanbeag').text();
 
-                            winmessage = "<span style='font-size:80%'><br /><b>Facal:</b> "+ word+ "<br />&nbsp;<br /><a href='http://www.faclair.com/?txtSearch="+ encodeURI(word)+"'>Lorg '"+word+"' san Fhaclair Bheag</a></span>";
+                                toGuess = word.toUpperCase();
 
+                                winmessage = "<span style='font-size:80%'><br /><b>Facal:</b> "+ word+ "<br />&nbsp;<br /><a href='http://www.faclair.com/?txtSearch="+ encodeURI(word)+"'>Lorg '"+word+"' san Fhaclair Bheag</a></span>";
 
-                            startGame();
-
+                                startGame();
+                            }
                         }
                     );
                 } // liosta beag
