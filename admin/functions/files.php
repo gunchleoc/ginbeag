@@ -35,9 +35,11 @@ $allowedscripts = array(
     "admin/editimagelist.php"
 );
 
-if(!in_array(substr($_SERVER["SCRIPT_FILENAME"], strlen($_SERVER["DOCUMENT_ROOT"] . "/" . $installdir)), $allowedscripts)) { die;
-}
+$server_script = preg_replace('/\/\/+/', '/', $_SERVER["SCRIPT_FILENAME"]);
+$install_with_root =  preg_replace('/\/\/+/', '/', ($_SERVER["DOCUMENT_ROOT"] . "/" . $installdir . "/"));
 
+if(!in_array(substr($server_script, strlen($install_with_root)), $allowedscripts)) { die;
+}
 
 require_once $projectroot."functions/imagefiles.php";
 
