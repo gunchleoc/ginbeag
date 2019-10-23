@@ -289,7 +289,7 @@ function newsitemsforimage($filename)
 //
 function getpictureoftheday()
 {
-    $date = date(DATEFORMAT, strtotime('now'));
+    $date=date("Y-m-d", strtotime('now'));
 
     $sql = new SQLSelectStatement(PICTUREOFTHEDAY_TABLE, 'potd_filename', array('potd_date'), array($date), 's');
     $potd = $sql->fetch_value();
