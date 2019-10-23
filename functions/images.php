@@ -289,18 +289,18 @@ function newsitemsforimage($filename)
 //
 function getpictureoftheday()
 {
-    $date=date("Y-m-d", strtotime('now'));
-    //  print($date);
+    $date = date(DATEFORMAT, strtotime('now'));
 
     $sql = new SQLSelectStatement(PICTUREOFTHEDAY_TABLE, 'potd_filename', array('potd_date'), array($date), 's');
     $potd = $sql->fetch_value();
 
-    if(!hasthumbnail($potd) || !imageisused($potd)) {
+    if (!hasthumbnail($potd) || !imageisused($potd)) {
         $sql = new SQLDeleteStatement(PICTUREOFTHEDAY_TABLE, array('potd_date'), array($date), 's');
         $sql->run();
         $potd="";
     }
-    if(empty($potd)) {
+
+    if (empty($potd)) {
         $cats=explode(",", getproperty('Picture of the Day Categories'));
 
         // get all category children
@@ -315,7 +315,8 @@ function getpictureoftheday()
                 $pendingcategories=array_merge($pendingcategories, getcategorychildren($selectedcat, CATEGORY_ARTICLE));
             }
         }
-        if(count($categories)==0) { $categories=array(0 => 0);
+        if (count($categories)==0) {
+            $categories=array(0);
         }
 
         $query="SELECT DISTINCTROW thumbs.image_filename from ";
@@ -352,7 +353,7 @@ function getpictureoftheday()
             }
         }
     }
-    return "";
+    return $potd;
 }
 
 ?>

@@ -27,7 +27,8 @@
  */
 
 
-//Datetime format for database entries
+// Datetime format for database entries
+define('DATEFORMAT', 'Y-m-d');
 define('DATETIMEFORMAT', 'Y-m-d H:i:s');
 
 // Table names

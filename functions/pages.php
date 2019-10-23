@@ -37,7 +37,7 @@ require_once $projectroot."functions/images.php";
 //
 function getarticleoftheday()
 {
-    $date=date("Y-m-d", strtotime('now'));
+    $date=date(DATEFORMAT, strtotime('now'));
 
     // Get the current article of the day if any
     $sql = new SQLSelectStatement(ARTICLEOFTHEDAY_TABLE, 'aotd_id', array('aotd_date'), array($date), 's');
