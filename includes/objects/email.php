@@ -38,7 +38,7 @@ require_once $projectroot."includes/objects/template.php";
 class EmailInfo  extends Template
 {
 
-    function EmailInfo($email,$subject,$messagetext,$sendcopy)
+    function __construct($email,$subject,$messagetext,$sendcopy)
     {
         parent::__construct();
 
@@ -71,7 +71,7 @@ class EmailInfo  extends Template
 class MathCAPTCHA  extends Template
 {
 
-    function MathCAPTCHA()
+    function __construct()
     {
         global $emailvariables;
         parent::__construct();

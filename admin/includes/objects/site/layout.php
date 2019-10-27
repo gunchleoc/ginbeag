@@ -44,7 +44,7 @@ require_once $projectroot."admin/includes/objects/forms.php";
 class SiteLayout extends Template
 {
 
-    function SiteLayout()
+    function __construct()
     {
         global $projectroot;
         parent::__construct();

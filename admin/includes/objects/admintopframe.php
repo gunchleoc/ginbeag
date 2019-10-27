@@ -45,7 +45,7 @@ require_once $projectroot."admin/includes/actions.php";
 class AdminTopFrameLink extends Template
 {
 
-    function AdminTopFrameLink($link,$linktitle,$params=array(),$target="")
+    function __construct($link,$linktitle,$params=array(),$target="")
     {
         parent::__construct();
         $params["page"] = $this->stringvars['page'];
@@ -68,7 +68,7 @@ class AdminTopFrameLink extends Template
 class AdminTopFrame extends Template
 {
 
-    function AdminTopFrame($page,$action)
+    function __construct($page,$action)
     {
         parent::__construct();
 

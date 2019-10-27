@@ -40,7 +40,7 @@ require_once $projectroot."includes/objects/elements.php";
 class SiteRebuildIndices extends Template
 {
 
-    function SiteRebuildIndices($message="")
+    function __construct($message="")
     {
         parent::__construct();
 

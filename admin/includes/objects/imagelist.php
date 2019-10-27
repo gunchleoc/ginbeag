@@ -49,7 +49,7 @@ require_once $projectroot."includes/objects/categories.php";
 class AddImageForm extends Template
 {
 
-    function AddImageForm($filename="",$caption="",$source="",$sourcelink="",$copyright="",$permission="", $dontcreatethumbnail = false, $resizeimage = false)
+    function __construct($filename="",$caption="",$source="",$sourcelink="",$copyright="",$permission="", $dontcreatethumbnail = false, $resizeimage = false)
     {
         parent::__construct();
 
@@ -104,7 +104,7 @@ class AddImageForm extends Template
 class DeleteImageConfirmForm extends Template
 {
 
-    function DeleteImageConfirmForm($filename)
+    function __construct($filename)
     {
         parent::__construct();
         $image=getimage($filename);
@@ -133,7 +133,7 @@ class DeleteImageConfirmForm extends Template
 class DeleteThumbnailConfirmForm extends Template
 {
 
-    function DeleteThumbnailConfirmForm($filename)
+    function __construct($filename)
     {
         parent::__construct();
 
@@ -163,7 +163,7 @@ class DeleteThumbnailConfirmForm extends Template
 class EditImageForm extends Template
 {
 
-    function EditImageForm($filename)
+    function __construct($filename)
     {
         global $projectroot;
 
@@ -234,7 +234,7 @@ class EditImageForm extends Template
 class EditImageFormUsage extends Template
 {
 
-    function EditImageFormUsage($filename)
+    function __construct($filename)
     {
         parent::__construct();
 
@@ -284,7 +284,7 @@ class EditImageFormUsage extends Template
 class UnknownImageForm extends Template
 {
 
-    function UnknownImageForm($filename, $subpath)
+    function __construct($filename, $subpath)
     {
         global $_GET, $_POST, $projectroot;
         parent::__construct();
@@ -325,7 +325,7 @@ class UnknownImageForm extends Template
 class ImageList extends Template
 {
 
-    function ImageList($offset)
+    function __construct($offset)
     {
         global $_GET, $projectroot, $number, $ascdesc, $order, $filter;
 
@@ -521,7 +521,7 @@ class ImageList extends Template
 class AdminImage extends Template
 {
 
-    function AdminImage($filename, $uploaddate, $uploader, $thumbnail="",$showcaption=true)
+    function __construct($filename, $uploaddate, $uploader, $thumbnail="",$showcaption=true)
     {
         global $projectroot;
         parent::__construct();
@@ -592,7 +592,7 @@ class AdminImage extends Template
 class ImageFilterForm extends Template
 {
 
-    function ImageFilterForm($offset,$imagesperpage,$noofimages,$message="")
+    function __construct($offset,$imagesperpage,$noofimages,$message="")
     {
         global $_GET, $order, $ascdesc, $number;
         parent::__construct();
@@ -678,7 +678,7 @@ class ImageFilterForm extends Template
 class ImageOrderSelectionForm  extends Template
 {
 
-    function ImageOrderSelectionForm($order="")
+    function __construct($order="")
     {
         parent::__construct();
 
@@ -708,7 +708,7 @@ class ImageOrderSelectionForm  extends Template
 class ImageUsersSelectionForm  extends Template
 {
 
-    function ImageUsersSelectionForm($selecteduser=0)
+    function __construct($selecteduser=0)
     {
         parent::__construct();
 
@@ -738,7 +738,7 @@ class ImageUsersSelectionForm  extends Template
 class AdminImagePage  extends Template
 {
 
-    function AdminImagePage($filename, $form, $message, $addimageform = null, $displayeditform = false)
+    function __construct($filename, $form, $message, $addimageform = null, $displayeditform = false)
     {
         global $number;
 

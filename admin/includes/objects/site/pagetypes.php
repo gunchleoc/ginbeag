@@ -41,7 +41,7 @@ require_once $projectroot."includes/objects/elements.php";
 class SitePageTypes extends Template
 {
 
-    function SitePageTypes()
+    function __construct()
     {
         parent::__construct();
 
@@ -71,7 +71,7 @@ class SitePageTypes extends Template
 class SitePageType extends Template
 {
 
-    function SitePageType($pagetype, $description, $restrictions)
+    function __construct($pagetype, $description, $restrictions)
     {
         parent::__construct();
 

@@ -38,7 +38,7 @@ require_once $projectroot."includes/functions.php";
 class Image extends Template
 {
 
-    function Image($filename, $imageautoshrink, $usethumbnail, $params = array(), $showhidden=false)
+    function __construct($filename, $imageautoshrink, $usethumbnail, $params = array(), $showhidden=false)
     {
         global $projectroot;
 
@@ -117,7 +117,7 @@ class Image extends Template
 class CaptionedImage extends Template
 {
 
-    function CaptionedImage($filename, $imageautoshrink, $usethumbnail, $halign="left", $linkparams=array(), $showhidden=false)
+    function __construct($filename, $imageautoshrink, $usethumbnail, $halign="left", $linkparams=array(), $showhidden=false)
     {
         global $projectroot;
         parent::__construct();
@@ -211,7 +211,7 @@ class CaptionedImage extends Template
 class ImageCaption extends Template
 {
 
-    function ImageCaption($filename)
+    function __construct($filename)
     {
         global $projectroot;
         parent::__construct();

@@ -42,7 +42,7 @@ require_once $projectroot."admin/includes/objects/imageeditor.php";
 //
 class EditPageIntro extends Template
 {
-    function EditPageIntro($page)
+    function __construct($page)
     {
         parent::__construct($page, array(0 => "includes/javascript/jcaret.js"));
         $this->stringvars['javascript']=$this->getScripts();

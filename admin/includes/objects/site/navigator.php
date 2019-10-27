@@ -44,7 +44,7 @@ require_once $projectroot."includes/objects/elements.php";
 class SiteAdminNavigatorLink extends Template
 {
 
-    function SiteAdminNavigatorLink($linktitle,$action="")
+    function __construct($linktitle,$action="")
     {
         parent::__construct();
 
@@ -71,7 +71,7 @@ class SiteAdminNavigatorLink extends Template
 class SiteAdminNavigatorCategory extends Template
 {
 
-    function SiteAdminNavigatorCategory($header,$links)
+    function __construct($header,$links)
     {
         parent::__construct();
 
@@ -101,7 +101,7 @@ class SiteAdminNavigatorCategory extends Template
 class SiteAdminNavigatorHeader extends Template
 {
 
-    function SiteAdminNavigatorHeader()
+    function __construct()
     {
         parent::__construct();
     }
@@ -120,7 +120,7 @@ class SiteAdminNavigatorHeader extends Template
 class SiteAdminNavigator extends Template
 {
 
-    function SiteAdminNavigator()
+    function __construct()
     {
         parent::__construct();
 

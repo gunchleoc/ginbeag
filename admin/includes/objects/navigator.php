@@ -45,7 +45,7 @@ require_once $projectroot."includes/objects/elements.php";
 class AdminNavigatorLink extends Template
 {
 
-    function AdminNavigatorLink($page,$level=0,$class="navtitle",$isroot=false)
+    function __construct($page,$level=0,$class="navtitle",$isroot=false)
     {
         global $_GET;
 
@@ -100,7 +100,7 @@ class AdminNavigatorLink extends Template
 class AdminNavigatorBranch extends Template
 {
 
-    function AdminNavigatorBranch($page,$depth,$level=0)
+    function __construct($page,$depth,$level=0)
     {
         parent::__construct();
         if($level==0) {
@@ -141,7 +141,7 @@ class AdminNavigatorBranch extends Template
 class AdminNavigator extends Template
 {
 
-    function AdminNavigator($page)
+    function __construct($page)
     {
         parent::__construct();
 
@@ -247,7 +247,7 @@ class AdminNavigator extends Template
 class AdminNavigatorHeader extends Template
 {
 
-    function AdminNavigatorHeader()
+    function __construct()
     {
         parent::__construct();
 
@@ -271,7 +271,7 @@ class AdminNavigatorHeader extends Template
 class PageList extends Template
 {
 
-    function PageList()
+    function __construct()
     {
         parent::__construct();
 

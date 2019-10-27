@@ -43,7 +43,7 @@ require_once $projectroot."admin/includes/objects/editor.php";
 //
 class ShowAllImagesButton extends Template
 {
-    function ShowAllImagesButton($isshowall=true,$noofimages,$imagesperpage)
+    function __construct($isshowall=true,$noofimages,$imagesperpage)
     {
         parent::__construct();
 
@@ -76,7 +76,7 @@ class ShowAllImagesButton extends Template
 //
 class GalleryImageForm extends Template
 {
-    function GalleryImageForm($imageid,$offset, $noofimages, $showall)
+    function __construct($imageid,$offset, $noofimages, $showall)
     {
         parent::__construct($imageid, array(), array(0 => "admin/includes/javascript/editgallery.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -119,7 +119,7 @@ class GalleryImageForm extends Template
 //
 class AddGalleryImageForm extends Template
 {
-    function AddGalleryImageForm($offset, $noofimages, $showall)
+    function __construct($offset, $noofimages, $showall)
     {
         parent::__construct();
 
@@ -151,7 +151,7 @@ class AddGalleryImageForm extends Template
 //
 class ReindexGalleryForm extends Template
 {
-    function ReindexGalleryForm($showall)
+    function __construct($showall)
     {
         parent::__construct();
 
@@ -180,7 +180,7 @@ class ReindexGalleryForm extends Template
 class EditGallery extends Template
 {
 
-    function EditGallery($page, $offset, $imagesperpage, $showall)
+    function __construct($page, $offset, $imagesperpage, $showall)
     {
         parent::__construct($page, array(0 => "includes/javascript/jcaret.js"));
         $this->stringvars['javascript']=$this->getScripts();

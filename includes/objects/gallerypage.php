@@ -42,7 +42,7 @@ require_once $projectroot."includes/includes.php";
 class GalleryCaptionedImage extends Template
 {
 
-    function GalleryCaptionedImage($filename,$width,$showhidden=false)
+    function __construct($filename,$width,$showhidden=false)
     {
         parent::__construct();
 
@@ -75,7 +75,7 @@ class GalleryCaptionedImage extends Template
 class GalleryMobileCaptionedImage extends Template
 {
 
-    function GalleryMobileCaptionedImage($filename, $showhidden=false)
+    function __construct($filename, $showhidden=false)
     {
         global $projectroot;
         parent::__construct();
@@ -145,7 +145,7 @@ class GalleryMobileCaptionedImage extends Template
 class GalleryImage extends Template
 {
 
-    function GalleryImage($filename,$width=300,$height=350,$showhidden=false)
+    function __construct($filename,$width=300,$height=350,$showhidden=false)
     {
         parent::__construct();
 
@@ -177,7 +177,7 @@ class GalleryImage extends Template
 class GalleryPage extends Template
 {
 
-    function GalleryPage($offset=0,$showhidden=false)
+    function __construct($offset=0,$showhidden=false)
     {
         global $projectroot;
 

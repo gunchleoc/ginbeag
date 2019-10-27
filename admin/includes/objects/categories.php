@@ -41,7 +41,7 @@ require_once $projectroot."includes/objects/forms.php";
 //
 class CategoryMoveForm extends Template
 {
-    function CategoryMoveForm($cattype)
+    function __construct($cattype)
     {
         parent::__construct();
 
@@ -71,7 +71,7 @@ class CategoryMoveForm extends Template
 class EditCategoryForm extends Template
 {
 
-    function EditCategoryForm($addsubtext, $editcattext, $cattype)
+    function __construct($addsubtext, $editcattext, $cattype)
     {
         parent::__construct();
 
@@ -104,7 +104,7 @@ class EditCategoryForm extends Template
 class AdminCategories extends Template
 {
 
-    function AdminCategories($title,$addsubtext, $editcattext, $cattype)
+    function __construct($title,$addsubtext, $editcattext, $cattype)
     {
         parent::__construct();
 

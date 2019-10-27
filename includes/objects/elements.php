@@ -37,7 +37,7 @@ require_once $projectroot."includes/objects/template.php";
 class HTMLHeader extends Template
 {
 
-    function HTMLHeader($title,$headertitle,$message="", $redirecturl="",$urltext="If the page does not load, use this link", $isredirect=false,$stylesheet="main.css",$scriptpaths=array())
+    function __construct($title,$headertitle,$message="", $redirecturl="",$urltext="If the page does not load, use this link", $isredirect=false,$stylesheet="main.css",$scriptpaths=array())
     {
         parent::__construct();
         $this->stringvars['stylesheet']=getCSSPath($stylesheet);
@@ -76,7 +76,7 @@ class HTMLHeader extends Template
 class HTMLFooter extends Template
 {
 
-    function HTMLFooter()
+    function __construct()
     {
         parent::__construct();
     }
@@ -95,7 +95,7 @@ class HTMLFooter extends Template
 class Message extends Template
 {
 
-    function Message($message)
+    function __construct($message)
     {
         parent::__construct();
         $this->stringvars['message']=$message;

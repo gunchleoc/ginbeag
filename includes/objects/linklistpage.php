@@ -40,7 +40,7 @@ require_once $projectroot."includes/includes.php";
 class LinklistLink extends Template
 {
 
-    function LinklistLink($linkid,$title,$image,$description,$link)
+    function __construct($linkid,$title,$image,$description,$link)
     {
         parent::__construct();
         // image permissions checked in LinkList
@@ -70,7 +70,7 @@ class LinklistLink extends Template
 class LinkedImage extends Template
 {
 
-    function LinkedImage($filename,$linkurl, $linkname)
+    function __construct($filename,$linkurl, $linkname)
     {
         global $projectroot;
 
@@ -143,7 +143,7 @@ class LinkedImage extends Template
 class LinklistPage extends Template
 {
 
-    function LinklistPage($offset=0,$showhidden)
+    function __construct($offset=0,$showhidden)
     {
         parent::__construct();
         $linkids=getlinklistitems($this->stringvars['page']);
@@ -185,7 +185,7 @@ class LinklistPage extends Template
 class LinklistPagePrintview extends Template
 {
 
-    function LinklistPagePrintview($showhidden)
+    function __construct($showhidden)
     {
         parent::__construct();
         $linkids=getlinklistitems($this->stringvars['page']);

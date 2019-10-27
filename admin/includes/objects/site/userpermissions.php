@@ -45,7 +45,7 @@ require_once $projectroot."admin/includes/objects/forms.php";
 class SiteSelectUserPermissionsForm extends Template
 {
 
-    function SiteSelectUserPermissionsForm($username="")
+    function __construct($username="")
     {
         parent::__construct();
         $this->stringvars['username']=title2html($username);
@@ -73,7 +73,7 @@ class SiteSelectUserPermissionsForm extends Template
 class SiteUserLevelForm extends Template
 {
 
-    function SiteUserLevelForm($userid)
+    function __construct($userid)
     {
         parent::__construct();
 
@@ -127,7 +127,7 @@ class SiteUserLevelForm extends Template
 class SitePublicUserAccessForm extends Template
 {
 
-    function SitePublicUserAccessForm($userid)
+    function __construct($userid)
     {
         parent::__construct();
 
@@ -184,7 +184,7 @@ class SitePublicUserAccessForm extends Template
 class SitePublicUserAccessPageForm extends Template
 {
 
-    function SitePublicUserAccessPageForm($userid,$page,$hasaccess)
+    function __construct($userid,$page,$hasaccess)
     {
         parent::__construct();
 

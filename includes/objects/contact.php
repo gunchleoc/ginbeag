@@ -41,7 +41,7 @@ require_once $projectroot."functions/email.php";
 class ContactPage extends Template
 {
 
-    function ContactPage($email, $subject, $messagetext, $sendcopy, $userid, $token, $errormessage="", $sendmail=false)
+    function __construct($email, $subject, $messagetext, $sendcopy, $userid, $token, $errormessage="", $sendmail=false)
     {
         parent::__construct();
 
@@ -101,7 +101,7 @@ class ContactForm extends Template
 {
     var $displaytype;
 
-    function ContactForm($email, $subject, $message, $sendcopy, $userid, $token, $displaytype)
+    function __construct($email, $subject, $message, $sendcopy, $userid, $token, $displaytype)
     {
         global $emailvariables;
         $this->displaytype = $displaytype;

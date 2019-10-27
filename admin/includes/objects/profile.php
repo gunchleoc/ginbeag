@@ -45,7 +45,7 @@ require_once $projectroot."includes/objects/page.php";
 class ProfilePage extends Template
 {
 
-    function ProfilePage($userid,$message="")
+    function __construct($userid,$message="")
     {
         parent::__construct();
 
@@ -72,7 +72,7 @@ class ProfilePage extends Template
 class RegisterPage extends Template
 {
 
-    function RegisterPage($user, $email,$message,$showform=true)
+    function __construct($user, $email,$message,$showform=true)
     {
         parent::__construct();
         $this->stringvars['stylesheet']=getCSSPath("main.css");

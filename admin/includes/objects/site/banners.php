@@ -46,7 +46,7 @@ require_once $projectroot."includes/objects/elements.php";
 class SiteBannerEditForm extends Template
 {
 
-    function SiteBannerEditForm($banner)
+    function __construct($banner)
     {
         parent::__construct($banner);
 
@@ -106,7 +106,7 @@ class SiteBannerEditForm extends Template
 class SiteBanners extends Template
 {
 
-    function SiteBanners()
+    function __construct()
     {
         parent::__construct();
 

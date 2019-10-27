@@ -43,7 +43,7 @@ require_once $projectroot."includes/objects/template.php";
 class NewPageForm extends Template
 {
 
-    function NewPageForm($parentpage,$title="",$navtitle="",$ispublishable=false,$isrootchecked=false)
+    function __construct($parentpage,$title="",$navtitle="",$ispublishable=false,$isrootchecked=false)
     {
         parent::__construct();
 

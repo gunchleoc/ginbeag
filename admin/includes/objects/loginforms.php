@@ -42,7 +42,7 @@ require_once $projectroot."includes/functions.php";
 class AdminLoginForm extends Template
 {
 
-    function AdminLoginForm($username)
+    function __construct($username)
     {
         global $_GET;
         parent::__construct();
@@ -66,7 +66,7 @@ class AdminLoginForm extends Template
 class AdminLoginHeader extends Template
 {
 
-    function AdminLoginHeader($message,$isredirect=false,$redirecturl="",$urltext="")
+    function __construct($message,$isredirect=false,$redirecturl="",$urltext="")
     {
         parent::__construct();
 
@@ -102,7 +102,7 @@ class AdminLoginHeader extends Template
 class ForgotEmailForm extends Template
 {
 
-    function ForgotEmailForm($username)
+    function __construct($username)
     {
         parent::__construct();
         $this->stringvars['username']=$username;
@@ -124,7 +124,7 @@ class ForgotEmailForm extends Template
 class ForgotPasswordForm extends Template
 {
 
-    function ForgotPasswordForm($username)
+    function __construct($username)
     {
         parent::__construct();
         $this->stringvars['username']=$username;

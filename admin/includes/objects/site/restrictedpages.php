@@ -42,7 +42,7 @@ require_once $projectroot."includes/objects/elements.php";
 class SiteRestrictedPages extends Template
 {
 
-    function SiteRestrictedPages()
+    function __construct()
     {
         parent::__construct();
 
@@ -75,7 +75,7 @@ class SiteRestrictedPages extends Template
 class SiteRestrictedPage extends Template
 {
 
-    function SiteRestrictedPage($page)
+    function __construct($page)
     {
         parent::__construct();
 

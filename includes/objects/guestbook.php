@@ -42,7 +42,7 @@ require_once $projectroot."functions/guestbook.php";
 class Guestbook extends Template
 {
 
-    function Guestbook($postername,$email,$subject,$emailmessage,  $token, $offset=0, $showguestbookform=false, $showpost=false, $showleavemessagebutton=true, $itemsperpage=10, $title="", $listtitle="", $message="", $error="", $postadded=false)
+    function __construct($postername,$email,$subject,$emailmessage,  $token, $offset=0, $showguestbookform=false, $showpost=false, $showleavemessagebutton=true, $itemsperpage=10, $title="", $listtitle="", $message="", $error="", $postadded=false)
     {
         parent::__construct();
 
@@ -122,7 +122,7 @@ class Guestbook extends Template
 class GuestbookEntryList extends Template
 {
 
-    function GuestbookEntryList($number, $offset, $title="")
+    function __construct($number, $offset, $title="")
     {
         parent::__construct();
         if(strlen($title)>0) {
@@ -162,7 +162,7 @@ class GuestbookEntryList extends Template
 class GuestbookEntry extends Template
 {
 
-    function GuestbookEntry($entry)
+    function __construct($entry)
     {
         parent::__construct();
         $contents=getguestbookentrycontents($entry);
@@ -193,7 +193,7 @@ class GuestbookEntry extends Template
 class GuestbookPost extends Template
 {
 
-    function GuestbookPost($postername, $email, $subject, $message)
+    function __construct($postername, $email, $subject, $message)
     {
         parent::__construct();
         $this->stringvars['name']=title2html($postername);
@@ -224,7 +224,7 @@ class GuestbookPost extends Template
 class GuestbookForm extends Template
 {
 
-    function GuestbookForm($postername, $email, $subject, $message, $token)
+    function __construct($postername, $email, $subject, $message, $token)
     {
         global $emailvariables;
 

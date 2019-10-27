@@ -42,7 +42,7 @@ require_once $projectroot."includes/includes.php";
 class JumpToPageForm  extends Template
 {
 
-    function JumpToPageForm($file="",$params=array(),$align="right", $target="")
+    function __construct($file="",$params=array(),$align="right", $target="")
     {
         parent::__construct();
 
@@ -76,7 +76,7 @@ class JumpToPageForm  extends Template
 class PageMenu extends Template
 {
 
-    function PageMenu($offset, $number, $last, $params = array())
+    function __construct($offset, $number, $last, $params = array())
     {
         parent::__construct();
         if(ismobile()) { $params["m"] = "on";
@@ -160,7 +160,7 @@ class PageMenu extends Template
 class CategorySelectionForm  extends Template
 {
 
-    function CategorySelectionForm($multiple=false,$jsid ="", $cattype, $size=15,$selectedcat=array(),$jsfunction=false,$optionformname="selectedcat", $optionformlabel="")
+    function __construct($multiple=false,$jsid ="", $cattype, $size=15,$selectedcat=array(),$jsfunction=false,$optionformname="selectedcat", $optionformlabel="")
     {
         $this->stringvars['jsid'] =$jsid;
         parent::__construct($jsid);
@@ -197,18 +197,21 @@ class CategorySelectionForm  extends Template
         $remaining=array();
         $currentcats=array();
 
-        while (list($key, $category) = each($categories)) {
-            if($category['parent_id']==$parent) { $currentcats[$key] = $category;
-            } else { $remaining[$key] = $category;
+        foreach ($categories as $key => $category) {
+            if($category['parent_id']==$parent) {
+                $currentcats[$key] = $category;
+            } else {
+                $remaining[$key] = $category;
             }
         }
 
-        while (list($key, $category) = each($currentcats)) {
+        foreach ($currentcats as $key => $category) {
             $category = $currentcats[$key];
             $optionisselected="";
             $optiontext="";
 
-            if(array_key_exists($key, $selectedcat)) { $optionisselected=' selected';
+            if(array_key_exists($key, $selectedcat)) {
+                $optionisselected=' selected';
             }
             for($i=0;$i<$level+1;$i++)
             {
@@ -236,7 +239,7 @@ class CategorySelectionForm  extends Template
 class AscDescSelectionForm  extends Template
 {
 
-    function AscDescSelectionForm($isascselected=true)
+    function __construct($isascselected=true)
     {
         parent::__construct();
 
@@ -264,7 +267,7 @@ class AscDescSelectionForm  extends Template
 class OptionFormOption  extends Template
 {
 
-    function OptionFormOption($optionvalue,$optionisselected,$optiontext)
+    function __construct($optionvalue,$optionisselected,$optiontext)
     {
         parent::__construct();
         $this->stringvars['option_value'] =$optionvalue;
@@ -291,7 +294,7 @@ class OptionFormOption  extends Template
 class OptionForm extends Template
 {
 
-    function OptionForm($selected,$values=array(),$descriptions=array(),$name="option", $label="", $size=1, $attributes="")
+    function __construct($selected,$values=array(),$descriptions=array(),$name="option", $label="", $size=1, $attributes="")
     {
         parent::__construct();
 
@@ -327,7 +330,7 @@ class OptionForm extends Template
 class OptionFormMultiple extends Template
 {
 
-    function OptionFormMultiple($selected=array(),$values=array(),$descriptions=array(),$name="option", $label="", $size=1, $attributes="")
+    function __construct($selected=array(),$values=array(),$descriptions=array(),$name="option", $label="", $size=1, $attributes="")
     {
         parent::__construct();
 
@@ -362,7 +365,7 @@ class OptionFormMultiple extends Template
 class NumberOptionForm  extends Template
 {
 
-    function NumberOptionForm($number,$from,$to,$showunknown=false,$jsid="",$name="number", $label="number")
+    function __construct($number,$from,$to,$showunknown=false,$jsid="",$name="number", $label="number")
     {
         parent::__construct();
 
@@ -437,7 +440,7 @@ class YearOptionForm  extends NumberOptionForm
 class CheckboxForm extends Template
 {
 
-    function CheckboxForm($name,$value,$title,$ischecked,$labelpos="left")
+    function __construct($name,$value,$title,$ischecked,$labelpos="left")
     {
         parent::__construct();
         $this->stringvars['name']=$name;
@@ -470,7 +473,7 @@ class CheckboxForm extends Template
 class RadioButtonForm extends Template
 {
 
-    function RadioButtonForm($jsid,$name,$value,$title,$ischecked,$labelpos="left")
+    function __construct($jsid,$name,$value,$title,$ischecked,$labelpos="left")
     {
         parent::__construct($jsid);
         $this->stringvars['name']=$name;
@@ -502,7 +505,7 @@ class RadioButtonForm extends Template
 class LinkButton extends Template
 {
 
-    function LinkButton($link,$title,$image)
+    function __construct($link,$title,$image)
     {
         global $projectroot;
         parent::__construct();

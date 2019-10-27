@@ -44,7 +44,7 @@ require_once $projectroot."admin/includes/objects/forms.php";
 class AdminGuestbookEntryList extends Template
 {
 
-    function AdminGuestbookEntryList($number, $offset)
+    function __construct($number, $offset)
     {
         parent::__construct();
         $entries=getguestbookentries($number, $offset);
@@ -85,7 +85,7 @@ class AdminGuestbookEntryList extends Template
 class AdminGuestbookEntry extends Template
 {
 
-    function AdminGuestbookEntry($entryid, $showdeleteform=true)
+    function __construct($entryid, $showdeleteform=true)
     {
         parent::__construct();
 
@@ -129,7 +129,7 @@ class AdminGuestbookEntry extends Template
 class AdminGuestbookDeleteConfirmForm extends Template
 {
 
-    function AdminGuestbookDeleteConfirmForm($entryid)
+    function __construct($entryid)
     {
         parent::__construct();
         $linkparams["page"] = $this->stringvars['page'];
@@ -156,7 +156,7 @@ class AdminGuestbookDeleteConfirmForm extends Template
 class AdminGuestbookEnableForm extends Template
 {
 
-    function AdminGuestbookEnableForm()
+    function __construct()
     {
         parent::__construct();
 

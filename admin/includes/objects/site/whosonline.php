@@ -42,7 +42,7 @@ require_once $projectroot."includes/objects/elements.php";
 class SiteWhosOnline extends Template
 {
 
-    function SiteWhosOnline()
+    function __construct()
     {
         parent::__construct();
         $sessions=getallpublicsessions();
@@ -79,7 +79,7 @@ class SiteWhosOnline extends Template
 class SiteWhosOnlineUser extends Template
 {
 
-    function SiteWhosOnlineUser($userid, $username, $ip, $lastlogin, $isvalid, $retries)
+    function __construct($userid, $username, $ip, $lastlogin, $isvalid, $retries)
     {
         parent::__construct();
 

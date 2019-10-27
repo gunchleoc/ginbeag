@@ -43,7 +43,7 @@ require_once $projectroot."admin/includes/objects/forms.php";
 class SiteCreatePublicUser extends Template
 {
 
-    function SiteCreatePublicUser($username, $message="", $newuserid=-1)
+    function __construct($username, $message="", $newuserid=-1)
     {
         global $projectroot;
         parent::__construct();
@@ -84,7 +84,7 @@ class SiteCreatePublicUser extends Template
 class SiteUserlist extends Template
 {
 
-    function SiteUserlist($ref)
+    function __construct($ref)
     {
         parent::__construct();
 
@@ -118,7 +118,7 @@ class SiteUserlist extends Template
 class SiteUserlistAdminUser extends Template
 {
 
-    function SiteUserlistAdminUser($userid,$ref)
+    function __construct($userid,$ref)
     {
         parent::__construct();
 
@@ -177,7 +177,7 @@ class SiteUserlistAdminUser extends Template
 class SiteUserlistPublicUser extends Template
 {
 
-    function SiteUserlistPublicUser($userid,$ref)
+    function __construct($userid,$ref)
     {
         parent::__construct();
 
@@ -237,7 +237,7 @@ class SiteUserlistPublicUser extends Template
 class SiteSelectUserForm extends Template
 {
 
-    function SiteSelectUserForm($username="")
+    function __construct($username="")
     {
         parent::__construct();
 
@@ -268,7 +268,7 @@ class SiteSelectUserForm extends Template
 class SiteAdminUserProfileForm extends Template
 {
 
-    function SiteAdminUserProfileForm($userid)
+    function __construct($userid)
     {
         parent::__construct();
 
@@ -343,7 +343,7 @@ class SiteAdminUserProfileForm extends Template
 class SitePublicUserProfileForm extends Template
 {
 
-    function SitePublicUserProfileForm($userid)
+    function __construct($userid)
     {
         parent::__construct();
 

@@ -102,7 +102,7 @@ class Template
      *
      * @return void
      */
-    function Template($jsid="",$jspaths=array(),$jscripts=array())
+    function __construct($jsid="",$jspaths=array(),$jscripts=array())
     {
         global $sid, $page;
 

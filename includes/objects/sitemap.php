@@ -41,7 +41,7 @@ require_once $projectroot."includes/includes.php";
 class Sitemap extends Template
 {
 
-    function Sitemap($showhidden=false)
+    function __construct($showhidden=false)
     {
         parent::__construct();
         $this->vars['pageintro'] = new PageIntro(utf8_decode(getlang("pagetitle_sitemap")), "");
@@ -75,7 +75,7 @@ class Sitemap extends Template
 class SitemapLink extends Template
 {
 
-    function SitemapLink($page, $level=0, $class="navtitle", $speciallink="" ,$showhidden=false)
+    function __construct($page, $level=0, $class="navtitle", $speciallink="" ,$showhidden=false)
     {
         parent::__construct();
 
@@ -171,7 +171,7 @@ class SitemapLink extends Template
 class SitemapBranch extends Template
 {
 
-    function SitemapBranch($page,$depth,$startwithroot=false,$level=0,$speciallink="",$showhidden=false)
+    function __construct($page,$depth,$startwithroot=false,$level=0,$speciallink="",$showhidden=false)
     {
         parent::__construct();
 

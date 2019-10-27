@@ -43,7 +43,7 @@ require_once $projectroot."admin/includes/objects/editor.php";
 class SitePolicy extends Template
 {
 
-    function SitePolicy()
+    function __construct()
     {
         parent::__construct("sitepolicy", array(0 => "includes/javascript/jcaret.js"));
         $this->stringvars['javascript']=$this->getScripts();

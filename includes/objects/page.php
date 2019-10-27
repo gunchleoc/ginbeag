@@ -52,7 +52,7 @@ require_once $projectroot."includes/objects/images.php";
 class Editdata extends Template
 {
 
-    function Editdata($showhidden=false)
+    function __construct($showhidden=false)
     {
         parent::__construct();
 
@@ -88,7 +88,7 @@ class Editdata extends Template
 class Banner extends Template
 {
 
-    function Banner($banner,$showheader=false)
+    function __construct($banner,$showheader=false)
     {
         global $projectroot;
         parent::__construct();
@@ -127,7 +127,7 @@ class Banner extends Template
 class BannerList extends Template
 {
 
-    function BannerList()
+    function __construct()
     {
         parent::__construct();
 
@@ -165,7 +165,7 @@ class NavigatorLink extends Template
 
     var $style="";
 
-    function NavigatorLink($page,$style="simple", $level=0, $speciallink="" ,$showhidden=false)
+    function __construct($page,$style="simple", $level=0, $speciallink="" ,$showhidden=false)
     {
         global $_GET;
         $this->style=$style;
@@ -305,7 +305,7 @@ class NavigatorBranch extends Template
 
     var $style="";
 
-    function NavigatorBranch($page,$style="simple",$depth,$level=0,$speciallink="",$showhidden=false)
+    function __construct($page,$style="simple",$depth,$level=0,$speciallink="",$showhidden=false)
     {
         $this->style=$style;
         parent::__construct();
@@ -359,7 +359,7 @@ class Navigator extends Template
 
     var $displaytype;
 
-    function Navigator($page,$sistersinnavigator,$depth,$displaytype="page",$showhidden=false)
+    function __construct($page,$sistersinnavigator,$depth,$displaytype="page",$showhidden=false)
     {
         $this->displaytype=$displaytype;
         parent::__construct();
@@ -559,7 +559,7 @@ class Navigator extends Template
 class ItemsOfTheDay extends Template
 {
 
-    function ItemsOfTheDay($showhidden=false)
+    function __construct($showhidden=false)
     {
         parent::__construct();
 
@@ -598,7 +598,7 @@ class ItemsOfTheDay extends Template
 class PageIntro extends Template
 {
 
-    function PageIntro($title, $text, $image="", $imageautoshrink=true, $usethumbnail=true, $imagealign="left",$showhidden=false, $class="introtext")
+    function __construct($title, $text, $image="", $imageautoshrink=true, $usethumbnail=true, $imagealign="left",$showhidden=false, $class="introtext")
     {
         parent::__construct();
         $this->stringvars['pagetitle']=title2html($title);
@@ -626,7 +626,7 @@ class PageHeader extends Template
 
     var $displaytype;
 
-    function PageHeader($page, $title, $meta_content, $displaytype="page")
+    function __construct($page, $title, $meta_content, $displaytype="page")
     {
         global $projectroot, $_GET, $_SERVER;
         $this->displaytype=$displaytype;
@@ -733,7 +733,7 @@ class PageHeader extends Template
 class PageFooter extends Template
 {
 
-    function PageFooter()
+    function __construct()
     {
         parent::__construct();
         if(getproperty("Display Site Policy")) {
@@ -766,7 +766,7 @@ class Page extends Template
 
     var $displaytype;
 
-    function Page($displaytype="page",$showhidden=false)
+    function __construct($displaytype="page",$showhidden=false)
     {
         global $_SERVER, $_GET, $projectroot;
 
@@ -1184,7 +1184,7 @@ class Page extends Template
 class Printview extends Template
 {
 
-    function Printview($showhidden=false)
+    function __construct($showhidden=false)
     {
         global $_SERVER, $_GET;
         parent::__construct();
@@ -1308,7 +1308,7 @@ class Printview extends Template
 class AdminPageDisplayMessage extends Template
 {
 
-    function AdminPageDisplayMessage()
+    function __construct()
     {
         global $_GET;
         parent::__construct();

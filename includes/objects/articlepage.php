@@ -41,7 +41,7 @@ require_once $projectroot."includes/includes.php";
 class Articlesection extends Template
 {
 
-    function Articlesection($articlesection,$articlepage,$showhidden)
+    function __construct($articlesection,$articlepage,$showhidden)
     {
         parent::__construct();
 
@@ -74,7 +74,7 @@ class Articlesection extends Template
 //
 class ArticlePage extends Template
 {
-    function ArticlePage($articlepage,$showhidden)
+    function __construct($articlepage,$showhidden)
     {
         parent::__construct();
 
@@ -158,7 +158,7 @@ class ArticlePage extends Template
 //
 class ArticleTOC extends Template
 {
-    function ArticleTOC()
+    function __construct()
     {
         parent::__construct();
         $this->stringvars['l_toc'] =getlang('article_page_toc');
@@ -194,7 +194,7 @@ class ArticleTOC extends Template
 //
 class ArticleTOCItem extends Template
 {
-    function ArticleTOCItem($sectionid,$title,$offset)
+    function __construct($sectionid,$title,$offset)
     {
         parent::__construct();
 
@@ -222,7 +222,7 @@ class ArticleTOCItem extends Template
 class ArticlesectionPrintview extends Template
 {
 
-    function ArticlesectionPrintview($articlesection)
+    function __construct($articlesection)
     {
         parent::__construct();
 
@@ -256,7 +256,7 @@ class ArticlesectionPrintview extends Template
 //
 class ArticlePagePrintview extends Template
 {
-    function ArticlePagePrintview()
+    function __construct()
     {
         parent::__construct();
 

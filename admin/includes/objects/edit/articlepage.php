@@ -46,7 +46,7 @@ require_once $projectroot."admin/includes/objects/imageeditor.php";
 //
 class ArticlePageButton extends Template
 {
-    function ArticlePageButton($articlepage)
+    function __construct($articlepage)
     {
         parent::__construct();
         $linkparams["page"] = $this->stringvars['page'];
@@ -69,7 +69,7 @@ class ArticlePageButton extends Template
 //
 class EditArticle extends Template
 {
-    function EditArticle($page)
+    function __construct($page)
     {
         parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editarticle.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -110,7 +110,7 @@ class EditArticle extends Template
 //
 class ArticleSectionForm extends Template
 {
-    function ArticleSectionForm($articlepage,$articlesection,$moveup="move section up",$movedown="move section down")
+    function __construct($articlepage,$articlesection,$moveup="move section up",$movedown="move section down")
     {
         parent::__construct($articlesection, array(), array(0 => "admin/includes/javascript/editarticlepage.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -158,7 +158,7 @@ class ArticleSectionForm extends Template
 //
 class EditArticlePage extends Template
 {
-    function EditArticlePage($articlepage)
+    function __construct($articlepage)
     {
         parent::__construct($articlepage, array(0 => "includes/javascript/jcaret.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -213,7 +213,7 @@ class EditArticlePage extends Template
 //
 class DeleteArticleSectionConfirm extends Template
 {
-    function DeleteArticleSectionConfirm($articlepage,$articlesection)
+    function __construct($articlepage,$articlesection)
     {
         parent::__construct();
 

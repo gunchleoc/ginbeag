@@ -44,7 +44,7 @@ require_once $projectroot."admin/includes/objects/imageeditor.php";
 //
 class EditMenuLevelsForm extends Template
 {
-    function EditMenuLevelsForm($page,$sistersinnavigator,$pagelevel,$navigatorlevel)
+    function __construct($page,$sistersinnavigator,$pagelevel,$navigatorlevel)
     {
         parent::__construct($page, array(), array(0 => "admin/includes/javascript/editmenu.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -68,7 +68,7 @@ class EditMenuLevelsForm extends Template
 //
 class MenuMovePageForm extends Template
 {
-    function MenuMovePageForm($page,$position,$noofelements,$title,$jsid,$movepageform)
+    function __construct($page,$position,$noofelements,$title,$jsid,$movepageform)
     {
         parent::__construct($jsid, array(), array(0 => "admin/includes/javascript/editmenumovepage.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -94,7 +94,7 @@ class MenuMovePageForm extends Template
 //
 class MenuMovePageFormContainer extends Template
 {
-    function MenuMovePageFormContainer($page,$subpageids)
+    function __construct($page,$subpageids)
     {
         parent::__construct();
 
@@ -121,7 +121,7 @@ class MenuMovePageFormContainer extends Template
 //
 class EditMenuSubpages extends Template
 {
-    function EditMenuSubpages($page)
+    function __construct($page)
     {
         parent::__construct($page, array(0 => "includes/javascript/jcaret.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -154,7 +154,7 @@ class EditMenuSubpages extends Template
 //
 class EditMenu extends Template
 {
-    function EditMenu($page)
+    function __construct($page)
     {
         parent::__construct($page, array(0 => "includes/javascript/jcaret.js"));
         $this->stringvars['javascript']=$this->getScripts();

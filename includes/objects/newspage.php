@@ -47,7 +47,7 @@ class Newsitemsection extends Template
     var $isquotestart=false;
     var $isquoteend=false;
 
-    function Newsitemsection($newsitemsection, $newsitem, $isquoted=false, $showhidden=false)
+    function __construct($newsitemsection, $newsitem, $isquoted=false, $showhidden=false)
     {
         $this->stringvars['l_quote']=getlang("section_quote");
 
@@ -87,7 +87,7 @@ class Newsitemsection extends Template
 class Newsitem extends Template
 {
 
-    function Newsitem($newsitem,$offset,$showhidden=false,$showtoplink=true)
+    function __construct($newsitem,$offset,$showhidden=false,$showtoplink=true)
     {
         global $_GET, $projectroot;
 
@@ -242,7 +242,7 @@ class Newsitem extends Template
 class Newsitempage extends Template
 {
 
-    function Newsitempage($newsitem,$page,$offset,$showhidden=false,$showtoplink=true)
+    function __construct($newsitem,$page,$offset,$showhidden=false,$showtoplink=true)
     {
         global $_GET;
 
@@ -279,7 +279,7 @@ class Newsitempage extends Template
 //
 class NewsPage extends Template
 {
-    function NewsPage($page,$offset,$showhidden)
+    function __construct($page,$offset,$showhidden)
     {
         global $_GET;
 
@@ -442,7 +442,7 @@ class NewsPage extends Template
 class NewsOrderSelectionForm  extends Template
 {
 
-    function NewsOrderSelectionForm($order="")
+    function __construct($order="")
     {
         parent::__construct();
 

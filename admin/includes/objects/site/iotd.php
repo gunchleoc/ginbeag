@@ -42,7 +42,7 @@ require_once $projectroot."admin/includes/objects/forms.php";
 class SiteRandomItems extends Template
 {
 
-    function SiteRandomItems()
+    function __construct()
     {
         parent::__construct();
 

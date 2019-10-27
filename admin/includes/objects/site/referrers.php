@@ -41,7 +41,7 @@ require_once $projectroot."includes/objects/elements.php";
 class SiteReferrers extends Template
 {
 
-    function SiteReferrers()
+    function __construct()
     {
         parent::__construct();
 
@@ -75,7 +75,7 @@ class SiteReferrers extends Template
 class SiteReferrer extends Template
 {
 
-    function SiteReferrer($referrer)
+    function __construct($referrer)
     {
         parent::__construct();
 
@@ -101,7 +101,7 @@ class SiteReferrer extends Template
 class SiteReferrerUnblockForm extends Template
 {
 
-    function SiteReferrerUnblockForm($referrer)
+    function __construct($referrer)
     {
         parent::__construct();
         $linkparams["page"] = $this->stringvars['page'];

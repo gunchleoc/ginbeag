@@ -41,7 +41,7 @@ require_once $projectroot."includes/objects/elements.php";
 class SiteIPBanIP extends Template
 {
 
-    function SiteIPBanIP($ip)
+    function __construct($ip)
     {
         parent::__construct();
 
@@ -68,7 +68,7 @@ class SiteIPBanIP extends Template
 class SiteIPBan extends Template
 {
 
-    function SiteIPBan()
+    function __construct()
     {
         parent::__construct();
 

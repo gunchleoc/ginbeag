@@ -49,7 +49,7 @@ require_once $projectroot."includes/objects/images.php";
 class Editor extends Template
 {
 
-    function Editor($page,$item, $elementtype, $title="Text", $iscollapsed=true)
+    function __construct($page,$item, $elementtype, $title="Text", $iscollapsed=true)
     {
         parent::__construct($page.'-'.$item, array(), array(0 => "admin/includes/javascript/editor.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -81,7 +81,7 @@ class Editor extends Template
 class EditorContentsExpanded extends Template
 {
 
-    function EditorContentsExpanded($page,$item, $elementtype,$title="Edit text", $edittext=false)
+    function __construct($page,$item, $elementtype,$title="Edit text", $edittext=false)
     {
         parent::__construct($page.'-'.$item);
 
@@ -121,7 +121,7 @@ class EditorContentsExpanded extends Template
 class EditorContentsCollapsed extends Template
 {
 
-    function EditorContentsCollapsed($page,$item, $elementtype, $title="Edit text")
+    function __construct($page,$item, $elementtype, $title="Edit text")
     {
         parent::__construct($page.'-'.$item);
 
@@ -147,7 +147,7 @@ class EditorContentsCollapsed extends Template
 class EditorContentsSaveDialog extends Template
 {
 
-    function EditorContentsSaveDialog($page,$item, $elementtype, $edittext,$title="Edit text")
+    function __construct($page,$item, $elementtype, $edittext,$title="Edit text")
     {
         parent::__construct($page.'-'.$item);
 

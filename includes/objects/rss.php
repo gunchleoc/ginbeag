@@ -40,7 +40,7 @@ require_once $projectroot."functions/pagecontent/newspages.php";
 class RSSItem extends Template
 {
 
-    function RSSItem($newsitem,$title,$description,$link,$source,$pubdate)
+    function __construct($newsitem,$title,$description,$link,$source,$pubdate)
     {
         parent::__construct();
         $this->stringvars['title']=html2xml($title);
@@ -71,7 +71,7 @@ class RSSItem extends Template
 class RSSPage extends Template
 {
 
-    function RSSPage($page)
+    function __construct($page)
     {
         global $defaultlanguage;
 

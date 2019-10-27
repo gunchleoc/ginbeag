@@ -49,7 +49,7 @@ require_once $projectroot."admin/includes/objects/editor.php"; // todo only impo
 class DeletePageConfirmForm extends Template
 {
 
-    function DeletePageConfirmForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -85,7 +85,7 @@ class DeletePageConfirmForm extends Template
 class FindNewParentForm extends Template
 {
 
-    function FindNewParentForm()
+    function __construct()
     {
         parent::__construct();
         $this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page'], "action" => "findnewparent"));
@@ -106,7 +106,7 @@ class FindNewParentForm extends Template
 class SelectNewParentForm extends Template
 {
 
-    function SelectNewParentForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -152,7 +152,7 @@ class SelectNewParentForm extends Template
 class RestrictAccessForm extends Template
 {
 
-    function RestrictAccessForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -208,7 +208,7 @@ class RestrictAccessForm extends Template
 class PermissionsForm extends Template
 {
 
-    function PermissionsForm($permissions)
+    function __construct($permissions)
     {
         parent::__construct();
 
@@ -236,7 +236,7 @@ class PermissionsForm extends Template
 class RenamePageForm extends Template
 {
 
-    function RenamePageForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -260,7 +260,7 @@ class RenamePageForm extends Template
 class SetPublishableForm extends Template
 {
 
-    function SetPublishableForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -287,7 +287,7 @@ class SetPublishableForm extends Template
 class ExternalForm extends Template
 {
 
-    function ExternalForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -310,7 +310,7 @@ class ExternalForm extends Template
 class EditPage extends Template
 {
 
-    function EditPage($page)
+    function __construct($page)
     {
         parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editpage.js"));
 

@@ -42,7 +42,7 @@ require_once $projectroot."includes/objects/newspage.php";
 class Preview extends Template
 {
 
-    function Preview($newsitem)
+    function __construct($newsitem)
     {
         parent::__construct();
         $this->stringvars['stylesheet']=getCSSPath("main.css");

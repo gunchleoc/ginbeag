@@ -41,7 +41,7 @@ require_once $projectroot."admin/includes/objects/forms.php";
 class SiteTechnical extends Template
 {
 
-    function SiteTechnical()
+    function __construct()
     {
         parent::__construct();
 

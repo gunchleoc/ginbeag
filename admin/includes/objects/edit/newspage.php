@@ -50,7 +50,7 @@ require_once $projectroot."includes/objects/newspage.php";
 class NewsitemImagePropertiesForm extends Template
 {
 
-    function NewsitemImagePropertiesForm($image,$newsitem,$imageid,$offset=0)
+    function __construct($image,$newsitem,$imageid,$offset=0)
     {
         global $offset;
         parent::__construct();
@@ -87,7 +87,7 @@ class NewsitemImagePropertiesForm extends Template
 class NewsitemSynopsisForm extends Template
 {
 
-    function NewsitemSynopsisForm($newsitem)
+    function __construct($newsitem)
     {
         global $offset;
         parent::__construct();
@@ -130,7 +130,7 @@ class NewsitemSynopsisForm extends Template
 class NewsitemSectionForm extends Template
 {
 
-    function NewsitemSectionForm($newsitem,$newsitemsection, $offset)
+    function __construct($newsitem,$newsitemsection, $offset)
     {
         parent::__construct($newsitemsection, array(), array(0 => "admin/includes/javascript/editnewsitemsection.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -181,7 +181,7 @@ class NewsitemSectionForm extends Template
 class InsertNewsItemSectionForm extends Template
 {
 
-    function InsertNewsItemSectionForm($newsitem,$newsitemsection)
+    function __construct($newsitem,$newsitemsection)
     {
         global $offset;
         parent::__construct();
@@ -207,7 +207,7 @@ class InsertNewsItemSectionForm extends Template
 class DeleteNewsItemConfirm extends Template
 {
 
-    function DeleteNewsItemConfirm($newsitem)
+    function __construct($newsitem)
     {
         global $offset;
         parent::__construct();
@@ -236,7 +236,7 @@ class DeleteNewsItemConfirm extends Template
 class DeleteNewsItemSectionConfirm extends Template
 {
 
-    function DeleteNewsItemSectionConfirm($newsitem,$newsitemsection)
+    function __construct($newsitem,$newsitemsection)
     {
         global $offset;
         parent::__construct();
@@ -268,7 +268,7 @@ class DeleteNewsItemSectionConfirm extends Template
 class NewsItemAddForm extends Template
 {
 
-    function NewsItemAddForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -291,7 +291,7 @@ class NewsItemAddForm extends Template
 class NewsItemArchiveForm extends Template
 {
 
-    function NewsItemArchiveForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -314,7 +314,7 @@ class NewsItemArchiveForm extends Template
 class NewsItemDisplayOrderForm extends Template
 {
 
-    function NewsItemDisplayOrderForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -341,7 +341,7 @@ class NewsItemDisplayOrderForm extends Template
 class NewsItemSearchForm extends Template
 {
 
-    function NewsItemSearchForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -364,7 +364,7 @@ class NewsItemSearchForm extends Template
 class NewsItemSearchResults extends Template
 {
 
-    function NewsItemSearchResults($searchtitle)
+    function __construct($searchtitle)
     {
         parent::__construct();
 
@@ -405,7 +405,7 @@ class NewsItemSearchResults extends Template
 class NewsItemSearchResult extends Template
 {
 
-    function NewsItemSearchResult($newsitem,$offset)
+    function __construct($newsitem,$offset)
     {
         parent::__construct();
 
@@ -443,7 +443,7 @@ class NewsItemSearchResult extends Template
 //
 class ArchiveNewsItemsForm extends Template
 {
-    function ArchiveNewsItemsForm()
+    function __construct()
     {
         parent::__construct();
 
@@ -480,7 +480,7 @@ class ArchiveNewsItemsForm extends Template
 class FakeTheDateForm extends Template
 {
 
-    function FakeTheDateForm($newsitem, $contents,$offset)
+    function __construct($newsitem, $contents,$offset)
     {
         parent::__construct($newsitem);
 
@@ -510,7 +510,7 @@ class FakeTheDateForm extends Template
 class NewsItemSourceForm extends Template
 {
 
-    function NewsItemSourceForm($newsitem, $contents)
+    function __construct($newsitem, $contents)
     {
         parent::__construct($newsitem);
 
@@ -533,7 +533,7 @@ class NewsItemSourceForm extends Template
 class NewsItemPermissionsForm extends Template
 {
 
-    function NewsItemPermissionsForm($newsitem, $permissions)
+    function __construct($newsitem, $permissions)
     {
         parent::__construct($newsitem);
 
@@ -556,7 +556,7 @@ class NewsItemPermissionsForm extends Template
 class NewsItemPublishForm extends Template
 {
 
-    function NewsItemPublishForm($newsitem, $permissions, $offset)
+    function __construct($newsitem, $permissions, $offset)
     {
         parent::__construct($newsitem);
 
@@ -587,7 +587,7 @@ class NewsItemPublishForm extends Template
 class NewsItemDeleteForm extends Template
 {
 
-    function NewsItemDeleteForm($newsitem, $offset)
+    function __construct($newsitem, $offset)
     {
         parent::__construct();
 
@@ -612,7 +612,7 @@ class NewsItemDeleteForm extends Template
 class EditNewsItemForms extends Template
 {
 
-    function EditNewsItemForms($page, $offset)
+    function __construct($page, $offset)
     {
         $noofnewsitems=countnewsitems($page);
         if($noofnewsitems>0) {
@@ -703,7 +703,7 @@ class EditNewsItemForms extends Template
 class EditNews extends Template
 {
 
-    function EditNews($page)
+    function __construct($page)
     {
         parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
         $this->stringvars['javascript']=$this->getScripts();

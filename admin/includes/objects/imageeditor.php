@@ -44,7 +44,7 @@ require_once $projectroot."admin/includes/objects/images.php";
 class ImageEditor extends Template
 {
 
-    function ImageEditor($page, $elementid, $elementtype, $contents)
+    function __construct($page, $elementid, $elementtype, $contents)
     {
         parent::__construct($page.'-'.$elementid, array(), array(0 => "admin/includes/javascript/imageeditor.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -112,7 +112,7 @@ class ImageEditor extends Template
 class ImageEditorFilenamePane extends Template
 {
 
-    function ImageEditorFilenamePane($page,$elementid, $image, $elementtype)
+    function __construct($page,$elementid, $image, $elementtype)
     {
         parent::__construct($page.'-'.$elementid);
 
@@ -140,7 +140,7 @@ class ImageEditorFilenamePane extends Template
 class ImageEditorAlignmentPane extends Template
 {
 
-    function ImageEditorAlignmentPane($page,$elementid, $imagealign)
+    function __construct($page,$elementid, $imagealign)
     {
         parent::__construct($page.'-'.$elementid);
 
@@ -168,7 +168,7 @@ class ImageEditorAlignmentPane extends Template
 class ImageEditorSizePane extends Template
 {
 
-    function ImageEditorSizePane($page,$elementid, $autoshrink, $usethumbnail)
+    function __construct($page,$elementid, $autoshrink, $usethumbnail)
     {
         parent::__construct($page.'-'.$elementid);
 
@@ -196,7 +196,7 @@ class ImageEditorSizePane extends Template
 class ImageEditorImagePane extends Template
 {
 
-    function ImageEditorImagePane($page,$image)
+    function __construct($page,$image)
     {
         parent::__construct();
         $this->stringvars['image']="";

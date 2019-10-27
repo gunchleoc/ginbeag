@@ -40,7 +40,7 @@ class CategorylistLink extends Template
 {
 
 
-    function CategorylistLink($category, $name, $page)
+    function __construct($category, $name, $page)
     {
         parent::__construct();
         $this->stringvars['title']=title2html($name);
@@ -101,7 +101,7 @@ class CategorylistLink extends Template
 class CategorylistLinks extends Template
 {
 
-    function CategorylistLinks($categories,$page, $cattype)
+    function __construct($categories,$page, $cattype)
     {
         parent::__construct();
 
@@ -116,7 +116,7 @@ class CategorylistLinks extends Template
             }
             natcasesort($cats_with_names);
             $keys = array_keys($cats_with_names);
-            while (list($key, $category) = each($cats_with_names)) {
+            foreach ($cats_with_names as $key => $category) {
                 $this->listvars['catlist'][]=new CategorylistLink($key, $category, $page);
             }
             $this->stringvars['l_categories']=getlang("categorylist_categories");
@@ -143,7 +143,7 @@ class Categorylist extends Template
 {
 
 
-    function Categorylist($categories, $cattype, $printheader=true)
+    function __construct($categories, $cattype, $printheader=true)
     {
         parent::__construct();
         $categorynames=getcategorynamessorted($categories, $cattype);

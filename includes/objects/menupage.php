@@ -45,7 +45,7 @@ class MenuPage extends Template
 
     var $pagetype="";
 
-    function MenuPage($page,$showhidden=false)
+    function __construct($page,$showhidden=false)
     {
         parent::__construct();
 
@@ -97,7 +97,7 @@ class MenuPage extends Template
 class ArticleInfo extends Template
 {
 
-    function ArticleInfo($page,$article)
+    function __construct($page,$article)
     {
         parent::__construct();
 
@@ -140,7 +140,7 @@ class ArticleMenuPage extends Template
 
     var $pagetype="";
 
-    function ArticleMenuPage($page,$showhidden=false)
+    function __construct($page,$showhidden=false)
     {
         global $_GET;
         parent::__construct();
@@ -273,7 +273,7 @@ class ArticleMenuPage extends Template
 class ArticlemenuOrderSelectionForm  extends Template
 {
 
-    function ArticlemenuOrderSelectionForm($order="")
+    function __construct($order="")
     {
         parent::__construct();
 
@@ -303,7 +303,7 @@ class ArticlemenuOrderSelectionForm  extends Template
 class MenuLinkListLink extends Template
 {
 
-    function MenuLinkListLink($link)
+    function __construct($link)
     {
         parent::__construct();
 
@@ -341,7 +341,7 @@ class MenuLinkListLink extends Template
 class MenuLinkListBranch extends Template
 {
 
-    function MenuLinkListBranch($linkids)
+    function __construct($linkids)
     {
         parent::__construct();
 
@@ -366,7 +366,7 @@ class MenuLinkListBranch extends Template
 class MenuNavigatorLink extends Template
 {
 
-    function MenuNavigatorLink($page, $level=0, $showhidden=false)
+    function __construct($page, $level=0, $showhidden=false)
     {
         global $_GET;
 
@@ -451,7 +451,7 @@ class MenuNavigatorLink extends Template
 class MenuNavigatorBranch extends Template
 {
 
-    function MenuNavigatorBranch($page,$depth,$level=0,$showhidden=false)
+    function __construct($page,$depth,$level=0,$showhidden=false)
     {
         parent::__construct();
 

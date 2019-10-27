@@ -39,7 +39,7 @@ class LoginForm extends Template
 {
 
 
-    function LoginForm($username,$error="")
+    function __construct($username,$error="")
     {
         global $_GET;
         parent::__construct();

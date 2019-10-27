@@ -39,7 +39,7 @@ require_once $projectroot."includes/objects/page.php";
 class Showimage extends Template
 {
 
-    function Showimage($page,$image,$item=0,$showhidden=false)
+    function __construct($page,$image,$item=0,$showhidden=false)
     {
         global $_POST, $_GET;
         parent::__construct();
@@ -179,7 +179,7 @@ class Showimage extends Template
 class ImageEditdata extends Template
 {
 
-    function ImageEditdata($image, $showhidden=false)
+    function __construct($image, $showhidden=false)
     {
         parent::__construct();
         $editdate= getuploaddate($image);

@@ -41,7 +41,7 @@ require_once $projectroot."includes/objects/elements.php";
 class SiteDBUtilsBackupForm extends Template
 {
 
-    function SiteDBUtilsBackupForm()
+    function __construct()
     {
         parent::__construct();
         $linkparams["page"] = $this->stringvars['page'];
@@ -67,7 +67,7 @@ class SiteDBUtilsBackupForm extends Template
 class SiteDBUtilsDBDump extends Template
 {
 
-    function SiteDBUtilsDBDump($dump)
+    function __construct($dump)
     {
         parent::__construct();
         $this->stringvars['dump']=$dump;
@@ -87,7 +87,7 @@ class SiteDBUtilsDBDump extends Template
 class SiteDBUtilsTableHeader extends Template
 {
 
-    function SiteDBUtilsTableHeader($header)
+    function __construct($header)
     {
         parent::__construct();
         $this->stringvars['header']=$header;

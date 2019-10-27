@@ -42,7 +42,7 @@ require_once $projectroot."admin/includes/objects/forms.php";
 class SiteAntispam extends Template
 {
 
-    function SiteAntispam()
+    function __construct()
     {
         global $projectroot;
         parent::__construct();

@@ -41,7 +41,7 @@ require_once $projectroot."includes/objects/template.php";
 class MovePageForm extends Template
 {
 
-    function MovePageForm($page,$moveid)
+    function __construct($page,$moveid)
     {
         parent::__construct($moveid);
         $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("moveid" => $moveid));
@@ -60,7 +60,7 @@ class MovePageForm extends Template
 class DoneButton extends Template
 {
 
-    function DoneButton($page,$params=array("action" => "edit"),$link="pageedit.php",$buttontext="Done",$class="mainoption")
+    function __construct($page,$params=array("action" => "edit"),$link="pageedit.php",$buttontext="Done",$class="mainoption")
     {
         parent::__construct();
         $params["page"] = $page;
@@ -89,7 +89,7 @@ class DoneButton extends Template
 class DonePage extends Template
 {
 
-    function DonePage($title, $link="pageedit.php", $buttontext="Done")
+    function __construct($title, $link="pageedit.php", $buttontext="Done")
     {
         parent::__construct();
         $this->vars['donebutton'] = new DoneButton($this->stringvars['page'], array("action" => "show"), $link, $buttontext);
@@ -107,7 +107,7 @@ class DonePage extends Template
 class pageBeingEditedNotice extends Template
 {
 
-    function pageBeingEditedNotice($message="")
+    function __construct($message="")
     {
         parent::__construct();
         $this->vars['donebutton'] = new DoneButton($this->stringvars['page'], array("action" => "show"), "admin.php", "View this page");
@@ -133,7 +133,7 @@ function noPageSelectedNotice()
 class DoneRedirect extends Template
 {
 
-    function DoneRedirect($page,$title,$params=array("action" => "edit"),$link="pageedit.php",$buttontext="Done")
+    function __construct($page,$title,$params=array("action" => "edit"),$link="pageedit.php",$buttontext="Done")
     {
         parent::__construct();
 
@@ -167,7 +167,7 @@ function editedRedirect($page, $title)
 class EditPageIntroSettingsButton extends Template
 {
 
-    function EditPageIntroSettingsButton()
+    function __construct()
     {
         parent::__construct();
 
@@ -203,7 +203,7 @@ class EditPageIntroSettingsButton extends Template
 class EditPageContentsButton extends Template
 {
 
-    function EditPageContentsButton()
+    function __construct()
     {
         parent::__construct();
 
@@ -250,7 +250,7 @@ class EditPageContentsButton extends Template
 class GeneralSettingsButton extends Template
 {
 
-    function GeneralSettingsButton()
+    function __construct()
     {
         parent::__construct();
 
@@ -273,7 +273,7 @@ class GeneralSettingsButton extends Template
 class PageEditNavigationButtons extends Template
 {
 
-    function PageEditNavigationButtons($firstbutton, $secondbutton)
+    function __construct($firstbutton, $secondbutton)
     {
         parent::__construct();
 
@@ -312,7 +312,7 @@ class PageEditNavigationButtons extends Template
 class SubmitRow extends Template
 {
 
-    function SubmitRow($submitname="submit",$submitlabel="Submit",$showreset=false,$showcancel=false,$cancellocation="",$jsid="")
+    function __construct($submitname="submit",$submitlabel="Submit",$showreset=false,$showcancel=false,$cancellocation="",$jsid="")
     {
         parent::__construct($jsid);
 
@@ -347,7 +347,7 @@ class SubmitRow extends Template
 class CancelConfirmButtons extends Template
 {
 
-    function CancelConfirmButtons($actionvars, $confirmvar, $cancelvar, $hiddenvars = "")
+    function __construct($actionvars, $confirmvar, $cancelvar, $hiddenvars = "")
     {
         parent::__construct();
 

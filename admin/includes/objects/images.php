@@ -42,7 +42,7 @@ require_once $projectroot."includes/functions.php";
 class CaptionedImageAdmin extends Template
 {
 
-    function CaptionedImageAdmin($filename, $page)
+    function __construct($filename, $page)
     {
         parent::__construct();
 

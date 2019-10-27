@@ -42,7 +42,7 @@ require_once $projectroot."admin/includes/objects/imageeditor.php";
 //
 class AddLinklistLinkForm extends Template
 {
-    function AddLinklistLinkForm()
+    function __construct()
     {
         parent::__construct();
         $linkparams["page"] = $this->stringvars['page'];
@@ -64,7 +64,7 @@ class AddLinklistLinkForm extends Template
 //
 class EditLinkListLinkForm extends Template
 {
-    function EditLinkListLinkForm($linkid)
+    function __construct($linkid)
     {
         parent::__construct($linkid, array(), array(0 => "admin/includes/javascript/editlinklist.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -110,7 +110,7 @@ class EditLinkListLinkForm extends Template
 //
 class EditLinklist extends Template
 {
-    function EditLinklist($page)
+    function __construct($page)
     {
         parent::__construct($page, array(0 => "includes/javascript/jcaret.js"));
         $this->stringvars['javascript']=$this->getScripts();

@@ -44,7 +44,7 @@ require_once $projectroot."includes/objects/forms.php";
 class SiteStatsTable extends Template
 {
 
-    function SiteStatsTable($count,$year, $month,$timespan="month")
+    function __construct($count,$year, $month,$timespan="month")
     {
         parent::__construct();
 
@@ -90,7 +90,7 @@ class SiteStatsTable extends Template
 class SiteStatsEntry extends Template
 {
 
-    function SiteStatsEntry($views, $page, $rank)
+    function __construct($views, $page, $rank)
     {
         parent::__construct();
 
