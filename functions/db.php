@@ -156,7 +156,7 @@ class SQLStatement
     private $error_limit_reached = false;
 
     // Dummy constructor
-    protected function SQLStatement()
+    protected function __construct()
     {
     }
 
@@ -632,7 +632,7 @@ class RawSQLStatement extends SQLStatement
     // $values:    values replacing ?
     // $datatypes: string of data types for values, e.g. 'is'
     //             needs to match the values
-    function RawSQLStatement($statement, $values = array(), $datatypes = "")
+    function __construct($statement, $values = array(), $datatypes = "")
     {
         // Set parameters
         $this->query = $statement;
@@ -688,7 +688,7 @@ class SQLInsertStatement extends SQLStatement
     // $values:    values to be inserted
     // $datatypes: string of data types for values, e.g. 'isi'
     //             needs to match the values
-    function SQLInsertStatement($table, $columns, $values, $datatypes)
+    function __construct($table, $columns, $values, $datatypes)
     {
         // Set parameters
         $this->table = $table;
@@ -785,7 +785,7 @@ class SQLUpdateStatement extends SQLStatement
     //             and call the set_values() function instead
     // $datatypes: string of data types for values, e.g. 'isi'
     //             needs to match the values
-    function SQLUpdateStatement($table, $columns, $fields, $values, $datatypes)
+    function __construct($table, $columns, $fields, $values, $datatypes)
     {
         $this->table = $table;
         $this->datatypes = $datatypes;
@@ -850,7 +850,7 @@ class SQLDeleteStatement extends SQLStatement
     //                     needs to match the values
     // $special_condition: use this to add any WHERE condition that doesn't fit the "key = value" pattern
     //                     values should show up as "?" and the real values added to $values and their datatypes to $datatypes
-    function SQLDeleteStatement($table, $fields, $values, $datatypes, $special_condition = "")
+    function __construct($table, $fields, $values, $datatypes, $special_condition = "")
     {
         $this->table = $table;
         $this->datatypes = $datatypes;
@@ -908,7 +908,7 @@ class SQLSelectStatement extends SQLStatement
     //                     needs to match the values and anything added in special_condition
     // $special_condition: use this to add any WHERE condition that doesn't fit the "key = value" pattern
     //                     values should show up as "?" and the real values added to $values and their datatypes to $datatypes
-    function SQLSelectStatement($table, $columns, $fields = array(), $values = array(), $datatypes = "", $special_condition = "")
+    function __construct($table, $columns, $fields = array(), $values = array(), $datatypes = "", $special_condition = "")
     {
         $this->table = $table;
         $this->columns = $columns;
