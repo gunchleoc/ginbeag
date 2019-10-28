@@ -449,6 +449,7 @@ class NewsOrderSelectionForm  extends Template
         $this->stringvars['optionform_name'] = "order";
         $this->stringvars['optionform_label'] = getlang("news_filter_property");
         $this->stringvars['optionform_id'] ="order";
+        $this->stringvars['optionform_attributes'] = "";
         $this->stringvars['jsid'] ="";
 
         $this->listvars['option'][]= new OptionFormOption("date", $order==="date", getlang("news_filter_date"));

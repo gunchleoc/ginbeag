@@ -175,12 +175,14 @@ class CategorySelectionForm  extends Template
         if ($size>1) { $this->stringvars['bigbox'] ='bigbox';
         }
 
-        $attributes="";
-        if($jsfunction) { $attributes.=' onChange="'.$jsfunction.'"';
+        $attributes = "";
+        if ($jsfunction) {
+            $attributes.=' onChange="'.$jsfunction.'"';
         }
-        if($multiple) { $attributes.=' multiple';
+        if ($multiple) {
+            $attributes.=' multiple';
         }
-        $this->stringvars['optionform_attributes'] =$attributes;
+        $this->stringvars['optionform_attributes'] = $attributes;
 
         $allcategories=getallcategorieswithname($cattype);
 
@@ -211,7 +213,7 @@ class CategorySelectionForm  extends Template
             $optiontext="";
 
             if(array_key_exists($key, $selectedcat)) {
-                $optionisselected=' selected';
+                $optionisselected = ' selected="selected"';
             }
             for($i=0;$i<$level+1;$i++)
             {
@@ -247,8 +249,12 @@ class AscDescSelectionForm  extends Template
         $this->stringvars['l_descending']=getlang("form_ascdesc_descending");
         $this->stringvars['l_label']=getlang("form_ascdesc_label");
 
-        if($isascselected) { $this->stringvars['asc_selected']=" selected";
-        } else { $this->stringvars['desc_selected']=" selected";
+        if ($isascselected) {
+            $this->stringvars['asc_selected'] = ' selected="selected"';
+            $this->stringvars['desc_selected'] = "";
+        } else {
+            $this->stringvars['asc_selected'] = "";
+            $this->stringvars['desc_selected'] = ' selected="selected"';
         }
     }
 
@@ -271,8 +277,10 @@ class OptionFormOption  extends Template
     {
         parent::__construct();
         $this->stringvars['option_value'] =$optionvalue;
-        if($optionisselected) { $this->stringvars['option_selected'] =" selected";
-        } else { $this->stringvars['option_selected'] ="";
+        if($optionisselected) {
+            $this->stringvars['option_selected'] = ' selected="selected"';
+        } else {
+            $this->stringvars['option_selected'] ="";
         }
         $this->stringvars['option_text'] =ucfirst($optiontext);
     }

@@ -106,9 +106,6 @@ class Template
     {
         global $sid, $page;
 
-        if(DEBUG) { print ("<!-- ".get_class($this)." //-->\n");
-        }
-
         $this->stringvars['sid']=$sid;
         $this->stringvars['page']=$page;
         $this->stringvars['jsid']=$jsid;
@@ -218,22 +215,47 @@ class Template
     function toHTML()
     {
         global $projectroot;
+
         $result="";
 
-        // concatenate templates
-        for($i=0;$i<count($this->templates);$i++)
-        {
-            $filename=$projectroot."templates/".getproperty("Default Template")."/".$this->templates[$i];
-            if(file_exists($filename)) {
-                $result.= implode("", @file($filename));
-            }
-            else
-            {
-                $filename=$projectroot."templates/default/".$this->templates[$i];
-                if(file_exists($filename)) {
-                    $result.= implode("", @file($filename));
+        $default_template = getproperty("Default Template");
+
+        if (DEBUG) {
+            $class = get_class($this);
+            $exclude_headers = array("RSSPage", "Page", "PageHeader");
+            if (!in_array($class, $exclude_headers)) {
+                $result .= "\n<!-- " . $class . " -->\n";
+                $debug_vars = get_class_vars($class);
+                foreach ($debug_vars as $name => $value) {
+                    if (!empty($value)) {
+                        if (is_array($value)) {
+                            $result .= "\n\t\t<!-- Var $name: " . count($value) ." item(s) -->\n";
+                            foreach ($value as $subname => $subvalue) {
+                                if (is_array($subvalue)) {
+                                    $result .= "\n\t\t<!-- $subname: " . count($subvalue) ." item(s) -->\n";
+                                } else {
+                                    $result .= "\n\t\t<!-- $subname: $subvalue -->\n";
+                                }
+                            }
+                        } else {
+                            $result .= "\n\t<!-- Var $name: $value -->\n";
+                        }
+                    }
                 }
-                elseif(DEBUG) { print('<p class="highlight">Missing template file! '.$filename.'</p>');
+            }
+        }
+
+        // concatenate templates
+        for ($i=0; $i<count($this->templates); $i++) {
+            $filename = $projectroot . "templates/" . $default_template . "/" . $this->templates[$i];
+            if (file_exists($filename)) {
+                $result .= implode("", @file($filename));
+            } else {
+                $filename = $projectroot . "templates/default/" . $this->templates[$i];
+                if (file_exists($filename)) {
+                    $result .= implode("", @file($filename));
+                } elseif (DEBUG) {
+                    print('<p class="highlight">Missing template file! ' . $filename . '</p>');
                 }
             }
         }
@@ -244,7 +266,8 @@ class Template
         $listkeys=array_keys($this->listvars);
         while($listkey=current($listkeys))
         {
-            if(!empty($listkey)) { $keys[]=$listkey;
+            if(!empty($listkey)) {
+                $keys[]=$listkey;
             }
             next($listkeys);
         }
@@ -256,14 +279,13 @@ class Template
             $found =array_search(strtolower($matches[1][$i]), $keys);
             $pattern="/<!--\s*BEGIN\s*switch\s*".$matches[1][$i]."\s*-->(.*)<!--\s*END\s*switch\s*".$matches[1][$i]."\s*-->/Us";
             if($found || $found === 0) {
-                $result=preg_replace($pattern, "\\1", $result);
+                $result=preg_replace($pattern, "\\2", $result);
             }
             else
             {
                 $result=preg_replace($pattern, "", $result);
             }
         }
-
 
         // parse vars
         $keys=array_keys($this->vars);
@@ -306,6 +328,10 @@ class Template
                 next($keys);
             }
         }
+
+        // Trim superfluous whitespace
+        $result=preg_replace("/\n\h*\n/Us", "\n", $result);
+        $result = str_replace("\n\n", "\n", $result);
 
         return $result;
     }

@@ -1,3 +1,4 @@
+			</div>
 		</div>
 		<div class="newline">
 			<div class="footer leftalign">
