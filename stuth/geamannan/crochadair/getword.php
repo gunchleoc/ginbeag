@@ -36,7 +36,7 @@ function makeXML($wrapper,$dbtable,$key)
 
     $row = $sql->fetch_row();
     foreach ($row as $key => $element) {
-        $entry .= "<$key>".utf8_encode($element)."</$key>";
+        $entry .= "<$key>" . $element . "</$key>";
     }
 
     header('Content-type: text/xml;	charset=utf-8');

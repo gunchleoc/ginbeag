@@ -100,7 +100,7 @@ class Banner extends Template
             }
         }
         if(strlen($contents['code'])>0) {
-            $this->stringvars['complete_banner']=stripslashes(utf8_encode($contents['code']));
+            $this->stringvars['complete_banner']=stripslashes($contents['code']);
         }
         else
         {
@@ -1081,7 +1081,7 @@ class Page extends Template
                 $cached_page = getcachedpage($this->stringvars['page'], makelinkparameters($_GET));
                 if($cached_page != "")
                 {
-                $this->stringvars['contents'] = utf8_encode($cached_page);
+                $this->stringvars['contents'] = $cached_page;
                 }
                 }
                 */

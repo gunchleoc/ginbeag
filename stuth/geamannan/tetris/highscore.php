@@ -57,7 +57,7 @@ function savescore($score, $name, $cookie)
     print('saving...');
     print("</mayaddscore>");
     if ($score === $cookie) {
-        $sql = new SQLInsertStatement(DBTABLE, array('score', 'name'), array($score, utf8_decode($name)), 'is');
+        $sql = new SQLInsertStatement(DBTABLE, array('score', 'name'), array($score, $name), 'is');
         $sql->insert();
         prune_highscores();
     }
@@ -83,7 +83,7 @@ function printscore()
 
     $counter = 0;
     foreach ($entries as $entry) {
-        $name=utf8_encode($entry['name']);
+        $name=$entry['name'];
         $name=str_replace("/", "", $name);
 
         $xml .= "<entry>";

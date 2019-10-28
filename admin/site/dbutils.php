@@ -70,7 +70,7 @@ if(!(isset($_POST['display']) && $_POST['display']==="screen")) {
 //
 function backupdatabase($display,$structureonly=true)
 {
-    global $dbname, $table_prefix, $page, $message, $error;
+    global $db, $dbname, $table_prefix, $page, $message, $error;
 
     $sitename=title2html(getproperty("Site Name"));
 
@@ -94,15 +94,21 @@ function backupdatabase($display,$structureonly=true)
     }
 
     // Iterate table names
-    $sql = new RawSQLStatement("SHOW TABLES LIKE '" . SQLStatement::setstring($table_prefix) . "%'");
+    // TODO sanitize in the backend
+    $sql = new RawSQLStatement("SHOW TABLES LIKE '" . $table_prefix . "%'");
     foreach ($sql->fetch_column() as $tablename) {
+        // Verify table name
+        $sql->check_table_name($tablename);
+        if (!empty($db->error_report)) {
+            print($db->error_report);
+            return;
+        }
+
         $result.=$cr."# ------------------------------------------------";
         $result.=$cr."#".$cr."# Table: ".$tablename.$cr."#";
         $result.=$cr."# ------------------------------------------------".$cr.$cr;
         $result.="DROP TABLE IF EXISTS `".$tablename."`;".$cr;
         $result.="CREATE TABLE `".$tablename."` (".$cr;
-
-        $tablename = SQLStatement::setstring($tablename);
 
         // Get fields
         $sql = new RawSQLStatement("SHOW COLUMNS FROM " . $tablename);
@@ -158,7 +164,7 @@ function backupdatabase($display,$structureonly=true)
             foreach ($sql->fetch_all() as $row) {
                 $result.=$cr."INSERT INTO `".$tablename."` VALUES (";
                 foreach ($row as $value) {
-                    $entry = utf8_encode(addslashes($value));
+                    $entry = addslashes($value);
                     if($display==="screen") {
                         $entry=str_replace("<", "&lt;", $entry);
                         $entry=str_replace(">", "&gt;", $entry);

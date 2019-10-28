@@ -413,7 +413,7 @@ function makeXML($wrapper,$dbtable,$key)
 
         $element=$row[$keys[$j]];
         //    $xml .= "<$key>".$element."</$key>";
-        $xml .= "<$key>".utf8_encode($element)."</$key>";
+        $xml .= "<$key>" . $element . "</$key>";
     }
     $xml .= "</entry>";
 
@@ -453,7 +453,7 @@ function makeXMLSmallDB($wrapper,$dbtable,$key)
 
         $element=$row[$key];
         //    $xml .= "<$key>".$element."</$key>";
-        $xml .= "<$key>".utf8_encode($element)."</$key>";
+        $xml .= "<$key>" . $element . "</$key>";
     }
     $xml .= "</entry>";
 
@@ -554,6 +554,4 @@ function displayarray($data)
     }
     print('</table>');
 }
-
-@$db->close();
 ?>

@@ -76,13 +76,10 @@ function getthumbnail($imagefilename)
 //
 function getallfilenames($order="",$ascdesc="ASC")
 {
-    if($order) {
-        if($order=="uploader") { $order="editor_id";
-        } elseif($order=="filename") { $order="image_filename";
-        }
-    }
-    else {
+    if (empty($order)) {
         $order = 'image_filename';
+    } elseif ($order === 'uploader') {
+        $order = 'editor_id';
     }
 
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename');
@@ -106,16 +103,10 @@ function getallcaptions()
 //
 function getsomefilenames($offset,$number, $order="filename", $ascdesc="ASC")
 {
-    if(strtolower($ascdesc)=="desc") { $ascdesc="DESC";
-    } else { $ascdesc="ASC";
-    }
-
-    if($order=="uploader") { $order="editor_id";
-    } elseif($order=="caption") { $order="caption";
-    } elseif($order=="source") { $order="source";
-    } elseif($order=="uploaddate") { $order="uploaddate";
-    } elseif($order=="copyright") { $order="copyright";
-    } else { $order="image_filename";
+    if (empty($order)) {
+        $order = 'image_filename';
+    } elseif ($order === 'uploader') {
+        $order = 'editor_id';
     }
 
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename');

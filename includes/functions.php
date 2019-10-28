@@ -39,8 +39,7 @@ require_once $projectroot."functions/db.php";
 //
 function striptitletags($title)
 {
-    //$title=stripslashes($title);
-    $title=stripslashes(utf8_encode($title));
+    $title=stripslashes($title);
 
     //$title=preg_replace("/&amp;#(.*);/U","&#\\1;",$title); // restore unicode characters
     //$title=str_replace("&amp;nbsp;","&nbsp;",$title); // restore &nbsp;
@@ -127,7 +126,7 @@ function striptitletags($title)
 //
 function title2html($title)
 {
-    $title=stripslashes(utf8_encode($title));
+    $title=stripslashes($title);
 
     $title=str_replace('<', '&lt;', $title);
     $title=str_replace('>', '&gt;', $title);
@@ -192,7 +191,7 @@ function edittitle2html($title)
 //
 function input2html($text)
 {
-    $text=stripslashes(utf8_encode($text));
+    $text=stripslashes($text);
     // lt and gt
     $text=str_replace('<', '&lt;', $text);
     $text=str_replace('>', '&gt;', $text);
@@ -208,7 +207,6 @@ function text2html($text)
 {
     global $_GET;
 
-    $text=utf8_encode($text);
     $text=stripslashes(stripslashes($text));
     // lt and gt
     $text=str_replace('<', '&lt;', $text);

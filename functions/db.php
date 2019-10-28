@@ -163,12 +163,23 @@ class SQLStatement
     // Add an error message to be handled
     protected function register_error($error)
     {
-        if ($this->error_limit_reached) { return;
+        if ($this->error_limit_reached) {
+            return;
         }
         if (count($this->errors) > 10) {
             $this->error_limit_reached = true;
         }
         array_push($this->errors, $error);
+    }
+
+    // Register an error for a PDOException and handle it
+    protected function handle_pdo_exception($e)
+    {
+        self::register_error(
+            "<strong>PDO error " . (int) $e->getCode() . ":</strong> "
+            . $e->getMessage()
+        );
+        self::handle_errors();
     }
 
 
@@ -177,20 +188,11 @@ class SQLStatement
     //
     static function setinteger($var)
     {
-        if(!(@is_numeric($var) || @ctype_digit($var))) { return @settype($var, "int");
-        } else { return $var;
+        if (!(@is_numeric($var) || @ctype_digit($var))) {
+            return @settype($var, "int");
+        } else {
+            return $var;
         }
-    }
-
-    //
-    // security, use with all user input
-    // also handles UTF-8 encoding!
-    //
-    static function setstring($var)
-    {
-        global $db;
-        $result = @$db->db->real_escape_string($var);
-        return utf8_decode($result);
     }
 
     // Checks if the given list is a comma saparated string or an array of non-negative integers
@@ -207,43 +209,56 @@ class SQLStatement
         for ($i=0; $i < count($array); $i++) {
             $array[$i] = trim($array[$i]);
             if (!(@is_numeric($array[$i]) || @ctype_digit($array[$i]))) {
-                $result['errormessage'] .= ". Expected numbers separated by ',' found '$array[$i]' in '$list'";
+                $result['errormessage'] .= ". Expected numbers separated by ','
+                    but found '$array[$i]' in '$list'";
             } elseif($array[$i] < 0) {
-                $result['errormessage'] .= ". Expected numbers >= 0 ',' found '$array[$i]' in '$list'";
+                $result['errormessage'] .= ". Expected numbers >= 0 ','
+                    but found '$array[$i]' in '$list'";
             }
         }
         $result['content'] = implode(",", $array);
         return $result;
     }
 
-    // Force int or string on all values
-    private function sanitize_values()
+    // Check if table name is in the whitelist
+    public function check_table_name($table)
     {
-        global $db;
+        global $legal_tables;
+        if (!in_array($table, $legal_tables)) {
+            self::register_error("Illegal table name: $table");
+            self::handle_errors();
+        }
+    }
 
-        if (!empty($this->values[0])) {
-            // Check datatypes
-            $datatype_array = str_split($this->datatypes);
-            foreach ($datatype_array as $value) {
-                if ($value !== 'i' && $value !== 's') {
-                    $this->register_error(
-                        "Constructing SQL statement:
-						Datatypes must be s or i - found '$value' in '$this->datatypes'"
-                    );
+    // Check if column names are in the whitelist
+    protected function check_column_names($columns)
+    {
+        global $legal_columns;
+
+        if (is_string($columns)) {
+            $columns = array($columns);
+        } elseif (!is_array($columns) && !SQLStatement::is_empty($columns)) {
+            $this->register_error(
+                "Constructing SQL statement:
+                Columns $columns is not a string or array"
+            );
+        } else {
+            foreach ($columns as $value) {
+                if (!in_array($value, $legal_columns)) {
+                    self::register_error("Illegal column name: $value");
+                    self::handle_errors();
                 }
-                return;
             }
+        }
+    }
 
-            // Ensure datatypes on values
-            $columns = count($this->values[0]);
-            $rows = count($this->values);
-
-            for ($i = 0; $i < $rows; $i++) {
-                for ($j = 0; $j < $columns; $j++) {
-                    $this->values[$i][$j] = $datatype_array[$j] === 'i' ?
-                    SQLStatement::setinteger($this->values[$i][$j]) :
-                    SQLStatement::setstring($this->values[$i][$j]);
-                }
+    // Report error if we find an empty value
+    protected function check_for_empty_values($values) {
+        foreach ($values as $value) {
+            if (SQLStatement::is_empty($value)) {
+                $this->register_error(
+                    "Constructing SQL statement: Empty value '$value'"
+                );
             }
         }
     }
@@ -254,53 +269,27 @@ class SQLStatement
         // Validate
         if (!SQLStatement::is_empty($this->fields)) {
             if (is_array($this->fields)) {
-                if (!is_array($this->values[0]) || SQLStatement::is_empty($this->values[0])) {
+                if (!is_array($this->values[0])
+                    || SQLStatement::is_empty($this->values[0])) {
                     $this->register_error(
-                        "Constructing SQL statement:
-						Fields without values"
+                        "Constructing SQL statement: Fields without values"
                     );
                 }
             } else {
                 $this->register_error(
-                    "Constructing SQL statement:
-					Fields must be empty or an array"
-                );
-            }
-        }
-
-        if (!SQLStatement::is_empty($this->datatypes)) {
-            if (!is_string($this->datatypes)) {
-                $this->register_error(
-                    "Constructing SQL statement:
-					Datatypes must be empty or a string"
+                    "Constructing SQL statement: Fields must be empty or an array"
                 );
             }
         }
 
         if (!empty($this->values) && !empty($this->values[0])) {
-
             if (is_array($this->values[0])) {
                 if (!$allow_empty) {
-                    foreach ($this->values[0] as $value) {
-                        if (SQLStatement::is_empty($value)) {
-                            $this->register_error(
-                                "Constructing SQL statement:
-								Empty value '$value'"
-                            );
-                        }
-                    }
-                }
-
-                if (count($this->fields) > count($this->values[0])) {
-                    $this->register_error(
-                        "Constructing SQL statement:
-						You have " . count($this->fields) . " condition fields but only " . count($this->values[0]) . " condition values"
-                    );
+                    self::check_for_empty_values($this->values[0]);
                 }
             } else {
                 $this->register_error(
-                    "Constructing SQL statement:
-					Values must be empty or an array"
+                    "Constructing SQL statement: Values must be empty or an array"
                 );
             }
         }
@@ -309,11 +298,12 @@ class SQLStatement
             if (!is_string($this->special)) {
                 $this->register_error(
                     "Constructing SQL statement:
-					Special condition must be empty or a string"
+                    Special condition must be empty or a string"
                 );
             }
         }
-        if (!empty($this->errors)) { return;
+        if (!empty($this->errors)) {
+            return;
         }
 
         // Construct
@@ -339,12 +329,11 @@ class SQLStatement
     // Sets a limit for the number of rows returned
     function set_limit($number, $offset)
     {
-        global $db;
         if ($number < 1) {
             if (DEBUG) {
                 $this->register_error(
                     "Constructing SQL statement:
-					Limiting to $number < 1 does not make sense - pick a number > 0"
+                    Limiting to $number < 1 does not make sense - pick a number > 0"
                 );
             }
             $number = 0;
@@ -354,7 +343,7 @@ class SQLStatement
             if (DEBUG) {
                 $this->register_error(
                     "Constructing SQL statement:
-					Limiting to $offset < 0 does not make sense - pick a number > 0"
+                    Limiting to $offset < 0 does not make sense - pick a number > 0"
                 );
             }
             $offset = 0;
@@ -378,74 +367,98 @@ class SQLStatement
         if (strpos($query, ';') !== false) {
             $this->register_error("Syntax error");
         }
-        $statement = (!DEBUG || $db->quiet_mode) ? @$db->db->prepare($query) : $db->db->prepare($query);
+        $statement = (!DEBUG || $db->quiet_mode) ?
+            @$db->pdo->prepare($query) :
+            $db->pdo->prepare($query);
+
         if (!$statement) {
-            $this->register_error("Prepare failed: (" . @$db->db->errno . ") " . @$db->db->error . "<br />");
+            $this->register_error("Prepare failed: (" . @$db->pdo->errorCode . ") "
+                . @$db->pdo->errorInfo[2] . "<br />"
+            );
         }
         return $statement;
     }
-
 
     // Executes this query and returns the database statement
     function execute()
     {
         global $db;
         $this->construct_query();
-        $this->sanitize_values();
 
+        // Validate parameter count
+        if (!(empty($this->datatypes) || is_string($this->datatypes))) {
+            $this->register_error(
+                "Executing SQL statement: Datatypes must be a string"
+            );
+            $this->handle_errors();
+            return false;
+        }
+
+        $no_of_datatypes = strlen($this->datatypes);
         $questionmarks = count_chars($this->query, 0)[ord('?')];
-        if ($questionmarks != strlen($this->datatypes)) {
+        if ($questionmarks != $no_of_datatypes) {
             $this->register_error(
                 "Parameter mismatch:
-				$questionmarks occurrences of '?' in the query, but "
+                $questionmarks occurrences of '?' in the query, but "
                 . strlen($this->datatypes) . " datatypes specified"
             );
         }
-        if ($this->handle_errors()) { return false;
+        if ($this->handle_errors()) {
+            return false;
         }
 
         $statement = $this->prepare_query($this->query . $this->limit());
-        if ($this->handle_errors()) { return false;
+        if ($this->handle_errors()) {
+            return false;
         }
 
         if ($statement) {
+            // Execute query without values
             if (empty($this->datatypes)) {
                 if (!$statement->execute()) {
                     $this->register_error(
                         "Executing SQL statement returned ("
-                        . $statement->errno . ") " . $statement->error
+                        . $statement->errorCode . ") " . $statement->errorInfo[2]
                     );
                 }
             } else {
-                $reflection_array = array($this->datatypes);
-                // Iterate value sets
+                // Execute query with values
+                $datatypes_array = array();
+                for ($i = 0; $i < $no_of_datatypes; $i++) {
+                    array_push($datatypes_array, $this->datatypes[$i] === 'i' ?
+                        PDO::PARAM_INT :
+                        PDO::PARAM_STR
+                    );
+                }
+
                 for ($i = 0; $i < count($this->values); $i++) {
-                    // Collect values for 1 execution and run
+                    if (count($this->values[$i]) > $no_of_datatypes) {
+                        $this->register_error(
+                            "Executing SQL statement: You have only "
+                            . $no_of_datatypes . " datatypes but "
+                            . count($this->values) . " values"
+                        );
+                        continue;
+                    }
                     for ($j = 0; $j < count($this->values[$i]); $j++) {
-                        $reflection_array[$j+1] = &$this->values[$i][$j];
+                        $statement->bindValue(
+                            $j + 1,
+                            $this->values[$i][$j],
+                            $datatypes_array[$j]
+                        );
                     }
-                    $reflection = new ReflectionClass('mysqli_stmt');
-                    $method = $reflection->getMethod("bind_param");
-                    if ($db->quiet_mode) {
-                        if (!@$method->invokeArgs($statement, $reflection_array)) {
-                            $this->register_error("Failed to bind parameters");
-                        }
-                    } else {
-                        if (!$method->invokeArgs($statement, $reflection_array)) {
-                            $this->register_error("Failed to bind parameters");
-                        }
-                    }
+
                     if (!$statement->execute()) {
                         $this->register_error(
                             "Executing SQL statement returned ("
-                            . $statement->errno . ") " . $statement->error
+                            . $statement->errorCode . ") " . $statement->errorInfo[2]
                         );
                     }
                 }
             }
         }
-
-        if ($this->handle_errors()) { return false;
+        if ($this->handle_errors()) {
+            return false;
         }
         return $statement;
     }
@@ -453,7 +466,11 @@ class SQLStatement
     // Run the query and return whether it succeeded
     public function run()
     {
-        $this->execute();
+        try {
+            self::execute();
+        } catch (\PDOException $e) {
+            self::handle_pdo_exception($e);
+        }
         return empty($this->errors);
     }
 
@@ -461,38 +478,42 @@ class SQLStatement
     // Will only work with 1 column in select when this object was constructed
     function fetch_column()
     {
-        $result = array();
-        $query_result = $this->execute();
-        if ($query_result) {
-            $query_result = $query_result->get_result();
-            while ($row = mysqli_fetch_array($query_result, MYSQLI_NUM)) {
-                array_push($result, $row[0]);
+        try {
+            $query_result = self::execute();
+            if ($query_result) {
+                return $query_result->fetchAll(PDO::FETCH_COLUMN);
             }
+        } catch (\PDOException $e) {
+            self::handle_pdo_exception($e);
         }
-        return $result;
+        return array();
     }
 
     // Executes this query and returns two columns of database values
     // Will only work with 2 columns in select when this object was constructed
     function fetch_two_columns()
     {
-        $result = array();
-        $query_result = $this->execute();
-        if ($query_result) {
-            $query_result = $query_result->get_result();
-            while ($row = $query_result->fetch_row()) {
-                $result[$row[0]] = $row[1];
+        try {
+            $query_result = self::execute();
+            if ($query_result) {
+                return $query_result->fetchAll(PDO::FETCH_KEY_PAIR);
             }
+        } catch (\PDOException $e) {
+            self::handle_pdo_exception($e);
         }
-        return $result;
+        return array();
     }
 
     // Get an assiciative array for 1 row
     function fetch_row()
     {
-        $query_result = $this->execute();
-        if ($query_result) {
-            return $query_result->get_result()->fetch_assoc();
+        try {
+            $query_result = self::execute();
+            if ($query_result) {
+                return $query_result->fetch(PDO::FETCH_ASSOC);
+            }
+        } catch (\PDOException $e) {
+            self::handle_pdo_exception($e);
         }
         return array();
     }
@@ -501,42 +522,41 @@ class SQLStatement
     // The first column from the constructor acts as keys for the result array
     function fetch_many_rows()
     {
-        $result = array();
-        $query_result = $this->execute();
-        if (is_object($query_result)) {
-            $query_result = $query_result->get_result();
-            while ($row = mysqli_fetch_array($query_result, MYSQLI_NUM)) {
-                $row_array = array();
-                // The first column will be the key, so we skip it
-                for ($i = 1; $i < count($this->columns); $i++) {
-                    $row_array[$this->columns[$i]] = $row[$i];
-                }
-                // Use first column as key
-                $result[$row[0]] = $row_array;
+        try {
+            $query_result = $this->execute();
+            if ($query_result) {
+                return $query_result->fetchAll(PDO::FETCH_UNIQUE);
             }
+        } catch (\PDOException $e) {
+            self::handle_pdo_exception($e);
         }
-        return $result;
+        return array();
     }
 
     // Fetch all values as associative array
     function fetch_all()
     {
-        $result = array();
-        $query_result = $this->execute();
-        if (is_object($query_result)) {
-            $result = $query_result->get_result()->fetch_all(MYSQLI_ASSOC);
+        try {
+            $query_result = $this->execute();
+            if ($query_result) {
+                return $query_result->fetchAll(PDO::FETCH_ASSOC);
+            }
+        } catch (\PDOException $e) {
+            self::handle_pdo_exception($e);
         }
-        return $result;
+        return array();
     }
 
     // Return the first value fetched by the query
     function fetch_value()
     {
-        $query_result = $this->execute();
-        if ($query_result) {
-            $query_result = $query_result->get_result();
-            $row = mysqli_fetch_array($query_result, MYSQLI_NUM);
-            return $row[0];
+        try {
+            $query_result = $this->execute();
+            if ($query_result) {
+                return $query_result->fetchColumn();
+            }
+        } catch (\PDOException $e) {
+            self::handle_pdo_exception($e);
         }
         return false;
     }
@@ -555,19 +575,25 @@ class SQLStatement
                     $db->error_report .= "<li>$error</li>\n";
                 }
                 $db->error_report .= "</ul>\n";
-                $db->error_report .= "<strong>Query:</strong> " . $this->query . "<br />\n";
-                if (is_array($this->values) && !SQLStatement::is_empty($this->values[0])) {
+                $db->error_report .= "<strong>Query:</strong> " . $this->query;
+                $db->error_report .= "<br />\n";
+                if (is_array($this->values)
+                    && !SQLStatement::is_empty($this->values[0])) {
+
                     $db->error_report .= "<h4>Values:</h4>\n";
                     $db->error_report .= "<ul>\n";
+
                     for ($i = 0; $i < min(10, count($this->values)); $i++) {
                         $db->error_report .= "<li>\n";
+
                         if (is_array($this->values[$i])) {
                             foreach ($this->values[$i] as $value) {
                                 $db->error_report .= " $value";
                             }
                             $db->error_report .= " (". count($this->values[$i]) . ")";
                         } else {
-                            $db->error_report .= " " . $this->values[0] . " (Not an array)";
+                            $db->error_report .= " " . $this->values[0]
+                                . " (Not an array)";
                         }
                         $db->error_report .= "</li>\n";
                     }
@@ -591,7 +617,9 @@ class SQLStatement
                     $db->error_report .= "<ul>\n";
                     foreach ($backtrace as $entry) {
                         $db->error_report .= "<li>\n";
-                        $db->error_report .= "<strong>" . $entry['file'] . ":" . $entry['line'] . "</strong> @ ";
+                        $db->error_report .= "<strong>" . $entry['file'] . ":"
+                            . $entry['line'] . "</strong> @ ";
+
                         if (isset($entry['object']) && !empty($entry['object'])) {
                             $db->error_report .= get_class($entry['object']) . ":";
                         }
@@ -606,7 +634,8 @@ class SQLStatement
                     $db->error_report .= "</ul>\n";
                 }
             } else {
-                $db->error_report .= "<strong>Error getting data from database.</strong>";
+                $db->error_report
+                    .= "<strong>Error getting data from database.</strong>";
             }
             if (!$db->quiet_mode) {
                 print($db->error_report);
@@ -634,6 +663,7 @@ class RawSQLStatement extends SQLStatement
     //             needs to match the values
     function __construct($statement, $values = array(), $datatypes = "")
     {
+        // TODO see what we can sanitize
         // Set parameters
         $this->query = $statement;
         $this->datatypes = $datatypes;
@@ -642,31 +672,15 @@ class RawSQLStatement extends SQLStatement
         // Verify parameters
         if (!is_string($statement)) {
             $this->register_error(
-                "Constructing SQL statement:
-				Statement must be a string"
-            );
-        }
-
-        if (!is_string($datatypes)) {
-            $this->register_error(
-                "Constructing SQL statement:
-				Datatypes must be a string"
+                "Constructing SQL statement: Statement must be a string"
             );
         }
 
         if (is_array($values)) {
-            foreach ($values as $value) {
-                if (SQLStatement::is_empty($value)) {
-                    $this->register_error(
-                        "Constructing SQL statement:
-						Empty value '$value'"
-                    );
-                }
-            }
+            self::check_for_empty_values($values);
         } else {
             $this->register_error(
-                "Constructing SQL statement:
-				Values must be an array"
+                "Constructing SQL statement: Values must be an array"
             );
         }
     }
@@ -696,61 +710,34 @@ class SQLInsertStatement extends SQLStatement
         $this->fields = $columns;
         $this->values[0] = $values;
 
-        // Check table
-        if (!is_string($table)) {
-            $this->register_error(
-                "Constructing SQL statement:
-				Table $table is not a string"
-            );
-        }
-
-        // Verify parameters
-        if (!is_string($datatypes)) {
-            $this->register_error(
-                "Constructing SQL statement:
-				Datatypes must be an array"
-            );
-        }
+        self::check_table_name($table);
+        self::check_column_names($columns);
 
         if (is_array($values)) {
-            foreach ($values as $value) {
-                if (SQLStatement::is_empty($value)) {
-                    $this->register_error(
-                        "Constructing SQL statement:
-						Empty value '$value'"
-                    );
-                }
-            }
-            if (count($values) != strlen($datatypes)) {
-                $this->register_error(
-                    "Constructing SQL statement:
-					You have " . strlen($datatypes) . " datatypes but " . count($values) . " values"
-                );
-            }
+            self::check_for_empty_values($values);
             if (is_array($columns)) {
                 if (count($values) != count($columns)) {
                     $this->register_error(
-                        "Constructing SQL statement:
-						You have " . count($columns) . " columns but " . count($values) . " values"
+                        "Constructing SQL statement: You have " . count($columns)
+                        . " columns but " . count($values) . " values"
                     );
                 }
             } else {
                 $this->register_error(
-                    "Constructing SQL statement:
-					Columns must be an array"
+                    "Constructing SQL statement: Columns must be an array"
                 );
             }
         } else {
             $this->register_error(
-                "Constructing SQL statement:
-				Values must be an array"
+                "Constructing SQL statement: Values must be an array"
             );
         }
     }
 
     protected function construct_query()
     {
-        if (!empty($this->errors)) { return;
+        if (!empty($this->errors)) {
+            return;
         }
         $this->query = "INSERT INTO $this->table (";
         $this->query .= implode(', ', $this->fields);
@@ -762,12 +749,16 @@ class SQLInsertStatement extends SQLStatement
     // Run the query and get the generated ID
     public function insert()
     {
-        $result = false;
-        $query_result = $this->execute();
-        if ($query_result) {
-            return $query_result->insert_id;
+        global $db;
+        try {
+            $query_result = self::execute();
+            if ($query_result) {
+                return $db->pdo->lastInsertId();
+            }
+        } catch (\PDOException $e) {
+            self::handle_pdo_exception($e);
         }
-        return $result;
+        return false;
     }
 }
 
@@ -792,24 +783,15 @@ class SQLUpdateStatement extends SQLStatement
         $this->fields = $fields;
         $this->values[0] = $values;
 
+        self::check_table_name($table);
+        self::check_column_names($fields);
+
         // Check and set columns
+        self::check_column_names($columns);
         if (is_array($columns)) {
             $this->columns = $columns;
         } elseif (is_string($columns) || SQLStatement::is_empty($columns)) {
             $this->columns = array($columns);
-        } else {
-            $this->register_error(
-                "Constructing SQL statement:
-				Columns $columns is not a string or array"
-            );
-        }
-
-        // Check table
-        if (!is_string($table)) {
-            $this->register_error(
-                "Constructing SQL statement:
-				Table $table is not a string"
-            );
         }
     }
 
@@ -858,25 +840,20 @@ class SQLDeleteStatement extends SQLStatement
         $this->values[0] = $values;
         $this->special = $special_condition;
 
-        // Check table
-        if (!is_string($table)) {
-            $this->register_error(
-                "Constructing SQL statement:
-				Table $table is not a string"
-            );
-        }
+        self::check_table_name($table);
+        self::check_column_names($fields);
 
         if (SQLStatement::is_empty($this->values)) {
             $this->register_error(
-                "Constructing SQL statement:
-				Values are empty"
+                "Constructing SQL statement: Values are empty"
             );
         }
 
-        if (SQLStatement::is_empty($this->fields) && SQLStatement::is_empty($this->special)) {
+        if (SQLStatement::is_empty($this->fields)
+            && SQLStatement::is_empty($this->special)) {
             $this->register_error(
                 "Constructing SQL statement:
-				Fields and special condition are both empty"
+                Fields and special condition are both empty"
             );
         }
     }
@@ -908,8 +885,9 @@ class SQLSelectStatement extends SQLStatement
     //                     needs to match the values and anything added in special_condition
     // $special_condition: use this to add any WHERE condition that doesn't fit the "key = value" pattern
     //                     values should show up as "?" and the real values added to $values and their datatypes to $datatypes
-    function __construct($table, $columns, $fields = array(), $values = array(), $datatypes = "", $special_condition = "")
-    {
+    function __construct($table, $columns, $fields = array(), $values = array(),
+        $datatypes = "", $special_condition = ""
+    ) {
         $this->table = $table;
         $this->columns = $columns;
         $this->fields = $fields;
@@ -917,23 +895,9 @@ class SQLSelectStatement extends SQLStatement
         $this->datatypes = $datatypes;
         $this->special = $special_condition;
 
-        // Check table
-        if (is_string($table)) {
-        } else {
-            $this->register_error(
-                "Constructing SQL statement:
-				Table $table is not a string"
-            );
-        }
-
-        // Check columns
-        if (is_string($columns) || is_array($columns)) {
-        } elseif (!SQLStatement::is_empty($columns)) {
-            $this->register_error(
-                "Constructing SQL statement:
-				Columns $columns is not a string or array"
-            );
-        }
+        self::check_table_name($table);
+        self::check_column_names($fields);
+        self::check_column_names($columns);
     }
 
     // Sets a sort order for the data returned
@@ -941,11 +905,13 @@ class SQLSelectStatement extends SQLStatement
     //         direction is 'ASC' or 'DESC'
     function set_order($order)
     {
-        global $db;
-        foreach ($order as $key => $value) {
-            $this->order[] =
-            " `" . SQLStatement::setstring($key) . "` "
-            . (mb_strtolower($value) == "desc" ? "DESC" : "ASC");
+        self::check_column_names(array_keys($order));
+        if (empty($this->errors)) {
+            foreach ($order as $key => $value) {
+                $this->order[]
+                    = " `" . $key . "` "
+                      . (mb_strtolower($value) == "desc" ? "DESC" : "ASC");
+            }
         }
     }
 
@@ -959,10 +925,10 @@ class SQLSelectStatement extends SQLStatement
     function set_operator($operator)
     {
         $allowed_operators = array('min', 'max', 'count', 'sum');
-        if(!in_array($operator, $allowed_operators)) {
+        if (!in_array($operator, $allowed_operators)) {
             $this->register_error(
                 "Constructing SQL statement:
-				Illeagal operator '$operator' - allowed operators are: "
+                Illeagal operator '$operator' - allowed operators are: "
                 . implode(', ', $allowed_operators)
             );
         }
@@ -976,17 +942,16 @@ class SQLSelectStatement extends SQLStatement
         if (is_array($this->columns)) {
             $columns = '`' . implode("`, `", $this->columns) . '`';
         } elseif (is_string($this->columns)) {
-            $columns = $this->columns;
-            if ($columns !== '*') {
-                $columns = '`' . $columns . '`';
-            }
+            $columns = $this->columns === '*' ?
+                $this->columns :
+                '`' . $this->columns . '`';
         }
 
         $this->query = $this->distinct ? "SELECT DISTINCT "  : "SELECT ";
         $this->query .=
-        empty($this->operator) ?
-        $columns :
-        $this->operator . "(" . $columns . ")";
+            empty($this->operator) ?
+            $columns :
+            $this->operator . "(" . $columns . ")";
 
         $this->query .= " FROM `" . $this->table . "`";
 
@@ -998,45 +963,57 @@ class SQLSelectStatement extends SQLStatement
     }
 }
 
-/*
- * Use Database object to limit number of connections
+/**
+ * Database object to handle the connection and store error reports.
+ *
+ * @category Ginbeag
+ * @package  Ginbeag
+ * @author   gunchleoc <fios@foramnagaidhlig.net>
+ * @license  https://www.gnu.org/licenses/agpl-3.0.en.html GNU AGPL
+ * @link     https://github.com/gunchleoc/ginbeag/
  */
 class Database
 {
-    var $db;
     var $error_report = "";
     var $quiet_mode = false;
+    var $pdo;
 
-    /*
-    * open DB at beginning of script
-    */
+    /**
+     * Opens a database connection. Call this only once at beginning of script.
+     */
     function __construct()
     {
         global $dbname,$dbhost,$dbuser,$dbpasswd;
 
-        if (DEBUG && !$this->quiet_mode) {
-            $this->db=new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
-        } else {
-            $this->db=@new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
-        }
+        // TODO $charset = 'utf8mb4'; would be nice
+        $dsn = 'mysql:host='.$dbhost.';dbname='.$dbname.';charset=utf8';
 
-        if (!$this->db && !$this->quiet_mode) {
+        try {
+            $options = array(
+                PDO::ATTR_ERRMODE => ((DEBUG && !$this->quiet_mode) ?
+                    PDO::ERRMODE_EXCEPTION :
+                    PDO::ERRMODE_SILENT),
+
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES   => false,
+                PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false
+            );
+            if (DEBUG && !$this->quiet_mode) {
+                $this->pdo = new PDO($dsn, $dbuser, $dbpasswd, $options);
+            } else {
+                $this->pdo = @new PDO($dsn, $dbuser, $dbpasswd, $options);
+            }
+        } catch (\PDOException $e) {
             echo "Can't connect to database. Please try again later." . "<br />";
-            if(DEBUG) {
-                echo "Debugging errno: " . mysqli_connect_errno() . "<br />";
-                echo "Debugging error: " . mysqli_connect_error() . "<br />";
+            if (DEBUG) {
+                print(
+                    "<strong>PDO error " . (int) $e->getCode() . ":</strong> "
+                    . $e->getMessage() .  "<br />"
+                );
                 debug_print_backtrace();
             }
             exit();
         }
-    }
-
-    /*
-    * close DB at end of script
-    */
-    function __destruct()
-    {
-        @mysqli_close($db);
     }
 }
 
@@ -1047,9 +1024,13 @@ class Database
 //
 function getproperties()
 {
-    $sql = new SQLSelectStatement(SITEPROPERTIES_TABLE, array('property_name', 'property_value'));
+    $sql = new SQLSelectStatement(
+        SITEPROPERTIES_TABLE,
+        array('property_name', 'property_value')
+    );
     $result = $sql->fetch_two_columns();
-    if (empty($result)) { exit(1);
+    if (empty($result)) {
+        exit(1);
     }
     return $result;
 }
@@ -1074,10 +1055,12 @@ function updateproperties($table, $newproperties, $max_value_length = 0)
 
     // Bring into shape for the database call
     $values = array();
-    foreach($newproperties as $key => $value) {
+    foreach ($newproperties as $key => $value) {
         if ($max_value_length > 0 && strlen($value) > $max_value_length) {
             // Restrict to e.g. 255 characters
-            $result .= " Value '$value' is ". strlen($value) . " characters long, but only $max_value_length characters can fit. It has been cut off.";
+            $result .= " Value '$value' is ". strlen($value)
+                . " characters long, but only $max_value_length characters can fit. "
+                . "It has been cut off.";
             $newproperties[$key] = substr($value, 0, $max_value_length);
         }
         array_push($values, array($value, $key));
