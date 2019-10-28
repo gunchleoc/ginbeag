@@ -3,6 +3,23 @@
 require_once "config.php";
 require_once "../../../functions/db.php";
 
+// Database tables allowed in queries
+$legal_tables = array(
+    'crochadair_aiteachan',
+    'crochadair_faclan',
+    'crochadair_faclan_beag'
+);
+
+// Database columns allowed in queries
+$legal_columns = array(
+    'id',
+    'facal',
+    'gaidhlig',
+    'imt',
+    'aaa',
+);
+
+
 $db->quiet_mode = true;
 
 $mode = isset($_GET['mode']) ? $_GET['mode'] : "words";
