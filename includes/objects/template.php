@@ -279,7 +279,7 @@ class Template
             $found =array_search(strtolower($matches[1][$i]), $keys);
             $pattern="/<!--\s*BEGIN\s*switch\s*".$matches[1][$i]."\s*-->(.*)<!--\s*END\s*switch\s*".$matches[1][$i]."\s*-->/Us";
             if($found || $found === 0) {
-                $result=preg_replace($pattern, "\\2", $result);
+                $result=preg_replace($pattern, "\\1", $result);
             }
             else
             {
