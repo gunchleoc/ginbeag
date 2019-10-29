@@ -261,25 +261,29 @@ function isloggedin()
     global $_COOKIE, $_SERVER;
 
     $cookieprefix = getproperty("Cookie Prefix");
-    if(isset($_COOKIE[$cookieprefix."sid"])) { $sid = $_COOKIE[$cookieprefix."sid"];
-    } else { return false;
+    if (isset($_COOKIE[$cookieprefix."sid"])) {
+         $sid = $_COOKIE[$cookieprefix."sid"];
+    } else {
+        return false;
     }
 
     $sql = new SQLSelectStatement(SESSIONS_TABLE, 'session_user_id', array('session_id'), array($sid), 's');
     $userid = $sql->fetch_value();
 
-    if(!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) { return false;
+    if (!isset($_COOKIE[$cookieprefix."userid"]) || $_COOKIE[$cookieprefix."userid"]!=$userid) {
+        return false;
     }
 
-    if(timeout($sid)) { return false;
+    if (timeout($sid)) {
+        return false;
     }
 
-    if(!checkagent($sid, $userid, $_SERVER["HTTP_USER_AGENT"])) { return false;
+    if (!checkagent($sid, $userid, $_SERVER["HTTP_USER_AGENT"])) {
+        return false;
     }
 
     return true;
 }
-
 
 
 //
@@ -302,7 +306,8 @@ function getsid()
 function isadmin()
 {
     $user = getsiduser();
-    if (!$user) { return false;
+    if (!$user) {
+        return false;
     }
     $sql = new SQLSelectStatement(USERS_TABLE, 'userlevel', array('user_id'), array($user), 'i');
     $userlevel = $sql->fetch_value();
@@ -341,13 +346,12 @@ function checkagent($sid, $userid, $browseragent)
 function getsiduser()
 {
     $sid = getsid();
-    if (!$sid) { return false;
+    if (!$sid) {
+        return false;
     }
     $sql = new SQLSelectStatement(SESSIONS_TABLE, 'session_user_id', array('session_id'), array($sid), 's');
     return $sql->fetch_value();
 }
-
-
 
 //
 //
