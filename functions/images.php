@@ -101,12 +101,14 @@ function getallcaptions()
 //
 //
 //
-function getsomefilenames($offset,$number, $order="filename", $ascdesc="ASC")
+function getsomefilenames($offset,$number, $order="image_filename", $ascdesc="ASC")
 {
     if (empty($order)) {
         $order = 'image_filename';
     } elseif ($order === 'uploader') {
         $order = 'editor_id';
+    } elseif ($order === 'filename') {
+        $order = 'image_filename';
     }
 
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename');
