@@ -352,15 +352,16 @@ function updatenewsitemsynopsistext($newsitem,$text)
 //
 function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
 {
-    if(!$newsitemsection) {
+    if (!$newsitemsection) {
         $sections=getnewsitemsections($newsitem);
         if(count($sections)>0) {
             $newsitemsection=$sections[count($sections)-1];
         }
-        else { $newsitemsection=0;
+        else {
+            $newsitemsection=0;
         }
     }
-    $sectionnumber=getnewsitemsectionnumber($newsitemsection);
+    $sectionnumber = $newsitemsection == 0 ? 0 : getnewsitemsectionnumber($newsitemsection);
 
     if($isquote) {
         $offset=3;
