@@ -101,8 +101,8 @@ class EditorContentsExpanded extends Template
         else
         {
             $text = geteditortext($page, $item, $elementtype);
-            $this->stringvars['text']=input2html($text);
-              $this->stringvars['previewtext']=text2html($text);
+            $this->stringvars['text'] = input2html($text, true);
+            $this->stringvars['previewtext'] = text2html($text);
         }
         $this->vars['styleform']=new OptionForm("0", array(0=>"0", 1=>"en"), array(0=>"-- Style --", 1=>"English"), $this->stringvars['jsid']."styleform", "", 1);
     }

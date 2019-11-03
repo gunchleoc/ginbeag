@@ -189,12 +189,16 @@ function edittitle2html($title)
 //
 // strip shlashes and handle unicode
 //
-function input2html($text)
+function input2html($text, $multiline = false)
 {
     $text=stripslashes($text);
     // lt and gt
     $text=str_replace('<', '&lt;', $text);
     $text=str_replace('>', '&gt;', $text);
+
+    if ($multiline) {
+        $text = preg_replace('/\s/', '&#10;', $text);
+    }
 
     return $text;
 }
