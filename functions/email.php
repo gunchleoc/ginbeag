@@ -51,6 +51,7 @@ function check_flood($parameter, $value)
 {
     global $emailvariables;
 
+    // Check if message was sent with the given parameter value
     $sql = new SQLSelectStatement(ANTISPAM_TOKENS_TABLE, 'session_time', array($parameter, 'sent'), array($value, 1), 'si');
     $time = $sql->fetch_value();
 
@@ -78,7 +79,7 @@ function emailerror($addy, $subject, $messagetext, $token, $useragent, $ip, $mat
         return errormessage("email_invalidtoken");
     }
 
-    // Flood control for token if e-mail has been sent
+    // Flood control
     $result = check_flood('token_id', $token);
     if (!empty($result)) {
         return $result;
@@ -93,7 +94,7 @@ function emailerror($addy, $subject, $messagetext, $token, $useragent, $ip, $mat
     }
 
     // Compare contents
-    $sql = new SQLSelectStatement(ANTISPAM_TOKENS_TABLE, array('subject', 'message'), array('token_id'), array($token), 's');
+    $sql = new SQLSelectStatement(ANTISPAM_TOKENS_TABLE, array('subject', 'message'));
     $previouscontents = $sql->fetch_row();
     if ($previouscontents['subject'] === $subject || $previouscontents['message'] === $messagetext) {
         return errormessage("email_duplicate");

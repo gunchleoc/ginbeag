@@ -78,10 +78,10 @@ function createtoken($ip, $useragent)
 //
 function cleartokens()
 {
-    $sql = new SQLSelectStatement(ANTISPAM_TABLE, array('property_value'), array('property_name'), array('Flood Interval'), 's');
-    $interval = $sql->fetch_value();
+    $sql = new SQLSelectStatement(ANTISPAM_TABLE, array('property_value'), array('property_name'), array('Maximum E-mails Per Minute'), 's');
+    $interval = 2 * $sql->fetch_value() + 1;
 
-    $sql = new SQLDeleteStatement(ANTISPAM_TOKENS_TABLE, array(), array(date(DATETIMEFORMAT, strtotime("-" . $interval))), 's', 'session_time < ?');
+    $sql = new SQLDeleteStatement(ANTISPAM_TOKENS_TABLE, array(), array(date(DATETIMEFORMAT, strtotime("-" . $interval . " minutes"))), 's', 'session_time < ?');
     return $sql->run();
 }
 
