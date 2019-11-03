@@ -197,7 +197,8 @@ function input2html($text, $multiline = false)
     $text=str_replace('>', '&gt;', $text);
 
     if ($multiline) {
-        $text = preg_replace('/\s/', '&#10;', $text);
+        $text = preg_replace('/\r\n/', '&#10;', $text);
+        $text = preg_replace('/\n/', '&#10;', $text);
     }
 
     return $text;
