@@ -149,7 +149,7 @@ function updatearticlesectiontitle($articlesection, $sectiontitle)
     $sql = new SQLUpdateStatement(
         ARTICLESECTIONS_TABLE,
         array('sectiontitle'), array('articlesection_id'),
-        array(basename($sectiontitle), $articlesection), 'si'
+        array($sectiontitle, $articlesection), 'si'
     );
     return $sql->run();
 }
@@ -162,7 +162,7 @@ function updatearticlesectiontext($articlesection, $text)
     $sql = new SQLUpdateStatement(
         ARTICLESECTIONS_TABLE,
         array('text'), array('articlesection_id'),
-        array(basename($text), $articlesection), 'si'
+        array($text, $articlesection), 'si'
     );
     return $sql->run();
 }
