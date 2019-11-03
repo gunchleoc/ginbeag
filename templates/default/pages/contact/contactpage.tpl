@@ -16,9 +16,8 @@
 	<!-- END switch BLANKFORM -->
 
 	<!-- BEGIN switch ERROR -->
+	<h1 class="highlight">{L_TRYAGAIN}</h1>
 	<div align="left">{ERRORMESSAGE}</div>
-	{EMAILINFO}
-	<div class="highlight">{L_TRYAGAIN}</div>
 	{CONTACTFORM}
 	<!-- END switch ERROR -->
 

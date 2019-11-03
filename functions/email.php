@@ -138,40 +138,63 @@ function printemailinfo($addy,$subject,$messagetext,$sendcopy)
 //
 function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbookentry=false)
 {
-    $subject= utf8_decode($subject);
-    $messagetext= utf8_decode($messagetext);
-
-    if($isguestbookentry) {
-        $message_intro = getlang("email_yourguestbookentry" . ' @ '. html_entity_decode(getproperty("Site Name"))) . "\n";
-    }
-    else
-    {
-        $message_intro=getlang("email_from").$addy."\n".getlang("email_to").$recipient."\n";
-    }
-    $message_intro.="________________________________________________________________\n\n";
+    $errormessage = "";
 
     $messagetext=stripslashes($messagetext);
     $messagetext=str_replace("\n", "\r\n", $messagetext);
 
-    $messagetext.="\n\n________________________________________________________________\n\n";
-    $messagetext.=utf8_decode(html_entity_decode(getproperty("Email Signature")));
+    $messagetext.="\r\n\r\n________________________________________________________________\r\n\r\n";
+    $messagetext .= getproperty("Email Signature");
 
     $subject=stripslashes($subject);
 
-    if($isguestbookentry) {
-        @mail($recipient, utf8_decode(html_entity_decode(getlang("email_guestbooksubject").getproperty("Site Name")))." - ".$subject, utf8_decode(html_entity_decode(getlang("email_guestbooksubject").getproperty("Site Name")))."\n\n".$messagetext, "From: ".$recipient);
-        @mail($addy, utf8_decode(html_entity_decode(getlang("email_yourguestbookentry").' @ '.getproperty("Site Name")))." - ".$subject, $message_intro.$messagetext, "From: ".$recipient);
-    }
-    else
-    {
-        @mail($recipient, utf8_decode(sprintf(getlang("email_contactsubject"), html_entity_decode(getproperty("Site Name")))).$subject, $message_intro.$messagetext, "From: ".$addy)
-        or die('<p class="highlight"><b>' . getlang("email_errorsending") . '</b></p>');
-        if($sendcopy) {
-            @mail($addy, utf8_decode(sprintf(getlang("email_yourmessage"), html_entity_decode(getproperty("Site Name")))).$subject, getlang("email_thisemailwassent").":\n\n".$message_intro.$messagetext, "From: ".$addy)
-            or die('<p class="highlight"><b>' . getlang("email_errorsending") . '</b></p>');
+    $sitename = getproperty("Site Name");
+
+    if ($isguestbookentry) {
+        $message_intro = getlang("email_guestbooksubject") . $sitename . "\r\n\r\n";
+        $message_intro.="________________________________________________________________\r\n\r\n";
+
+        $errormessage = do_send_email(
+            $recipient,
+            getlang("email_guestbooksubject") . $sitename . " - " . $subject,
+            $message_intro . $messagetext,
+            $recipient
+        );
+
+        $message_intro = getlang("email_yourguestbookentry") . ' @ '. $sitename . "\r\n\r\n";
+        $message_intro.="________________________________________________________________\r\n\r\n";
+
+        $errormessage .= do_send_email(
+            $addy,
+            getlang("email_yourguestbookentry") . ' @ ' . $sitename . " - " . $subject,
+            $message_intro . $messagetext,
+            $addy
+        );
+    } else {
+        $message_intro = getlang("email_from") . $addy . "\r\n" . getlang("email_to") . $recipient;
+        $message_intro .= "\r\n\r\n________________________________________________________________\r\n\r\n";
+
+        $errormessage = do_send_email(
+            $recipient,
+            sprintf(getlang("email_contactsubject"), $sitename) . $subject,
+            $message_intro . $messagetext,
+            $addy
+        );
+
+        if ($sendcopy && empty($errormessage)) {
+            $message_intro = getlang("email_thisemailwassent");
+            $message_intro .= "\r\n\r\n________________________________________________________________\r\n\r\n";
+
+            $errormessage = do_send_email(
+                $addy,
+                sprintf(getlang("email_yourmessage"), $sitename) . $subject,
+                $message_intro . $messagetext,
+                $addy
+            );
         }
     }
     unset($_POST['addy']);
+    return $errormessage;
 }
 
 //
@@ -179,16 +202,48 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
 //
 function sendplainemail($subject,$message,$recipient)
 {
-    $subject= utf8_decode($subject);
-    $message= utf8_decode($message);
+    $error = getlang("email_errorsending") . sprintf(getlang("email_contactwebmaster"), '<a href="../contact.php'.makelinkparameters(array("user" => "webmaster")).'">', '</a>');
 
-    $adminemail=getproperty("Admin Email Address");
+    $errormessage = do_send_email($recipient, $subject, $message, getproperty("Admin Email Address"), $error);
+    if (empty($errormessage)) {
+        print('<p>' . getlang("email_emailsent") . '</p>');
+    }
+    return $errormessage;
+}
 
-    $error='<p class="highlight">' . getlang("email_errorsending") . sprintf(getlang("email_contactwebmaster"), '<a href="../contact.php'.makelinkparameters(array("user" => "webmaster")).'">', '</a>').'</p>';
 
-    @mail($recipient, $subject, $message, "From: ".$adminemail)
-          or die($error);
-    print('<p>'.getlang("email_emailsent").'</p>');
+// Does the actual sending of the e-mail and returns an error message. Returns empty string on success.
+function do_send_email($to, $subject, $message, $from, $errormessage = "")
+{
+    $headers = array
+    (
+        'MIME-Version: 1.0',
+        'Content-Type: text/plain; charset="UTF-8";',
+        'Content-Transfer-Encoding: 7bit',
+        'Date: ' . date('r', $_SERVER['REQUEST_TIME']),
+        'Message-ID: <' . $_SERVER['REQUEST_TIME'] . md5($_SERVER['REQUEST_TIME']) . '@' . $_SERVER['SERVER_NAME'] . '>',
+        'From: ' . $from,
+        'Reply-To: ' . $from,
+        'Return-Path: ' . $from,
+        'X-Mailer: PHP v' . phpversion(),
+        'X-Originating-IP: ' . $_SERVER['SERVER_ADDR'],
+        'Content-Transfer-Encoding: 8bit'
+    );
+
+    $subject = '=?UTF-8?B?' . base64_encode(html_entity_decode($subject)) . '?=';
+
+    $success = false;
+    if (DEBUG) {
+        print("Sending e-mail from $from to $to<br/>");
+        $success = mail($to, $subject, html_entity_decode($message), implode("\n", $headers));
+    } else {
+        $success = @mail($to, $subject, html_entity_decode($message), implode("\n", $headers));
+    }
+    if ($success) {
+        return "";
+    } else {
+        return '<p class="highlight"><b>' . getlang("email_errorsending") . $errormessage . '</b>' . error_get_last()['message'] . '</p>';
+    }
 }
 
 //

@@ -121,10 +121,7 @@ if (isset($_POST['post'])) {
             );
         $messagetext = html_entity_decode(fixquotes($messagetext));
 
-        $error
-            = emailerror(
-                $addy, utf8_decode($subject), utf8_decode($messagetext), 0
-            );
+        $error = emailerror($addy, $subject, $messagetext, 0);
         if (strlen($postername) < 1) {
             $error = errormessage("guestbook_needname").$error;
         }

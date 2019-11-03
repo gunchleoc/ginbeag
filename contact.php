@@ -115,7 +115,7 @@ if (isset($_POST[$emailvariables['E-Mail Address Variable']])) {
 
         if ($errormessage=="") {
             $sendmail=true;
-            sendemail($email, $subject, $messagetext, $sendcopy, $recipient);
+            $errormessage = sendemail($email, $subject, $messagetext, $sendcopy, $recipient);
         }
     } else {
         $errormessage = errormessage("email_invalidtoken");

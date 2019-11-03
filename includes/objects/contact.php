@@ -63,17 +63,22 @@ class ContactPage extends Template
 
 
         // switches
-        if($errormessage!="") {
+        if($sendmail) {
+            if (empty($errormessage)) {
+                $this->stringvars['sendmail']="true";
+                $this->stringvars['l_success'] = getlang("email_thisemailwassent");
+                $this->vars['emailinfo']= new EmailInfo($email, $subject, $messagetext, $sendcopy);
+            } else {
+                $this->stringvars['error']="true";
+                $this->stringvars['errormessage'] = "";
+                $this->stringvars['l_tryagain'] = $errormessage;
+                $this->vars['contactform']=new ContactForm($email, $subject, $messagetext, $sendcopy, $userid, $token, $displaytype);
+            }
+        } elseif(!empty($errormessage)) {
             $this->stringvars['error']="true";
-            $this->stringvars['errormessage']=$errormessage;
-            $this->vars['emailinfo']= new EmailInfo($email, $subject, $messagetext, $sendcopy);
-            $this->stringvars['l_tryagain']=getlang("email_tryagain");
+            $this->stringvars['errormessage'] = $errormessage;
+            $this->stringvars['l_tryagain'] = getlang("email_tryagain");
             $this->vars['contactform']=new ContactForm($email, $subject, $messagetext, $sendcopy, $userid, $token, $displaytype);
-        }
-        elseif($sendmail) {
-            $this->stringvars['sendmail']="true";
-            $this->vars['emailinfo']= new EmailInfo($email, $subject, $messagetext, $sendcopy);
-            $this->stringvars['l_success']=getlang("email_thisemailwassent");
         }
         else
         {
