@@ -36,7 +36,7 @@ require_once $projectroot."includes/functions.php";
 
 $db->quiet_mode = true;
 
-$text = utf8_decode(text2html($_POST['previewtext']));
+$text = text2html($_POST['previewtext']);
 
 if (empty($db->error_report)) {
     print($text);
