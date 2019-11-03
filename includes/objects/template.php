@@ -220,10 +220,11 @@ class Template
 
         $default_template = getproperty("Default Template");
 
+        $class = get_class($this);
+        $is_main_template = in_array($class, array("RSSPage", "Page", "PageHeader"));
+
         if (DEBUG) {
-            $class = get_class($this);
-            $exclude_headers = array("RSSPage", "Page", "PageHeader");
-            if (!in_array($class, $exclude_headers)) {
+            if (!$is_main_template) {
                 $result .= "\n<!-- " . $class . " -->\n";
                 $debug_vars = get_class_vars($class);
                 foreach ($debug_vars as $name => $value) {
@@ -330,8 +331,9 @@ class Template
         }
 
         // Trim superfluous whitespace
-        $result=preg_replace("/\n\h*\n/Us", "\n", $result);
-        $result = str_replace("\n\n", "\n", $result);
+        if ($is_main_template) {
+            $result=preg_replace("/\n\h*\n/Us", "\n", $result);
+        }
 
         return $result;
     }
