@@ -34,4 +34,17 @@
 			{SPAMWORDS_SUBMITROW}
 		</fieldset>
 	</div>
+	<div class="contentheader">Flood Control</div>
+	<div class="contentsection">
+		<fieldset>
+			<legend class="highlight">Flood Control</legend>
+			<label for="flood_interval">Flood Interval:</label>
+			<input id="flood_interval" type="text" name="flood_interval" size="2" maxlength="4" value="{FLOOD_INTERVAL}" />
+			<div class="formexplain">The number of seconds to wait before another message can be sent from the same session, e-mail or IP address.</div>
+			<br /><label for="flood_perminute">Maximum E-mails Per Minute:</label>
+			<input id="flood_perminute" type="text" name="flood_perminute" size="2" maxlength="4" value="{FLOOD_PERMINUTE}" />
+			<div class="formexplain">Maximum number of e-mail messages that can be sent overall per minute.</div>
+			{FLOOD_SUBMITROW}
+		</fieldset>
+	</div>
 </form>

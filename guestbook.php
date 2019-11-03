@@ -66,17 +66,12 @@ if (isset($_GET['sid'])) {
     $sid="";
 }
 
-if (strlen($sid) > 0 && ! ispublicloggedin()) {
-    $sid="";
-    unset($_GET['sid']);
-    unset($_POST['sid']);
-}
-
-
+$token = "";
 if (isset($_POST['token'])) {
     $token = $_POST['token'];
+    unset($_POST['token']);
 } else {
-    $token = "";
+    $token = createtoken($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
 }
 
 /// init variables for guestbook constructur
@@ -104,43 +99,46 @@ if (isset($_POST['post'])) {
     $title=getlang("guestbook_leavemessageguestbook");
 } elseif (isset($_POST['submitpost'])) {
     // submit an entry to the guestbook
-    if ($token && checktoken($token)) {
-        $showguestbookform = true;
-        $listtitle = getlang("guestbook_latestentries");
-        $showleavemessagebutton = false;
-        $showpost = true;
+    $showguestbookform = true;
+    $listtitle = getlang("guestbook_latestentries");
+    $showpost = true;
 
-        $postername = trim($_POST['postername']);
-        $postername = fixquotes($postername);
-        $addy = trim($_POST[$emailvariables['E-Mail Address Variable']]);
-        $subject = trim($_POST[$emailvariables['Subject Line Variable']]);
-        $subject = html_entity_decode(fixquotes($subject));
-        $messagetext
-            = trim(
-                stripslashes($_POST[$emailvariables['Message Text Variable']])
-            );
-        $messagetext = html_entity_decode(fixquotes($messagetext));
+    $postername = trim($_POST['postername']);
+    $postername = fixquotes($postername);
+    $addy = trim($_POST[$emailvariables['E-Mail Address Variable']]);
+    $subject = trim($_POST[$emailvariables['Subject Line Variable']]);
+    $subject = html_entity_decode(fixquotes($subject));
+    $messagetext
+        = trim(
+            stripslashes($_POST[$emailvariables['Message Text Variable']])
+        );
+    $messagetext = html_entity_decode(fixquotes($messagetext));
 
-        $error = emailerror($addy, $subject, $messagetext, 0);
-        if (strlen($postername) < 1) {
-            $error = errormessage("guestbook_needname").$error;
-        }
-        if (!$error) {
-            $showguestbookform = false;
-            $postadded = true;
-            $offset = 0;
-            addguestbookentry($postername, $addy, $subject, $messagetext);
-            sendemail(
-                $addy, $subject, $messagetext, 1,
-                getproperty("Admin Email Address"), true
-            );
-        }
+    $error
+        = emailerror($addy, $subject, $messagetext, $token,
+            $_SERVER['HTTP_USER_AGENT'],
+            $_SERVER['REMOTE_ADDR'],
+            $_POST[$emailvariables['Math CAPTCHA Reply Variable']],
+            $_POST[$emailvariables['Math CAPTCHA Answer Variable']]
+        );
+    if (strlen($postername) < 1) {
+        $error = errormessage("guestbook_needname").$error;
+    }
+    if (empty($error)) {
+        $showguestbookform = false;
+        $postadded = true;
+        $showleavemessagebutton = true;
+        $offset = 0;
+        addguestbookentry($postername, $addy, $subject, $messagetext);
+        sendemail(
+            $addy, $subject, $messagetext, 1,
+            getproperty("Admin Email Address"), $token, true
+        );
     } else {
-        $showguestbookform = true;
-        $postadded = false;
-        $showleavemessagebutton = false;
-        $error = errormessage("guestbook_invalidtoken");
-        $token = createtoken();
+        if (!hastoken($token, $_SERVER['HTTP_USER_AGENT'])) {
+            $error = errormessage("guestbook_invalidtoken");
+            $token = createtoken($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+        }
     }
 } else {
     // display entries
@@ -150,10 +148,6 @@ if (isset($_POST['post'])) {
     } else {
         $offset=0;
     }
-}
-
-if (!$token) {
-    $token = createtoken();
 }
 
 $guestbook

@@ -263,6 +263,11 @@ $lang["email_contactwebmaster"] = "! Please contact the %swebmaster%s";
 $lang["email_invalidtoken"]
     = "ERROR: Invalid token. Your email has not been sent. "
     . "You can try submitting it again.";
+$lang["email_toosoon"]
+    = "ERROR: You may not sent a second message so soon. Please wait a bit.";
+$lang["email_duplicate"] = "ERROR: Duplicate e-mail.";
+$lang["email_toomany"]
+    = "ERROR: Too many e-mails are being sent. Please wait a bit.";
 
 // messages
 $lang["email_enteredmessage"] = "You entered the following message";

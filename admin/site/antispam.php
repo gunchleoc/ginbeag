@@ -32,16 +32,20 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 require_once $projectroot."admin/functions/sessions.php";
 require_once $projectroot."admin/includes/objects/site/antispam.php";
 require_once $projectroot."admin/includes/objects/adminmain.php";
+require_once $projectroot."functions/antispam.php";
 
 checksession();
 checkadmin();
 
-if(isset($_GET['page'])) { $page=$_GET['page'];
-} else { $page=0;
+if (isset($_GET['page'])) {
+    $page=$_GET['page'];
+} else {
+    $page=0;
 }
 
 $postaction="";
-if(isset($_GET['postaction'])) { $postaction=$_GET['postaction'];
+if (isset($_GET['postaction'])) {
+    $postaction=$_GET['postaction'];
 }
 unset($_GET['postaction']);
 
@@ -50,61 +54,37 @@ unset($_GET['postaction']);
 $message = "";
 $error = false;
 
-if($postaction=='savesite') {
+if ($postaction=='savesite') {
     $newproperties = array();
-    if(isset($_POST['renamevariables'])) {
-        $newproperties['Math CAPTCHA Reply Variable']=makerandomvariablename();
-        $newproperties['Math CAPTCHA Answer Variable']=makerandomvariablename();
-        $newproperties['Message Text Variable']=makerandomvariablename();
-        $newproperties['Subject Line Variable']=makerandomvariablename();
-        $newproperties['E-Mail Address Variable']=makerandomvariablename();
-    }
-    else if(isset($_POST['mathcaptcha'])) {
-        $newproperties['Use Math CAPTCHA'] = SQLStatement::setinteger($_POST['usemathcaptcha']);
-    }
-    else if(isset($_POST['spamwords'])) {
-        $newproperties['Spam Words Subject'] = fixquotes($_POST['spamwords_subject']);
-        $newproperties['Spam Words Content'] = fixquotes($_POST['spamwords_content']);
-    }
-
-    $message .= updateproperties(ANTISPAM_TABLE, $newproperties);
-
-    if (empty($message)) {
-        if(isset($_POST['renamevariables'])) {
+    if (isset($_POST['renamevariables'])) {
+        $message = rename_variables();
+        if (empty($message)) {
             $message = "Renamed Variables";
         } else {
-            $message = "Anti-Spam settings saved";
+            $error = true;
+            $message = "Failed to rename variables ".$message;
         }
     } else {
-        $error = true;
-        if(isset($_POST['renamevariables'])) {
-            $message = "Failed to rename variables ".$message;
+        if (isset($_POST['mathcaptcha'])) {
+            $newproperties['Use Math CAPTCHA'] = SQLStatement::setinteger($_POST['usemathcaptcha']);
+        } else if(isset($_POST['spamwords'])) {
+            $newproperties['Spam Words Subject'] = fixquotes($_POST['spamwords_subject']);
+            $newproperties['Spam Words Content'] = fixquotes($_POST['spamwords_content']);
+        } else if(isset($_POST['floodcontrol'])) {
+            $newproperties['Flood Interval'] = $_POST['flood_interval'] . " seconds";
+            $newproperties['Maximum E-mails Per Minute'] = $_POST['flood_perminute'];
+        }
+
+        $message = updateproperties(ANTISPAM_TABLE, $newproperties);
+        if (empty($message)) {
+            $message = "Anti-Spam settings saved";
         } else {
+            $error = true;
             $message = "Failed to save Anti-Spam settings ".$message;
         }
     }
 }
 
-
 $content = new AdminMain($page, "sitespam", new AdminMessage($message, $error), new SiteAntispam());
 print($content->toHTML());
-
-
-function makerandomvariablename()
-{
-    $result="";
-    $letters="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ";
-
-    list($usec, $sec) = explode(' ', microtime());
-    $randomlength= (((float) $sec + ((float) $usec * 100000)) % 25)+6;
-
-    for($i=0;$i<$randomlength;$i++)
-    {
-        list($usec, $sec) = explode(' ', microtime());
-        $position= ((float) $sec + ((float) $usec * 100000)) % strlen($letters);
-        $result.= substr($letters, $position, 1);
-    }
-    return $result;
-}
-
 ?>

@@ -96,6 +96,7 @@ function checkpassword($username,$md5password)
 //
 function logout()
 {
+    global $projectroot;
     // Log out
     set_session_cookie(true, "", "");
     unlockuserpages();
@@ -136,6 +137,9 @@ function logout()
         $sql = new RawSQLStatement("OPTIMIZE TABLE $table");
         $sql->fetch_Value();
     }
+
+    require_once $projectroot . "functions/antispam.php";
+    cleartokens();
 }
 
 //

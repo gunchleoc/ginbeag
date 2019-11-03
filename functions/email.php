@@ -46,14 +46,65 @@ function match_spamword($matchme, $spamword)
     return preg_match($pattern, $matchme);
 }
 
+// Flood control
+function check_flood($parameter, $value)
+{
+    global $emailvariables;
+
+    $sql = new SQLSelectStatement(ANTISPAM_TOKENS_TABLE, 'session_time', array($parameter, 'sent'), array($value, 1), 'si');
+    $time = $sql->fetch_value();
+
+    if (!empty($time)) {
+        $floodtime = new DateTime($time);
+        $floodtime->add(date_interval_create_from_date_string($emailvariables['Flood Interval']));
+        $now = new DateTime('NOW');
+
+        if ($now < $floodtime) {
+            return errormessage("email_toosoon");
+        }
+    }
+    return "";
+}
+
 // check data
 // returns error message
 // returns "" on success
 //
-function emailerror($addy,$subject,$messagetext,$sendcopy)
+function emailerror($addy, $subject, $messagetext, $token, $useragent, $ip, $mathreply, $mathanswer)
 {
-    global $_POST, $emailvariables;
-    $result="";
+    global $emailvariables;
+
+    if (!hastoken($token, $useragent)) {
+        return errormessage("email_invalidtoken");
+    }
+
+    // Flood control for token if e-mail has been sent
+    $result = check_flood('token_id', $token);
+    if (!empty($result)) {
+        return $result;
+    }
+    $result = check_flood('session_ip', $ip);
+    if (!empty($result)) {
+        return $result;
+    }
+    $result = check_flood('email', $addy);
+    if (!empty($result)) {
+        return $result;
+    }
+
+    // Compare contents
+    $sql = new SQLSelectStatement(ANTISPAM_TOKENS_TABLE, array('subject', 'message'), array('token_id'), array($token), 's');
+    $previouscontents = $sql->fetch_row();
+    if ($previouscontents['subject'] === $subject || $previouscontents['message'] === $messagetext) {
+        return errormessage("email_duplicate");
+    }
+
+    // Overall, restrict to messages per X minutes
+    $sql = new SQLSelectStatement(ANTISPAM_TOKENS_TABLE, 'session_time', array('sent'), array(1, date(DATETIMEFORMAT, strtotime('-2 minutes'))), 'is', 'session_time < ?');
+    $sql->set_operator('count');
+    if ($sql->fetch_value() > 2 * $emailvariables['Maximum E-mails Per Minute']) {
+        return errormessage("email_toomany");
+    }
 
     // Spam words
     $spamwords_subject = explode("\n", $emailvariables['Spam Words Subject']);
@@ -61,44 +112,44 @@ function emailerror($addy,$subject,$messagetext,$sendcopy)
     $spamwords = false;
     foreach ($spamwords_subject as $spamword)
     {
-        if(match_spamword($subject, $spamword)) {
+        if (match_spamword($subject, $spamword)) {
             $spamwords = true;
             break;
         }
     }
-    foreach ($spamwords_content as $spamword)
-    {
-        if(match_spamword($messagetext, $spamword)) {
+    foreach ($spamwords_content as $spamword) {
+        if (match_spamword($messagetext, $spamword)) {
             $spamwords = true;
             break;
         }
     }
 
-    if($spamwords) {
+    if ($spamwords) {
         return errormessage("email_generic_error");
     }
 
+    // Technical antispam is done. Now let's validate the user input.
 
     // check e-mail addy
-    if($addy=="") {
-        $result.=errormessage("email_enteremail");
-    }
-    else if(!filter_var($addy, FILTER_VALIDATE_EMAIL)) {
-        $result.=errormessage("email_reenteremail");
+    if (empty($addy)) {
+        $result .= errormessage("email_enteremail");
+    } else if(!filter_var($addy, FILTER_VALIDATE_EMAIL)) {
+        $result .= errormessage("email_reenteremail");
     }
     // check subject
-    if($subject=="") {
-        $result.=errormessage("email_specifysubject");
+    if (empty($subject)) {
+        $result .= errormessage("email_specifysubject");
     }
+
     // check message text
-    if($messagetext=="") {
-        $result.=errormessage("email_emptymessage");
+    if (empty($messagetext)) {
+        $result .= errormessage("email_emptymessage");
     }
 
     // test captcha
-    if($emailvariables['Use Math CAPTCHA']) {
-        if($_POST[$emailvariables['Math CAPTCHA Reply Variable']] != $_POST[$emailvariables['Math CAPTCHA Answer Variable']]) {
-            $result.=errormessage("email_wrongmathcaptcha");
+    if ($emailvariables['Use Math CAPTCHA']) {
+        if ($mathreply !== $mathanswer) {
+            $result .= errormessage("email_wrongmathcaptcha");
         }
     }
     return $result;
@@ -136,7 +187,7 @@ function printemailinfo($addy,$subject,$messagetext,$sendcopy)
 //
 //
 //
-function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbookentry=false)
+function sendemail($addy, $subject, $messagetext, $sendcopy, $recipient, $token, $isguestbookentry=false)
 {
     $errormessage = "";
 
@@ -194,6 +245,32 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
         }
     }
     unset($_POST['addy']);
+
+    // Flood control
+    if (empty($errormessage) || $isguestbookentry) {
+        // Add e-mail info to antispam for flood control
+        $sql = new SQLUpdateStatement(
+            ANTISPAM_TOKENS_TABLE,
+            array('session_time', 'sent', 'email', 'subject', 'message'), array('token_id'),
+            array(date(DATETIMEFORMAT, strtotime('now')), 1, $addy, $subject, $messagetext, $token), 'sissss'
+        );
+        $sql->run();
+
+        // If no more sessions are active, rename e-mail variables
+        $sql = new SQLSelectStatement(ANTISPAM_TOKENS_TABLE, 'session_time', array('sent'), array(0, date(DATETIMEFORMAT, strtotime('-1 hour'))), 'is', 'session_time < ?');
+        $sql->set_operator('count');
+        if ($sql->fetch_value() < 1) {
+            rename_variables();
+        }
+    } else {
+        // Set e-mail to not sent
+        $sql = new SQLUpdateStatement(
+            ANTISPAM_TOKENS_TABLE,
+            array('sent'), array('token_id'),
+            array(0, $token), 'is'
+        );
+        $sql->run();
+    }
     return $errormessage;
 }
 

@@ -68,6 +68,12 @@ class SiteAntispam extends Template
         $this->stringvars['spamwords_content'] = $variables['Spam Words Content'];
 
         $this->vars['spamwords_submitrow']= new SubmitRow("spamwords", "Submit", true);
+
+        // Flood control
+        $this->stringvars['flood_interval'] = explode(" ",$variables['Flood Interval'])[0];
+        $this->stringvars['flood_perminute'] = $variables['Maximum E-mails Per Minute'];
+
+        $this->vars['flood_submitrow']= new SubmitRow("floodcontrol", "Submit", true);
     }
 
     // assigns templates

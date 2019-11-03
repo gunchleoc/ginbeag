@@ -256,6 +256,10 @@ $lang["email_contactwebmaster"] = "! Feuch ri fios a chur gun %swebmaster%s";
 $lang["email_invalidtoken"]
     = "MEARACHD: Tòcan mì-dhligheach. Cha deach am post-d agad a chur. "
     . "Faodaidh tu feuchainn ris a chur a-null a-rithist.";
+$lang["email_toosoon"]
+    = "MEARACHD: Chan fhaod thu post-d eile a chur cho luath sin. Am fuirich thu greis?";
+$lang["email_duplicate"] = "MEARACHD: Post-d dùblaichte.";
+$lang["email_toomany"] = "MEARACHD: Tha cus puist-d 'gan cur. Am fuirich thu greis?";
 
 // messages
 $lang["email_enteredmessage"] = "Chuir thu a-steach an teachdaireachd a leanas";

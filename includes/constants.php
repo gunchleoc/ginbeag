@@ -200,6 +200,7 @@ $legal_columns = array(
     'sectionimage',
     'sectionnumber',
     'sectiontitle',
+    'sent',
     'session_id',
     'session_ip',
     'session_time',

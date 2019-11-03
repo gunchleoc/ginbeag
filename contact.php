@@ -60,19 +60,15 @@ if (isset($_GET['sid'])) {
 } elseif (isset($_POST['sid'])) {
     $sid = $_POST['sid'];
 } else {
-    $sid="";
+    $sid = "";
 }
 
-if (strlen($sid) > 0 && ! ispublicloggedin()) {
-    $sid="";
-    unset($_GET['sid']);
-    unset($_POST['sid']);
-}
-
+$token = "";
 if (isset($_POST['token'])) {
     $token = $_POST['token'];
+    unset($_POST['token']);
 } else {
-    $token = "";
+    $token = createtoken($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
 }
 
 $email="";
@@ -83,7 +79,6 @@ $userid="";
 $emailinfo="";
 $errormessage="";
 $sendmail=false;
-
 
 if (isset($_GET['user'])) {
     $recipient=getuseremail($_GET['user']);
@@ -100,31 +95,29 @@ if (isset($_GET['user'])) {
     $userid=0;
 }
 
-
 // check data and send e-mail
 if (isset($_POST[$emailvariables['E-Mail Address Variable']])) {
-    if ($token && checktoken($token)) {
-        // get vars
-        $email=trim($_POST[$emailvariables['E-Mail Address Variable']]);
-        $subject=trim($_POST[$emailvariables['Subject Line Variable']]);
-        $messagetext
-            = trim(stripslashes($_POST[$emailvariables['Message Text Variable']]));
-        $sendcopy=isset($_POST['sendcopy']) && $_POST['sendcopy'];
+    // get vars
+    $email=trim($_POST[$emailvariables['E-Mail Address Variable']]);
+    $subject=trim($_POST[$emailvariables['Subject Line Variable']]);
+    $messagetext
+        = trim(stripslashes($_POST[$emailvariables['Message Text Variable']]));
+    $sendcopy=isset($_POST['sendcopy']) && $_POST['sendcopy'];
 
-        $errormessage = emailerror($email, $subject, $messagetext, $sendcopy);
+    $errormessage
+        = emailerror($email, $subject, $messagetext, $token,
+            $_SERVER['HTTP_USER_AGENT'],
+            $_SERVER['REMOTE_ADDR'],
+            $_POST[$emailvariables['Math CAPTCHA Reply Variable']],
+            $_POST[$emailvariables['Math CAPTCHA Answer Variable']]
+        );
 
-        if ($errormessage=="") {
-            $sendmail=true;
-            $errormessage = sendemail($email, $subject, $messagetext, $sendcopy, $recipient);
-        }
-    } else {
-        $errormessage = errormessage("email_invalidtoken");
-        $token = createtoken();
+    if (empty($errormessage)) {
+        $sendmail=true;
+        $errormessage = sendemail($email, $subject, $messagetext, $sendcopy, $recipient, $token);
+    } elseif (!hastoken($token, $_SERVER['HTTP_USER_AGENT'])) {
+        $token = createtoken($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
     }
-}
-
-if (!$token) {
-    $token = createtoken();
 }
 
 $contactpage
