@@ -142,7 +142,7 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
     $messagetext= utf8_decode($messagetext);
 
     if($isguestbookentry) {
-        $message_intro=utf8_decode(getlang("email_yourguestbookentry").' @ '. html_entity_decode(getproperty("Site Name")))."\n";
+        $message_intro = getlang("email_yourguestbookentry" . ' @ '. html_entity_decode(getproperty("Site Name"))) . "\n";
     }
     else
     {
@@ -165,10 +165,10 @@ function sendemail($addy,$subject,$messagetext,$sendcopy,$recipient,$isguestbook
     else
     {
         @mail($recipient, utf8_decode(sprintf(getlang("email_contactsubject"), html_entity_decode(getproperty("Site Name")))).$subject, $message_intro.$messagetext, "From: ".$addy)
-        or die('<p class="highlight"><b>'.utf8_decode(getlang("email_errorsending")).'</b></p>');
+        or die('<p class="highlight"><b>' . getlang("email_errorsending") . '</b></p>');
         if($sendcopy) {
             @mail($addy, utf8_decode(sprintf(getlang("email_yourmessage"), html_entity_decode(getproperty("Site Name")))).$subject, getlang("email_thisemailwassent").":\n\n".$message_intro.$messagetext, "From: ".$addy)
-            or die('<p class="highlight"><b>'.utf8_decode(getlang("email_errorsending")).'</b></p>');
+            or die('<p class="highlight"><b>' . getlang("email_errorsending") . '</b></p>');
         }
     }
     unset($_POST['addy']);
@@ -184,7 +184,7 @@ function sendplainemail($subject,$message,$recipient)
 
     $adminemail=getproperty("Admin Email Address");
 
-    $error='<p class="highlight">'.utf8_decode(getlang("email_errorsending")).sprintf(utf8_decode(getlang("email_contactwebmaster")), '<a href="../contact.php'.makelinkparameters(array("user" => "webmaster")).'">', '</a>').'</p>';
+    $error='<p class="highlight">' . getlang("email_errorsending") . sprintf(getlang("email_contactwebmaster"), '<a href="../contact.php'.makelinkparameters(array("user" => "webmaster")).'">', '</a>').'</p>';
 
     @mail($recipient, $subject, $message, "From: ".$adminemail)
           or die($error);

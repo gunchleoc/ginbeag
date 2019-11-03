@@ -57,7 +57,7 @@ $error = false;
 if($postaction=='editbanner') {
     if(strlen($_POST['code'])>0) {
         $message .= 'Edited banner #'.$_POST['bannerid'].'code <i>'.$_POST['header'].'</i>';
-        updatebannercode($_POST['bannerid'], fixquotes($_POST['header']), utf8_decode($_POST['code']));
+        updatebannercode($_POST['bannerid'], fixquotes($_POST['header']), $_POST['code']);
     }
     else
     {

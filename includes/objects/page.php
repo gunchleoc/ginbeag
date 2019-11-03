@@ -931,9 +931,9 @@ class Page extends Template
             elseif(isset($_GET["sitepolicy"])) {
                 $title=getproperty("Site Policy Title");
             } elseif(isset($_GET["sitemap"])) {
-                $title=utf8_decode(getlang("pagetitle_sitemap"));
+                $title=getlang("pagetitle_sitemap");
             } else {
-                $title=utf8_decode(getlang("error_pagenotfound"));
+                $title=getlang("error_pagenotfound");
             }
 
             if(!str_startswith($imagefile, getprojectrootlinkpath())) {
@@ -1132,7 +1132,7 @@ class Page extends Template
             else
             {
                 // todo why encoding problem?
-                $this->vars['contents']  = new PageIntro(utf8_decode(getlang("error_pagenotfound")), utf8_decode(sprintf(getlang("error_pagenonotfound"), $page)), "", true, true, "left", false, "highlight");
+                $this->vars['contents']  = new PageIntro(getlang("error_pagenotfound"), sprintf(getlang("error_pagenonotfound"), $page), "", true, true, "left", false, "highlight");
             }
         }
     }

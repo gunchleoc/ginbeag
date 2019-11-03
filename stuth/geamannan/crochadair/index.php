@@ -8,7 +8,7 @@ $meta_content .= '<script type="text/javascript" src="../../../includes/javascri
 $meta_content .= '<script type="text/javascript" src="crochadair.js"></script>';
 $meta_content .= '<link rel="stylesheet" href="crochadair.css" type="text/css">';
 
-$header = new PageHeader(0, utf8_decode("An Crochadair"), $meta_content);
+$header = new PageHeader(0, "An Crochadair", $meta_content);
 print($header->toHTML());
 ?>
         <div id="navigator" title="Clàr-taice">

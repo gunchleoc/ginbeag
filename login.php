@@ -67,7 +67,7 @@ if (isset($_POST['user'])) {
     $userid=getpublicuserid($user);
 
     if (!$userid) {
-        $header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")), "");
+        $header = new PageHeader(0, getlang("login_pagetitle"), "");
         $loginform = new LoginForm($user, getlang("login_error_username"));
         $footer = new PageFooter();
     } elseif (ispublicuseractive($userid)) {
@@ -86,17 +86,17 @@ if (isset($_POST['user'])) {
 
             $footer = new HTMLFooter();
         } else {
-            $header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")), "");
+            $header = new PageHeader(0, getlang("login_pagetitle"), "");
             $loginform = new LoginForm($user, $login['message']);
             $footer = new PageFooter();
         }
     } else {
-        $header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")), "");
+        $header = new PageHeader(0, getlang("login_pagetitle"), "");
         $loginform = new LoginForm("", getlang("login_error_inactive"));
         $footer = new PageFooter();
     }
 } else {
-    $header = new PageHeader(0, utf8_decode(getlang("login_pagetitle")), "");
+    $header = new PageHeader(0, getlang("login_pagetitle"), "");
     $loginform = new LoginForm("");
     $footer = new PageFooter();
 }

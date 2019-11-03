@@ -90,7 +90,7 @@ else {
         $sql = new SQLUpdateStatement(
             SPECIALTEXTS_TABLE,
             array('text'), array('id'),
-            array(addslashes(utf8_decode($text)), 'sitepolicy'), 'ss'
+            array(addslashes($text), 'sitepolicy'), 'ss'
         );
         $success = $sql->run();
         if($success) { $message= "Saved sitepolicy text";
@@ -101,7 +101,7 @@ else {
         $sql = new SQLUpdateStatement(
             SPECIALTEXTS_TABLE,
             array('text'), array('id'),
-            array(addslashes(utf8_decode($text)), 'guestbook'), 'ss'
+            array(addslashes($text), 'guestbook'), 'ss'
         );
         $success = $sql->run();
         if($success) { $message= "Saved guestbook text";
@@ -111,7 +111,7 @@ else {
         $sql = new SQLUpdateStatement(
             SPECIALTEXTS_TABLE,
             array('text'), array('id'),
-            array(addslashes(utf8_decode($text)), 'contact'), 'ss'
+            array(addslashes($text), 'contact'), 'ss'
         );
         $success = $sql->run();
         if($success) { $message= "Saved contact form intro text";

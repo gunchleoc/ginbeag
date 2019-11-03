@@ -48,12 +48,12 @@ class Guestbook extends Template
 
         $this->stringvars['title'] = $title;
         $sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('guestbook'), 's');
-        $this->vars['intro'] = new PageIntro(utf8_decode($title), $sql->fetch_value(), "", true, true, "left", false, "sectiontext");
+        $this->vars['intro'] = new PageIntro($title, $sql->fetch_value(), "", true, true, "left", false, "sectiontext");
         if(ismobile()) { $displaytype = "mobile";
         } else { $displaytype = "page";
         }
 
-        $this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_guestbook")), "", $displaytype);
+        $this->vars['header'] = new PageHeader(0, getlang("pagetitle_guestbook"), "", $displaytype);
         $this->vars['footer'] = new PageFooter();
 
 

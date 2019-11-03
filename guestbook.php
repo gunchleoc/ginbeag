@@ -155,10 +155,6 @@ if (isset($_POST['post'])) {
     }
 }
 
-$postername=utf8_decode($postername);
-$subject=utf8_decode($subject);
-$messagetext=utf8_decode($messagetext);
-
 if (!$token) {
     $token = createtoken();
 }

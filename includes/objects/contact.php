@@ -49,10 +49,10 @@ class ContactPage extends Template
         } else { $displaytype = "page";
         }
 
-        $this->vars['header'] = new PageHeader(0, utf8_decode(getlang("pagetitle_contact")), "", $displaytype);
+        $this->vars['header'] = new PageHeader(0, getlang("pagetitle_contact"), "", $displaytype);
         $this->vars['footer'] = new PageFooter();
         $sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('contact'), 's');
-        $this->vars['intro'] = new PageIntro(utf8_decode(getlang("pageintro_contact")), $sql->fetch_value(), "", true, true, "left", false, "sectiontext");
+        $this->vars['intro'] = new PageIntro(getlang("pageintro_contact"), $sql->fetch_value(), "", true, true, "left", false, "sectiontext");
         $this->vars['navigator'] = new Navigator(0, 1, 0, $displaytype, false);
 
         if(getproperty('Display Banners')) {

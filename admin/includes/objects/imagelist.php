@@ -54,11 +54,11 @@ class AddImageForm extends Template
         parent::__construct();
 
         // parameters from last image
-        $this->stringvars['caption']=utf8_decode(input2html($caption));
-        $this->stringvars['source']=utf8_decode(input2html($source));
-        $this->stringvars['sourcelink']=utf8_decode(input2html($sourcelink));
-        $this->stringvars['copyright']=utf8_decode(input2html($copyright));
-        $this->stringvars['permission']=$permission;
+        $this->stringvars['caption'] = input2html($caption);
+        $this->stringvars['source'] = input2html($source);
+        $this->stringvars['sourcelink'] = input2html($sourcelink);
+        $this->stringvars['copyright'] = input2html($copyright);
+        $this->stringvars['permission'] = $permission;
 
         if (extension_loaded('gd') && function_exists('gd_info')) {
             $this->vars['createthumbnailform'] = new CheckboxForm("dontcreatethumbnail", "dontcreatethumbnail", "No automatic thumbnail", $dontcreatethumbnail, "right");

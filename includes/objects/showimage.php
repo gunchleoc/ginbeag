@@ -54,14 +54,14 @@ class Showimage extends Template
         */
         $this->stringvars['site_description']=title2html(getproperty("Site Description"));
 
-        $pagetitle=utf8_decode(getlang("image_viewing"));
+        $pagetitle=getlang("image_viewing");
 
         $caption=getcaption($image);
 
         if($caption) {
             if(strlen($caption)>30) { $caption = substr($caption, 0, 30)."...";
             }
-            $caption = utf8_decode(title2html($caption));
+            $caption = title2html($caption);
             $pagetitle = $pagetitle." - ".$caption;
         }
         $this->vars['pageintro'] = new PageIntro($pagetitle, "");

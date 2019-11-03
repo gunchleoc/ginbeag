@@ -257,7 +257,7 @@ $lang["email_wrongmathcaptcha"]
     = "Chan eil an fhreagairt cheart don cheist tèarainteachd matamataigeach agad!";
 $lang["email_generic_error"]
     = "Tha sinn duilich ach cha deach leinn an tèachdaireachd agad a chur a-null.";
-$lang["email_errorsending"] = "Thàchair mearachd teignigeach a' cur a' phost-d agad";
+$lang["email_errorsending"] = "Thàchair mearachd teignigeach a' cur a' phuist-d agad";
 $lang["email_tryagain"]
     = "Chan eil am fìosrachadh a chur thu a-steach ceart. "
     . "Am feuch thu ris a-rithist?";
