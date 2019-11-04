@@ -12,7 +12,7 @@
 
 						<br /><label for="addimagenewname">Rename Image: </label>
 						<input id="addimagenewname" type="text" name="newname" size="30" maxlength="255" />
-						<div class="formexplain"><strong>Optional</strong>. You can give the image a new filename if you want.</div>
+						<div class="formexplain"><strong>Optional</strong>. You can give the image a new filename if you want. <em>Do not add the filename extension!</em></div>
 
 						<!-- BEGIN switch RESIZEIMAGEFORM -->
 							{RESIZEIMAGEFORM}
