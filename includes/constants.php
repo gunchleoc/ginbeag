@@ -143,6 +143,7 @@ $legal_columns = array(
     'day',
     'description',
     'displaydepth',
+    'displayname',
     'editdate',
     'editor_id',
     'email',

@@ -606,7 +606,7 @@ function getpagelock($page)
             unlockpage($page);
         } else {
             $result = "This page has been locked by <i>";
-            $result .= getusername($lock['user_id']);
+            $result .= getdisplayname($lock['user_id']);
             $result .= "</i> on ";
             $result .= formatdatetime($lock['locktime']);
         }

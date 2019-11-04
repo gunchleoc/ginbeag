@@ -125,7 +125,7 @@ class SiteUserlistAdminUser extends Template
         $lastlogin = getlastlogin($userid);
         $retries = getretries($userid);
 
-        $this->stringvars['username'] = title2html(getusername($userid));
+        $this->stringvars['username'] = title2html(getdisplayname($userid));
 
         $linkparams["page"] = $this->stringvars['page'];
         $linkparams["userid"] = $userid;
@@ -301,7 +301,7 @@ class SiteAdminUserProfileForm extends Template
 
         $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
 
-        $this->stringvars['username'] = title2html(getusername($userid));
+        $this->stringvars['username'] = title2html(getdisplayname($userid));
         $this->stringvars['email']=getuseremail($userid);
         $this->stringvars['contactfunction']=getcontactfunction($userid);
 

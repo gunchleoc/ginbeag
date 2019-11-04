@@ -53,8 +53,10 @@ if(isset($_GET['userid'])) { $userid=$_GET['userid'];
 } else { $userid=-1;
 }
 
-if(isset($_GET['username'])) { $username=$_GET['username'];
-} else { $username="";
+if (isset($_GET['username'])) {
+    $username = mb_strtolower($_GET['username'], 'UTF-8');
+} else {
+    $username = "";
 }
 
 
@@ -62,10 +64,10 @@ if(isset($_GET['username'])) { $username=$_GET['username'];
  //print_r($_GET);
 
 if(isset($_POST['searchuser'])) {
-    $userid=getuserid(fixquotes($_POST['username']));
+    $userid=getuserid(mb_strtolower(fixquotes($_POST['username']), 'UTF-8'));
 }
 elseif(isset($_POST['searchpublicuser'])) {
-    $userid=getpublicuserid($_POST['username']);
+    $userid=getpublicuserid(mb_strtolower($_POST['username'], 'UTF-8'));
 }
 if((isset($_POST['searchuser']) || isset($_POST['searchpublicuser'])) && !$userid) {
     $message='User <i>'.$_POST['username'].'</i> not found.';
@@ -125,7 +127,7 @@ else
     }
     elseif(isset($_POST['generate']) || isset($_GET['generate'])) {
         $email=getuseremail($userid);
-        $message='Generated new password for <i>'.getusername($userid).'</i>';
+        $message='Generated new password for <i>'.getdisplayname($userid).'</i>';
 
         $newpassword=makepassword($userid);
 
@@ -139,11 +141,11 @@ else
     }
     elseif(isset($_POST['deactivate'])) {
         deactivateuser($userid);
-        $message='User <i>'.title2html(getusername($userid)).'</i> deactivated.';
+        $message='User <i>'.title2html(getdisplayname($userid)).'</i> deactivated.';
     }
     elseif(isset($_POST['activate'])) {
         activateuser($userid);
-        $message='User <i>'.title2html(getusername($userid)).'</i> activated.';
+        $message='User <i>'.title2html(getdisplayname($userid)).'</i> activated.';
     }
 }
 if($userid>0) {

@@ -80,10 +80,10 @@ elseif(isset($_GET['changeaccess']) && $_GET['changeaccess']==="addpage") {
 elseif(isset($_POST['changelevel']) || isset($_GET['changelevel'])) {
     setuserlevel($userid, $_POST['userlevel']);
     if($_POST['userlevel']==USERLEVEL_USER) {
-        $message='Userlevel for <i>'.getusername($userid).'</i> set to <i>User</i>';
+        $message='Userlevel for <i>'.getdisplayname($userid).'</i> set to <i>User</i>';
     }
     elseif($_POST['userlevel']==USERLEVEL_ADMIN) {
-        $message='Userlevel for <i>'.getusername($userid).'</i> set to <i>Administrator</i>';
+        $message='Userlevel for <i>'.getdisplayname($userid).'</i> set to <i>Administrator</i>';
     }
 }
 if($userid>0) {

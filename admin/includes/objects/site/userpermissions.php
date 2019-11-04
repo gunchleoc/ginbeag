@@ -84,7 +84,7 @@ class SiteUserLevelForm extends Template
 
         $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
 
-        $this->stringvars['username']=title2html(getusername($userid));
+        $this->stringvars['username']=title2html(getdisplayname($userid));
 
         $this->stringvars['userlevel_user']=USERLEVEL_USER;
         $this->stringvars['userlevel_admin']=USERLEVEL_ADMIN;

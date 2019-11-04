@@ -116,7 +116,7 @@ class ContactForm extends Template
         $descriptions = array();
         for($i=0;$i<count($contacts);$i++)
         {
-            $description = stripslashes(getusername($contacts[$i]));
+            $description = stripslashes(getdisplayname($contacts[$i]));
             $function=getcontactfunction($contacts[$i]);
             if(strlen($function)>0) { $description .=" (".stripslashes($function).")";
             }

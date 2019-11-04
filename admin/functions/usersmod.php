@@ -43,10 +43,10 @@ function register($user,$pass,$email)
 
     $sql = new SQLInsertStatement(
         USERS_TABLE,
-        array('user_active', 'username', 'password', 'email', 'userlevel', 'iscontact',
+        array('user_active', 'username', 'displayname', 'password', 'email', 'userlevel', 'iscontact',
         'activationkey', 'last_login', 'retries'),
-        array(0, $user, md5($pass), $email, USERLEVEL_USER, 0, $activationkey, date(DATETIMEFORMAT, strtotime('now')), 0),
-        'isssiissi'
+        array(0, mb_strtolower($user, 'UTF-8'), $user, md5($pass), $email, USERLEVEL_USER, 0, $activationkey, date(DATETIMEFORMAT, strtotime('now')), 0),
+        'isdssiissi'
     );
     $sql->insert();
     $sql = new SQLSelectStatement(USERS_TABLE, 'activationkey', array('username'), array($user), 's');
@@ -200,6 +200,15 @@ function setuserlevel($userid,$userlevel)
 function getuserlevel($userid)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'userlevel', array('user_id'), array($userid), 'i');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getusername($user)
+{
+    $sql = new SQLSelectStatement(USERS_TABLE, 'username', array('user_id'), array($user), 'i');
     return $sql->fetch_value();
 }
 

@@ -154,7 +154,7 @@ class Newsitem extends Template
         $this->stringvars['copyright']=makecopyright($contents);
 
         if($showhidden) {
-            $this->stringvars['editor']=title2html(getusername($contents['editor_id']));
+            $this->stringvars['editor']=title2html(getdisplayname($contents['editor_id']));
         }
 
         if($showtoplink) { $this->stringvars["show_toplink"]="showtoplink";

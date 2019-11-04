@@ -426,7 +426,7 @@ class NewsItemSearchResult extends Template
         }
         $this->stringvars['location']=title2html($contents['location']);
         $this->stringvars['date']=formatdatetime($contents['date']);
-        $this->stringvars['editor']=title2html(getusername($contents['editor_id']));
+        $this->stringvars['editor']=title2html(getdisplayname($contents['editor_id']));
         $this->stringvars['copyright']=makecopyright(getnewsitemcopyright($newsitem));
     }
 
@@ -657,7 +657,7 @@ class EditNewsItemForms extends Template
                 $this->stringvars['newsitemtitle']="New Newsitem";
             }
 
-            $this->stringvars['authorname']=getusername($contents['editor_id']);
+            $this->stringvars['authorname']=getdisplayname($contents['editor_id']);
             $this->stringvars['title']=input2html($contents['title']);
 
             $this->vars['newsitemdeleteform']= new NewsItemDeleteForm($this->stringvars["newsitem"], $offset);

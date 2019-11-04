@@ -178,18 +178,15 @@ class Showimage extends Template
 //
 class ImageEditdata extends Template
 {
-
-    function __construct($image, $showhidden=false)
+    function __construct($image, $showhidden = false)
     {
         parent::__construct();
-        $editdate= getuploaddate($image);
-        $editor=  getusername(getuploader($image));
+        $editdate = getuploaddate($image);
 
-        if($showhidden) {
+        if ($showhidden) {
+            $editor = getdisplayname(getuploader($image));
             $this->stringvars['footerlastedited']=sprintf(getlang("footer_imageuploadedauthor"), formatdatetime($editdate), $editor);
-        }
-        else
-        {
+        } else {
             $this->stringvars['footerlastedited']=sprintf(getlang("footer_imageuploaded"), formatdatetime($editdate));
         }
 

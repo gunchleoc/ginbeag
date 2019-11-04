@@ -142,7 +142,7 @@ class AdminTopFrame extends Template
                 $this->vars['siteadminlink']=new AdminTopFrameLink("admin.php", "Site", array("action" => "site"));
                 $this->stringvars['showeditlinks']="on";
             }
-            $profilelinktitle="Profile [".title2html(getusername(getsiduser()))."]";
+            $profilelinktitle="Profile [".title2html(getdisplayname(getsiduser()))."]";
             if($action == "profile") { $this->stringvars['profilelink']=$profilelinktitle;
             } else { $this->vars['profilelink']=new AdminTopFrameLink("profile.php", $profilelinktitle);
             }

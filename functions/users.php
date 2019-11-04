@@ -34,9 +34,9 @@ require_once $projectroot."functions/db.php";
 //
 //
 //
-function getusername($user)
+function getdisplayname($user)
 {
-    $sql = new SQLSelectStatement(USERS_TABLE, 'username', array('user_id'), array($user), 'i');
+    $sql = new SQLSelectStatement(USERS_TABLE, 'displayname', array('user_id'), array($user), 'i');
     return $sql->fetch_value();
 }
 

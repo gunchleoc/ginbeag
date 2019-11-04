@@ -56,27 +56,31 @@ class Editdata extends Template
     {
         parent::__construct();
 
-        $editdate= geteditdate($this->stringvars['page']);
-        $editor=  getusername(getpageeditor($this->stringvars['page']));
-        $permissions=getcopyright($this->stringvars['page']);
-        if($showhidden) {
-            $this->stringvars['footerlastedited']=sprintf(getlang("footer_lasteditedauthor"), formatdatetime($editdate), $editor);
+        $editdate = geteditdate($this->stringvars['page']);
+        $permissions = makecopyright(getcopyright($this->stringvars['page']));
 
+        if ($showhidden) {
+            $editor = getdisplayname(getpageeditor($this->stringvars['page']));
+            $this->stringvars['footerlastedited']
+                = sprintf(getlang("footer_lasteditedauthor"), formatdatetime($editdate), $editor);
         } else {
-            $this->stringvars['footerlastedited']=sprintf(getlang("footer_lastedited"), formatdatetime($editdate));
+            $this->stringvars['footerlastedited']
+                = sprintf(getlang("footer_lastedited"), formatdatetime($editdate));
         }
 
-        if(strlen(makecopyright($permissions)) > 0) {
-            $this->stringvars['copyright']=makecopyright($permissions);
+        if (!empty($permissions)) {
+            $this->stringvars['copyright'] = $permissions;
         }
-        $this->stringvars['topofthispage']=getlang("pagemenu_topofthispage");
+        $this->stringvars['topofthispage'] = getlang("pagemenu_topofthispage");
     }
 
     // assigns templates
     function createTemplates()
     {
-        if(ismobile()) { $this->addTemplate("mobile/editdata.tpl");
-        } else { $this->addTemplate("pages/editdata.tpl");
+        if (ismobile()) {
+            $this->addTemplate("mobile/editdata.tpl");
+        } else {
+            $this->addTemplate("pages/editdata.tpl");
         }
     }
 }

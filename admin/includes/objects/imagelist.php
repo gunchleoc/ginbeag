@@ -720,7 +720,7 @@ class ImageUsersSelectionForm  extends Template
         $users=getallusers();
         for($i=0;$i<count($users);$i++)
         {
-            $this->listvars['option'][]= new OptionFormOption($users[$i], $selecteduser==$users[$i], input2html(getusername($users[$i])));
+            $this->listvars['option'][]= new OptionFormOption($users[$i], $selecteduser==$users[$i], input2html(getdisplayname($users[$i])));
         }
     }
 
@@ -842,7 +842,7 @@ function imageproperties($filename, $uploaddate="", $uploader="")
         $result.='&nbsp;- '.$dimensions["width"].'&nbsp;x&nbsp;'.$dimensions["height"].'&nbsp;pixel';
         $result.='&nbsp;- '.filesize($filename).'&nbsp;bytes.';
         if($uploaddate || $uploader) {
-            $result.='<br />Uploaded&nbsp;'.$uploaddate.' by&nbsp;'.getusername($uploader).'.';
+            $result.='<br />Uploaded&nbsp;'.$uploaddate.' by&nbsp;'.getdisplayname($uploader).'.';
         }
     }
     else
