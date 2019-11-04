@@ -41,7 +41,7 @@ require_once $projectroot."functions/email.php";
 class ContactPage extends Template
 {
 
-    function __construct($email, $subject, $messagetext, $sendcopy, $userid, $token, $errormessage="", $sendmail=false)
+    function __construct($email, $subject, $messagetext, $userid, $token, $errormessage="", $sendmail=false)
     {
         parent::__construct();
 
@@ -67,23 +67,23 @@ class ContactPage extends Template
             if (empty($errormessage)) {
                 $this->stringvars['sendmail']="true";
                 $this->stringvars['l_success'] = getlang("email_thisemailwassent");
-                $this->vars['emailinfo']= new EmailInfo($email, $subject, $messagetext, $sendcopy);
+                $this->vars['emailinfo']= new EmailInfo($email, $subject, $messagetext);
             } else {
                 $this->stringvars['error']="true";
                 $this->stringvars['errormessage'] = "";
                 $this->stringvars['l_tryagain'] = $errormessage;
-                $this->vars['contactform']=new ContactForm($email, $subject, $messagetext, $sendcopy, $userid, $token, $displaytype);
+                $this->vars['contactform']=new ContactForm($email, $subject, $messagetext, $userid, $token, $displaytype);
             }
         } elseif(!empty($errormessage)) {
             $this->stringvars['error']="true";
             $this->stringvars['errormessage'] = $errormessage;
             $this->stringvars['l_tryagain'] = getlang("email_tryagain");
-            $this->vars['contactform']=new ContactForm($email, $subject, $messagetext, $sendcopy, $userid, $token, $displaytype);
+            $this->vars['contactform']=new ContactForm($email, $subject, $messagetext, $userid, $token, $displaytype);
         }
         else
         {
             $this->stringvars['blankform']="true";
-            $this->vars['contactform']=new ContactForm("", "", "", true, $userid, $token, $displaytype);
+            $this->vars['contactform']=new ContactForm("", "", "", $userid, $token, $displaytype);
         }
     }
 
@@ -106,7 +106,7 @@ class ContactForm extends Template
 {
     var $displaytype;
 
-    function __construct($email, $subject, $message, $sendcopy, $userid, $token, $displaytype)
+    function __construct($email, $subject, $message, $userid, $token, $displaytype)
     {
         global $emailvariables;
         $this->displaytype = $displaytype;
@@ -141,9 +141,6 @@ class ContactForm extends Template
         $this->stringvars['messagevariable']=$emailvariables['Message Text Variable'];
         $this->stringvars['message']=$message;
 
-        $this->vars["sendcopyform"] = new CheckboxForm("sendcopy", "sendcopy", getlang("email_sendcopy"), $sendcopy, "right");
-
-        $this->stringvars['l_emailsendcopy']=getlang("email_sendcopy");
         if($emailvariables['Use Math CAPTCHA']) {
 
             $this->vars['captcha']= new MathCAPTCHA();

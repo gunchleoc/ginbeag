@@ -38,7 +38,7 @@ require_once $projectroot."includes/objects/template.php";
 class EmailInfo  extends Template
 {
 
-    function __construct($email,$subject,$messagetext,$sendcopy)
+    function __construct($email, $subject, $messagetext)
     {
         parent::__construct();
 
@@ -49,14 +49,6 @@ class EmailInfo  extends Template
         $this->stringvars['subject']=stripslashes($subject);
         $this->stringvars['l_message']=getlang("email_message");
         $this->stringvars['message']=stripslashes(nl2br($messagetext));
-
-        if($sendcopy) {
-            $this->stringvars['sendcopy']=getlang("email_copyrequested");
-        }
-        else
-        {
-            $this->stringvars['sendcopy']=getlang("email_nocopyrequested");
-        }
     }
 
     function createTemplates()

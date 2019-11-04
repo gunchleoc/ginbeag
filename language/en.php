@@ -227,9 +227,6 @@ $lang["guestbook_leavemessage"] = "Leave a message";
 $lang["email_address"] = "Your e-mail address: ";
 $lang["email_subject"] = "Subject: ";
 $lang["email_message"] = "Message: ";
-$lang["email_sendcopy"] = "Please send me a copy";
-$lang["email_copyrequested"] = "Copy requested";
-$lang["email_nocopyrequested"] = "No copy requested";
 $lang["email_sendemail"] = "Send e-mail";
 $lang["email_from"] = "From: ";
 $lang["email_to"]=  "To:   ";
@@ -240,10 +237,12 @@ $lang["email_legend_youremailtous"] = "Your e-mail to us";
 
 // email text
 $lang["email_email"] = "E-mail:";
-$lang["email_guestbooksubject"] = "New Guestbook entry @ ";
-// %s = site name
-$lang["email_contactsubject"] = "Message sent via the %s contact form - ";
-
+// %1s = site name, $2s = subject
+$lang["email_guestbooksubject"] = "[%1s Guestbook] %2s";
+$lang["email_guestbookintro"] = "A new message was posted to your guestbook:";
+// %1s = site name, $2s = subject
+$lang["email_contactsubject"] = "[%1s Site] %2s";
+$lang["email_contactintro"] = "This message was sent via your contact form:";
 
 
 
@@ -265,16 +264,13 @@ $lang["email_invalidtoken"]
     . "You can try submitting it again.";
 $lang["email_toosoon"]
     = "ERROR: You may not sent a second message so soon. Please wait a bit.";
-$lang["email_duplicate"] = "ERROR: Duplicate e-mail.";
+$lang["email_duplicate"] = "ERROR: Duplicate message.";
 $lang["email_toomany"]
-    = "ERROR: Too many e-mails are being sent. Please wait a bit.";
+    = "ERROR: Too many messages are being sent. Please wait a bit.";
 
 // messages
 $lang["email_enteredmessage"] = "You entered the following message";
 $lang["email_thisemailwassent"] = "Your e-mail was sent successfully";
-// %s = site name
-$lang["email_yourmessage"] = "Your message to %s - ";
-$lang["email_yourguestbookentry"] = "Your guestbook entry ";
 $lang["email_emailsent"] = "Sent e-mail";
 
 

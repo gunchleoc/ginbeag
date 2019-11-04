@@ -20,10 +20,6 @@
 			<textarea id="message" name="{MESSAGEVARIABLE}" rows="20">{MESSAGE}</textarea>
 		</p>
 	</fieldset>
-	<fieldset>
-		<legend>{L_LEGEND_OPTIONS}</legend>
-		{SENDCOPYFORM}
-	</fieldset>
 	<!-- BEGIN switch CAPTCHA -->
 	<fieldset>
 			<legend>{L_LEGEND_CAPTCHA}</legend>

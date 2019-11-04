@@ -131,7 +131,7 @@ if (isset($_POST['post'])) {
         $offset = 0;
         addguestbookentry($postername, $addy, $subject, $messagetext);
         sendemail(
-            $addy, $subject, $messagetext, 1,
+            $addy, $subject, $messagetext,
             getproperty("Admin Email Address"), $token, true
         );
     } else {

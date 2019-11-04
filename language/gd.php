@@ -220,9 +220,6 @@ $lang["guestbook_leavemessage"] = "Fàg teachdaireachd";
 $lang["email_address"] = "An seòladh puist-d agad: ";
 $lang["email_subject"] = "Cuspair: ";
 $lang["email_message"] = "Teachdaireachd: ";
-$lang["email_sendcopy"] = "Cuir lethbhreac thugam";
-$lang["email_copyrequested"] = "Dh'iarr thu lethbhreac";
-$lang["email_nocopyrequested"] = "Cha do dh'iarr thu lethbhreac";
 $lang["email_sendemail"] = "Cuir post-d";
 $lang["email_from"] = "Bho: ";
 $lang["email_to"]=  "Gu:  ";
@@ -233,9 +230,12 @@ $lang["email_legend_youremailtous"] = "Am post-d agad thugainn";
 
 // email text
 $lang["email_email"] = "Post-d:";
-$lang["email_guestbooksubject"] = "Teachdaireachd aoigh ùr @ ";
-// %s = site name
-$lang["email_contactsubject"] = "Teachdaireachd tro làrach %s - ";
+// %1s = site name, $2s = subject
+$lang["email_guestbooksubject"] = "[Leabhar nan aoighean %1s] %2s";
+$lang["email_guestbookintro"] = "Chaidh teachdaireachd ùr a phostadh air leabhar nan aoighean agad:";
+// %1s = site name, $2s = subject
+$lang["email_contactsubject"] = "[Làrach %1s] %2s";
+$lang["email_contactintro"] = "Chaidh an teachdaireachd seo a chur leis an fhoirm \"Fios thugainn\" agad:";
 
 
 // error messages
@@ -258,15 +258,12 @@ $lang["email_invalidtoken"]
     . "Faodaidh tu feuchainn ris a chur a-null a-rithist.";
 $lang["email_toosoon"]
     = "MEARACHD: Chan fhaod thu post-d eile a chur cho luath sin. Am fuirich thu greis?";
-$lang["email_duplicate"] = "MEARACHD: Post-d dùblaichte.";
-$lang["email_toomany"] = "MEARACHD: Tha cus puist-d 'gan cur. Am fuirich thu greis?";
+$lang["email_duplicate"] = "MEARACHD: teachdaireachd dùblaichte.";
+$lang["email_toomany"] = "MEARACHD: Tha cus teachdaireachdan 'gan cur. Am fuirich thu greis?";
 
 // messages
 $lang["email_enteredmessage"] = "Chuir thu a-steach an teachdaireachd a leanas";
 $lang["email_thisemailwassent"] = "Chaidh am post-d agad a chur gu soirbheachail";
-// %s = site name
-$lang["email_yourmessage"] = "An teachdaireachd agad gu %s - ";
-$lang["email_yourguestbookentry"] = "An teachdaireachd agad gu leabhar nan aoighean";
 $lang["email_emailsent"] = "Tha am post-d air a chur";
 
 

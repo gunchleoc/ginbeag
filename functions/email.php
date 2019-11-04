@@ -71,7 +71,7 @@ function check_flood($parameter, $value)
 // returns error message
 // returns "" on success
 //
-function emailerror($addy, $subject, $messagetext, $token, $useragent, $ip, $mathreply, $mathanswer)
+function emailerror($sender, $subject, $messagetext, $token, $useragent, $ip, $mathreply, $mathanswer)
 {
     global $emailvariables;
 
@@ -88,7 +88,7 @@ function emailerror($addy, $subject, $messagetext, $token, $useragent, $ip, $mat
     if (!empty($result)) {
         return $result;
     }
-    $result = check_flood('email', $addy);
+    $result = check_flood('email', $sender);
     if (!empty($result)) {
         return $result;
     }
@@ -132,9 +132,9 @@ function emailerror($addy, $subject, $messagetext, $token, $useragent, $ip, $mat
     // Technical antispam is done. Now let's validate the user input.
 
     // check e-mail addy
-    if (empty($addy)) {
+    if (empty($sender)) {
         $result .= errormessage("email_enteremail");
-    } else if(!filter_var($addy, FILTER_VALIDATE_EMAIL)) {
+    } else if(!filter_var($sender, FILTER_VALIDATE_EMAIL)) {
         $result .= errormessage("email_reenteremail");
     }
     // check subject
@@ -159,91 +159,41 @@ function emailerror($addy, $subject, $messagetext, $token, $useragent, $ip, $mat
 //
 //
 //
-function printemailinfo($addy,$subject,$messagetext,$sendcopy)
-{
-    print('<p class="pagetitle">'.getlang("email_enteredmessage").':</p><p><hr><p><div>');
-
-    // display e-mail
-    print("<p><b>".getlang("email_email")."</b> ".$addy."<br>");
-    // display subject
-    $subject=stripslashes($subject);
-    print("<p><b>".getlang("email_subject").":</b> ".$subject."<p>");
-
-    // display message
-    $message_display=$messagetext;
-    $message_display=stripslashes(nl2br($message_display));
-    print("<p><b>".getlang("email_message").":</b><br>".$message_display);
-
-    // display copy info
-    if($sendcopy) {
-        print("<p><b>".getlang("email_copyrequested")."</b>");
-    }
-    else
-    {
-        print("<p><b>".getlang("email_nocopyrequested")."</b>");
-    }
-    print('</div>');
-}
-
-//
-//
-//
-function sendemail($addy, $subject, $messagetext, $sendcopy, $recipient, $token, $isguestbookentry=false)
+function sendemail($sender, $subject, $messagetext, $recipient, $token, $isguestbookentry=false)
 {
     $errormessage = "";
 
-    $messagetext=stripslashes($messagetext);
-    $messagetext=str_replace("\n", "\r\n", $messagetext);
+    $messagetext = stripslashes($messagetext);
+    $messagetext = str_replace("\n", "\r\n", $messagetext);
 
-    $messagetext.="\r\n\r\n________________________________________________________________\r\n\r\n";
+    $messagetext .= "\r\n\r\n________________________________________________________________\r\n\r\n";
     $messagetext .= getproperty("Email Signature");
 
-    $subject=stripslashes($subject);
+    $subject = stripslashes($subject);
 
     $sitename = getproperty("Site Name");
 
     if ($isguestbookentry) {
-        $message_intro = getlang("email_guestbooksubject") . $sitename . "\r\n\r\n";
-        $message_intro.="________________________________________________________________\r\n\r\n";
+        $message_intro = getlang("email_guestbookintro") . "\r\n\r\n";
+        $message_intro .= "________________________________________________________________\r\n\r\n";
 
         $errormessage = do_send_email(
             $recipient,
-            getlang("email_guestbooksubject") . $sitename . " - " . $subject,
+            sprintf(getlang("email_guestbooksubject"), $sitename, $subject),
             $message_intro . $messagetext,
-            $recipient
-        );
-
-        $message_intro = getlang("email_yourguestbookentry") . ' @ '. $sitename . "\r\n\r\n";
-        $message_intro.="________________________________________________________________\r\n\r\n";
-
-        $errormessage .= do_send_email(
-            $addy,
-            getlang("email_yourguestbookentry") . ' @ ' . $sitename . " - " . $subject,
-            $message_intro . $messagetext,
-            $addy
+            $sender
         );
     } else {
-        $message_intro = getlang("email_from") . $addy . "\r\n" . getlang("email_to") . $recipient;
+        $message_intro = getlang("email_contactintro") . "\r\n\r\n";
+        $message_intro .= getlang("email_from") . $sender . "\r\n" . getlang("email_to") . $recipient;
         $message_intro .= "\r\n\r\n________________________________________________________________\r\n\r\n";
 
         $errormessage = do_send_email(
             $recipient,
-            sprintf(getlang("email_contactsubject"), $sitename) . $subject,
+            sprintf(getlang("email_contactsubject"), $sitename, $subject),
             $message_intro . $messagetext,
-            $addy
+            $sender
         );
-
-        if ($sendcopy && empty($errormessage)) {
-            $message_intro = getlang("email_thisemailwassent");
-            $message_intro .= "\r\n\r\n________________________________________________________________\r\n\r\n";
-
-            $errormessage = do_send_email(
-                $addy,
-                sprintf(getlang("email_yourmessage"), $sitename) . $subject,
-                $message_intro . $messagetext,
-                $addy
-            );
-        }
     }
     unset($_POST['addy']);
 
@@ -253,7 +203,7 @@ function sendemail($addy, $subject, $messagetext, $sendcopy, $recipient, $token,
         $sql = new SQLUpdateStatement(
             ANTISPAM_TOKENS_TABLE,
             array('session_time', 'sent', 'email', 'subject', 'message'), array('token_id'),
-            array(date(DATETIMEFORMAT, strtotime('now')), 1, $addy, $subject, $messagetext, $token), 'sissss'
+            array(date(DATETIMEFORMAT, strtotime('now')), 1, $sender, $subject, $messagetext, $token), 'sissss'
         );
         $sql->run();
 

@@ -63,9 +63,9 @@ function createtoken($ip, $useragent)
 
     $sql = new SQLInsertStatement(
         ANTISPAM_TOKENS_TABLE,
-        array('token_id', 'session_time', 'session_ip', 'browseragent'),
-        array($token, date(DATETIMEFORMAT, strtotime('now')), $ip, $useragent),
-        'ssss'
+        array('token_id', 'session_time', 'session_ip', 'browseragent', 'message'),
+        array($token, date(DATETIMEFORMAT, strtotime('now')), $ip, $useragent, " "),
+        'sssss'
     );
     $sql->run();
 

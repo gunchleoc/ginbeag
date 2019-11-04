@@ -74,7 +74,6 @@ if (isset($_POST['token'])) {
 $email="";
 $subject="";
 $messagetext="";
-$sendcopy="";
 $userid="";
 $emailinfo="";
 $errormessage="";
@@ -102,7 +101,6 @@ if (isset($_POST[$emailvariables['E-Mail Address Variable']])) {
     $subject=trim($_POST[$emailvariables['Subject Line Variable']]);
     $messagetext
         = trim(stripslashes($_POST[$emailvariables['Message Text Variable']]));
-    $sendcopy=isset($_POST['sendcopy']) && $_POST['sendcopy'];
 
     $errormessage
         = emailerror($email, $subject, $messagetext, $token,
@@ -114,7 +112,7 @@ if (isset($_POST[$emailvariables['E-Mail Address Variable']])) {
 
     if (empty($errormessage)) {
         $sendmail=true;
-        $errormessage = sendemail($email, $subject, $messagetext, $sendcopy, $recipient, $token);
+        $errormessage = sendemail($email, $subject, $messagetext, $recipient, $token);
     } elseif (!hastoken($token, $_SERVER['HTTP_USER_AGENT'])) {
         $token = createtoken($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
     }
@@ -122,8 +120,7 @@ if (isset($_POST[$emailvariables['E-Mail Address Variable']])) {
 
 $contactpage
     = new ContactPage(
-        $email, $subject, $messagetext, $sendcopy,
-        $userid, $token, $errormessage, $sendmail
+        $email, $subject, $messagetext, $userid, $token, $errormessage, $sendmail
     );
 print($contactpage->toHTML());
 ?>
