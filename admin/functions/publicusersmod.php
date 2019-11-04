@@ -40,7 +40,7 @@ function addpublicuser($user,$pass)
     $sql = new SQLInsertStatement(
         PUBLICUSERS_TABLE,
         array('user_active', 'username', 'password'),
-        array(1, $user, $pass),
+        array(1, mb_strtolower($user, 'UTF-8'), md5($pass)),
         'iss'
     );
     return $sql->insert();
