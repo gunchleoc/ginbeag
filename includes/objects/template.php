@@ -85,6 +85,8 @@ class Template
      */
     var $jscripts=array();
 
+    private const MAIN_PAGES = array("RSSPage" => 1, "Page" => 1, "PageHeader" => 1);
+
 
     /**
      * Constructor for the template superclass
@@ -221,7 +223,7 @@ class Template
         $default_template = getproperty("Default Template");
 
         $class = get_class($this);
-        $is_main_template = in_array($class, array("RSSPage", "Page", "PageHeader"));
+        $is_main_template = array_key_exists($class, self::MAIN_PAGES);
 
         if (DEBUG) {
             if (!$is_main_template) {

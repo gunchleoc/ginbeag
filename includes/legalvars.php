@@ -27,88 +27,83 @@
  */
 
 
-$LEGALVARS = array();
-$LEGALVARS["action"]=1;
-$LEGALVARS["all"]=1;
-$LEGALVARS["articlepage"]=1;
-$LEGALVARS["articlesection"]=1;
-$LEGALVARS["ascdesc"]=1;
-$LEGALVARS["caption"]=1;
-$LEGALVARS["categoriesblank"]=1;
-$LEGALVARS["clear"]=1;
-$LEGALVARS["contents"]=1;
-$LEGALVARS["copyright"]=1;
-$LEGALVARS["copyrightblank"]=1;
-$LEGALVARS["elementtype"]=1;
-$LEGALVARS["filename"]=1;
-$LEGALVARS["filter"]=1;
-$LEGALVARS["filterpage"]=1;
-$LEGALVARS["forgetful"]=1;
-$LEGALVARS["from"]=1;
-$LEGALVARS["fromday"]=1;
-$LEGALVARS["frommonth"]=1;
-$LEGALVARS["fromyear"]=1;
-$LEGALVARS["image"]=1;
-$LEGALVARS["imageid"]=1;
-$LEGALVARS["item"]=1;
-$LEGALVARS["jumppage"]=1;
-$LEGALVARS["jump"]=1;
-$LEGALVARS["key"]=1;
-$LEGALVARS["link"]=1;
-$LEGALVARS["logout"]=1;
-$LEGALVARS["m"]=1;
-$LEGALVARS["missing"]=1;
-$LEGALVARS["missingthumb"]=1;
-$LEGALVARS["mode"]=1;
-$LEGALVARS["newsitem"]=1;
-$LEGALVARS["newsitemsection"]=1;
-$LEGALVARS["noofimages"]=1;
-$LEGALVARS["nothumb"]=1;
-$LEGALVARS["number"]=1;
-$LEGALVARS["offset"]=1;
-$LEGALVARS["order"]=1;
-$LEGALVARS["override"]=1;
-$LEGALVARS["page"]=1;
-$LEGALVARS["pageposition"]=1;
-$LEGALVARS["params"]=1;
-$LEGALVARS["permission"]=1;
-$LEGALVARS["printview"]=1;
-$LEGALVARS["search"]=1;
-$LEGALVARS["selectedcat"]=1;
-$LEGALVARS["showall"]=1;
-$LEGALVARS["sid"]=1;
-$LEGALVARS["sitemap"]=1;
-$LEGALVARS["sitepolicy"]=1;
-$LEGALVARS["source"]=1;
-$LEGALVARS["sourceblank"]=1;
-$LEGALVARS["sourcelink"]=1;
-$LEGALVARS["subpages"]=1;
-$LEGALVARS["superforgetful"]=1;
-$LEGALVARS["text"]=1;
-$LEGALVARS["to"]=1;
-$LEGALVARS["today"]=1;
-$LEGALVARS["tomonth"]=1;
-$LEGALVARS["toyear"]=1;
-$LEGALVARS["unknown"]=1;
-$LEGALVARS["unlock"]=1;
-$LEGALVARS["unused"]=1;
-$LEGALVARS["uploader"]=1;
-$LEGALVARS["user"]=1;
+$LEGALVARS = array(
+    'action' => 1,
+    'all' => 1,
+    'articlepage' => 1,
+    'articlesection' => 1,
+    'ascdesc' => 1,
+    'caption' => 1,
+    'categoriesblank' => 1,
+    'clear' => 1,
+    'contents' => 1,
+    'copyright' => 1,
+    'copyrightblank' => 1,
+    'elementtype' => 1,
+    'filename' => 1,
+    'filter' => 1,
+    'filterpage' => 1,
+    'forgetful' => 1,
+    'from' => 1,
+    'fromday' => 1,
+    'frommonth' => 1,
+    'fromyear' => 1,
+    'image' => 1,
+    'imageid' => 1,
+    'item' => 1,
+    'jumppage' => 1,
+    'jump' => 1,
+    'key' => 1,
+    'link' => 1,
+    'logout' => 1,
+    'm' => 1,
+    'missing' => 1,
+    'missingthumb' => 1,
+    'mode' => 1,
+    'newsitem' => 1,
+    'newsitemsection' => 1,
+    'noofimages' => 1,
+    'nothumb' => 1,
+    'number' => 1,
+    'offset' => 1,
+    'order' => 1,
+    'override' => 1,
+    'page' => 1,
+    'pageposition' => 1,
+    'params' => 1,
+    'permission' => 1,
+    'printview' => 1,
+    'search' => 1,
+    'selectedcat' => 1,
+    'showall' => 1,
+    'sid' => 1,
+    'sitemap' => 1,
+    'sitepolicy' => 1,
+    'source' => 1,
+    'sourceblank' => 1,
+    'sourcelink' => 1,
+    'subpages' => 1,
+    'superforgetful' => 1,
+    'text' => 1,
+    'to' => 1,
+    'today' => 1,
+    'tomonth' => 1,
+    'toyear' => 1,
+    'unknown' => 1,
+    'unlock' => 1,
+    'unused' => 1,
+    'uploader' => 1,
+    'user' => 1,
+);
 
-
-$getkeys=array_keys($_GET);
-
-while($key=current($getkeys))
-{
-    if(!array_key_exists($key, $LEGALVARS)) {
+foreach ($_GET as $key => $value) {
+    if (!array_key_exists($key, $LEGALVARS)) {
         header("HTTP/1.0 404 Not Found");
         print("HTTP 404: Sorry, but this page does not exist.");
-        if(DEBUG) { print("<br />".$key." not registered with legalvars.");
+        if (DEBUG) {
+            print("<br />'".$key."' not registered with legalvars.");
         }
         exit;
     }
-    next($getkeys);
 }
-
-
 ?>

@@ -5,18 +5,18 @@ require_once "../../../functions/db.php";
 
 // Database tables allowed in queries
 $legal_tables = array(
-    'crochadair_aiteachan',
-    'crochadair_faclan',
-    'crochadair_faclan_beag'
+    'crochadair_aiteachan' => 1,
+    'crochadair_faclan' => 1,
+    'crochadair_faclan_beag' => 1
 );
 
 // Database columns allowed in queries
 $legal_columns = array(
-    'id',
-    'facal',
-    'gaidhlig',
-    'imt',
-    'aaa',
+    'id' => 1,
+    'facal' => 1,
+    'gaidhlig' => 1,
+    'imt' => 1,
+    'aaa' => 1,
 );
 
 

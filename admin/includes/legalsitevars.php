@@ -26,46 +26,44 @@
  * @link     https://github.com/gunchleoc/ginbeag/
  */
 
-$LEGALVARS = array();
-$LEGALVARS["action"]=1;
-$LEGALVARS["ascdesc"]=1;
-$LEGALVARS["backup"]=1;
-$LEGALVARS["bannerid"]=1;
-$LEGALVARS["changeaccess"]=1;
-$LEGALVARS["changelevel"]=1;
-$LEGALVARS["clearpagecache"]=1;
-$LEGALVARS["contact"]=1;
-$LEGALVARS["display"]=1;
-$LEGALVARS["filterpermission"]=1;
-$LEGALVARS["generate"]=1;
-$LEGALVARS["holder"]=1;
-$LEGALVARS["offset"]=1;
-$LEGALVARS["order"]=1;
-$LEGALVARS["page"]=1;
-$LEGALVARS["postaction"]=1;
-$LEGALVARS["profile"]=1;
-$LEGALVARS["ref"]=1;
-$LEGALVARS["search"]=1;
-$LEGALVARS["sid"]=1;
-$LEGALVARS["structure"]=1;
-$LEGALVARS["type"]=1;
-$LEGALVARS["userid"]=1;
-$LEGALVARS["username"]=1;
-$LEGALVARS["sitestats"]=1;
-$LEGALVARS["serverprotocol"]=1;
+$LEGALVARS = array(
+    'action' => 1,
+    'ascdesc' => 1,
+    'backup' => 1,
+    'bannerid' => 1,
+    'changeaccess' => 1,
+    'changelevel' => 1,
+    'clearpagecache' => 1,
+    'contact' => 1,
+    'display' => 1,
+    'filterpermission' => 1,
+    'generate' => 1,
+    'holder' => 1,
+    'offset' => 1,
+    'order' => 1,
+    'page' => 1,
+    'postaction' => 1,
+    'profile' => 1,
+    'ref' => 1,
+    'search' => 1,
+    'sid' => 1,
+    'structure' => 1,
+    'type' => 1,
+    'userid' => 1,
+    'username' => 1,
+    'sitestats' => 1,
+    'serverprotocol' => 1,
+);
 
-$getkeys=array_keys($_GET);
-
-while($key=current($getkeys))
-{
-    if(!array_key_exists($key, $LEGALVARS)) {
+foreach ($_GET as $key => $value) {
+    if (!array_key_exists($key, $LEGALVARS)) {
         header("HTTP/1.0 404 Not Found");
         print("HTTP 404: Sorry, but this page does not exist.");
-        if(DEBUG) { print("<br />".$key." not registered with legalsitevars.");
+        if (DEBUG) {
+            print("<br />'".$key."' not registered with legalsitevars.");
         }
         exit;
     }
-    next($getkeys);
 }
 
 ?>

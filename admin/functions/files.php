@@ -31,14 +31,20 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
 // security check: restrict which calling scripts can write files
 $allowedscripts = array(
-    "admin/admin.php",
-    "admin/editimagelist.php"
+    'admin/admin.php' =>1,
+    'admin/editimagelist.php' => 1
 );
 
 $server_script = preg_replace('/\/\/+/', '/', $_SERVER["SCRIPT_FILENAME"]);
 $install_with_root =  preg_replace('/\/\/+/', '/', ($_SERVER["DOCUMENT_ROOT"] . "/" . $installdir . "/"));
 
-if(!in_array(substr($server_script, strlen($install_with_root)), $allowedscripts)) { die;
+if (!array_key_exists(substr($server_script, strlen($install_with_root)), $allowedscripts)) {
+    header("HTTP/1.0 404 Not Found");
+    print("HTTP 404: Sorry, but this page does not exist.");
+    if (DEBUG) {
+        print("<br />'" . $server_script . "' not registered with file scripts.");
+    }
+    exit;
 }
 
 require_once $projectroot."functions/imagefiles.php";

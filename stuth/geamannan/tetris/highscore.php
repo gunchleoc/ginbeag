@@ -5,14 +5,14 @@ require_once "../../../functions/db.php";
 
 // Database tables allowed in queries
 $legal_tables = array(
-    'jstetris_highscore'
+    'jstetris_highscore' => 1
 );
 
 // Database columns allowed in queries
 $legal_columns = array(
-    'key',
-    'name',
-    'score',
+    'key' => 1,
+    'name' => 1,
+    'score' => 1,
 );
 
 if (isset($_GET['savescore']) && isset($_COOKIE['tetris-maysavehighscore'])) {

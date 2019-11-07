@@ -35,96 +35,102 @@ require_once $projectroot ."includes/constants.php";
 
 // security check: restrict which calling scripts get access to the database
 $allowedscripts = array(
-    "admin/activate.php",
-    "admin/admin.php",
-    "admin/edit/articleedit.php",
-    "admin/edit/galleryedit.php",
-    "admin/edit/linklistedit.php",
-    "admin/edit/menuedit.php",
-    "admin/edit/newsedit.php",
-    "admin/edit/pageintrosettingsedit.php",
-    "admin/editcategories.php",
-    "admin/editimagelist.php",
-    "admin/includes/ajax/articles/addcategories.php",
-    "admin/includes/ajax/articles/removecategories.php",
-    "admin/includes/ajax/articles/savesectiontitle.php",
-    "admin/includes/ajax/articles/savesource.php",
-    "admin/includes/ajax/articles/updatecategories.php",
-    "admin/includes/ajax/articles/updatesectiontitle.php",
-    "admin/includes/ajax/editor/collapseeditor.php",
-    "admin/includes/ajax/editor/editorcontentssavedialog.php",
-    "admin/includes/ajax/editor/expandeditor.php",
-    "admin/includes/ajax/editor/formatpreviewtext.php",
-    "admin/includes/ajax/editor/getserverprotocol.php",
-    "admin/includes/ajax/editor/gettextfromdatabase.php",
-    "admin/includes/ajax/editor/savetext.php",
-    "admin/includes/ajax/galleries/saveimage.php",
-    "admin/includes/ajax/galleries/updateimage.php",
-    "admin/includes/ajax/imageeditor/saveimagefilename.php",
-    "admin/includes/ajax/imageeditor/saveimagealignment.php",
-    "admin/includes/ajax/imageeditor/saveimagesize.php",
-    "admin/includes/ajax/imageeditor/showimagealignment.php",
-    "admin/includes/ajax/imageeditor/showimagesize.php",
-    "admin/includes/ajax/imageeditor/updateimage.php",
-    "admin/includes/ajax/imagelist/addcategories.php",
-    "admin/includes/ajax/imagelist/getimageusage.php",
-    "admin/includes/ajax/imagelist/removecategories.php",
-    "admin/includes/ajax/imagelist/savedescription.php",
-    "admin/includes/ajax/imagelist/updatecategories.php",
-    "admin/includes/ajax/imagelist/updateimage.php",
-    "admin/includes/ajax/linklists/",
-    "admin/includes/ajax/linklists/",
-    "admin/includes/ajax/linklists/savelinkproperties.php",
-    "admin/includes/ajax/linklists/updatelinktitle.php",
-    "admin/includes/ajax/menus/movepage.php",
-    "admin/includes/ajax/menus/saveoptions.php",
-    "admin/includes/ajax/menus/updatesubpages.php",
-    "admin/includes/ajax/news/addcategories.php",
-    "admin/includes/ajax/news/publish.php",
-    "admin/includes/ajax/news/removecategories.php",
-    "admin/includes/ajax/news/savedate.php",
-    "admin/includes/ajax/news/savepermissions.php",
-    "admin/includes/ajax/news/savesectiontitle.php",
-    "admin/includes/ajax/news/savesource.php",
-    "admin/includes/ajax/news/savetitle.php",
-    "admin/includes/ajax/news/unpublish.php",
-    "admin/includes/ajax/news/updatecategories.php",
-    "admin/includes/ajax/news/updatedate.php",
-    "admin/includes/ajax/news/updatesectiontitle.php",
-    "admin/includes/ajax/news/updatetitle.php",
-    "admin/includes/pagelist.php",
-    "admin/includes/preview.php",
-    "admin/login.php",
-    "admin/pagedelete.php",
-    "admin/pagedisplay.php",
-    "admin/pageedit.php",
-    "admin/pagenew.php",
-    "admin/profile.php",
-    "admin/register.php",
-    "admin/showimage.php",
-    "cleanup.php",
-    "contact.php",
-    "guestbook.php",
-    "index.php",
-    "login.php",
-    "rss.php",
-    "showimage.php",
-    "stuth/geamannan/bs/index.php",
-    "stuth/geamannan/crochadair/getword.php",
-    "stuth/geamannan/crochadair/index.php",
-    "stuth/geamannan/leacan/index.php",
-    "stuth/geamannan/leumadair/index.php",
-    "stuth/geamannan/longan/index.php",
-    "stuth/geamannan/matamataigs/index.php",
-    "stuth/geamannan/tetris/highscore.php",
-    "stuth/geamannan/tetris/index.php",
-    "stuth/geamannan/tt/getpuzzle.php"
+    'admin/activate.php' => 1,
+    'admin/admin.php' => 1,
+    'admin/edit/articleedit.php' => 1,
+    'admin/edit/galleryedit.php' => 1,
+    'admin/edit/linklistedit.php' => 1,
+    'admin/edit/menuedit.php' => 1,
+    'admin/edit/newsedit.php' => 1,
+    'admin/edit/pageintrosettingsedit.php' => 1,
+    'admin/editcategories.php' => 1,
+    'admin/editimagelist.php' => 1,
+    'admin/includes/ajax/articles/addcategories.php' => 1,
+    'admin/includes/ajax/articles/removecategories.php' => 1,
+    'admin/includes/ajax/articles/savesectiontitle.php' => 1,
+    'admin/includes/ajax/articles/savesource.php' => 1,
+    'admin/includes/ajax/articles/updatecategories.php' => 1,
+    'admin/includes/ajax/articles/updatesectiontitle.php' => 1,
+    'admin/includes/ajax/editor/collapseeditor.php' => 1,
+    'admin/includes/ajax/editor/editorcontentssavedialog.php' => 1,
+    'admin/includes/ajax/editor/expandeditor.php' => 1,
+    'admin/includes/ajax/editor/formatpreviewtext.php' => 1,
+    'admin/includes/ajax/editor/getserverprotocol.php' => 1,
+    'admin/includes/ajax/editor/gettextfromdatabase.php' => 1,
+    'admin/includes/ajax/editor/savetext.php' => 1,
+    'admin/includes/ajax/galleries/saveimage.php' => 1,
+    'admin/includes/ajax/galleries/updateimage.php' => 1,
+    'admin/includes/ajax/imageeditor/saveimagefilename.php' => 1,
+    'admin/includes/ajax/imageeditor/saveimagealignment.php' => 1,
+    'admin/includes/ajax/imageeditor/saveimagesize.php' => 1,
+    'admin/includes/ajax/imageeditor/showimagealignment.php' => 1,
+    'admin/includes/ajax/imageeditor/showimagesize.php' => 1,
+    'admin/includes/ajax/imageeditor/updateimage.php' => 1,
+    'admin/includes/ajax/imagelist/addcategories.php' => 1,
+    'admin/includes/ajax/imagelist/getimageusage.php' => 1,
+    'admin/includes/ajax/imagelist/removecategories.php' => 1,
+    'admin/includes/ajax/imagelist/savedescription.php' => 1,
+    'admin/includes/ajax/imagelist/updatecategories.php' => 1,
+    'admin/includes/ajax/imagelist/updateimage.php' => 1,
+    'admin/includes/ajax/linklists/' => 1,
+    'admin/includes/ajax/linklists/' => 1,
+    'admin/includes/ajax/linklists/savelinkproperties.php' => 1,
+    'admin/includes/ajax/linklists/updatelinktitle.php' => 1,
+    'admin/includes/ajax/menus/movepage.php' => 1,
+    'admin/includes/ajax/menus/saveoptions.php' => 1,
+    'admin/includes/ajax/menus/updatesubpages.php' => 1,
+    'admin/includes/ajax/news/addcategories.php' => 1,
+    'admin/includes/ajax/news/publish.php' => 1,
+    'admin/includes/ajax/news/removecategories.php' => 1,
+    'admin/includes/ajax/news/savedate.php' => 1,
+    'admin/includes/ajax/news/savepermissions.php' => 1,
+    'admin/includes/ajax/news/savesectiontitle.php' => 1,
+    'admin/includes/ajax/news/savesource.php' => 1,
+    'admin/includes/ajax/news/savetitle.php' => 1,
+    'admin/includes/ajax/news/unpublish.php' => 1,
+    'admin/includes/ajax/news/updatecategories.php' => 1,
+    'admin/includes/ajax/news/updatedate.php' => 1,
+    'admin/includes/ajax/news/updatesectiontitle.php' => 1,
+    'admin/includes/ajax/news/updatetitle.php' => 1,
+    'admin/includes/pagelist.php' => 1,
+    'admin/includes/preview.php' => 1,
+    'admin/login.php' => 1,
+    'admin/pagedelete.php' => 1,
+    'admin/pagedisplay.php' => 1,
+    'admin/pageedit.php' => 1,
+    'admin/pagenew.php' => 1,
+    'admin/profile.php' => 1,
+    'admin/register.php' => 1,
+    'admin/showimage.php' => 1,
+    'cleanup.php' => 1,
+    'contact.php' => 1,
+    'guestbook.php' => 1,
+    'index.php' => 1,
+    'login.php' => 1,
+    'rss.php' => 1,
+    'showimage.php' => 1,
+    'stuth/geamannan/bs/index.php' => 1,
+    'stuth/geamannan/crochadair/getword.php' => 1,
+    'stuth/geamannan/crochadair/index.php' => 1,
+    'stuth/geamannan/leacan/index.php' => 1,
+    'stuth/geamannan/leumadair/index.php' => 1,
+    'stuth/geamannan/longan/index.php' => 1,
+    'stuth/geamannan/matamataigs/index.php' => 1,
+    'stuth/geamannan/tetris/highscore.php' => 1,
+    'stuth/geamannan/tetris/index.php' => 1,
+    'stuth/geamannan/tt/getpuzzle.php' => 1
 );
 
 $server_script = preg_replace('/\/\/+/', '/', $_SERVER["SCRIPT_FILENAME"]);
 $install_with_root =  preg_replace('/\/\/+/', '/', ($_SERVER["DOCUMENT_ROOT"] . "/" . $installdir . "/"));
 
-if(!in_array(substr($server_script, strlen($install_with_root)), $allowedscripts)) { die;
+if (!array_key_exists(substr($server_script, strlen($install_with_root)), $allowedscripts)) {
+    header("HTTP/1.0 404 Not Found");
+    print("HTTP 404: Sorry, but this page does not exist.");
+    if (DEBUG) {
+        print("<br />'" . $server_script . "' not registered with db scripts.");
+    }
+    exit;
 }
 
 
@@ -225,7 +231,7 @@ class SQLStatement
     public function check_table_name($table)
     {
         global $legal_tables;
-        if (!in_array($table, $legal_tables)) {
+        if (!array_key_exists($table, $legal_tables)) {
             self::register_error("Illegal table name: $table");
             self::handle_errors();
         }
@@ -245,7 +251,7 @@ class SQLStatement
             );
         } else {
             foreach ($columns as $value) {
-                if (!in_array($value, $legal_columns)) {
+                if (!array_key_exists($value, $legal_columns)) {
                     self::register_error("Illegal column name: $value");
                     self::handle_errors();
                 }
@@ -925,12 +931,12 @@ class SQLSelectStatement extends SQLStatement
     // SELECT with count, min, max or sum
     function set_operator($operator)
     {
-        $allowed_operators = array('min', 'max', 'count', 'sum');
-        if (!in_array($operator, $allowed_operators)) {
+        $allowed_operators = array('min' => 1, 'max' => 1, 'count' => 1, 'sum' => 1);
+        if (!array_key_exists($operator, $allowed_operators)) {
             $this->register_error(
                 "Constructing SQL statement:
                 Illeagal operator '$operator' - allowed operators are: "
-                . implode(', ', $allowed_operators)
+                . implode(', ', array_keys($allowed_operators))
             );
         }
         $this->operator = $operator;
