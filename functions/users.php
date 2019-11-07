@@ -54,7 +54,7 @@ function getuseremail($user)
 //
 function getuserid($username)
 {
-    $sql = new SQLSelectStatement(USERS_TABLE, 'user_id', array('username'), array($username), 's');
+    $sql = new SQLSelectStatement(USERS_TABLE, 'user_id', array('username'), array(mb_strtolower($username, 'UTF-8')), 's');
     return $sql->fetch_value();
 }
 

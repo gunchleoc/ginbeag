@@ -309,7 +309,7 @@ class OptionForm extends Template
         if($size>1) { $label=$label."<br />";
         }
 
-        $this->stringvars['optionform_name'] = mb_strtolower(str_replace(" ", "", $name));
+        $this->stringvars['optionform_name'] = mb_strtolower(str_replace(" ", "", $name), 'UTF-8');
         $this->stringvars['optionform_label']=$label;
         $this->stringvars['optionform_id'] = $this->stringvars['optionform_name'];
         $this->stringvars['optionform_size']=$size;
@@ -342,7 +342,7 @@ class OptionFormMultiple extends Template
     {
         parent::__construct();
 
-        $this->stringvars['optionform_name'] = mb_strtolower(str_replace(" ", "", $name))."[]";
+        $this->stringvars['optionform_name'] = mb_strtolower(str_replace(" ", "", $name), 'UTF-8')."[]";
         $this->stringvars['optionform_label'] =$label;
         $this->stringvars['optionform_size']=$size;
         $this->stringvars['optionform_attributes']=$attributes." multiple";
@@ -377,7 +377,7 @@ class NumberOptionForm  extends Template
     {
         parent::__construct();
 
-        $this->stringvars['optionform_name'] = mb_strtolower(str_replace(" ", "", $name));
+        $this->stringvars['optionform_name'] = mb_strtolower(str_replace(" ", "", $name), 'UTF-8');
         $this->stringvars['optionform_label'] =ucfirst($label).": ";
         $this->stringvars['optionform_id'] =$this->stringvars['optionform_name'];
         $this->stringvars['jsid'] =$jsid;

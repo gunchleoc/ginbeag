@@ -277,7 +277,7 @@ class Template
 
         for($i=0;$i<count($matches[1]);$i++)
         {
-            $found =array_search(mb_strtolower($matches[1][$i]), $keys);
+            $found =array_search(mb_strtolower($matches[1][$i], 'UTF-8'), $keys);
             $pattern="/<!--\s*BEGIN\s*switch\s*".$matches[1][$i]."\s*-->(.*)<!--\s*END\s*switch\s*".$matches[1][$i]."\s*-->/Us";
             if($found || $found === 0) {
                 $result=preg_replace($pattern, "\\1", $result);
@@ -295,7 +295,7 @@ class Template
             {
                 // just a precaution
                 if($this->vars[$key] instanceof Template) {
-                    $result=str_replace("{".mb_strtoupper($key)."}", $this->vars[$key]->toHTML(), $result);
+                    $result=str_replace("{".mb_strtoupper($key, 'UTF-8')."}", $this->vars[$key]->toHTML(), $result);
                 }
                 next($keys);
             }
@@ -316,7 +316,7 @@ class Template
                 }
             }
             // replace with concatenated string
-            $result=str_replace("{".mb_strtoupper($listkeys[$i])."}", $temp, $result);
+            $result=str_replace("{".mb_strtoupper($listkeys[$i], 'UTF-8')."}", $temp, $result);
         }
 
 
@@ -325,7 +325,7 @@ class Template
         if(count($keys)) {
             while($key=current($keys))
             {
-                $result=str_replace("{".mb_strtoupper($key)."}", $this->stringvars[$key], $result);
+                $result=str_replace("{".mb_strtoupper($key, 'UTF-8')."}", $this->stringvars[$key], $result);
                 next($keys);
             }
         }

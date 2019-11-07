@@ -910,7 +910,7 @@ class SQLSelectStatement extends SQLStatement
             foreach ($order as $key => $value) {
                 $this->order[]
                     = " `" . $key . "` "
-                      . (mb_strtolower($value) == "desc" ? "DESC" : "ASC");
+                      . (mb_strtolower($value, 'UTF-8') == "desc" ? "DESC" : "ASC");
             }
         }
     }

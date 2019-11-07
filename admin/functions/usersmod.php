@@ -270,7 +270,7 @@ function hasactivationkey($username,$activationkey)
 //
 function userexists($username)
 {
-    $sql = new SQLSelectStatement(USERS_TABLE, 'username', array('username'), array($username), 's');
+    $sql = new SQLSelectStatement(USERS_TABLE, 'username', array('username'), array(mb_strtolower($username, 'UTF-8')), 's');
     return $sql->fetch_value();
 }
 

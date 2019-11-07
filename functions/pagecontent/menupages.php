@@ -133,7 +133,7 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showh
         } elseif ($order === "source") { $query .= "art.source ";
         } elseif ($order === "editdate") { $query .= "page.editdate ";
         }
-        $query.= mb_strtolower($ascdesc) === "desc" ? "DESC" : "ASC";
+        $query.= mb_strtolower($ascdesc, 'UTF-8') === "desc" ? "DESC" : "ASC";
     }
 
     $sql = new RawSQLStatement($query, $values, $datatypes);

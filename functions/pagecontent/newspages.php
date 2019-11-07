@@ -199,7 +199,7 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
         } elseif ($order === "date") { $query .= "date ";
         } elseif ($order === "source") { $query .= "items.source ";
         }
-        $query .= mb_strtolower($ascdesc) === "desc" ? "DESC" : "ASC";
+        $query .= mb_strtolower($ascdesc, 'UTF-8') === "desc" ? "DESC" : "ASC";
     }
 
     $sql = new RawSQLStatement($query, $values, $datatypes);

@@ -54,7 +54,7 @@ if(isset($_GET['userid'])) { $userid=$_GET['userid'];
 }
 
 if (isset($_GET['username'])) {
-    $username = mb_strtolower($_GET['username'], 'UTF-8');
+    $username = fixquotes($_GET['username']);
 } else {
     $username = "";
 }
@@ -64,7 +64,7 @@ if (isset($_GET['username'])) {
  //print_r($_GET);
 
 if(isset($_POST['searchuser'])) {
-    $userid=getuserid(mb_strtolower(fixquotes($_POST['username']), 'UTF-8'));
+    $userid = getuserid(fixquotes($_POST['username'], 'UTF-8'));
 }
 elseif(isset($_POST['searchpublicuser'])) {
     $userid=getpublicuserid(mb_strtolower($_POST['username'], 'UTF-8'));
@@ -159,7 +159,7 @@ if($userid>0) {
 }
 else
 {
-    $contents = new SiteSelectUserForm($username);
+    $contents = new SiteSelectUserForm(mb_strtolower($username, 'UTF-8'));
 }
 
 $content = new AdminMain($page, "siteuserman", new AdminMessage($message, $error), $contents);
