@@ -178,7 +178,7 @@ class Template
         if(file_exists($filename)) {
             $result.= implode("", @file($filename));
         }
-        elseif(DEBUG) { print('<p class="highlight">Missing javascript file! '.$filename.'</p>');
+        elseif(DEBUG) { print('<p class="highlight">Missing javascript file! '.$scriptpath.'</p>');
         }
 
         // replace JSIDs
@@ -256,7 +256,7 @@ class Template
                 if (file_exists($filename)) {
                     $result .= implode("", @file($filename));
                 } elseif (DEBUG) {
-                    print('<p class="highlight">Missing template file! ' . $filename . '</p>');
+                    print('<p class="highlight">Missing template file! ' . $this->templates[$i] . '</p>');
                 }
             }
         }
