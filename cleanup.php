@@ -37,11 +37,16 @@ if (getproperty("Local Path") == "") {
     $testpath = "";
 }
 
-if (!DEBUG
-    && !((isset($_SERVER["ORIG_PATH_TRANSLATED"])
-    && $_SERVER["ORIG_PATH_TRANSLATED"] == $projectroot."cleanup.php")
-    || $_SERVER["PHP_SELF"] == $testpath."/cleanup.php")
-) {
+$islegit = !DEBUG;
+if (isset($_SERVER["ORIG_PATH_TRANSLATED"])) {
+    $islegit |= $_SERVER["ORIG_PATH_TRANSLATED"] == $projectroot."cleanup.php";
+    $islegit |= $_SERVER["ORIG_PATH_TRANSLATED"] == $projectroot."admin/admin.php";
+} else {
+    $islegit |= $_SERVER["PHP_SELF"] == $testpath."/cleanup.php";
+    $islegit |= $_SERVER["PHP_SELF"] == $testpath."/admin/admin.php";
+}
+
+if (!$islegit) {
     header("HTTP/1.0 404 Not Found");
     print("HTTP 404: Sorry, but this page does not exist.");
     exit;
