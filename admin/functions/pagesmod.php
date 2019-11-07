@@ -558,8 +558,8 @@ function getpageaccessforpublicuser($user)
 //
 function getrestrictedpages()
 {
-    $sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, 'page_id', array('page_id'), array('masterpage'), 's');
-    $sql->set_order(array('page_id' => 'ASC'));
+    $sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, 'masterpage');
+    $sql->set_order(array('masterpage' => 'ASC'));
     $sql->set_distinct();
     return $sql->fetch_column();
 }
