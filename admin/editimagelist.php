@@ -361,7 +361,7 @@ elseif($action==="addthumb") {
         $extension=substr($thumbnail, strrpos($thumbnail, "."), strlen($thumbnail));
         $imagename=substr($filename, 0, strrpos($filename, "."));
         $imageextension=substr($filename, strrpos($filename, "."), strlen($filename));
-        if(strtolower($extension) === strtolower($imageextension)) {
+        if (mb_strtolower($extension) === mb_strtolower($imageextension)) {
             $newthumbname=$imagename.'_thn'.$extension;
             $errorcode = uploadfile(getproperty("Image Upload Path").getimagesubpath($filename), "thumbnail", $newthumbname);
             $thumbnail=$newthumbname;
@@ -410,7 +410,7 @@ elseif($action==="replacethumb") {
         $thumbnailfilename=getthumbnail($filename);
         $extension=substr($thumbnail, strrpos($thumbnail, "."), strlen($thumbnail));
         $imageextension=substr($filename, strrpos($filename, "."), strlen($filename));
-        if(strtolower($extension) === strtolower($imageextension)) {
+        if (mb_strtolower($extension) === mb_strtolower($imageextension)) {
             $errorcode = replacefile(getproperty("Image Upload Path").getimagesubpath($filename), "thumbnail", $thumbnailfilename);
             if($errorcode == UPLOAD_ERR_OK) {
                 $success = true;
@@ -630,18 +630,14 @@ print($adminimagepage->toHTML());
 //
 // when replacing an images, the extension must be the same
 //
-function checkextension($oldfile,$newfile)
-{
+function checkextension($oldfile,$newfile) {
     $oldextension=substr($oldfile, strrpos($oldfile, "."), strlen($oldfile));
     $newextension=substr($newfile, strrpos($newfile, "."), strlen($newfile));
-    if(strtolower($oldextension) === strtolower($newextension)) {
+    if (mb_strtolower($oldextension) === mb_strtolower($newextension)) {
         return true;
     }
-    else
-    {
-        print('<p class="highlight">Image must be of type <i>'.$oldextension.'</i></p>');
-        return false;
-    }
+    print('<p class="highlight">Image must be of type <i>'.$oldextension.'</i></p>');
+    return false;
 }
 
 ?>

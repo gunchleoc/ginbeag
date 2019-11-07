@@ -409,7 +409,7 @@ function makeXML($wrapper,$dbtable,$key)
 
     for ($j=0; $j<$noofkeys; $j++)
     {
-        $key=strtolower($keys[$j]);
+        $key = mb_strtolower($keys[$j]);
 
         $element=$row[$keys[$j]];
         //    $xml .= "<$key>".$element."</$key>";
@@ -449,7 +449,7 @@ function makeXMLSmallDB($wrapper,$dbtable,$key)
 
     for ($j=0; $j<$noofkeys; $j++)
     {
-        $key=strtolower($keys[$j]);
+        $key = mb_strtolower($keys[$j]);
 
         $element=$row[$key];
         //    $xml .= "<$key>".$element."</$key>";

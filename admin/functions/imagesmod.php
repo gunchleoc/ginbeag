@@ -191,7 +191,8 @@ function getunknownimageshelper($subpath)
     or die("Unable to open path");
 
     while($file = readdir($dir_handle)) {
-        if(!is_dir($dirtolist."/".$file) && !strpos(strtolower($file), ".php") && !strpos(strtolower($file), ".htm")) {
+        $lowercasefile = mb_strtolower($file);
+        if(!is_dir($dirtolist."/".$file) && !strpos($lowercasefile, ".php") && !strpos($lowercasefile, ".htm")) {
             if (!(imageexists($file) || thumbnailexists($file))) {
                 array_push($result, array("filename" => $file, "subpath" => $subpath));
             }
@@ -364,7 +365,7 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
         if($order=="uploader") { $order="editor_id";
         } elseif($order=="filename") { $order="image_filename";
         }
-        $query .= " ORDER BY ? " . (strtolower($ascdesc) == "desc" ? "DESC" : "ASC");
+        $query .= " ORDER BY ? " . (mb_strtolower($ascdesc) == "desc" ? "DESC" : "ASC");
         array_push($values, $order);
         $datatypes .= 's';
     }
