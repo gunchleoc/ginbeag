@@ -879,26 +879,32 @@ class Page extends Template
                         if (!empty($imagefiles)) {
                             $imagefile = $imagefiles[array_key_first($imagefiles)];
                         }
-                        if(!$imagefile) {
+                        if (!$imagefile) {
                             $sections = getnewsitemsectionswithcontent($newsitem);
-                            for($i=0; !$imagefile && $i<count($sections); $i++)
-                            {
-                                $imagefile = $sections[$i]['sectionimage'];
+                            foreach ($sections as $sectioncontents) {
+                                if (!empty($sectioncontents['sectionimage'])) {
+                                    $imagefile = $sectioncontents['sectionimage'];
+                                    break;
+                                }
                             }
-                            if(!$imagefile) {
+
+                            if (!$imagefile) {
                                 $image_pattern = "/\[img\](.*?)\[\/img\]/i";
                                 $image_matches=array();
                                 $found = preg_match($image_pattern, $newsitemcontents['synopsis'], $image_matches);
-                                if($found) { $imagefile = $image_matches[1];
+                                if ($found) {
+                                    $imagefile = $image_matches[1];
                                 }
-                                for($i=0; !$imagefile && $i<count($sections); $i++)
-                                {
+                                foreach ($sections as $sectioncontents) {
                                     $image_matches=array();
-                                    $found = preg_match($image_pattern, $sections[$i]['text'], $image_matches);
-                                    if($found) { $imagefile = $image_matches[1];
+                                    $found = preg_match($image_pattern, $sectioncontents['text'], $image_matches);
+                                    if ($found) {
+                                        $imagefile = $image_matches[1];
+                                        break;
                                     }
                                 }
-                                if(!$imagefile) {
+
+                                if (!$imagefile) {
                                     $imagefile = $pagecontents['introimage'];
                                 }
                             }
