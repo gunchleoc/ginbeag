@@ -39,8 +39,8 @@ if (getproperty("Local Path") == "") {
 
 if (!DEBUG
     && !((isset($_SERVER["ORIG_PATH_TRANSLATED"])
-    && $_SERVER["ORIG_PATH_TRANSLATED"] == $projectroot."index.php")
-    || $_SERVER["PHP_SELF"] == $testpath."/index.php")
+    && $_SERVER["ORIG_PATH_TRANSLATED"] == $projectroot."cleanup.php")
+    || $_SERVER["PHP_SELF"] == $testpath."/cleanup.php")
 ) {
     header("HTTP/1.0 404 Not Found");
     print("HTTP 404: Sorry, but this page does not exist.");
