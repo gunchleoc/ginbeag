@@ -49,7 +49,7 @@ class ProfilePage extends Template
     {
         parent::__construct();
 
-        $userdata = getuser($userid);
+        $userdata = getuser($userid, array('displayname', 'email', 'contactfunction', 'iscontact'));
 
         $this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page']));
         $this->stringvars['returnvars']= "admin.php".makelinkparameters(array("page" => $this->stringvars['page']));
