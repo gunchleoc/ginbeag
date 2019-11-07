@@ -85,8 +85,8 @@ class SiteWhosOnlineUser extends Template
 
         $this->stringvars["userid"]=$userid;
         $this->stringvars["username"]=$username;
-        $this->stringvars["ip"]=long2ip($ip);
-        $this->stringvars["host"]=gethostbyaddr(long2ip($ip));
+        $this->stringvars["ip"]=inet_ntop($ip);
+        $this->stringvars["host"]=gethostbyaddr(inet_ntop($ip));
         $this->stringvars["lastlogin"]=$lastlogin;
         if($isvalid) { $this->stringvars["isvalid"]="true";
         } else { $this->stringvars["notvalid"]="true";

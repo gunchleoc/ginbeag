@@ -46,7 +46,7 @@ $error = false;
 
 if(isset($_POST['banipallrestricted'])) {
     $ip=trim($_POST['ip']);
-    if($ip === long2ip(ip2long($ip))) {
+    if (inet_pton($ip)) {
         addbannedipforrestrictedpages($ip);
     }
     else

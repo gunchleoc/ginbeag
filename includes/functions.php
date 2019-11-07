@@ -656,19 +656,6 @@ function var_is_array($var)
     return ( (array) $var == $var);
 }
 
-
-//
-//
-function getclientip()
-{
-    $clientip=$_SERVER['REMOTE_ADDR'];
-    $result=($clientip === long2ip(ip2long($clientip)));
-    if($result) { $result=ip2long($clientip);
-    }
-    return $result;
-}
-
-
 // seed with microseconds
 function make_seed()
 {

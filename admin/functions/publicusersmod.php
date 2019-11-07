@@ -182,7 +182,7 @@ function getallpublicuserswithaccessforpage($pageid)
 //
 function addbannedipforrestrictedpages($ip)
 {
-    $ip = ip2long($ip);
+    $ip = inet_pton($ip);
     $sql = new SQLSelectStatement(RESTRICTEDPAGESBANNEDIPS_TABLE, 'ip', array('ip'), array($ip), 'i');
     if($ip !== $sql->fetch_value()) {
         $sql = new SQLInsertStatement(RESTRICTEDPAGESBANNEDIPS_TABLE, array('ip'), array($ip), 'i');
@@ -196,7 +196,7 @@ function addbannedipforrestrictedpages($ip)
 //
 function removebannedipforrestrictedpageas($ip)
 {
-    $sql = new SQLDeleteStatement(RESTRICTEDPAGESBANNEDIPS_TABLE, array('ip'), array(ip2long($ip)), 'i');
+    $sql = new SQLDeleteStatement(RESTRICTEDPAGESBANNEDIPS_TABLE, array('ip'), array(inet_pton($ip)), 'i');
     return $sql->run();
 }
 
@@ -207,9 +207,8 @@ function getalladdbannedipforrestrictedpages()
 {
     $sql = new SQLSelectStatement(RESTRICTEDPAGESBANNEDIPS_TABLE, 'ip');
     $sql->set_order(array('ip' => 'ASC'));
-    $longips = $sql->fetch_column();
+    $binips = $sql->fetch_column();
 
-    return array_map("long2ip", $longips);
+    return array_map("inet_ntop", $binips);
 }
-
 ?>

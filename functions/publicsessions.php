@@ -43,10 +43,16 @@ require_once $projectroot."includes/objects/elements.php";
 //
 function publiclogin($username, $password)
 {
-    $password=md5($password);
-    $ip=getclientip();
+    global $_SERVER;
 
-    if(!ispublicuseripbanned($ip)) {
+    $password=md5($password);
+    $ip = inet_pton($_SERVER['REMOTE_ADDR']);
+    if (!$ip) {
+        $result['message']=getlang("login_error_sessionfail");
+        return $result;
+    }
+
+    if (!ispublicuseripbanned($ip)) {
         $user=getpublicuserid($username);
         $result=array();
         $proceed=true;
