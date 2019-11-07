@@ -76,8 +76,7 @@ class ShowAllImagesButton extends Template
 //
 class GalleryImageForm extends Template
 {
-    function __construct($imageid,$offset, $noofimages, $showall)
-    {
+    function __construct($imageid, $imagefilename, $offset, $noofimages, $showall) {
         parent::__construct($imageid, array(), array(0 => "admin/includes/javascript/editgallery.js"));
         $this->stringvars['javascript']=$this->getScripts();
 
@@ -96,7 +95,7 @@ class GalleryImageForm extends Template
         }
         $this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
 
-        $this->stringvars['imagefilename']=getgalleryimage($imageid);
+        $this->stringvars['imagefilename'] = $imagefilename;
         $this->vars['image'] = new CaptionedImageAdmin($this->stringvars['imagefilename'], $this->stringvars['page']);
 
         if(!getthumbnail($this->stringvars['imagefilename'])) {
@@ -186,26 +185,25 @@ class EditGallery extends Template
         $this->stringvars['javascript']=$this->getScripts();
 
         $noofimages = countgalleryimages($page);
-        $imageids = array();
+        $images = array();
 
         if ($showall) {
             $offset = 0;
             $noofdisplayedimages = $noofimages;
-            $imageids = getgalleryimages($page);
+            $images = getgalleryimages($page);
         }
         else
         {
             $noofdisplayedimages = $imagesperpage;
-            $imageids = getgalleryimageslimit($page, $offset, $noofdisplayedimages);
+            $images = getgalleryimageslimit($page, $offset, $noofdisplayedimages);
         }
 
         $this->vars['showallbutton'] = new ShowAllImagesButton(!$showall, $noofimages, $imagesperpage);
         $this->vars['pagemenu'] = new PageMenu($offset, $noofdisplayedimages, $noofimages);
 
         if($noofimages > 0) {
-            for($i = 0; $i < count($imageids); $i++)
-            {
-                $this->listvars['imageform'][] = new GalleryImageForm($imageids[$i], $offset, $noofimages, $showall);
+            foreach($images as $id => $filename) {
+                $this->listvars['imageform'][] = new GalleryImageForm($id, $filename, $offset, $noofimages, $showall);
             }
         }
         else

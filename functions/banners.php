@@ -34,9 +34,9 @@ require_once $projectroot."functions/db.php";
 //
 //
 //
-function getbannercontents($banner)
+function getbannercontents($id)
 {
-    $sql = new SQLSelectStatement(BANNERS_TABLE, '*', array('banner_id'), array($banner), 'i');
+    $sql = new SQLSelectStatement(BANNERS_TABLE, '*', array('banner_id'), array($id), 'i');
     return $sql->fetch_row();
 }
 
@@ -45,25 +45,22 @@ function getbannercontents($banner)
 //
 function getbanners()
 {
-    $sql = new SQLSelectStatement(BANNERS_TABLE, 'banner_id');
+    $sql = new SQLSelectStatement(BANNERS_TABLE, '*');
     $sql->set_order(array('position' => 'ASC'));
-    return $sql->fetch_column();
+    return $sql->fetch_many_rows();
 }
 
 //
 //
 //
-function isbannercomplete($banner)
+function isbannercomplete($contents)
 {
-    if (empty($banner)) { return false;
+    if (!empty($contents['code'])) {
+        return true;
     }
-    $contents=getbannercontents($banner);
-    $result=true;
-    if(!strlen($contents['image'])>0 || !strlen($contents['description'])>0 || !strlen($contents['link'])>0) {
-        $result=false;
+    if (empty($contents['image']) || empty($contents['description']) || empty($contents['link'])) {
+        return false;
     }
-    if(!$result && strlen($contents['code'])>0) { $result=true;
-    }
-    return $result;
+    return true;
 }
 ?>

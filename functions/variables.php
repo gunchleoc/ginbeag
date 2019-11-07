@@ -4,7 +4,7 @@
  *
  * PHP Version 7
  *
- * Copyright (C) 2005-2019 GunChleoc
+ * Copyright (C) 2019 GunChleoc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -27,31 +27,27 @@
  */
 
 $projectroot=dirname(__FILE__);
-$projectroot=substr($projectroot, 0, strrpos($projectroot, "linklists"));
-$projectroot=substr($projectroot, 0, strrpos($projectroot, "ajax"));
-$projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
-$projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
+$projectroot=substr($projectroot, 0, strrpos($projectroot, "functions"));
 
-require_once $projectroot."admin/functions/pagecontent/linklistpagesmod.php";
-require_once $projectroot."admin/functions/sessions.php";
-
-//print_r($_POST);
-
-$db->quiet_mode = true;
-
-checksession();
-
-$title = getlinktitle($_POST['linkid']);
-
-if (!empty($title)) {
-    $sectionheader=title2html($title);
-} else {
-    $sectionheader="Link ID ".$_POST['linkid'];
+//
+//
+//
+function getstringvariable($get_or_post, $variable)
+{
+    if (isset($get_or_post[$variable])) {
+        return $get_or_post[$variable];
+    }
+    return "";
 }
 
-if (empty($db->error_report)) {
-    print($sectionheader);
-} else {
-    print($db->error_report);
+//
+//
+//
+function getintvariable($variable, $get_or_post)
+{
+    if (isset($get_or_post[$variable])) {
+        return $get_or_post[$variable];
+    }
+    return 0;
 }
 ?>

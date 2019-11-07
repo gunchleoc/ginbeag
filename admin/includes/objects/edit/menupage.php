@@ -37,7 +37,7 @@ require_once $projectroot."includes/objects/images.php";
 require_once $projectroot."admin/includes/objects/forms.php";
 require_once $projectroot."admin/includes/objects/editor.php";
 require_once $projectroot."admin/includes/objects/imageeditor.php";
-
+require_once $projectroot."admin/functions/pagesmod.php";
 
 //
 //
@@ -130,8 +130,8 @@ class EditMenuSubpages extends Template
         $linkparams["action"] = "editcontents";
         $this->stringvars['actionvars']= makelinkparameters($linkparams);
 
-        $subpageids=getallsubpageids($page);
-        if(count($subpageids)>0) {
+        $subpageids = getchildren($page);
+        if (!empty($subpageids)) {
             $this->vars['movepageform'] = new MenuMovePageFormContainer($page, $subpageids);
         } else {
             $this->vars['movepageform'] = "This menu has no subpages.";
@@ -160,7 +160,7 @@ class EditMenu extends Template
         $this->stringvars['javascript']=$this->getScripts();
 
         $this->vars['intro']= new Editor($page, 0, "pageintro", "Synopsis");
-        $this->vars['imageeditor'] = new ImageEditor($page, 0, "pageintro", getpageintro($page));
+        $this->vars['imageeditor'] = new ImageEditor($page, 0, "pageintro", getpageintroimage($page));
 
         $contents=getmenucontents($page);
 

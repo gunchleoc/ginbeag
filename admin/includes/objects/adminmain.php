@@ -135,7 +135,6 @@ class AdminMain extends Template
             // create page content
             else
             {
-                $pagetype=getpagetype($_GET["page"]);
 
                 // init
                 if(isset($_GET['articlepage'])) {
@@ -155,36 +154,38 @@ class AdminMain extends Template
 
                 $this->vars['message'] = new AdminPageDisplayMessage(true);
 
-                if($pagetype==="article") {
-                    include_once $projectroot."includes/objects/articlepage.php";
-                    $this->vars['contents'] = new ArticlePage($articlepage, true);
-                }
-                elseif($pagetype==="articlemenu") {
-                    include_once $projectroot."includes/objects/menupage.php";
-                    $this->vars['contents'] = new ArticleMenuPage($_GET["page"], true);
-                }
-                elseif($pagetype==="menu" || $pagetype=="linklistmenu") {
-                    include_once $projectroot."includes/objects/menupage.php";
-                    $this->vars['contents'] = new MenuPage($_GET["page"], true);
-                }
-                elseif($pagetype==="external") {
-                    $this->stringvars['contents'] =  '<div style="margin:2em"><a href="'.getexternallink($_GET["page"]).'" target="_blank">External page</a></div>';
-                }
-                elseif($pagetype==="gallery") {
-                    include_once $projectroot."includes/objects/gallerypage.php";
-                    $this->vars['contents'] = new GalleryPage($offset, true);
-                }
-                elseif($pagetype==="linklist") {
-                    include_once $projectroot."includes/objects/linklistpage.php";
-                    $this->vars['contents'] = new LinklistPage($offset, true);
-                }
-                elseif($pagetype==="news") {
-                    include_once $projectroot."includes/objects/newspage.php";
-                    $this->vars['contents'] = new NewsPage($_GET["page"], $offset, true);
-                }
-                else
-                {
-                    $contentstring=getlang("error_pagenotfound");
+                $pagecontents = getpagecontents($_GET['page']);
+                switch($pagecontents['pagetype']) {
+                    case "article":
+                        include_once $projectroot."includes/objects/articlepage.php";
+                        $this->vars['contents'] = new ArticlePage($articlepage, $pagecontents, true);
+                        break;
+                    case "articlemenu":
+                        include_once $projectroot."includes/objects/menupage.php";
+                        $this->vars['contents'] = new ArticleMenuPage($page, $pagecontents, true);
+                        break;
+                    case "menu":
+                    case "linklistmenu":
+                        include_once $projectroot."includes/objects/menupage.php";
+                        $this->vars['contents'] = new MenuPage($page, $pagecontents, true);
+                        break;
+                    case "external":
+                        $this->stringvars['contents'] ='<a href="'.getexternallink($page).'" target="_blank">External page</a>';
+                        break;
+                    case "gallery":
+                        include_once $projectroot."includes/objects/gallerypage.php";
+                        $this->vars['contents'] = new GalleryPage($pagecontents, $offset, true);
+                        break;
+                    case "linklist":
+                        include_once $projectroot."includes/objects/linklistpage.php";
+                        $this->vars['contents']  = new LinklistPage($pagecontents, true);
+                        break;
+                    case "news":
+                        include_once $projectroot."includes/objects/newspage.php";
+                        $this->vars['contents']  = new NewsPage($page, $pagecontents, $offset, true);
+                        break;
+                    default:
+                        $contentstring = getlang("error_pagenotfound");
                 }
             }
         }

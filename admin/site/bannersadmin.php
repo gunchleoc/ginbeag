@@ -36,6 +36,7 @@ require_once $projectroot."includes/objects/page.php";
 require_once $projectroot."admin/includes/objects/site/banners.php";
 require_once $projectroot."includes/functions.php";
 require_once $projectroot."admin/includes/objects/adminmain.php";
+require_once $projectroot."functions/variables.php";
 
 checksession();
 checkadmin();
@@ -61,10 +62,11 @@ if($postaction=='editbanner') {
     }
     else
     {
+        $id = getintvariable('bannerid', $_POST);
         $filename=$_FILES['image']['name'];
         if(strlen($filename)>0) {
             $filename=cleanupfilename($filename);
-            $contents = getbannercontents($_POST['bannerid']);
+            $contents = getbannercontents($id);
             deletefile("img/banners", $contents['image']);
             $errorcode = replacefile("img/banners", "image", $filename);
             if($errorcode == UPLOAD_ERR_OK) {
@@ -80,22 +82,24 @@ if($postaction=='editbanner') {
         }
         else
         {
-            $contents=getbannercontents($_POST['bannerid']);
+            $contents = getbannercontents($id);
             $filename=$contents['image'];
             $success=true;
             $message .= "Replace banner contents";
         }
         if($success) {
-            $message='Edited banner #'.$_POST['bannerid'].': <i>'.$_POST['header'].'</i>';
-            updatebanner($_POST['bannerid'], fixquotes($_POST['header']), $filename, fixquotes($_POST['description']), $_POST['link']);
-            if(!isbannercomplete($_POST['bannerid'])) {
-                $message .= 'This banner is not complete and will not be displayed! Please fill out all required fields.';
+            $message='Edited banner #' . $id . ': <i>'.$_POST['header'].'</i>';
+            updatebanner($id, fixquotes($_POST['header']), $filename, fixquotes($_POST['description']), $_POST['link']);
+
+            $contents = getbannercontents($id);
+            if (!isbannercomplete($contents)) {
+                $message .= '. This banner is not complete and will not be displayed! Please fill out all required fields.';
                 $error = true;
             }
         }
         else
         {
-            $message .= 'Failed to edit banner #'.$_POST['bannerid'].': error uploading image!';
+            $message .= 'Failed to edit banner #' . $id . ': error uploading image!';
             $error = true;
         }
     }
@@ -116,7 +120,9 @@ elseif($postaction=='addbanner') {
         if($errorcode == UPLOAD_ERR_OK) {
             $banner=addbanner(fixquotes($_POST['header']), basename($filename), fixquotes($_POST['description']), $_POST['link']);
             $message='Added banner <i>'.$_POST['header'].'</i>';
-            if(!isbannercomplete($banner)) {
+
+            $contents = getbannercontents($banner);
+            if (!isbannercomplete($contents)) {
                 $message .= ' This banner #'.$banner.' is not complete and will not be displayed! Please fill out all required fields.';
                 $error = true;
             }

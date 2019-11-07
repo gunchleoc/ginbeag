@@ -33,6 +33,34 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 require_once $projectroot."admin/functions/moveitems.php";
 
 //
+//
+//
+function getlinktitle($link)
+{
+    $sql = new SQLSelectStatement(LINKS_TABLE, 'title', array('link_id'), array($link), 'i');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getlinkimage($link)
+{
+    $sql = new SQLSelectStatement(LINKS_TABLE, 'image', array('link_id'), array($link), 'i');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getlastlinkposition($page)
+{
+    $sql = new SQLSelectStatement(LINKS_TABLE, 'position', array('page_id'), array($page), 'i');
+    $sql->set_operator('max');
+    return $sql->fetch_value();
+}
+
+//
 // TODO require some of these on the frontend
 //
 function addlink($page,$linktitle,$link,$imagefilename,$description)

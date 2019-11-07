@@ -77,16 +77,17 @@ class RSSPage extends Template
 
         parent::__construct();
 
+        $pagecontents = getpagecontents($page);
+
         $rootlink=getprojectrootlinkpath();
         $sitename=getproperty("Site Name");
-        $this->stringvars['title']=html2xml(title2html($sitename.' - '.getnavtitle($page)));
+        $this->stringvars['title'] = html2xml(title2html($sitename . ' - ' . $pagecontents['title_navigator']));
         $this->stringvars['link']=$rootlink.'index.php'.makelinkparameters(array("page" => $page));
-        $this->stringvars['description']=html2xml(title2html(getpagetitle($page)));
+        $this->stringvars['description']=html2xml(title2html($pagecontents['title_page']));
         $this->stringvars['language']=$defaultlanguage;
         $this->stringvars['serverprotocol']=getproperty("Server Protocol");
 
-        $permissions=getcopyright($page);
-        $this->stringvars['copyright']=html2xml(title2html($permissions['copyright']));
+        $this->stringvars['copyright']=html2xml(title2html($pagecontents['copyright']));
 
         $imageurl=getproperty("Left Header Image");
         if(!$imageurl) { $imageurl=getproperty("Right Header Image");
@@ -104,7 +105,7 @@ class RSSPage extends Template
 
         $contents=getnewsitemcontents($newsitems[0]);
         $this->stringvars['pubdate']=@date("r", strtotime($contents['date']));
-        $this->stringvars['lastbuilddate']=@date("r", strtotime(geteditdate($page)));
+        $this->stringvars['lastbuilddate']=@date("r", strtotime($pagecontents['editdate']));
 
         for($i=0;$i<count($newsitems);$i++)
         {

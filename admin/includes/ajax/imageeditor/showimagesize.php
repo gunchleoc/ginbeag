@@ -34,6 +34,7 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
 require_once $projectroot."admin/includes/objects/imageeditor.php";
 require_once $projectroot."admin/functions/sessions.php";
+require_once $projectroot."admin/functions/pagesmod.php";
 
 $db->quiet_mode = true;
 
@@ -45,7 +46,7 @@ $elementtype=$_POST["elementtype"];
 
 if($elementtype=="pageintro") {
     include_once $projectroot."functions/pages.php";
-    $contents = getpageintro($_POST['page']);
+    $contents = getpageintroimage($_POST['page']);
     $autoshrink=$contents['imageautoshrink'];
     $usethumbnail=$contents['usethumbnail'];
 }
@@ -56,7 +57,7 @@ elseif($elementtype=="articlesection") {
     $usethumbnail=$contents['usethumbnail'];
 }
 elseif($elementtype=="newsitemsection") {
-    include_once $projectroot."functions/pagecontent/newspages.php";
+    include_once $projectroot."admin/functions/pagecontent/newspagesmod.php";
     $contents = getnewsitemsectioncontents($_POST['item']);
     $autoshrink=$contents['imageautoshrink'];
     $usethumbnail=$contents['usethumbnail'];

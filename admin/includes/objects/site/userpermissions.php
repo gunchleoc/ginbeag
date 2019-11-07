@@ -84,13 +84,17 @@ class SiteUserLevelForm extends Template
 
         $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
 
-        $this->stringvars['username']=title2html(getdisplayname($userid));
+        $userdata = getuser($userid, array('user_id', 'displayname', 'userlevel'));
+
+        $this->stringvars['username'] = title2html($userdata['displayname']);
 
         $this->stringvars['userlevel_user']=USERLEVEL_USER;
         $this->stringvars['userlevel_admin']=USERLEVEL_ADMIN;
 
-        if(getuserlevel($userid)==USERLEVEL_USER) { $this->stringvars['levelisuser']="true";
-        } elseif(getuserlevel($userid)==USERLEVEL_ADMIN) { $this->stringvars['levelisadmin']="true";
+        if ($userdata['userlevel'] == USERLEVEL_USER) {
+            $this->stringvars['levelisuser']="true";
+        } elseif ($userdata['userlevel'] == USERLEVEL_ADMIN) {
+            $this->stringvars['levelisadmin']="true";
         }
 
         $this->vars['submitrow']= new SubmitRow("changelevel", "Change Userlevel", true);

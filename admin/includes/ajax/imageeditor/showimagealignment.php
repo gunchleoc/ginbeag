@@ -46,8 +46,8 @@ $align="";
 $elementtype=$_POST["elementtype"];
 
 if($elementtype=="pageintro") {
-    include_once $projectroot."functions/pages.php";
-    $contents=getpageintro($_POST['page']);
+    include_once $projectroot."admin/functions/pagesmod.php";
+    $contents = getpageintroimage($_POST['page']);
     $align = $contents['imagehalign'];
 }
 elseif($elementtype=="articlesection") {
@@ -56,7 +56,7 @@ elseif($elementtype=="articlesection") {
     $align = $contents['imagealign'];
 }
 elseif($elementtype=="newsitemsection") {
-    include_once $projectroot."functions/pagecontent/newspages.php";
+    include_once $projectroot."admin/functions/pagecontent/newspagesmod.php";
     $align = getnewsitemsectionimagealign($_POST['item']);
 }
 elseif($elementtype=="link") {

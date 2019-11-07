@@ -37,35 +37,37 @@ require_once $projectroot."includes/objects/images.php";
 require_once $projectroot."includes/objects/forms.php";
 require_once $projectroot."includes/functions.php";
 require_once $projectroot."includes/includes.php";
+require_once $projectroot."functions/phpcompatibility.php";
 
 //
 // Templating for Newsitemsections
 //
-class Newsitemsection extends Template
+class NewsitemSection extends Template
 {
 
     var $isquotestart=false;
     var $isquoteend=false;
 
-    function __construct($newsitemsection, $newsitem, $isquoted=false, $showhidden=false)
+    function __construct($newsitem, $newsitemsection, $contents, $isquoted=false, $showhidden=false)
     {
         $this->stringvars['l_quote']=getlang("section_quote");
 
-        $sectioncontents=getnewsitemsectioncontents($newsitemsection);
-        if($sectioncontents['text']==="[quote]") { $this->isquotestart = true;
-        } elseif($sectioncontents['text']==="[unquote]") { $this->isquoteend = true;
-        } else
-        {
-            if(strlen($sectioncontents['sectiontitle'])>0) {
-                $this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
+        if ($contents['text'] === "[quote]") {
+            $this->isquotestart = true;
+        } elseif ($contents['text'] === "[unquote]") {
+            $this->isquoteend = true;
+        } else {
+            if (!empty($contents['sectiontitle'])) {
+                $this->stringvars['title'] = title2html($contents['sectiontitle']);
             }
 
-            if(strlen($sectioncontents['sectionimage']) > 0) {
-                $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'], $sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'], array("newsitem" => $newsitem), $showhidden);
-            } else { $this->stringvars['image']="";
+            if (!empty($contents['sectionimage'])) {
+                $this->vars['image'] = new CaptionedImage($contents['sectionimage'], $contents['imageautoshrink'], $contents['usethumbnail'], $contents['imagealign'], array("newsitem" => $newsitem), $showhidden);
+            } else {
+                $this->stringvars['image'] = "";
             }
 
-            $this->stringvars['text']=text2html($sectioncontents['text']);
+            $this->stringvars['text'] = text2html($contents['text']);
         }
         parent::__construct();
     }
@@ -161,33 +163,32 @@ class Newsitem extends Template
         }
 
         // synopsis
-        $images=getnewsitemsynopsisimages($newsitem);
+        $images = getnewsitemsynopsisimages($newsitem);
 
         $noofimages=count($images);
 
         $this->listvars['image']= array();
         if($noofimages) {
-            if($noofimages==1) {
-                $this->vars['image'] = new CaptionedImage($images[0], $contents['imageautoshrink'], $contents['usethumbnail'], "left", array("newsitem" => $newsitem), $showhidden);
+            if ($noofimages == 1) {
+                $this->vars['image'] = new CaptionedImage($images[array_key_first($images)], $contents['imageautoshrink'], $contents['usethumbnail'], "left", array("newsitem" => $newsitem), $showhidden);
             }
             else
             {
                 $width=0;
                 $this->stringvars['multiple_images']="".$noofimages;
-                for($i=0;$i<$noofimages;$i++)
-                {
-                    $image = new Image($images[$i], true, true, array("newsitem" => $newsitem), $showhidden);
+                foreach ($images as $imagefilename) {
+                    $image = new Image($imagefilename, true, true, array("newsitem" => $newsitem), $showhidden);
                     $this->listvars['image'][] = $image;
 
-                    $thumbnail = getthumbnail($images[$i]);
-                    $filepath = getimagepath($images[$i]);
-                    $thumbnailpath = getthumbnailpath($images[$i], $thumbnail);
+                    $thumbnail = getthumbnail($imagefilename);
+                    $filepath = getimagepath($imagefilename);
+                    $thumbnailpath = getthumbnailpath($imagefilename, $thumbnail);
 
                     if(ismobile()) {
                         $usethumbnail = true;
-                        $extension = substr($images[$i], strrpos($images[$i], "."), strlen($images[$i]));
-                        $thumbname = substr($images[$i], 0, strrpos($images[$i], ".")).'_thn'.$extension;
-                        $path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($images[$i]))."/mobile/".$thumbname;
+                        $extension = substr($imagefilename, strrpos($imagefilename, "."), strlen($imagefilename));
+                        $thumbname = substr($imagefilename, 0, strrpos($imagefilename, ".")).'_thn'.$extension;
+                        $path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($imagefilename))."/mobile/".$thumbname;
 
                         if(file_exists($path)) {
                             $thumbnailpath = $path;
@@ -200,7 +201,7 @@ class Newsitem extends Template
                         $width += $dimensions["width"];
                     }
                     else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath)) {
-                        $dimensions = calculateimagedimensions($images[$i]);
+                        $dimensions = calculateimagedimensions($imagefilename);
                         $width += $dimensions["width"];
                     }
                 }
@@ -211,18 +212,18 @@ class Newsitem extends Template
         }
 
         // sections
-        $sections=getnewsitemsections($newsitem);
-        //print_r($sections);
-        $noofsections=count($sections);
+        $sections = getnewsitemsectionswithcontent($newsitem);
         $this->listvars['section']=array();
-        if($noofsections) {
+        if (!empty($sections)) {
             $isquote=false;
-            for($i=0;$i<$noofsections;$i++)
-            {
-                $newsitemsection = new Newsitemsection($sections[$i], $newsitem, $isquote, $showhidden);
+            foreach ($sections as $id => $contents) {
+                $newsitemsection = new NewsitemSection($newsitem, $id, $contents, $isquote, $showhidden);
                 $this->listvars['section'][] = $newsitemsection;
                 $isquote == $newsitemsection->isquotestart;
             }
+        } else {
+            $this->stringvars['nosections']="true";
+            $this->stringvars['newsitemsectionform'] = "";
         }
         $this->stringvars["l_topofthispage"] = getlang("pagemenu_topofthispage");
     }
@@ -279,14 +280,12 @@ class Newsitempage extends Template
 //
 class NewsPage extends Template
 {
-    function __construct($page,$offset,$showhidden)
-    {
+    function __construct($page, $introcontents, $offset, $showhidden) {
         global $_GET;
 
         parent::__construct();
 
-        $pageintro = getpageintro($this->stringvars['page']);
-        $this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']), $pageintro['introtext'], $pageintro['introimage'], $pageintro['imageautoshrink'], $pageintro['usethumbnail'], $pageintro['imagehalign'], $showhidden);
+        $this->vars['pageintro'] = new PageIntro($introcontents['title_page'], $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
 
         $linkparams = array("page" => $this->stringvars['page']);
         if(ismobile()) { $linkparams["m"] = "on";

@@ -64,27 +64,8 @@ function getuserid($username)
 //
 function getallcontacts()
 {
-    $sql = new SQLSelectStatement(USERS_TABLE, 'user_id', array('iscontact'), array(1), 'i');
+    $sql = new SQLSelectStatement(USERS_TABLE, array('user_id', 'displayname', 'contactfunction'), array('iscontact'), array(1), 'i');
     $sql->set_order(array('username' => 'ASC'));
-    return $sql->fetch_column();
+    return $sql->fetch_many_rows();
 }
-
-//
-//
-//
-function getiscontact($user)
-{
-    $sql = new SQLSelectStatement(USERS_TABLE, 'iscontact', array('user_id'), array($user), 'i');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
-function getcontactfunction($user)
-{
-    $sql = new SQLSelectStatement(USERS_TABLE, 'contactfunction', array('user_id'), array($user), 'i');
-    return $sql->fetch_value();
-}
-
 ?>

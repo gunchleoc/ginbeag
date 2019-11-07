@@ -66,8 +66,8 @@ class AdminNavigatorLink extends Template
         }
 
         // data
-        $this->stringvars['pagetype']=getpagetypearray($page);
-        $this->stringvars['title']=title2html(getnavtitlearray($page));
+        $this->stringvars['pagetype']=getpagetype($page);
+        $this->stringvars['title']=title2html(getnavtitle($page));
 
         if(isthisexactpagerestricted($page)) { $this->stringvars['title']=$this->stringvars['title'].' (R)';
         }
@@ -110,17 +110,17 @@ class AdminNavigatorBranch extends Template
         }
 
         $isroot=false;
-        if (!ispageknownarray($page)) {
+        if (!ispageknown($page)) {
             return;
         }
-        if(isrootpagearray($page)) {
+        if(isrootpage($page)) {
             $isroot=true;
         }
 
         $this->listvars['link'][]= new AdminNavigatorLink($page, $level, $class, $isroot);
 
         if($depth>0) {
-            $pageids=getchildrenarray($page);
+            $pageids=getchildren($page);
             for($i=0;$i<count($pageids);$i++)
             {
                 $this->listvars['link'][]= new AdminNavigatorBranch($pageids[$i], $depth-1, $level+1);
@@ -146,7 +146,7 @@ class AdminNavigator extends Template
         parent::__construct();
 
         // navigator
-        if($page==0 || !pageexists($page)) {
+        if($page==0 || !ispageknown($page)) {
             $roots=getrootpages();
             while(count($roots))
             {
@@ -156,12 +156,12 @@ class AdminNavigator extends Template
         }
         else
         {
-            if(isrootpagearray($page)) {
+            if(isrootpage($page)) {
                 $roots=getrootpages();
                 $currentroot=array_shift($roots);
-                $navposition=getnavpositionarray($page);
+                $navposition=getnavposition($page);
                 // display upper root pages
-                while(getnavpositionarray($currentroot)<$navposition)
+                while(getnavposition($currentroot)<$navposition)
                 {
                     $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, 0, 0);
                     $currentroot=array_shift($roots);
@@ -175,9 +175,9 @@ class AdminNavigator extends Template
                 $parentpages=array();
                 $level=0;
                 $currentpage=$page;
-                while(!isrootpagearray($currentpage))
+                while(!isrootpage($currentpage))
                 {
-                    $parent= getparentarray($currentpage);
+                    $parent = getparent($currentpage);
                     array_push($parentpages, $parent);
                     $currentpage=$parent;
                     $level++;
@@ -185,9 +185,9 @@ class AdminNavigator extends Template
                 $parentroot=array_pop($parentpages);
                 $roots=getrootpages();
                 $currentroot=array_shift($roots);
-                $parentrootnavposition=getnavpositionarray($parentroot);
+                $parentrootnavposition=getnavposition($parentroot);
                 // display upper root pages
-                while(getnavpositionarray($currentroot)<$parentrootnavposition)
+                while(getnavposition($currentroot)<$parentrootnavposition)
                 {
                     $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, 0, 0);
                     $currentroot=array_shift($roots);
@@ -205,9 +205,9 @@ class AdminNavigator extends Template
                 // get sisters then display 1 level only.
                 $sisterids=getsisters($page);
                 $currentsister=array_shift($sisterids);
-                $pagenavposition=getnavpositionarray($page);
+                $pagenavposition=getnavposition($page);
                 // display upper sister pages
-                while(getnavpositionarray($currentsister)<$pagenavposition)
+                while(getnavposition($currentsister)<$pagenavposition)
                 {
                     $this->listvars['link'][]=new AdminNavigatorBranch($currentsister, 0, $level);
                     $currentsister=array_shift($sisterids);

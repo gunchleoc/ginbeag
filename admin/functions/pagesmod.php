@@ -49,6 +49,14 @@ function renamepage($page, $title_navigator, $title_page)
     return $sql->run();
 }
 
+//
+//
+//
+function getpageintroimage($page)
+{
+    $sql = new SQLSelectStatement(PAGES_TABLE, array('introimage', 'imagehalign', 'imageautoshrink', 'usethumbnail'), array('page_id'), array($page), 'i');
+    return $sql->fetch_row();
+}
 
 //
 //
@@ -156,17 +164,6 @@ function sortsubpagesbyname($page)
     return $sql->run();
 }
 
-
-//
-//
-//
-function getallsubpageids($page)
-{
-    $sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('parent_id'), array($page), 'i');
-    $sql->set_order(array('position_navigator' => 'ASC'));
-    return $sql->fetch_column();
-}
-
 //
 //
 //
@@ -178,23 +175,16 @@ function getallsubpagenavtitles($page)
 }
 
 //
-//
-//
-function getlastnavposition($pageid)
-{
-    $sql = new SQLSelectStatement(PAGES_TABLE, 'position_navigator', array('parent_id'), array($pageid), 'i');
-    $sql->set_operator('max');
-    $maxpos = $sql->fetch_value();
-}
-
-
-//
 // todo return error states
 //
 function movetonewparentpage($page, $newparent)
 {
     $result="";
-    $navposition=getlastnavposition($newparent)+1;
+
+    $sql = new SQLSelectStatement(PAGES_TABLE, 'position_navigator', array('parent_id'), array($newparent), 'i');
+    $sql->set_operator('max');
+    $navposition = $sql->fetch_value() + 1;
+
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
         array('position_navigator', 'parent_id'), array('page_id'),
@@ -534,6 +524,7 @@ function rebuildaccessrestrictionindex()
                     array($child, $masterpage),
                     'ii'
                 );
+                // TODO this fails if master page has a restricted parent
                 $sql->insert();
                 $children = array_merge($children, getchildren($child));
             }

@@ -35,6 +35,39 @@ require_once $projectroot."admin/functions/sessions.php";
 require_once $projectroot."functions/users.php";
 require_once $projectroot."functions/pages.php";
 
+
+//
+//
+//
+function getgalleryimageposition($galleryitem)
+{
+    $sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'position', array('galleryitem_id'), array($galleryitem), 'i');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getlastgalleryimageposition($page)
+{
+    $sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'position', array('page_id'), array($page), 'i');
+    $sql->set_operator('max');
+    $result = $sql->fetch_value();
+    if (!$result) {
+        $result = 0;
+    }
+    return $result;
+}
+
+//
+//
+//
+function getgalleryimage($galleryitem)
+{
+    $sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'image_filename', array('galleryitem_id'), array($galleryitem), 'i');
+    return $sql->fetch_value();
+}
+
 //
 //
 //
@@ -43,7 +76,7 @@ function addgalleryimage($page,$filename)
     $sql = new SQLInsertStatement(
         GALLERYITEMS_TABLE,
         array('page_id', 'image_filename', 'position'),
-        array($page, $filename, getlastgalleryimageposition($page)),
+        array($page, $filename, getlastgalleryimageposition($page) + 1),
         'isi'
     );
     return $sql->insert();

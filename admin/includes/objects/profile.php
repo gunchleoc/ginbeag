@@ -49,12 +49,14 @@ class ProfilePage extends Template
     {
         parent::__construct();
 
+        $userdata = getuser($userid);
+
         $this->stringvars['actionvars']= makelinkparameters(array("page" => $this->stringvars['page']));
         $this->stringvars['returnvars']= "admin.php".makelinkparameters(array("page" => $this->stringvars['page']));
-        $this->stringvars['username']=getdisplayname($userid);
-        $this->stringvars['email']=getuseremail($userid);
-        $this->stringvars['contactfunction']=getcontactfunction($userid);
-        $this->vars['is_contact']= new CheckBoxForm("iscontact", "Is Contact", "", getiscontact($userid));
+        $this->stringvars['username'] = title2html($userdata['displayname']);
+        $this->stringvars['email'] = $userdata['email'];
+        $this->stringvars['contactfunction'] = input2html($userdata['contactfunction']);
+        $this->vars['is_contact'] = new CheckBoxForm("iscontact", "Is Contact", "", $userdata['iscontact']);
         $this->vars['submitrow_account'] = new SubmitRow("submit", "Change Account Settings", true, true, $this->stringvars['returnvars'], $this->stringvars["jsid"]);
         $this->vars['submitrow_contact'] = new SubmitRow("contact", "Change Contact Page Options", true, true, $this->stringvars['returnvars'], $this->stringvars["jsid"]);
     }

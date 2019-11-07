@@ -46,5 +46,6 @@ define('DEBUG', 1); // Debugging on
 
 if (DEBUG) {
    error_reporting(E_ALL);
+   ini_set('display_errors', 'On');
 }
 ?>

@@ -40,21 +40,13 @@ class CategorylistLink extends Template
 {
 
 
-    function __construct($category, $name, $page)
+    // $oldestdate, $newestdate are only used on news pages.
+    function __construct($category, $name, $page, $pagetype, $order, $oldestdate, $newestdate)
     {
         parent::__construct();
         $this->stringvars['title']=title2html($name);
         $this->stringvars['title'] = str_replace(" ", "&nbsp;", $this->stringvars['title']);
-        if(getpagetype($page) == "news") {
-            $oldestdate=getoldestnewsitemdate($page);
-            $newestdate=getnewestnewsitemdate($page);
-
-            if(displaynewestnewsitemfirst($page)) { $order="DESC";
-            } else { $order="ASC";
-            }
-
-            $linkparams["page"] = $this->stringvars['page'];
-            $linkparams["selectedcat"] = $category;
+        if ($pagetype == "news") {
             $linkparams["fromday"] = $oldestdate["mday"];
             $linkparams["frommonth"] = $oldestdate["mon"];
             $linkparams["fromyear"] = $oldestdate["year"];
@@ -62,25 +54,19 @@ class CategorylistLink extends Template
             $linkparams["tomonth"] = $newestdate["mon"];
             $linkparams["toyear"] = $newestdate["year"];
             $linkparams["order"] = "date";
-            $linkparams["ascdesc"] = $order;
-            $linkparams["filter"] = "Go";
-            if(ismobile()) { $linkparams["m"] = "on";
-            }
-            $this->stringvars['link'] = makelinkparameters($linkparams);
-        }
-        else
-        {
-            $linkparams["page"] = $this->stringvars['page'];
-            $linkparams["selectedcat"] = $category;
+        } else {
             $linkparams["from"] = "all";
             $linkparams["to"] = "all";
             $linkparams["order"] = "title";
-            $linkparams["ascdesc"] = "asc";
-            $linkparams["filter"] = "Go";
-            if(ismobile()) { $linkparams["m"] = "on";
-            }
-            $this->stringvars['link'] = makelinkparameters($linkparams);
         }
+        $linkparams["page"] = $this->stringvars['page'];
+        $linkparams["selectedcat"] = $category;
+        $linkparams["ascdesc"] = $order;
+        $linkparams["filter"] = "Go";
+        if (ismobile()) {
+            $linkparams["m"] = "on";
+        }
+        $this->stringvars['link'] = makelinkparameters($linkparams);
     }
 
     // assigns templates
@@ -105,9 +91,20 @@ class CategorylistLinks extends Template
     {
         parent::__construct();
 
-        $noofcategories = count($categories);
+        if (!empty($categories)) {
+            $pagetype = getpagetype($page);
+            $order = 'ASC';
+            $oldestdate = array();
+            $newestdate = array();
+            if ($pagetype === "news") {
+                $oldestdate = getoldestnewsitemdate($page);
+                $newestdate = getnewestnewsitemdate($page);
 
-        if($noofcategories) {
+                if (displaynewestnewsitemfirst($page)) {
+                    $order = 'DESC';
+                }
+            }
+
             $cats_with_names = array();
 
             for($i=0;$i<count($categories);$i++)
@@ -117,7 +114,7 @@ class CategorylistLinks extends Template
             natcasesort($cats_with_names);
             $keys = array_keys($cats_with_names);
             foreach ($cats_with_names as $key => $category) {
-                $this->listvars['catlist'][]=new CategorylistLink($key, $category, $page);
+                $this->listvars['catlist'][]=new CategorylistLink($key, $category, $page, $pagetype, $order, $oldestdate, $newestdate);
             }
             $this->stringvars['l_categories']=getlang("categorylist_categories");
         }

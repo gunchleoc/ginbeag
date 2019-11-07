@@ -49,7 +49,7 @@ $username="";
 if (isset($_POST['user'])) { $username=urldecode($_POST['user']);
 } elseif (isset($_GET['user'])) { $username=urldecode($_GET['user']);
 }
-$serverprotocol=getproperties()['Server Protocol'];
+$serverprotocol=getproperty('Server Protocol');
 
 if(!isset($_GET["referrer"]) && isset($_SERVER["HTTP_REFERER"])) {
     $referrer=substr($_SERVER["HTTP_REFERER"], strpos($_SERVER["HTTP_REFERER"], "admin"));

@@ -46,9 +46,9 @@ require_once $projectroot."includes/objects/elements.php";
 class SiteBannerEditForm extends Template
 {
 
-    function __construct($banner)
+    function __construct($id, $contents)
     {
-        parent::__construct($banner);
+        parent::__construct($id);
 
         $linkparams["page"] = $this->stringvars['page'];
         $linkparams["postaction"] = "movebanner";
@@ -60,18 +60,17 @@ class SiteBannerEditForm extends Template
 
         $linkparams["postaction"] = "editbanner";
         $this->stringvars['editactionvars'] = makelinkparameters($linkparams);
-        $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("bannerid" => $banner));
+        $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("bannerid" => $id));
 
-        $contents=getbannercontents($banner);
         if($contents['header']) {
             $this->stringvars['header']=input2html($contents['header']);
         } else {
             $this->stringvars['header']="";
         }
 
-        $this->vars['banner'] = new Banner($banner, true);
+        $this->vars['banner'] = new Banner($contents);
 
-        if(!isbannercomplete($banner)) {
+        if (!isbannercomplete($contents)) {
             $this->stringvars['incomplete']= "incomplete";
         }
 
@@ -123,10 +122,10 @@ class SiteBanners extends Template
         $this->vars['displaybanners_yes'] = new RadioButtonForm($this->stringvars['jsid'], "toggledisplaybanners", 1, "Yes", getproperty('Display Banners'), "right");
         $this->vars['displaybanners_no'] = new RadioButtonForm($this->stringvars['jsid'], "toggledisplaybanners", 0, "No", !getproperty('Display Banners'), "right");
 
-        $banners=getbanners();
-        for($i=0;$i<count($banners);$i++)
-        {
-            $this->listvars['editform'][] = new SiteBannerEditForm($banners[$i]);
+
+        $banners = getbanners();
+        foreach ($banners as $id => $contents) {
+            $this->listvars['editform'][] = new SiteBannerEditForm($id, $contents);
         }
 
         $this->vars['submitrow']= new SubmitRow("addbanner", "Add Banner", true);

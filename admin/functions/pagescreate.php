@@ -40,6 +40,10 @@ function createpage($parent, $title, $navtitle, $pagetype, $user, $ispublishable
     if (!$parent) { $parent=0;
     }
 
+    $sql = new SQLSelectStatement(PAGES_TABLE, 'position_navigator', array('parent_id'), array($parent), 'i');
+    $sql->set_operator('max');
+    $lastnavposition = $sql->fetch_value() + 1;
+
     $date = date(DATETIMEFORMAT);
     $sql = new SQLInsertStatement(
         PAGES_TABLE,
@@ -47,7 +51,7 @@ function createpage($parent, $title, $navtitle, $pagetype, $user, $ispublishable
         'usethumbnail', 'position_navigator', 'pagetype', 'editdate', 'editor_id',
         'permission', 'ispublished', 'ispublishable', 'showpermissionrefusedimages'),
         array($parent, $navtitle, $title, 'left', 1,
-        1, create_getlastnavposition($parent) + 1, $pagetype, date(DATETIMEFORMAT), $user,
+        1, $lastnavposition, $pagetype, date(DATETIMEFORMAT), $user,
         NO_PERMISSION, 0, $ispublishable, 0),
         'isssiiissiiiii'
     );
@@ -78,16 +82,6 @@ function createpage($parent, $title, $navtitle, $pagetype, $user, $ispublishable
         }
     }
     return $page;
-}
-
-//
-//
-//
-function create_getlastnavposition($pageid)
-{
-    $sql = new SQLSelectStatement(PAGES_TABLE, 'position_navigator', array('parent_id'), array($pageid), 'i');
-    $sql->set_operator('max');
-    return $sql->fetch_value();
 }
 
 //

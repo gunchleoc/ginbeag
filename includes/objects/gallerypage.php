@@ -42,19 +42,19 @@ require_once $projectroot."includes/includes.php";
 class GalleryCaptionedImage extends Template
 {
 
-    function __construct($filename,$width,$showhidden=false)
+    function __construct($image,$width,$showhidden=false)
     {
         parent::__construct();
 
         // Make the image
-        if(imageexists($filename)) {
-            $this->vars['image'] = new Image($filename, true, true, array("page" => $this->stringvars['page']), $showhidden);
+        if (imageexists($image['filename'])) {
+            $this->vars['image'] = new Image($image['filename'], true, true, array("page" => $this->stringvars['page']), $showhidden);
         }
-        else { $this->stringvars['image']='<i>'.$filename.'</i>';
+        else { $this->stringvars['image']='<i>'.$image['filename'].'</i>';
         }
 
         // Make the caption
-        $this->vars['caption'] = new ImageCaption($filename);
+        $this->vars['caption'] = new ImageCaption($image);
 
         // CS stuff
         $this->stringvars['halign']="float:left; ";
@@ -128,7 +128,7 @@ class GalleryMobileCaptionedImage extends Template
         else { $this->stringvars['image']='<i>'.$filename.'</i>';
         }
 
-        $this->vars['caption'] = new ImageCaption($filename);
+        $this->vars['caption'] = new ImageCaption(getimage($filename));
     }
 
     // assigns templates
@@ -145,19 +145,15 @@ class GalleryMobileCaptionedImage extends Template
 class GalleryImage extends Template
 {
 
-    function __construct($filename,$width=300,$height=350,$showhidden=false)
-    {
+    function __construct($image, $width, $height, $showhidden) {
         parent::__construct();
-
         $params='&page='.$this->stringvars['page'];
         if($this->stringvars['sid']) {
             $params.="&sid=".$this->stringvars['sid'];
         }
         $this->stringvars["height"]="".$height."px";
 
-        $this->vars['image'] = new GalleryCaptionedImage($filename, $width, $showhidden);
-
-        $filename;
+        $this->vars['image'] = new GalleryCaptionedImage($image, $width, $showhidden);
     }
 
     // assigns templates
@@ -177,62 +173,61 @@ class GalleryImage extends Template
 class GalleryPage extends Template
 {
 
-    function __construct($offset=0,$showhidden=false)
-    {
+    function __construct($introcontents, $offset = 0, $showhidden = false) {
         global $projectroot;
 
         parent::__construct();
 
+        $this->vars['pageintro'] = new PageIntro($introcontents['title_page'], $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
+
+        // Pagemenu
         $imagesperpage=getproperty("Gallery Images Per Page");
-        $images=getgalleryimagefilenames($this->stringvars['page']);
-        $noofimages=count($images);
-        if(!$offset) { $offset=0;
+        $noofimages = countgalleryimages($this->stringvars['page']);
+        if (!$offset) {
+            $offset=0;
         }
-
-        $pageintro = getpageintro($this->stringvars['page']);
-        $this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']), $pageintro['introtext'], $pageintro['introimage'], $pageintro['imageautoshrink'], $pageintro['usethumbnail'], $pageintro['imagehalign'], $showhidden);
-
-        //pagemenu
         $this->vars['pagemenu']= new PageMenu($offset, $imagesperpage, $noofimages);
 
-        $startindex = $offset;
-        $endindex =($offset+$imagesperpage);
 
-        if(ismobile()) {
+        // Images
+        $images = getgalleryimageslimit($this->stringvars['page'], $offset, $imagesperpage);
+
+        if (ismobile()) {
             // create images
-            for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
-            {
-                $this->listvars['galleryimage'][]= new GalleryMobileCaptionedImage($images[$i], $showhidden);
+            foreach ($images as $filename) {
+                $this->listvars['galleryimage'][]= new GalleryMobileCaptionedImage($filename, $showhidden);
             }
-        }
-        else
-        {
+        } else {
+            $items = array();
 
             // determine image dimensions
             $width=getproperty("Thumbnail Size");
             $height=getproperty("Thumbnail Size");
-            for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
-            {
-                $thumbnail = getthumbnail($images[$i]);
-                $filepath = getimagepath($images[$i]);
-                $thumbnailpath = getthumbnailpath($images[$i], $thumbnail);
 
-                if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath)) {
-                    $dimensions = getimagedimensions($thumbnailpath);
-                    if ($width < $dimensions["width"]) { $width = $dimensions["width"];
+            foreach ($images as $filename) {
+                $image=getimage($filename);
+
+                $image['filename'] = $filename;
+                $image['thumbnail'] = getthumbnail($filename);
+                $image['thumbnailpath'] = getthumbnailpath($filename, $image['thumbnail']);
+
+                if(thumbnailexists($image['thumbnail']) && file_exists($image['thumbnailpath']) && !is_dir($image['thumbnailpath'])) {
+                    $dimensions = getimagedimensions($image['thumbnailpath']);
+                    if ($width < $dimensions["width"]) {
+                        $width = $dimensions["width"];
                     }
-                    if ($height < $dimensions["height"]) { $height = $dimensions["height"];
+                    if ($height < $dimensions["height"]) {
+                        $height = $dimensions["height"];
                     }
                 }
-                else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath)) {
-                    $dimensions=calculateimagedimensions($images[$i]);
+                else if(imageexists($filename) && file_exists($image['path']) && !is_dir($image['path'])) {
+                    $dimensions=calculateimagedimensions($filename);
                     if ($width < $dimensions["width"]) { $width=$dimensions["width"];
                     }
                     if ($height < $dimensions["height"]) { $height=$dimensions["height"];
                     }
                 }
 
-                $image=getimage($images[$i]);
                 if(strlen($image['caption'])) {
                     $height = $height + IMAGECAPTIONLINEHEIGHT;
                     if(strlen($image['caption']) > $width/10) { $height = $height + IMAGECAPTIONLINEHEIGHT;
@@ -250,17 +245,20 @@ class GalleryPage extends Template
                 }
                 if($image['permission']==PERMISSION_GRANTED) { $height = $height + IMAGECAPTIONLINEHEIGHT;
                 }
-            }
-            if (!$width) { $width=getproperty("Thumbnail Size");
-            }
-            $width = $width + IMAGECAPTIONLINEHEIGHT;
-            if (!$height) { $height=getproperty("Thumbnail Size")+150;
+                array_push($items, $image);
             }
 
-            // create images
-            for($i=$startindex;$i<count($images) && $i<$endindex;$i++)
-            {
-                $this->listvars['galleryimage'][]= new GalleryImage($images[$i], $width, $height, $showhidden);
+            if (!$width) {
+                $width=getproperty("Thumbnail Size");
+            }
+            $width = $width + IMAGECAPTIONLINEHEIGHT;
+            if (!$height) {
+                $height=getproperty("Thumbnail Size") + 150;
+            }
+
+            // Now we have the dimenstions. Add the images.
+            foreach ($items as $image) {
+                $this->listvars['galleryimage'][]= new GalleryImage($image, $width, $height, $showhidden);
             }
         }
         $this->vars['editdata']= new Editdata($showhidden);

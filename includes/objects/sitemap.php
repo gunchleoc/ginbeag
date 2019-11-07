@@ -49,7 +49,7 @@ class Sitemap extends Template
         $roots=getrootpages();
         for($i=0;$i<count($roots);$i++)
         {
-            if(displaylinksforpagearray($roots[$i]) || $showhidden) {
+            if(displaylinksforpage($roots[$i]) || $showhidden) {
                 $this->listvars['subpages'][]= new SitemapBranch($roots[$i], 5, true, 0, "", $showhidden);
             }
         }
@@ -116,10 +116,10 @@ class SitemapLink extends Template
         // for normal pages
         else
         {
-            $this->pagetype=getpagetypearray($page);
+            $this->pagetype=getpagetype($page);
 
-            $this->stringvars['title']=title2html(getpagetitlearray($page));
-            $this->stringvars['linktooltip']=striptitletags(getpagetitlearray($page));
+            $this->stringvars['title']=title2html(getpagetitle($page));
+            $this->stringvars['linktooltip']=striptitletags(getpagetitle($page));
             $this->stringvars['description']="";
             $this->stringvars['title_class']="";
 
@@ -193,10 +193,10 @@ class SitemapBranch extends Template
         $this->stringvars['margin_left']=$level;
 
         if($depth>0) {
-            $pages=getchildrenarray($page);
+            $pages=getchildren($page);
             for($i=0;$i<count($pages);$i++)
             {
-                if(displaylinksforpagearray($pages[$i]) || $showhidden) {
+                if(displaylinksforpage($pages[$i]) || $showhidden) {
                     $this->listvars['link'][]= new SitemapBranch($pages[$i], $depth-1, $startwithroot, $level+1, $speciallink, $showhidden);
                 }
             }

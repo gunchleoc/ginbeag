@@ -38,8 +38,8 @@ require_once $projectroot."includes/objects/template.php";
 require_once $projectroot."includes/objects/categories.php";
 require_once $projectroot."admin/includes/objects/editor.php";
 require_once $projectroot."admin/includes/objects/imageeditor.php";
-
-
+require_once $projectroot."functions/phpcompatibility.php";
+require_once $projectroot."admin/functions/pagesmod.php";
 
 //
 //
@@ -78,7 +78,7 @@ class EditArticle extends Template
         $contents=getarticlepagecontents($page);
 
         $this->vars['synopsiseditor'] = new Editor($page, 0, "pageintro", "Synopsis Text");
-        $this->vars['imageeditor'] = new ImageEditor($page, 0, "pageintro", getpageintro($page));
+        $this->vars['imageeditor'] = new ImageEditor($page, 0, "pageintro", getpageintroimage($page));
 
         $this->stringvars['author']= input2html($contents['article_author']);
         $this->stringvars['location']= input2html($contents['location']);
@@ -110,8 +110,7 @@ class EditArticle extends Template
 //
 class ArticleSectionForm extends Template
 {
-    function __construct($articlepage,$articlesection,$moveup="move section up",$movedown="move section down")
-    {
+    function __construct($articlepage, $articlesection, $contents, $moveup, $movedown) {
         parent::__construct($articlesection, array(), array(0 => "admin/includes/javascript/editarticlepage.js"));
         $this->stringvars['javascript']=$this->getScripts();
 
@@ -122,8 +121,6 @@ class ArticleSectionForm extends Template
         $this->stringvars['actionvars']= makelinkparameters($linkparams)."#section".$articlesection;
 
         $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("articlesection" => $articlesection));
-
-        $contents=getarticlesectioncontents($articlesection);
 
         $this->stringvars['articlesection']=$articlesection;
 
@@ -170,7 +167,6 @@ class EditArticlePage extends Template
 
         $this->stringvars['articlepage']=$articlepage;
 
-        $articlesections=getarticlesections($this->stringvars['page'], $articlepage);
 
         $numberofarticlepages=numberofarticlepages($this->stringvars['page']);
         $this->vars['pagemenu']= new PageMenu($articlepage-1, 1, $numberofarticlepages, array("action" => "editcontents"));
@@ -179,21 +175,26 @@ class EditArticlePage extends Template
             $this->stringvars['deletepage']="Delete This Page";
         }
 
-        for($i=0;$i<count($articlesections);$i++)
-        {
-            if($i==0 && $articlepage>1) {
+        $articlesections=getarticlesections($this->stringvars['page'], $articlepage);
+        $isfirst = true;
+        while (!empty($articlesections)) {
+            $sectionid = array_key_first($articlesections);
+            $sectioncontents = array_shift($articlesections);
+            if ($isfirst && $articlepage > 1) {
                 $moveup="move section to previous page";
             } else {
                 $moveup="move section up";
             }
+            $isfirst = false;
 
-            if(getarticlesectionnumber($articlesections[$i])==getlastarticlesection($this->stringvars['page'], $articlepage)) {
+            if (empty($articlesections)) {
                 $movedown="move section to next page";
             } else {
                 $movedown="move section down";
             }
 
-            $this->listvars['articlesectionform'][] = new ArticleSectionForm($articlepage, $articlesections[$i], $moveup, $movedown);
+            $this->listvars['articlesectionform'][] = new ArticleSectionForm($articlepage, $sectionid, $sectioncontents, $moveup, $movedown);
+
         }
 
         $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(), new EditPageIntroSettingsButton());
@@ -222,8 +223,7 @@ class DeleteArticleSectionConfirm extends Template
         $linkparams["articlesection"] = $articlesection;
         $linkparams["action"] = "editcontents";
         $this->stringvars['actionvars']= makelinkparameters($linkparams);
-
-        $this->vars['section'] = new Articlesection($articlesection, $articlepage, true, true);
+        $this->vars['section'] = new Articlesection($articlesection, getarticlesectioncontents($articlesection), true);
         $this->vars['confirmbuttons'] = new CancelConfirmButtons($this->stringvars['actionvars'], "confirmdeletesection", "nodeletesection");
     }
 

@@ -36,7 +36,7 @@ require_once $projectroot."functions/db.php";
 
 $db->quiet_mode = true;
 
-$protocol = getproperties()["Server Protocol"];
+$protocol = getproperty("Server Protocol");
 
 if (empty($db->error_report)) {
     print($protocol);

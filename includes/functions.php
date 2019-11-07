@@ -334,7 +334,7 @@ function text2html($text)
     $text = preg_replace("/(\s|^)(https?:\/\/(\S*))(\/?)(\s|$)/", '<a href="\\2\\4">\\3</a>\\5', $text);
 
     //remove sid from local links
-    $serverprotocol=getproperties()['Server Protocol'];
+    $serverprotocol = getproperty('Server Protocol');
     $patterns = array(
     "/http(s){0,1}:(.*?)".getproperty("Domain Name")."(.*?)(sid=)(\w*?)(&)/",
     "/http(s){0,1}:(.*?)".getproperty("Domain Name")."(.*?)(\?sid=|&sid=)(\w*?)(\W|\s|$)/",
@@ -554,7 +554,7 @@ function getimagelinkpath($filename,$subpath)
     $localpath=getproperty("Local Path");
     $domain=getproperty("Domain Name");
     $imagepath=getproperty("Image Upload Path");
-    $result=getproperties()['Server Protocol'].$domain.'/';
+    $result=getproperty('Server Protocol').$domain.'/';
     if($localpath) { $result.=$localpath.'/';
     }
     $result.=$imagepath.$subpath.'/'.rawurlencode(basename($filename));
@@ -587,7 +587,7 @@ function getbannerlinkpath($filename)
 {
     $localpath=getproperty("Local Path");
     $domain=getproperty("Domain Name");
-    $result=getproperties()['Server Protocol'].$domain.'/';
+    $result=getproperty('Server Protocol').$domain.'/';
     if($localpath) { $result.=$localpath.'/';
     }
     return $result.'img/banners/'.rawurlencode(basename($filename));
@@ -601,7 +601,7 @@ function getprojectrootlinkpath()
 {
     $localpath=getproperty("Local Path");
     $domain=getproperty("Domain Name");
-    $result=getproperties()['Server Protocol'].$domain.'/';
+    $result=getproperty('Server Protocol').$domain.'/';
     if($localpath) { $result.=$localpath.'/';
     }
     return $result;

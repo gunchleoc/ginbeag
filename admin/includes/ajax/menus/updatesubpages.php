@@ -41,7 +41,7 @@ $db->quiet_mode = true;
 
 checksession();
 
-$subpageids=getallsubpageids($_POST['page']);
+$subpageids = getchildren($_POST['page']);
 $printme= new MenuMovePageFormContainer($_POST['page'], $subpageids);
 
 if (empty($db->error_report)) {

@@ -4,7 +4,7 @@
  *
  * PHP Version 7
  *
- * Copyright (C) 2005-2019 GunChleoc
+ * Copyright (C) 2019 GunChleoc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,32 +26,14 @@
  * @link     https://github.com/gunchleoc/ginbeag/
  */
 
-$projectroot=dirname(__FILE__);
-$projectroot=substr($projectroot, 0, strrpos($projectroot, "linklists"));
-$projectroot=substr($projectroot, 0, strrpos($projectroot, "ajax"));
-$projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
-$projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
-
-require_once $projectroot."admin/functions/pagecontent/linklistpagesmod.php";
-require_once $projectroot."admin/functions/sessions.php";
-
-//print_r($_POST);
-
-$db->quiet_mode = true;
-
-checksession();
-
-$title = getlinktitle($_POST['linkid']);
-
-if (!empty($title)) {
-    $sectionheader=title2html($title);
-} else {
-    $sectionheader="Link ID ".$_POST['linkid'];
+// array_key_first does not exist prior to PHP 7.3
+if (!function_exists('array_key_first')) {
+    function array_key_first(array $arr) {
+        foreach($arr as $key => $unused) {
+            return $key;
+        }
+        return NULL;
+    }
 }
 
-if (empty($db->error_report)) {
-    print($sectionheader);
-} else {
-    print($db->error_report);
-}
 ?>

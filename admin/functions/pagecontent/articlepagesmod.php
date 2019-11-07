@@ -32,6 +32,46 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
 require_once $projectroot."admin/functions/moveitems.php";
 
+
+//
+//
+//
+function numberofarticlepages($page)
+{
+    $sql = new SQLSelectStatement(ARTICLES_TABLE, 'numberofpages', array('page_id'), array($page), 'i');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getlastarticlesection($page,$pagenumber)
+{
+    $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'sectionnumber', array('article_id', 'pagenumber'), array($page, $pagenumber), 'ii');
+    $sql->set_operator('max');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getfirstarticlesection($page,$pagenumber)
+{
+    $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'sectionnumber', array('article_id', 'pagenumber'), array($page, $pagenumber), 'ii');
+    $sql->set_operator('min');
+    return $sql->fetch_value();
+}
+
+
+//
+//
+//
+function getarticlesectionnumber($articlesection)
+{
+    $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'sectionnumber', array('articlesection_id'), array($articlesection), 'i');
+    return $sql->fetch_value();
+}
+
 //
 //
 //

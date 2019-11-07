@@ -64,7 +64,7 @@ class AddLinklistLinkForm extends Template
 //
 class EditLinkListLinkForm extends Template
 {
-    function __construct($linkid)
+    function __construct($linkid, $contents)
     {
         parent::__construct($linkid, array(), array(0 => "admin/includes/javascript/editlinklist.js"));
         $this->stringvars['javascript']=$this->getScripts();
@@ -79,8 +79,6 @@ class EditLinkListLinkForm extends Template
         $this->stringvars['actionvars']= makelinkparameters($linkparams);
 
         $this->stringvars['linkid']=$linkid;
-
-        $contents=getlinkcontents($linkid);
 
         $this->stringvars['linktitle']=title2html($contents['title']);
         if(!$contents['title']) {
@@ -121,13 +119,13 @@ class EditLinklist extends Template
         $linkparams["action"] = "editcontents";
         $this->stringvars['actionvars']= makelinkparameters($linkparams);
 
-        $linkids=getlinklistitems($page);
-        if(count($linkids) < 1) { $this->stringvars['linkform']="";
-        }
-
-        for($i=0;$i<count($linkids);$i++)
-        {
-            $this->listvars['linkform'][] = new EditLinkListLinkForm($linkids[$i]);
+        $links = getlinklistitems($page);
+        if (empty($links)) {
+            $this->stringvars['linkform']="";
+        } else {
+            foreach ($links as $linkid => $contents) {
+                $this->listvars['linkform'][]= new EditLinkListLinkForm($linkid, $contents);
+            }
         }
 
         $this->vars['addform'] = new AddLinklistLinkForm();

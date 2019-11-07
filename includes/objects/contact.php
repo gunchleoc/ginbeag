@@ -49,7 +49,7 @@ class ContactPage extends Template
         } else { $displaytype = "page";
         }
 
-        $this->vars['header'] = new PageHeader(0, getlang("pagetitle_contact"), "", $displaytype);
+        $this->vars['header'] = new PageHeader(0, getlang("pagetitle_contact"), getlang("pagetitle_contact"), "", $displaytype);
         $this->vars['footer'] = new PageFooter();
         $sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('contact'), 's');
         $this->vars['intro'] = new PageIntro(getlang("pageintro_contact"), $sql->fetch_value(), "", true, true, "left", false, "sectiontext");
@@ -114,22 +114,22 @@ class ContactForm extends Template
 
         $contacts=getallcontacts();
         $descriptions = array();
-        for($i=0;$i<count($contacts);$i++)
-        {
-            $description = stripslashes(getdisplayname($contacts[$i]));
-            $function=getcontactfunction($contacts[$i]);
-            if(strlen($function)>0) { $description .=" (".stripslashes($function).")";
+        foreach ($contacts as $contents) {
+            $description = stripslashes($contents['displayname']);
+            if (!empty($contents['contactfunction'])) {
+                $description .=" (".stripslashes($contents['contactfunction']).")";
             }
-            $descriptions[$i] = $description;
+            array_push($descriptions, $description);
         }
-        $contacts[]=0;
+        $ids = array_keys($contacts);
+        $ids[] = 0;
         $descriptions[] = getlang("email_webmaster");
 
         $this->stringvars['l_legend_youremail']=getlang("email_legend_youremail");
         $this->stringvars['l_legend_options']=getlang("email_legend_options");
         $this->stringvars['l_legend_youremailtous']=getlang("email_legend_youremailtous");
 
-        $this->vars['contacts']= new OptionForm($userid, $contacts, $descriptions, "userid", getlang("email_to"), 1);
+        $this->vars['contacts']= new OptionForm($userid, $ids, $descriptions, "userid", getlang("email_to"), 1);
 
         $this->stringvars['l_emailadress']=getlang("email_address");
         $this->stringvars['emailvariable']=$emailvariables['E-Mail Address Variable'];

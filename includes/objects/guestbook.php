@@ -53,7 +53,7 @@ class Guestbook extends Template
         } else { $displaytype = "page";
         }
 
-        $this->vars['header'] = new PageHeader(0, getlang("pagetitle_guestbook"), "", $displaytype);
+        $this->vars['header'] = new PageHeader(0, getlang("pagetitle_guestbook"), getlang("pagetitle_guestbook"), "", $displaytype);
         $this->vars['footer'] = new PageFooter();
 
 

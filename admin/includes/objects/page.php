@@ -309,31 +309,23 @@ class ExternalForm extends Template
 //
 class EditPage extends Template
 {
-
-    function __construct($page)
-    {
+    function __construct($page) {
         parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editpage.js"));
 
-        $pagetype=getpagetype($page);
-        $permissions=getcopyright($page);
+        $pagecontents = getpagecontents($page);
 
-        if($pagetype==="external") {
+        if ($pagecontents['pagetype'] === "external") {
             $this->vars['contentsform']= new ExternalForm();
             $this->vars['navigationbuttons']= new PageEditNavigationButtons("", "");
-        }
-        else
-        {
+        } else {
             $this->vars['navigationbuttons']= new PageEditNavigationButtons(new EditPageIntroSettingsButton(), new EditPageContentsButton());
+            $this->vars['permissionsform']= new PermissionsForm($pagecontents);
+            $this->vars['restrictaccessform']=  new RestrictAccessForm();
         }
 
         $this->vars['renamepageform']= new RenamePageForm();
 
         $this->vars['setpublishableform']= new SetPublishableForm();
-
-        if($pagetype!=="external") {
-            $this->vars['permissionsform']= new PermissionsForm($permissions);
-            $this->vars['restrictaccessform']=  new RestrictAccessForm();
-        }
 
         $this->vars['movepageform']= new MovePageForm($page, $page);
 

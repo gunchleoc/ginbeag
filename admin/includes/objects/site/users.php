@@ -88,11 +88,9 @@ class SiteUserlist extends Template
     {
         parent::__construct();
 
-        $users=getallusers();
-
-        for($i=0; $i<count($users);$i++)
-        {
-            $this->listvars['adminusers'][]=new SiteUserlistAdminUser($users[$i], $ref);
+        $users = getallusers();
+        foreach ($users as $id => $data) {
+            $this->listvars['adminusers'][]=new SiteUserlistAdminUser($id, $data, $ref);
         }
 
         $users=getallpublicusers();
@@ -118,50 +116,52 @@ class SiteUserlist extends Template
 class SiteUserlistAdminUser extends Template
 {
 
-    function __construct($userid,$ref)
+    function __construct($userid, $userdata, $ref)
     {
         parent::__construct();
 
-        $lastlogin = getlastlogin($userid);
-        $retries = getretries($userid);
+        $lastlogin = $userdata['last_login'];
+        $retries = $userdata['retries'];
 
-        $this->stringvars['username'] = title2html(getdisplayname($userid));
+        $this->stringvars['username'] = title2html($userdata['displayname']);
 
         $linkparams["page"] = $this->stringvars['page'];
         $linkparams["userid"] = $userid;
 
-        if(strlen($ref) > 0) {
+        if (!empty($ref)) {
             $linkparams["action"] = $ref;
             $this->stringvars['reflink'] = makelinkparameters($linkparams);
-        }
-        else
-        {
+        } else {
             $linkparams["action"] = "siteuserman";
             $this->stringvars['managelink'] = 'admin.php'.makelinkparameters($linkparams);
             $linkparams["action"] = "siteuserperm";
             $this->stringvars['permissionslink'] = 'admin.php'.makelinkparameters($linkparams);
         }
 
-        $this->stringvars['email']=getuseremail($userid);
+        $this->stringvars['email'] = $userdata['email'];
 
-        if(getiscontact($userid)) { $this->stringvars['iscontact']="Yes";
-        } else { $this->stringvars['iscontact']="&mdash;";
+        if ($userdata['iscontact']) {
+            $this->stringvars['iscontact']="Yes";
+        } else {
+            $this->stringvars['iscontact']="&mdash;";
         }
 
-        $this->stringvars['contactfunction']=getcontactfunction($userid);
+        $this->stringvars['contactfunction'] = title2html($userdata['contactfunction']);
 
-        if(isactive($userid)) { $this->stringvars['isactive']="Yes";
-        } else { $this->stringvars['isactive']="&mdash;";
+        if ($userdata['user_active']) {
+            $this->stringvars['isactive']="Yes";
+        } else {
+            $this->stringvars['isactive']="&mdash;";
         }
 
-        $userlevel = getuserlevel($userid);
-
-        if($userlevel==USERLEVEL_USER) { $this->stringvars['userlevel']="User";
-        } elseif($userlevel==USERLEVEL_ADMIN) { $this->stringvars['userlevel']="Administrator";
+        if ($userdata['userlevel'] == USERLEVEL_USER) {
+            $this->stringvars['userlevel']="User";
+        } elseif ($userdata['userlevel'] == USERLEVEL_ADMIN) {
+            $this->stringvars['userlevel']="Administrator";
         }
 
-        $this->stringvars['lastlogin']=getlastlogin($userid);
-        $this->stringvars['retries']=getretries($userid);
+        $this->stringvars['lastlogin'] = $userdata['last_login'];
+        $this->stringvars['retries'] = $userdata['retries'];
     }
 
     // assigns templates
@@ -301,17 +301,22 @@ class SiteAdminUserProfileForm extends Template
 
         $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("userid" => $userid));
 
-        $this->stringvars['username'] = title2html(getdisplayname($userid));
-        $this->stringvars['email']=getuseremail($userid);
-        $this->stringvars['contactfunction']=getcontactfunction($userid);
+        $userdata = getuser($userid, array('user_id', 'displayname', 'email', 'contactfunction', 'iscontact', 'user_active'));
 
-        if(isactive($userid)) { $this->stringvars['isactive']="true";
-        } else { $this->stringvars['notactive']="true";
+        $this->stringvars['username'] = title2html($userdata['displayname']);
+        $this->stringvars['email'] = $userdata['email'];
+        $this->stringvars['contactfunction'] = input2html($userdata['contactfunction']);
+
+        if ($userdata['user_active']) {
+            $this->stringvars['isactive']="true";
+        } else {
+            $this->stringvars['notactive']="true";
         }
 
-        if(getiscontact($userid)) { $this->stringvars['iscontact']="true";
+        if ($userdata['iscontact']) {
+            $this->stringvars['iscontact']="true";
         }
-        $this->vars['iscontactform']= new CheckboxForm("iscontact", "iscontact", "<em>".$this->stringvars['username']."</em> can be contacted through the contact page:", getiscontact($userid));
+        $this->vars['iscontactform']= new CheckboxForm("iscontact", "iscontact", "<em>".$this->stringvars['username']."</em> can be contacted through the contact page:", $userdata['iscontact']);
 
         $linkparams=array();
         $linkparams["page"] = $this->stringvars['page'];

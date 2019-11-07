@@ -193,7 +193,7 @@ class CaptionedImage extends Template
         else { $this->stringvars['image']='<i>'.$filename.'</i>';
         }
 
-        $this->vars['caption'] = new ImageCaption($filename);
+        $this->vars['caption'] = new ImageCaption(getimage($filename));
 
     }
 
@@ -211,7 +211,7 @@ class CaptionedImage extends Template
 class ImageCaption extends Template
 {
 
-    function __construct($filename)
+    function __construct($image)
     {
         global $projectroot;
         parent::__construct();
@@ -221,8 +221,6 @@ class ImageCaption extends Template
         $maxchars = 50;
         if(ismobile()) { $maxchars = 20;
         }
-
-        $image=getimage($filename);
 
         if(array_key_exists("caption", $image)) { $caption=$image['caption'];
         } else { $caption="";

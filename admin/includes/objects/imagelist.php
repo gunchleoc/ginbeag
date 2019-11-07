@@ -528,7 +528,7 @@ class AdminImage extends Template
         $this->stringvars['imagefile']=$filename;
 
         if($showcaption) {
-            $this->vars['caption']= new ImageCaption($filename);
+            $this->vars['caption']= new ImageCaption(getimage($filename));
         }
 
         $filepath =    $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename)).'/'.$filename;
@@ -717,10 +717,9 @@ class ImageUsersSelectionForm  extends Template
         $this->stringvars['optionform_label'] ="Uploader: ";
         $this->listvars['option'][]= new OptionFormOption(0, $selecteduser==0, "Anybody");
 
-        $users=getallusers();
-        for($i=0;$i<count($users);$i++)
-        {
-            $this->listvars['option'][]= new OptionFormOption($users[$i], $selecteduser==$users[$i], input2html(getdisplayname($users[$i])));
+        $users = getallusernames();
+        foreach ($users as $id => $username) {
+            $this->listvars['option'][]= new OptionFormOption($id, $selecteduser == $id, input2html($username));
         }
     }
 

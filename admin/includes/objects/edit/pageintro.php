@@ -35,6 +35,7 @@ require_once $projectroot."includes/objects/template.php";
 require_once $projectroot."admin/includes/objects/forms.php";
 require_once $projectroot."admin/includes/objects/editor.php";
 require_once $projectroot."admin/includes/objects/imageeditor.php";
+require_once $projectroot."admin/functions/pagesmod.php";
 
 
 //
@@ -48,7 +49,7 @@ class EditPageIntro extends Template
         $this->stringvars['javascript']=$this->getScripts();
 
         $this->vars['intro']= new Editor($page, 0, "pageintro", "Synopsis");
-        $this->vars['imageeditor'] = new ImageEditor($page, 0, "pageintro", getpageintro($page));
+        $this->vars['imageeditor'] = new ImageEditor($page, 0, "pageintro", getpageintroimage($page));
         $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(), new EditPageContentsButton());
     }
 

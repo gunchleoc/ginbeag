@@ -39,14 +39,14 @@ require_once $projectroot."includes/objects/page.php";
 class Showimage extends Template
 {
 
-    function __construct($page,$image,$item=0,$showhidden=false)
+    function __construct($page,$filename,$item=0,$showhidden=false)
     {
         global $_POST, $_GET;
         parent::__construct();
 
         /*if($page && !$showhidden)
         {
-        if(ispagerestrictedarray($page))
+        if(ispagerestricted($page))
         {
         //checkpublicsession($page);
         }
@@ -56,7 +56,9 @@ class Showimage extends Template
 
         $pagetitle=getlang("image_viewing");
 
-        $caption=getcaption($image);
+
+        $image = getimage($filename);
+        $caption = $image['caption'];
 
         if($caption) {
             if(strlen($caption)>30) { $caption = substr($caption, 0, 30)."...";
@@ -69,14 +71,14 @@ class Showimage extends Template
         if(ismobile()) { $displaytype = "mobile";
         } else { $displaytype = "page";
         }
-        $this->vars['header']= new PageHeader($this->stringvars['page'], $pagetitle, "", $displaytype);
+        $this->vars['header']= new PageHeader($this->stringvars['page'], $pagetitle, $pagetitle, "", $displaytype);
         $this->vars['navigator'] = new Navigator($this->stringvars['page'], false, 1, $displaytype, $showhidden);
 
         if(getproperty('Display Banners')) {
             $this->vars['banners'] = new BannerList();
         }
 
-        $this->vars['editdata']= new ImageEditdata($image, $showhidden);
+        $this->vars['editdata']= new ImageEditdata($filename, $showhidden);
 
         $this->vars['footer'] = new PageFooter();
 
@@ -136,9 +138,9 @@ class Showimage extends Template
         }
 
         // make image
-        if(strlen($image)>1) {
-            $this->stringvars['imagepath'] = getimagelinkpath($image, getimagesubpath(basename($image)));
-            $dimensions = getimagedimensions(getimagepath($image));
+        if(strlen($filename)>1) {
+            $this->stringvars['imagepath'] = getimagelinkpath($filename, getimagesubpath(basename($filename)));
+            $dimensions = getimagedimensions(getimagepath($filename));
             $this->stringvars['width'] = $dimensions["width"];
             $this->stringvars['height'] = $dimensions["height"];
             $this->stringvars['simplecaption'] = title2html($caption);
@@ -178,13 +180,13 @@ class Showimage extends Template
 //
 class ImageEditdata extends Template
 {
-    function __construct($image, $showhidden = false)
+    function __construct($filename, $showhidden = false)
     {
         parent::__construct();
-        $editdate = getuploaddate($image);
+        $editdate = getuploaddate($filename);
 
         if ($showhidden) {
-            $editor = getdisplayname(getuploader($image));
+            $editor = getdisplayname(getuploader($filename));
             $this->stringvars['footerlastedited']=sprintf(getlang("footer_imageuploadedauthor"), formatdatetime($editdate), $editor);
         } else {
             $this->stringvars['footerlastedited']=sprintf(getlang("footer_imageuploaded"), formatdatetime($editdate));

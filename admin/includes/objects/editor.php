@@ -35,13 +35,7 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 require_once $projectroot."includes/functions.php";
 require_once $projectroot."includes/objects/template.php";
 require_once $projectroot."includes/objects/forms.php";
-require_once $projectroot."functions/pages.php";
-require_once $projectroot."functions/pagecontent/articlepages.php";
-require_once $projectroot."functions/pagecontent/linklistpages.php";
-require_once $projectroot."functions/pagecontent/newspages.php";
 require_once $projectroot."includes/objects/elements.php";
-require_once $projectroot."includes/objects/images.php";
-
 
 //
 // Templating for Editor
@@ -174,23 +168,32 @@ class EditorContentsSaveDialog extends Template
 //
 function geteditortext($page,$item, $elementtype)
 {
-    $text="Text could not be loaded for ".$elementtype.", page ".$page.", item ".$item.".";
-
-    if($elementtype==="pageintro") {
-        $text=getpageintrotext($page);
-    } elseif($elementtype==="articlesection") {
-        $text=getarticlesectiontext($item);
-    } elseif($elementtype==="link") {
-        $text=getlinkdescription($item);
-    } elseif($elementtype==="newsitemsynopsis") {
-        $text=getnewsitemsynopsistext($item);
-    } elseif($elementtype==="newsitemsection") {
-        $text=getnewsitemsectiontext($item);
-    } elseif($elementtype==="sitepolicy" || $elementtype==="guestbook" || $elementtype==="contact") {
-        $sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array($elementtype), 's');
-        $text= $sql->fetch_value();
+    $sql = null;
+    switch ($elementtype) {
+        case "pageintro":
+            $sql = new SQLSelectStatement(PAGES_TABLE, 'introtext', array('page_id'), array($page), 'i');
+        break;
+        case "articlesection":
+            $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'text', array('articlesection_id'), array($item), 'i');
+        break;
+        case "link":
+            $sql = new SQLSelectStatement(LINKS_TABLE, 'description', array('link_id'), array($item), 'i');
+        break;
+        case "newsitemsynopsis":
+            $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'synopsis', array('newsitem_id'), array($item), 'i');
+        break;
+        case "newsitemsection":
+            $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'text', array('newsitemsection_id'), array($item), 'i');
+        break;
+        case "sitepolicy":
+        case "guestbook":
+        case "contact":
+            $sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array($elementtype), 's');
+        break;
+        default:
+            return "Text could not be loaded for $elementtype, page $page , item $item.";
     }
-    return stripslashes($text);
+    return stripslashes($sql->fetch_value());
 }
 
 

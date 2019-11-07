@@ -82,6 +82,82 @@ function getpagefornewsitem($newsitem)
 //
 //
 //
+function getnewsitemsectionimagealign($newsitemsection)
+{
+    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'imagealign', array('newsitemsection_id'), array($newsitemsection), 'i');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getnewsitemsectiontext($newsitemsection)
+{
+    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'text', array('newsitemsection_id'), array($newsitemsection), 'i');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getnewsitemsectionimage($newsitemsection)
+{
+    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionimage', array('newsitemsection_id'), array($newsitemsection), 'i');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getnewsitemsectionnumber($newsitemsection)
+{
+    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionnumber', array('newsitemsection_id'), array($newsitemsection), 'i');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getlastnewsitemsection($newsitem)
+{
+    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionnumber', array('newsitem_id'), array($newsitem), 'i');
+    $sql->set_operator('max');
+    return $sql->fetch_value();
+}
+
+//
+//
+//
+function getnewsitemoffset($page,$number,$newsitem,$showhidden=false)
+{
+    if (!$newsitem > 0) {
+        return 0;
+    }
+    if(!$number>0) { $number=1;
+    }
+    $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'date', array('newsitem_id'), array($newsitem), 'i');
+    $date = $sql->fetch_value();
+
+    $sql = $showhidden ?
+    new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id'), array($page, $date), 'is', "date > ?") :
+    new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id', 'ispublished'), array($page, 1, $date), 'iis', "date > ?");
+    $sql->set_operator('count');
+    $noofelements = $sql->fetch_value();
+    return floor($noofelements/$number);
+}
+
+//
+//
+//
+function getnewsitemsectioncontents($newsitemsection)
+{
+    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, '*', array('newsitemsection_id'), array($newsitemsection), 'i');
+    return $sql->fetch_row();
+}
+
+//
+//
+//
 function updatenewsitemtitle($newsitem, $title)
 {
     $sql = new SQLUpdateStatement(
@@ -352,8 +428,8 @@ function updatenewsitemsynopsistext($newsitem,$text)
 //
 function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
 {
+    $sections = getnewsitemsections($newsitem);
     if (!$newsitemsection) {
-        $sections=getnewsitemsections($newsitem);
         if(count($sections)>0) {
             $newsitemsection=$sections[count($sections)-1];
         }
@@ -374,7 +450,6 @@ function addnewsitemsection($newsitem, $newsitemsection,$isquote=false)
     //make room
 
     if(getlastnewsitemsection($newsitem)!=$sectionnumber) {
-        $sections=getnewsitemsections($newsitem);
         $finished=false;
 
         // Bring into shape for the database call

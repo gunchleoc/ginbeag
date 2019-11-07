@@ -60,27 +60,6 @@ function displaynewestnewsitemfirst($page)
 //
 //
 //
-function getnewsitemoffset($page,$number,$newsitem,$showhidden=false)
-{
-    if (!$newsitem > 0) {
-        return 0;
-    }
-    if(!$number>0) { $number=1;
-    }
-    $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'date', array('newsitem_id'), array($newsitem), 'i');
-    $date = $sql->fetch_value();
-
-    $sql = $showhidden ?
-    new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id'), array($page, $date), 'is', "date > ?") :
-    new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id', 'ispublished'), array($page, 1, $date), 'iis', "date > ?");
-    $sql->set_operator('count');
-    $noofelements = $sql->fetch_value();
-    return floor($noofelements/$number);
-}
-
-//
-//
-//
 function countpublishednewsitems($page)
 {
     $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id', 'ispublished'), array($page, 1), 'ii');
@@ -96,15 +75,6 @@ function getnewsitemcontents($newsitem)
 {
     $sql = new SQLSelectStatement(NEWSITEMS_TABLE, '*', array('newsitem_id'), array($newsitem), 'i');
     return $sql->fetch_row();
-}
-
-//
-// returns a date array
-//
-function getnewsitemdate($newsitem)
-{
-    $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'date', array('newsitem_id'), array($newsitem), 'i');
-    return @getdate(strtotime($sql->fetch_value()));
 }
 
 //
@@ -136,44 +106,14 @@ function getnewsitempage($newsitem)
     return $sql->fetch_value();
 }
 
-
-//
-//
-//
-function getnewsitemsynopsistext($newsitem)
-{
-    $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'synopsis', array('newsitem_id'), array($newsitem), 'i');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
-function getnewsitemsynopsisimageids($newsitem)
-{
-    $sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, 'newsitemimage_id', array('newsitem_id'), array($newsitem), 'i');
-    $sql->set_order(array('position' => 'ASC'));
-    return $sql->fetch_column();
-}
-
-//
-//
-//
-function getnewsitemsynopsisimage($newsitemimage)
-{
-    $sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, 'image_filename', array('newsitemimage_id'), array($newsitemimage), 'i');
-    return $sql->fetch_value();
-}
-
-
 //
 //
 //
 function getnewsitemsynopsisimages($newsitem)
 {
-    $sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, 'image_filename', array('newsitem_id'), array($newsitem), 'i');
+    $sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, array('newsitem_id', 'image_filename'), array('newsitem_id'), array($newsitem), 'i');
     $sql->set_order(array('position' => 'ASC'));
-    return $sql->fetch_column();
+    return $sql->fetch_two_columns();
 }
 
 //
@@ -189,93 +129,12 @@ function getnewsitemsections($newsitem)
 //
 //
 //
-function getnewsitemsectioncontents($newsitemsection)
+function getnewsitemsectionswithcontent($newsitem)
 {
-    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, '*', array('newsitemsection_id'), array($newsitemsection), 'i');
-    return $sql->fetch_row();
+    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, '*', array('newsitem_id'), array($newsitem), 'i');
+    $sql->set_order(array('sectionnumber' => 'ASC'));
+    return $sql->fetch_many_rows();
 }
-
-//
-//
-//
-function getnewsitemsectiontext($newsitemsection)
-{
-    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'text', array('newsitemsection_id'), array($newsitemsection), 'i');
-    return $sql->fetch_value();
-}
-
-
-//
-//
-//
-function getnewsitemsectionimage($newsitemsection)
-{
-    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionimage', array('newsitemsection_id'), array($newsitemsection), 'i');
-    return $sql->fetch_value();
-}
-
-
-//
-//
-//
-function getnewsitemsectionimagealign($newsitemsection)
-{
-    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'imagealign', array('newsitemsection_id'), array($newsitemsection), 'i');
-    return $sql->fetch_value();
-}
-
-
-//
-//
-//
-function getnewsitemsectionnumber($newsitemsection)
-{
-    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionnumber', array('newsitemsection_id'), array($newsitemsection), 'i');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
-function isnewsitempublished($newsitem)
-{
-    $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'ispublished', array('newsitem_id'), array($newsitem), 'i');
-    return $sql->fetch_value();
-}
-
-
-//
-// returns array of copyright, imagecopyright, permission
-// permission is one of the constants PERMISSION_GRANTED, NO_PERMISSION
-//
-function getnewsitemcopyright($newsitem)
-{
-    $sql = new SQLSelectStatement(NEWSITEMS_TABLE, array('copyright', 'image_copyright', 'permission'), array('newsitem_id'), array($newsitem), 'i');
-    return $sql->fetch_row();
-}
-
-//
-//
-//
-function getnewsitempermission($newsitem)
-{
-    $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'permission', array('newsitem_id'), array($newsitem), 'i');
-    return $sql->fetch_value();
-}
-
-
-//
-//
-//
-function getlastnewsitemsection($newsitem)
-{
-    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionnumber', array('newsitem_id'), array($newsitem), 'i');
-    $sql->set_operator('max');
-    return $sql->fetch_value();
-}
-
-
-
 
 //
 //

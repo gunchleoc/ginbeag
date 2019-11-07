@@ -55,60 +55,88 @@ $allpages = $sql->fetch_many_rows();
 
 $sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, array('page_id', 'masterpage'));
 $sql->set_order(array('page_id' => 'ASC'));
-$allrestrictedpages = $sql->fetch_many_rows();
-
-$sql = new SQLSelectStatement(RESTRICTEDPAGESACCESS_TABLE, 'page_id');
-$directrestrictedpagesaccess = $sql->fetch_column();
+$allrestrictedpages = $sql->fetch_two_columns();
 
 //
 //
 //
-function getpagetypearray($page)
+function getpagetype($page)
 {
     global $allpages;
-    return $allpages[$page]['pagetype'];
+    if (ispageknown($page)) {
+        return $allpages[$page]['pagetype'];
+    }
+    return "";
 }
 
 //
 //
 //
-function getpagetitlearray($page)
+function getpagetitle($page)
 {
     global $allpages;
-    return $allpages[$page]['title_page'];
+    if (ispageknown($page)) {
+        return $allpages[$page]['title_page'];
+    }
+    return "";
 }
 
 //
 //
 //
-function getnavtitlearray($page)
+function getnavtitle($page)
 {
     global $allpages;
-    return $allpages[$page]['title_navigator'];
+    if (ispageknown($page)) {
+        return $allpages[$page]['title_navigator'];
+    }
+    return "";
 }
 
 //
 //
 //
-function getnavpositionarray($page)
+function getnavposition($page)
 {
     global $allpages;
-    return $allpages[$page]['position_navigator'];
+    if (ispageknown($page)) {
+        return $allpages[$page]['position_navigator'];
+    }
+    return 0;
 }
 
 //
 //
 //
-function getparentarray($page)
+function getparent($page)
 {
     global $allpages;
-    return $allpages[$page]['parent_id'];
+    if (ispageknown($page)) {
+        return $allpages[$page]['parent_id'];
+    }
+    return 0;
 }
 
 //
 //
 //
-function getchildrenarray($page,$ascdesc="ASC")
+function isrootpage($page)
+{
+    return getparent($page) == 0;
+}
+
+//
+//
+//
+function getrootpages()
+{
+    return getchildren(0);
+}
+
+//
+//
+//
+function getchildren($page)
 {
     global $allpages;
     $result=array();
@@ -124,64 +152,57 @@ function getchildrenarray($page,$ascdesc="ASC")
 //
 //
 //
-function ispublishedarray($page)
-{
-    global $allpages;
-    return $allpages[$page]['ispublished'];
-}
-
-
-//
-//
-//
-function isrootpagearray($page)
-{
-    global $allpages;
-    if($page>0) { return $allpages[$page]['parent_id']==0;
-    } else { return false;
-    }
-}
-
-//
-// When creating a new page, the array might be out of date
-//
-function ispageknownarray($page)
+function ispageknown($page)
 {
     global $allpages;
     return array_key_exists($page, $allpages);
 }
 
+//
+//
+//
+function ispublished($page)
+{
+    global $allpages;
+    return ispageknown($page) && $allpages[$page]['ispublished'] == 1;
+}
+
 
 //
 //
 //
-function displaylinksforpagearray($page)
+function displaylinksforpage($page)
 {
-    global $user, $sid;
-    return (ispublishedarray($page) && (!ispagerestrictedarray($page) || hasaccesssession($page)));
+    return (ispublished($page) && (!ispagerestricted($page) || hasaccesssession($page)));
 }
 
 //
 //
 //
-function ispagerestrictedarray($page)
+function ispagerestricted($page)
 {
     global $allrestrictedpages;
     return array_key_exists($page, $allrestrictedpages);
 }
 
 //
-// use only for current logged in public user!!
 //
-function hasaccessarray($page)
+//
+function isthisexactpagerestricted($page)
 {
-    global $allrestrictedpages, $directrestrictedpagesaccess;
-    $result=true;
-    if(array_key_exists($page, $allrestrictedpages)) {
-        $masterpage = $allrestrictedpages[$page]["masterpage"];
-        if(array_key_exists($masterpage, $directrestrictedpagesaccess)) { $result=false;
-        }
+    global $allrestrictedpages;
+    return in_array($page, $allrestrictedpages);
+}
+
+//
+//
+//
+function getpagerestrictionmaster($page)
+{
+    global $allrestrictedpages;
+    if (array_key_exists($page, $allrestrictedpages)) {
+        return $allrestrictedpages[$page];
     }
-    return $result;
+    return 0;
 }
 ?>

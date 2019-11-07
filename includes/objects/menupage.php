@@ -45,24 +45,23 @@ class MenuPage extends Template
 
     var $pagetype="";
 
-    function __construct($page,$showhidden=false)
+    function __construct($page, $introcontents, $showhidden=false)
     {
         parent::__construct();
 
         $pagecontents=getmenucontents($page);
 
-        $pageintro = getpageintro($this->stringvars['page']);
-        $this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']), $pageintro['introtext'], $pageintro['introimage'], $pageintro['imageautoshrink'], $pageintro['usethumbnail'], $pageintro['imagehalign'], $showhidden);
+        $this->vars['pageintro'] = new PageIntro(getpagetitle($introcontents['title_page']), $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
 
-        $this->pagetype=getpagetypearray($page);
+        $this->pagetype = getpagetype($introcontents['pagetype']);
 
         $this->stringvars['actionvars'] = makelinkparameters(array("page" => $this->stringvars['page']));
 
         if($this->pagetype==="linklistmenu") {
-            $children=getchildren($page, "ASC");
+            $children=getchildren($page);
             for($i=0;$i<count($children);$i++)
             {
-                if(displaylinksforpagearray($children[$i]) || $showhidden) {
+                if(displaylinksforpage($children[$i]) || $showhidden) {
                     $this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i], isset($pagecontents['displaydepth']) ? $pagecontents['displaydepth']-1 : 1, 0, $showhidden);
                 }
             }
@@ -70,10 +69,10 @@ class MenuPage extends Template
         }
         else
         {
-            $children=getchildren($page, "ASC");
+            $children=getchildren($page);
             for($i=0;$i<count($children);$i++)
             {
-                if(displaylinksforpagearray($children[$i]) || $showhidden) {
+                if(displaylinksforpage($children[$i]) || $showhidden) {
                     $this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i], $pagecontents['displaydepth']-1, 0, $showhidden);
                 }
             }
@@ -140,14 +139,14 @@ class ArticleMenuPage extends Template
 
     var $pagetype="";
 
-    function __construct($page,$showhidden=false)
+    function __construct($page, $introcontents, $showhidden=false)
     {
         global $_GET;
         parent::__construct();
 
         $pagecontents=getmenucontents($page);
 
-        $this->pagetype=getpagetypearray($page);
+        $this->pagetype = $introcontents['pagetype'];
 
         $linkparams = array("page" => $this->stringvars['page']);
         if(ismobile()) { $linkparams["m"] = "on";
@@ -155,8 +154,7 @@ class ArticleMenuPage extends Template
         $this->stringvars['actionvars'] = makelinkparameters($linkparams);
         $this->stringvars['hiddenvars'] = $this->makehiddenvars($linkparams);
 
-        $pageintro = getpageintro($this->stringvars['page']);
-        $this->vars['pageintro'] = new PageIntro(getpagetitle($this->stringvars['page']), $pageintro['introtext'], $pageintro['introimage'], $pageintro['imageautoshrink'], $pageintro['usethumbnail'], $pageintro['imagehalign'], $showhidden);
+        $this->vars['pageintro'] = new PageIntro($introcontents['title_page'], $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
 
         $this->stringvars['l_displayoptions']=getlang("menu_filter_displayoptions");
         $this->stringvars['l_categories']=getlang("menu_filter_categories");
@@ -183,11 +181,11 @@ class ArticleMenuPage extends Template
         else
         {
             $this->makearticlefilterform($page);
-            $children=getchildren($page, "ASC");
+            $children=getchildren($page);
         }
         for($i=0;$i<count($children);$i++)
         {
-            if(displaylinksforpagearray($children[$i]) || $showhidden) {
+            if(displaylinksforpage($children[$i]) || $showhidden) {
                 $this->listvars['subpages'][]= new MenuNavigatorBranch($children[$i], $pagecontents['displaydepth']-1, 0, $showhidden);
             }
         }
@@ -303,11 +301,9 @@ class ArticlemenuOrderSelectionForm  extends Template
 class MenuLinkListLink extends Template
 {
 
-    function __construct($link)
+    function __construct($link, $contents)
     {
         parent::__construct();
-
-        $contents=getlinkcontents($link);
 
         if(strlen($contents['link'])<=1) {
             $this->stringvars['link'] = makelinkparameters(array("page" => $this->stringvars['page']));
@@ -341,13 +337,12 @@ class MenuLinkListLink extends Template
 class MenuLinkListBranch extends Template
 {
 
-    function __construct($linkids)
+    function __construct($links)
     {
         parent::__construct();
 
-        for($i=0;$i<count($linkids);$i++)
-        {
-            $this->listvars['link'][]=new MenuLinkListLink($linkids[$i]);
+        foreach ($links as $id => $contents) {
+            $this->listvars['link'][] = new MenuLinkListLink($id, $contents);
         }
     }
 
@@ -377,8 +372,9 @@ class MenuNavigatorLink extends Template
         } else { $this->stringvars['link_class']="contentnavlink";
         }
 
-        $this->stringvars['title']=title2html(getpagetitlearray($page));
-        $this->stringvars['linktooltip']=striptitletags(getpagetitlearray($page));
+        $title = getpagetitle($page);
+        $this->stringvars['title']=title2html($title);
+        $this->stringvars['linktooltip']=striptitletags($title);
 
         if($showhidden) {
             if(isthisexactpagerestricted($page)) { $this->stringvars['title']=$this->stringvars['title'].' (R)';
@@ -387,7 +383,7 @@ class MenuNavigatorLink extends Template
             }
         }
 
-        $pagetype=getpagetypearray($page);
+        $pagetype=getpagetype($page);
 
         if($pagetype==="external") {
             $this->stringvars['link']=getexternallink($page);
@@ -409,9 +405,9 @@ class MenuNavigatorLink extends Template
                 $this->vars['description']=new ArticleInfo($this->stringvars["page"], $page);
             }
             elseif($pagetype==="linklist") {
-                $linkids=getlinklistitems($page);
-                if(count($linkids)>0) {
-                    $this->vars['description']=new MenuLinkListBranch($linkids);
+                $links=getlinklistitems($page);
+                if (!empty($links)) {
+                    $this->vars['description']=new MenuLinkListBranch($links);
                 }
                 else
                 {
@@ -466,10 +462,10 @@ class MenuNavigatorBranch extends Template
         $this->stringvars['margin_left']=$level;
 
         if($depth>0) {
-            $pages=getchildrenarray($page);
+            $pages=getchildren($page);
             for($i=0;$i<count($pages);$i++)
             {
-                if(displaylinksforpagearray($pages[$i]) || $showhidden) {
+                if(displaylinksforpage($pages[$i]) || $showhidden) {
                     $this->listvars['link'][]= new MenuNavigatorBranch($pages[$i], $depth-1, $level+1, $showhidden);
                 }
             }

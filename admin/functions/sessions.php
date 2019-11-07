@@ -47,12 +47,15 @@ function login($username, $password)
 
     $result=array();
     $proceed=true;
-    $retries=getretries($username);
+
+    $sql = new SQLSelectStatement(USERS_TABLE, 'retries', array('username'), array($username), 's');
+    $retries = $sql->fetch_value();
 
     if($retries>=3) {
+        $sql = new SQLSelectStatement(USERS_TABLE, 'last_login', array('user_id'), array($user), 'i');
+        $lastlogin = $sql->fetch_value();
 
         $time=date(DATETIMEFORMAT, strtotime('-15 minutes'));
-        $lastlogin=getlastlogin($user);
         if($lastlogin>=$time) {
             $result['message']="You have entered the wrong password too often, so your account is locked for now. Please try again later.";
             $proceed=false;
@@ -70,12 +73,12 @@ function login($username, $password)
             {
                 $result['message']="Failed to create session";
             }
-            updatelogindate($username);
+            updatelogindate($username, 0);
         }
         else
         {
             $result['message']="Wrong username or password";
-            updatelogindate($username, true);
+            updatelogindate($username, $retries + 1);
         }
     }
     return $result;
@@ -157,10 +160,8 @@ function clearoldpagecacheentries()
 //
 //
 //
-function updatelogindate($username,$increasecount=false)
+function updatelogindate($username, $retries)
 {
-    $retries = $increasecount ? getretries($username) + 1 : 0;
-
     $sql = new SQLUpdateStatement(
         USERS_TABLE,
         array('retries', 'last_login'), array('username'),
@@ -378,24 +379,6 @@ function getloggedinusers()
 function isactive($user)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'user_active', array('user_id'), array($user), 'i');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
-function getretries($username)
-{
-    $sql = new SQLSelectStatement(USERS_TABLE, 'retries', array('username'), array($username), 's');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
-function getlastlogin($user)
-{
-    $sql = new SQLSelectStatement(USERS_TABLE, 'last_login', array('user_id'), array($user), 'i');
     return $sql->fetch_value();
 }
 ?>

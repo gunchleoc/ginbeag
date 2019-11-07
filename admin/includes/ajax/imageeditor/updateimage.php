@@ -46,8 +46,9 @@ $image="";
 $elementtype=$_POST["elementtype"];
 
 if($elementtype=="pageintro") {
-    include_once $projectroot."functions/pages.php";
-    $image=getpageintroimage($_POST['page']);
+    include_once $projectroot."admin/functions/pagesmod.php";
+    $contents = getpageintroimage($_POST['page']);
+    $image = $contents['introimage'];
 }
 elseif($elementtype=="articlesection") {
     include_once $projectroot."functions/pagecontent/articlepages.php";
@@ -55,13 +56,12 @@ elseif($elementtype=="articlesection") {
     $image = $contents['sectionimage'];
 }
 elseif($elementtype=="newsitemsection") {
-    include_once $projectroot."functions/pagecontent/newspages.php";
+    include_once $projectroot."admin/functions/pagecontent/newspagesmod.php";
     $image = getnewsitemsectionimage($_POST['item']);
 }
 elseif($elementtype=="link") {
-    include_once $projectroot."functions/pagecontent/linklistpages.php";
-    $contents=getlinkcontents($_POST['item']);
-    $image=$contents["image"];
+    include_once $projectroot."admin/functions/pagecontent/linklistpagesmod.php";
+    $image=getlinkimage($_POST['item']);
 }
 else { print ("Error: Unknown elementtype: ".$elementtype."</br /> for image on page: ".$_POST['page'].", item: ".$_POST['item']);
 }

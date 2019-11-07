@@ -41,11 +41,9 @@ require_once $projectroot."includes/includes.php";
 class Articlesection extends Template
 {
 
-    function __construct($articlesection,$articlepage,$showhidden)
+    function __construct($articlesection, $sectioncontents, $showhidden)
     {
         parent::__construct();
-
-        $sectioncontents=getarticlesectioncontents($articlesection);
 
         if(strlen($sectioncontents['sectiontitle'])>0) {
             $this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
@@ -74,12 +72,11 @@ class Articlesection extends Template
 //
 class ArticlePage extends Template
 {
-    function __construct($articlepage,$showhidden)
+    function __construct($articlepage, $introcontents, $showhidden)
     {
         parent::__construct();
 
         $pagecontents=getarticlepagecontents($this->stringvars['page']);
-        $articlesections=getarticlesections($this->stringvars['page'], $articlepage);
 
         $linkparams["printview"]="on";
         $linkparams["page"]=$this->stringvars['page'];
@@ -92,7 +89,7 @@ class ArticlePage extends Template
             $this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
         }
 
-        $this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
+        $this->stringvars['pagetitle'] = title2html($introcontents['title_page']);
 
         if(strlen($pagecontents['article_author'])>0) {
             $this->stringvars['article_author']=title2html($pagecontents['article_author']);
@@ -114,32 +111,26 @@ class ArticlePage extends Template
             $this->stringvars['l_source']=getlang("article_page_source");
         }
 
-
-        $pageintro = getpageintro($this->stringvars['page']);
-
         if($articlepage==1) {
-            $this->vars['pageintro'] = new PageIntro("", $pageintro['introtext'], $pageintro['introimage'], $pageintro['imageautoshrink'], $pageintro['usethumbnail'], $pageintro['imagehalign'], $showhidden);
+            $this->vars['pageintro'] = new PageIntro("", $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
         } else { $this->stringvars['pageintro'] = "";
         }
 
-        $noofarticlepages=numberofarticlepages($this->stringvars['page']);
-
         // pagemenu
-        if($noofarticlepages>1) {
-            $this->vars['pagemenu'] = new Pagemenu($articlepage-1, 1, $noofarticlepages);
+        if ($pagecontents['numberofpages'] > 1) {
+            $this->vars['pagemenu'] = new Pagemenu($articlepage-1, 1, $pagecontents['numberofpages']);
         }
 
-        if($pagecontents['use_toc']) {
-            $this->vars['toc']=new ArticleTOC();
+        if ($pagecontents['use_toc']) {
+            $this->vars['toc']=new ArticleTOC($pagecontents['numberofpages']);
         } else {
-                 $this->stringvars['toc']="";
+            $this->stringvars['toc']="";
         }
 
-
-        // get items
-        for($i=0;$i<count($articlesections);$i++)
-        {
-            $this->listvars['articlesection'][] = new Articlesection($articlesections[$i], $articlepage, $showhidden);
+        // get sections
+        $articlesections=getarticlesections($this->stringvars['page'], $articlepage);
+        foreach ($articlesections as $sectionid => $sectioncontents) {
+            $this->listvars['articlesection'][] = new Articlesection($sectionid, $sectioncontents, $showhidden);
         }
 
         $this->vars['editdata']= new Editdata($showhidden);
@@ -158,21 +149,18 @@ class ArticlePage extends Template
 //
 class ArticleTOC extends Template
 {
-    function __construct()
+    function __construct($noofarticlepages)
     {
         parent::__construct();
         $this->stringvars['l_toc'] =getlang('article_page_toc');
 
-        $noofarticlepages=numberofarticlepages($this->stringvars['page']);
-        for($i=1;$i<=$noofarticlepages;$i++)
-        {
-            $articlesections=getarticlesections($this->stringvars['page'], $i);
+        for ($i = 0; $i < $noofarticlepages; $i++) {
             // get items
-            for($j=0;$j<count($articlesections);$j++)
-            {
-                $sectiontitle = getarticlesectiontitle($articlesections[$j]);
-                if(strlen($sectiontitle)>0) {
-                    $this->listvars['toc'][] = new ArticleTOCItem($articlesections[$j], $sectiontitle, $i-1);
+            $allsectioncontents = getarticlesections($this->stringvars['page'], $i + 1);
+            foreach ($allsectioncontents as $id => $contents) {
+                $sectiontitle = $contents['sectiontitle'];
+                if (!empty($sectiontitle)) {
+                    $this->listvars['toc'][] = new ArticleTOCItem($id, $sectiontitle, $i);
                 }
             }
         }
@@ -222,11 +210,8 @@ class ArticleTOCItem extends Template
 class ArticlesectionPrintview extends Template
 {
 
-    function __construct($articlesection)
-    {
+    function __construct($sectioncontents) {
         parent::__construct();
-
-        $sectioncontents=getarticlesectioncontents($articlesection);
 
         if(strlen($sectioncontents['sectiontitle'])>0) {
             $this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
@@ -256,23 +241,24 @@ class ArticlesectionPrintview extends Template
 //
 class ArticlePagePrintview extends Template
 {
-    function __construct()
+    function __construct($introcontents)
     {
         parent::__construct();
 
+        $this->vars['pageintro'] = new PageIntro("", $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], false);
 
         $pagecontents=getarticlepagecontents($this->stringvars['page']);
-        $articlesections=getallarticlesections($this->stringvars['page']);
 
-
-        $this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars['page']));
+        $this->stringvars['pagetitle']=title2html($introcontents['title_page']);
 
         if(strlen($pagecontents['article_author'])>0) {
             $this->stringvars['article_author']=title2html($pagecontents['article_author']);
             $this->stringvars['l_author']=getlang('article_page_author');
         }
 
-        $this->stringvars['location']=title2html($pagecontents['location']);
+        if (!empty($pagecontents['location'])) {
+            $this->stringvars['location']=title2html($pagecontents['location']);
+        }
         $this->stringvars['date']=makearticledate($pagecontents['day'], $pagecontents['month'], $pagecontents['year']);
 
         if(strlen($pagecontents['sourcelink'])>0) {
@@ -284,20 +270,17 @@ class ArticlePagePrintview extends Template
             $this->stringvars['l_source']=getlang("article_page_source");
         }
 
-        $pageintro = getpageintro($this->stringvars['page']);
-        $this->vars['pageintro'] = new PageIntro("", $pageintro['introtext'], $pageintro['introimage'], $pageintro['imageautoshrink'], $pageintro['usethumbnail'], $pageintro['imagehalign']);
-
         if($pagecontents['use_toc']) {
-            $this->vars['toc']=new ArticleTOC();
+            $this->vars['toc']=new ArticleTOC($pagecontents['numberofpages']);
         } else {
             $this->stringvars['toc']="";
         }
 
 
         // get items
-        for($i=0;$i<count($articlesections);$i++)
-        {
-            $this->listvars['articlesection'][] = new ArticlesectionPrintview($articlesections[$i]);
+        $articlesections=getallarticlesections($this->stringvars['page']);
+        foreach ($articlesections as $sectioncontents) {
+            $this->listvars['articlesection'][] = new ArticlesectionPrintview($sectioncontents);
         }
 
         $this->vars['editdata']= new Editdata();

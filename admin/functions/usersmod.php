@@ -197,15 +197,6 @@ function setuserlevel($userid,$userlevel)
 //
 //
 //
-function getuserlevel($userid)
-{
-    $sql = new SQLSelectStatement(USERS_TABLE, 'userlevel', array('user_id'), array($userid), 'i');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
 function getusername($user)
 {
     $sql = new SQLSelectStatement(USERS_TABLE, 'username', array('user_id'), array($user), 'i');
@@ -304,9 +295,30 @@ function emailexists($email,$user=false)
 //
 function getallusers()
 {
-    $sql = new SQLSelectStatement(USERS_TABLE, 'user_id');
+    $sql = new SQLSelectStatement(USERS_TABLE, '*');
     $sql->set_order(array('username' => 'ASC'));
-    return $sql->fetch_column();
+    return $sql->fetch_many_rows();
+}
+
+
+//
+//
+//
+function getallusernames()
+{
+    $sql = new SQLSelectStatement(USERS_TABLE, array('user_id', 'username'));
+    $sql->set_order(array('username' => 'ASC'));
+    return $sql->fetch_two_columns();
+}
+
+
+//
+//
+//
+function getuser($userid, $fields)
+{
+    $sql = new SQLSelectStatement(USERS_TABLE, $fields, array('user_id'), array($userid), 'i');
+    return $sql->fetch_row();
 }
 
 ?>
