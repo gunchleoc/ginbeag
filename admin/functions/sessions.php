@@ -100,6 +100,7 @@ function checkpassword($username,$md5password)
 function logout()
 {
     global $projectroot;
+
     // Log out
     set_session_cookie(true, "", "");
     unlockuserpages();
@@ -109,31 +110,10 @@ function logout()
         $sql->run();
     }
 
-    // Take the opportunity to do some cleanup
-    clearoldpagecacheentries();
-
+    // Optimize tables
     $tables_to_optimize = array (
-    ANTISPAM_TOKENS_TABLE,
-    ARTICLEOFTHEDAY_TABLE,
-    ARTICLES_TABLE,
-    ARTICLESECTIONS_TABLE,
-    GALLERYITEMS_TABLE,
-    GUESTBOOK_TABLE,
-    IMAGECATS_TABLE,
-    IMAGES_TABLE,
-    LINKS_TABLE,
-    LOCKS_TABLE,
-    MONTHLYPAGESTATS_TABLE,
-    NEWSITEMS_TABLE,
-    NEWSITEMSECTIONS_TABLE,
-    NEWSITEMSYNIMG_TABLE,
-    PAGECACHE_TABLE,
-    PAGES_TABLE,
-    PICTUREOFTHEDAY_TABLE,
-    PUBLICSESSIONS_TABLE,
-    PUBLICUSERS_TABLE,
-    SESSIONS_TABLE,
-    THUMBNAILS_TABLE,
+        LOCKS_TABLE,
+        SESSIONS_TABLE,
     );
 
     foreach ($tables_to_optimize as $table) {
@@ -141,20 +121,8 @@ function logout()
         $sql->fetch_Value();
     }
 
-    require_once $projectroot . "functions/antispam.php";
-    cleartokens();
-}
-
-//
-//
-//
-function clearoldpagecacheentries()
-{
-    $sql = new SQLDeleteStatement(
-        PAGECACHE_TABLE, array(),
-        array(date(DATETIMEFORMAT, strtotime('-1 day'))), 's', 'lastmodified < ?'
-    );
-    $sql->run();
+    // General cleanup
+    require_once $projectroot."cleanup.php";
 }
 
 //

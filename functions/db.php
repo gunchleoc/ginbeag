@@ -102,6 +102,7 @@ $allowedscripts = array(
     "admin/profile.php",
     "admin/register.php",
     "admin/showimage.php",
+    "cleanup.php",
     "contact.php",
     "guestbook.php",
     "index.php",
