@@ -34,40 +34,40 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
 require_once $projectroot."admin/includes/objects/imageeditor.php";
 require_once $projectroot."admin/functions/sessions.php";
-require_once $projectroot."admin/functions/pagesmod.php";
 
 $db->quiet_mode = true;
 
-//print_r($_POST);
-
 checksession();
 
-$elementtype=$_POST["elementtype"];
+$elementtype = $_POST['elementtype'];
 
-if($elementtype=="pageintro") {
-    include_once $projectroot."functions/pages.php";
-    $contents = getpageintroimage($_POST['page']);
-    $autoshrink=$contents['imageautoshrink'];
-    $usethumbnail=$contents['usethumbnail'];
+switch ($elementtype) {
+    case 'pageintro':
+        $sql = new SQLSelectStatement(PAGES_TABLE, array('imageautoshrink', 'usethumbnail'), array('page_id'), array($_POST['page']), 'i');
+    break;
+    case 'articlesection':
+        $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, array('imageautoshrink', 'usethumbnail'), array('articlesection_id'), array($_POST['item']), 'i');
+    break;
+    case 'newsitemsection':
+        $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, array('imageautoshrink', 'usethumbnail'), array('newsitemsection_id'), array($_POST['item']), 'i');
+    break;
+    case 'link':
+        // Do nothing
+        return;
+    break;
+    default:
+        print("Error: Unknown elementtype: $elementtype </br /> for image on page: " . $_POST['page'] . ", item: " . $_POST['item']);
+        return;
 }
-elseif($elementtype=="articlesection") {
-    include_once $projectroot."functions/pagecontent/articlepages.php";
-    $contents = getarticlesectioncontents($_POST['item']);
-    $autoshrink=$contents['imageautoshrink'];
-    $usethumbnail=$contents['usethumbnail'];
+
+if ($sql) {
+    $contents = $sql->fetch_row();
 }
-elseif($elementtype=="newsitemsection") {
-    include_once $projectroot."admin/functions/pagecontent/newspagesmod.php";
-    $contents = getnewsitemsectioncontents($_POST['item']);
-    $autoshrink=$contents['imageautoshrink'];
-    $usethumbnail=$contents['usethumbnail'];
-}
-else { print ("Error: Unknown elementtype: ".$elementtype."</br /> for image on page: ".$_POST['page'].", item: ".$_POST['item']);
-}
+
 if (!empty($db->error_report)) {
     print($db->error_report);
-} else if(isset($autoshrink)) {
-    $printme = new ImageEditorSizePane($_POST["page"], $_POST["item"], $autoshrink, $usethumbnail);
+} else if(isset($contents)) {
+    $printme = new ImageEditorSizePane($_POST['page'], $_POST['item'], $contents['imageautoshrink'], $contents['usethumbnail']);
     print($printme->toHTML());
 }
 

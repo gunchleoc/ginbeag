@@ -47,8 +47,14 @@ class LinklistLink extends Template
         $this->stringvars['linkid'] = $linkid;
 
         // image permissions checked in LinkList
-        if (!empty($contents['image'])) {
-            $this->vars['image'] = new LinkedImage($contents['image'], $contents['link'], $this->stringvars['title']);
+        if (!empty($contents['image_filename'])) {
+            $contents['imageautoshrink'] = true;
+            $contents['usethumbnail'] = true;
+            $contents['imagealign'] = 'left';
+            $contents['imageautoshrink'] = true;
+            $contents['title'] = $this->stringvars['title'];
+            $contents = Image::make_imagedata($contents);
+            $this->vars['image'] = new Image($contents['image_filename'], $contents);
         }
 
         $this->stringvars['text'] = text2html($contents['description']);
@@ -60,80 +66,6 @@ class LinklistLink extends Template
         $this->addTemplate("pages/linklist/linklistlink.tpl");
     }
 }
-
-
-//
-// click on thumbnail goes to link instead of showimage.php
-//
-class LinkedImage extends Template
-{
-
-    function __construct($filename,$linkurl, $linkname)
-    {
-        global $projectroot;
-
-        parent::__construct();
-
-        $image="";
-        $this->stringvars['halign']="float: left;";
-        $alttext=title2html($linkname);
-
-
-        $filepath = getimagepath($filename);
-        $thumbnail = getthumbnail($filename);
-        $thumbnailpath = getthumbnailpath($filename, $thumbnail);
-        if(ismobile()) {
-            $usethumbnail = true;
-            $extension = substr($filename, strrpos($filename, "."), strlen($filename));
-            $thumbname = substr($filename, 0, strrpos($filename, ".")).'_thn'.$extension;
-            $path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename));
-
-            // make sure a mobile thumbnail exists
-            if (extension_loaded('gd') && function_exists('gd_info')) {
-                if(!file_exists($path."/mobile/".$thumbname)) {
-                    include_once $projectroot."functions/imagefiles.php";
-                    createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
-                }
-            }
-
-            $path = $path."/mobile/".$thumbname;
-            if(file_exists($path)) {
-                $thumbnailpath = $path;
-                $thumbnail = $thumbname;
-            }
-            $width=getproperty("Mobile Thumbnail Size");
-        }
-        else
-        {
-            $width=getproperty("Thumbnail Size");
-        }
-
-        if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath)) {
-            $dimensions=getimagedimensions($thumbnailpath);
-            $image='<a href="'.$linkurl.'"><img src="'.getimagelinkpath($thumbnail, getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" class="linkedimage"></a>';
-        }
-        else if(imageexists($filename) && file_exists($filepath) && !is_dir($filepath)) {
-            $dimensions=calculateimagedimensions($filepath, true);
-            $image='<a href="'.$linkurl.'"><img src="'.getimagelinkpath($filename, getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" class="linkedimage"></a>';
-        }
-        else
-        {
-            $image='<a href="'.$linkurl.'">'.$alttext.'</a>';
-        }
-
-        $this->stringvars['image']=$image;
-    }
-
-    // assigns templates
-    function createTemplates()
-    {
-        $this->addTemplate("images/image.tpl");
-    }
-}
-
-
-
-
 
 //
 // main class for linklistpages
@@ -148,7 +80,7 @@ class LinklistPage extends Template
 
         $this->vars['printviewbutton']= new LinkButton(makelinkparameters($linkparams), getlang("pagemenu_printview"), "img/printview.png");
 
-        $this->vars['pageintro'] = new PageIntro($introcontents['title_page'], $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
+        $this->vars['pageintro'] = new PageIntro($introcontents['title_page'], $introcontents['introtext'], "introtext", $introcontents, $showhidden);
 
         // links
         $links = getlinklistitems($this->stringvars['page']);
@@ -156,7 +88,7 @@ class LinklistPage extends Template
             $this->listvars['link'][]= new LinkListLink($linkid, $contents);
         }
 
-        $this->vars['editdata']= new Editdata($showhidden);
+        $this->vars['editdata']= new Editdata($introcontents, $showhidden);
     }
 
     // assigns templates
@@ -179,7 +111,7 @@ class LinklistPagePrintview extends Template
     {
         parent::__construct();
 
-        $this->vars['pageintro'] = new PageIntro("", $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
+        $this->vars['pageintro'] = new PageIntro("", $introcontents['introtext'], "introtext", $introcontents, $showhidden);
 
         $this->stringvars['pagetitle']=title2html($introcontents['title_page']);
 
@@ -188,7 +120,7 @@ class LinklistPagePrintview extends Template
             $this->listvars['link'][]= new LinkListLink($linkid, $contents);
         }
 
-        $this->vars['editdata']= new Editdata($showhidden);
+        $this->vars['editdata']= new Editdata($introcontents);
     }
 
     // assigns templates

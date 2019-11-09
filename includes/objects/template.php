@@ -35,6 +35,9 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
 require_once $projectroot."includes/includes.php";
 require_once $projectroot."language/languages.php";
 
+// This should be a const in the class, but 1 server doesn't support it.
+$MAIN_PAGES = array("RSSPage" => 1, "Page" => 1, "PageHeader" => 1);
+
 /**
  * Page template superclass
  *
@@ -84,9 +87,6 @@ class Template
      * Javascript to be loaded inline. Contains {JSID}s that need replacing
      */
     var $jscripts=array();
-
-    private const MAIN_PAGES = array("RSSPage" => 1, "Page" => 1, "PageHeader" => 1);
-
 
     /**
      * Constructor for the template superclass
@@ -216,14 +216,14 @@ class Template
      */
     function toHTML()
     {
-        global $projectroot;
+        global $projectroot, $MAIN_PAGES;
 
         $result="";
 
         $default_template = getproperty("Default Template");
 
         $class = get_class($this);
-        $is_main_template = array_key_exists($class, self::MAIN_PAGES);
+        $is_main_template = array_key_exists($class, $MAIN_PAGES);
 
         if (DEBUG) {
             if (!$is_main_template) {
@@ -266,70 +266,49 @@ class Template
         // handle switches
         $keys=array_keys($this->vars);
         $keys=array_merge($keys, array_keys($this->stringvars));
-        $listkeys=array_keys($this->listvars);
-        while($listkey=current($listkeys))
-        {
-            if(!empty($listkey)) {
-                $keys[]=$listkey;
+        foreach ($this->listvars as $listkey => $listvalue) {
+            if (!empty($listkey)) {
+                $keys[] = $listkey;
             }
-            next($listkeys);
         }
 
         preg_match_all("/<!--\s*BEGIN\s*switch\s*(\w*)\s*-->/", $result, $matches);
 
-        for($i=0;$i<count($matches[1]);$i++)
-        {
+        for ($i=0; $i < count($matches[1]); $i++) {
             $found =array_search(mb_strtolower($matches[1][$i], 'UTF-8'), $keys);
             $pattern="/<!--\s*BEGIN\s*switch\s*".$matches[1][$i]."\s*-->(.*)<!--\s*END\s*switch\s*".$matches[1][$i]."\s*-->/Us";
-            if($found || $found === 0) {
+            if ($found || $found === 0) {
                 $result=preg_replace($pattern, "\\1", $result);
-            }
-            else
-            {
+            } else {
                 $result=preg_replace($pattern, "", $result);
             }
         }
 
         // parse vars
-        $keys=array_keys($this->vars);
-        if(count($keys)) {
-            while($key=current($keys))
-            {
-                // just a precaution
-                if($this->vars[$key] instanceof Template) {
-                    $result=str_replace("{".mb_strtoupper($key, 'UTF-8')."}", $this->vars[$key]->toHTML(), $result);
-                }
-                next($keys);
+        foreach ($this->vars as $key => $value) {
+            // just a precaution
+            if ($value instanceof Template) {
+                $result=str_replace("{".mb_strtoupper($key, 'UTF-8')."}", $value->toHTML(), $result);
             }
         }
         // parse listvars
-        $listkeys=array_keys($this->listvars);
-        for($i=0;$i<count($listkeys);$i++)
-        {
+        foreach ($this->listvars as $listkey => $listvalue) {
             $temp="";
-            $currentarray=$this->listvars[$listkeys[$i]];
-            $keys=array_keys($currentarray);
-            for($j=0;$j<count($keys);$j++)
-            {
+            foreach ($listvalue as $key => $value) {
                 // just a precaution
-                if($currentarray[$keys[$j]] instanceof Template) {
+                if ($value instanceof Template) {
                     // concatenate from the object's own toHTML function
-                    $temp.=$currentarray[$keys[$j]]->toHTML();
+                    $temp .= $value->toHTML();
                 }
             }
             // replace with concatenated string
-            $result=str_replace("{".mb_strtoupper($listkeys[$i], 'UTF-8')."}", $temp, $result);
+            $result=str_replace("{".mb_strtoupper($listkey, 'UTF-8')."}", $temp, $result);
         }
 
 
         // parse stringvars
-        $keys=array_keys($this->stringvars);
-        if(count($keys)) {
-            while($key=current($keys))
-            {
-                $result=str_replace("{".mb_strtoupper($key, 'UTF-8')."}", $this->stringvars[$key], $result);
-                next($keys);
-            }
+        foreach ($this->stringvars as $key => $value) {
+            $result=str_replace("{".mb_strtoupper($key, 'UTF-8')."}", $value, $result);
         }
 
         // Trim superfluous whitespace

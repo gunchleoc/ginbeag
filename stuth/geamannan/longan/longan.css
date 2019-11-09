@@ -537,11 +537,6 @@ div.newsquote {
     border-width: 1px 0px 0px 0px;
 }
 
-.linkedimage {
-    border: 10px solid transparent;
-    float:left;
-}
-
 /************ Images and image captions ************/
 
 /* Image + caption text */

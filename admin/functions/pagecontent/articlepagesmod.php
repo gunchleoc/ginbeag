@@ -36,6 +36,15 @@ require_once $projectroot."admin/functions/moveitems.php";
 //
 //
 //
+function getarticlesectioncontents($articlesection)
+{
+    $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, '*', array('articlesection_id'), array($articlesection), 'i');
+    return $sql->fetch_row();
+}
+
+//
+//
+//
 function numberofarticlepages($page)
 {
     $sql = new SQLSelectStatement(ARTICLES_TABLE, 'numberofpages', array('page_id'), array($page), 'i');
@@ -175,7 +184,7 @@ function updatearticlesectionimagefilename($articlesection, $imagefilename)
 {
     $sql = new SQLUpdateStatement(
         ARTICLESECTIONS_TABLE,
-        array('sectionimage'), array('articlesection_id'),
+        array('image_filename'), array('articlesection_id'),
         array(basename($imagefilename), $articlesection), 'si'
     );
     return $sql->run();

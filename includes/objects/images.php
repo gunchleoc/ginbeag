@@ -38,66 +38,47 @@ require_once $projectroot."includes/functions.php";
 class Image extends Template
 {
 
-    function __construct($filename, $imageautoshrink, $usethumbnail, $params = array(), $showhidden=false)
-    {
+    function __construct($filename, $imagedata, $params = array(), $showhidden = false) {
         global $projectroot;
 
         parent::__construct();
 
         $params["image"] = $filename;
-        if(ismobile()) { $params["m"] = "on";
+        if (ismobile()) {
+            $params["m"] = "on";
         }
 
         $image="";
-        $alttext=title2html(getcaption($filename));
-        if(!$alttext) { $alttext = $filename;
+        $alttext = isset($imagedata['title']) ? $imagedata['title'] : title2html(getcaption($filename));
+        if (empty($alttext)) {
+            $alttext = $filename;
         }
 
-        $thumbnail=getthumbnail($filename);
-        $filepath=getimagepath($filename);
-        $thumbnailpath = getthumbnailpath($filename, $thumbnail);
-        if(file_exists($filepath) && !is_dir($filepath)) {
-            if(ismobile()) {
-                $usethumbnail = true;
-                $extension = substr($filename, strrpos($filename, "."), strlen($filename));
-                $thumbname = substr($filename, 0, strrpos($filename, ".")).'_thn'.$extension;
-                $path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename));
-
-                // make sure a mobile thumbnail exists
-                if (extension_loaded('gd') && function_exists('gd_info')) {
-                    if(!file_exists($path."/mobile/".$thumbname)) {
-                        include_once $projectroot."functions/imagefiles.php";
-                        createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
-                    }
-                }
-
-                $path = $path."/mobile/".$thumbname;
-                if(file_exists($path)) {
-                    $thumbnailpath = $path;
-                    $thumbnail = $thumbname;
-                }
-            }
-
-            if($usethumbnail && $thumbnail && file_exists($thumbnailpath)) {
-                $dimensions=getimagedimensions($thumbnailpath);
-                if($showhidden) {
-                    $image='<a href="'.getprojectrootlinkpath().'admin/showimage.php'.makelinkparameters($params).'"><img src="'.getimagelinkpath($thumbnail, getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
-                } else {
-                    $image='<a href="'.getprojectrootlinkpath().'showimage.php'.makelinkparameters($params).'"><img src="'.getimagelinkpath($thumbnail, getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" alt="'.$alttext.'" title="'.$alttext.'" border="0"></a>';
-                }
-            }
-            else
-            {
-                $dimensions=calculateimagedimensions($filepath, $imageautoshrink);
-                if($showhidden) {
-                    $image='<a href="'.getprojectrootlinkpath().'admin/showimage.php'.makelinkparameters($params).'"><img src="'.getimagelinkpath($filename, getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
-                } else {
-                    $image='<a href="'.getprojectrootlinkpath().'showimage.php'.makelinkparameters($params).'"><img src="'.getimagelinkpath($filepath, getimagesubpath($filename)).'" width="'.$dimensions["width"].'" height="'.$dimensions["height"].'" title="'.$alttext.'" alt="'.$alttext.'" border="0"></a>';
-                }
-            }
+        if (!isset($imagedata['image_filename'])) {
+            $imagedata['image_filename'] = $filename;
         }
-        else
-        {
+
+        if (!isset($imagedata['imageexists'])) {
+            $imagedata = self::make_imagedata($imagedata);
+        }
+
+        if ($imagedata['imageexists']) {
+            $targetstring = '';
+            $rootlink = getprojectrootlinkpath();
+            if (!isset($imagedata['link'])) {
+                $imagedata['link'] = $showhidden ?
+                    $rootlink . 'admin/showimage.php' . makelinkparameters($params) :
+                    $rootlink . 'showimage.php' . makelinkparameters($params);
+            } else {
+                $targetstring = 'target="_blank"';
+            }
+
+            $src = $imagedata['usethumbnail'] ?
+                getimagelinkpath($imagedata['thumbnail'], $imagedata['thumbnailpath']) :
+                getimagelinkpath($filename, $imagedata['path']);
+
+            $image = '<a href="'.$imagedata['link'].'" '.$targetstring.'><img src="'.$src.'" width="'.$imagedata['width'].'" height="'.$imagedata['height'].'" alt="'.$alttext.'" title="'.$alttext.'" border="0" /></a>';
+        } else {
             $image='<span class="smalltext">Image <i>'.$filename.'</i></span>';
         }
         $this->stringvars['image']=$image;
@@ -108,6 +89,71 @@ class Image extends Template
     {
         $this->addTemplate("images/image.tpl");
     }
+
+    // Determine image dimensions and take care of mobile thumbnail
+    public static function make_imagedata($imagedata) {
+        global $projectroot;
+
+        $filename = $imagedata['image_filename'];
+        if (!isset($imagedata['path'])) {
+            $imagedata['path'] = getimagesubpath(basename($filename));
+        }
+        $filepath = getimagepath($filename, $imagedata['path']);
+
+        $imagedata['usethumbnail'] = $imagedata['usethumbnail'] || ismobile();
+        $imagedata['width'] = getproperty('Thumbnail Size');
+        $imagedata['imageexists'] = imageexists($filename) && file_exists($filepath) && !is_dir($filepath);
+
+        if (!$imagedata['usethumbnail']) {
+            if ($imagedata['imageexists']) {
+                $dimensions = calculateimagedimensions($filepath, $imagedata['imageautoshrink']);
+                $imagedata['width'] = $dimensions['width'];
+                $imagedata['height'] = $dimensions['height'];
+            }
+            $imagedata['thumbnailexists'] = false;
+            return $imagedata;
+        }
+
+        $thumbnail = getthumbnail($filename);
+        $thumbnailpath = getthumbnailpath($filename, $thumbnail, $imagedata['path']);
+        $thumbnailrelativepath = $imagedata['path'];
+
+        if (ismobile()) {
+            $extension = substr($filename, strrpos($filename, "."), strlen($filename));
+            $thumbnail = substr($filename, 0, strrpos($filename, ".")) . '_thn' . $extension;
+            $path = $projectroot . getproperty("Image Upload Path") . $imagedata['path'];
+
+            // make sure a mobile thumbnail exists
+            if (!file_exists("$path /mobile/ $thumbnail")) {
+                if (extension_loaded('gd') && function_exists('gd_info')) {
+                    include_once $projectroot . 'functions/imagefiles.php';
+                    createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
+                }
+            }
+
+            $path = "$path /mobile/ $thumbnail";
+            if (file_exists($path)) {
+                $thumbnailpath = $path;
+                $thumbnailrelativepath = "$path /mobile/";
+            }
+        }
+
+        $imagedata['usethumbnail'] = thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath);
+
+        if ($imagedata['usethumbnail']) {
+            $dimensions = getimagedimensions($thumbnailpath);
+            $imagedata['width'] = $dimensions['width'];
+            $imagedata['height'] = $dimensions['height'];
+        } else if($imagedata['imageexists']) {
+            $dimensions = calculateimagedimensions($filepath, $imagedata['imageautoshrink']);
+            $imagedata['width'] = $dimensions['width'];
+            $imagedata['height'] = $dimensions['height'];
+        }
+
+        $imagedata['thumbnail'] = $thumbnail;
+        $imagedata['thumbnailpath'] = $thumbnailrelativepath;
+        return $imagedata;
+    }
 }
 
 
@@ -117,83 +163,50 @@ class Image extends Template
 class CaptionedImage extends Template
 {
 
-    function __construct($filename, $imageautoshrink, $usethumbnail, $halign="left", $linkparams=array(), $showhidden=false)
-    {
-        global $projectroot;
+    function __construct($imagedata, $linkparams=array(), $showhidden=false) {
         parent::__construct();
 
+        if (!isset($imagedata['path'])) {
+            $imagedata['path'] = getimagesubpath(basename($imagedata['image_filename']));
+        }
+        if (!isset($imagedata['usethumbnail'])) {
+            $imagedata['usethumbnail'] = true;
+        }
+        if (!isset($imagedata['imageautoshrink'])) {
+            $imagedata['imageautoshrink'] = true;
+        }
+
         // CSS stuff
-        if (ismobile() || $halign == "center") {
-            $this->stringvars['halign']="";
-            $this->stringvars['center']="center";
-        }
-        elseif ($halign == "right") {
-            $this->stringvars['halign']="float:right; ";
-        }
-        elseif ($halign == "left") {
-            $this->stringvars['halign']="float:left; ";
-        }
-        else
-        {
-            $this->stringvars['halign']=$halign;
-        }
-
-        // determine image dimensions
-        $width=getproperty("Thumbnail Size");
-
-        $filepath=getimagepath($filename);
-        $thumbnail = getthumbnail($filename);
-        $thumbnailpath=getthumbnailpath($filename, $thumbnail);
-
-        if(ismobile()) {
-            $usethumbnail = true;
-            $extension = substr($filename, strrpos($filename, "."), strlen($filename));
-            $thumbname = substr($filename, 0, strrpos($filename, ".")).'_thn'.$extension;
-            $path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename));
-
-            // make sure a mobile thumbnail exists
-            if (extension_loaded('gd') && function_exists('gd_info')) {
-                if(!file_exists($path."/mobile/".$thumbname)) {
-                    include_once $projectroot."functions/imagefiles.php";
-                    createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
-                }
-            }
-
-            $path = $path."/mobile/".$thumbname;
-            if(file_exists($path)) {
-                $thumbnailpath = $path;
-                $thumbnail = $thumbname;
+        if (ismobile()) {
+            $this->stringvars['halign'] = '';
+            $this->stringvars['center'] = 'center';
+        } else {
+            $imagealign = isset($imagedata['imagealign']) ? $imagedata['imagealign'] : 'left';
+            switch ($imagealign) {
+                case 'right':
+                    $this->stringvars['halign']="float:right; ";
+                break;
+                case 'left':
+                    $this->stringvars['halign'] = "float:left; ";
+                break;
+                case 'center':
+                    $this->stringvars['halign'] = '';
+                    $this->stringvars['center'] = 'center';
             }
         }
 
-        if($usethumbnail) {
-            if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath)) {
-                $dimensions = getimagedimensions($thumbnailpath);
-                $width = $dimensions["width"];
+        // Get the dimensions and thumbnail data
+        $filename = $imagedata['image_filename'];
+        $imagedata = Image::make_imagedata($imagedata);
 
-            }
-            else if(imageexists($filename) && file_exists($filepath) && !is_dir($filepath)) {
-                $dimensions = getimagedimensions($filepath);
-                $width = $dimensions["width"];
-
-            }
+        if (!ismobile()) {
+            $imagedata['width'] += IMAGECAPTION_LINEHEIGHT;
+            $this->stringvars['width'] = $imagedata['width'];
         }
-        else if(imageexists($filename) && file_exists($filepath) && !is_dir($filepath)) {
-            $dimensions=calculateimagedimensions($filepath, $imageautoshrink);
-            $width=$dimensions["width"];
-        }
-
-        $width = $width + IMAGECAPTIONLINEHEIGHT;
-        $this->stringvars["width"] = $width;
 
         // make the image
-        if(imageexists($filename)) {
-            $this->vars['image'] = new Image($filename, $imageautoshrink, $usethumbnail, $linkparams, $showhidden);
-        }
-        else { $this->stringvars['image']='<i>'.$filename.'</i>';
-        }
-
-        $this->vars['caption'] = new ImageCaption(getimage($filename));
+        $this->vars['image'] = new Image($filename, $imagedata, $linkparams, $showhidden);
+        $this->vars['caption'] = new ImageCaption($imagedata);
 
     }
 
@@ -217,76 +230,60 @@ class ImageCaption extends Template
         parent::__construct();
         $result="";
 
-        $captionfontsize=10;
-        $maxchars = 50;
-        if(ismobile()) { $maxchars = 20;
-        }
-
-        if(array_key_exists("caption", $image)) { $caption=$image['caption'];
-        } else { $caption="";
-        }
-
-        if(array_key_exists("source", $image)) { $source=$image['source'];
-        } else { $source="";
-        }
-
-        if(array_key_exists("sourcelink", $image)) { $sourcelink=$image['sourcelink'];
-        } else { $sourcelink="";
-        }
-
-        if(array_key_exists("copyright", $image)) { $copyright=$image['copyright'];
-        } else { $copyright="";
-        }
-
-        if(array_key_exists("permission", $image)) { $permission=$image['permission'];
-        } else { $permission=NO_PERMISSION;
-        }
-
-        $caption=title2html($caption);
-        $source=title2html($source);
-        $copyright=title2html($copyright);
+        $caption = isset($image['caption']) ? title2html($image['caption']) : '';
+        $source = isset($image['source']) ? title2html($image['source']) : '';
+        $sourcelink = isset($image['sourcelink']) ? $image['sourcelink'] : '';
+        $copyright = isset($image['copyright']) ? title2html($image['copyright']) : '';
+        $permission = isset($image['permission']) ? $image['permission'] : NO_PERMISSION;
 
         // now assemble it
-        if($caption) {
-            $captiontitle=$caption;
-            if(strlen($caption) > $maxchars) {
-                $caption = substr(html_entity_decode($caption, ENT_QUOTES, 'UTF-8'), 0, $maxchars)."...";
+        if ($caption) {
+            $captiontitle = $caption;
+            if (strlen($caption) > IMAGECAPTION_MAXCHARS) {
+                $caption = substr(html_entity_decode($caption, ENT_QUOTES, 'UTF-8'), 0, IMAGECAPTION_MAXCHARS);
+                $caption = substr($caption, 0, strrpos($caption, " ")) . "&nbsp;…";
             }
-            $result.='<span title="'.$captiontitle.'">'.$caption.'</span>';
+            $result .= '<span title="'.$captiontitle.'">'.$caption.'</span>';
         }
-        if($source) {
-            $sourcetitle=$source;
-            if(strlen($source) > $maxchars) {
-                $source = substr(html_entity_decode($source, ENT_QUOTES, 'UTF-8'), 0, $maxchars)."...";
+        if ($source) {
+            $sourcetitle = $source;
+            if (strlen($source) > IMAGECAPTION_MAXCHARS) {
+                $source = substr(html_entity_decode($source, ENT_QUOTES, 'UTF-8'), 0, IMAGECAPTION_MAXCHARS);
+                $source = substr($source, 0, strrpos($source, " ")) . "&nbsp;…";
             }
-            if($caption) {
-                $result.='<br>';
+            if ($caption) {
+                $result .= '<br>';
             }
-            $result.='<span title="'.getlang("image_image").$sourcetitle.'">'.getlang("image_image");
-            if($sourcelink) {
-                $result.='<a href="'.$sourcelink.'" title="'.$sourcetitle.'" target="_blank">';
+            $result .= '<span title="' . getlang("image_image") . $sourcetitle . '">' . getlang("image_image");
+            if ($sourcelink) {
+                $result .= '<a href="' . $sourcelink . '" title="' . $sourcetitle . '" target="_blank">';
             }
-            $result.=$source;
-            if($sourcelink) {
-                $result.='</a>';
+            $result .= $source;
+            if ($sourcelink) {
+                $result .= '</a>';
             }
-            $result.='</span>';
+            $result .= '</span>';
         }
-        if($copyright) {
-            $copyrighttitle=$copyright;
-            if(strlen($copyright) > $maxchars) {
-                $copyright = substr(html_entity_decode($copyright, ENT_QUOTES, 'UTF-8'), 0, $maxchars)."...";
+        if ($copyright) {
+            $copyrighttitle = $copyright;
+            if (strlen($copyright) > IMAGECAPTION_MAXCHARS) {
+                $copyright = substr(html_entity_decode($copyright, ENT_QUOTES, 'UTF-8'), 0, IMAGECAPTION_MAXCHARS);
+                $copyright = substr($copyright, 0, strrpos($copyright, " ")) . "&nbsp;…";
             }
 
-            if($caption || $source) {
-                $result.='.<br>';
+            if ($caption || $source) {
+                $result .= '.<br>';
             }
-            $result.='<span title="&copy; '.$copyrighttitle.'">&copy; '.$copyright.'.</span>';
+            $result .= '<span title="&copy; ' . $copyrighttitle . '">&copy; ' . $copyright . '.</span>';
         }
-        if($permission==PERMISSION_GRANTED) { $result.=getlang("image_bypermission");
+        if ($permission == PERMISSION_GRANTED) {
+            if (!$copyright) {
+                $result .= '.';
+            }
+            $result .= getlang("image_bypermission");
         }
 
-        $this->stringvars['caption']=$result;
+        $this->stringvars['caption'] = $result;
     }
 
     // assigns templates
@@ -295,5 +292,4 @@ class ImageCaption extends Template
         $this->addTemplate("images/imagecaption.tpl");
     }
 }
-
 ?>

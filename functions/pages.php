@@ -113,7 +113,7 @@ function getpagetypes()
 //
 function getpagecontents($page)
 {
-    $sql = new SQLSelectStatement(PAGES_TABLE, '*', array('page_id'), array($page), 'i');
+    $sql = new SQLJoinStatement(PAGES_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('page_id'), array($page), 'i');
     return $sql->fetch_row();
 }
 

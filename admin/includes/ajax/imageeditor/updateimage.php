@@ -37,38 +37,37 @@ require_once $projectroot."admin/functions/sessions.php";
 
 $db->quiet_mode = true;
 
-//print_r($_POST);
-
 checksession();
 
-$image="";
+$image = "";
+$elementtype = $_POST['elementtype'];
 
-$elementtype=$_POST["elementtype"];
+switch ($elementtype) {
+    case 'pageintro':
+        $sql = new SQLJoinStatement(PAGES_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('page_id'), array($_POST['page']), 'i');
+    break;
+    case 'articlesection':
+        $sql = new SQLJoinStatement(ARTICLESECTIONS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('articlesection_id'), array($_POST['item']), 'i');
+    break;
+    case 'newsitemsection':
+        $sql = new SQLJoinStatement(NEWSITEMSECTIONS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('newsitemsection_id'), array($_POST['item']), 'i');
+    break;
+    case 'link':
+        $sql = new SQLSelectStatement(LINKS_TABLE, 'image_filename', array('link_id'), array($_POST['item']), 'i');
+    break;
+    default:
+        print("Error: Unknown elementtype: $elementtype </br /> for image on page: " . $_POST['page'] . ", item: " . $_POST['item']);
+        return;
+}
 
-if($elementtype=="pageintro") {
-    include_once $projectroot."admin/functions/pagesmod.php";
-    $contents = getpageintroimage($_POST['page']);
-    $image = $contents['introimage'];
+if ($sql) {
+    $imagedata = $sql->fetch_row();
 }
-elseif($elementtype=="articlesection") {
-    include_once $projectroot."functions/pagecontent/articlepages.php";
-    $contents = getarticlesectioncontents($_POST['item']);
-    $image = $contents['sectionimage'];
-}
-elseif($elementtype=="newsitemsection") {
-    include_once $projectroot."admin/functions/pagecontent/newspagesmod.php";
-    $image = getnewsitemsectionimage($_POST['item']);
-}
-elseif($elementtype=="link") {
-    include_once $projectroot."admin/functions/pagecontent/linklistpagesmod.php";
-    $image=getlinkimage($_POST['item']);
-}
-else { print ("Error: Unknown elementtype: ".$elementtype."</br /> for image on page: ".$_POST['page'].", item: ".$_POST['item']);
-}
+
 if (!empty($db->error_report)) {
     print($db->error_report);
-} else if($image) {
-    $printme = new ImageEditorImagePane($_POST['page'], $image);
+} elseif (!empty($imagedata)) {
+    $printme = new ImageEditorImagePane($_POST['page'], $imagedata);
     print($printme->toHTML());
 }
 

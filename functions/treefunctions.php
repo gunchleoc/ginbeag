@@ -53,7 +53,7 @@ $sql = new SQLSelectStatement(
 $sql->set_order(array('parent_id' => 'ASC', 'position_navigator' => 'ASC'));
 $allpages = $sql->fetch_many_rows();
 
-$sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, array('page_id', 'masterpage'));
+$sql = new SQLSelectStatement(RESTRICTEDPAGES_TABLE, '*');
 $sql->set_order(array('page_id' => 'ASC'));
 $allrestrictedpages = $sql->fetch_two_columns();
 

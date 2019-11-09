@@ -48,6 +48,10 @@ function createthumbnail($path, $filename, $ismobile = false)
 {
     global $projectroot;
 
+    if (!file_exists($path."/".$filename)) {
+        return false;
+    }
+
     $extension=substr($filename, strrpos($filename, "."), strlen($filename));
     $imagename=substr($filename, 0, strrpos($filename, "."));
     $thumbname=$imagename.'_thn'.$extension;

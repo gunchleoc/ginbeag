@@ -100,15 +100,6 @@ function getnewsitemsectiontext($newsitemsection)
 //
 //
 //
-function getnewsitemsectionimage($newsitemsection)
-{
-    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionimage', array('newsitemsection_id'), array($newsitemsection), 'i');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
 function getnewsitemsectionnumber($newsitemsection)
 {
     $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'sectionnumber', array('newsitemsection_id'), array($newsitemsection), 'i');
@@ -545,7 +536,7 @@ function updatenewsitemsectionimagefilename($newsitemsection, $imagefilename)
 {
     $sql = new SQLUpdateStatement(
         NEWSITEMSECTIONS_TABLE,
-        array('sectionimage'), array('newsitemsection_id'),
+        array('image_filename'), array('newsitemsection_id'),
         array($imagefilename, $newsitemsection), 'si'
     );
     return $sql->run();

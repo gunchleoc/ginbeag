@@ -77,6 +77,18 @@ function getnewsitemcontents($newsitem)
     return $sql->fetch_row();
 }
 
+
+//
+//
+//
+function getfirstnewsitemcontents($page)
+{
+    $sql = new SQLSelectStatement(NEWSITEMS_TABLE, '*', array('page_id', 'ispublished'), array($page, 1), 'ii');
+    $sql->set_order(array('date' => (displaynewestnewsitemfirst($page) ? 'DESC' : 'ASC')));
+    $sql->set_limit(1, 0);
+    return $sql->fetch_row();
+}
+
 //
 //
 //
@@ -111,7 +123,7 @@ function getnewsitempage($newsitem)
 //
 function getnewsitemsynopsisimages($newsitem)
 {
-    $sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, array('newsitem_id', 'image_filename'), array('newsitem_id'), array($newsitem), 'i');
+    $sql = new SQLSelectStatement(NEWSITEMSYNIMG_TABLE, array('newsitemimage_id', 'image_filename'), array('newsitem_id'), array($newsitem), 'i');
     $sql->set_order(array('position' => 'ASC'));
     return $sql->fetch_two_columns();
 }
@@ -129,9 +141,8 @@ function getnewsitemsections($newsitem)
 //
 //
 //
-function getnewsitemsectionswithcontent($newsitem)
-{
-    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, '*', array('newsitem_id'), array($newsitem), 'i');
+function getnewsitemsectionswithcontent($newsitem) {
+    $sql = new SQLJoinStatement(NEWSITEMSECTIONS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('newsitem_id'), array($newsitem), 'i');
     $sql->set_order(array('sectionnumber' => 'ASC'));
     return $sql->fetch_many_rows();
 }

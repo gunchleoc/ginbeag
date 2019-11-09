@@ -43,7 +43,7 @@ function addimage($filename, $subpath, $caption, $source, $sourcelink, $copyrigh
         return false;
     }
 
-    $columns = array('image_filename', 'uploaddate', 'editor_id', 'permission');
+    $columns = array('image_filename', 'uploaddate', 'imageeditor_id', 'permission');
     $values = array($filename, date(DATETIMEFORMAT, strtotime('now')), getsiduser(), $permission);
     $datatypes = 'ssii';
 
@@ -349,7 +349,7 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
         $datatypes .= 's';
     }
     if($uploader > 0) {
-        $query.=" AND editor_id = ?";
+        $query.=" AND imageeditor_id = ?";
         array_push($values, $uploader);
         $datatypes .= 's';
     }
@@ -362,7 +362,7 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
         $datatypes .= str_pad("", count($categories), 's');
     }
     if($order) {
-        if($order=="uploader") { $order="editor_id";
+        if($order=="uploader") { $order="imageeditor_id";
         } elseif($order=="filename") { $order="image_filename";
         }
         $query .= " ORDER BY ? " . (mb_strtolower($ascdesc, 'UTF-8') == "desc" ? "DESC" : "ASC");

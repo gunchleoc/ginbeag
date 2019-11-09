@@ -430,11 +430,6 @@ a.linktitle:active {
     border-width: 1px 0px 0px 0px;
 }
 
-.linkedimage {
-    border: 10px solid transparent;
-}
-
-
 /************ Images and image captions ************/
 
 /* Image + caption text */

@@ -37,7 +37,6 @@ require_once $projectroot."includes/objects/images.php";
 require_once $projectroot."includes/objects/forms.php";
 require_once $projectroot."includes/functions.php";
 require_once $projectroot."includes/includes.php";
-require_once $projectroot."functions/phpcompatibility.php";
 
 //
 // Templating for Newsitemsections
@@ -61,8 +60,8 @@ class NewsitemSection extends Template
                 $this->stringvars['title'] = title2html($contents['sectiontitle']);
             }
 
-            if (!empty($contents['sectionimage'])) {
-                $this->vars['image'] = new CaptionedImage($contents['sectionimage'], $contents['imageautoshrink'], $contents['usethumbnail'], $contents['imagealign'], array("newsitem" => $newsitem), $showhidden);
+            if (!empty($contents['image_filename'])) {
+                $this->vars['image'] = new CaptionedImage($contents, array("newsitem" => $newsitem), $showhidden);
             } else {
                 $this->stringvars['image'] = "";
             }
@@ -167,46 +166,24 @@ class Newsitem extends Template
 
         $noofimages=count($images);
 
-        $this->listvars['image']= array();
-        if($noofimages) {
+        $this->listvars['image'] = array();
+        if ($noofimages > 0) {
             if ($noofimages == 1) {
-                $this->vars['image'] = new CaptionedImage($images[array_key_first($images)], $contents['imageautoshrink'], $contents['usethumbnail'], "left", array("newsitem" => $newsitem), $showhidden);
+                $contents['image_filename'] = array_shift($images);
+                $this->vars['image'] = new CaptionedImage($contents, array("newsitem" => $newsitem), $showhidden);
             }
-            else
-            {
-                $width=0;
-                $this->stringvars['multiple_images']="".$noofimages;
+            else {
+                $width = 0;
+                $this->stringvars['multiple_images'] = "$noofimages";
+                $imagedata = array('imagealign' => "float:left; ", 'imageautoshrink' => true, 'usethumbnail' => true);
                 foreach ($images as $imagefilename) {
-                    $image = new Image($imagefilename, true, true, array("newsitem" => $newsitem), $showhidden);
-                    $this->listvars['image'][] = $image;
+                    $imagedata['image_filename'] = $imagefilename;
+                    $imagedata = Image::make_imagedata($imagedata);
 
-                    $thumbnail = getthumbnail($imagefilename);
-                    $filepath = getimagepath($imagefilename);
-                    $thumbnailpath = getthumbnailpath($imagefilename, $thumbnail);
-
-                    if(ismobile()) {
-                        $usethumbnail = true;
-                        $extension = substr($imagefilename, strrpos($imagefilename, "."), strlen($imagefilename));
-                        $thumbname = substr($imagefilename, 0, strrpos($imagefilename, ".")).'_thn'.$extension;
-                        $path = $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($imagefilename))."/mobile/".$thumbname;
-
-                        if(file_exists($path)) {
-                            $thumbnailpath = $path;
-                            $thumbnail = $thumbname;
-                        }
-                    }
-
-                    if(thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath)) {
-                        $dimensions = getimagedimensions($thumbnailpath);
-                        $width += $dimensions["width"];
-                    }
-                    else if(imageexists($images[$i]) && file_exists($filepath) && !is_dir($filepath)) {
-                        $dimensions = calculateimagedimensions($imagefilename);
-                        $width += $dimensions["width"];
-                    }
+                    $this->listvars['image'][] = new Image($imagefilename, $imagedata, array("newsitem" => $newsitem), $showhidden);
+                    $width += $imagedata['width'] + 20;
                 }
-                $width+=20;
-                $this->stringvars['width']=$width;
+                $this->stringvars['width'] = $width;
             }
             $this->stringvars['synopsis_image']="synopsis_image";
         }
@@ -285,7 +262,7 @@ class NewsPage extends Template
 
         parent::__construct();
 
-        $this->vars['pageintro'] = new PageIntro($introcontents['title_page'], $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
+        $this->vars['pageintro'] = new PageIntro($introcontents['title_page'], $introcontents['introtext'], "introtext", $introcontents, $showhidden);
 
         $linkparams = array("page" => $this->stringvars['page']);
         if(ismobile()) { $linkparams["m"] = "on";
@@ -395,7 +372,7 @@ class NewsPage extends Template
         {
             $this->vars['filterform'] = $this->makenewsfilterform($page);
         }
-        $this->vars['editdata']= new Editdata($showhidden);
+        $this->vars['editdata']= new Editdata($introcontents, $showhidden);
     }
 
     // assigns templates

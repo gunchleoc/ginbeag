@@ -108,7 +108,7 @@ class DeleteImageConfirmForm extends Template
     {
         parent::__construct();
         $image=getimage($filename);
-        $this->vars['image']=new AdminImage($filename, $image['uploaddate'], $image['editor_id'], getthumbnail($filename));
+        $this->vars['image']=new AdminImage($filename, $image['uploaddate'], $image['imageeditor_id'], getthumbnail($filename));
 
         $this->stringvars['filename']=$filename;
 
@@ -138,7 +138,7 @@ class DeleteThumbnailConfirmForm extends Template
         parent::__construct();
 
         $image=getimage($filename);
-        $this->vars['image']=new AdminImage($filename, $image['uploaddate'], $image['editor_id'], getthumbnail($filename));
+        $this->vars['image']=new AdminImage($filename, $image['uploaddate'], $image['imageeditor_id'], getthumbnail($filename));
 
         $this->stringvars['filename']=$filename;
 
@@ -208,7 +208,7 @@ class EditImageForm extends Template
         $this->vars['no_permission'] = new RadioButtonForm($this->stringvars['jsid'], "permission", NO_PERMISSION, "No permission", $this->stringvars['permission'] == NO_PERMISSION, "right");
 
         $thumbnail = getthumbnail($filename);
-        $this->vars['image']= new AdminImage($filename, $image['uploaddate'], $image['editor_id'], $thumbnail, true);
+        $this->vars['image']= new AdminImage($filename, $image['uploaddate'], $image['imageeditor_id'], $thumbnail, true);
 
         if(!$thumbnail) {
             $this->stringvars['no_thumbnail']="no thumbnail";
@@ -531,11 +531,12 @@ class AdminImage extends Template
             $this->vars['caption']= new ImageCaption(getimage($filename));
         }
 
-        $filepath =    $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename)).'/'.$filename;
+        $imagesubpath = getimagesubpath(basename($filename));
+        $filepath = getimagepath($filename, $imagesubpath);
 
         if(file_exists($filepath)) {
             $this->stringvars['image']="image";
-            $this->stringvars['imagepath']=getimagelinkpath($filepath, getimagesubpath(basename($filepath)));
+            $this->stringvars['imagepath']=getimagelinkpath($filepath, $imagesubpath);
 
             $imageproperties = imageproperties($filepath, $uploaddate, $uploader);
             if(strlen($imageproperties)>0) {
@@ -553,8 +554,8 @@ class AdminImage extends Template
 
         if($thumbnail) {
             $this->stringvars['thumbnail']="thumbnail";
-            $this->stringvars['thumbnailpath']=getimagelinkpath($thumbnail, getimagesubpath(basename($filename)));
-            $thumbnailpath = getthumbnailpath($filepath, $thumbnail);
+            $this->stringvars['thumbnailpath']=getimagelinkpath($thumbnail, $imagesubpath);
+            $thumbnailpath = getthumbnailpath($filepath, $thumbnail, $imagesubpath);
             $dimensions=getimagedimensions($thumbnailpath);
 
             if(file_exists($thumbnailpath)) {

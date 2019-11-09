@@ -155,9 +155,8 @@ $legal_columns = array(
     'image' => 1,
     'imagealign' => 1,
     'imageautoshrink' => 1,
-    'imagehalign' => 1,
+    'imageeditor_id' => 1,
     'imgcat_id' => 1,
-    'introimage' => 1,
     'introtext' => 1,
     'ip' => 1,
     'iscontact' => 1,
@@ -198,7 +197,6 @@ $legal_columns = array(
     'referrerurl' => 1,
     'restrictedaccess_id' => 1,
     'retries' => 1,
-    'sectionimage' => 1,
     'sectionnumber' => 1,
     'sectiontitle' => 1,
     'sent' => 1,
@@ -251,6 +249,7 @@ define('CATEGORY_NEWS', 2);
 define('WRONG_MIME_TYPE_NO_IMAGE', -1);
 
 // todo replace site property? Hack for gallery pages CSS
-define('IMAGECAPTIONLINEHEIGHT', 8);
+define('IMAGECAPTION_LINEHEIGHT', 19);
+define('IMAGECAPTION_MAXCHARS', 50);
 
 ?>

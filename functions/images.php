@@ -79,7 +79,7 @@ function getallfilenames($order="",$ascdesc="ASC")
     if (empty($order)) {
         $order = 'image_filename';
     } elseif ($order === 'uploader') {
-        $order = 'editor_id';
+        $order = 'imageeditor_id';
     }
 
     $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename');
@@ -106,7 +106,7 @@ function getsomefilenames($offset,$number, $order="image_filename", $ascdesc="AS
     if (empty($order)) {
         $order = 'image_filename';
     } elseif ($order === 'uploader') {
-        $order = 'editor_id';
+        $order = 'imageeditor_id';
     } elseif ($order === 'filename') {
         $order = 'image_filename';
     }
@@ -193,7 +193,7 @@ function getuploaddate($filename)
 //
 function getuploader($filename)
 {
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'editor_id', array('image_filename'), array($filename), 's');
+    $sql = new SQLSelectStatement(IMAGES_TABLE, 'imageeditor_id', array('image_filename'), array($filename), 's');
     return $sql->fetch_value();
 }
 
@@ -241,11 +241,11 @@ function imageisused($filename)
 //
 function pagesforimage($filename)
 {
-    $sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('introimage'), array($filename), 's');
+    $sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('image_filename'), array($filename), 's');
     $sql->set_order(array('page_id' => 'ASC'));
     $pageintros = $sql->fetch_column();
 
-    $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'article_id', array('sectionimage'), array($filename), 's');
+    $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'article_id', array('image_filename'), array($filename), 's');
     $sql->set_order(array('article_id' => 'ASC'));
     $articlesections = $sql->fetch_column();
 
@@ -253,7 +253,7 @@ function pagesforimage($filename)
     $sql->set_order(array('page_id' => 'ASC'));
     $galleryitems = $sql->fetch_column();
 
-    $sql = new SQLSelectStatement(LINKS_TABLE, 'page_id', array('image'), array($filename), 's');
+    $sql = new SQLSelectStatement(LINKS_TABLE, 'page_id', array('image_filename'), array($filename), 's');
     $sql->set_order(array('page_id' => 'ASC'));
     $linkimages = $sql->fetch_column();
 
@@ -269,7 +269,7 @@ function newsitemsforimage($filename)
     $sql->set_order(array('newsitem_id' => 'ASC'));
     $synopsisimages = $sql->fetch_column();
 
-    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'newsitem_id', array('sectionimage'), array($filename), 's');
+    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'newsitem_id', array('image_filename'), array($filename), 's');
     $sql->set_order(array('newsitem_id' => 'ASC'));
     $sectionimages = $sql->fetch_column();
 

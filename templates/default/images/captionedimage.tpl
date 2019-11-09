@@ -1,4 +1,4 @@
-<div class="captionedimage" style="{HALIGN} width:{WIDTH}; <!-- BEGIN switch CENTER -->display: block; margin: 0 auto;<!-- END switch CENTER -->">
+<div class="captionedimage" style="{HALIGN}<!-- BEGIN switch WIDTH --> width: {WIDTH}; <!-- END switch WIDTH --><!-- BEGIN switch HEIGHT --> height: {HEIGHT}; <!-- END switch HEIGHT --><!-- BEGIN switch CENTER -->display: block; margin: 0 auto;<!-- END switch CENTER -->">
 	{IMAGE}
 	<div class="imagecaption">{CAPTION}</div>
 </div>

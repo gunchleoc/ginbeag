@@ -68,8 +68,8 @@ class NewsitemImagePropertiesForm extends Template
         $this->stringvars['imageid']=$imageid;
         $this->stringvars['imagefilename']=$image;
 
-        if(strlen($image)>0 && imageexists($image)) {
-            $this->vars['image'] = new CaptionedImageAdmin($image, $this->stringvars['page']);
+        if (!empty($image) && imageexists($image)) {
+            $this->vars['image'] = new CaptionedImageAdmin(array('image_filename' => $image), $this->stringvars['page']);
         }
         $this->vars['removeconfirmform']= new CheckboxForm("removeconfirm", "removeconfirm", "Confirm remove", false, "right");
     }

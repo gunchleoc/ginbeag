@@ -290,12 +290,7 @@ if(isset($_POST["addimage"])) {
     }
 }
 elseif($action==="replaceimage") {
-    // Ensure that the browser won't cache the old images
-    header('Expires: Sun, 01 Jan 2014 00:00:00 GMT');
-    header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');
-    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-    header('Cache-Control: post-check=0, pre-check=0', false);
-    header('Pragma: no-cache');
+    clear_browser_cache_headers();
 
     $displayeditform = true;
     $newfilename=$_FILES['newfilename']['name'];
@@ -341,6 +336,8 @@ elseif($action==="replaceimage") {
     unset($_FILES);
 }
 elseif($action==="resizeimage") {
+    clear_browser_cache_headers();
+
     $displayeditform = true;
     $resizesuccess = resizeimagewidth($projectroot.getproperty("Image Upload Path").getimagesubpath($filename), $filename);
 
@@ -354,6 +351,8 @@ elseif($action==="resizeimage") {
     }
 }
 elseif($action==="addthumb") {
+    clear_browser_cache_headers();
+
     $displayeditform = true;
     $thumbnail=$_FILES['thumbnail']['name'];
 
@@ -397,6 +396,8 @@ elseif($action==="addthumb") {
     }
 }
 elseif($action==="replacethumb") {
+    clear_browser_cache_headers();
+
     $displayeditform = true;
     $thumbnail=$_FILES['thumbnail']['name'];
 
@@ -439,6 +440,8 @@ elseif($action==="replacethumb") {
     }
 }
 elseif($action==="createthumbnail") {
+    clear_browser_cache_headers();
+
     $displayeditform = true;
 
     if(hasthumbnail($filename)) {
@@ -638,6 +641,15 @@ function checkextension($oldfile,$newfile) {
     }
     print('<p class="highlight">Image must be of type <i>'.$oldextension.'</i></p>');
     return false;
+}
+
+// Ensure that the browser won't cache the old images
+function clear_browser_cache_headers() {
+    header('Expires: Sun, 01 Jan 2014 00:00:00 GMT');
+    header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Cache-Control: post-check=0, pre-check=0', false);
+    header('Pragma: no-cache');
 }
 
 ?>

@@ -128,11 +128,11 @@ if (!array_key_exists(substr($server_script, strlen($install_with_root)), $allow
     header("HTTP/1.0 404 Not Found");
     print("HTTP 404: Sorry, but this page does not exist.");
     if (DEBUG) {
-        print("<br />'" . $server_script . "' not registered with db scripts.");
+        print("<br />'" . $server_script . "' not registered with db scripts. Compared with " . substr($server_script, strlen($install_with_root)));
+        print("<br />Documentroot + installdir: " . $install_with_root);
     }
     exit;
 }
-
 
 //
 //
@@ -154,6 +154,7 @@ class SQLStatement
     protected $datatypes = "";
     protected $special = "";
 
+    private $order = array();
     private $number = 0;
     private $offset = 0;
 
@@ -333,6 +334,21 @@ class SQLStatement
         }
     }
 
+    // Sets a sort order for the data returned
+    // $order: array of (columname => direction) to order by
+    //         direction is 'ASC' or 'DESC'
+    function set_order($order)
+    {
+        self::check_column_names(array_keys($order));
+        if (empty($this->errors)) {
+            foreach ($order as $key => $value) {
+                $this->order[]
+                    = " `" . $key . "` "
+                      . (mb_strtolower($value, 'UTF-8') == "desc" ? "DESC" : "ASC");
+            }
+        }
+    }
+
     // Sets a limit for the number of rows returned
     function set_limit($number, $offset)
     {
@@ -359,8 +375,14 @@ class SQLStatement
         $this->offset = SQLStatement::setinteger($offset);
     }
 
-    private function limit()
-    {
+    private function order() {
+        if (!empty($this->order)) {
+            return " ORDER BY" . implode(',', $this->order);
+        }
+        return "";
+    }
+
+    private function limit() {
         if ($this->number > 0) {
             return " LIMIT " . $this->number . " OFFSET " . $this->offset;
         }
@@ -414,7 +436,7 @@ class SQLStatement
             return false;
         }
 
-        $statement = $this->prepare_query($this->query . $this->limit());
+        $statement = $this->prepare_query($this->query . $this->order() . $this->limit());
         if ($this->handle_errors()) {
             return false;
         }
@@ -872,12 +894,55 @@ class SQLDeleteStatement extends SQLStatement
     }
 }
 
+// Select query with left join
+class SQLJoinStatement extends SQLStatement
+{
+    private $table1;
+    private $id1;
+    private $table2;
+    private $id2;
+
+    // Constructs a left join SQL statament
+    // $table1:            Left table
+    // $id1:               Join ID for left table
+    // $table2:            Right table
+    // $id2:               Join ID for right table
+    // $fields:            keys in WHERE "key = value" conditions
+    // $values:            values in WHERE "key = value" conditions
+    // $datatypes:         string of data types for values in WHERE conditions, e.g. 'isi'
+    //                     needs to match the values and anything added in special_condition
+    function __construct($table1, $id1, $table2, $id2, $fields = array(), $values = array(),
+        $datatypes = "") {
+        // Verify parameters
+        self::check_table_name($table1);
+        self::check_table_name($table2);
+        self::check_column_names(array($id1, $id2));
+        self::check_column_names($fields);
+
+        // Set parameters
+        $this->table1 = $table1;
+        $this->id1 = $id1;
+        $this->table2 = $table2;
+        $this->id2 = $id2;
+        $this->fields = $fields;
+        $this->values[0] = $values;
+        $this->datatypes = $datatypes;
+    }
+
+    protected function construct_query()
+    {
+        $this->query = "SELECT * FROM " . $this->table1 . " LEFT JOIN " . $this->table2 . " ON "
+            . $this->table1 . "." . $this->id1 . " = "
+            . $this->table2 . "." . $this->id2;
+
+        $this->construct_where_condition();
+    }
+}
+
 // Object for building SQL queries from input and fetching the data from the database
 class SQLSelectStatement extends SQLStatement
 {
     private $table;
-
-    private $order = array();
 
     private $distinct = false;
     private $operator = "";
@@ -905,21 +970,6 @@ class SQLSelectStatement extends SQLStatement
         self::check_table_name($table);
         self::check_column_names($fields);
         self::check_column_names($columns);
-    }
-
-    // Sets a sort order for the data returned
-    // $order: array of (columname => direction) to order by
-    //         direction is 'ASC' or 'DESC'
-    function set_order($order)
-    {
-        self::check_column_names(array_keys($order));
-        if (empty($this->errors)) {
-            foreach ($order as $key => $value) {
-                $this->order[]
-                    = " `" . $key . "` "
-                      . (mb_strtolower($value, 'UTF-8') == "desc" ? "DESC" : "ASC");
-            }
-        }
     }
 
     // Replace "SELECT" with "SELECT DISTINCT" when building the query string
@@ -963,10 +1013,6 @@ class SQLSelectStatement extends SQLStatement
         $this->query .= " FROM `" . $this->table . "`";
 
         $this->construct_where_condition();
-
-        if (!empty($this->order)) {
-            $this->query .= " ORDER BY" . implode(',', $this->order);
-        }
     }
 }
 
@@ -1031,15 +1077,8 @@ class Database
 //
 function getproperties()
 {
-    $sql = new SQLSelectStatement(
-        SITEPROPERTIES_TABLE,
-        array('property_name', 'property_value')
-    );
-    $result = $sql->fetch_two_columns();
-    if (empty($result)) {
-        exit(1);
-    }
-    return $result;
+    $sql = new SQLSelectStatement(SITEPROPERTIES_TABLE, '*');
+    return $sql->fetch_two_columns();
 }
 
 //
@@ -1086,5 +1125,4 @@ function updateproperties($table, $newproperties, $max_value_length = 0)
     }
     return $result;
 }
-
 ?>

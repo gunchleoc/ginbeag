@@ -405,7 +405,7 @@ div.newsquote {
 
 .gallerycontents {
     float: left;
-    width: 100%;
+    width: 85%;
     padding: 1em;
     margin: 1em;
     display: inline;
@@ -425,11 +425,6 @@ div.newsquote {
     margin-top: 1em;
 }
 
-.linkedimage {
-    float: left;
-}
-
-
 /************ Images and image captions ************/
 
 /* Image + caption text */
@@ -443,7 +438,7 @@ div.newsquote {
     padding-left: 0.75em;
     padding-right: 0.75em;
     padding-top: 0.5em;
-    font-size: 100%;
+    font-size: 70%;
     text-align: center;
 }
 

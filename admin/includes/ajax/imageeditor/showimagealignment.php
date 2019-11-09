@@ -37,37 +37,39 @@ require_once $projectroot."admin/functions/sessions.php";
 
 $db->quiet_mode = true;
 
-//print_r($_POST);
-
 checksession();
 
-$align="";
+$align = '';
+$elementtype = $_POST['elementtype'];
 
-$elementtype=$_POST["elementtype"];
+switch ($elementtype) {
+    case 'pageintro':
+        $sql = new SQLSelectStatement(PAGES_TABLE, 'imagealign', array('page_id'), array($_POST['page']), 'i');
+    break;
+    case 'articlesection':
+        $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, 'imagealign', array('articlesection_id'), array($_POST['item']), 'i');
+    break;
+    case 'newsitemsection':
+        $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, 'imagealign', array('newsitemsection_id'), array($_POST['item']), 'i');
+    break;
+    case 'link':
+        // Do nothing
+        return;
+    break;
+    default:
+        print("Error: Unknown elementtype: $elementtype </br /> for image on page: " . $_POST['page'] . ", item: " . $_POST['item']);
+        return;
+}
 
-if($elementtype=="pageintro") {
-    include_once $projectroot."admin/functions/pagesmod.php";
-    $contents = getpageintroimage($_POST['page']);
-    $align = $contents['imagehalign'];
+if ($sql) {
+    $align = $sql->fetch_value();
 }
-elseif($elementtype=="articlesection") {
-    include_once $projectroot."functions/pagecontent/articlepages.php";
-    $contents = getarticlesectioncontents($_POST['item']);
-    $align = $contents['imagealign'];
-}
-elseif($elementtype=="newsitemsection") {
-    include_once $projectroot."admin/functions/pagecontent/newspagesmod.php";
-    $align = getnewsitemsectionimagealign($_POST['item']);
-}
-elseif($elementtype=="link") {
-    $printme="";
-}
-else { print ("Error: Unknown elementtype: ".$elementtype."</br /> for image on page: ".$_POST['page'].", item: ".$_POST['item']);
-}
+
 if (!empty($db->error_report)) {
     print($db->error_report);
-} else if($align) {
-    $printme = new ImageEditorAlignmentPane($_POST["page"], $_POST["item"], $align);
+} else {
+    // Some pages have no imagealign defined, so we don't test whether it has been fetched
+    $printme = new ImageEditorAlignmentPane($_POST['page'], $_POST['item'], $align);
     print($printme->toHTML());
 }
 

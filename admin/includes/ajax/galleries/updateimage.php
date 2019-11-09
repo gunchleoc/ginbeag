@@ -33,17 +33,15 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
 require_once $projectroot."admin/includes/objects/images.php";
-require_once $projectroot."admin/functions/pagecontent/gallerypagesmod.php";
 require_once $projectroot."admin/functions/sessions.php";
-
-//print_r($_POST);
 
 $db->quiet_mode = true;
 
 checksession();
 
-$filename=getgalleryimage($_POST['galleryitemid']);
-$printme = new CaptionedImageAdmin($filename, $_POST['page']);
+$sql = new SQLJoinStatement(GALLERYITEMS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('galleryitem_id'), array($_POST['galleryitemid']), 'i');
+
+$printme = new CaptionedImageAdmin($sql->fetch_row(), $_POST['page']);
 
 if (empty($db->error_report)) {
     print($printme->toHTML());

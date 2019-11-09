@@ -15,7 +15,7 @@
 					<fieldset>
 						<legend>Caption elements</legend>
 						<label for="{JSID}caption">Caption: </label>
-						<input id="{JSID}caption" type="text" name="caption" value="{CAPTION}" size="30" />
+						<input id="{JSID}caption" type="text" name="caption" value="{CAPTION}" size="30" maxlength="200" />
 						<div class="formexplain">Describe what's on the image.</div>
 
 						<br /><label for="{JSID}source">Source Name: </label>

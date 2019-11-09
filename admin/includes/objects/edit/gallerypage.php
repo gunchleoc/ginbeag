@@ -76,7 +76,7 @@ class ShowAllImagesButton extends Template
 //
 class GalleryImageForm extends Template
 {
-    function __construct($imageid, $imagefilename, $offset, $noofimages, $showall) {
+    function __construct($imageid, $imagedata, $offset, $noofimages, $showall) {
         parent::__construct($imageid, array(), array(0 => "admin/includes/javascript/editgallery.js"));
         $this->stringvars['javascript']=$this->getScripts();
 
@@ -95,8 +95,8 @@ class GalleryImageForm extends Template
         }
         $this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
 
-        $this->stringvars['imagefilename'] = $imagefilename;
-        $this->vars['image'] = new CaptionedImageAdmin($this->stringvars['imagefilename'], $this->stringvars['page']);
+        $this->stringvars['imagefilename'] = $imagedata['image_filename'];
+        $this->vars['image'] = new CaptionedImageAdmin($imagedata, $this->stringvars['page']);
 
         if(!getthumbnail($this->stringvars['imagefilename'])) {
             $this->stringvars['no_thumbnail']="This image has no thumbnail";

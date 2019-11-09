@@ -91,7 +91,8 @@ else
             $offset = (ceil($noofimages / $imagesperpage) - 1) * $imagesperpage;
         }
         elseif(isset($_POST['removegalleryimage'])) {
-            $message = 'Removed image <i>'.getgalleryimage($_POST['galleryitemid']).'</i>';
+            $sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'image_filename', array('galleryitem_id'), array($_POST['galleryitemid']), 'i');
+            $message = 'Removed image <i>'.$sql->fetch_value().'</i>';
             if(isset($_POST['removeconfirm'])) {
                 removegalleryimage($_POST['galleryitemid'], $page);
                 updateeditdata($page);

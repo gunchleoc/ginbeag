@@ -44,15 +44,6 @@ function getlinktitle($link)
 //
 //
 //
-function getlinkimage($link)
-{
-    $sql = new SQLSelectStatement(LINKS_TABLE, 'image', array('link_id'), array($link), 'i');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
 function getlastlinkposition($page)
 {
     $sql = new SQLSelectStatement(LINKS_TABLE, 'position', array('page_id'), array($page), 'i');
@@ -80,7 +71,7 @@ function addlink($page,$linktitle,$link,$imagefilename,$description)
         $datatypes .= 's';
     }
     if (!empty($imagefilename)) {
-        array_push($columns, 'image');
+        array_push($columns, 'image_filename');
         array_push($values, $imagefilename);
         $datatypes .= 's';
     }
@@ -136,7 +127,7 @@ function updatelinkimagefilename($link, $image)
 {
     $sql = new SQLUpdateStatement(
         LINKS_TABLE,
-        array('image'), array('link_id'),
+        array('image_filename'), array('link_id'),
         array($image, $link), 'si'
     );
     return $sql->run();

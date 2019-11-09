@@ -139,8 +139,9 @@ class Showimage extends Template
 
         // make image
         if(strlen($filename)>1) {
-            $this->stringvars['imagepath'] = getimagelinkpath($filename, getimagesubpath(basename($filename)));
-            $dimensions = getimagedimensions(getimagepath($filename));
+            $imagesubpath = getimagesubpath(basename($filename));
+            $this->stringvars['imagepath'] = getimagelinkpath($filename, $imagesubpath);
+            $dimensions = getimagedimensions(getimagepath($filename, $imagesubpath));
             $this->stringvars['width'] = $dimensions["width"];
             $this->stringvars['height'] = $dimensions["height"];
             $this->stringvars['simplecaption'] = title2html($caption);

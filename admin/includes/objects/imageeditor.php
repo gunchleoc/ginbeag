@@ -49,52 +49,36 @@ class ImageEditor extends Template
         parent::__construct($page.'-'.$elementid, array(), array(0 => "admin/includes/javascript/imageeditor.js"));
         $this->stringvars['javascript']=$this->getScripts();
 
-        $imagealign="left";
-        $autoshrink=1;
-        $usethumbnail=1;
-        $this->stringvars['image']="";
+        $this->stringvars['image'] = isset($contents['image_filename']) ? $contents['image_filename'] : '';
 
-        if($elementtype==="pageintro") {
-            $this->stringvars['image']=$contents["introimage"];
-            $imagealign = $contents["imagehalign"];
-            $autoshrink=$contents["imageautoshrink"];
-            $usethumbnail=$contents["usethumbnail"];
-            $this->stringvars['title']="Synopsis";
-        }
-        elseif($elementtype==="articlesection" || $elementtype==="newsitemsection") {
-            $this->stringvars['image']=$contents['sectionimage'];
-            $imagealign = $contents['imagealign'];
-            $autoshrink=$contents["imageautoshrink"];
-            $usethumbnail=$contents["usethumbnail"];
-            $this->stringvars['title']="Section";
-        }
-        elseif($elementtype==="link") {
-            $this->stringvars['image']=$contents['image'];
-            $imagealign = "";
-            $autoshrink="";
-            $usethumbnail="";
-            $this->stringvars['title']="Link";
+        switch ($elementtype) {
+            case "pageintro":
+                $this->stringvars['title'] = 'Synopsis';
+            break;
+            case "articlesection":
+            case "newsitemsection":
+                $this->stringvars['title'] = empty($contents['sectiontitle']) ? 'Section' : 'Section "' . $contents['sectiontitle'] . '"';
+            break;
+            case "link":
+                $this->stringvars['title'] = empty($contents['title']) ? 'Link' : 'Link "' . $contents['title'] . '"';
         }
 
         $this->stringvars['elementtype']=$elementtype;
         $this->stringvars['imagelistpath']=getprojectrootlinkpath()."admin/editimagelist.php".makelinkparameters(array("page" => $this->stringvars['page']));
         $this->vars['filenamepane'] = new ImageEditorFilenamePane($page, $elementid, $this->stringvars['image'], $elementtype);
 
-        if($elementtype=="link") {
-            $this->stringvars['alignmentpane'] ="";
-            $this->stringvars['sizepane'] ="";
-            $this->vars['imagepane'] = new ImageEditorImagePane($page, $this->stringvars['image']);
-        }
-        elseif($this->stringvars['image']) {
-            $this->vars['alignmentpane'] = new ImageEditorAlignmentPane($page, $elementid, $imagealign);
-            $this->vars['imagepane'] = new ImageEditorImagePane($page, $this->stringvars['image']);
-            $this->vars['sizepane'] = new ImageEditorSizePane($page, $elementid, $autoshrink, $usethumbnail);
-        }
-        else
-        {
-            $this->stringvars['alignmentpane'] ="";
-            $this->stringvars['sizepane'] ="";
-            $this->stringvars['imagepane'] = "";
+        if ($elementtype=="link") {
+            $this->vars['imagepane'] = new ImageEditorImagePane($page, $contents);
+            $this->stringvars['alignmentpane'] = '';
+            $this->stringvars['sizepane'] = '';
+        } elseif($this->stringvars['image']) {
+            $this->vars['imagepane'] = new ImageEditorImagePane($page, $contents);
+            $this->vars['alignmentpane'] = new ImageEditorAlignmentPane($page, $elementid, $contents['imagealign']);
+            $this->vars['sizepane'] = new ImageEditorSizePane($page, $elementid, $contents['imageautoshrink'], $contents['usethumbnail']);
+        } else {
+            $this->stringvars['imagepane'] = '';
+            $this->stringvars['alignmentpane'] = '';
+            $this->stringvars['sizepane'] = '';
         }
     }
 
@@ -196,13 +180,14 @@ class ImageEditorSizePane extends Template
 class ImageEditorImagePane extends Template
 {
 
-    function __construct($page,$image)
+    function __construct($page, $imagedata)
     {
         parent::__construct();
-        $this->stringvars['image']="";
 
-        if(strlen($image)>0 && imageexists($image)) {
-            $this->vars['image'] = new CaptionedImageAdmin($image, $page);
+        if (!empty($imagedata['image_filename']) && imageexists($imagedata['image_filename'])) {
+            $this->vars['image'] = new CaptionedImageAdmin($imagedata, $page);
+        } else {
+            $this->stringvars['image'] = isset($imagedata['image_filename']) ? $imagedata['image_filename'] : '';
         }
     }
 

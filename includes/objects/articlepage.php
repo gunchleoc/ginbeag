@@ -50,9 +50,10 @@ class Articlesection extends Template
             $this->stringvars['sectionid'] =$articlesection;
         }
 
-        if(strlen($sectioncontents['sectionimage']) > 0) {
-            $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'], $sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'], array("page" => $this->stringvars['page']), $showhidden);
-        } else { $this->stringvars['image']="";
+        if (!empty($sectioncontents['image_filename'])) {
+            $this->vars['image'] = new CaptionedImage($sectioncontents, array("page" => $this->stringvars['page']), $showhidden);
+        } else {
+            $this->stringvars['image']="";
         }
 
         $this->stringvars['text']=text2html($sectioncontents['text']);
@@ -112,7 +113,7 @@ class ArticlePage extends Template
         }
 
         if($articlepage==1) {
-            $this->vars['pageintro'] = new PageIntro("", $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
+            $this->vars['pageintro'] = new PageIntro("", $introcontents['introtext'], "introtext", $introcontents, $showhidden);
         } else { $this->stringvars['pageintro'] = "";
         }
 
@@ -133,7 +134,7 @@ class ArticlePage extends Template
             $this->listvars['articlesection'][] = new Articlesection($sectionid, $sectioncontents, $showhidden);
         }
 
-        $this->vars['editdata']= new Editdata($showhidden);
+        $this->vars['editdata']= new Editdata($introcontents, $showhidden);
     }
 
     // assigns templates
@@ -217,11 +218,12 @@ class ArticlesectionPrintview extends Template
             $this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
         }
 
-          $this->stringvars['image']="";
+        $this->stringvars['image']="";
 
-        if(strlen($sectioncontents['sectionimage']) > 0) {
-            $this->vars['image'] = new CaptionedImage($sectioncontents['sectionimage'], $sectioncontents['imageautoshrink'], $sectioncontents['usethumbnail'], $sectioncontents['imagealign'], array("page" => $this->stringvars['page']), false);
-        } else { $this->stringvars['image']="";
+        if (!empty($sectioncontents['image_filename'])) {
+            $this->vars['image'] = new CaptionedImage($sectioncontents, array("page" => $this->stringvars['page']), false);
+        } else {
+            $this->stringvars['image']="";
         }
 
           $this->stringvars['text']=text2html($sectioncontents['text']);
@@ -245,7 +247,7 @@ class ArticlePagePrintview extends Template
     {
         parent::__construct();
 
-        $this->vars['pageintro'] = new PageIntro("", $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], false);
+        $this->vars['pageintro'] = new PageIntro("", $introcontents['introtext'], "introtext", $introcontents, false);
 
         $pagecontents=getarticlepagecontents($this->stringvars['page']);
 
@@ -283,7 +285,7 @@ class ArticlePagePrintview extends Template
             $this->listvars['articlesection'][] = new ArticlesectionPrintview($sectioncontents);
         }
 
-        $this->vars['editdata']= new Editdata();
+        $this->vars['editdata']= new Editdata($introcontents);
 
     }
 

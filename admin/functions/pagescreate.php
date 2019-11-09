@@ -47,7 +47,7 @@ function createpage($parent, $title, $navtitle, $pagetype, $user, $ispublishable
     $date = date(DATETIMEFORMAT);
     $sql = new SQLInsertStatement(
         PAGES_TABLE,
-        array('parent_id', 'title_navigator', 'title_page', 'imagehalign', 'imageautoshrink',
+        array('parent_id', 'title_navigator', 'title_page', 'imagealign', 'imageautoshrink',
         'usethumbnail', 'position_navigator', 'pagetype', 'editdate', 'editor_id',
         'permission', 'ispublished', 'ispublishable', 'showpermissionrefusedimages'),
         array($parent, $navtitle, $title, 'left', 1,

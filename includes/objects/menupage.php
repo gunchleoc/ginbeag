@@ -51,7 +51,7 @@ class MenuPage extends Template
 
         $pagecontents=getmenucontents($page);
 
-        $this->vars['pageintro'] = new PageIntro(getpagetitle($introcontents['title_page']), $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
+        $this->vars['pageintro'] = new PageIntro(getpagetitle($introcontents['title_page']), $introcontents['introtext'], "introtext", $introcontents, $showhidden);
 
         $this->pagetype = getpagetype($introcontents['pagetype']);
 
@@ -77,7 +77,7 @@ class MenuPage extends Template
                 }
             }
         }
-        $this->vars['editdata']= new Editdata($showhidden);
+        $this->vars['editdata']= new Editdata($introcontents,$showhidden);
     }
 
     // assigns templates
@@ -154,7 +154,7 @@ class ArticleMenuPage extends Template
         $this->stringvars['actionvars'] = makelinkparameters($linkparams);
         $this->stringvars['hiddenvars'] = $this->makehiddenvars($linkparams);
 
-        $this->vars['pageintro'] = new PageIntro($introcontents['title_page'], $introcontents['introtext'], $introcontents['introimage'], $introcontents['imageautoshrink'], $introcontents['usethumbnail'], $introcontents['imagehalign'], $showhidden);
+        $this->vars['pageintro'] = new PageIntro($introcontents['title_page'], $introcontents['introtext'], "introtext", $introcontents, $showhidden);
 
         $this->stringvars['l_displayoptions']=getlang("menu_filter_displayoptions");
         $this->stringvars['l_categories']=getlang("menu_filter_categories");
@@ -190,7 +190,7 @@ class ArticleMenuPage extends Template
             }
         }
 
-        $this->vars['editdata']= new Editdata($showhidden);
+        $this->vars['editdata']= new Editdata($introcontents, $showhidden);
     }
 
     // assigns templates

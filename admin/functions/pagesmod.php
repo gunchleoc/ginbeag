@@ -54,7 +54,7 @@ function renamepage($page, $title_navigator, $title_page)
 //
 function getpageintroimage($page)
 {
-    $sql = new SQLSelectStatement(PAGES_TABLE, array('introimage', 'imagehalign', 'imageautoshrink', 'usethumbnail'), array('page_id'), array($page), 'i');
+    $sql = new SQLSelectStatement(PAGES_TABLE, array('image_filename', 'imagealign', 'imageautoshrink', 'usethumbnail'), array('page_id'), array($page), 'i');
     return $sql->fetch_row();
 }
 
@@ -79,7 +79,7 @@ function updatepageintroimagealign($page,$imagealign)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
-        array('imagehalign'), array('page_id'),
+        array('imagealign'), array('page_id'),
         array($imagealign, $page), 'si'
     );
     return $sql->run();
@@ -107,7 +107,7 @@ function updatepageintroimagefilename($page,$imagefilename)
 {
     $sql = new SQLUpdateStatement(
         PAGES_TABLE,
-        array('introimage'), array('page_id'),
+        array('image_filename'), array('page_id'),
         array($imagefilename, $page), 'si'
     );
     return $sql->run();

@@ -530,15 +530,19 @@ function calculateimagedimensions($filepath, $autoshrink=false)
 
     if($autoshrink) {
         // todo Mobile Thumbnail Size
-        if($result["width"] > getproperty("Thumbnail Size")) {
+        $thumbnailsize = getproperty("Thumbnail Size");
+        if (ismobile()) {
+            $thumbnailsize *= 2;
+        }
+        if ($result["width"] > $thumbnailsize) {
             $result["resized"] = true;
-            $factor = ceil($result["width"] / getproperty("Thumbnail Size")); // add a little more because captioned images are framed
+            $factor = ceil($result["width"] / $thumbnailsize); // add a little more because captioned images are framed
             $result["width"] = floor($result["width"] / $factor);
             $result["height"] = floor($result["height"] / $factor);
         }
-        if($result["height"]>getproperty("Thumbnail Size")) {
+        if ($result["height"] > $thumbnailsize) {
             $result["resized"] = true;
-            $factor = ceil($result["height"] / getproperty("Thumbnail Size"));
+            $factor = ceil($result["height"] / $thumbnailsize);
             $result["width"] = floor($result["width"] / $factor);
             $result["height"] = floor($result["height"] / $factor);
         }
@@ -564,19 +568,18 @@ function getimagelinkpath($filename,$subpath)
 //
 //
 //
-function getimagepath($filename)
-{
+function getimagepath($filename, $path) {
     global $projectroot;
-    return $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($filename)).'/'.$filename;
+    return $projectroot.getproperty("Image Upload Path").$path.'/'.$filename;
 }
 
 //
 //
 //
-function getthumbnailpath($imagefilename, $thumbnailfilename)
+function getthumbnailpath($imagefilename, $thumbnailfilename, $path)
 {
     global $projectroot;
-    return $projectroot.getproperty("Image Upload Path").getimagesubpath(basename($imagefilename)).'/'.$thumbnailfilename;
+    return $projectroot.getproperty("Image Upload Path").$path.'/'.$thumbnailfilename;
 }
 
 

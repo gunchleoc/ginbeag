@@ -48,7 +48,7 @@ class Guestbook extends Template
 
         $this->stringvars['title'] = $title;
         $sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('guestbook'), 's');
-        $this->vars['intro'] = new PageIntro($title, $sql->fetch_value(), "", true, true, "left", false, "sectiontext");
+        $this->vars['intro'] = new PageIntro($title, $sql->fetch_value(), "sectiontext");
         if(ismobile()) { $displaytype = "mobile";
         } else { $displaytype = "page";
         }

@@ -42,15 +42,19 @@ require_once $projectroot."includes/functions.php";
 class CaptionedImageAdmin extends Template
 {
 
-    function __construct($filename, $page)
+    function __construct($imagedata, $page)
     {
         parent::__construct();
 
-        $this->vars['image']= new CaptionedImage($filename, true, true, "left", array("page" => $page), true);
-        $this->stringvars['imagelinkpath']=getimagelinkpath($filename, getimagesubpath(basename($filename)));
+        if (!isset($imagedata['path'])) {
+            $imagedata['path'] = getimagesubpath(basename($imagedata['image_filename']));
+        }
+
+        $this->vars['image']= new CaptionedImage($imagedata, array("page" => $page), true);
+        $this->stringvars['imagelinkpath']=getimagelinkpath($imagedata['image_filename'], $imagedata['path']);
 
         $linkparams["page"] = $page;
-        $linkparams["s_filename"] = $filename;
+        $linkparams["s_filename"] = $imagedata['image_filename'];
         $linkparams["filter"] = 1;
         $this->stringvars['editimagelink']='<a href="'.getprojectrootlinkpath().'admin/editimagelist.php'.makelinkparameters($linkparams).'" target="_blank">Edit this image</a>';
     }

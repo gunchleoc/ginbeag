@@ -62,15 +62,6 @@ function getlastgalleryimageposition($page)
 //
 //
 //
-function getgalleryimage($galleryitem)
-{
-    $sql = new SQLSelectStatement(GALLERYITEMS_TABLE, 'image_filename', array('galleryitem_id'), array($galleryitem), 'i');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
 function addgalleryimage($page,$filename)
 {
     $sql = new SQLInsertStatement(
