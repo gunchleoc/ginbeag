@@ -76,6 +76,10 @@ class Image extends Template
             $src = $imagedata['usethumbnail'] ?
                 getimagelinkpath($imagedata['thumbnail'], $imagedata['thumbnailpath']) :
                 getimagelinkpath($filename, $imagedata['path']);
+            // Make sure that the browser won't cache while editing
+            if ($showhidden) {
+                 $src .= "?" . time();
+            }
 
             $image = '<a href="'.$imagedata['link'].'" '.$targetstring.'><img src="'.$src.'" width="'.$imagedata['width'].'" height="'.$imagedata['height'].'" alt="'.$alttext.'" title="'.$alttext.'" border="0" /></a>';
         } else {

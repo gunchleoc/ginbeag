@@ -48,6 +48,8 @@ require_once $projectroot."admin/includes/objects/imagelist.php";
 
 //todo: test!!!
 
+clear_browser_cache_headers();
+
 checksession();
 
 // clear unused names of submit buttons
@@ -290,8 +292,6 @@ if(isset($_POST["addimage"])) {
     }
 }
 elseif($action==="replaceimage") {
-    clear_browser_cache_headers();
-
     $displayeditform = true;
     $newfilename=$_FILES['newfilename']['name'];
 
@@ -336,8 +336,6 @@ elseif($action==="replaceimage") {
     unset($_FILES);
 }
 elseif($action==="resizeimage") {
-    clear_browser_cache_headers();
-
     $displayeditform = true;
     $resizesuccess = resizeimagewidth($projectroot.getproperty("Image Upload Path").getimagesubpath($filename), $filename);
 
@@ -351,8 +349,6 @@ elseif($action==="resizeimage") {
     }
 }
 elseif($action==="addthumb") {
-    clear_browser_cache_headers();
-
     $displayeditform = true;
     $thumbnail=$_FILES['thumbnail']['name'];
 
@@ -396,8 +392,6 @@ elseif($action==="addthumb") {
     }
 }
 elseif($action==="replacethumb") {
-    clear_browser_cache_headers();
-
     $displayeditform = true;
     $thumbnail=$_FILES['thumbnail']['name'];
 
@@ -440,8 +434,6 @@ elseif($action==="replacethumb") {
     }
 }
 elseif($action==="createthumbnail") {
-    clear_browser_cache_headers();
-
     $displayeditform = true;
 
     if(hasthumbnail($filename)) {
