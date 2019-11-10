@@ -69,7 +69,6 @@ define('SESSIONS_TABLE', $table_prefix.'sessions');
 define('SITEPROPERTIES_TABLE', $table_prefix.'siteproperties');
 define('SPECIALTEXTS_TABLE', $table_prefix.'specialtexts');
 define('MONTHLYPAGESTATS_TABLE', $table_prefix.'stats_pages_monthly');
-define('THUMBNAILS_TABLE', $table_prefix.'thumbnails');
 define('USERS_TABLE', $table_prefix.'users');
 
 // Database tables allowed in queries
@@ -112,7 +111,6 @@ $legal_tables = array(
     SITEPROPERTIES_TABLE => 1,
     SPECIALTEXTS_TABLE => 1,
     MONTHLYPAGESTATS_TABLE => 1,
-    THUMBNAILS_TABLE => 1,
     USERS_TABLE => 1
 );
 

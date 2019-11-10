@@ -39,7 +39,7 @@ require_once $projectroot."functions/banners.php";
 require_once $projectroot."functions/treefunctions.php";
 require_once $projectroot."functions/variables.php";
 require_once $projectroot."includes/objects/template.php";
-require_once $projectroot."includes/functions.php";
+require_once $projectroot."functions/images.php";
 require_once $projectroot."includes/includes.php";
 
 require_once $projectroot."includes/objects/forms.php";
@@ -930,7 +930,7 @@ class Page extends Template
             }
 
             if(!str_startswith($imagefile, getprojectrootlinkpath())) {
-                $imagefile = getimagelinkpath($imagefile, getimagesubpath($imagefile));
+                $imagefile = getimagelinkpath($imagefile, $pagecontents['path']);
             }
 
             // Facebook

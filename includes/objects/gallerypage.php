@@ -47,11 +47,7 @@ class GalleryCaptionedImage extends Template
         parent::__construct();
 
         // Make the image
-        if (imageexists($image['image_filename'])) {
-            $this->vars['image'] = new Image($image['image_filename'], array('imageautoshrink' => true, 'usethumbnail' => true), array("page" => $this->stringvars['page']), $showhidden);
-        } else {
-            $this->stringvars['image'] = '<i>' . $image['image_filename'] . '</i>';
-        }
+        $this->vars['image'] = new Image($image['image_filename'], array('imageautoshrink' => true, 'usethumbnail' => true), array("page" => $this->stringvars['page']), $showhidden);
 
         // Make the caption
         $this->vars['caption'] = new ImageCaption($image, IMAGECAPTION_MAXCHARS);
@@ -96,8 +92,10 @@ class GalleryPage extends Template
 
         if (ismobile()) {
             // create images
-            foreach ($images as $id => $contents) {
-                $this->listvars['galleryimage'][] = new CaptionedImage($contents, $showhidden);
+            foreach ($images as $id => $image) {
+                if (!empty($image['image_filename'])) {
+                    $this->listvars['galleryimage'][] = new CaptionedImage($image, $showhidden);
+                }
             }
         } else {
             $items = array();
@@ -108,6 +106,10 @@ class GalleryPage extends Template
             $charsperline = $width / 8; // Counted 25 chars for width = 208;
 
             foreach ($images as $id => $image) {
+                if (empty($image['image_filename'])) {
+                    unset($image);
+                    continue;
+                }
                 $image['usethumbnail'] = true;
                 $image['imageautoshrink'] = true;
 

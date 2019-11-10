@@ -45,35 +45,28 @@ header('Content-type: text/xml;	charset=utf-8');
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 $message = getpagelock($_POST['page']);
-if($message) {
+if ($message) {
     print('<message error="1">');
     print($message);
-}
-else {
-    $page=$_POST['page'];
-    $filename=trim($_POST['imagefilename']);
+} else {
 
-    $success=false;
+    $page = $_POST['page'];
+    $filename = trim($_POST['imagefilename']);
+
+    $success = false;
     $message ="";
 
-    if(imageexists($filename)) {
-        $success= changegalleryimage($_POST['galleryitemid'], $filename);
-        if(!getthumbnail($filename)) {
-            $message = '<br>Please create a thumbnail for this image!';
-        }
-    }
-    else
-    {
-        $message = '<br>Image <i>'.$filename.'</i> does not exist.';
+    if (imageexists($filename)) {
+        $success = changegalleryimage($_POST['galleryitemid'], $filename);
+    } else {
+        $message = '. Image does not exist.';
     }
 
-    if($success >=0 && empty($db->error_report)) {
+    if ($success && empty($db->error_report)) {
         print('<message error="0">');
         updateeditdata($page);
         print("Changed Image : ".$filename);
-    }
-    else
-    {
+    } else {
         print('<message error="1">');
         print("Error Changing Image : ".$filename.$message
         . "<br />\n" . $db->error_report);

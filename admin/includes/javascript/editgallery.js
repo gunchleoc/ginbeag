@@ -4,16 +4,15 @@ $(document).ready(
         // save image
         $("#{JSID}saveimagebutton").click(
             function () {
-    
+
                 var elements = new Array();
                 elements[0] = $("#{JSID}saveimagebutton");
                 elements[1] = $("#{JSID}saveimagereset");
                 elements[2] = $("#{JSID}imagefilename");
                 disableElements(elements);
-    
+
                 showprogressbox("Saving Image: "+$("#{JSID}imagefilename").val()+" ...");
-        
-        
+
                 postRequest(
                     projectroot+"admin/includes/ajax/galleries/saveimage.php",
                     {
@@ -22,8 +21,7 @@ $(document).ready(
                         galleryitemid: $("#{JSID}galleryitemid").val()
                     },
                     function (xml) {
-    
-               
+
                         postRequest(
                             projectroot+"admin/includes/ajax/galleries/updateimage.php",
                             {
@@ -36,7 +34,7 @@ $(document).ready(
                             },
                             elements
                         ); // post
-        
+
                         showmessageXML(xml);
                     },
                     elements

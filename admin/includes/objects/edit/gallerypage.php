@@ -96,9 +96,13 @@ class GalleryImageForm extends Template
         $this->stringvars['hiddenvars'] = $this->makehiddenvars($hiddenvars);
 
         $this->stringvars['imagefilename'] = $imagedata['image_filename'];
-        $this->vars['image'] = new CaptionedImageAdmin($imagedata, $this->stringvars['page']);
+        if (empty($imagedata['image_filename'])) {
+            $this->stringvars['image'] = '<span class="highlight">Unknown image</span>';
+        } else {
+            $this->vars['image'] = new CaptionedImageAdmin($imagedata, $this->stringvars['page']);
+        }
 
-        if(!getthumbnail($this->stringvars['imagefilename'])) {
+        if (empty($imagedata['thumbnail_filename'])) {
             $this->stringvars['no_thumbnail']="This image has no thumbnail";
         }
 

@@ -35,6 +35,36 @@ require_once $projectroot."functions/users.php";
 require_once $projectroot."functions/images.php";
 
 //
+//
+//
+function imageexists($filename)
+{
+    $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename', array('image_filename'), array($filename), 's');
+    return strlen($filename) > 0 && strcasecmp($sql->fetch_value(), $filename) == 0;
+}
+
+//
+//
+//
+function thumbnailexists($thumbnailfilename)
+{
+    if (empty($thumbnailfilename)) {
+        return false;
+    }
+    $sql = new SQLSelectStatement(IMAGES_TABLE, 'thumbnail_filename', array('thumbnail_filename'), array($thumbnailfilename), 's');
+    return $sql->fetch_value() === $thumbnailfilename;
+}
+
+// Make new path for each month to avoid directory that is too full
+function makeimagesubpath() {
+    $date = getdate();
+    if ($date["mon"] < 10) {
+        $date["mon"]= "0" . $date["mon"];
+    }
+    return "/" . $date["year"] . $date["mon"];
+}
+
+//
 // returns false if image already exists
 //
 function addimage($filename, $subpath, $caption, $source, $sourcelink, $copyright, $permission)
@@ -83,13 +113,11 @@ function addimage($filename, $subpath, $caption, $source, $sourcelink, $copyrigh
 //
 function addthumbnail($image,$thumbnail)
 {
-    $sql = new SQLInsertStatement(
-        THUMBNAILS_TABLE,
-        array('image_filename', 'thumbnail_filename'),
-        array($image, $thumbnail),
-        'ss'
-    );
-    return $sql->insert();
+    $sql = new SQLUpdateStatement(
+        IMAGES_TABLE,
+        array('thumbnail_filename'), array('image_filename'),
+        array($thumbnail, $image), 'ss');
+    return $sql->run();
 }
 
 //
@@ -98,7 +126,10 @@ function addthumbnail($image,$thumbnail)
 //
 function deletethumbnail($imagefilename)
 {
-    $sql = new SQLDeleteStatement(THUMBNAILS_TABLE, array('image_filename'), array($imagefilename), 's');
+    $sql = new SQLUpdateStatement(
+        IMAGES_TABLE,
+        array('thumbnail_filename'), array('image_filename'),
+        array('', $imagefilename), 'ss');
     return $sql->run();
 }
 
@@ -111,8 +142,6 @@ function deleteimage($filename)
     $result = true;
     if(!imageisused($filename)) {
         $sql = new SQLDeleteStatement(IMAGES_TABLE, array('image_filename'), array($filename), 's');
-        $result = $result & $sql->run();
-        $sql = new SQLDeleteStatement(THUMBNAILS_TABLE, array('image_filename'), array($filename), 's');
         $result = $result & $sql->run();
         $sql = new SQLDeleteStatement(IMAGECATS_TABLE, array('image_filename'), array($filename), 's');
         $result = $result & $sql->run();
@@ -141,16 +170,12 @@ function savedescription($filename, $caption, $source, $sourcelink, $copyright, 
 //
 // $files: Images to be filtered
 //
-function getmissingimages($order, $ascdesc, $files)
-{
-    global $projectroot;
+function getmissingimages($files) {
     $result=array();
 
-    $keys = array_keys($files);
-    while($key = next($keys))
-    {
-        if(!file_exists($projectroot.getproperty("Image Upload Path").getimagesubpath($files[$key])."/".$files[$key])) {
-            array_push($result, $files[$key]);
+    foreach ($files as $file) {
+        if (!file_exists(getimagepath($file, getimagesubpath($file)))) {
+            array_push($result, $file);
         }
     }
     return $result;
@@ -224,16 +249,16 @@ function getunusedimages($order,$ascdesc,$files)
 //
 // $files: Images to be filtered
 //
-function getmissingthumbnails($order, $ascdesc, $files)
+function getmissingthumbnails($files)
 {
     global $projectroot;
-    $result=array();
+    $result = array();
 
-    $keys = array_keys($files);
-    while($key = next($keys))
-    {
-        if(hasthumbnail($files[$key]) && !file_exists($projectroot.getproperty("Image Upload Path").getimagesubpath($files[$key])."/".getthumbnail($files[$key]))) {
-            array_push($result, $files[$key]);
+    foreach ($files as $file) {
+        $imagedata = getfile($files);
+        $thumbnail = $imagedata['thumbnail_filename'];
+        if (!empty($thumbnail) && !file_exists($projectroot.getproperty("Image Upload Path").$imagedata['path']."/".$thumbnail)) {
+            array_push($result, $file);
         }
     }
     return $result;
@@ -243,16 +268,12 @@ function getmissingthumbnails($order, $ascdesc, $files)
 //
 // $files: Images to be filtered
 //
-function getimageswithoutthumbnails($order, $ascdesc, $files)
-{
-    global $projectroot;
-    $result=array();
+function getimageswithoutthumbnails($files) {
+    $result = array();
 
-    $keys = array_keys($files);
-    while($key = next($keys))
-    {
-        if(!hasthumbnail($files[$key])) {
-            array_push($result, $files[$key]);
+    foreach ($files as $file) {
+        if (empty(getthumbnail($file))) {
+            array_push($result, $file);
         }
     }
     return $result;
@@ -389,6 +410,49 @@ function getfilteredimageshelper($filename,$caption,$source,$sourceblank,$upload
         }
     }
     return $result;
+}
+
+
+//
+//
+//
+function getsomefilenames($offset,$number, $order="image_filename", $ascdesc="ASC")
+{
+    if (empty($order)) {
+        $order = 'image_filename';
+    } elseif ($order === 'uploader') {
+        $order = 'imageeditor_id';
+    } elseif ($order === 'filename') {
+        $order = 'image_filename';
+    }
+
+    $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename');
+    $sql->set_order(array($order => $ascdesc));
+    $sql->set_limit($number, $offset);
+    return $sql->fetch_column();
+}
+
+//
+//
+//
+function countimages()
+{
+    $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename');
+    $sql->set_operator('count');
+    return $sql->fetch_value();
+}
+
+
+//
+//
+//
+function getimagesubpath($filename)
+{
+    if (empty($filename)) {
+        return "";
+    }
+    $sql = new SQLSelectStatement(IMAGES_TABLE, 'path', array('image_filename'), array($filename), 's');
+    return $sql->fetch_value();
 }
 
 ?>

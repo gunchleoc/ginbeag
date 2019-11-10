@@ -84,7 +84,7 @@ class AddImageForm extends Template
         $this->stringvars['actionvars']=makelinkparameters($actionvars);
 
         // display storage path
-        $this->stringvars['imagelinkpath']=getimagelinkpath("", empty($filename) ? "" : getimagesubpath(basename($filename)));
+        $this->stringvars['imagelinkpath']=getimagelinkpath("", makeimagesubpath());
 
         $this->stringvars['thumbnailsize']=getproperty("Thumbnail Size");
     }
@@ -108,7 +108,7 @@ class DeleteImageConfirmForm extends Template
     {
         parent::__construct();
         $image=getimage($filename);
-        $this->vars['image']=new AdminImage($filename, $image['uploaddate'], $image['imageeditor_id'], getthumbnail($filename));
+        $this->vars['image']=new AdminImage($filename, $image);
 
         $this->stringvars['filename']=$filename;
 
@@ -138,7 +138,7 @@ class DeleteThumbnailConfirmForm extends Template
         parent::__construct();
 
         $image=getimage($filename);
-        $this->vars['image']=new AdminImage($filename, $image['uploaddate'], $image['imageeditor_id'], getthumbnail($filename));
+        $this->vars['image']=new AdminImage($filename, $image);
 
         $this->stringvars['filename']=$filename;
 
@@ -167,6 +167,8 @@ class EditImageForm extends Template
     {
         global $projectroot;
 
+        $image=getimage($filename);
+
         parent::__construct(str_replace(".", "-", $filename), array(), array(0 => "admin/includes/javascript/editimageform.js"));
         $this->stringvars['javascript']=$this->getScripts();
         $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
@@ -182,7 +184,7 @@ class EditImageForm extends Template
 
         if (extension_loaded('gd') && function_exists('gd_info')) {
             $this->stringvars['actionvarscreatethumbnail'] = makelinkparameters(array_merge($actionvars, array("action" => "createthumbnail")));
-            $dimensions = getimagedimensions($projectroot.getproperty("Image Upload Path").getimagesubpath($filename)."/".$filename);
+            $dimensions = getimagedimensions(getimagepath($filename, $image['path']));
             if($dimensions["width"] > getproperty("Image Width")) {
                 $this->stringvars['actionvarsresizeimage'] = makelinkparameters(array_merge($actionvars, array("action" => "resizeimage")));
                 $this->stringvars["defaultimagewidth"] = getproperty("Image Width");
@@ -194,26 +196,23 @@ class EditImageForm extends Template
         $this->stringvars['actionvarspermission'] = makelinkparameters(array_merge($actionvars, array("action" => "permssion")));
         $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("filename" => $filename));
 
-
-        $image=getimage($filename);
         $this->stringvars['filename']=$filename;
         $this->stringvars['caption']=input2html($image['caption']);
         $this->stringvars['source']=input2html($image['source']);
         $this->stringvars['sourcelink']=input2html($image['sourcelink']);
         $this->stringvars['copyright']=input2html($image['copyright']);
         $this->stringvars['permission']=$image['permission'];
-        $this->stringvars['filepath']=getimagelinkpath($filename, getimagesubpath(basename($filename)));
+        $this->stringvars['filepath']=getimagelinkpath($filename, $image['path']);
 
         $this->vars['permission_granted'] = new RadioButtonForm($this->stringvars['jsid'], "permission", PERMISSION_GRANTED, "Permission granted", $this->stringvars['permission'] == PERMISSION_GRANTED, "right");
         $this->vars['no_permission'] = new RadioButtonForm($this->stringvars['jsid'], "permission", NO_PERMISSION, "No permission", $this->stringvars['permission'] == NO_PERMISSION, "right");
 
-        $thumbnail = getthumbnail($filename);
-        $this->vars['image']= new AdminImage($filename, $image['uploaddate'], $image['imageeditor_id'], $thumbnail, true);
+        $this->vars['image']= new AdminImage($filename, $image, true);
 
-        if(!$thumbnail) {
-            $this->stringvars['no_thumbnail']="no thumbnail";
+        if (empty($image['thumbnail_filename'])) {
+            $this->stringvars['no_thumbnail'] = "no thumbnail";
         } else {
-            $this->stringvars['thumbnail']=getthumbnail($filename);
+            $this->stringvars['thumbnail'] = $image['thumbnail_filename'];
         }
 
         $this->vars['categoryselection']= new CategorySelectionForm(true, $this->stringvars['jsid'], CATEGORY_IMAGE);
@@ -300,7 +299,7 @@ class UnknownImageForm extends Template
         $this->stringvars['imagepath'] = getproperty("Image Upload Path").$subpath.'/'.$filename;
         $this->stringvars['imageproperties'] = imageproperties($projectroot.$this->stringvars['imagepath']);
 
-        $dimensions=calculateimagedimensions($projectroot.getproperty("Image Upload Path").$subpath.'/'.$filename, true);
+        $dimensions=calculateimagedimensions($projectroot . $this->stringvars['imagepath'], true);
         $this->stringvars['width']=$dimensions["width"];
         $this->stringvars['height']=$dimensions["height"];
 
@@ -337,7 +336,7 @@ class ImageList extends Template
 
         if(isset($_GET['s_missing'])) {
             $filteredfilenames = $this->getfilteredimagesfromgetvars();
-            $filteredfilenames = getmissingimages($order, $ascdesc, $filteredfilenames);
+            $filteredfilenames = getmissingimages($filteredfilenames);
 
             $noofimages = count($filteredfilenames);
             if($noofimages > 1) {
@@ -355,7 +354,7 @@ class ImageList extends Template
         }
         elseif(isset($_GET['s_missingthumb'])) {
             $filteredfilenames = $this->getfilteredimagesfromgetvars();
-            $filteredfilenames = getmissingthumbnails($order, $ascdesc, $filteredfilenames);
+            $filteredfilenames = getmissingthumbnails($filteredfilenames);
 
             $noofimages = count($filteredfilenames);
             if($noofimages > 1) {
@@ -373,7 +372,7 @@ class ImageList extends Template
         }
         elseif(isset($_GET['s_nothumb'])) {
             $filteredfilenames = $this->getfilteredimagesfromgetvars();
-            $filteredfilenames = getimageswithoutthumbnails($order, $ascdesc, $filteredfilenames);
+            $filteredfilenames = getimageswithoutthumbnails($filteredfilenames);
 
             $noofimages = count($filteredfilenames);
             if($noofimages > 1) {
@@ -520,8 +519,7 @@ class ImageList extends Template
 //
 class AdminImage extends Template
 {
-
-    function __construct($filename, $uploaddate, $uploader, $thumbnail="",$showcaption=true)
+    function __construct($filename, $imagedata, $showcaption = true)
     {
         global $projectroot;
         parent::__construct();
@@ -531,14 +529,13 @@ class AdminImage extends Template
             $this->vars['caption']= new ImageCaption(getimage($filename));
         }
 
-        $imagesubpath = getimagesubpath(basename($filename));
-        $filepath = getimagepath($filename, $imagesubpath);
+        $filepath = getimagepath($filename, $imagedata['path']);
 
         if(file_exists($filepath)) {
             $this->stringvars['image']="image";
-            $this->stringvars['imagepath']=getimagelinkpath($filepath, $imagesubpath);
+            $this->stringvars['imagepath']=getimagelinkpath($filepath, $imagedata['path']) . "?" . time();
 
-            $imageproperties = imageproperties($filepath, $uploaddate, $uploader);
+            $imageproperties = imageproperties($filepath, $imagedata['uploaddate'], $imagedata['imageeditor_id']);
             if(strlen($imageproperties)>0) {
                 $this->stringvars['imageproperties']=$imageproperties;
             }
@@ -552,10 +549,10 @@ class AdminImage extends Template
             $this->stringvars['no_image']="no image";
         }
 
-        if($thumbnail) {
+        if (!empty($imagedata['thumbnail_filename'])) {
             $this->stringvars['thumbnail']="thumbnail";
-            $this->stringvars['thumbnailpath']=getimagelinkpath($thumbnail, $imagesubpath);
-            $thumbnailpath = getthumbnailpath($filepath, $thumbnail, $imagesubpath);
+            $this->stringvars['thumbnailpath']=getimagelinkpath($imagedata['thumbnail_filename'], $imagedata['path']);
+            $thumbnailpath = getimagepath($imagedata['thumbnail_filename'], $imagedata['path']);
             $dimensions=getimagedimensions($thumbnailpath);
 
             if(file_exists($thumbnailpath)) {

@@ -38,15 +38,12 @@ require_once $projectroot."admin/functions/categoriesmod.php";
 require_once $projectroot."admin/functions/usersmod.php";
 require_once $projectroot."admin/functions/files.php";
 require_once $projectroot."includes/includes.php";
-require_once $projectroot."includes/functions.php";
 require_once $projectroot."admin/includes/objects/imagelist.php";
 
 //print("post: ");
 //print_r($_POST);
 //print("<br />get: ");
 //print_r($_GET);
-
-//todo: test!!!
 
 clear_browser_cache_headers();
 
@@ -160,11 +157,8 @@ if(isset($_POST["addimage"])) {
     {
         $newname=$_POST['newname'];
 
-        // make new path for each month to avoid directory that is too full
-        $date = getdate();
-        if ($date["mon"]<10) { $date["mon"]="0".$date["mon"];
-        }
-        $subpath ="/".$date["year"].$date["mon"];
+        // Make new path for each month to avoid directory that is too full
+        $subpath = makeimagesubpath();
 
         // create path in file system if necessary and set permissions
         $imagedir=$projectroot.getproperty("Image Upload Path").$subpath;
@@ -294,26 +288,23 @@ if(isset($_POST["addimage"])) {
 elseif($action==="replaceimage") {
     $displayeditform = true;
     $newfilename=$_FILES['newfilename']['name'];
+    $imagedata = getimage($filename);
 
-    if(!$newfilename) {
+    if (!$newfilename) {
         $message = "Please select an image for upload";
         $error = true;
-    }
-    elseif(!imageexists($filename)) {
+    } elseif(empty($imagedata)) {
         $message = "The image you wish to replace does not exist: ".$filename;
         $error = true;
-    }
-    else
-    {
+    } else {
         $success=checkextension($filename, $newfilename);
-        if($success) {
-            $uploadpath = getproperty("Image Upload Path").getimagesubpath($filename);
+        if ($success) {
+            $uploadpath = getproperty("Image Upload Path").$imagedata['path'];
             $errorcode = replacefile($uploadpath, "newfilename", $filename);
-            $hasthumbnail = hasthumbnail($filename);
             if($errorcode == UPLOAD_ERR_OK) {
                 $message="Replaced Image";
                 $displayeditform=true;
-                if ($hasthumbnail && extension_loaded('gd') && function_exists('gd_info')) {
+                if (!empty($imagedata['thumbnail_filename']) && extension_loaded('gd') && function_exists('gd_info')) {
                     deletethumbnail($filename);
                     $thsuccess = createthumbnail($projectroot.$uploadpath, $filename);
                     if ($thsuccess) {
@@ -337,7 +328,7 @@ elseif($action==="replaceimage") {
 }
 elseif($action==="resizeimage") {
     $displayeditform = true;
-    $resizesuccess = resizeimagewidth($projectroot.getproperty("Image Upload Path").getimagesubpath($filename), $filename);
+    $resizesuccess = resizeimagewidth(getimagedir(getimagesubpath($filename)), $filename);
 
     if($resizesuccess) {
         $message .= "Image <em>".$filename."</em> resized successfully.";
@@ -401,12 +392,13 @@ elseif($action==="replacethumb") {
     }
     else
     {
+        $imagedata = getimage($filename);
+        $thumbnailfilename = $imagedata['thumbnail_filename'];
 
-        $thumbnailfilename=getthumbnail($filename);
         $extension=substr($thumbnail, strrpos($thumbnail, "."), strlen($thumbnail));
         $imageextension=substr($filename, strrpos($filename, "."), strlen($filename));
         if (mb_strtolower($extension, 'UTF-8') === mb_strtolower($imageextension, 'UTF-8')) {
-            $errorcode = replacefile(getproperty("Image Upload Path").getimagesubpath($filename), "thumbnail", $thumbnailfilename);
+            $errorcode = replacefile(getproperty("Image Upload Path").$imagedata['path'], "thumbnail", $thumbnailfilename);
             if($errorcode == UPLOAD_ERR_OK) {
                 $success = true;
             }
@@ -436,13 +428,14 @@ elseif($action==="replacethumb") {
 elseif($action==="createthumbnail") {
     $displayeditform = true;
 
-    if(hasthumbnail($filename)) {
+    $imagedata = getimage($filename);
+    if (!empty($imagedata['thumbnail_filename'])) {
         deletethumbnail($filename);
     }
     $extension = substr($filename, strrpos($filename, "."), strlen($filename));
     $imagename = substr($filename, 0, strrpos($filename, "."));
 
-    $thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").getimagesubpath($filename), $filename);
+    $thsuccess = createthumbnail(getimagedir($imagedata['path']), $filename);
 
     if($thsuccess) {
         addthumbnail($filename, $imagename.'_thn'.$extension);
@@ -472,7 +465,7 @@ elseif($action==="addunknownfile") {
         $imagename = substr($filename, 0, strrpos($filename, "."));
         $imageextension=substr($filename, strrpos($filename, "."), strlen($filename));
         $thumbnail = $imagename."_thn".$imageextension;
-        if(file_exists($projectroot.getproperty("Image Upload Path").$subpath."/".$thumbnail)) {
+        if (file_exists(getimagepath($thumbnail, $subpath))) {
             addthumbnail($filename, $thumbnail);
         }
         $message="Added Image";
@@ -486,8 +479,10 @@ elseif($action==="deletethumbnail") {
 }
 elseif($action==="deleteunknownfile") {
     if(isset($_POST['deletefileconfirm'])) {
-        if(isset($_POST['subpath'])) { $subpath = $_POST['subpath'];
-        } else { $subpath = "";
+        if (isset($_POST['subpath'])) {
+            $subpath = $_POST['subpath'];
+        } else {
+            $subpath = "";
         }
         $success = deletefile(getproperty("Image Upload Path").$subpath, $filename);
         $message="File <em>".$filename."</em> deleted.";
@@ -500,7 +495,6 @@ elseif($action==="deleteunknownfile") {
 }
 elseif($action==="executedelete") {
     if(isset($_POST['delete'])) {
-        $imagedir = getproperty("Image Upload Path").getimagesubpath(basename($filename));
         $pages=pagesforimage($filename);
         $newsitems=newsitemsforimage($filename);
         if(!((count($pages)>0) || (count($newsitems)>0))) {
@@ -509,10 +503,13 @@ elseif($action==="executedelete") {
             $imagename=substr($filename, 0, strrpos($filename, "."));
             $thumbname=$imagename.'_thn'.$extension;
 
+            $imagedata = getimage($filename);
+            $imagedir = getproperty("Image Upload Path").$imagedata['path'];
+
             deletefile($imagedir."/mobile", $thumbname);
 
-            if(hasthumbnail($filename)) {
-                $thumbnail=getthumbnail($filename);
+            $thumbnail = $imagedata['thumbnail_filename'];
+            if (!empty($thumbnail)) {
                 if(!file_exists($projectroot."/".$imagedir."/".$thumbnail)) { $success = true;
                 } else { $success = deletefile($imagedir, $thumbnail);
                 }
@@ -582,9 +579,10 @@ elseif($action==="executedelete") {
 elseif($action==="executethumbnaildelete") {
     $displayeditform = true;
     if(isset($_POST['delete'])) {
-        $imagedir = getproperty("Image Upload Path").getimagesubpath(basename($filename));
-        if(hasthumbnail($filename)) {
-            $thumbnail=getthumbnail($filename);
+        $imagedata = getimage($filename);
+        $imagedir = getproperty("Image Upload Path").$imagedata['path'];
+        $thumbnail = $imagedata['thumbnail_filename'];
+        if (!empty($thumbnail)) {
             $success=deletefile($imagedir, $thumbnail);
             if($success) {
                 deletethumbnail($filename);

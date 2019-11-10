@@ -30,7 +30,7 @@ $projectroot=dirname(__FILE__);
 $projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
 
 require_once $projectroot."includes/objects/template.php";
-require_once $projectroot."includes/functions.php";
+require_once $projectroot."functions/images.php";
 
 //
 // Image with thumbhail & link to showimage.php
@@ -48,18 +48,17 @@ class Image extends Template
             $params["m"] = "on";
         }
 
-        $image="";
-        $alttext = isset($imagedata['title']) ? $imagedata['title'] : title2html(getcaption($filename));
-        if (empty($alttext)) {
-            $alttext = $filename;
-        }
-
         if (!isset($imagedata['image_filename'])) {
             $imagedata['image_filename'] = $filename;
         }
 
         if (!isset($imagedata['imageexists'])) {
             $imagedata = self::make_imagedata($imagedata);
+        }
+
+        $alttext = title2html(empty($imagedata['caption']) ? $imagedata['image_filename'] : $imagedata['caption']);
+        if (empty($alttext)) {
+            $alttext = $filename;
         }
 
         if ($imagedata['imageexists']) {
@@ -74,7 +73,7 @@ class Image extends Template
             }
 
             $src = $imagedata['usethumbnail'] ?
-                getimagelinkpath($imagedata['thumbnail'], $imagedata['thumbnailpath']) :
+                getimagelinkpath($imagedata['thumbnail_filename'], $imagedata['thumbnailpath']) :
                 getimagelinkpath($filename, $imagedata['path']);
             // Make sure that the browser won't cache while editing
             if ($showhidden) {
@@ -98,28 +97,44 @@ class Image extends Template
     public static function make_imagedata($imagedata) {
         global $projectroot;
 
-        $filename = $imagedata['image_filename'];
-        if (!isset($imagedata['path'])) {
-            $imagedata['path'] = getimagesubpath(basename($filename));
-        }
-        $filepath = getimagepath($filename, $imagedata['path']);
-
-        $imagedata['usethumbnail'] = $imagedata['usethumbnail'] || ismobile();
-        $imagedata['width'] = getproperty('Thumbnail Size');
-        $imagedata['imageexists'] = imageexists($filename) && file_exists($filepath) && !is_dir($filepath);
-
-        if (!$imagedata['usethumbnail']) {
-            if ($imagedata['imageexists']) {
-                $dimensions = calculateimagedimensions($filepath, $imagedata['imageautoshrink']);
-                $imagedata['width'] = $dimensions['width'];
-                $imagedata['height'] = $dimensions['height'];
-            }
-            $imagedata['thumbnailexists'] = false;
+        // Ensure image is known
+        $filename_dataset = getimage($imagedata['image_filename']);
+        if (empty($filename_dataset)) {
+            $imagedata['imageexists'] = false;
             return $imagedata;
         }
 
-        $thumbnail = getthumbnail($filename);
-        $thumbnailpath = getthumbnailpath($filename, $thumbnail, $imagedata['path']);
+        // Ensure complete dataset
+        $imagedata = array_merge($imagedata, $filename_dataset);
+        if (!isset($imagedata['usethumbnail'])) {
+            $imagedata['usethumbnail'] = true;
+        }
+        if (!isset($imagedata['imageautoshrink'])) {
+            $imagedata['imageautoshrink'] = true;
+        }
+
+        // Ensure file exists
+        $filename = $imagedata['image_filename'];
+        $filepath = getimagepath($filename, $imagedata['path']);
+        $imagedata['imageexists'] = file_exists($filepath) && !is_dir($filepath);
+        if (!$imagedata['imageexists']) {
+            return $imagedata;
+        }
+
+        // Calculate dimensions and thumbnail
+        $imagedata['usethumbnail'] = $imagedata['usethumbnail'] || ismobile();
+
+        if (!$imagedata['usethumbnail']) {
+            $dimensions = calculateimagedimensions($filepath, $imagedata['imageautoshrink']);
+            $imagedata['width'] = $dimensions['width'];
+            $imagedata['height'] = $dimensions['height'];
+            return $imagedata;
+        }
+
+        $imagedata['width'] = getproperty('Thumbnail Size');
+        $thumbnail = $imagedata['thumbnail_filename'];
+
+        $thumbnailpath = getimagepath($thumbnail, $imagedata['path']);
         $thumbnailrelativepath = $imagedata['path'];
 
         if (ismobile()) {
@@ -142,19 +157,19 @@ class Image extends Template
             }
         }
 
-        $imagedata['usethumbnail'] = thumbnailexists($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath);
+        $imagedata['usethumbnail'] = !empty($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath);
 
         if ($imagedata['usethumbnail']) {
             $dimensions = getimagedimensions($thumbnailpath);
             $imagedata['width'] = $dimensions['width'];
             $imagedata['height'] = $dimensions['height'];
-        } else if($imagedata['imageexists']) {
+        } else {
             $dimensions = calculateimagedimensions($filepath, $imagedata['imageautoshrink']);
             $imagedata['width'] = $dimensions['width'];
             $imagedata['height'] = $dimensions['height'];
         }
 
-        $imagedata['thumbnail'] = $thumbnail;
+        $imagedata['thumbnail_filename'] = $thumbnail;
         $imagedata['thumbnailpath'] = $thumbnailrelativepath;
         return $imagedata;
     }
@@ -169,16 +184,6 @@ class CaptionedImage extends Template
 
     function __construct($imagedata, $linkparams=array(), $showhidden=false) {
         parent::__construct();
-
-        if (!isset($imagedata['path'])) {
-            $imagedata['path'] = getimagesubpath(basename($imagedata['image_filename']));
-        }
-        if (!isset($imagedata['usethumbnail'])) {
-            $imagedata['usethumbnail'] = true;
-        }
-        if (!isset($imagedata['imageautoshrink'])) {
-            $imagedata['imageautoshrink'] = true;
-        }
 
         // CSS stuff
         if (ismobile()) {

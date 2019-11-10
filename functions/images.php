@@ -34,32 +34,77 @@ require_once $projectroot."functions/db.php";
 //
 //
 //
-function imageexists($filename)
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename', array('image_filename'), array($filename), 's');
-    return strlen($filename) > 0 && strcasecmp($sql->fetch_value(), $filename) == 0;
+function getimagedimensions($filepath) {
+    $width = 0;
+    $height  =0;
+
+    if (file_exists($filepath) && filetype($filepath) == "file") {
+        $imageproperties = @getimagesize($filepath);
+        $width = $imageproperties[0];
+        $height = $imageproperties[1];
+    }
+    return array("width" => $width, "height" => $height);
 }
 
 //
 //
 //
-function thumbnailexists($thumbnailfilename)
+function calculateimagedimensions($filepath, $autoshrink = false)
 {
-    if (empty($thumbnailfilename)) { return false;
+    $result = getimagedimensions($filepath);
+    $result["resized"] = false;
+
+    if ($autoshrink) {
+        // todo Mobile Thumbnail Size
+        $thumbnailsize = getproperty("Thumbnail Size");
+        if (ismobile()) {
+            $thumbnailsize *= 2;
+        }
+        if ($result["width"] > $thumbnailsize) {
+            $result["resized"] = true;
+            $factor = ceil($result["width"] / $thumbnailsize); // add a little more because captioned images are framed
+            $result["width"] = floor($result["width"] / $factor);
+            $result["height"] = floor($result["height"] / $factor);
+        }
+        if ($result["height"] > $thumbnailsize) {
+            $result["resized"] = true;
+            $factor = ceil($result["height"] / $thumbnailsize);
+            $result["width"] = floor($result["width"] / $factor);
+            $result["height"] = floor($result["height"] / $factor);
+        }
     }
-    $sql = new SQLSelectStatement(THUMBNAILS_TABLE, 'thumbnail_filename', array('thumbnail_filename'), array($thumbnailfilename), 's');
-    return $sql->fetch_value() === $thumbnailfilename;
+    return $result;
 }
 
 //
 //
 //
-function hasthumbnail($imagefilename)
+function getimagelinkpath($filename, $subpath)
 {
-    if (empty($imagefilename)) { return false;
+    $localpath = getproperty("Local Path");
+    $domain = getproperty("Domain Name");
+    $imagepath = getproperty("Image Upload Path");
+    $result = getproperty('Server Protocol').$domain.'/';
+    if (!empty($localpath)) {
+        $result .= $localpath.'/';
     }
-    $sql = new SQLSelectStatement(THUMBNAILS_TABLE, 'thumbnail_filename', array('image_filename'), array($imagefilename), 's');
-    return strlen($sql->fetch_value()) > 0;
+    $result .= $imagepath . $subpath . '/' . rawurlencode(basename($filename));
+    return $result;
+}
+
+//
+//
+//
+function getimagedir($path) {
+    global $projectroot;
+    return $projectroot.getproperty("Image Upload Path").$path;
+}
+
+//
+//
+//
+function getimagepath($filename, $path) {
+    return getimagedir($path) . '/'.$filename;
 }
 
 //
@@ -67,66 +112,12 @@ function hasthumbnail($imagefilename)
 //
 function getthumbnail($imagefilename)
 {
-    $sql = new SQLSelectStatement(THUMBNAILS_TABLE, 'thumbnail_filename', array('image_filename'), array($imagefilename), 's');
+    if (empty($imagefilename)) {
+        return "";
+    }
+    $sql = new SQLSelectStatement(IMAGES_TABLE, 'thumbnail_filename', array('image_filename'), array($imagefilename), 's');
     return $sql->fetch_value();
 }
-
-//
-//
-//
-function getallfilenames($order="",$ascdesc="ASC")
-{
-    if (empty($order)) {
-        $order = 'image_filename';
-    } elseif ($order === 'uploader') {
-        $order = 'imageeditor_id';
-    }
-
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename');
-    $sql->set_order(array($order => $ascdesc));
-    return $sql->fetch_column();
-}
-
-
-//
-//
-//
-function getallcaptions()
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'caption');
-    $sql->set_order(array('image_filename' => 'ASC'));
-    return $sql->fetch_column();
-}
-
-//
-//
-//
-function getsomefilenames($offset,$number, $order="image_filename", $ascdesc="ASC")
-{
-    if (empty($order)) {
-        $order = 'image_filename';
-    } elseif ($order === 'uploader') {
-        $order = 'imageeditor_id';
-    } elseif ($order === 'filename') {
-        $order = 'image_filename';
-    }
-
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename');
-    $sql->set_order(array($order => $ascdesc));
-    $sql->set_limit($number, $offset);
-    return $sql->fetch_column();
-}
-
-//
-//
-//
-function countimages()
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'image_filename');
-    $sql->set_operator('count');
-    return $sql->fetch_value();
-}
-
 
 //
 //
@@ -137,104 +128,14 @@ function getimage($filename)
     return $sql->fetch_row();
 }
 
-
-//
-//
-//
-function getimagesubpath($filename)
-{
-    if (empty($filename)) { return "";
-    }
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'path', array('image_filename'), array($filename), 's');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
-function getcaption($filename)
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'caption', array('image_filename'), array($filename), 's');
-    return $sql->fetch_value();
-}
-
-
-//
-//
-//
-function getsource($filename)
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'source', array('image_filename'), array($filename), 's');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
-function getsourcelink($filename)
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'sourcelink', array('image_filename'), array($filename), 's');
-    return $sql->fetch_value();
-}
-
-
-//
-//
-//
-function getuploaddate($filename)
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'uploaddate', array('image_filename'), array($filename), 's');
-    return $sql->fetch_value();
-}
-
-
-//
-//
-//
-function getuploader($filename)
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'imageeditor_id', array('image_filename'), array($filename), 's');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
-function getimagecopyright($filename)
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'copyright', array('image_filename'), array($filename), 's');
-    return $sql->fetch_value();
-}
-
-//
-//
-//
-function getimagepermission($filename)
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'permission', array('image_filename'), array($filename), 's');
-    return $sql->fetch_value();
-}
-
-
-//
-//
-//
-function getallsources()
-{
-    $sql = new SQLSelectStatement(IMAGES_TABLE, 'source');
-    $sql->set_order(array('source' => 'ASC'));
-    $sql->set_distinct();
-    return $sql->fetch_column();
-}
-
-
 //
 //
 //
 function imageisused($filename)
 {
-    return count(pagesforimage($filename))>0 || count(newsitemsforimage($filename))>0;
+    return count(pagesforimage($filename)) > 0 || count(newsitemsforimage($filename)) > 0;
 }
+
 
 //
 // todo: modify for each new pagetype
@@ -276,7 +177,6 @@ function newsitemsforimage($filename)
     return array_merge($synopsisimages, $sectionimages);
 }
 
-
 //
 //
 //
@@ -287,7 +187,7 @@ function getpictureoftheday()
     $sql = new SQLSelectStatement(PICTUREOFTHEDAY_TABLE, 'potd_filename', array('potd_date'), array($date), 's');
     $potd = $sql->fetch_value();
 
-    if (!hasthumbnail($potd) || !imageisused($potd)) {
+    if (empty(getthumbnail($potd)) || !imageisused($potd)) {
         $sql = new SQLDeleteStatement(PICTUREOFTHEDAY_TABLE, array('potd_date'), array($date), 's');
         $sql->run();
         $potd="";
@@ -312,12 +212,11 @@ function getpictureoftheday()
             $categories=array(0);
         }
 
-        $query="SELECT DISTINCTROW thumbs.image_filename from ";
-        $query.=THUMBNAILS_TABLE." as thumbs, ";
+        $query="SELECT DISTINCTROW images.image_filename, images.thumbnail_filename from ";
         $query.=IMAGES_TABLE." as images, ";
         $query.=IMAGECATS_TABLE." as cats WHERE ";
-        $query.=" thumbs.image_filename = cats.image_filename";
-        $query.=" AND thumbs.image_filename = images.image_filename";
+        $query.="images.thumbnail_filename IS NOT NULL AND images.thumbnail_filename <> ''";
+        $query.=" AND images.image_filename = cats.image_filename";
         $query.=" AND cats.category in(" . implode(',', array_fill(0, count($categories), '?')) . ")";
 
         $sql = new RawSQLStatement($query, $categories, str_pad("", count($categories), 'i'));

@@ -45,8 +45,7 @@ checksession();
 
 $filename=$_POST['filename'];
 $image=getimage($filename);
-$thumbnail = getthumbnail($filename);
-$printme= new AdminImage($filename, $image['uploaddate'], $image['imageeditor_id'], $thumbnail, true);
+$printme= new AdminImage($filename, $image, true);
 
 if (empty($db->error_report)) {
     print($printme->toHTML());

@@ -73,11 +73,12 @@ else
         // update gallery
         if(isset($_POST['addgalleryimage'])) {
             $filename = trim($_POST['imagefilename']);
-            if(imageexists($filename)) {
+            $imagedata = getimage($filename);
+            if (!empty($imagedata)) {
                 addgalleryimage($page, $filename);
                 updateeditdata($page);
                 $message = 'Added image';
-                if(!getthumbnail($filename)) {
+                if (empty($imagedata['thumbnail_filename'])) {
                     $message .= ', but please create a thumbnail for this image!';
                     $error = true;
                 }

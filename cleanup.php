@@ -88,7 +88,6 @@ $tables_to_optimize = array (
     PICTUREOFTHEDAY_TABLE,
     PUBLICSESSIONS_TABLE,
     PUBLICUSERS_TABLE,
-    THUMBNAILS_TABLE,
 );
 
 foreach ($tables_to_optimize as $table) {
