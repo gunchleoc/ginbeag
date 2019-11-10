@@ -51,7 +51,7 @@ class MenuPage extends Template
 
         $pagecontents=getmenucontents($page);
 
-        $this->vars['pageintro'] = new PageIntro(getpagetitle($introcontents['title_page']), $introcontents['introtext'], "introtext", $introcontents, $showhidden);
+        $this->vars['pageintro'] = new PageIntro($introcontents['title_page'], $introcontents['introtext'], "introtext", $introcontents, $showhidden);
 
         $this->pagetype = getpagetype($introcontents['pagetype']);
 
