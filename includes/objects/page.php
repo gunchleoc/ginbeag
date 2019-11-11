@@ -885,13 +885,15 @@ class Page extends Template
             // Facebook
             if (Page::has_metadata('title')) {
                 $meta_title .= ' - ' . striptitletags(Page::$metadata['title']);
+                $meta_title = str_replace('"', "'", $meta_title);
             }
             $meta_content .= "\n    " . '<meta property="og:title" content="' . $meta_title . '" />';
 
             if (Page::has_metadata('description')) {
-                $meta_description = striptitletags(Page::$metadata['description']);
+                $meta_description = substr(striptitletags(Page::$metadata['description']), 0, 300);
+                $meta_description = str_replace('"', "'", $meta_description);
                 // Facebook
-                $meta_content .= "\n    " . '<meta property="og:description" content="'.substr($meta_description, 0, 300).'" />';
+                $meta_content .= "\n    " . '<meta property="og:description" content="' . $meta_description . '" />';
                 // Google
                 $keywords = "";
                 if ($page > 0) {
