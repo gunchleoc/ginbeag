@@ -595,6 +595,17 @@ class PageIntro extends Template
         $this->stringvars['class']=$class;
         if (!empty($imagedata) && !empty($imagedata['image_filename'])) {
             $this->vars['image'] = new CaptionedImage($imagedata, array("page" => $this->stringvars['page']), $showhidden);
+            if (!Page::has_metadata('image')) {
+                Page::set_metadata('image', $imagedata['image_filename']);
+            }
+        } elseif (!Page::has_metadata('image')) {
+            Page::set_metadata('image', extract_image_from_text($text));
+        }
+        if (!Page::has_metadata('description')) {
+            Page::set_metadata('description', $text);
+        }
+        if (!Page::has_metadata('title')) {
+            Page::set_metadata('title', $title);
         }
     }
 
@@ -753,7 +764,10 @@ class PageFooter extends Template
 class Page extends Template
 {
 
-    var $displaytype;
+    private $displaytype;
+
+    // Associative array of metadata
+    static $metadata = array();
 
     function __construct($displaytype="page",$showhidden=false)
     {
@@ -763,12 +777,8 @@ class Page extends Template
 
         parent::__construct();
 
-        $pagecontents = getpagecontents($this->stringvars['page']);
 
-        // header
-        $this->makeheader($this->stringvars['page'], $pagecontents, $showhidden);
-
-        if(isset($_SERVER['HTTP_REFERER']) && isreferrerblocked($_SERVER['HTTP_REFERER'])) {
+        if (isset($_SERVER['HTTP_REFERER']) && isreferrerblocked($_SERVER['HTTP_REFERER'])) {
             // todo: simple header class
             $this->stringvars['header']="<html><head></head><body>";
             $this->stringvars['navigator']="";
@@ -782,23 +792,23 @@ class Page extends Template
                 }
                 updatepagestats($this->stringvars['page']);
             }
+            $pagecontents = getpagecontents($this->stringvars['page']);
 
             // contents
             if(isset($_GET['newsitem'])) {
                 include_once $projectroot."includes/objects/newspage.php";
                 $this->vars['contents'] = new Newsitempage($_GET['newsitem'], $this->stringvars['page'], 0, false);
-            }
-            else
-            {
+            } else {
                 $this->makecontents($this->stringvars['page'], $pagecontents, $showhidden);
             }
 
+            // header
+            $this->makeheader($this->stringvars['page'], $pagecontents, $showhidden);
+
             // banners
-            if(getproperty('Display Banners')) {
+            if (getproperty('Display Banners')) {
                 $this->vars['banners']=new BannerList();
-            }
-            else
-            {
+            } else {
                 $this->stringvars['banners']="";
             }
 
@@ -806,9 +816,7 @@ class Page extends Template
             if ($pagecontents['pagetype'] === "menu" || $pagecontents['pagetype'] === "articlemenu" || $pagecontents['pagetype'] == "linklistmenu") {
                 $displaysisters=getsisters($this->stringvars['page']);
                 $navigatordepth=getmenunavigatordepth($this->stringvars['page']);
-            }
-            else
-            {
+            } else {
                 $displaysisters=1;
                 $navigatordepth=2;
             }
@@ -821,6 +829,15 @@ class Page extends Template
 
         // footer
         $this->vars['footer']= new PageFooter();
+    }
+
+    static function set_metadata($key, $value) {
+        if (!empty($value)) {
+            Page::$metadata[$key] = $value;
+        }
+    }
+    static function has_metadata($key) {
+        return isset(Page::$metadata[$key]);
     }
 
     //
@@ -840,76 +857,12 @@ class Page extends Template
             $meta_sitename = getproperty("Site Name");
             $meta_type = "website";
             $meta_description = "";
-            $imagefile = "";
 
             if ($pagecontents['ispublished']) {
                 $title = getmaintitle($pagecontents);
                 $meta_title = $pagecontents['title_navigator'];
                 $meta_type = "article";
-                if ($pagecontents['pagetype'] ==="news") {
-                    include_once $projectroot."functions/pagecontent/newspages.php";
-                    if (isset($_GET['newsitem'])) {
-                        $newsitemcontents = getnewsitemcontents($_GET['newsitem']);
-                    } else {
-                        $newsitemcontents = getfirstnewsitemcontents($page);
-                    }
-                    if (!empty($newsitemcontents)) {
-                        $meta_title .= ' - ' . $newsitemcontents['title'];
-                        $meta_description .= $newsitemcontents['synopsis'];
-                        $imagefiles = getnewsitemsynopsisimages($newsitemcontents['newsitem_id']);
-                        $imagefile = array_shift($imagefiles);
-
-                        if (!$meta_description || !$imagefile) {
-                            $sections = getnewsitemsectionswithcontent($newsitemcontents['newsitem_id']);
-                            if (!$meta_description) {
-                                foreach ($section as $sectioncontents) {
-                                    if (!empty($sectioncontents['text'])) {
-                                        $meta_description .= $sectioncontents['text'];
-                                        break;
-                                    }
-                                }
-                            }
-                            if (!$imagefile) {
-                                foreach ($sections as $sectioncontents) {
-                                    if (!empty($sectioncontents['image_filename'])) {
-                                        $imagefile = $sectioncontents['image_filename'];
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!$imagefile) {
-                                $image_pattern = "/\[img\](.*?)\[\/img\]/i";
-                                $image_matches=array();
-                                $found = preg_match($image_pattern, $newsitemcontents['synopsis'], $image_matches);
-                                if ($found) {
-                                    $imagefile = $image_matches[1];
-                                } else {
-                                    foreach ($sections as $sectioncontents) {
-                                        $image_matches=array();
-                                        $found = preg_match($image_pattern, $sectioncontents['text'], $image_matches);
-                                        if ($found) {
-                                            $imagefile = $image_matches[1];
-                                            break;
-                                        }
-                                    }
-                                }
-
-                                if (!$imagefile) {
-                                    $imagefile = $pagecontents['image_filename'];
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    $meta_description .= $pagecontents['introtext'];
-                    $imagefile = $pagecontents['image_filename'];
-                }
-                if(!$imagefile) {
-                    $imagefile = $image=getproperty("Left Header Image");
-                }
-            }
-            elseif($this->displaytype=="splashpage") {
+            } elseif($this->displaytype=="splashpage") {
                 $meta_description .= getproperty("Site Description")." ";
                 $sql = new SQLSelectStatement(SPECIALTEXTS_TABLE, 'text', array('id'), array('splashpage1'), 's');
                 $meta_description .= $sql->fetch_value() . " ";
@@ -929,19 +882,56 @@ class Page extends Template
                 $title=getlang("error_pagenotfound");
             }
 
-            if(!str_startswith($imagefile, getprojectrootlinkpath())) {
-                $imagefile = getimagelinkpath($imagefile, $pagecontents['path']);
+            // Facebook
+            if (Page::has_metadata('title')) {
+                $meta_title .= ' - ' . striptitletags(Page::$metadata['title']);
+            }
+            $meta_content .= "\n    " . '<meta property="og:title" content="' . $meta_title . '" />';
+
+            if (Page::has_metadata('description')) {
+                $meta_description = striptitletags(Page::$metadata['description']);
+                // Facebook
+                $meta_content .= "\n    " . '<meta property="og:description" content="'.substr($meta_description, 0, 300).'" />';
+                // Google
+                $keywords = "";
+                if ($page > 0) {
+                    $categories=getcategoriesforpage($page);
+                    foreach ($categories as $category) {
+                        $keywords .= title2html(getcategoryname($category, CATEGORY_ARTICLE)).', ';
+                    }
+                }
+                $keywords .= title2html(getproperty('Google Keywords'));
+                if ($keywords) {
+                    $meta_content .= "\n    " . '<meta name="keywords" content="'.$keywords.'">';
+                    $meta_content .= "\n    " . '<meta name="description" content="'.$meta_description.' - '.$keywords.'" />';
+                }
+                else
+                {
+                    $meta_content .= "\n    " . '<meta name="description" content='.$meta_description.'" />';
+                }
             }
 
             // Facebook
-            $meta_title = striptitletags($meta_title);
-            $meta_content .= "\n    " . '<meta property="og:title" content="' . $meta_title . '" />';
-
-            $meta_description = striptitletags($meta_description);
-            $meta_content .= "\n    " . '<meta property="og:description" content="'.substr($meta_description, 0, 300).'" />';
-
-            if($imagefile) { $meta_content .= "\n    " . '<meta property="og:image" content="'.$imagefile.'" />';
+            if (Page::has_metadata('image')) {
+                $imagefile = Page::$metadata['image'];
+            } else {
+                $imageurl = getproperty("Left Header Image");
+                if (empty($imageurl)) {
+                    $imageurl=getproperty("Right Header Image");
+                }
+                if (!empty($imageurl)) {
+                    $imagefile = getprojectrootlinkpath() . 'img/' . $imageurl;
+                }
             }
+            if (!empty($imagefile)) {
+                $imagedata = getimage(basename($imagefile));
+                if (!empty($imagedata)) {
+                    $imagefile = getimagelinkpath($imagedata['image_filename'], $imagedata['path']);
+                }
+                $meta_content .= "\n    " . '<meta property="og:image" content="' . $imagefile . '" />';
+            }
+
+            // Facebook
             $meta_content .= "\n    " . '<meta property="og:site_name" content="'.$meta_sitename.'" />';
             $meta_content .= "\n    " . '<meta property="og:type" content="'.$meta_type.'" />';
 
@@ -949,24 +939,8 @@ class Page extends Template
             $meta_content .= "\n    " . '<meta property="og:url" content="'.$meta_url.'" />';
 
             // Google
-            $keywords = "";
-            if($page>0) {
-                $categories=getcategoriesforpage($page);
-                for($i=0;$i<count($categories);$i++)
-                {
-                    $keywords .= title2html(getcategoryname($categories[$i], CATEGORY_ARTICLE)).', ';
-                }
-            }
-            $keywords .= title2html(getproperty('Google Keywords'));
-            if ($keywords) {
-                $meta_content .= "\n    " . '<meta name="keywords" content="'.$keywords.'">';
-                $meta_content .= "\n    " . '<meta name="description" content="'.$meta_description.' - '.$keywords.'" />';
-            }
-            else
-            {
-                $meta_content .= "\n    " . '<meta name="description" content='.$meta_description.'" />';
-            }
             $meta_content .= "\n    " . '<link rel="canonical" href="'.$meta_url.'" />';
+
             // JQuery is only needed for admin functions
             if ($showhidden) {
                 $meta_content
@@ -1229,7 +1203,7 @@ class Printview extends Template
                 break;
                 case "news":
                     include_once $projectroot."includes/objects/newspage.php";
-                    $this->vars['contents']  = new Newsitem($_GET['newsitem'], 0, false, false);
+                    $this->vars['contents']  = new Newsitem($_GET['newsitem'], getnewsitemcontents($_GET['newsitem']), false, false);
                 break;
             }
         } else {

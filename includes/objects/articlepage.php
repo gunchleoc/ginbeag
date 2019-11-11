@@ -33,6 +33,7 @@ require_once $projectroot."functions/pagecontent/articlepages.php";
 require_once $projectroot."includes/objects/template.php";
 require_once $projectroot."includes/objects/elements.php";
 require_once $projectroot."includes/objects/images.php";
+require_once $projectroot."includes/objects/page.php";
 require_once $projectroot."includes/includes.php";
 
 //
@@ -48,14 +49,26 @@ class Articlesection extends Template
         if(strlen($sectioncontents['sectiontitle'])>0) {
             $this->stringvars['title'] =title2html($sectioncontents['sectiontitle']);
             $this->stringvars['sectionid'] =$articlesection;
+            if (!Page::has_metadata('title')) {
+                Page::set_metadata('title', $sectioncontents['sectiontitle']);
+            }
         }
 
         if (!empty($sectioncontents['image_filename'])) {
             $this->vars['image'] = new CaptionedImage($sectioncontents, array("page" => $this->stringvars['page']), $showhidden);
+            if (!Page::has_metadata('image')) {
+                Page::set_metadata('image', $sectioncontents['image_filename']);
+            }
         } else {
+            if (!Page::has_metadata('image')) {
+                Page::set_metadata('image', extract_image_from_text($sectioncontents['text']));
+            }
             $this->stringvars['image']="";
         }
 
+        if (!Page::has_metadata('description')) {
+            Page::set_metadata('description', $sectioncontents['text']);
+        }
         $this->stringvars['text']=text2html($sectioncontents['text']);
     }
 

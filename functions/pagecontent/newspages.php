@@ -35,17 +35,18 @@ require_once $projectroot."functions/db.php";
 //
 //
 //
-function getpublishednewsitems($page,$number,$offset)
-{
-    if(!$offset) { $offset=0;
+function getpublishednewsitems($page, $number, $offset) {
+    if (!$offset) {
+        $offset = 0;
     }
-    if(!$number>0) { $number=1;
+    if (!$number > 0) {
+        $number = 1;
     }
 
-    $sql = new SQLSelectStatement(NEWSITEMS_TABLE, 'newsitem_id', array('page_id', 'ispublished'), array($page, 1), 'ii');
+    $sql = new SQLSelectStatement(NEWSITEMS_TABLE, '*', array('page_id', 'ispublished'), array($page, 1), 'ii');
     $sql->set_order(array('date' => (displaynewestnewsitemfirst($page) ? 'DESC' : 'ASC')));
     $sql->set_limit($number, $offset);
-    return $sql->fetch_column();
+    return $sql->fetch_many_rows();
 }
 
 //
@@ -174,7 +175,7 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
     $date=$to["day"]." ".$months[$to["month"]]." ".$to["year"]." 23:59:59";
     $todate=date(DATETIMEFORMAT, strtotime($date));
 
-    $query="SELECT DISTINCTROW items.newsitem_id FROM ";
+    $query="SELECT DISTINCTROW * FROM ";
     $query.=NEWSITEMS_TABLE." AS items";
 
     // Filter for categories
@@ -217,7 +218,7 @@ function getfilterednewsitems($page,$selectedcat,$from,$to,$order,$ascdesc,$news
     if($newsitemsperpage > 0) {
         $sql->set_limit($newsitemsperpage, $offset);
     }
-    return $sql->fetch_column();
+    return $sql->fetch_many_rows();
 }
 
 //

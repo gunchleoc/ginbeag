@@ -118,8 +118,7 @@ $allowedscripts = array(
     'stuth/geamannan/matamataigs/index.php' => 1,
     'stuth/geamannan/tetris/highscore.php' => 1,
     'stuth/geamannan/tetris/index.php' => 1,
-    'stuth/geamannan/tt/getpuzzle.php' => 1,
-    'reindex_thumbnails.php' => 1 // TODO temp
+    'stuth/geamannan/tt/getpuzzle.php' => 1
 );
 
 $server_script = preg_replace('/\/\/+/', '/', $_SERVER["SCRIPT_FILENAME"]);

@@ -31,6 +31,16 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "functions"));
 
 require_once $projectroot."functions/db.php";
 
+function extract_image_from_text($text) {
+    $image_pattern = "/\[img\](.*?)\[\/img\]/i";
+    $image_matches=array();
+    $found = preg_match($image_pattern, $text, $image_matches);
+    if ($found) {
+        return $image_matches[1];
+    }
+    return "";
+}
+
 //
 //
 //

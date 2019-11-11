@@ -35,6 +35,7 @@ require_once $projectroot."includes/objects/categories.php";
 require_once $projectroot."includes/objects/elements.php";
 require_once $projectroot."includes/objects/images.php";
 require_once $projectroot."includes/objects/forms.php";
+require_once $projectroot."includes/objects/page.php";
 require_once $projectroot."includes/functions.php";
 require_once $projectroot."includes/includes.php";
 
@@ -58,14 +59,26 @@ class NewsitemSection extends Template
         } else {
             if (!empty($contents['sectiontitle'])) {
                 $this->stringvars['title'] = title2html($contents['sectiontitle']);
+                if (!Page::has_metadata('title')) {
+                    Page::set_metadata('title', $contents['sectiontitle']);
+                }
             }
 
             if (!empty($contents['image_filename'])) {
+                if (!Page::has_metadata('image')) {
+                    Page::set_metadata('image', $contents['image_filename']);
+                }
                 $this->vars['image'] = new CaptionedImage($contents, array("newsitem" => $newsitem), $showhidden);
             } else {
+                if (!Page::has_metadata('image')) {
+                    Page::set_metadata('image', extract_image_from_text($contents['text']));
+                }
                 $this->stringvars['image'] = "";
             }
 
+            if (!Page::has_metadata('description')) {
+                Page::set_metadata('description', $contents['text']);
+            }
             $this->stringvars['text'] = text2html($contents['text']);
         }
         parent::__construct();
@@ -88,7 +101,7 @@ class NewsitemSection extends Template
 class Newsitem extends Template
 {
 
-    function __construct($newsitem,$offset,$showhidden=false,$showtoplink=true)
+    function __construct($newsitem, $contents, $offset, $showhidden=false, $showtoplink=true)
     {
         global $_GET, $projectroot;
 
@@ -113,12 +126,13 @@ class Newsitem extends Template
             }
         }
 
-        $contents=getnewsitemcontents($newsitem);
-
         $this->stringvars['title'] =title2html($contents['title']);
 
         if(strlen($contents['title'])>0) {
             $this->stringvars['title'] =title2html($contents['title']);
+            if (!Page::has_metadata('title')) {
+                Page::set_metadata('title', $contents['title']);
+            }
         } else {
             $this->stringvars['title'] = sprintf(getlang("news_title_default"), formatdate($contents['date']));
         }
@@ -149,6 +163,9 @@ class Newsitem extends Template
 
         if(strlen($contents['synopsis'])>0) {
             $this->stringvars['synopsis_image']="synopsis_image";
+            if (!Page::has_metadata('description')) {
+                Page::set_metadata('description', $contents['synopsis']);
+            }
         }
 
         $this->stringvars['text']=text2html($contents['synopsis']);
@@ -168,6 +185,9 @@ class Newsitem extends Template
 
         $this->listvars['image'] = array();
         if ($noofimages > 0) {
+            if (!Page::has_metadata('image')) {
+                Page::set_metadata('image', array_values($images)[0]);
+            }
             if ($noofimages == 1) {
                 $contents['image_filename'] = array_shift($images);
                 $this->vars['image'] = new CaptionedImage($contents, array("newsitem" => $newsitem), $showhidden);
@@ -186,6 +206,8 @@ class Newsitem extends Template
                 $this->stringvars['width'] = $width;
             }
             $this->stringvars['synopsis_image']="synopsis_image";
+        } elseif (!Page::has_metadata('image')) {
+            Page::set_metadata('image', extract_image_from_text($contents['synopsis']));
         }
 
         // sections
@@ -237,9 +259,7 @@ class Newsitempage extends Template
         }
         $this->stringvars['l_single']=getlang('news_single_showing');
 
-        $this->vars['newsitem']= new Newsitem($newsitem, $offset, $showhidden, false);
-
-        $contents=getnewsitemcontents($newsitem);
+        $this->vars['newsitem']= new Newsitem($newsitem, getnewsitemcontents($newsitem), $offset, $showhidden, false);
 
         $this->stringvars["l_topofthispage"] = getlang("pagemenu_topofthispage");
     }
@@ -350,12 +370,10 @@ class NewsPage extends Template
         }
 
         // get items
-        if(count($newsitems)) {
-            $this->listvars['newsitem'][] = new Newsitem($newsitems[0], $offset, $showhidden, false);
-        }
-        for($i=1;$i<count($newsitems);$i++)
-        {
-            $this->listvars['newsitem'][] = new Newsitem($newsitems[$i], $offset, $showhidden);
+        $isfirst = true;
+        foreach ($newsitems as $id => $contents) {
+            $this->listvars['newsitem'][] = new Newsitem($id, $contents, $offset, $showhidden, $isfirst);
+            $isfirst = false;
         }
 
         $this->stringvars['l_displayoptions']=getlang("news_filter_displayoptions");

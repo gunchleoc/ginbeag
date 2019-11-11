@@ -33,7 +33,7 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "admin"));
 
 require_once $projectroot."includes/objects/template.php";
 require_once $projectroot."includes/objects/images.php";
-require_once $projectroot."includes/functions.php";
+require_once $projectroot."admin/functions/imagesmod.php";
 
 
 //

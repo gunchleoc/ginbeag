@@ -103,14 +103,13 @@ class RSSPage extends Template
         }
         $newsitems=getpublishednewsitems($page, $newsitemsperpage, 0);
 
-        $contents=getnewsitemcontents($newsitems[0]);
-        $this->stringvars['pubdate']=@date("r", strtotime($contents['date']));
-        $this->stringvars['lastbuilddate']=@date("r", strtotime($pagecontents['editdate']));
-
-        for($i=0;$i<count($newsitems);$i++)
-        {
-            $contents=getnewsitemcontents($newsitems[$i]);
-
+        $isfirst = true;
+        foreach ($newsitems as $id => $contents) {
+            if ($isfirst) {
+                $this->stringvars['pubdate']=@date("r", strtotime($contents['date']));
+                $this->stringvars['lastbuilddate']=@date("r", strtotime($pagecontents['editdate']));
+                $isfirst = false;
+            }
             $description=html2xml(text2html($contents['synopsis'], true));
             if($contents['source']) {
                 $source=html2xml(title2html($contents['source']));
@@ -122,7 +121,7 @@ class RSSPage extends Template
             }
             $pubdate=@date("r", strtotime($contents['date']));
 
-            $this->listvars['item'][]= new RSSItem($newsitems[$i], html2xml(title2html($contents['title'])), $description, $link, $contents['source'], $pubdate);
+            $this->listvars['item'][]= new RSSItem($id, html2xml(title2html($contents['title'])), $description, $link, $contents['source'], $pubdate);
         }
 
     }

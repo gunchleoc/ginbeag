@@ -49,7 +49,7 @@ class Preview extends Template
         $this->stringvars['stylesheetcolors']=getCSSPath("colors.css");
         $this->stringvars['adminstylesheet']=getCSSPath("admin.css");
         $this->stringvars['headertitle']= title2html(getproperty("Site Name")).' - Webpage building';
-        $this->vars['content']= new Newsitem($newsitem, 0, true, true, false);
+        $this->vars['content']= new Newsitem($newsitem, getnewsitemcontents($newsitem), 0, true, true, false);
     }
 
     // assigns templates

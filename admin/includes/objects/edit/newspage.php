@@ -211,7 +211,7 @@ class DeleteNewsItemConfirm extends Template
         $this->stringvars['actionvars']= makelinkparameters($linkparams);
 
         $this->stringvars['pagetitle']=title2html(getpagetitle($this->stringvars["page"]));
-        $this->vars['item'] = new Newsitem($newsitem, $offset, true, true, false);
+        $this->vars['item'] = new Newsitem($newsitem, getnewsitemcontents($newsitem), $offset, true, true, false);
         $this->vars['confirmbuttons'] = new CancelConfirmButtons($this->stringvars['actionvars'], "confirmdeleteitem", "nodeleteitem");
     }
 
