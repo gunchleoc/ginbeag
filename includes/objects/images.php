@@ -97,6 +97,9 @@ class Image extends Template
     public static function make_imagedata($imagedata) {
         global $projectroot;
 
+        $imagedata['width'] = getproperty("Thumbnail Size");
+        $imagedata['height'] = IMAGECAPTION_LINEHEIGHT;
+
         // Ensure image is known
         $filename_dataset = getimage($imagedata['image_filename']);
         if (empty($filename_dataset)) {
