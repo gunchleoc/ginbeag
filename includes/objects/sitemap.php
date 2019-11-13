@@ -46,19 +46,18 @@ class Sitemap extends Template
         parent::__construct();
         $this->vars['pageintro'] = new PageIntro(getlang("pagetitle_sitemap"), "");
 
-        $roots=getrootpages();
-        for($i=0;$i<count($roots);$i++)
-        {
-            if(displaylinksforpage($roots[$i]) || $showhidden) {
-                $this->listvars['subpages'][]= new SitemapBranch($roots[$i], 5, true, 0, "", $showhidden);
+        $children = getchildren_with_navinfo(0);
+        foreach ($children as $subpageid => $subpageinfo) {
+            if (displaylinksforpage($subpageid) || $showhidden) {
+                $this->listvars['subpages'][]= new SitemapBranch($subpageid, $subpageinfo, 5, true, 0, "", $showhidden);
             }
         }
         // special links
         if(getproperty("Enable Guestbook")) {
-            $this->listvars['subpages'][]=new SitemapBranch(0, 0, true, 0, "guestbook", $showhidden);
+            $this->listvars['subpages'][]=new SitemapBranch(0, array(), 0, true, 0, "guestbook", $showhidden);
         }
 
-        $this->listvars['subpages'][]=new SitemapBranch(0, 0, true, 0, "contact", $showhidden);
+        $this->listvars['subpages'][]=new SitemapBranch(0, array(), 0, true, 0, "contact", $showhidden);
     }
 
     // assigns templates
@@ -75,82 +74,76 @@ class Sitemap extends Template
 class SitemapLink extends Template
 {
 
-    function __construct($page, $level=0, $class="navtitle", $speciallink="" ,$showhidden=false)
-    {
+    function __construct($page, $pageinfo, $level, $class, $speciallink, $showhidden) {
         parent::__construct();
 
         $linkparams = array();
-        if(ismobile()) { $linkparams["m"] = "on";
+        if (ismobile()) {
+            $linkparams['m'] = 'on';
         }
 
         // layout parameters
-        $this->stringvars['link_class']=$class;
-        $this->stringvars['title_class']="";
+        $this->stringvars['link_class'] = $class;
+        $this->stringvars['title_class'] = '';
 
-        // for special pages like, contact, guestbook etc
-        if($page==0) {
-            if($speciallink==="guestbook") {
-                $this->stringvars['linktooltip']=getlang("navigator_guestbook");
-                $this->stringvars['title']=getlang("navigator_guestbook");
-                $this->stringvars['link']=getprojectrootlinkpath()."guestbook.php".makelinkparameters($linkparams);
-                $this->stringvars['link_attributes']='';
-                $this->stringvars['description']="";
-            }
-            elseif($speciallink==="contact") {
-                $this->stringvars['linktooltip']=getlang("navigator_contact");
-                $this->stringvars['title']=getlang("navigator_contact");
-                $this->stringvars['link']=getprojectrootlinkpath()."contact.php".makelinkparameters($linkparams);
-                $this->stringvars['link_attributes']='';
-                $this->stringvars['description']="";
-            }
-            else
-            {
-                $this->stringvars['linktooltip']=getlang("navigator_notfound");
-                $this->stringvars['title']=getlang("navigator_notfound");
-                $this->stringvars['link']=makelinkparameters($linkparams);
-                $this->stringvars['link_class']=$class;
-                $this->stringvars['link_attributes']='';
-                $this->stringvars['description']="";
-            }
-        }
-        // for normal pages
-        else
-        {
-            $this->pagetype=getpagetype($page);
+        if ($page == 0) {
+            // Special pages like contact, guestbook etc
+            switch ($speciallink) {
+                case 'guestbook':
+                    $this->stringvars['linktooltip'] = getlang('navigator_guestbook');
+                    $this->stringvars['title'] = getlang('navigator_guestbook');
+                    $this->stringvars['link'] = getprojectrootlinkpath() . 'guestbook.php' . makelinkparameters($linkparams);
 
-            $this->stringvars['title']=title2html(getpagetitle($page));
-            $this->stringvars['linktooltip']=striptitletags(getpagetitle($page));
-            $this->stringvars['description']="";
-            $this->stringvars['title_class']="";
+                break;
+                case 'contact':
+                    $this->stringvars['linktooltip'] = getlang('navigator_contact');
+                    $this->stringvars['title'] = getlang('navigator_contact');
+                    $this->stringvars['link'] = getprojectrootlinkpath() . 'contact.php' . makelinkparameters($linkparams);
+                break;
+                default:
+                    $this->stringvars['linktooltip'] = getlang('navigator_notfound');
+                    $this->stringvars['title'] = getlang('navigator_notfound');
+                    $this->stringvars['link'] = makelinkparameters($linkparams);
+            }
+            $this->stringvars['link_attributes'] = '';
+            $this->stringvars['description'] = '';
+        } else {
+            // Normal pages
+            $this->pagetype = $pageinfo['pagetype'];
 
-            if($showhidden) {
-                if(isthisexactpagerestricted($page)) { $this->stringvars['title']=$this->stringvars['title'].' (R)';
+            $this->stringvars['title'] = title2html($pageinfo['title_page']);
+            $this->stringvars['linktooltip'] = striptitletags($pageinfo['title_page']);
+            $this->stringvars['description'] = '';
+            $this->stringvars['title_class'] = '';
+
+            if ($showhidden) {
+                if (isthisexactpagerestricted($page)) {
+                    $this->stringvars['title'] .= ' (R)';
                 }
-                if(!ispublished($page)) { $this->stringvars['title']='<i>'.$this->stringvars['title'].'</i>';
+                if (!ispublished($page)) {
+                    $this->stringvars['title'] = '<i>' . $this->stringvars['title'] . '</i>';
                 }
             }
 
-            if($this->pagetype==="external") {
-                $this->stringvars['link']=getexternallink($page);
-                if(str_startswith($this->stringvars['link'], getprojectrootlinkpath())
-                    || str_startswith($this->stringvars['link'], "?")
-                    || str_startswith($this->stringvars['link'], "index.php")
+            if ($this->pagetype === 'external') {
+                $this->stringvars['link'] = getexternallink($page);
+                if (str_startswith($this->stringvars['link'], getprojectrootlinkpath())
+                    || str_startswith($this->stringvars['link'], '?')
+                    || str_startswith($this->stringvars['link'], 'index.php')
                 ) {
                     $this->stringvars['link_attributes']='';
-                }
-                else
-                {
+                } else {
                     $this->stringvars['link_attributes']=' target="_blank"';
                 }
-            }
-            else
-            {
-                if($showhidden) { $path=getprojectrootlinkpath()."admin/pagedisplay.php";
-                } else { $path=getprojectrootlinkpath()."index.php";
+            } else {
+                if ($showhidden) {
+                    $path = getprojectrootlinkpath() . 'admin/pagedisplay.php';
+                } else {
+                    $path = getprojectrootlinkpath() . 'index.php';
                 }
-                $linkparams["page"] = $page;
-                $this->stringvars['link']=$path.makelinkparameters($linkparams);
-                $this->stringvars['link_attributes']="";
+                $linkparams['page'] = $page;
+                $this->stringvars['link'] = $path . makelinkparameters($linkparams);
+                $this->stringvars['link_attributes'] = '';
             }
         }
     }
@@ -171,33 +164,28 @@ class SitemapLink extends Template
 class SitemapBranch extends Template
 {
 
-    function __construct($page,$depth,$startwithroot=false,$level=0,$speciallink="",$showhidden=false)
-    {
+    function __construct($page, $pageinfo, $depth, $startwithroot, $level, $speciallink, $showhidden) {
         parent::__construct();
 
-        if($startwithroot && $level==0) {
-            $class="contentnavtitle";
+        if ($startwithroot && $level==0) {
+            $class = "contentnavtitle";
             $this->stringvars['wrapper_class'] = "contentnavrootlinkwrapper";
-        }
-        else
-        {
-            $class="contentnavlink";
+        } else {
+            $class = "contentnavlink";
             $this->stringvars['wrapper_class'] = "contentnavlinkwrapper";
         }
 
-
-        if(hasaccesssession($page) || $showhidden) {
-            $this->listvars['link'][]= new SitemapLink($page, $level, $class, $speciallink, $showhidden);
+        if (hasaccesssession($page) || $showhidden) {
+            $this->listvars['link'][] = new SitemapLink($page, $pageinfo, $level, $class, $speciallink, $showhidden);
         }
 
-        $this->stringvars['margin_left']=$level;
+        $this->stringvars['margin_left'] = $level;
 
-        if($depth>0) {
-            $pages=getchildren($page);
-            for($i=0;$i<count($pages);$i++)
-            {
-                if(displaylinksforpage($pages[$i]) || $showhidden) {
-                    $this->listvars['link'][]= new SitemapBranch($pages[$i], $depth-1, $startwithroot, $level+1, $speciallink, $showhidden);
+        if ($depth > 0) {
+            $children = getchildren_with_navinfo($page);
+            foreach ($children as $subpageid => $subpageinfo) {
+                if (displaylinksforpage($subpageid) || $showhidden) {
+                    $this->listvars['link'][]= new SitemapBranch($subpageid, $subpageinfo, $depth-1, $startwithroot, $level+1, $speciallink, $showhidden);
                 }
             }
         }

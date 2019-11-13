@@ -135,6 +135,12 @@ function getsisters($page)
     return getchildren(getparent($page));
 }
 
+function getsisters_with_navinfo($page)
+{
+    return getchildren_with_navinfo(getparent($page));
+}
+
+
 //
 //
 //

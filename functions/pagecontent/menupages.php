@@ -84,7 +84,7 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showh
     $values = array();
     $datatypes = "";
 
-    $query = "SELECT DISTINCTROW art.page_id FROM ";
+    $query = "SELECT DISTINCTROW art.page_id, page.title_page, page.pagetype FROM ";
     $query .= ARTICLES_TABLE." AS art, ";
     $query .= PAGES_TABLE." AS page";
 
@@ -137,6 +137,6 @@ function getfilteredarticles($page,$selectedcat,$from,$to,$order,$ascdesc,$showh
     }
 
     $sql = new RawSQLStatement($query, $values, $datatypes);
-    return $sql->fetch_column();
+    return $sql->fetch_many_rows();
 }
 ?>

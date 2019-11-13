@@ -149,6 +149,19 @@ function getchildren($page)
     return $result;
 }
 
+function getchildren_with_navinfo($page)
+{
+    global $allpages;
+    $result=array();
+    reset($allpages);
+    foreach ($allpages as $key => $checkpage) {
+        if ($checkpage['parent_id'] == $page) {
+            $result[$key] = $checkpage;
+        }
+    }
+    return $result;
+}
+
 //
 //
 //

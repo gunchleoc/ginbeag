@@ -45,45 +45,40 @@ require_once $projectroot."includes/objects/elements.php";
 class AdminNavigatorLink extends Template
 {
 
-    function __construct($page,$level=0,$class="navtitle",$isroot=false)
-    {
-        global $_GET;
+    function __construct($page, $pageinfo, $level, $class, $isroot) {
 
         parent::__construct();
 
-        $this->stringvars['page']=$page;
+        $this->stringvars['title_class'] = $this->stringvars['page'] == $page ? 'navhighlight' : '';
+
+        $this->stringvars['page'] = $page;
 
         // layout parameters
-        $this->stringvars['margin_left']=$level;
-        $this->stringvars['margin_top']=1;
-        $this->stringvars['link_class']=$class;
-        $this->stringvars['title_class']="";
+        $this->stringvars['margin_left'] = $level;
+        $this->stringvars['margin_top'] = 1;
+        $this->stringvars['link_class'] = $class;
 
-        if($isroot) {
-            $this->stringvars['is_root']="is_root";
+        if ($isroot) {
+            $this->stringvars['is_root'] = 'is_root';
         } else {
-            $this->stringvars['no_root']="no_root";
+            $this->stringvars['no_root'] = 'no_root';
         }
 
         // data
-        $this->stringvars['pagetype']=getpagetype($page);
-        $this->stringvars['title']=title2html(getnavtitle($page));
+        $this->stringvars['pagetype'] = $pageinfo['pagetype'];
+        $this->stringvars['title'] = title2html($pageinfo['title_navigator']);
 
-        if(isthisexactpagerestricted($page)) { $this->stringvars['title']=$this->stringvars['title'].' (R)';
+        if (isthisexactpagerestricted($page)) {
+            $this->stringvars['title'] .= ' (R)';
         }
-        if(!ispublished($page)) { $this->stringvars['title']='<i>'.$this->stringvars['title'].'</i>';
+        if (!ispublished($page)) {
+            $this->stringvars['title'] = '<i>' . $this->stringvars['title'] . '</i>';
         }
 
-        $this->stringvars['description']="";
+        $this->stringvars['description'] = '';
 
-        $this->stringvars['link']=getprojectrootlinkpath().'admin/admin.php'.makelinkparameters(array("page" => $page));
-        $this->stringvars['link_attributes']=' target="_top"';
-
-        if(isset($_GET['page']) && $_GET['page']===$page) {
-            $this->stringvars['title_class']="navhighlight";
-        } else {
-            $this->stringvars['title_class']="";
-        }
+        $this->stringvars['link'] = getprojectrootlinkpath() . 'admin/admin.php' . makelinkparameters(array('page' => $page));
+        $this->stringvars['link_attributes' ] = ' target="_top"';
     }
 
     // assigns templates
@@ -100,7 +95,7 @@ class AdminNavigatorLink extends Template
 class AdminNavigatorBranch extends Template
 {
 
-    function __construct($page,$depth,$level=0)
+    function __construct($page, $pageinfo, $depth, $level=0)
     {
         parent::__construct();
         if($level==0) {
@@ -117,13 +112,12 @@ class AdminNavigatorBranch extends Template
             $isroot=true;
         }
 
-        $this->listvars['link'][]= new AdminNavigatorLink($page, $level, $class, $isroot);
+        $this->listvars['link'][]= new AdminNavigatorLink($page, $pageinfo, $level, $class, $isroot);
 
-        if($depth>0) {
-            $pageids=getchildren($page);
-            for($i=0;$i<count($pageids);$i++)
-            {
-                $this->listvars['link'][]= new AdminNavigatorBranch($pageids[$i], $depth-1, $level+1);
+        if ($depth > 0) {
+            $children = getchildren_with_navinfo($page);
+            foreach ($children as $subpageid => $subpageinfo) {
+                $this->listvars['link'][]= new AdminNavigatorBranch($subpageid, $subpageinfo, $depth - 1, $level + 1);
             }
         }
     }
@@ -143,34 +137,31 @@ class AdminNavigator extends Template
 
     function __construct($page)
     {
+        global $allpages;
+
         parent::__construct();
 
+        $roots = getrootpages();
+
         // navigator
-        if($page==0 || !ispageknown($page)) {
-            $roots=getrootpages();
-            while(count($roots))
-            {
-                $currentroot=array_shift($roots);
-                $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, 0, 0);
+        if ($page == 0 || !ispageknown($page)) {
+            foreach ($roots as $subpageid) {
+                $this->listvars['link'][] = new AdminNavigatorBranch($subpageid, $allpages[$subpageid], 0, 0);
             }
         }
-        else
-        {
-            if(isrootpage($page)) {
-                $roots=getrootpages();
+        else {
+            if (isrootpage($page)) {
                 $currentroot=array_shift($roots);
                 $navposition=getnavposition($page);
                 // display upper root pages
                 while(getnavposition($currentroot)<$navposition)
                 {
-                    $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, 0, 0);
+                    $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, $allpages[$currentroot], 0, 0);
                     $currentroot=array_shift($roots);
                 }
                 // display root page
-                $this->listvars['link'][]=new AdminNavigatorBranch($page, 1, 0);
-            }
-            else
-            {
+                $this->listvars['link'][]=new AdminNavigatorBranch($page, $allpages[$currentroot], 1, 0);
+            } else {
                 // get parent chain
                 $parentpages=array();
                 $level=0;
@@ -179,54 +170,52 @@ class AdminNavigator extends Template
                 {
                     $parent = getparent($currentpage);
                     array_push($parentpages, $parent);
-                    $currentpage=$parent;
+                    $currentpage = $parent;
                     $level++;
                 }
                 $parentroot=array_pop($parentpages);
-                $roots=getrootpages();
                 $currentroot=array_shift($roots);
                 $parentrootnavposition=getnavposition($parentroot);
                 // display upper root pages
                 while(getnavposition($currentroot)<$parentrootnavposition)
                 {
-                    $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, 0, 0);
+                    $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, $allpages[$currentroot], 0, 0);
                     $currentroot=array_shift($roots);
                 }
-                $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, 0, 0);
+                $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, $allpages[$currentroot], 0, 0);
 
                 // display parent chain
                 $navdepth=count($parentpages); // for closing table tags
                 for($i=0;$i<$navdepth;$i++)
                 {
                     $parentpage=array_pop($parentpages);
-                    $this->listvars['link'][]=new AdminNavigatorBranch($parentpage, 0, $i+1);
+                    $this->listvars['link'][]=new AdminNavigatorBranch($parentpage, $allpages[$parentpage], 0, $i+1);
                 }
                 // display page
                 // get sisters then display 1 level only.
-                $sisterids=getsisters($page);
+                $sisterids = getsisters($page);
                 $currentsister=array_shift($sisterids);
                 $pagenavposition=getnavposition($page);
                 // display upper sister pages
                 while(getnavposition($currentsister)<$pagenavposition)
                 {
-                    $this->listvars['link'][]=new AdminNavigatorBranch($currentsister, 0, $level);
+                    $this->listvars['link'][]=new AdminNavigatorBranch($currentsister, $allpages[$currentsister], 0, $level);
                     $currentsister=array_shift($sisterids);
                 }
                 // display page
-                $this->listvars['link'][]=new AdminNavigatorBranch($page, 1, $level);
+                $this->listvars['link'][]=new AdminNavigatorBranch($page, $allpages[$page], 1, $level);
 
                 // display lower sister pages
                 while(count($sisterids))
                 {
                     $currentsister=array_shift($sisterids);
-                    $this->listvars['link'][]=new AdminNavigatorBranch($currentsister, 0, $level);
+                    $this->listvars['link'][]=new AdminNavigatorBranch($currentsister, $allpages[$currentsister], 0, $level);
                 }
             }
             // display lower root pages
-            while(count($roots))
-            {
-                $currentroot=array_shift($roots);
-                $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, 0, 0);
+            while (!empty($roots)) {
+                $currentroot = array_shift($roots);
+                $this->listvars['link'][]=new AdminNavigatorBranch($currentroot, $allpages[$currentroot], 0, 0);
             }
         }
     }
@@ -275,10 +264,9 @@ class PageList extends Template
     {
         parent::__construct();
 
-        $roots=getrootpages();
-        for($i=0;$i<count($roots);$i++)
-        {
-            $this->listvars['navigator'][]=new AdminNavigatorBranch($roots[$i], 50, 0);
+        $children = getchildren_with_navinfo(0);
+            foreach ($children as $subpageid => $subpageinfo) {
+            $this->listvars['navigator'][] = new AdminNavigatorBranch($subpageid, $subpageinfo, 50, 0);
         }
 
     }
