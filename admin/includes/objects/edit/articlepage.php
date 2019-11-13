@@ -128,10 +128,10 @@ class ArticleSectionForm extends Template
         $this->stringvars['movedown']=$movedown;
 
 
-        if(strlen($contents['sectiontitle'])>0) {
-            $this->stringvars['sectionheader']=title2html($contents['sectiontitle']);
+        if (!empty($contents['sectiontitle'])) {
+            $this->stringvars['sectionheader'] = title2html($contents['sectiontitle']);
         } else {
-            $this->stringvars['sectionheader']="Section ID ".$articlesection;
+            $this->stringvars['sectionheader'] = "Section ID $articlesection";
         }
 
         $this->stringvars['sectiontitle']=input2html($contents['sectiontitle']);
@@ -176,25 +176,25 @@ class EditArticlePage extends Template
         }
 
         $articlesections=getarticlesections($this->stringvars['page'], $articlepage);
-        $isfirst = true;
-        while (!empty($articlesections)) {
-            $sectionid = array_key_first($articlesections);
-            $sectioncontents = array_shift($articlesections);
-            if ($isfirst && $articlepage > 1) {
+
+        $keys = array_keys($articlesections);
+        $count = count($keys);
+        for ($i = 0; $i < $count; $i++) {
+            $sectioncontents = $articlesections[$keys[$i]];
+            if ($i == 0 && $articlepage > 1) {
                 $moveup="move section to previous page";
+                $isfirst = false;
             } else {
                 $moveup="move section up";
             }
-            $isfirst = false;
 
-            if (empty($articlesections)) {
+            if ($i == $count - 1) {
                 $movedown="move section to next page";
             } else {
                 $movedown="move section down";
             }
 
-            $this->listvars['articlesectionform'][] = new ArticleSectionForm($articlepage, $sectionid, $sectioncontents, $moveup, $movedown);
-
+            $this->listvars['articlesectionform'][] = new ArticleSectionForm($articlepage, $keys[$i], $sectioncontents, $moveup, $movedown);
         }
 
         $this->vars['navigationbuttons']= new PageEditNavigationButtons(new GeneralSettingsButton(), new EditPageIntroSettingsButton());
