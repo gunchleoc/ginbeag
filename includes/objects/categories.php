@@ -105,16 +105,8 @@ class CategorylistLinks extends Template
                 }
             }
 
-            $cats_with_names = array();
-
-            for($i=0;$i<count($categories);$i++)
-            {
-                $cats_with_names[$categories[$i]] = getcategoryname($categories[$i], $cattype);
-            }
-            natcasesort($cats_with_names);
-            $keys = array_keys($cats_with_names);
-            foreach ($cats_with_names as $key => $category) {
-                $this->listvars['catlist'][]=new CategorylistLink($key, $category, $page, $pagetype, $order, $oldestdate, $newestdate);
+            foreach ($categories as $id => $name) {
+                $this->listvars['catlist'][]=new CategorylistLink($id, $name, $page, $pagetype, $order, $oldestdate, $newestdate);
             }
             $this->stringvars['l_categories']=getlang("categorylist_categories");
         }
@@ -143,9 +135,8 @@ class Categorylist extends Template
     function __construct($categories, $cattype, $printheader=true)
     {
         parent::__construct();
-        $categorynames=getcategorynamessorted($categories, $cattype);
 
-        $catlistoutput=implode(", ", $categorynames);
+        $catlistoutput=implode(", ", $categories);
         if($printheader) {
             $this->stringvars['header']=getlang("categorylist_categories");
         }

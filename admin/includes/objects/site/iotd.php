@@ -55,16 +55,10 @@ class SiteRandomItems extends Template
 
         $potdcats=explode(",", $properties["Picture of the Day Categories"]);
         $potdcatnames=array();
-        if(!count($potdcats)) {
+        if(empty($potdcats)) {
             $potdcatlistoutput=getlang("form_cat_allcats");
-        }
-        else
-        {
-            for($j=0;$j<count($potdcats);$j++)
-            {
-                array_push($potdcatnames, getcategoryname($potdcats[$j], CATEGORY_IMAGE));
-            }
-            sort($potdcatnames);
+        } else {
+            $potdcatnames = getcategorynamessorted($potdcats, CATEGORY_IMAGE);
             $potdcatlistoutput=title2html(implode(", ", $potdcatnames));
         }
 

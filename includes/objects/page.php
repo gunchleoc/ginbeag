@@ -897,10 +897,7 @@ class Page extends Template
                 // Google
                 $keywords = "";
                 if ($page > 0) {
-                    $categories=getcategoriesforpage($page);
-                    foreach ($categories as $category) {
-                        $keywords .= title2html(getcategoryname($category, CATEGORY_ARTICLE)).', ';
-                    }
+                    $keywords .= title2html(implode(', ', getcategoriesforpage($page))) . ', ';
                 }
                 $keywords .= title2html(getproperty('Google Keywords'));
                 if ($keywords) {

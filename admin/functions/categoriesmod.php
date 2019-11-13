@@ -36,6 +36,14 @@ require_once $projectroot."functions/categories.php";
 //
 //
 //
+function isroot($catid, $cattype)
+{
+    return getcategoryparent($catid, $cattype) == 0;
+}
+
+//
+//
+//
 function addcategory($parent,$name, $cattype)
 {
     if($cattype==CATEGORY_NEWS) { $table = CATEGORIES_NEWS_TABLE;

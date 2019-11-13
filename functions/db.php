@@ -334,6 +334,17 @@ class SQLStatement
         }
     }
 
+    // Adds an "in" condition
+    // $column: the column key for restricting the condition
+    // $range:  An array of integers
+    function add_integer_range_condition($column, $range) {
+        self::check_column_names($column);
+        $count = count($range);
+        $this->datatypes .= str_pad("", $count, 'i');
+        $this->special .= " $column IN (" . implode(',', array_fill(0, $count, '?')) . ") ";
+        $this->values[0] = array_merge($this->values[0], $range);
+    }
+
     // Sets a sort order for the data returned
     // $order: array of (columname => direction) to order by
     //         direction is 'ASC' or 'DESC'
@@ -944,6 +955,8 @@ class SQLSelectStatement extends SQLStatement
 {
     private $table;
 
+    private $join = array();
+
     private $distinct = false;
     private $operator = "";
 
@@ -978,6 +991,25 @@ class SQLSelectStatement extends SQLStatement
         $this->distinct = true;
     }
 
+    // Select with joining 2 tables. Left table is the one from the constructor.
+    // $id1:               Join ID for left table
+    // $table2:            Right table
+    // $id2:               Join ID for right table
+    //                     needs to match the values and anything added in special_condition
+    // TODO replace SQLJoinStatement with this
+    function set_join($id1, $table2, $id2) {
+        // Verify parameters
+        self::check_table_name($table2);
+        self::check_column_names(array($id1, $id2));
+
+        // Set parameters
+        $this->join = array(
+            'id1' => $id1,
+            'table2' => $table2,
+            'id2' => $id2,
+        );
+    }
+
     // SELECT with count, min, max or sum
     function set_operator($operator)
     {
@@ -1005,12 +1037,19 @@ class SQLSelectStatement extends SQLStatement
         }
 
         $this->query = $this->distinct ? "SELECT DISTINCT "  : "SELECT ";
+
         $this->query .=
             empty($this->operator) ?
             $columns :
             $this->operator . "(" . $columns . ")";
 
         $this->query .= " FROM `" . $this->table . "`";
+
+        if (!empty($this->join)) {
+            $this->query .= " LEFT JOIN " . $this->join['table2'] . " ON "
+                . $this->table . "." . $this->join['id1'] . " = "
+                . $this->join['table2'] . "." . $this->join['id2'];
+        }
 
         $this->construct_where_condition();
     }

@@ -63,16 +63,11 @@ function getarticleoftheday()
                 $pages = array_merge($pages, getsubpagesforpagetype($searchme, "articlemenu"));
             }
         }
-
-        $pagecount = count($pages);
-        if ($pagecount > 0) {
+        if (!empty($pages)) {
             // Found some viable article menus, so get their articles
-            $query = "SELECT DISTINCTROW page_id FROM " . PAGES_TABLE . " WHERE
-					pagetype = 'article' AND
-					parent_id IN (" . implode(',', array_fill(0, $pagecount, '?')) . ")
-					AND ispublished = '1'";
-
-            $sql = new RawSQLStatement($query, $pages, str_pad("", $pagecount, 'i'));
+            $sql = new SQLSelectStatement(PAGES_TABLE, 'page_id', array('pagetype', 'ispublished'), array('article', '1'), 'si');
+            $sql->set_distinct();
+            $sql->add_integer_range_condition('parent_id', $pages);
             $pagesforselection = $sql->fetch_column();
 
             if (count($pagesforselection) > 0) {

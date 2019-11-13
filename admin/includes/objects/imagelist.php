@@ -75,7 +75,7 @@ class AddImageForm extends Template
         $this->vars['no_permission'] = new RadioButtonForm("", "permission", NO_PERMISSION, "No permission", $this->stringvars['permission'] == NO_PERMISSION, "right");
 
         // make category selection
-        $selectedcats=getcategoriesforimage($filename);
+        $selectedcats=array_keys(getcategoriesforimage($filename));
         $this->vars['categoryselection']= new CategorySelectionForm(true, "", CATEGORY_IMAGE, 15, $selectedcats);
 
         // action vars
