@@ -52,13 +52,13 @@ function getmenunavigatordepth($page)
 }
 
 
-//
-//
-//
-function getarticlepageoverview($page)
-{
-    $sql = new SQLSelectStatement(ARTICLES_TABLE, array('article_author', 'source', 'day', 'month', 'year'), array('page_id'), array($page), 'i');
-    return $sql->fetch_row();
+function getpagepreviewdata($pages) {
+    if (empty($pages)) {
+        return array();
+    }
+    $sql = new SQLSelectStatement(ARTICLES_TABLE, array('page_id', 'article_author', 'source', 'day', 'month', 'year'));
+    $sql->add_integer_range_condition('page_id', $pages);
+    return $sql->fetch_many_rows();
 }
 
 

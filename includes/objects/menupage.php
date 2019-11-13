@@ -62,9 +62,10 @@ class MenuPage extends Template
             (isset($pagecontents['displaydepth']) ? $pagecontents['displaydepth'] - 1 : 1) :
             $pagecontents['displaydepth'] - 1;
 
+        $subpagepreviewdata = getpagepreviewdata(array_keys($children));
         foreach ($children as $subpageid => $subpageinfo) {
             if (displaylinksforpage($subpageid) || $showhidden) {
-                $this->listvars['subpages'][]= new MenuNavigatorBranch($subpageid, $subpageinfo, $displaydepth, 0, $showhidden);
+                $this->listvars['subpages'][]= new MenuNavigatorBranch($subpageid, $subpageinfo, $subpagepreviewdata, $displaydepth, 0, $showhidden);
             }
         }
 
@@ -86,11 +87,9 @@ class MenuPage extends Template
 //
 class ArticleInfo extends Template
 {
-    function __construct($page, $article, $pageinfo)
+    function __construct($page, $article, $pageinfo, $contents)
     {
         parent::__construct();
-
-        $contents= getarticlepageoverview($article);
 
         $articleinfo="";
         if($contents['article_author']) {
@@ -173,9 +172,10 @@ class ArticleMenuPage extends Template
             $this->makearticlefilterform($page);
             $children=getchildren_with_navinfo($page);
         }
+        $subpagepreviewdata = getpagepreviewdata(array_keys($children));
         foreach ($children as $subpageid => $subpageinfo) {
             if (displaylinksforpage($subpageid) || $showhidden) {
-                $this->listvars['subpages'][] = new MenuNavigatorBranch($subpageid, $subpageinfo, $pagecontents['displaydepth']-1, 0, $showhidden);
+                $this->listvars['subpages'][] = new MenuNavigatorBranch($subpageid, $subpageinfo, $subpagepreviewdata, $pagecontents['displaydepth']-1, 0, $showhidden);
             }
         }
 
@@ -350,7 +350,7 @@ class MenuLinkListBranch extends Template
 class MenuNavigatorLink extends Template
 {
 
-    function __construct($page, $pageinfo, $level, $showhidden) {
+    function __construct($page, $pageinfo, $pagepreviewdata, $level, $showhidden) {
         parent::__construct();
 
         // layout parameters
@@ -385,7 +385,7 @@ class MenuNavigatorLink extends Template
             $this->stringvars['description'] = '';
         } else {
             if ($pagetype === "article") {
-                $this->vars['description'] = new ArticleInfo($this->stringvars['page'], $page, $pageinfo);
+                $this->vars['description'] = new ArticleInfo($this->stringvars['page'], $page, $pageinfo, $pagepreviewdata[$page]);
             } elseif ($pagetype === "linklist") {
                 $links = getlinklistitems($page);
                 if (!empty($links)) {
@@ -426,7 +426,7 @@ class MenuNavigatorLink extends Template
 //
 class MenuNavigatorBranch extends Template
 {
-    function __construct($page, $pageinfo, $depth, $level, $showhidden) {
+    function __construct($page, $pageinfo, $pagepreviewdata, $depth, $level, $showhidden) {
         parent::__construct();
 
         $this->stringvars['wrapper_class'] = $level == 0 ?
@@ -434,16 +434,17 @@ class MenuNavigatorBranch extends Template
             'contentnavlinkwrapper';
 
         if (hasaccesssession($page) || $showhidden) {
-            $this->listvars['link'][] = new MenuNavigatorLink($page, $pageinfo, $level, $showhidden);
+            $this->listvars['link'][] = new MenuNavigatorLink($page, $pageinfo, $pagepreviewdata, $level, $showhidden);
         }
 
         $this->stringvars['margin_left']=$level;
 
         if ($depth>0) {
             $children = getchildren_with_navinfo($page);
+            $subpagepreviewdata = getpagepreviewdata(array_keys($children));
             foreach ($children as $subpageid => $subpageinfo) {
                 if (displaylinksforpage($subpageid) || $showhidden) {
-                    $this->listvars['link'][] = new MenuNavigatorBranch($subpageid, $subpageinfo, $depth-1, $level+1, $showhidden);
+                    $this->listvars['link'][] = new MenuNavigatorBranch($subpageid, $subpageinfo, $subpagepreviewdata, $depth-1, $level+1, $showhidden);
                 }
             }
         }
