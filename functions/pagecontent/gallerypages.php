@@ -37,7 +37,8 @@ require_once $projectroot."functions/db.php";
 //
 function getgalleryimages($page)
 {
-    $sql = new SQLJoinStatement(GALLERYITEMS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('page_id'), array($page), 'i');
+    $sql = new SQLSelectStatement(GALLERYITEMS_TABLE, '*', array('page_id'), array($page), 'i');
+    $sql->set_join('image_filename', IMAGES_TABLE, 'image_filename');
     $sql->set_order(array('position' => 'ASC'));
     return $sql->fetch_many_rows();
 }
@@ -47,7 +48,8 @@ function getgalleryimages($page)
 //
 function getgalleryimageslimit($page, $offset, $number)
 {
-    $sql = new SQLJoinStatement(GALLERYITEMS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('page_id'), array($page), 'i');
+    $sql = new SQLSelectStatement(GALLERYITEMS_TABLE, '*', array('page_id'), array($page), 'i');
+    $sql->set_join('image_filename', IMAGES_TABLE, 'image_filename');
     $sql->set_order(array('position' => 'ASC'));
     $sql->set_limit($number, $offset);
     return $sql->fetch_many_rows();

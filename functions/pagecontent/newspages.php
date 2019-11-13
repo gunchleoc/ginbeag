@@ -143,7 +143,8 @@ function getnewsitemsections($newsitem)
 //
 //
 function getnewsitemsectionswithcontent($newsitem) {
-    $sql = new SQLJoinStatement(NEWSITEMSECTIONS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('newsitem_id'), array($newsitem), 'i');
+    $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, '*', array('newsitem_id'), array($newsitem), 'i');
+    $sql->set_join('image_filename', IMAGES_TABLE, 'image_filename');
     $sql->set_order(array('sectionnumber' => 'ASC'));
     return $sql->fetch_many_rows();
 }

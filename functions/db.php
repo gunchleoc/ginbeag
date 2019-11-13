@@ -905,51 +905,6 @@ class SQLDeleteStatement extends SQLStatement
     }
 }
 
-// Select query with left join
-class SQLJoinStatement extends SQLStatement
-{
-    private $table1;
-    private $id1;
-    private $table2;
-    private $id2;
-
-    // Constructs a left join SQL statament
-    // $table1:            Left table
-    // $id1:               Join ID for left table
-    // $table2:            Right table
-    // $id2:               Join ID for right table
-    // $fields:            keys in WHERE "key = value" conditions
-    // $values:            values in WHERE "key = value" conditions
-    // $datatypes:         string of data types for values in WHERE conditions, e.g. 'isi'
-    //                     needs to match the values and anything added in special_condition
-    function __construct($table1, $id1, $table2, $id2, $fields = array(), $values = array(),
-        $datatypes = "") {
-        // Verify parameters
-        self::check_table_name($table1);
-        self::check_table_name($table2);
-        self::check_column_names(array($id1, $id2));
-        self::check_column_names($fields);
-
-        // Set parameters
-        $this->table1 = $table1;
-        $this->id1 = $id1;
-        $this->table2 = $table2;
-        $this->id2 = $id2;
-        $this->fields = $fields;
-        $this->values[0] = $values;
-        $this->datatypes = $datatypes;
-    }
-
-    protected function construct_query()
-    {
-        $this->query = "SELECT * FROM " . $this->table1 . " LEFT JOIN " . $this->table2 . " ON "
-            . $this->table1 . "." . $this->id1 . " = "
-            . $this->table2 . "." . $this->id2;
-
-        $this->construct_where_condition();
-    }
-}
-
 // Object for building SQL queries from input and fetching the data from the database
 class SQLSelectStatement extends SQLStatement
 {
@@ -996,7 +951,6 @@ class SQLSelectStatement extends SQLStatement
     // $table2:            Right table
     // $id2:               Join ID for right table
     //                     needs to match the values and anything added in special_condition
-    // TODO replace SQLJoinStatement with this
     function set_join($id1, $table2, $id2) {
         // Verify parameters
         self::check_table_name($table2);

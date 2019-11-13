@@ -46,7 +46,8 @@ function getarticlepagecontents($page)
 //
 function getarticlesections($page, $pagenumber)
 {
-    $sql = new SQLJoinStatement(ARTICLESECTIONS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('article_id', 'pagenumber'), array($page, $pagenumber), 'ii');
+    $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, '*', array('article_id', 'pagenumber'), array($page, $pagenumber), 'ii');
+    $sql->set_join('image_filename', IMAGES_TABLE, 'image_filename');
     $sql->set_order(array('sectionnumber' => 'ASC'));
     return $sql->fetch_many_rows();
 }
@@ -56,7 +57,8 @@ function getarticlesections($page, $pagenumber)
 //
 function getallarticlesections($page)
 {
-    $sql = new SQLJoinStatement(ARTICLESECTIONS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('article_id'), array($page), 'i');
+    $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, '*', array('article_id'), array($page), 'i');
+    $sql->set_join('image_filename', IMAGES_TABLE, 'image_filename');
     $sql->set_order(array('pagenumber' => 'ASC', 'sectionnumber' => 'ASC'));
     return $sql->fetch_many_rows();
 }
