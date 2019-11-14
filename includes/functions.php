@@ -543,7 +543,7 @@ function makelinkparameters($assoc_array, $include_sid=true)
         while($key = next($keys))
         {
             if(!($key === "sid" && strlen($sid) > 0)) {
-                if(var_is_array($assoc_array[$key])) {
+                if(is_array($assoc_array[$key])) {
                     $subkeys=array_keys($assoc_array[$key]);
                     while($subkey = next($subkeys))
                     {
@@ -566,15 +566,6 @@ function makelinkparameters($assoc_array, $include_sid=true)
         $params.="?sid=".$sid;
     }
     return $params;
-}
-
-
-//
-// returns true if the var is an array
-//
-function var_is_array($var)
-{
-    return ( (array) $var == $var);
 }
 
 // seed with microseconds
