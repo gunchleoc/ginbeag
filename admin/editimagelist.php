@@ -171,22 +171,24 @@ if(isset($_POST["addimage"])) {
             $message .= 'SECURITY WARNING: unable to create index files in '.$imagedir.'. Please use FTP to copy these files from <em>'.$projectroot.getproperty("Image Upload Path").'</em> for security reasons!';
             $error = true;
         }
-        if(strlen($newname)>0) {
-            $extension=substr($filename, strrpos($filename, "."), strlen($filename));
-            $newname.=$extension;
-            $filename=$newname;
+        if (!empty($newname)) {
+            $filename = $newname . '.' . pathinfo($filename, PATHINFO_EXTENSION);
         }
         $filename=cleanupfilename($filename);
         $filename=str_replace("_thn.", ".", $filename);
 
-        $extension = substr($filename, strrpos($filename, "."), strlen($filename));
-        $imagename = substr($filename, 0, strrpos($filename, "."));
-        if(strlen($filename) > 40) {
+        $pathinfo = pathinfo($filename);
+        $extension = $pathinfo['extension'];
+        $imagename = $pathinfo['filename'];;
+
+        if (strlen($filename) > 40) {
             $imagename = substr($imagename, 0, 40);
-            $filename = $imagename.$extension;
-            if(isset($_POST['filename'])) { $_POST['filename'] = $filename;
+            $filename = $imagename . '.' . $extension;
+            if (isset($_POST['filename'])) {
+                $_POST['filename'] = $filename;
             }
-            if(isset($_GET['filename'])) { $_GET['filename'] = $filename;
+            if (isset($_GET['filename'])) {
+                $_GET['filename'] = $filename;
             }
         }
 
@@ -240,7 +242,7 @@ if(isset($_POST["addimage"])) {
                 $thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").$subpath, $filename);
 
                 if($thsuccess) {
-                    addthumbnail($filename, $imagename.'_thn'.$extension);
+                    addthumbnail($filename, $imagename.'_thn.'.$extension);
                     $message .= "Thumbnail for <em>".$filename."</em> created successfully.";
                 }
                 else
@@ -297,20 +299,24 @@ elseif($action==="replaceimage") {
         $message = "The image you wish to replace does not exist: ".$filename;
         $error = true;
     } else {
-        $success=checkextension($filename, $newfilename);
-        if ($success) {
+        $extensionerror = checkextension($filename, $newfilename);
+        if (!empty($extensionerror)) {
+            $message .= $extensionerror;
+            $error = true;
+        } else {
             $uploadpath = getproperty("Image Upload Path").$imagedata['path'];
             $errorcode = replacefile($uploadpath, "newfilename", $filename);
             if($errorcode == UPLOAD_ERR_OK) {
                 $message="Replaced Image";
                 $displayeditform=true;
+                $imagedata = getimage($filename);
+                deletemobilethumbnail($imagedata);
+
                 if (!empty($imagedata['thumbnail_filename']) && extension_loaded('gd') && function_exists('gd_info')) {
                     deletethumbnail($filename);
                     $thsuccess = createthumbnail($projectroot.$uploadpath, $filename);
                     if ($thsuccess) {
-                        $extension = substr($filename, strrpos($filename, "."), strlen($filename));
-                        $imagename = substr($filename, 0, strrpos($filename, "."));
-                        addthumbnail($filename, $imagename.'_thn'.$extension);
+                        addthumbnail($filename, make_thumbnail_filename($filename));
                         $message .= ". Thumbnail created successfully.";
                     } else {
                         $message .= ". Failed to create thumbnail. Try using the 'generate tThumbnail' button.";
@@ -343,35 +349,28 @@ elseif($action==="addthumb") {
     $displayeditform = true;
     $thumbnail=$_FILES['thumbnail']['name'];
 
-    if($thumbnail) {
-        $extension=substr($thumbnail, strrpos($thumbnail, "."), strlen($thumbnail));
-        $imagename=substr($filename, 0, strrpos($filename, "."));
-        $imageextension=substr($filename, strrpos($filename, "."), strlen($filename));
-        if (mb_strtolower($extension, 'UTF-8') === mb_strtolower($imageextension, 'UTF-8')) {
-            $newthumbname=$imagename.'_thn'.$extension;
-            $errorcode = uploadfile(getproperty("Image Upload Path").getimagesubpath($filename), "thumbnail", $newthumbname);
-            $thumbnail=$newthumbname;
-            if($errorcode == UPLOAD_ERR_OK) {
-                $success = true;
-            }
-            else
-            {
+    if ($thumbnail) {
+        $pathinfo = pathinfo($filename);
+        $imageextension = $pathinfo['extension'];
+        $extension = pathinfo($thumbnail, PATHINFO_EXTENSION);
+        $extensionerror = checkextension($filename, $thumbnail);
+        if (!empty($extensionerror)) {
+            $message .= $extensionerror;
+            $error = true;
+        } else {
+            $thumbnail = $pathinfo['filename'] . '_thn.' . $extension;
+            $errorcode = uploadfile(getproperty("Image Upload Path").getimagesubpath($filename), "thumbnail", $thumbnail);
+            if ($errorcode == UPLOAD_ERR_OK) {
+                addthumbnail($filename, $thumbnail);
+            } else {
                 $message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
-                $success = false;
                 $error = true;
             }
         }
-        else
-        {
-            $message .= "Wrong file extension <em>".$extension."</em>. The thumbnail file must be of type <em>".$imageextension."</em>. ";
-            $error = true;
-        }
 
-        if($success) {
-            addthumbnail($filename, $newthumbname);
-        }
-        else
-        {
+        if (!$error) {
+            $message = "Uploaded thumbnail.";
+        } else {
             $message .= "Failed to upload thumbnail. ";
             $error = true;
         }
@@ -394,33 +393,24 @@ elseif($action==="replacethumb") {
     {
         $imagedata = getimage($filename);
         $thumbnailfilename = $imagedata['thumbnail_filename'];
-
-        $extension=substr($thumbnail, strrpos($thumbnail, "."), strlen($thumbnail));
-        $imageextension=substr($filename, strrpos($filename, "."), strlen($filename));
-        if (mb_strtolower($extension, 'UTF-8') === mb_strtolower($imageextension, 'UTF-8')) {
+        $extensionerror = checkextension($filename, $thumbnailfilename);
+        if (!empty($extensionerror)) {
+            $message = $extensionerror;
+            $error = true;
+        } else {
             $errorcode = replacefile(getproperty("Image Upload Path").$imagedata['path'], "thumbnail", $thumbnailfilename);
-            if($errorcode == UPLOAD_ERR_OK) {
-                $success = true;
-            }
-            else
-            {
-                $message .= "<br />Error ".$errorcode.": ".fileerrors($errorcode)." ";
-                $success = false;
+            if ($errorcode !== UPLOAD_ERR_OK) {
+                $message = "Error $errorcode: " . fileerrors($errorcode) . ". ";
                 $error = true;
             }
         }
-        else
-        {
-            $message .= "Wrong file extension <em>".$extension."</em>. The thumbnail file must be of type <em>".$imageextension."</em>. ";
-            $error = true;
-        }
 
-        if($success) {
+        if (!$error) {
             $message="Replaced Thumbnail";
         }
         else
         {
-            $message .= "Failed to upload thumbnail. ";
+            $message .= " Failed to upload thumbnail. ";
             $error = true;
         }
     }
@@ -432,13 +422,11 @@ elseif($action==="createthumbnail") {
     if (!empty($imagedata['thumbnail_filename'])) {
         deletethumbnail($filename);
     }
-    $extension = substr($filename, strrpos($filename, "."), strlen($filename));
-    $imagename = substr($filename, 0, strrpos($filename, "."));
 
     $thsuccess = createthumbnail(getimagedir($imagedata['path']), $filename);
 
     if($thsuccess) {
-        addthumbnail($filename, $imagename.'_thn'.$extension);
+        addthumbnail($filename, make_thumbnail_filename($filename));
         $message .= "Thumbnail for <em>".$filename."</em> created successfully.";
     }
     else
@@ -462,9 +450,7 @@ elseif($action==="addunknownfile") {
         }
         addimage($filename, $subpath, $caption, $source, $sourcelink, $copyright, $permission);
         addimagecategories($filename, $selectedcats);
-        $imagename = substr($filename, 0, strrpos($filename, "."));
-        $imageextension=substr($filename, strrpos($filename, "."), strlen($filename));
-        $thumbnail = $imagename."_thn".$imageextension;
+        $thumbnail = make_thumbnail_filename($filename);
         if (file_exists(getimagepath($thumbnail, $subpath))) {
             addthumbnail($filename, $thumbnail);
         }
@@ -485,10 +471,13 @@ elseif($action==="deleteunknownfile") {
             $subpath = "";
         }
         $success = deletefile(getproperty("Image Upload Path").$subpath, $filename);
-        $message="File <em>".$filename."</em> deleted.";
-    }
-    else
-    {
+        if ($success) {
+            $message = "File <em>$filename</em> deleted.";
+        } else {
+            $message = "Error deleting file <em>$filename</em>.";
+            $error = true;
+        }
+    } else {
         $message = "File delete not confirmed!";
         $error = true;
     }
@@ -498,15 +487,10 @@ elseif($action==="executedelete") {
         $pages=pagesforimage($filename);
         $newsitems=newsitemsforimage($filename);
         if(!((count($pages)>0) || (count($newsitems)>0))) {
-            // delete mobile thumbnail
-            $extension=substr($filename, strrpos($filename, "."), strlen($filename));
-            $imagename=substr($filename, 0, strrpos($filename, "."));
-            $thumbname=$imagename.'_thn'.$extension;
-
             $imagedata = getimage($filename);
-            $imagedir = getproperty("Image Upload Path").$imagedata['path'];
+            deletemobilethumbnail($imagedata);
 
-            deletefile($imagedir."/mobile", $thumbname);
+            $imagedir = getproperty("Image Upload Path").$imagedata['path'];
 
             $thumbnail = $imagedata['thumbnail_filename'];
             if (!empty($thumbnail)) {
@@ -623,14 +607,13 @@ print($adminimagepage->toHTML());
 //
 // when replacing an images, the extension must be the same
 //
-function checkextension($oldfile,$newfile) {
-    $oldextension=substr($oldfile, strrpos($oldfile, "."), strlen($oldfile));
-    $newextension=substr($newfile, strrpos($newfile, "."), strlen($newfile));
+function checkextension($oldfile, $newfile) {
+    $oldextension = pathinfo($oldfile, PATHINFO_EXTENSION);
+    $newextension = pathinfo($newfile, PATHINFO_EXTENSION);
     if (mb_strtolower($oldextension, 'UTF-8') === mb_strtolower($newextension, 'UTF-8')) {
-        return true;
+        return "";
     }
-    print('<p class="highlight">Image must be of type <i>'.$oldextension.'</i></p>');
-    return false;
+    return "Wrong file extension <em> $newextension </em>, expected <em> $oldextension </em>. ";
 }
 
 // Ensure that the browser won't cache the old images

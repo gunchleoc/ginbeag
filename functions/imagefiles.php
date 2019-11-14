@@ -52,9 +52,7 @@ function createthumbnail($path, $filename, $ismobile = false)
         return false;
     }
 
-    $extension=substr($filename, strrpos($filename, "."), strlen($filename));
-    $imagename=substr($filename, 0, strrpos($filename, "."));
-    $thumbname=$imagename.'_thn'.$extension;
+    $thumbname = make_thumbnail_filename($filename);
 
     if($ismobile) {
         if(!file_exists($path."/mobile")) {
@@ -69,6 +67,27 @@ function createthumbnail($path, $filename, $ismobile = false)
         return createresizedimage($path."/".$filename, $path."/".$thumbname, getproperty("Thumbnail Size"), false);
     }
 }
+
+
+// Delete mobile thumbnail from file system
+function deletemobilethumbnail($imagedata) {
+    $thumbname = $imagedata['thumbnail_filename'];
+    if (empty($thumbname)) {
+        $thumbname = make_thumbnail_filename($imagedata['image_filename']);
+    }
+
+    $imagedir = getproperty("Image Upload Path").$imagedata['path'];
+
+    deletefile("$imagedir/mobile", $thumbname);
+}
+
+function make_thumbnail_filename($image_filename) {
+    $pathinfo = pathinfo($image_filename);
+    $result = $pathinfo['filename'] . '_thn.' . $pathinfo['extension'];
+    print("<br>Thumbnail for $image_filename is $result<br>");
+    return $result;
+}
+
 
 //
 // resizes the width of an image down to the default width

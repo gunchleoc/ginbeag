@@ -31,6 +31,7 @@ $projectroot=substr($projectroot, 0, strrpos($projectroot, "includes"));
 
 require_once $projectroot."includes/objects/template.php";
 require_once $projectroot."functions/images.php";
+require_once $projectroot."functions/imagefiles.php";
 
 //
 // Image with thumbhail & link to showimage.php
@@ -142,7 +143,7 @@ class Image extends Template
 
         if (ismobile()) {
             $extension = substr($filename, strrpos($filename, "."), strlen($filename));
-            $thumbnail = substr($filename, 0, strrpos($filename, ".")) . '_thn' . $extension;
+            $thumbnail = make_thumbnail_filename($filename);
             $path = $projectroot . getproperty("Image Upload Path") . $imagedata['path'];
 
             // make sure a mobile thumbnail exists
