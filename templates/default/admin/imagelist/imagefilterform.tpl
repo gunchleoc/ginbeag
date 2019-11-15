@@ -55,8 +55,8 @@
 							<legend>Database</legend>
 							<input type="submit" name="s_unused" value="Unused Images" class="mainoption" />
 							<div class="formexplain">Images that have not been used in any page.<br /><span class="highlight">NOTE:</span> This does not search for images added to pages with the [img]-tag!</div>
-							<br /><input type="submit" name="s_nothumb" value="Images without Thumbnails" class="mainoption" />
-							<div class="formexplain">Images that have no thumbnail.</div>
+							<br /><input type="submit" name="s_nothumb" value="Images missing Thumbnails" class="mainoption" />
+							<div class="formexplain">Images that should have a thumbnail but have none.</div>
 						</fieldset>
 						<input type="submit" name="clear" value="Clear special searches" />
 						<div class="formexplain">Make sure you hit this button in between searches.</div>

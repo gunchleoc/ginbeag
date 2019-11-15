@@ -372,15 +372,15 @@ class ImageList extends Template
         }
         elseif(isset($_GET['s_nothumb'])) {
             $filteredfilenames = $this->getfilteredimagesfromgetvars();
-            $filteredfilenames = getimageswithoutthumbnails($filteredfilenames);
+            $filteredfilenames = getimagesmissingthumbnails($filteredfilenames);
 
             $noofimages = count($filteredfilenames);
             if($noofimages > 1) {
-                $message = $noofimages.' images have no thumbnail!';
+                $message = $noofimages.' images are missing a thumbhail!';
             } elseif($noofimages > 0) {
-                $message = $noofimages.' image has no thumbnail!';
+                $message = $noofimages.' image are missing a thumbhail!';
             } else {
-                $message='There are no images without thumbhail';
+                $message='There are no images that are missing a thumbhail';
             }
 
             for($i=$offset; $i < ($offset + $number) && $i < count($filteredfilenames); $i++)

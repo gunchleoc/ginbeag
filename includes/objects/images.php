@@ -142,26 +142,41 @@ class Image extends Template
         $thumbnailrelativepath = $imagedata['path'];
 
         if (ismobile()) {
-            $extension = substr($filename, strrpos($filename, "."), strlen($filename));
-            $thumbnail = make_thumbnail_filename($filename);
-            $path = $projectroot . getproperty("Image Upload Path") . $imagedata['path'];
+            if (should_have_thumbnail($imagedata, getproperty("Mobile Thumbnail Size"))) {
+                $thumbnail = make_thumbnail_filename($filename);
+                $path = $projectroot . getproperty("Image Upload Path") . $imagedata['path'];
 
-            // make sure a mobile thumbnail exists
-            if (!file_exists("$path /mobile/ $thumbnail")) {
-                if (extension_loaded('gd') && function_exists('gd_info')) {
-                    include_once $projectroot . 'functions/imagefiles.php';
-                    createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
+                // make sure a mobile thumbnail exists
+                if (!file_exists("$path/mobile/$thumbnail")) {
+                    if (extension_loaded('gd') && function_exists('gd_info')) {
+                        include_once $projectroot . 'functions/imagefiles.php';
+                        createthumbnail($path, $filename, getproperty("Mobile Thumbnail Size"), true);
+                    }
+                }
+
+                $path .= "/mobile/$thumbnail";
+                if (file_exists($path)) {
+                    $thumbnailpath = $path;
+                    $thumbnailrelativepath .= "/mobile";
+                }
+            } else {
+                $imagedata['usethumbnail'] = false;
+
+                // Delete legacy thumbnails
+                $thumbnail = make_thumbnail_filename($filename);
+                $path = $projectroot . getproperty("Image Upload Path") . $imagedata['path'];
+                if (file_exists("$path/mobile/$thumbnail")) {
+                    deletemobilethumbnail($imagedata);
                 }
             }
+        } else {
+            $imagedata['usethumbnail'] = !empty($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath);
 
-            $path = "$path /mobile/ $thumbnail";
-            if (file_exists($path)) {
-                $thumbnailpath = $path;
-                $thumbnailrelativepath = "$path /mobile/";
+            // Delete legacy thumbnails
+            if (!should_have_thumbnail($imagedata, getproperty("Thumbnail Size"))) {
+                deletethumbnail($imagedata['image_filename']);
             }
         }
-
-        $imagedata['usethumbnail'] = !empty($thumbnail) && file_exists($thumbnailpath) && !is_dir($thumbnailpath);
 
         if ($imagedata['usethumbnail']) {
             $dimensions = getimagedimensions($thumbnailpath);

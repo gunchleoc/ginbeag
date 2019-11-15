@@ -68,6 +68,41 @@ function createthumbnail($path, $filename, $ismobile = false)
     }
 }
 
+// Creates a thumbnail filename for the given image filename without path
+function make_thumbnail_filename($image_filename) {
+    $pathinfo = pathinfo($image_filename);
+    $result = $pathinfo['filename'] . '_thn.' . $pathinfo['extension'];
+    return $result;
+}
+
+// Checks if the image is big enough to need a thumbnail
+function should_have_thumbnail($imagedata, $thumbnailsize) {
+    $filepath = getimagepath($imagedata['image_filename'], $imagedata['path']);
+    $dimensions = getimagedimensions($filepath);
+    return ($dimensions['width'] > $thumbnailsize && $dimensions['height'] > $thumbnailsize);
+}
+
+
+//
+// Delete thumbnail file from file system and database.
+//
+function deletethumbnail($imagefilename) {
+    $success = false;
+    $imagedata = getimage($imagefilename);
+    $thumbnail = $imagedata['thumbnail_filename'];
+    if (!empty($thumbnail)) {
+        $imagedir = getproperty("Image Upload Path").$imagedata['path'];
+        $success = deletefile($imagedir, $thumbnail);
+        if ($success) {
+            $sql = new SQLUpdateStatement(
+                IMAGES_TABLE,
+                array('thumbnail_filename'), array('image_filename'),
+                array('', $imagefilename), 'ss');
+            $success = $sql->run();
+        }
+    }
+    return $success;
+}
 
 // Delete mobile thumbnail from file system
 function deletemobilethumbnail($imagedata) {
@@ -81,13 +116,29 @@ function deletemobilethumbnail($imagedata) {
     deletefile("$imagedir/mobile", $thumbname);
 }
 
-function make_thumbnail_filename($image_filename) {
-    $pathinfo = pathinfo($image_filename);
-    $result = $pathinfo['filename'] . '_thn.' . $pathinfo['extension'];
-    print("<br>Thumbnail for $image_filename is $result<br>");
-    return $result;
-}
 
+//
+//
+//
+function deletefile($subdir,$filename)
+{
+    global $projectroot;
+
+    //http://www.morrowland.com/apron/tutorials/web/php/writetextfile/index.php
+    $filename = $projectroot.$subdir.'/'.basename($filename);
+
+    $delete = @unlink($filename);
+    if (@file_exists($filename)) {
+        $filesys = str_replace("/", chr(92), $filename);
+        $delete = @system("del $filesys");
+        if (@file_exists($filename)) {
+            $delete = @chmod($filename, 0775);
+            $delete = @unlink($filename);
+            $delete = @system("del $filesys");
+        }
+    }
+    return $delete;
+}
 
 //
 // resizes the width of an image down to the default width

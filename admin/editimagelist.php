@@ -214,18 +214,6 @@ if(isset($_POST["addimage"])) {
             addimagecategories($filename, $selectedcats);
             $filename=basename($filename);
 
-            // always create thumbnail for mobile style
-            if (extension_loaded('gd') && function_exists('gd_info')) {
-                $thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").$subpath, $filename, true);
-                if($thsuccess) {
-                    $message .= "Mobile thumbnail for <em>".$filename."</em> created successfully.";
-                }
-                else
-                {
-                    $message .= "<br />Failed to create mobile thumbnail. ";
-                    $error = true;
-                }
-            }
             if(isset($_POST["resizeimage"])) {
                 $resizesuccess = resizeimagewidth($projectroot.getproperty("Image Upload Path").$subpath, $filename);
 
@@ -239,16 +227,22 @@ if(isset($_POST["addimage"])) {
                 }
             }
             if(!isset($_POST["dontcreatethumbnail"])) {
-                $thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").$subpath, $filename);
+                // Mobile thumbnails are created on the fly, we only create a desktop thumbnail here
+                // Don't upscale small images
+                if (should_have_thumbnail(array('image_filename' => $filename, 'path' => $subpath), getproperty("Thumbnail Size"))) {
+                    $thsuccess = createthumbnail($projectroot.getproperty("Image Upload Path").$subpath, $filename);
 
-                if($thsuccess) {
-                    addthumbnail($filename, $imagename.'_thn.'.$extension);
-                    $message .= "Thumbnail for <em>".$filename."</em> created successfully.";
-                }
-                else
-                {
-                    $message .= "<br />Failed to create thumbnail. ";
-                    $error = true;
+                    if($thsuccess) {
+                        addthumbnail($filename, $imagename.'_thn.'.$extension);
+                        $message .= "Thumbnail for <em>".$filename."</em> created successfully. ";
+                    }
+                    else
+                    {
+                        $message .= "Failed to create thumbnail. ";
+                        $error = true;
+                    }
+                } else {
+                    $message .= "No thumbnail needed. ";
                 }
             }
             elseif($thumbnail) {
@@ -483,6 +477,7 @@ elseif($action==="deleteunknownfile") {
     }
 }
 elseif($action==="executedelete") {
+    // TODO this is leaving the files behind!
     if(isset($_POST['delete'])) {
         $pages=pagesforimage($filename);
         $newsitems=newsitemsforimage($filename);
@@ -562,30 +557,22 @@ elseif($action==="executedelete") {
 }
 elseif($action==="executethumbnaildelete") {
     $displayeditform = true;
-    if(isset($_POST['delete'])) {
+    if (isset($_POST['delete'])) {
         $imagedata = getimage($filename);
-        $imagedir = getproperty("Image Upload Path").$imagedata['path'];
         $thumbnail = $imagedata['thumbnail_filename'];
         if (!empty($thumbnail)) {
-            $success=deletefile($imagedir, $thumbnail);
-            if($success) {
-                deletethumbnail($filename);
-                $message="Thumbnail for <em>".$filename."</em> deleted.";
-            }
-            else
-            {
-                $message = "Failed to delete thumbnail file <em>".$thumbnail."</em> from dir <em>".$imagedir."</em>";
+            $success = deletethumbnail($filename);
+            if ($success) {
+                $message="Thumbnail for <em>$filename</em> deleted.";
+            } else {
+                $message = "Failed to delete thumbnail file <em>$thumbnail</em> from dir <em>$imagedir</em>";
                 $error = true;
             }
-        }
-        else
-        {
+        } else {
             $message = "No thumbnail found!";
             $error = true;
         }
-    }
-    else
-    {
+    } else {
         $message="Deleting aborted";
     }
     unset($_GET['action']);

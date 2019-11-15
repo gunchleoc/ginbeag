@@ -121,19 +121,6 @@ function addthumbnail($image,$thumbnail)
 }
 
 //
-// delete thumbnail file from file system first!!!
-// this function only deletes the database entry.
-//
-function deletethumbnail($imagefilename)
-{
-    $sql = new SQLUpdateStatement(
-        IMAGES_TABLE,
-        array('thumbnail_filename'), array('image_filename'),
-        array('', $imagefilename), 'ss');
-    return $sql->run();
-}
-
-//
 // delete image and thumbnail files from file system first!!!
 // this function only deletes the database entries.
 //
@@ -268,12 +255,22 @@ function getmissingthumbnails($files)
 //
 // $files: Images to be filtered
 //
-function getimageswithoutthumbnails($files) {
+function getimagesmissingthumbnails($files) {
+    global $projectroot;
     $result = array();
 
     foreach ($files as $file) {
-        if (empty(getthumbnail($file))) {
-            array_push($result, $file);
+        $imagedata = getimage($file);
+        if (should_have_thumbnail($imagedata, getproperty("Thumbnail Size"))) {
+            if (empty(getthumbnail($file))) {
+                array_push($result, $file);
+            } else {
+                $path = $projectroot . getproperty("Image Upload Path") . $imagedata['path'];
+                // make sure a mobile thumbnail exists
+                if (!file_exists("$path/" . make_thumbnail_filename($file))) {
+                    array_push($result, $file);
+                }
+            }
         }
     }
     return $result;

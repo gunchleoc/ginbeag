@@ -106,29 +106,6 @@ function replacefile($subdir, $paramname, $filename)
 //
 //
 //
-function deletefile($subdir,$filename)
-{
-    global $projectroot;
-
-    //http://www.morrowland.com/apron/tutorials/web/php/writetextfile/index.php
-    $filename = $projectroot.$subdir.'/'.basename($filename);
-
-    $delete = @unlink($filename);
-    if (@file_exists($filename)) {
-        $filesys = str_replace("/", chr(92), $filename);
-        $delete = @system("del $filesys");
-        if (@file_exists($filename)) {
-            $delete = @chmod($filename, 0775);
-            $delete = @unlink($filename);
-            $delete = @system("del $filesys");
-        }
-    }
-    return $delete;
-}
-
-//
-//
-//
 function fileerrors($errorno)
 {
     global $_FILES;
