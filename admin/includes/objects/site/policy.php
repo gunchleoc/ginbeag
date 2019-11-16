@@ -45,7 +45,7 @@ class SitePolicy extends Template
 
     function __construct()
     {
-        parent::__construct("sitepolicy", array(0 => "includes/javascript/jcaret.js"));
+        parent::__construct("sitepolicy");
         $this->stringvars['javascript']=$this->getScripts();
 
         $linkparams["page"] = $this->stringvars['page'];

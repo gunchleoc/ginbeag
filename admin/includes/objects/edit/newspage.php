@@ -616,7 +616,7 @@ class EditNewsItemForms extends Template
             $this->stringvars["newsitem"] = "";
         }
 
-        parent::__construct($this->stringvars["newsitem"], array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
+        parent::__construct($this->stringvars["newsitem"], array(), array(0 => "admin/includes/javascript/editnewsitem.js"));
         $this->stringvars['javascript']=$this->getScripts();
         $this->stringvars['hiddenvars'] = $this->makehiddenvars(array("newsitem" => $this->stringvars["newsitem"]));
 
@@ -695,7 +695,7 @@ class EditNews extends Template
 
     function __construct($page)
     {
-        parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editnewsitem.js"));
+        parent::__construct($page, array(), array('admin/includes/javascript/editnewsitem.js'));
         $this->stringvars['javascript']=$this->getScripts();
 
         $this->vars['intro']= new Editor($page, 0, "pageintro", "Synopsis");

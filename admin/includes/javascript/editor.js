@@ -36,55 +36,12 @@ $(document).ready(
         addlistenersExpanded();
 
 
-
-        //http://blog.vishalon.net/index.php/javascript-getting-and-setting-caret-position-in-textarea
-        // todo funzt dort, bei mir aber nicht, wieso?
-        /*
-        function doGetCaretPosition (ctrl) {
-
-        var CaretPos = 0;
-        // IE Support
-        if (document.selection) {
-
-        ctrl.focus ();
-        var Sel = document.selection.createRange ();
-
-        Sel.moveStart ('character', -ctrl.value.length);
-
-        CaretPos = Sel.text.length;
-        }
-        // Firefox support
-        else if (ctrl.selectionStart || ctrl.selectionStart == '0')
-        CaretPos = ctrl.selectionStart;
-        return (CaretPos);
-
-        }
-        */
-
         /**
          * helper for Caret
          */
         function getcaretstart(element)
         {
-            var result=0;
-
-            try
-            {
-                result=element.caret().start;
-            }
-            catch(e){
-                //todo try to do something about IE
-                result=element.val().length;
-            }
-
-            // Opera adds 1 pos per line break, undo this
-            if(navigator.userAgent.substring(0,5) == "Opera") {
-                var splitme = element.val().substring(0,result);
-                var split = splitme.split("\n");
-                result=result-split.length+1;
-            }
-
-            return result;
+            return element.prop('selectionStart');
         }
 
         /**
@@ -92,25 +49,7 @@ $(document).ready(
          */
         function getcaretend(element)
         {
-            var result=0;
-
-            try
-            {
-                result=element.caret().end;
-            }
-            catch(e){
-                //todo try to do something about IE
-                // To get cursor position, get empty selection range
-                result=element.val().length;
-            }
-            // Opera adds 1 pos per line break, undo this
-            if(navigator.userAgent.substring(0,5) == "Opera") {
-                var splitme = element.val().substring(0,result);
-                var split = splitme.split("\n");
-                result=result-split.length+1;
-            }
-
-            return result;
+            return element.prop('selectionEnd');
         }
 
         /**
@@ -119,35 +58,30 @@ $(document).ready(
         function setcaret(element,position)
         {
             element.focus();
-
-            try
-            {
-                element.caret({start:position,end:position});
-            }
-            catch(e){
-                //todo try to do something about IE
-            }
+            element.prop("selectionStart", position);
+            element.prop("selectionEnd", position);
         }
-
-
 
         /**
          * helper for BBCode
          */
         function insertOpenCloseTag(opentag, closetag)
         {
-               var sourcetext = $("#{JSID}edittext").val();
-            var caretstart =getcaretstart($("#{JSID}edittext"));
-            var caretend =getcaretend($("#{JSID}edittext"));
+            var sourcetext = $("#{JSID}edittext").val();
+            var caretstart = getcaretstart($("#{JSID}edittext"));
+            var caretend = getcaretend($("#{JSID}edittext"));
 
-               var text = sourcetext.substring(0, caretstart);
-               var tag = opentag + sourcetext.substring(caretstart,caretend) + closetag;
-               text = text + tag;
-               text = text + sourcetext.substring(caretend);
-               $("#{JSID}edittext").val(text);
-               setcaret($("#{JSID}edittext"),caretend+opentag.length);
+            var text = sourcetext.substring(0, caretstart);
+            var tag = opentag + sourcetext.substring(caretstart, caretend) + closetag;
+            text = text + tag;
+            text = text + sourcetext.substring(caretend);
+            $("#{JSID}edittext").val(text);
+            if (caretstart == caretend) {
+                setcaret($("#{JSID}edittext"), caretend + opentag.length);
+            } else {
+                setcaret($("#{JSID}edittext"), caretend + opentag.length + closetag.length);
+            }
         }
-
 
 
         /**
@@ -193,7 +127,6 @@ $(document).ready(
                     ); // post
 
                     $("#{JSID}status").html("");
-
                 }
             ); // expandbutton
         } // addlistenersCollapsed
@@ -206,6 +139,7 @@ $(document).ready(
         {
             /* edittext */
             $("#{JSID}edittext").focus();
+
             // watch edit state so user won't forget to save
             $("#{JSID}edittext").on(
                 "keypress", function () {
@@ -214,8 +148,8 @@ $(document).ready(
             );
 
             /*************
-    * BBCode buttons 
-    *************/
+             * BBCode buttons
+             *************/
             /* bold */
             $("#{JSID}bold").click(
                 function () {
@@ -456,7 +390,7 @@ $(document).ready(
             ); // styleform
 
             /*************
-             * Action buttons 
+             * Action buttons
              *************/
 
             var elements = new Array();

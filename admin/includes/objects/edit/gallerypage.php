@@ -185,7 +185,7 @@ class EditGallery extends Template
 
     function __construct($page, $offset, $imagesperpage, $showall)
     {
-        parent::__construct($page, array(0 => "includes/javascript/jcaret.js"));
+        parent::__construct($page);
         $this->stringvars['javascript']=$this->getScripts();
 
         $noofimages = countgalleryimages($page);

@@ -71,7 +71,7 @@ class EditArticle extends Template
 {
     function __construct($page)
     {
-        parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editarticle.js"));
+        parent::__construct($page, array(), array('admin/includes/javascript/editarticle.js'));
         $this->stringvars['javascript']=$this->getScripts();
         $this->stringvars['hiddenvars'] = $this->makehiddenvars();
 
@@ -157,7 +157,7 @@ class EditArticlePage extends Template
 {
     function __construct($articlepage)
     {
-        parent::__construct($articlepage, array(0 => "includes/javascript/jcaret.js"));
+        parent::__construct($articlepage);
         $this->stringvars['javascript']=$this->getScripts();
 
         $linkparams["page"] = $this->stringvars['page'];

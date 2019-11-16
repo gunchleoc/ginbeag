@@ -110,7 +110,7 @@ class EditLinklist extends Template
 {
     function __construct($page)
     {
-        parent::__construct($page, array(0 => "includes/javascript/jcaret.js"));
+        parent::__construct($page);
         $this->stringvars['javascript']=$this->getScripts();
 
         $linkparams["page"] = $this->stringvars['page'];

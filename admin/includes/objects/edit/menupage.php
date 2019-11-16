@@ -123,7 +123,7 @@ class EditMenuSubpages extends Template
 {
     function __construct($page)
     {
-        parent::__construct($page, array(0 => "includes/javascript/jcaret.js"));
+        parent::__construct($page);
         $this->stringvars['javascript']=$this->getScripts();
 
         $linkparams["page"] = $page;
@@ -156,7 +156,7 @@ class EditMenu extends Template
 {
     function __construct($page)
     {
-        parent::__construct($page, array(0 => "includes/javascript/jcaret.js"));
+        parent::__construct($page);
         $this->stringvars['javascript']=$this->getScripts();
 
         $this->vars['intro']= new Editor($page, 0, "pageintro", "Synopsis");

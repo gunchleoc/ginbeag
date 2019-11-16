@@ -310,7 +310,7 @@ class ExternalForm extends Template
 class EditPage extends Template
 {
     function __construct($page) {
-        parent::__construct($page, array(0 => "includes/javascript/jcaret.js"), array(0 => "admin/includes/javascript/editpage.js"));
+        parent::__construct($page, array(), array(0 => "admin/includes/javascript/editpage.js"));
 
         $pagecontents = getpagecontents($page);
 
