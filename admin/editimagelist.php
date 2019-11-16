@@ -477,11 +477,10 @@ elseif($action==="deleteunknownfile") {
     }
 }
 elseif($action==="executedelete") {
-    // TODO this is leaving the files behind!
     if(isset($_POST['delete'])) {
         $pages=pagesforimage($filename);
         $newsitems=newsitemsforimage($filename);
-        if(!((count($pages)>0) || (count($newsitems)>0))) {
+        if (empty($pages) && empty($newsitems)) {
             $imagedata = getimage($filename);
             deletemobilethumbnail($imagedata);
 

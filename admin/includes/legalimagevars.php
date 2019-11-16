@@ -39,6 +39,7 @@ $LEGALVARS = array(
     'createthumbnail' => 1,
     'delete' => 1,
     'deletefile' => 1,
+    'deletefileconfirm' => 1,
     'deletethumb' => 1,
     'dontcreatethumbnail' => 1,
     'executethumbnaildelete' => 1,
@@ -78,6 +79,7 @@ $LEGALVARS = array(
     'source' => 1,
     'sourceblank' => 1,
     'sourcelink' => 1,
+    'subpath' => 1,
     'unknown' => 1,
     'unused' => 1,
     'uploader' => 1,
@@ -88,6 +90,7 @@ foreach ($_GET as $key => $value) {
     if (!array_key_exists($key, $LEGALVARS)) {
         header("HTTP/1.0 404 Not Found");
         print("HTTP 404: Sorry, but this page does not exist.");
+        require_once $projectroot . "config.php";
         if (DEBUG) {
             print("<br />'".$key."' not registered with legalimagevars.");
         }
