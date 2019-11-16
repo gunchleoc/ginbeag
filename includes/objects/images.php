@@ -175,6 +175,7 @@ class Image extends Template
             // Delete legacy thumbnails
             if (!should_have_thumbnail($imagedata, getproperty("Thumbnail Size"))) {
                 deletethumbnail($imagedata['image_filename']);
+                $imagedata['usethumbnail'] = false;
             }
         }
 
