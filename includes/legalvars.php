@@ -40,6 +40,7 @@ $LEGALVARS = array(
     'copyright' => 1,
     'copyrightblank' => 1,
     'elementtype' => 1,
+    'fbclid' => 1, // Appended by facebook to track you with
     'filename' => 1,
     'filter' => 1,
     'filterpage' => 1,
