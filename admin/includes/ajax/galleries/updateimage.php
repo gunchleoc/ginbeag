@@ -39,7 +39,8 @@ $db->quiet_mode = true;
 
 checksession();
 
-$sql = new SQLJoinStatement(GALLERYITEMS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('galleryitem_id'), array($_POST['galleryitemid']), 'i');
+$sql = new SQLSelectStatement(GALLERYITEMS_TABLE, '*', array('galleryitem_id'), array($_POST['galleryitemid']), 'i');
+$sql->set_join('image_filename', IMAGES_TABLE, 'image_filename');
 
 $printme = new CaptionedImageAdmin($sql->fetch_row(), $_POST['page']);
 

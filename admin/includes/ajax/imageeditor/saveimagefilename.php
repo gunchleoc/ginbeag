@@ -55,7 +55,7 @@ else {
 
     $success=false;
 
-    if (empty($imagefilename) || empty(getimage($imagefilename))) {
+    if (!empty($imagefilename) && empty(getimage($imagefilename))) {
         $errormessage = "Error saving image ".$imagefilename." - we don't have this image!";
     }
     else

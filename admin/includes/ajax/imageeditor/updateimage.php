@@ -44,13 +44,16 @@ $elementtype = $_POST['elementtype'];
 
 switch ($elementtype) {
     case 'pageintro':
-        $sql = new SQLJoinStatement(PAGES_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('page_id'), array($_POST['page']), 'i');
+        $sql = new SQLSelectStatement(PAGES_TABLE, '*', array('page_id'), array($_POST['page']), 'i');
+        $sql->set_join('image_filename', IMAGES_TABLE, 'image_filename');
     break;
     case 'articlesection':
-        $sql = new SQLJoinStatement(ARTICLESECTIONS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('articlesection_id'), array($_POST['item']), 'i');
+        $sql = new SQLSelectStatement(ARTICLESECTIONS_TABLE, '*', array('articlesection_id'), array($_POST['item']), 'i');
+        $sql->set_join('image_filename', IMAGES_TABLE, 'image_filename');
     break;
     case 'newsitemsection':
-        $sql = new SQLJoinStatement(NEWSITEMSECTIONS_TABLE, 'image_filename', IMAGES_TABLE, 'image_filename', array('newsitemsection_id'), array($_POST['item']), 'i');
+        $sql = new SQLSelectStatement(NEWSITEMSECTIONS_TABLE, '*', array('newsitemsection_id'), array($_POST['item']), 'i');
+        $sql->set_join('image_filename', IMAGES_TABLE, 'image_filename');
     break;
     case 'link':
         $sql = new SQLSelectStatement(LINKS_TABLE, 'image_filename', array('link_id'), array($_POST['item']), 'i');
