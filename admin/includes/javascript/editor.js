@@ -146,6 +146,9 @@ $(document).ready(
                     settextisedited();
                 }
             );
+            $("#{JSID}edittext").bind('paste', function() {
+                settextisedited();
+            });
 
             /*************
              * BBCode buttons

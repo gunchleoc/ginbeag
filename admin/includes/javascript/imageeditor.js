@@ -103,6 +103,9 @@ $(document).ready(
                     setfilenameisedited();
                 }
             );
+            $("#{JSID}imagefilename").bind('paste', function() {
+                setfilenameisedited();
+            });
 
             /* save image filename */
             $("#{JSID}submitfilename").click(
